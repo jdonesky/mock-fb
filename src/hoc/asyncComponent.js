@@ -21,7 +21,7 @@ const asyncComponent = (importComponent) => {
     render() {
       const C = this.state.component;
 
-      return C ? <C {...this.props} /> : <p>{this.state.error.message}</p>;
+      return C ? <C {...this.props} /> : null;
     }
   };
 };
