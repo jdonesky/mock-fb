@@ -1,10 +1,33 @@
-import React, { Component } from "react";
-
-import ProfilePlaceholder from '../../assets/images/placeholder-profile-pic.png'
-
+import React, { Component, createRef } from "react";
+import ProfilePlaceholder from "../../assets/images/placeholder-profile-pic.png";
+import classes from "./UserProfile.css";
 
 class UserProfile extends Component {
-  imageUploadHandler = (event) => {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      uploadedImage: null,
+    };
+    // this.uploadedImageRef = createRef();
+  }
+
+  imageUploadHandler = (event) => {
+    const [file] = event.target.files;
+    if (file) {
+      const reader = new FileReader();
+      // const { current } = this.uploadedImageRef;
+      // current.file = file;
+  
+      reader.onload = (event) => {
+        // current.src = event.target.result;
+        this.setState({
+          uploadedImage: event.target.result
+        })
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
 
   render() {
     return (
@@ -14,17 +37,21 @@ class UserProfile extends Component {
           <input
             type="file"
             accept="image/*"
-            multiple="false"
+            multiple={false}
             onChange={this.imageUploadHandler}
           />
-          <div>
-            <img src={ProfilePlaceholder} alt="profile pic" />
+          <div className={classes.ProfilePic}>
+            <img
+              // ref={this.uploadedImageRef}
+              src={this.state.uploadedImage || ProfilePlaceholder}
+              alt="profile pic"
+            />
           </div>
-          <input placeholder="name"/>
-          <input placeholder="age"/>
-          <input placeholder="location"/>
+          <input placeholder="name" />
+          <input placeholder="age" />
+          <input placeholder="location" />
         </form>
-      </div>  
+      </div>
     );
   }
 }
