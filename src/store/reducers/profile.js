@@ -14,6 +14,7 @@ const storeProfilePic = (state, action) => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.STORE_PROFILE_PIC: return storeProfilePic(action, state);
+    default: return state
   }
 };
 
