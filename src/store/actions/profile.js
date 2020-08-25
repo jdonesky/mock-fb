@@ -1,21 +1,10 @@
-import * as actionTypes from "../actions/actionTypes";
+import * as actionTypes from '../actions/actionTypes'
 
-const initialState = {
-  profilePic: null,
-};
 
-const storeProfilePic = (state, action) => {
+export const storeProfilePic = (imgURL) => {
   return {
-    ...state,
-    profilePic: action.file,
-  };
-};
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actionTypes.STORE_PROFILE_PIC:
-      return storeProfilePic(action, state);
+    type: actionTypes.STORE_PROFILE_PIC,
+    imgURL: imgURL
   }
-};
+}
 
-export default reducer

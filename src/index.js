@@ -11,11 +11,13 @@ import registerServiceWorker from "./registerServiceWorker";
 import authReducer from './store/reducers/auth'
 import userReducer from "./store/reducers/user";
 import friendsReducer from "./store/reducers/friends";
+import profileReducer from "./store/reducers/profile"
 
 const rootReducer = combineReducers({
   auth: authReducer, 
   user: userReducer,
   friends: friendsReducer,
+  profile: profileReducer
 });
 
 const composeEnhancers =

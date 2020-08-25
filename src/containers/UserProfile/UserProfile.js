@@ -56,4 +56,10 @@ class UserProfile extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    profileImage: state.profile.profileImage
+  }
+}
+
 export default UserProfile;
