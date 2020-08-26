@@ -1,16 +1,20 @@
-import React, { Component, createRef } from "react";
-import {connect} from 'react-redux'
-import * as actions from '../../store/actions/profile'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../../store/actions/profile";
 import ProfilePlaceholder from "../../assets/images/placeholder-profile-pic.png";
 import classes from "./UserProfile.css";
 
 class UserProfile extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      uploadedImage: null,
-    };
-    
+  state = {
+    uploadedImage: null,
+  };
+
+  componentDidMount() {
+    console.log("[UserProfile] componentDidMount");
+
+    this.setState({
+      uploadedImage: this.props.profileImage,
+    });
   }
 
   imageUploadHandler = (event) => {
@@ -18,9 +22,10 @@ class UserProfile extends Component {
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        this.setState({
-          uploadedImage: event.target.result
-        })
+        // this.setState({
+        //   uploadedImage: event.target.result,
+        // });
+        this.props.onUploadProfileImage(event.target.result);
       };
 
       reader.readAsDataURL(file);
@@ -40,7 +45,6 @@ class UserProfile extends Component {
           />
           <div className={classes.ProfilePic}>
             <img
-              // ref={this.uploadedImageRef}
               src={this.state.uploadedImage || ProfilePlaceholder}
               alt="profile pic"
             />
@@ -54,16 +58,17 @@ class UserProfile extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    profileImage: state.profile.profileImage
-  }
-}
+    profileImage: state.profile.profileImage,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onUploadProfileImage: () => dispatch(actions.storeProfilePic)
-  }
-}
+    onUploadProfileImage: (fileUpload) =>
+      dispatch(actions.storeProfilePic(fileUpload)),
+  };
+};
 
-export default connect(mapStateToProps,mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
