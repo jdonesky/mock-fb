@@ -2,20 +2,28 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   profileImage: null,
+  name: null,
+  age: null,
+  location: null,
 };
 
-const storeProfilePic = (state, action) => {
+const storeProfileData = (state, action) => {
   return {
     ...state,
-    profileImage: action.imgURL,
+    profileImage: action.formData.uploadedImage,
+    name: action.formData.name,
+    age: action.formData.age,
+    location: action.formData.location,
   };
-};
+}; 
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.STORE_PROFILE_PIC: return storeProfilePic(action, state);
-    default: return state
+    case actionTypes.STORE_PROFILE_DATA:
+      return storeProfileData(state,action);
+    default:
+      return state;
   }
 };
 
-export default reducer
+export default reducer;

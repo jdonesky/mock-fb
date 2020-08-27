@@ -9,7 +9,11 @@ class Auth extends Component {
   };
 
   render() {
-    return <div></div>;
+    // let form = this.state
+    return (
+    <div>
+     
+    </div>)
   }
 }
 

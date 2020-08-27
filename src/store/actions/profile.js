@@ -1,10 +1,10 @@
 import * as actionTypes from '../actions/actionTypes'
 
 
-export const storeProfilePic = (imgURL) => {
+export const storeProfileData = (formData) => {
   return {
-    type: actionTypes.STORE_PROFILE_PIC,
-    imgURL: imgURL
+    type: actionTypes.STORE_PROFILE_DATA,
+    formData: formData
   }
 }
 

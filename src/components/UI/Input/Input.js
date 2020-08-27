@@ -1,21 +1,30 @@
 import React from "react";
-
+import classes from './Input.css'
 
 const input = (props) => {
   let inputElement = null;
 
-  switch (props.inputType) {
+  switch (props.elementType) {
     case "input":
-      inputElement = <input value={props.value} config={...props.config}/>;
-    
+      inputElement = (
+      <input
+      value={props.value}
+      invalid={!props.valid}
+      touch={props.touched}
+      placeholder={props.placeholder}
+      onChange={props.changed}
+      />
+      )
+    break;
+ 
     default:
       inputElement = null;
   }
 
 
   return (
-      <div className={classes.InputElement}>
-          <label>{props.label}</label>
+      <div className={classes.Input}>
+        <label className={classes.Label}>{props.label}</label>
         {inputElement}
       </div>
    
