@@ -5,7 +5,6 @@ import ProfilePlaceholder from "../../assets/images/placeholder-profile-pic.png"
 import Input from "../../components/UI/Input/Input";
 import classes from "./UserProfile.css";
 
-
 function fieldBuilder(
   elType,
   inputType,
@@ -68,28 +67,42 @@ class UserProfile extends Component {
 
     this.setState({
       uploadedImage: this.props.profileImage,
-      name: this.props.name,
-      age: this.props.age,
-      location: this.props.location,
+      formInputs: {
+        ...this.state.formInputs,
+        name : {
+          ...this.state.formInputs.name, 
+          value: this.props.name
+        },
+        age : {
+          ...this.state.formInputs.age, 
+          value: this.props.age
+        },
+        location: {
+          ...this.state.formInputs.location, 
+          value: this.props.location
+        }
+      }
+
+      
+
     });
   }
 
   componentDidUpdate() {
-    console.log('[UserProfile]',this.state)
+    console.log("[UserProfile]", this.state);
   }
 
-  onChangeHandler = (event, label) => {
+  profileFormChangeHandler = (event, label) => {
     const targetInput = { ...this.state.formInputs[label] };
     targetInput.value = event.target.value;
     this.setState({
       formInputs: {
         ...this.state.formInputs,
-        [label] : targetInput
-      }
-    })
- 
+        [label]: targetInput,
+      },
+    });
   };
-  
+
   imageUploadHandler = (event) => {
     const [file] = event.target.files;
     if (file) {
@@ -114,9 +127,21 @@ class UserProfile extends Component {
     this.props.onProfileSubmit(formData);
   };
 
+  statusUpdateHandler = (event) => {
+    let status = this.state.status
+    status = event.target.value;
+    this.setState({
+      status: status,
+    });
+  };
+
   render() {
     let formArray = Object.keys(this.state.formInputs).map((key) => {
-      return { label: key, key: this.state.formInputs[key].label, config: this.state.formInputs[key] };
+      return {
+        label: key,
+        key: key,
+        config: this.state.formInputs[key],
+      };
     });
     let form = formArray.map((formField) => {
       return (
@@ -125,7 +150,10 @@ class UserProfile extends Component {
           label={formField.label}
           elementType={formField.config.elementType}
           placeholder={formField.config.elementConfig.placeholder}
-          changed={(event) => this.onChangeHandler(event, formField.label)}
+          value={formField.config.value}
+          changed={(event) =>
+            this.profileFormChangeHandler(event, formField.label)
+          }
         />
       );
     });
@@ -145,9 +173,17 @@ class UserProfile extends Component {
             onChange={this.imageUploadHandler}
           />
           {form}
-
           <button type="submit">SAVE CHANGES</button>
         </form>
+        <div className={classes.Status}>
+          <form>
+            <Input
+              elementType="input"
+              value={this.state.status}
+              changed={(event) => this.statusUpdateHandler(event)}
+            />
+          </form>
+        </div>
       </div>
     );
   }
@@ -158,7 +194,7 @@ const mapStateToProps = (state) => {
     profileImage: state.profile.profileImage,
     name: state.profile.name,
     age: state.profile.age,
-    location: state.profile.location
+    location: state.profile.location,
   };
 };
 

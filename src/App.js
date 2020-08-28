@@ -8,8 +8,8 @@ import asyncComponent from "./hoc/asyncComponent";
 const AsyncUserProfile = asyncComponent(() => {
   return import("./containers/UserProfile/UserProfile");
 });
-const AsyncActivityFeed = asyncComponent(() => {
-  return import("./containers/ActivityFeed/ActivityFeed");
+const AsyncPosts = asyncComponent(() => {
+  return import("./containers/Posts/Posts");
 });
 const AsyncFriends = asyncComponent(() => {
   return import("./containers/Friends/Friends");
@@ -22,7 +22,7 @@ class App extends Component {
         <Switch>
           <Route path="/user-profile" component={AsyncUserProfile} />
           <Route path="/friends" component={AsyncFriends} />
-          <Route path="/activity-feed" component={AsyncActivityFeed} />
+          <Route path="/activity-feed" component={AsyncPosts} />
           <Route component={Auth} />
         </Switch>
       </Layout>
