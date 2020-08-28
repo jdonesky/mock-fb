@@ -1,0 +1,29 @@
+.Post {
+  height: 150px;
+  margin: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+  width: 80%;
+  border: 1px solid #ccd;
+  border-radius: 10px;
+  box-shadow: 2px 3px 2px #b8b5b5;
+  box-sizing: border-box;
+}
+
+.ProfilePic {
+  border: 1px solid black;
+  padding: 6px;
+  border-radius: 100px;
+  height: 35%;
+  display: flex;
+  width: 10%;
+}
+
+.Status {
+    display: flex;
+    flex-flow: column;
+    text-decoration: underline;
+    padding: auto;
+    margin: 0 auto;
+}

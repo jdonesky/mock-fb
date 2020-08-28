@@ -1,17 +1,18 @@
-import React, {Component} from 'react' 
+import React, { Component } from "react";
+import Post from "../../components/Users/Post/Post";
 
-class ActivityFeed extends Component { 
-    render() {
-        return (
-            <div>
-                <ul>
-                    <li>POST</li>
-                    <li>POST</li>
-                    <li>POST</li>
-                </ul>
-            </div>
-        )
-    }
+class Posts extends Component {
+  render() {
+    return (
+      <div>
+        <ul>
+          <Post />
+          <Post />
+          <Post />
+        </ul>
+      </div>
+    );
+  }
 }
 
-export default ActivityFeed;
+export default Posts;
