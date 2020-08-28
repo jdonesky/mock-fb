@@ -12,7 +12,7 @@ class Auth extends Component {
     // let form = this.state
     return (
     <div>
-     
+      
     </div>)
   }
 }

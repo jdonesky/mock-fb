@@ -60,6 +60,7 @@ class UserProfile extends Component {
       ),
     },
     uploadedImage: null,
+    status: "",
   };
 
   componentDidMount() {
