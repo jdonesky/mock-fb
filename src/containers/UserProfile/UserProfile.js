@@ -69,22 +69,19 @@ class UserProfile extends Component {
       uploadedImage: this.props.profileImage,
       formInputs: {
         ...this.state.formInputs,
-        name : {
-          ...this.state.formInputs.name, 
-          value: this.props.name
+        name: {
+          ...this.state.formInputs.name,
+          value: this.props.name,
         },
-        age : {
-          ...this.state.formInputs.age, 
-          value: this.props.age
+        age: {
+          ...this.state.formInputs.age,
+          value: this.props.age,
         },
         location: {
-          ...this.state.formInputs.location, 
-          value: this.props.location
-        }
-      }
-
-      
-
+          ...this.state.formInputs.location,
+          value: this.props.location,
+        },
+      },
     });
   }
 
@@ -128,7 +125,7 @@ class UserProfile extends Component {
   };
 
   statusUpdateHandler = (event) => {
-    let status = this.state.status
+    let status = this.state.status;
     status = event.target.value;
     this.setState({
       status: status,
@@ -147,7 +144,7 @@ class UserProfile extends Component {
       return (
         <Input
           key={formField.label}
-          label={formField.label}
+          // label={formField.label}
           elementType={formField.config.elementType}
           placeholder={formField.config.elementConfig.placeholder}
           value={formField.config.value}
@@ -173,15 +170,18 @@ class UserProfile extends Component {
             onChange={this.imageUploadHandler}
           />
           {form}
-          <button type="submit">SAVE CHANGES</button>
+          <button type="submit">SAVE PROFILE CHANGES</button>
         </form>
         <div className={classes.Status}>
           <form>
+            {/* <label>Status</label> */}
             <Input
               elementType="input"
               value={this.state.status}
+              placeholder="status"
               changed={(event) => this.statusUpdateHandler(event)}
             />
+            <button>UPDATE STATUS</button>
           </form>
         </div>
       </div>

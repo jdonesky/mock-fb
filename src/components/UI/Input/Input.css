@@ -1,20 +1,24 @@
 .Input {
-    width: 100%;
-    margin: 5px;
-    padding: 5px;
-    box-sizing: border-box;
+  width: 100%;
+  margin: 5px;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 .InputElement {
-    display: block;
-    height: 30px;
-    width: 90%;
-    margin: 10px auto;
-    border: none;
+  display: block;
+  height: 30px;
+  width: 90%;
+  margin: 10px auto;
+    
+  border-bottom: 1px solid #ccc;
 }
 
+.InputElement:focus {
+  border: none;
+}
 
-.Label { 
-    font-weight: bold;
-    display: block;
+.Label {
+  font-weight: bold;
+  display: block;
 }
