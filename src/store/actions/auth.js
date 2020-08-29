@@ -53,6 +53,7 @@ export const authAttempt = (email, password, isSignUp) => {
     axiosInstance
       .post("?key=" + apiKey, authData)
       .then((response) => {
+        console.log(response);
         const token = response.data.idToken;
         const userId = response.data.localId;
         const expirationTime = response.data.expiresIn;
@@ -74,6 +75,4 @@ export const authAttempt = (email, password, isSignUp) => {
   };
 };
 
-export const autoSignIn = (token, userId, expirationDate) => {
-
-};
+export const autoSignIn = (token, userId, expirationDate) => {};

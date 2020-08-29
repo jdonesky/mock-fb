@@ -34,8 +34,6 @@ class UserProfile extends Component {
   };
 
   componentDidMount() {
-    console.log("[UserProfile] componentDidMount", this.state);
-
     this.setState({
       uploadedImage: this.props.profileImage,
       formInputs: {
@@ -54,10 +52,6 @@ class UserProfile extends Component {
         },
       },
     });
-  }
-
-  componentDidUpdate() {
-    console.log("[UserProfile]", this.state);
   }
 
   profileFormChangeHandler = (event, label) => {
