@@ -1,0 +1,21 @@
+.UserProfile {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.ProfilePicContainer {
+    width: 30%;
+    margin: 25px auto;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.ProfileImg {
+    height: 100%;
+    width: 100%;
+}
+
+.StatusForm {
+    margin: 30px auto;
+}

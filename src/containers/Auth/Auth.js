@@ -29,7 +29,7 @@ class Auth extends Component {
         false
       ),
     },
-    isSignup: false,
+    isSignup: true,
     formIsValid: false,
   };
 
@@ -87,7 +87,7 @@ class Auth extends Component {
             add="Success"
             disabled={!this.state.formIsValid}
           >
-            {this.state.isSignup ? "Sign-Up" : "Sign-In"}
+            {this.state.isSignup ? "Create Account" : "Sign-In"}
           </Button>
           <Button clicked={this.switchModeHandler} add="Neutral">
             (Switch to {this.state.isSignup ? "Sign-In)" : "Sign-Up)"}

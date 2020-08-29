@@ -4,6 +4,7 @@ import * as actions from "../../store/actions/profile";
 import ProfilePlaceholder from "../../assets/images/placeholder-profile-pic.png";
 import { fieldBuilder } from "../../shared/utility";
 import Input from "../../components/UI/Input/Input";
+import Button from "../../components/UI/Button/Button";
 import classes from "./UserProfile.css";
 
 class UserProfile extends Component {
@@ -122,8 +123,9 @@ class UserProfile extends Component {
     return (
       <div className={classes.UserProfile}>
         <form onSubmit={this.submitProfileHandler}>
-          <div className={classes.ProfilePic}>
+          <div className={classes.ProfilePicContainer}>
             <img
+              className={classes.ProfileImg}
               src={this.state.uploadedImage || ProfilePlaceholder}
               alt="profile pic"
             />
@@ -135,9 +137,11 @@ class UserProfile extends Component {
             onChange={this.imageUploadHandler}
           />
           {form}
-          <button type="submit">SAVE PROFILE CHANGES</button>
+          <Button clicked={this.submitProfileHandler} add="Success">
+            SAVE CHANGES
+          </Button>
         </form>
-        <div className={classes.Status}>
+        <div className={classes.StatusForm}>
           <form>
             {/* <label>Status</label> */}
             <Input

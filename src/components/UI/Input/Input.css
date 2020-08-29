@@ -1,17 +1,17 @@
 .Input {
-  width: 100%;
-  margin: 5px;
-  padding: 5px;
+  width: 40%;
+  margin: 50px auto;
   box-sizing: border-box;
+  border-bottom: 2px solid #ccc;
 }
 
 .InputElement {
   display: block;
   height: 30px;
   width: 90%;
-  margin: 10px auto;
-    
-  border-bottom: 1px solid #ccc;
+  margin: 4px auto;
+  border: none;
+  text-align:center;
 }
 
 .InputElement:focus {
