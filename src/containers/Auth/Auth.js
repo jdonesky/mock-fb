@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Input from "../../components/UI/Input/Input";
+import Button from "../../components/UI/Button/Button";
 import { fieldBuilder } from "../../shared/utility";
 
 import classes from "./Auth.css";
@@ -7,9 +9,27 @@ import classes from "./Auth.css";
 class Auth extends Component {
   state = {
     formInputs: {
-      email: fieldBuilder("input","text","email","",{required:true},false,false),
-      password: fieldBuilder("input","text","password","",{required:true},false,false),
+      email: fieldBuilder(
+        "input",
+        "text",
+        "email",
+        "",
+        { required: true },
+        false,
+        false
+      ),
+      password: fieldBuilder(
+        "input",
+        "text",
+        "password",
+        "",
+        { required: true },
+        false,
+        false
+      ),
     },
+    isSignUp: false,
+    formIsValid: false
   };
 
   changeHandler = (event, key) => {
@@ -18,8 +38,12 @@ class Auth extends Component {
     const updatedInputs = { ...this.state.formInputs };
     updatedInputs[key] = updatedFormInput;
     this.setState({
-      formInputs: updatedInputs
+      formInputs: updatedInputs,
     });
+  };
+
+  authSubmitHandler = (event) => {
+    event.preventDefault();
   };
 
   render() {
@@ -36,11 +60,22 @@ class Auth extends Component {
       <div className={classes.Auth}>
         <form>
           {form}
-          <button>Sign-In</button>
+          <Button
+            clicked={(event) => this.authSubmitHandler(event)}
+            add="Success"
+          >
+            Sign-In
+          </Button>
         </form>
       </div>
     );
   }
 }
 
-export default Auth;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuthSubmit: () => dispatch(),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Auth);

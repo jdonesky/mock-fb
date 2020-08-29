@@ -6,7 +6,6 @@ import { fieldBuilder } from "../../shared/utility";
 import Input from "../../components/UI/Input/Input";
 import classes from "./UserProfile.css";
 
-
 class UserProfile extends Component {
   state = {
     formInputs: {
@@ -19,14 +18,7 @@ class UserProfile extends Component {
         false,
         false
       ),
-      age: fieldBuilder(
-        "input",
-        "text",
-        "age",
-        "",
-        false,
-        false
-      ),
+      age: fieldBuilder("input", "text", "age", "", false, false),
       location: fieldBuilder(
         "input",
         "text",

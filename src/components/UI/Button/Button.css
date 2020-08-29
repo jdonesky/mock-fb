@@ -1,0 +1,28 @@
+.Button {
+  display: block;
+  background: white;
+  border: none;
+  cursor: pointer;
+  height: 20px;
+  width: 100px;
+  margin: 10px auto;
+  color: rgb(216, 207, 156);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.Success {
+  color: green;
+}
+
+.Success:hover {
+  color: lightgreen;
+}
+
+.Danger {
+  color: red;
+}
+
+.Danger:hover {
+  color: salmon;
+}
