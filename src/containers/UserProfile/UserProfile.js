@@ -2,30 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/profile";
 import ProfilePlaceholder from "../../assets/images/placeholder-profile-pic.png";
+import { fieldBuilder } from "../../shared/utility";
 import Input from "../../components/UI/Input/Input";
 import classes from "./UserProfile.css";
 
-function fieldBuilder(
-  elType,
-  inputType,
-  placeholder,
-  value,
-  validation,
-  valid,
-  touched
-) {
-  return {
-    elementType: elType,
-    elementConfig: {
-      type: inputType,
-      placeholder: placeholder,
-    },
-    value: value,
-    validation: validation,
-    valid: valid,
-    touched: touched,
-  };
-}
 
 class UserProfile extends Component {
   state = {
@@ -44,7 +24,6 @@ class UserProfile extends Component {
         "text",
         "age",
         "",
-        { required: true },
         false,
         false
       ),

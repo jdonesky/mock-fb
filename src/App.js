@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import Layout from "./hoc/Layout/Layout";
-import Auth from './containers/Auth/Auth'
 
 import asyncComponent from "./hoc/asyncComponent";
 
@@ -15,15 +14,20 @@ const AsyncFriends = asyncComponent(() => {
   return import("./containers/Friends/Friends");
 });
 
+const AsyncAuth = asyncComponent(() => {
+  return import("./containers/Auth/Auth");
+});
+
 class App extends Component {
   render() {
     return (
       <Layout>
         <Switch>
+          <Route path="/authentication" component={AsyncAuth} />
           <Route path="/user-profile" component={AsyncUserProfile} />
           <Route path="/friends" component={AsyncFriends} />
           <Route path="/activity-feed" component={AsyncPosts} />
-          <Route component={Auth} />
+          {/* <Route component={Auth} /> */}
         </Switch>
       </Layout>
     );

@@ -9,8 +9,9 @@ const input = (props) => {
       inputElement = (
         <input
           value={props.value}
+          type="text"
           invalid={!props.valid}
-          touch={props.touched}
+          touched={props.touched}
           placeholder={props.placeholder}
           onChange={props.changed}
           className={classes.InputElement}
