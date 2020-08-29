@@ -5,7 +5,7 @@ const initialState = {
   name: null,
   age: null,
   location: null,
-  status: null
+  status: null,
 };
 
 const storeProfileData = (state, action) => {
@@ -16,11 +16,19 @@ const storeProfileData = (state, action) => {
     age: action.formData.age,
     location: action.formData.location,
   };
-}; 
+};
+
+const storeUserStatus = (state, action) => {
+  return {
+    ...state,
+    status: action.status,
+  };
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.STORE_PROFILE_DATA: return storeProfileData(state,action);
+    case actionTypes.STORE_PROFILE_DATA: return storeProfileData(state, action);
+    case actionTypes.STORE_USER_STATUS: return storeUserStatus(state, action);
     default:
       return state;
   }

@@ -5,6 +5,8 @@ import ProfilePlaceholder from "../../assets/images/placeholder-profile-pic.png"
 import { fieldBuilder } from "../../shared/utility";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
+import Spinner from "../../components/UI/Spinner/Spinner";
+
 import classes from "./UserProfile.css";
 
 class UserProfile extends Component {
@@ -42,6 +44,7 @@ class UserProfile extends Component {
   componentDidMount() {
     this.setState({
       uploadedImage: this.props.profileImage,
+      status: this.props.status,
       formInputs: {
         ...this.state.formInputs,
         name: {
@@ -60,7 +63,7 @@ class UserProfile extends Component {
     });
   }
 
-  profileFormChangeHandler = (event, label) => {
+  profileChangeHandler = (event, label) => {
     const targetInput = { ...this.state.formInputs[label] };
     targetInput.value = event.target.value;
     this.setState({
@@ -85,10 +88,8 @@ class UserProfile extends Component {
   };
 
   submitProfileHandler = (event) => {
-    this.setState({
-      loading: true,
-    });
     event.preventDefault();
+    this.setState({ loading: true });
     const formData = {
       name: this.state.formInputs.name.value,
       age: this.state.formInputs.age.value,
@@ -97,11 +98,11 @@ class UserProfile extends Component {
     };
     this.props.onProfileSubmit(formData);
     setTimeout(() => {
-      this.setState({});
+      this.setState({ loading: false });
     }, 2000);
   };
 
-  statusUpdateHandler = (event) => {
+  statusChangeHandler = (event) => {
     let status = this.state.status;
     status = event.target.value;
     this.setState({
@@ -109,7 +110,10 @@ class UserProfile extends Component {
     });
   };
 
-  statusSubmitHandler = () => {};
+  statusSubmitHandler = (event) => {
+    event.preventDefault();
+    this.props.onStatusUpdate(this.state.status);
+  };
 
   render() {
     let formArray = Object.keys(this.state.formInputs).map((key) => {
@@ -127,12 +131,13 @@ class UserProfile extends Component {
           elementType={formField.config.elementType}
           placeholder={formField.config.elementConfig.placeholder}
           value={formField.config.value}
-          changed={(event) =>
-            this.profileFormChangeHandler(event, formField.label)
-          }
+          changed={(event) => this.profileChangeHandler(event, formField.label)}
         />
       );
     });
+    if (this.state.loading) {
+      form = <Spinner />;
+    }
     return (
       <div className={classes.ProfileContainer}>
         <div
@@ -162,7 +167,7 @@ class UserProfile extends Component {
         >
           {form}
           <Button clicked={this.submitProfileHandler} add="Success">
-            Save 
+            Save
           </Button>
         </form>
         <div className={classes.StatusForm}>
@@ -172,10 +177,10 @@ class UserProfile extends Component {
               elementType="input"
               value={this.state.status}
               placeholder="status"
-              changed={(event) => this.statusUpdateHandler(event)}
+              changed={(event) => this.statusChangeHandler(event)}
             />
             <Button add="Success" clicked={this.statusSubmitHandler}>
-              Update 
+              Update
             </Button>
           </form>
         </div>
@@ -190,13 +195,14 @@ const mapStateToProps = (state) => {
     name: state.profile.name,
     age: state.profile.age,
     location: state.profile.location,
-    status: state.profile.status
+    status: state.profile.status,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onProfileSubmit: (formData) => dispatch(actions.storeProfileData(formData)),
+    onStatusUpdate: (status) => dispatch(actions.storeUserStatus(status)),
   };
 };
 
