@@ -15,10 +15,11 @@
 }
 
 .InputElement:focus {
-  border: none;
+  outline: none;
 }
 
 .Label {
   font-weight: bold;
   display: block;
 }
+

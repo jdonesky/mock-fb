@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/profile";
 import ProfilePlaceholder from "../../assets/images/placeholder-profile-pic.png";
@@ -8,31 +8,35 @@ import Button from "../../components/UI/Button/Button";
 import classes from "./UserProfile.css";
 
 class UserProfile extends Component {
-  state = {
-    formInputs: {
-      name: fieldBuilder(
-        "input",
-        "text",
-        "name",
-        "",
-        { required: true },
-        false,
-        false
-      ),
-      age: fieldBuilder("input", "text", "age", "", false, false),
-      location: fieldBuilder(
-        "input",
-        "text",
-        "location",
-        "",
-        { required: true },
-        false,
-        false
-      ),
-    },
-    uploadedImage: null,
-    status: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      formInputs: {
+        name: fieldBuilder(
+          "input",
+          "text",
+          "name",
+          "",
+          { required: true },
+          false,
+          false
+        ),
+        age: fieldBuilder("input", "text", "age", "", false, false),
+        location: fieldBuilder(
+          "input",
+          "text",
+          "location",
+          "",
+          { required: true },
+          false,
+          false
+        ),
+      },
+      uploadedImage: null,
+      status: "",
+    };
+    this.imageUploader = createRef();
+  }
 
   componentDidMount() {
     this.setState({
@@ -123,19 +127,32 @@ class UserProfile extends Component {
     return (
       <div className={classes.UserProfile}>
         <form onSubmit={this.submitProfileHandler}>
-          <div className={classes.ProfilePicContainer}>
+          <div
+            onClick={() => this.imageUploader.current.click()}
+            className={classes.ProfilePicContainer}
+          >
             <img
               className={classes.ProfileImg}
               src={this.state.uploadedImage || ProfilePlaceholder}
               alt="profile pic"
             />
+            <input
+              ref={this.imageUploader}
+              type="file"
+              accept="image/*"
+              multiple={false}
+              onChange={this.imageUploadHandler}
+              style={{
+                display: "none",
+              }}
+            />
           </div>
-          <input
-            type="file"
-            accept="image/*"
-            multiple={false}
-            onChange={this.imageUploadHandler}
-          />
+          <p
+            style={{ cursor: "pointer" }}
+            onClick={() => this.imageUploader.current.click()}
+          >
+            Upload a profile picture
+          </p>
           {form}
           <Button clicked={this.submitProfileHandler} add="Success">
             SAVE CHANGES
