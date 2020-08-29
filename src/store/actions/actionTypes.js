@@ -4,3 +4,4 @@ export const AUTH_FAIL = "AUTH_FAIL";
 export const AUTH_LOGOUT = "AUTH_LOGOUT";
 
 export const STORE_PROFILE_DATA = "STORE_PROFILE_DATA";
+export const STORE_USER_STATUS = "STORE_USER_STATUS";

@@ -34,6 +34,7 @@ class UserProfile extends Component {
       },
       uploadedImage: null,
       status: "",
+      loading: false,
     };
     this.imageUploader = createRef();
   }
@@ -84,6 +85,9 @@ class UserProfile extends Component {
   };
 
   submitProfileHandler = (event) => {
+    this.setState({
+      loading: true,
+    });
     event.preventDefault();
     const formData = {
       name: this.state.formInputs.name.value,
@@ -92,6 +96,9 @@ class UserProfile extends Component {
       uploadedImage: this.state.uploadedImage,
     };
     this.props.onProfileSubmit(formData);
+    setTimeout(() => {
+      this.setState({});
+    }, 2000);
   };
 
   statusUpdateHandler = (event) => {
@@ -101,6 +108,8 @@ class UserProfile extends Component {
       status: status,
     });
   };
+
+  statusSubmitHandler = () => {};
 
   render() {
     let formArray = Object.keys(this.state.formInputs).map((key) => {
@@ -125,37 +134,35 @@ class UserProfile extends Component {
       );
     });
     return (
-      <div className={classes.UserProfile}>
-        <form onSubmit={this.submitProfileHandler}>
-          <div
-            onClick={() => this.imageUploader.current.click()}
-            className={classes.ProfilePicContainer}
-          >
-            <img
-              className={classes.ProfileImg}
-              src={this.state.uploadedImage || ProfilePlaceholder}
-              alt="profile pic"
-            />
-            <input
-              ref={this.imageUploader}
-              type="file"
-              accept="image/*"
-              multiple={false}
-              onChange={this.imageUploadHandler}
-              style={{
-                display: "none",
-              }}
-            />
-          </div>
-          <p
-            style={{ cursor: "pointer" }}
-            onClick={() => this.imageUploader.current.click()}
-          >
-            Upload a profile picture
-          </p>
+      <div className={classes.ProfileContainer}>
+        <div
+          onClick={() => this.imageUploader.current.click()}
+          className={classes.ProfilePicContainer}
+        >
+          <img
+            className={classes.ProfileImg}
+            src={this.state.uploadedImage || ProfilePlaceholder}
+            alt="profile pic"
+          />
+          <input
+            ref={this.imageUploader}
+            type="file"
+            accept="image/*"
+            multiple={false}
+            onChange={this.imageUploadHandler}
+            style={{
+              display: "none",
+            }}
+          />
+          <Button add="Success">Upload Picture</Button>
+        </div>
+        <form
+          className={classes.FormContainer}
+          onSubmit={this.submitProfileHandler}
+        >
           {form}
           <Button clicked={this.submitProfileHandler} add="Success">
-            SAVE CHANGES
+            Save 
           </Button>
         </form>
         <div className={classes.StatusForm}>
@@ -167,7 +174,9 @@ class UserProfile extends Component {
               placeholder="status"
               changed={(event) => this.statusUpdateHandler(event)}
             />
-            <button>UPDATE STATUS</button>
+            <Button add="Success" clicked={this.statusSubmitHandler}>
+              Update 
+            </Button>
           </form>
         </div>
       </div>
@@ -181,6 +190,7 @@ const mapStateToProps = (state) => {
     name: state.profile.name,
     age: state.profile.age,
     location: state.profile.location,
+    status: state.profile.status
   };
 };
 

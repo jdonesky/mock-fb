@@ -1,4 +1,4 @@
-.UserProfile {
+.ProfileContainer {
     width: 80%;
     margin: 0 auto;
     text-align: center;
@@ -10,6 +10,15 @@
     border-radius: 100px;
     overflow: hidden;
     cursor: pointer;
+}
+
+.FormContainer {
+    margin: 30px auto 90px;
+    padding: 0 0 15px;
+    width: 70%;
+    border: 1px solid rgb(10, 10, 10);
+    border-radius: 40px;
+    box-sizing: border-box;
 }
 
 .ProfileImg {

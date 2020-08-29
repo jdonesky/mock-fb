@@ -1,6 +1,6 @@
 .Input {
   width: 40%;
-  margin: 50px auto;
+  margin: 25px auto;
   box-sizing: border-box;
   border-bottom: 2px solid #ccc;
 }
@@ -11,15 +11,10 @@
   width: 90%;
   margin: 4px auto;
   border: none;
-  text-align:center;
-}
-
-.InputElement:focus {
-  outline: none;
+  text-align: center;
 }
 
 .Label {
   font-weight: bold;
   display: block;
 }
-
