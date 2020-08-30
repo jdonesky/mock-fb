@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import { fieldBuilder } from "../../shared/utility";
-import { authAttempt, autoLogin } from "../../store/actions/index";
+import * as actions from "../../store/actions/index";
 
 import classes from "./Auth.css";
 
@@ -111,7 +111,7 @@ class Auth extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     onAuthSubmit: (email, password, isSignup) =>
-      dispatch(authAttempt(email, password, isSignup)),
+      dispatch(actions.authAttempt(email, password, isSignup)),
   };
 };
 

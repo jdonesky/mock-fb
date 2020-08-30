@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import Layout from "./hoc/Layout/Layout";
+import * as actions from './store/actions/index'
 
 import asyncComponent from "./hoc/asyncComponent";
 
@@ -19,6 +21,11 @@ const AsyncAuth = asyncComponent(() => {
 });
 
 class App extends Component {
+  
+  componentDidMount() {
+    this.props.onReloadApp()
+  }
+
   render() {
     return (
       <Layout>
@@ -34,4 +41,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    onReloadApp: () => dispatch(actions.autoSignIn())
+  }
+}
+
+export default connect(null,mapDispatchToProps)(App);

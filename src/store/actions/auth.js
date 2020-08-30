@@ -24,7 +24,7 @@ const authFail = (err) => {
 };
 
 const authLogout = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem("authToken");
   localStorage.removeItem("userId");
   localStorage.removeItem("expirationDate");
   return {
@@ -44,7 +44,7 @@ export const authAttempt = (email, password, isSignUp) => {
   return (dispatch) => {
     dispatch(authStart());
     const axiosInstance = isSignUp ? axiosSignUp : axiosSignIn;
-    console.log(axiosInstance)
+    console.log(axiosInstance);
     const apiKey = "AIzaSyC2RIc06eEUq6CxLw1qe9kvqvgyHK-ibfI";
     const authData = {
       email: email,
@@ -76,4 +76,16 @@ export const authAttempt = (email, password, isSignUp) => {
   };
 };
 
-export const autoSignIn = (token, userId, expirationDate) => {};
+export const autoSignIn = () => {
+  return (dispatch) => {
+    const expirationDate = localStorage.getItem("expirationDate");
+    if (expirationDate > new Date()) {
+      const newExpiration = new Date(
+        new Date.getTime() - expirationDate.getTime()
+      );
+      return dispatch(checkAuthTimeout(newExpiration));
+    } else {
+      dispatch(authLogout())
+    }
+  };
+};
