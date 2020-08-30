@@ -44,6 +44,7 @@ export const authAttempt = (email, password, isSignUp) => {
   return (dispatch) => {
     dispatch(authStart());
     const axiosInstance = isSignUp ? axiosSignUp : axiosSignIn;
+    console.log(axiosInstance)
     const apiKey = "AIzaSyC2RIc06eEUq6CxLw1qe9kvqvgyHK-ibfI";
     const authData = {
       email: email,

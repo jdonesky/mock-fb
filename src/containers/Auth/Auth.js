@@ -33,6 +33,15 @@ class Auth extends Component {
     formIsValid: false,
   };
 
+  componentDidUpdate() {
+    const authData = {
+      email: this.state.formInputs.email.value,
+      password: this.state.formInputs.password.value,
+      isSignup: this.state.isSignup,
+    };
+    console.log(authData)
+  }
+
   changeHandler = (event, key) => {
     const updatedFormInput = { ...this.state.formInputs[key] };
     updatedFormInput.value = event.target.value;
@@ -85,7 +94,7 @@ class Auth extends Component {
           <Button
             clicked={(event) => this.authSubmitHandler(event)}
             add="Success"
-            disabled={!this.state.formIsValid}
+            // disabled={!this.state.formIsValid}
           >
             {this.state.isSignup ? "Sign-Up" : "Sign-In"}
           </Button>
