@@ -174,22 +174,22 @@ class UserProfile extends Component {
             Save
           </Button>
         </form>
+
         <div className={classes.StatusForm}>
           <form>
-            {this.state.statusLoading ? (
-              <Spinner />
-            ) : (
-              <Input
-                elementType="input"
-                value={this.state.status}
-                placeholder="status"
-                changed={(event) => this.statusChangeHandler(event)}
-              />
-            )}
+            {this.state.statusLoading ? <Spinner /> :
+            <Input
+              elementType="input"
+              value={this.state.status}
+              placeholder="status"
+              changed={(event) => this.statusChangeHandler(event)}
+            />
+            }
             <Button add="Success" clicked={this.statusSubmitHandler}>
               Update
             </Button>
           </form>
+
         </div>
       </div>
     );

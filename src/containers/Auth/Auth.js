@@ -80,6 +80,7 @@ class Auth extends Component {
         key={key}
         value={this.state.formInputs[key].value}
         placeholder={this.state.formInputs[key].elementConfig.placeholder}
+        inputType={this.state.formInputs[key].elementConfig.inputType}
         elementType={this.state.formInputs[key].elementType}
         changed={(event) => this.changeHandler(event, key)}
       />

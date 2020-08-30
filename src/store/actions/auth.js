@@ -78,14 +78,20 @@ export const authAttempt = (email, password, isSignUp) => {
 
 export const autoSignIn = () => {
   return (dispatch) => {
-    const expirationDate = localStorage.getItem("expirationDate");
-    if (expirationDate > new Date()) {
-      const newExpiration = new Date(
-        new Date.getTime() - expirationDate.getTime()
-      );
-      return dispatch(checkAuthTimeout(newExpiration));
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      dispatch(authLogout());
     } else {
-      dispatch(authLogout())
+      const expirationDate = new Date(localStorage.getItem("expirationDate"));
+      if (expirationDate < new Date()) {
+        dispatch(authLogout());
+      } else {
+        const userId = localStorage.getItem("userId");
+        const newExpirationCountdown =
+          (expirationDate.getTime() - new Date().getTime()) / 1000;
+        dispatch(authSuccess(token, userId));
+        dispatch(checkAuthTimeout(newExpirationCountdown));
+      }
     }
   };
 };
