@@ -36,7 +36,8 @@ class UserProfile extends Component {
       },
       uploadedImage: null,
       status: "",
-      loading: false,
+      profileLoading: false,
+      statusLoading: false,
     };
     this.imageUploader = createRef();
   }
@@ -89,7 +90,7 @@ class UserProfile extends Component {
 
   submitProfileHandler = (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
+    this.setState({ profileLoading: true });
     const formData = {
       name: this.state.formInputs.name.value,
       age: this.state.formInputs.age.value,
@@ -98,8 +99,8 @@ class UserProfile extends Component {
     };
     this.props.onProfileSubmit(formData);
     setTimeout(() => {
-      this.setState({ loading: false });
-    }, 2000);
+      this.setState({ profileLoading: false });
+    }, 1500);
   };
 
   statusChangeHandler = (event) => {
@@ -112,7 +113,11 @@ class UserProfile extends Component {
 
   statusSubmitHandler = (event) => {
     event.preventDefault();
+    this.setState({ statusLoading: true });
     this.props.onStatusUpdate(this.state.status);
+    setTimeout(() => {
+      this.setState({ statusLoading: false });
+    }, 1500);
   };
 
   render() {
@@ -127,7 +132,6 @@ class UserProfile extends Component {
       return (
         <Input
           key={formField.label}
-          // label={formField.label}
           elementType={formField.config.elementType}
           placeholder={formField.config.elementConfig.placeholder}
           value={formField.config.value}
@@ -135,7 +139,7 @@ class UserProfile extends Component {
         />
       );
     });
-    if (this.state.loading) {
+    if (this.state.profileLoading) {
       form = <Spinner />;
     }
     return (
@@ -172,13 +176,16 @@ class UserProfile extends Component {
         </form>
         <div className={classes.StatusForm}>
           <form>
-            {/* <label>Status</label> */}
-            <Input
-              elementType="input"
-              value={this.state.status}
-              placeholder="status"
-              changed={(event) => this.statusChangeHandler(event)}
-            />
+            {this.state.statusLoading ? (
+              <Spinner />
+            ) : (
+              <Input
+                elementType="input"
+                value={this.state.status}
+                placeholder="status"
+                changed={(event) => this.statusChangeHandler(event)}
+              />
+            )}
             <Button add="Success" clicked={this.statusSubmitHandler}>
               Update
             </Button>

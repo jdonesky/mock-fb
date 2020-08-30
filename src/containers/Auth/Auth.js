@@ -80,7 +80,7 @@ class Auth extends Component {
 
     return (
       <div>
-        {this.state.isSignup ? form : <div style={{ height: "120px" }}></div>}
+        {this.state.isSignup ? form : <div style={{ height: "110px" }}></div>}
         <div className={classes.SwitchMode}>
           <Button
             clicked={(event) => this.authSubmitHandler(event)}
@@ -90,10 +90,10 @@ class Auth extends Component {
             {this.state.isSignup ? "Sign-Up" : "Sign-In"}
           </Button>
           <Button clicked={this.switchModeHandler} add="Neutral">
-            (Or {this.state.isSignup ? "Sign-In)" : "Sign-Up)"}
+            Or {this.state.isSignup ? "Sign-In" : "Sign-Up"}
           </Button>
         </div>
-        {!this.state.isSignup ? form : <div style={{ height: "140px" }}></div>}
+        {!this.state.isSignup ? form : <div style={{ height: "110px" }}></div>}
       </div>
     );
   }

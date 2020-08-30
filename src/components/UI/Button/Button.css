@@ -4,7 +4,7 @@
   border: none;
   cursor: pointer;
   height: 20px;
-  width: 100px;
+  width: 150px;
   margin: 5px auto;
   font-weight: bold;
   font-size: 18px;
@@ -12,11 +12,11 @@
 
 
 .Neutral {
-  color: rgb(216, 207, 156);
+  color: #3b5998;
 }
 
 .Neutral:hover {
-  color: rgb(233, 225, 183);
+  color: #7d93c2;
 }
 .Success {
   color: green;
