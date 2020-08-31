@@ -19,7 +19,6 @@ const AsyncFriends = asyncComponent(() => {
 const AsyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
 });
-
 const AsyncLogout = asyncComponent(() => {
   return import("./containers/Logout/Logout");
 });

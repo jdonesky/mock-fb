@@ -92,12 +92,13 @@ class UserProfile extends Component {
     event.preventDefault();
     this.setState({ profileLoading: true });
     const formData = {
+      userId: this.props.userId,
       name: this.state.formInputs.name.value,
       age: this.state.formInputs.age.value,
       location: this.state.formInputs.location.value,
       uploadedImage: this.state.uploadedImage,
     };
-    this.props.onProfileSubmit(formData);
+    this.props.onProfileSubmit(formData, this.props.authToken);
     setTimeout(() => {
       this.setState({ profileLoading: false });
     }, 1500);
@@ -198,17 +199,19 @@ class UserProfile extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.auth.userId,
     profileImage: state.profile.profileImage,
     name: state.profile.name,
     age: state.profile.age,
     location: state.profile.location,
     status: state.profile.status,
+    authToken: state.auth.token
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onProfileSubmit: (formData) => dispatch(actions.storeProfileData(formData)),
+    onProfileSubmit: (formData, token) => dispatch(actions.storeProfileAttempt(formData, token)),
     onStatusUpdate: (status) => dispatch(actions.storeUserStatus(status)),
   };
 };

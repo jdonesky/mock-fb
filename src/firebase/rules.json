@@ -1,0 +1,16 @@
+{
+    "rules": {
+      ".read":true,
+        ".write":true,
+      "users": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".indexOn": ["userId"]
+      },
+      "posts": {
+        ".read" : "true",
+        ".write": "auth != null",
+        ".indexOn": ["userId"]
+      }
+    }
+}

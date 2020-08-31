@@ -27,7 +27,7 @@ const storeUserStatus = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.STORE_PROFILE_DATA: return storeProfileData(state, action);
+    case actionTypes.STORE_PROFILE_SUCCESS: return storeProfileData(state, action);
     case actionTypes.STORE_USER_STATUS: return storeUserStatus(state, action);
     default:
       return state;
