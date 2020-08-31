@@ -29,7 +29,7 @@ class Auth extends Component {
         false
       ),
     },
-    isSignup: true,
+    isSignup: false,
     formIsValid: false,
   };
 

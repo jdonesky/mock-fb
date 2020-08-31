@@ -1,3 +1,3 @@
 export { storeProfileData, storeUserStatus } from "./profile";
 
-export { authAttempt, autoSignIn } from "./auth";
+export { authAttempt, autoSignIn, authLogout } from "./auth";
