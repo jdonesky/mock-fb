@@ -43,6 +43,7 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
+    this.props.onFetchProfile(this.props.userId, this.props.authToken);
     this.setState({
       uploadedImage: this.props.profileImage,
       status: this.props.status,
@@ -178,19 +179,20 @@ class UserProfile extends Component {
 
         <div className={classes.StatusForm}>
           <form>
-            {this.state.statusLoading ? <Spinner /> :
-            <Input
-              elementType="input"
-              value={this.state.status}
-              placeholder="status"
-              changed={(event) => this.statusChangeHandler(event)}
-            />
-            }
+            {this.state.statusLoading ? (
+              <Spinner />
+            ) : (
+              <Input
+                elementType="input"
+                value={this.state.status}
+                placeholder="status"
+                changed={(event) => this.statusChangeHandler(event)}
+              />
+            )}
             <Button add="Success" clicked={this.statusSubmitHandler}>
               Update
             </Button>
           </form>
-
         </div>
       </div>
     );
@@ -200,18 +202,21 @@ class UserProfile extends Component {
 const mapStateToProps = (state) => {
   return {
     userId: state.auth.userId,
+    authToken: state.auth.token,
     profileImage: state.profile.profileImage,
     name: state.profile.name,
     age: state.profile.age,
     location: state.profile.location,
     status: state.profile.status,
-    authToken: state.auth.token
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onProfileSubmit: (formData, token) => dispatch(actions.storeProfileAttempt(formData, token)),
+    onProfileSubmit: (formData, authToken) =>
+      dispatch(actions.storeProfileAttempt(formData, authToken)),
+    onFetchProfile: (userId, authToken) =>
+      dispatch(actions.fetchProfileAttempt(userId, authToken)),
     onStatusUpdate: (status) => dispatch(actions.storeUserStatus(status)),
   };
 };

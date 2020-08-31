@@ -8,10 +8,10 @@ const storeProfileSuccess= (userProfile) => {
   };
 };
 
-const storeProfileFail = (err) => {
+const storeProfileFail = (error) => {
   return {
     type: actionTypes.STORE_PROFILE_FAIL,
-    error: err
+    error: error
   }
 }
 
@@ -36,11 +36,10 @@ export const storeUserStatus= (status) => {
 
 
 
-
-const fetchProfileSuccess = (data) => {
+const fetchProfileSuccess = (userData) => {
   return {
     type: actionTypes.FETCH_PROFILE_SUCCESS,
-    profileData: data
+    userData: userData
   } 
 }
 
@@ -51,8 +50,20 @@ const fetchProfileFail = (err) => {
   }
 }
 
-export const fetchProfileAttempt = (userId, authToken) => {
+export const fetchProfileAttempt = (userId,authToken) => {
   return dispatch => {
-
+    const queryParams = "?auth=" + authToken + '&orderBy="userId"&equalTo="' + userId + '"'
+    axios.get('/users.json' + queryParams)
+    .then(response => {
+      
+      const userData = Object.keys(response.data).map(key => {
+        return {key: key, ...response.data[key]}
+      })
+      
+      dispatch(fetchProfileSuccess(userData[0]))
+    })
+    .catch(err => {
+      dispatch(fetchProfileFail(err))
+    })
   }
 }
