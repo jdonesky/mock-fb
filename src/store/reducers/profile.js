@@ -43,12 +43,19 @@ const fetchProfileFail = (state, action) => {
   };
 };
 
-const storeUserStatus = (state, action) => {
+const statusUpdateSuccess = (state, action) => {
   return {
     ...state,
     status: action.status,
   };
 };
+
+const statusUpdateFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error
+  }
+}
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -56,8 +63,8 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_PROFILE_FAIL: return fetchProfileFail(state, action);
     case actionTypes.STORE_PROFILE_SUCCESS: return storeProfileSuccess(state,action);
     case actionTypes.STORE_PROFILE_FAIL: return storeProfileFail(state,action);
-    case actionTypes.STORE_USER_STATUS: return storeUserStatus(state, action);
-
+    case actionTypes.STATUS_UPDATE_SUCCESS: return statusUpdateSuccess(state, action);
+    case actionTypes.STATUS_UPDATE_FAIL: return statusUpdateFail(state,action);
     default:
       return state;
   }

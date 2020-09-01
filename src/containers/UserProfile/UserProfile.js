@@ -44,6 +44,7 @@ class UserProfile extends Component {
 
   componentDidMount() {
     this.props.onFetchProfile(this.props.userId, this.props.authToken);
+
     this.setState({
       uploadedImage: this.props.profileImage,
       status: this.props.status,
@@ -116,7 +117,7 @@ class UserProfile extends Component {
   statusSubmitHandler = (event) => {
     event.preventDefault();
     this.setState({ statusLoading: true });
-    this.props.onStatusUpdate(this.state.status);
+    this.props.onStatusUpdate(this.state.status, this.props.authToken, this.props.userId);
     setTimeout(() => {
       this.setState({ statusLoading: false });
     }, 1500);
@@ -217,7 +218,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.storeProfileAttempt(formData, authToken)),
     onFetchProfile: (userId, authToken) =>
       dispatch(actions.fetchProfileAttempt(userId, authToken)),
-    onStatusUpdate: (status) => dispatch(actions.storeUserStatus(status)),
+    // onStatusUpdate: (status) => dispatch(actions.storeUserStatus(status)),
+    onStatusUpdate: (status, authToken, userId) =>
+      dispatch(actions.statusUpdateAttempt(status, authToken, userId)),
   };
 };
 
