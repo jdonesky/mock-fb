@@ -18,7 +18,6 @@ const storeProfileFail = (error) => {
 export const storeProfileAttempt = (userProfile, authToken) => {
   return (dispatch) => {
     const queryParams = "?auth=" + authToken;
-    // + '&orderBy="userId"&equalTo="' + userProfile.userId + '"';
     axios
       .delete("/users.json" + queryParams, {
         params: { userId: userProfile.id },

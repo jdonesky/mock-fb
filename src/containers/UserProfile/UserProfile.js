@@ -91,7 +91,6 @@ class UserProfile extends Component {
   };
 
   submitProfileHandler = (event) => {
-    // REFACTOR TO DELETE/REPLACE EXISTING PROFILE IN FIREBASE IF USERID = DUPLICATE
     event.preventDefault();
     this.setState({ profileLoading: true });
     const formData = {
