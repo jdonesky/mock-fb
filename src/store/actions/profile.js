@@ -56,7 +56,7 @@ export const fetchProfileAttempt = (userId, authToken) => {
   return (dispatch) => {
     const queryParams =
       "?auth=" + authToken + '&orderBy="userId"&equalTo="' + userId + '"';
-    axios
+    axios 
       .get("/users.json" + queryParams)
       .then((response) => {
         const userData = Object.keys(response.data).map((key) => {
@@ -92,16 +92,12 @@ const statusUpdateFail = (error) => {
   };
 };
 
-export const statusUpdateAttempt = (status, authToken, userId) => {
+export const statusUpdateAttempt = (authToken, statusInfo) => {
   return (dispatch) => {
-    const statusPost = {
-      status: status,
-      userId: userId,
-    };
     axios
-      .post("/posts.json?auth=" + authToken, statusPost)
-      .then((response) => {
-        dispatch(statusUpdateSuccess(status));
+      .post("/posts.json?auth=" + authToken, statusInfo)
+      .then(() => {
+        dispatch(statusUpdateSuccess(statusInfo.status));
       })
       .catch((error) => {
         dispatch(statusUpdateFail(error));

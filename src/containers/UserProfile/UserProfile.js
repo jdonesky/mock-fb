@@ -62,7 +62,7 @@ class UserProfile extends Component {
         location: {
           ...this.state.formInputs.location,
           value: this.props.location,
-        },
+        },  
       },
     });
   }
@@ -118,7 +118,13 @@ class UserProfile extends Component {
   statusSubmitHandler = (event) => {
     event.preventDefault();
     this.setState({ statusLoading: true });
-    this.props.onStatusUpdate(this.state.status, this.props.authToken, this.props.userId);
+    const statusInfo = {
+      status: this.state.status,
+      userId: this.props.userId,
+      profilePic: this.props.profileImage,
+      dateTime: new Date()
+    }
+    this.props.onStatusUpdate(this.props.authToken, statusInfo);
     setTimeout(() => {
       this.setState({ statusLoading: false });
     }, 1500);
@@ -220,8 +226,8 @@ const mapDispatchToProps = (dispatch) => {
     onFetchProfile: (userId, authToken) =>
       dispatch(actions.fetchProfileAttempt(userId, authToken)),
     // onStatusUpdate: (status) => dispatch(actions.storeUserStatus(status)),
-    onStatusUpdate: (status, authToken, userId) =>
-      dispatch(actions.statusUpdateAttempt(status, authToken, userId)),
+    onStatusUpdate: (authToken, statusInfo) =>
+      dispatch(actions.statusUpdateAttempt(authToken, statusInfo)),
   };
 };
 

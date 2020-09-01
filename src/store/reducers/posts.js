@@ -34,6 +34,8 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_POSTS_INIT: return fetchPostsInit(state,action);
     case actionTypes.FETCH_POSTS_SUCCESS: return fetchPostsSuccess(state, action);
     case actionTypes.FETCH_POSTS_FAIL: return fetchPostsFail(state, action);
+    default: 
+        return state
   }
 };
 

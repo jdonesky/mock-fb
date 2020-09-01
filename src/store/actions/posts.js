@@ -1,8 +1,9 @@
 import * as actionTypes from "./actionTypes";
+import axios from '../../axios/db-axios-instance'
 
 const fetchPostsInit = () => {
   return {
-    type: actionTypes.FETCH_POSTS_INIT,
+    type: actionTypes.FETCH_POSTS_INIT
   };
 };
 
@@ -20,13 +21,16 @@ const fetchPostsFail = (error) => {
   };
 };
 
-export const fetchPostsAttempt = (authToken, db) => {
+export const fetchPostsAttempt = (db, userId=null) => {
   return (dispatch) => {
     dispatch(fetchPostsInit());
-    const queryUrl = "/" + db + ".json?auth=" + authToken;
+    let queryUrl = "/" + db
+    if (userId) {
+      queryUrl = queryUrl + '.json?orderBy="userId"&equalTo="' + userId + '"'
+    }
     axios.get(queryUrl)
     .then((response) => {
-      console.log(response.data);
+      console.log(response.data); 
       const posts = Object.keys(response.data)
       .map((key) => {
         return { key: key, ...response.data[key] };

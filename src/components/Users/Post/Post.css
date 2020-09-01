@@ -13,17 +13,29 @@
 
 .ProfilePic {
   border: 1px solid black;
-  padding: 6px;
   border-radius: 100px;
-  height: 35%;
-  display: flex;
+  height: 30%;
   width: 10%;
+  overflow: hidden;
+  align-items: center;
+}
+
+.ProfilePic img {
+  height: 100%;
+  width: 100%;
 }
 
 .Status {
     display: flex;
     flex-flow: column;
-    text-decoration: underline;
     padding: auto;
     margin: 0 auto;
+}
+
+.Datetime { 
+  padding: auto;
+  text-decoration: underline;
+  margin: 10px auto;
+  font-size: xx-small;
+  color: #ccc;
 }

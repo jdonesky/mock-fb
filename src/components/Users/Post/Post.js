@@ -1,11 +1,16 @@
 import React from "react";
 import classes from "./Post.css";
+
 const post = (props) => (
   <div className={classes.Post}>
-    <div className={classes.ProfilePic}>Pic</div>
+    <div className={classes.ProfilePic}>
+      <img src={props.profilePic} alt='user pic'/>
+    </div>
     <div className={classes.Status}>
-      <p>status</p>
-      <p>date/time</p>
+      <p>{props.status}</p>
+      <div className={classes.Datetime}>
+        <p>{props.dateTime}</p>
+      </div>
     </div>
     <div>LIKE COMMENT</div>
   </div>
