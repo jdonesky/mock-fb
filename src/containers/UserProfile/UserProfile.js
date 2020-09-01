@@ -1,6 +1,5 @@
 import React, { Component, createRef } from "react";
 import { connect } from "react-redux";
-// import * as actions from "../../store/actions/profile";
 import * as actions from "../../store/actions/index";
 import ProfilePlaceholder from "../../assets/images/placeholder-profile-pic.png";
 import { fieldBuilder } from "../../shared/utility";
@@ -225,7 +224,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.storeProfileAttempt(formData, authToken)),
     onFetchProfile: (userId, authToken) =>
       dispatch(actions.fetchProfileAttempt(userId, authToken)),
-    // onStatusUpdate: (status) => dispatch(actions.storeUserStatus(status)),
     onStatusUpdate: (authToken, statusInfo) =>
       dispatch(actions.statusUpdateAttempt(authToken, statusInfo)),
   };

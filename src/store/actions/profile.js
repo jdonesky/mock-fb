@@ -3,6 +3,13 @@ import axios from "../../axios/db-axios-instance";
 
 // ADD INIT ACTIONS TO TOGGLE LOADING STATE AND HANDLE IN REDUX
 
+const updateInit = () => {
+  return {
+    type: actionTypes.UPDATE_INIT
+  }
+}
+
+
 const storeProfileSuccess = (userProfile) => {
   return {
     type: actionTypes.STORE_PROFILE_SUCCESS,
@@ -19,6 +26,7 @@ const storeProfileFail = (error) => {
 
 export const storeProfileAttempt = (userProfile, authToken) => {
   return (dispatch) => {
+    dispatch(updateInit())
     const queryParams = "?auth=" + authToken;
     axios
       .delete("/users.json" + queryParams, {
@@ -54,6 +62,7 @@ const fetchProfileFail = (err) => {
 
 export const fetchProfileAttempt = (userId, authToken) => {
   return (dispatch) => {
+    dispatch(updateInit())
     const queryParams =
       "?auth=" + authToken + '&orderBy="userId"&equalTo="' + userId + '"';
     axios 
@@ -69,14 +78,6 @@ export const fetchProfileAttempt = (userId, authToken) => {
       });
   };
 };
-
-
-// export const storeUserStatus= (status) => {
-//   return {
-//     type: actionTypes.STORE_USER_STATUS,
-//     status: status,
-//   };
-// };
 
 const statusUpdateSuccess = (status) => {
   return {
@@ -94,6 +95,7 @@ const statusUpdateFail = (error) => {
 
 export const statusUpdateAttempt = (authToken, statusInfo) => {
   return (dispatch) => {
+    dispatch(updateInit())
     axios
       .post("/posts.json?auth=" + authToken, statusInfo)
       .then(() => {
