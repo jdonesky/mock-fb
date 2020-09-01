@@ -17,13 +17,21 @@ const storeProfileFail = (error) => {
 
 export const storeProfileAttempt = (userProfile, authToken) => {
   return (dispatch) => {
+    const queryParams = "?auth=" + authToken;
+    // + '&orderBy="userId"&equalTo="' + userProfile.userId + '"';
     axios
-      .post("/users.json?auth=" + authToken, userProfile)
-      .then((response) => {
-        dispatch(storeProfileSuccess(userProfile));
+      .delete("/users.json" + queryParams, {
+        params: { userId: userProfile.id },
       })
-      .catch((err) => {
-        dispatch(storeProfileFail(err));
+      .then((response) => {
+        axios
+          .post("/users.json?auth=" + authToken, userProfile)
+          .then((response) => {
+            dispatch(storeProfileSuccess(userProfile));
+          })
+          .catch((err) => {
+            dispatch(storeProfileFail(err));
+          });
       });
   };
 };
@@ -40,7 +48,7 @@ const statusUpdateSuccess = (status) => {
     type: actionTypes.STATUS_UPDATE_SUCCESS,
     status: status,
   };
-}; 
+};
 
 const statusUpdateFail = (error) => {
   return {
@@ -90,7 +98,6 @@ export const fetchProfileAttempt = (userId, authToken) => {
         const userData = Object.keys(response.data).map((key) => {
           return { key: key, ...response.data[key] };
         });
-
         dispatch(fetchProfileSuccess(userData[0]));
       })
       .catch((err) => {
