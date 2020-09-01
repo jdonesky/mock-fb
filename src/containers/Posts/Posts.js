@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux'
+
 import Post from "../../components/Users/Post/Post";
+import * as actions from "../../store/actions/index";
 
 class Posts extends Component {
 
@@ -7,7 +10,6 @@ class Posts extends Component {
 
   }
 
-  
   render() {
     return (
       <div>
