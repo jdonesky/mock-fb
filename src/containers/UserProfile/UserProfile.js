@@ -36,8 +36,8 @@ class UserProfile extends Component {
       },
       uploadedImage: null,
       status: "",
-      profileLoading: false,
-      statusLoading: false,
+      // profileLoading: false,
+      // statusLoading: false,
     };
     this.imageUploader = createRef();
   }
@@ -92,7 +92,7 @@ class UserProfile extends Component {
 
   submitProfileHandler = (event) => {
     event.preventDefault();
-    this.setState({ profileLoading: true });
+    // this.setState({ profileLoading: true });
     const formData = {
       userId: this.props.userId,
       name: this.state.formInputs.name.value,
@@ -101,9 +101,9 @@ class UserProfile extends Component {
       uploadedImage: this.state.uploadedImage,
     };
     this.props.onProfileSubmit(formData, this.props.authToken);
-    setTimeout(() => {
-      this.setState({ profileLoading: false });
-    }, 1500);
+    // setTimeout(() => {
+    //   this.setState({ profileLoading: false });
+    // }, 1500);
   };
 
   statusChangeHandler = (event) => {
@@ -116,7 +116,7 @@ class UserProfile extends Component {
 
   statusSubmitHandler = (event) => {
     event.preventDefault();
-    this.setState({ statusLoading: true });
+    // this.setState({ statusLoading: true });
     const statusInfo = {
       status: this.state.status,
       userId: this.props.userId,
@@ -124,9 +124,9 @@ class UserProfile extends Component {
       dateTime: new Date()
     }
     this.props.onStatusUpdate(this.props.authToken, statusInfo);
-    setTimeout(() => {
-      this.setState({ statusLoading: false });
-    }, 1500);
+    // setTimeout(() => {
+    //   this.setState({ statusLoading: false });
+    // }, 1500);
   };
 
   render() {
@@ -148,7 +148,7 @@ class UserProfile extends Component {
         />
       );
     });
-    if (this.state.profileLoading) {
+    if (this.props.profileLoading) {
       form = <Spinner />;
     }
     return (
@@ -186,7 +186,7 @@ class UserProfile extends Component {
 
         <div className={classes.StatusForm}>
           <form>
-            {this.state.statusLoading ? (
+            {this.props.statusLoading ? (
               <Spinner />
             ) : (
               <Input
@@ -215,6 +215,8 @@ const mapStateToProps = (state) => {
     age: state.profile.age,
     location: state.profile.location,
     status: state.profile.status,
+    profileLoading: state.profile.profileLoading,
+    statusLoading: state.profile.statusLoading,
   };
 };
 
