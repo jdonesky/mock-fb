@@ -7,6 +7,7 @@ const initialState = {
   location: null,
   status: null,
   error: null,
+  fetched: false,
   profileLoading: false,
   statusLoading: false
 };
@@ -14,7 +15,8 @@ const initialState = {
 const updateProfileInit = (state,action) => {
   return { 
     ...state,
-    profileLoading: true
+    profileLoading: true,
+    fetched: false
   }
 }
 
@@ -45,6 +47,7 @@ const fetchProfileSuccess = (state, action) => {
     age: action.userData.age,
     location: action.userData.location,
     profileLoading: false,
+    fetched: true,
   };
 };
 
@@ -60,7 +63,8 @@ const fetchProfileFail = (state, action) => {
 const statusUpdateInit = (state,action) => {
   return { 
     ...state,
-    statusLoading: true
+    statusLoading: true,
+    fetched: false
   }
 }
 
@@ -80,6 +84,13 @@ const statusUpdateFail = (state,action) => {
   }
 }
 
+const clearProfile = (state,action) => {
+  return {
+    ...initialState
+  }
+}
+
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_PROFILE_INIT: return updateProfileInit(state,action)
@@ -90,6 +101,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.STATUS_UPDATE_INIT: return statusUpdateInit(state,action);
     case actionTypes.STATUS_UPDATE_SUCCESS: return statusUpdateSuccess(state, action);
     case actionTypes.STATUS_UPDATE_FAIL: return statusUpdateFail(state,action);
+    case actionTypes.CLEAR_PROFILE: return clearProfile(state,action)
     default:
       return state;
   }

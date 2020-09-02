@@ -2,6 +2,7 @@ export {
   fetchProfileAttempt,
   storeProfileAttempt,
   statusUpdateAttempt,
+  clearProfile
 } from "./profile";
 
 export { 

@@ -24,9 +24,9 @@ const fetchPostsFail = (error) => {
 export const fetchPostsAttempt = (db, userId=null) => {
   return (dispatch) => {
     dispatch(fetchPostsInit());
-    let queryUrl = "/" + db
+    let queryUrl = "/" + db + '.json'
     if (userId) {
-      queryUrl = queryUrl + '.json?orderBy="userId"&equalTo="' + userId + '"'
+      queryUrl = queryUrl + '?orderBy="userId"&equalTo="' + userId + '"'
     }
     axios.get(queryUrl)
     .then((response) => {

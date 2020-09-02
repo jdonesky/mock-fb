@@ -1,13 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
 
-// ADD INIT ACTIONS TO TOGGLE LOADING STATE AND HANDLE IN REDUX
-
-// const updateInit = () => {
-//   return {
-//     type: actionTypes.UPDATE_INIT
-//   }
-// }
 
 const updateProfileInit = () => {
   return {
@@ -73,6 +66,7 @@ export const fetchProfileAttempt = (userId, authToken) => {
     axios 
       .get("/users.json" + queryParams)
       .then((response) => {
+        console.log(response.data)
         const userData = Object.keys(response.data).map((key) => {
           return { key: key, ...response.data[key] };
         });
@@ -117,3 +111,9 @@ export const statusUpdateAttempt = (authToken, statusInfo) => {
       });
   };
 };
+
+export const clearProfile = () => {
+  return {
+    type: actionTypes.CLEAR_PROFILE
+  }
+}

@@ -9,6 +9,8 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 
 import classes from "./UserProfile.css";
 
+// CLEAR PROFILE DATA ON LOGOUT
+
 class UserProfile extends Component {
   constructor(props) {
     super(props);
@@ -44,27 +46,50 @@ class UserProfile extends Component {
 
   componentDidMount() {
     this.props.onFetchProfile(this.props.userId, this.props.authToken);
-
-    this.setState({
-      uploadedImage: this.props.profileImage,
-      status: this.props.status,
-      formInputs: {
-        ...this.state.formInputs,
-        name: {
-          ...this.state.formInputs.name,
-          value: this.props.name,
+    if (this.props.fetched) {
+      this.setState({
+        uploadedImage: this.props.profileImage,
+        status: this.props.status,
+        formInputs: {
+          ...this.state.formInputs,
+          name: {
+            ...this.state.formInputs.name,
+            value: this.props.name,
+          },
+          age: {
+            ...this.state.formInputs.age,
+            value: this.props.age,
+          },
+          location: {
+            ...this.state.formInputs.location,
+            value: this.props.location,
+          },
         },
-        age: {
-          ...this.state.formInputs.age,
-          value: this.props.age,
-        },
-        location: {
-          ...this.state.formInputs.location,
-          value: this.props.location,
-        },  
-      },
-    });
+      });
+    }
   }
+
+  // componentWillUnmount() {
+  //   this.setState({
+  //     uploadedImage: null,
+  //     status: null,
+  //     formInputs: {
+  //       ...this.state.formInputs,
+  //       name: {
+  //         ...this.state.formInputs.name,
+  //         value: null,
+  //       },
+  //       age: {
+  //         ...this.state.formInputs.age,
+  //         value: null,
+  //       },
+  //       location: {
+  //         ...this.state.formInputs.location,
+  //         value: null,
+  //       },
+  //     },
+  //   });
+  // }
 
   profileChangeHandler = (event, label) => {
     const targetInput = { ...this.state.formInputs[label] };
@@ -121,8 +146,8 @@ class UserProfile extends Component {
       status: this.state.status,
       userId: this.props.userId,
       profilePic: this.props.profileImage,
-      dateTime: new Date()
-    }
+      dateTime: new Date(),
+    };
     this.props.onStatusUpdate(this.props.authToken, statusInfo);
     // setTimeout(() => {
     //   this.setState({ statusLoading: false });
@@ -215,6 +240,7 @@ const mapStateToProps = (state) => {
     age: state.profile.age,
     location: state.profile.location,
     status: state.profile.status,
+    fetched: state.profile.fetched,
     profileLoading: state.profile.profileLoading,
     statusLoading: state.profile.statusLoading,
   };
