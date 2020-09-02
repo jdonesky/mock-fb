@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
@@ -33,7 +34,6 @@ class Auth extends Component {
     formIsValid: false,
   };
 
-  
   changeHandler = (event, key) => {
     const updatedFormInput = { ...this.state.formInputs[key] };
     updatedFormInput.value = event.target.value;
@@ -80,8 +80,13 @@ class Auth extends Component {
 
     let form = <form className={classes.Auth}>{formFields}</form>;
 
+    let onAuthRedirect = this.props.isAuthenticated ? (
+      <Redirect to="/" />
+    ) : null;
+
     return (
       <div>
+        {onAuthRedirect}
         {this.state.isSignup ? form : <div style={{ height: "110px" }}></div>}
         <div className={classes.SwitchMode}>
           <Button
@@ -101,6 +106,12 @@ class Auth extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onAuthSubmit: (email, password, isSignup) =>
@@ -108,4 +119,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
