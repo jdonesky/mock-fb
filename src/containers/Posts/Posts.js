@@ -18,7 +18,7 @@ class Posts extends Component {
   }
 
   render() {
-    let posts = <Spinner />;
+    let posts = null;
     if (this.props.posts) {
       posts = this.props.posts.map( post => {
         return (
@@ -30,6 +30,9 @@ class Posts extends Component {
         />
         )
       })
+    }
+    if (this.props.loading) {
+      posts = <Spinner />
     }
     return (
       <div className={classes.Posts}>

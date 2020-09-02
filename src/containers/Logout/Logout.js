@@ -6,7 +6,7 @@ import * as actions from "../../store/actions/index";
 class Logout extends Component {
   componentDidMount() {
     this.props.onLogout();
-    this.props.onClearProfile();
+    this.props.onClearProfileFromStore();
   }
 
   render() {
@@ -17,7 +17,7 @@ class Logout extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogout: () => dispatch(actions.authLogout()),
-    onClearProfile: () => dispatch(actions.clearProfile())
+    onClearProfileFromStore: () => dispatch(actions.clearProfile())
   };
 };
 
