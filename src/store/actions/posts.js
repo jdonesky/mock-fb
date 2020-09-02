@@ -30,12 +30,10 @@ export const fetchPostsAttempt = (db, userId=null) => {
     }
     axios.get(queryUrl)
     .then((response) => {
-      console.log(response.data); 
       const posts = Object.keys(response.data)
       .map((key) => {
         return { key: key, ...response.data[key] };
       });
-      console.log(posts)
       dispatch(fetchPostsSuccess(posts));
     })
     .catch(error => {

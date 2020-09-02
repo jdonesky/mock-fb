@@ -44,7 +44,6 @@ export const authAttempt = (email, password, isSignUp) => {
   return (dispatch) => {
     dispatch(authStart());
     const axiosInstance = isSignUp ? axiosSignUp : axiosSignIn;
-    console.log(axiosInstance);
     const apiKey = "AIzaSyB5W7ME3bM5KwuPgpS1LKprmx4N_ePIgJQ";
     const authData = {
       email: email,
@@ -54,7 +53,6 @@ export const authAttempt = (email, password, isSignUp) => {
     axiosInstance
       .post("?key=" + apiKey, authData)
       .then((response) => {
-        console.log(response);
         const token = response.data.idToken;
         const userId = response.data.localId;
         const expirationTime = response.data.expiresIn;

@@ -46,6 +46,7 @@ class UserProfile extends Component {
 
   componentDidMount() {
     this.props.onFetchProfile(this.props.userId, this.props.authToken);
+    // console.log('[userProfile] - componentDidMount', this.props.name)
     if (this.props.fetched) {
       this.setState({
         uploadedImage: this.props.profileImage,
@@ -69,27 +70,30 @@ class UserProfile extends Component {
     }
   }
 
-  // componentWillUnmount() {
-  //   this.setState({
-  //     uploadedImage: null,
-  //     status: null,
-  //     formInputs: {
-  //       ...this.state.formInputs,
-  //       name: {
-  //         ...this.state.formInputs.name,
-  //         value: null,
-  //       },
-  //       age: {
-  //         ...this.state.formInputs.age,
-  //         value: null,
-  //       },
-  //       location: {
-  //         ...this.state.formInputs.location,
-  //         value: null,
-  //       },
-  //     },
-  //   });
-  // }
+  componentDidUpdate(prevProps, prevState) { 
+    // console.log('[userProfile] - componentDidUpdate', prevProps, prevState)
+    if ( this.props.name !== prevProps.name || this.props.age !== prevProps.age || this.props.location !== prevProps.location || this.props.profileImage !== prevProps.profileImage) {
+      this.setState({
+        uploadedImage: this.props.profileImage,
+        status: this.props.status,
+        formInputs: {
+          ...this.state.formInputs,
+          name: {
+            ...this.state.formInputs.name,
+            value: this.props.name,
+          },
+          age: {
+            ...this.state.formInputs.age,
+            value: this.props.age,
+          },
+          location: {
+            ...this.state.formInputs.location,
+            value: this.props.location,
+          },
+        },
+      });
+    }
+  }
 
   profileChangeHandler = (event, label) => {
     const targetInput = { ...this.state.formInputs[label] };
