@@ -9,7 +9,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 
 import classes from "./UserProfile.css";
 
-// CLEAR PROFILE DATA ON LOGOUT
+// FIX STORE PROFILE HANDLER - CURRENTLY DELETES PREVIOUS USERS WHEN NEW USER IS SAVED 
 
 class UserProfile extends Component {
   constructor(props) {
@@ -38,8 +38,7 @@ class UserProfile extends Component {
       },
       uploadedImage: null,
       status: "",
-      // profileLoading: false,
-      // statusLoading: false,
+   
     };
     this.imageUploader = createRef();
   }
@@ -121,18 +120,15 @@ class UserProfile extends Component {
 
   submitProfileHandler = (event) => {
     event.preventDefault();
-    // this.setState({ profileLoading: true });
-    const formData = {
+    const userProfile = {
       userId: this.props.userId,
       name: this.state.formInputs.name.value,
       age: this.state.formInputs.age.value,
       location: this.state.formInputs.location.value,
       uploadedImage: this.state.uploadedImage,
     };
-    this.props.onProfileSubmit(formData, this.props.authToken);
-    // setTimeout(() => {
-    //   this.setState({ profileLoading: false });
-    // }, 1500);
+    this.props.onProfileSubmit(userProfile, this.props.authToken);
+  
   };
 
   statusChangeHandler = (event) => {
@@ -145,7 +141,6 @@ class UserProfile extends Component {
 
   statusSubmitHandler = (event) => {
     event.preventDefault();
-    // this.setState({ statusLoading: true });
     const statusInfo = {
       status: this.state.status,
       userId: this.props.userId,
@@ -153,9 +148,6 @@ class UserProfile extends Component {
       dateTime: new Date(),
     };
     this.props.onStatusUpdate(this.props.authToken, statusInfo);
-    // setTimeout(() => {
-    //   this.setState({ statusLoading: false });
-    // }, 1500);
   };
 
   render() {
@@ -252,8 +244,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onProfileSubmit: (formData, authToken) =>
-      dispatch(actions.storeProfileAttempt(formData, authToken)),
+    onProfileSubmit: (userProfile, authToken) =>
+      dispatch(actions.storeProfileAttempt(userProfile, authToken)),
     onFetchProfile: (userId, authToken) =>
       dispatch(actions.fetchProfileAttempt(userId, authToken)),
     onStatusUpdate: (authToken, statusInfo) =>
