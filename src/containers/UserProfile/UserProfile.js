@@ -128,7 +128,6 @@ class UserProfile extends Component {
       uploadedImage: this.state.uploadedImage,
     };
     this.props.onProfileSubmit(userProfile, this.props.authToken);
-  
   };
 
   statusChangeHandler = (event) => {

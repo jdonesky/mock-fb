@@ -1,12 +1,11 @@
 import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
 
-
 const updateProfileInit = () => {
   return {
-    type: actionTypes.UPDATE_PROFILE_INIT
-  }
-}
+    type: actionTypes.UPDATE_PROFILE_INIT,
+  };
+};
 
 const storeProfileSuccess = (userProfile) => {
   return {
@@ -24,28 +23,28 @@ const storeProfileFail = (error) => {
 
 export const storeProfileAttempt = (userProfile, authToken) => {
   return (dispatch) => {
-    dispatch(updateProfileInit())
-    console.log(userProfile)
-    const queryParams = "?auth=" + authToken;
-    axios
-      .delete("/users.json" + queryParams, {
-        params: { id: userProfile.userId },
-      })
-      .then((response) => {
-        axios
-          .post("/users.json" + queryParams, userProfile)
-          .then((response) => {
-            console.log(response)
-            dispatch(storeProfileSuccess(userProfile));
-          })
-          .catch((err) => {
-            console.log(err)
-            dispatch(storeProfileFail(err));
-          });
-      });
+    dispatch(updateProfileInit());
+    console.log(userProfile);
+    const deleteParams = `/${userProfile.userId}/?auth=${authToken}`;
+    const postParams = `?auth=${authToken}`
+    // axios
+    //   .delete("/users.json" + queryParams, {
+    //     params: { id: userProfile.userId },
+    //   })
+    axios.delete("/users.json" + deleteParams).then((response) => {
+      axios
+        .post("/users.json" + postParams, userProfile)
+        .then((response) => {
+          console.log(response);
+          dispatch(storeProfileSuccess(userProfile));
+        })
+        .catch((err) => {
+          console.log(err);
+          dispatch(storeProfileFail(err));
+        });
+    });
   };
 };
-
 
 const fetchProfileSuccess = (userData) => {
   return {
@@ -63,13 +62,12 @@ const fetchProfileFail = (err) => {
 
 export const fetchProfileAttempt = (userId, authToken) => {
   return (dispatch) => {
-    dispatch(updateProfileInit())
+    dispatch(updateProfileInit());
     const queryParams =
       "?auth=" + authToken + '&orderBy="userId"&equalTo="' + userId + '"';
-    axios 
+    axios
       .get("/users.json" + queryParams)
       .then((response) => {
-     
         const userData = Object.keys(response.data).map((key) => {
           return { key: key, ...response.data[key] };
         });
@@ -83,9 +81,9 @@ export const fetchProfileAttempt = (userId, authToken) => {
 
 const statusUpdateInit = () => {
   return {
-    type: actionTypes.STATUS_UPDATE_INIT
-  }
-}
+    type: actionTypes.STATUS_UPDATE_INIT,
+  };
+};
 
 const statusUpdateSuccess = (status) => {
   return {
@@ -103,7 +101,7 @@ const statusUpdateFail = (error) => {
 
 export const statusUpdateAttempt = (authToken, statusInfo) => {
   return (dispatch) => {
-    dispatch(statusUpdateInit())
+    dispatch(statusUpdateInit());
     axios
       .post("/posts.json?auth=" + authToken, statusInfo)
       .then(() => {
@@ -117,6 +115,6 @@ export const statusUpdateAttempt = (authToken, statusInfo) => {
 
 export const clearProfile = () => {
   return {
-    type: actionTypes.CLEAR_PROFILE
-  }
-}
+    type: actionTypes.CLEAR_PROFILE,
+  };
+};
