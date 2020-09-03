@@ -57,7 +57,6 @@ const storeProfileFail = (error) => {
 export const storeProfileAttempt = (userProfile, authToken) => {
   return (dispatch) => {
     dispatch(updateProfileInit());
-
     const postParams = `?auth=${authToken}`;
     const fetchFirebaseKeyParams =
       "?auth=" +
@@ -81,11 +80,9 @@ export const storeProfileAttempt = (userProfile, authToken) => {
           axios
             .post("/users.json" + postParams, userProfile)
             .then((response) => {
-              console.log(response);
               dispatch(storeProfileSuccess(userProfile));
             })
             .catch((err) => {
-              console.log(err);
               dispatch(storeProfileFail(err));
             });
         });
@@ -93,11 +90,9 @@ export const storeProfileAttempt = (userProfile, authToken) => {
         axios
           .post("/users.json" + postParams, userProfile)
           .then((response) => {
-            console.log(response);
             dispatch(storeProfileSuccess(userProfile));
           })
           .catch((err) => {
-            console.log(err);
             dispatch(storeProfileFail(err));
           });
       }
@@ -130,7 +125,6 @@ export const fetchProfileAttempt = (userId, authToken) => {
         const userData = Object.keys(response.data).map((key) => {
           return { key: key, ...response.data[key] };
         });
-        console.log(userData);
         dispatch(fetchProfileSuccess(userData[0]));
       })
       .catch((err) => {

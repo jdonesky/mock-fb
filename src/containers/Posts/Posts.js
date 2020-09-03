@@ -6,6 +6,8 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 
 import classes from './Posts.css'
 import * as actions from "../../store/actions/index";
+import withErrorHandler from '../../hoc/withErrorHandler'
+import axios from '../../axios/db-axios-instance'
 
 class Posts extends Component {
   componentDidMount() {
@@ -59,4 +61,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Posts,axios));

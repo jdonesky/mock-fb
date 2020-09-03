@@ -25,6 +25,7 @@ export const fetchPostsAttempt = (db, userId=null) => {
   return (dispatch) => {
     dispatch(fetchPostsInit());
     let queryUrl = "/" + db + '.json'
+
     if (userId) {
       queryUrl = queryUrl + '?orderBy="userId"&equalTo="' + userId + '"'
     }
@@ -34,6 +35,7 @@ export const fetchPostsAttempt = (db, userId=null) => {
       .map((key) => {
         return { key: key, ...response.data[key] };
       });
+
       dispatch(fetchPostsSuccess(posts));
     })
     .catch(error => {

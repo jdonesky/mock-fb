@@ -1,16 +1,17 @@
 import React, { Component, createRef } from "react";
 import { connect } from "react-redux";
+import { fieldBuilder } from "../../shared/utility";
 import * as actions from "../../store/actions/index";
 import ProfilePlaceholder from "../../assets/images/placeholder-profile-pic.png";
-import { fieldBuilder } from "../../shared/utility";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import withErrorHandler from "../../hoc/withErrorHandler";
+import axios from '../../axios/db-axios-instance'
 
 import classes from "./UserProfile.css";
 
-
-// FIX STORE PROFILE HANDLER - CURRENTLY DELETES PREVIOUS USERS WHEN NEW USER IS SAVED 
+// FIX STORE PROFILE HANDLER - CURRENTLY DELETES PREVIOUS USERS WHEN NEW USER IS SAVED
 
 class UserProfile extends Component {
   constructor(props) {
@@ -39,7 +40,6 @@ class UserProfile extends Component {
       },
       uploadedImage: null,
       status: "",
-   
     };
     this.imageUploader = createRef();
   }
@@ -70,9 +70,14 @@ class UserProfile extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) { 
+  componentDidUpdate(prevProps, prevState) {
     // console.log('[userProfile] - componentDidUpdate', prevProps, prevState)
-    if ( this.props.name !== prevProps.name || this.props.age !== prevProps.age || this.props.location !== prevProps.location || this.props.profileImage !== prevProps.profileImage) {
+    if (
+      this.props.name !== prevProps.name ||
+      this.props.age !== prevProps.age ||
+      this.props.location !== prevProps.location ||
+      this.props.profileImage !== prevProps.profileImage
+    ) {
       this.setState({
         uploadedImage: this.props.profileImage,
         status: this.props.status,
@@ -255,4 +260,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(UserProfile, axios));
