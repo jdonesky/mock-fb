@@ -5,9 +5,9 @@ const initialState = {
   name: null,
   age: null,
   location: null,
-  firebaseKey: null,
   status: null,
   error: null,
+  firebaseKey: null,
   fetched: false,
   profileLoading: false,
   statusLoading: false

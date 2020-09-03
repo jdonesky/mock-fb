@@ -16,6 +16,10 @@ const AsyncFriends = asyncComponent(() => {
   return import("./containers/Friends/Friends");
 });
 
+const AsyncSearch = asyncComponent(() => {
+  return import ("./containers/Search/Search")
+})
+
 const AsyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
 });
@@ -43,6 +47,7 @@ class App extends Component {
         <Route path="/user-profile" component={AsyncUserProfile} />
         <Route path="/friends" component={AsyncFriends} />
         <Route path="/logout" component={AsyncLogout} />
+        <Route path="/search-users" component={AsyncSearch}/>
         <Route component={AsyncPosts} />
       </Switch>
     );

@@ -9,17 +9,17 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
 import authReducer from "./store/reducers/auth";
-// import userReducer from "./store/reducers/user";
-// import friendsReducer from "./store/reducers/friends";
 import profileReducer from "./store/reducers/profile";
 import postsReducer from "./store/reducers/posts";
+import usersReducer from "./store/reducers/users";
+import friendsReducer from "./store/reducers/friends";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  // user: userReducer,
-  // friends: friendsReducer,
   profile: profileReducer,
   posts: postsReducer,
+  users: usersReducer,
+  friends: friendsReducer,
 });
 
 const composeEnhancers =

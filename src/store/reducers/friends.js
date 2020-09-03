@@ -1,16 +1,13 @@
-// import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  friends: [],
-  loading: false,
-  error: null,
-};
+    userId: null,
+    friends: [],
+    friendRequests: [],
+}
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
-
-export default reducer;
+const reducer = (state,action) => {
+    switch (action.type) {
+        default: 
+        return state
+    }
+}

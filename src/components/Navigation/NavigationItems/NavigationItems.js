@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
 import NavigationItem from "./NavigationItem/NavigationItem";
+
 import classes from "./NavigationItems.css";
 
 const navigationItems = (props) => {
@@ -14,11 +18,12 @@ const navigationItems = (props) => {
   );
   const authenticatedRoutes = (
     <ul className={classes.NavigationItems}>
+      <NavigationItem link="/search-users">
+        <FontAwesomeIcon icon={faSearch} />
+      </NavigationItem>
       <NavigationItem exact link="/">
         Home
       </NavigationItem>
-      <i class="fas fa-search"></i>
-
       <NavigationItem link="/friends">Friends</NavigationItem>
       <NavigationItem link="/user-profile">Profile</NavigationItem>
       <NavigationItem link="/logout">Sign Out</NavigationItem>
