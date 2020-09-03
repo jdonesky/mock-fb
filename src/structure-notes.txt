@@ -1,0 +1,40 @@
+
+
+To Do: 
+--------
+
+> Add "friending" for each user ? 
+ -------------------
+ Q: Where do you store all users? 
+ A: firebase 
+
+ Q: Where do you display all users 
+ A: new container, SearchUsers 
+ 
+ Q: should all users be accessible to authenticated users ?
+ A: yes, but only name and profile picture.  no location, age, etc
+   filter all other user details from profiles when fetching the data 
+   in the componentdidMount of the SearchUsers container 
+
+ Q: how will you store friends and friend requests
+ A: create a friend requests array and a friends array attached to each user profile
+    each will contain an object with the sender and recipient userId
+
+ Q: how do you allow users to friend someone? 
+ A: create click handler on the user component which will pop up a 'friend request'
+    modal in the SearchUsers container and a 'message friend' modal for users
+    mapped in the Friends container
+
+> Add a searchbar  ?
+ -------------------
+ Q: Where do you want to filter? 
+ A: In the search component. Retrieve all users (limited profiles) 
+   and display in list in search container. Then filter via the search bar
+
+
+> Add messaging  ?
+-----------------
+ Q: Where/how? 
+ A: Option to send message with friend requests
+    Add click handler on friend components in Friends container  
+    to pop up modal with message option

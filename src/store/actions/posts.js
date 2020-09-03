@@ -25,7 +25,6 @@ export const fetchPostsAttempt = (db, userId=null) => {
   return (dispatch) => {
     dispatch(fetchPostsInit());
     let queryUrl = "/" + db + '.json'
-
     if (userId) {
       queryUrl = queryUrl + '?orderBy="userId"&equalTo="' + userId + '"'
     }

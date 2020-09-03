@@ -11,3 +11,14 @@
   }
   
   
+.ImageContainer {
+  height: 10%;
+  width: 10%;
+  border: 1px solid black;
+  border-radius: 100px;
+}
+
+.ImageContainer img {
+  height: 100%;
+  width: 100%;
+}

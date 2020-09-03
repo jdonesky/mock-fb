@@ -17,6 +17,8 @@ const navigationItems = (props) => {
       <NavigationItem exact link="/">
         Home
       </NavigationItem>
+      <i class="fas fa-search"></i>
+
       <NavigationItem link="/friends">Friends</NavigationItem>
       <NavigationItem link="/user-profile">Profile</NavigationItem>
       <NavigationItem link="/logout">Sign Out</NavigationItem>

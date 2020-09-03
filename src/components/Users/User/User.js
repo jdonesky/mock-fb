@@ -1,13 +1,14 @@
-import React from 'react'
-import classes from './User.css'
+import React from "react";
+import classes from "./User.css";
 
-
-const user = props => {
-    return (
-        <div className={classes.User}>
-            <img src={props.userImage} />
-        </div>
-    )
-}
+const user = (props) => {
+  return (
+    <div className={classes.User}>
+      <div className={classes.ImageContainer}>
+        <img src={props.userImage} />
+      </div>
+    </div>
+  );
+};
 
 export default user;
