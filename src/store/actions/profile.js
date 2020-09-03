@@ -21,27 +21,86 @@ const storeProfileFail = (error) => {
   };
 };
 
+// export const storeProfileAttempt = (userProfile, authToken) => {
+//   return (dispatch) => {
+//     dispatch(updateProfileInit());
+//     const fetchFirebaseKeyParams =
+//       "?auth=" +
+//       authToken +
+//       '&orderBy="userId"&equalTo="' +
+//       userProfile.userId +
+//       '"';
+//     axios.get("/users.json" + fetchFirebaseKeyParams).then((response) => {
+//       let matchingKey = Object.keys(response.data).map((key) => {
+//         return key;
+//       });
+//       console.log(matchingKey[0]);
+//       matchingKey = matchingKey[0]
+//       console.log(matchingKey)
+//       if (matchingKey) {
+//         const patchParams = `/${matchingKey[0]}.json/?auth=${authToken}`;
+//         // const deleteParams = `/${matchingKey}.json/?auth=${authToken}`;
+//         // axios.delete("/users" + deleteParams).then((response) => {
+//         axios
+//           .patch("/users" + patchParams, userProfile)
+//           .then((response) => {
+//             dispatch(storeProfileSuccess(userProfile));
+//           })
+//           .catch((error) => {
+//             dispatch(storeProfileFail(error));
+//           });
+//       }
+//     });
+//   };
+// };
+
 export const storeProfileAttempt = (userProfile, authToken) => {
   return (dispatch) => {
     dispatch(updateProfileInit());
-    console.log(userProfile);
-    const deleteParams = `/${userProfile.userId}/?auth=${authToken}`;
-    const postParams = `?auth=${authToken}`
-    // axios
-    //   .delete("/users.json" + queryParams, {
-    //     params: { id: userProfile.userId },
-    //   })
-    axios.delete("/users.json" + deleteParams).then((response) => {
-      axios
-        .post("/users.json" + postParams, userProfile)
-        .then((response) => {
-          console.log(response);
-          dispatch(storeProfileSuccess(userProfile));
-        })
-        .catch((err) => {
-          console.log(err);
-          dispatch(storeProfileFail(err));
+
+    const postParams = `?auth=${authToken}`;
+    const fetchFirebaseKeyParams =
+      "?auth=" +
+      authToken +
+      '&orderBy="userId"&equalTo="' +
+      userProfile.userId +
+      '"';
+    axios.get("/users.json" + fetchFirebaseKeyParams).then((response) => {
+      const matchingKey = Object.keys(response.data).map((key) => {
+        return key;
+      });
+      console.log(matchingKey[0]);
+      if (matchingKey[0]) {
+        const deleteParams = `/${matchingKey[0]}.json/?auth=${authToken}`;
+        axios.delete("/users" + deleteParams).then((response) => {
+          // axios
+          //   .delete("/users.json" + postParams, {
+          //     users: { id: matchingKey[0] },
+          //   })
+          //   .then((response) => {
+          axios
+            .post("/users.json" + postParams, userProfile)
+            .then((response) => {
+              console.log(response);
+              dispatch(storeProfileSuccess(userProfile));
+            })
+            .catch((err) => {
+              console.log(err);
+              dispatch(storeProfileFail(err));
+            });
         });
+      } else {
+        axios
+          .post("/users.json" + postParams, userProfile)
+          .then((response) => {
+            console.log(response);
+            dispatch(storeProfileSuccess(userProfile));
+          })
+          .catch((err) => {
+            console.log(err);
+            dispatch(storeProfileFail(err));
+          });
+      }
     });
   };
 };
@@ -71,9 +130,11 @@ export const fetchProfileAttempt = (userId, authToken) => {
         const userData = Object.keys(response.data).map((key) => {
           return { key: key, ...response.data[key] };
         });
+        console.log(userData);
         dispatch(fetchProfileSuccess(userData[0]));
       })
       .catch((err) => {
+        console.log(err);
         dispatch(fetchProfileFail(err));
       });
   };

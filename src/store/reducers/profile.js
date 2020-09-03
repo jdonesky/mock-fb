@@ -5,6 +5,7 @@ const initialState = {
   name: null,
   age: null,
   location: null,
+  firebaseKey: null,
   status: null,
   error: null,
   fetched: false,
@@ -46,6 +47,7 @@ const fetchProfileSuccess = (state, action) => {
     name: action.userData.name,
     age: action.userData.age,
     location: action.userData.location,
+    firebaseKey: action.userData.key,
     profileLoading: false,
     fetched: true,
   };

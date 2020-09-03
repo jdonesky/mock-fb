@@ -9,6 +9,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 
 import classes from "./UserProfile.css";
 
+
 // FIX STORE PROFILE HANDLER - CURRENTLY DELETES PREVIOUS USERS WHEN NEW USER IS SAVED 
 
 class UserProfile extends Component {
@@ -122,6 +123,7 @@ class UserProfile extends Component {
     event.preventDefault();
     const userProfile = {
       userId: this.props.userId,
+      key: this.props.key,
       name: this.state.formInputs.name.value,
       age: this.state.formInputs.age.value,
       location: this.state.formInputs.location.value,
@@ -230,6 +232,7 @@ const mapStateToProps = (state) => {
   return {
     userId: state.auth.userId,
     authToken: state.auth.token,
+    key: state.profile.firebaseKey,
     profileImage: state.profile.profileImage,
     name: state.profile.name,
     age: state.profile.age,
