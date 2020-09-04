@@ -18,11 +18,13 @@ class Search extends Component {
       false
     ),
     users: [],
+    // filteredUsers: []  / < how to handle backspaces / repopulate users/ widen search again
   };
   componentDidMount() {
     this.props.onFetchUsers(this.props.authToken);
     this.setState({
       users: this.props.users,
+    //   filteredUsers: this.props.users
     });
   }
 
@@ -41,6 +43,7 @@ class Search extends Component {
     this.setState({
       searchUserName: "",
       users: [],
+    //   filteredUsers: []
     });
   }
 
