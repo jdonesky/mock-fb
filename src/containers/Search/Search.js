@@ -24,7 +24,6 @@ class Search extends Component {
     this.props.onFetchUsers(this.props.authToken);
     this.setState({
       users: this.props.users,
-    //   filteredUsers: this.props.users
     });
   }
 
@@ -35,15 +34,13 @@ class Search extends Component {
 //       // or just compare length? 
   //   }
 
-
   componentWillUnmount() {
-    //   memory leak?
-    // how to cancel connection to redux actions when unmounting ?
+    //   memory leak? Its trying to update users when component is unmounted
+    // how to cancel fetch action when unmounting ?
     console.log('Search component Unmounting, clearing local state')
     this.setState({
       searchUserName: "",
       users: [],
-    //   filteredUsers: []
     });
   }
 

@@ -3,6 +3,11 @@ import classes from "./Input.css";
 
 const input = (props) => {
   let inputElement = null;
+  const inputClasses = [classes.InputElement];
+
+  if (props.invalid && props.touched) {
+    inputClasses.push(classes.Invalid);
+  }
 
   switch (props.elementType) {
     case "input":
@@ -10,11 +15,11 @@ const input = (props) => {
         <input
           value={props.value}
           type={props.type}
-          // invalid={!props.valid}
+          invalid={!props.valid}
           touched={props.touched}
           placeholder={props.placeholder}
           onChange={props.changed}
-          className={classes.InputElement}
+          className={inputClasses.join(" ")}
         />
       );
       break;
@@ -25,7 +30,7 @@ const input = (props) => {
 
   return (
     <div className={classes.Input}>
-      <label className={classes.Label}>{props.label || null}</label>
+      {/* <label className={classes.Label}>{props.label || null}</label> */}
       {inputElement}
     </div>
   );

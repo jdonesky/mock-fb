@@ -18,3 +18,8 @@
   font-weight: bold;
   display: block;
 }
+
+.Invalid {
+  border: 1px solid red;
+  background: #FDA49A;
+}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { fieldBuilder } from "../../shared/utility";
+import { fieldBuilder, validityCheck } from "../../shared/utility";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Modal from "../../components/UI/Modal/Modal";
@@ -18,7 +18,7 @@ class Auth extends Component {
         "text",
         "email",
         "",
-        { required: true },
+        { required: true, isEmail: true },
         false,
         false
       ),
@@ -27,7 +27,7 @@ class Auth extends Component {
         "text",
         "password",
         "",
-        { required: true },
+        { required: true, minLength: 6 },
         false,
         false
       ),
@@ -40,6 +40,8 @@ class Auth extends Component {
   changeHandler = (event, key) => {
     const updatedFormInput = { ...this.state.formInputs[key] };
     updatedFormInput.value = event.target.value;
+    updatedFormInput.valid = validityCheck(updatedFormInput.value, updatedFormInput.validation )
+    updatedFormInput.touched = true
     const updatedInputs = { ...this.state.formInputs };
     updatedInputs[key] = updatedFormInput;
     this.setState({
@@ -77,11 +79,13 @@ class Auth extends Component {
     let formFields = Object.keys(this.state.formInputs).map((key) => (
       <Input
         key={key}
-        value={this.state.formInputs[key].value}
-        placeholder={this.state.formInputs[key].elementConfig.placeholder}
-        inputType={this.state.formInputs[key].elementConfig.inputType}
         elementType={this.state.formInputs[key].elementType}
+        inputType={this.state.formInputs[key].elementConfig.inputType}
+        placeholder={this.state.formInputs[key].elementConfig.placeholder}
+        value={this.state.formInputs[key].value}
+        touched={this.state.formInputs[key].touched}
         changed={(event) => this.changeHandler(event, key)}
+        invalid={!this.state.formInputs[key].valid}
       />
     ));
 
