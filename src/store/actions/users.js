@@ -20,9 +20,17 @@ const fetchUsersFail = (error) => {
     error: error,
   };
 };
+
 export const fetchUsersAttempt = (authToken) => {
   return (dispatch) => {
     dispatch(fetchUsersInit());
-    axios.get("/users.json?auth=" + authToken);
+    axios.get("/users.json?auth=" + authToken)
+    .then(response => {
+        console.log(response.data)
+        dispatch(fetchUsersSuccess(response.data))
+    })
+    .catch(error => {
+        dispatch(fetchUsersFail(error))
+    })
   };
 };

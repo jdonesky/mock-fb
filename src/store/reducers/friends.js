@@ -4,9 +4,11 @@ const initialState = {
   friendRequests: [],
 };
 
-const reducer = (state, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     default:
       return state;
   }
 };
+
+export default reducer;

@@ -1,3 +1,9 @@
+export { 
+   authAttempt, 
+   autoSignIn, 
+   authLogout 
+} from "./auth";
+
 export {
   fetchProfileAttempt,
   storeProfileAttempt,
@@ -6,11 +12,9 @@ export {
 } from "./profile";
 
 export { 
-   authAttempt, 
-   autoSignIn, 
-   authLogout 
-} from "./auth";
-
-export { 
    fetchPostsAttempt 
 } from "./posts";
+
+export {
+   fetchUsersAttempt
+} from "./users"
