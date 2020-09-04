@@ -1,5 +1,6 @@
 export { 
    authAttempt, 
+   authResetError,
    autoSignIn, 
    authLogout 
 } from "./auth";

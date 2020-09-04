@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { fieldBuilder } from "../../shared/utility";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
-import { fieldBuilder } from "../../shared/utility";
+import Modal from "../../components/UI/Modal/Modal";
+
 import * as actions from "../../store/actions/index";
 
 import classes from "./Auth.css";
@@ -32,6 +34,7 @@ class Auth extends Component {
     },
     isSignup: false,
     formIsValid: false,
+    authError: null
   };
 
   changeHandler = (event, key) => {
@@ -66,6 +69,10 @@ class Auth extends Component {
     });
   };
 
+  confirmErrorHandler = () => {
+    this.props.onResetError();
+  };
+
   render() {
     let formFields = Object.keys(this.state.formInputs).map((key) => (
       <Input
@@ -84,9 +91,16 @@ class Auth extends Component {
       <Redirect to="/" />
     ) : null;
 
+    let errorModal = (
+      <Modal show={this.props.error} close={this.confirmErrorHandler}>
+        {this.props.error ? this.props.error : null}
+      </Modal>
+    );
+
     return (
       <div>
         {onAuthRedirect}
+        {errorModal}
         {this.state.isSignup ? form : <div style={{ height: "110px" }}></div>}
         <div className={classes.SwitchMode}>
           <Button
@@ -109,6 +123,7 @@ class Auth extends Component {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
+    error: state.auth.error,
   };
 };
 
@@ -116,6 +131,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAuthSubmit: (email, password, isSignup) =>
       dispatch(actions.authAttempt(email, password, isSignup)),
+    onResetError: () => dispatch(actions.authResetError())
   };
 };
 

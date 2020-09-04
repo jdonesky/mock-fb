@@ -2,9 +2,9 @@ import * as actionTypes from "./actionTypes";
 import axiosSignIn from "../../axios/signin-axios-instance";
 import axiosSignUp from "../../axios/signup-axios-instance";
 
-const authStart = () => {
+const authInit = () => {
   return {
-    type: actionTypes.AUTH_START,
+    type: actionTypes.AUTH_INIT,
   };
 };
 
@@ -16,12 +16,18 @@ const authSuccess = (token, userId) => {
   };
 };
 
-const authFail = (err) => {
+const authFail = (error) => {
   return {
     type: actionTypes.AUTH_FAIL,
-    error: err,
+    error: error,
   };
 };
+
+export const authResetError = () => { 
+  return {
+    type: actionTypes.AUTH_RESET_ERROR
+  }
+}
 
 export const authLogout = () => {
   localStorage.removeItem("authToken");
@@ -42,7 +48,7 @@ const checkAuthTimeout = (expirationTime) => {
 
 export const authAttempt = (email, password, isSignUp) => {
   return (dispatch) => {
-    dispatch(authStart());
+    dispatch(authInit());
     const axiosInstance = isSignUp ? axiosSignUp : axiosSignIn;
     const apiKey = "AIzaSyB5W7ME3bM5KwuPgpS1LKprmx4N_ePIgJQ";
     const authData = {
@@ -56,7 +62,7 @@ export const authAttempt = (email, password, isSignUp) => {
         const token = response.data.idToken;
         const userId = response.data.localId;
         const expirationTime = response.data.expiresIn;
-
+ 
         const expirationDate = new Date(
           new Date().getTime() + expirationTime * 1000
         );
@@ -68,8 +74,9 @@ export const authAttempt = (email, password, isSignUp) => {
         dispatch(authSuccess(token, userId));
         dispatch(checkAuthTimeout(expirationTime));
       })
-      .catch((err) => {
-        dispatch(authFail(err));
+      .catch((error) => {
+        console.log('[authAttempt] Error : ', error.response.data.error)
+        dispatch(authFail(error.response.data.error));
       });
   };
 };

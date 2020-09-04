@@ -7,14 +7,14 @@ const initialState = {
   error: null,
 };
 
-const authStart = (state, action) => {
+const authInit = (state, action) => {
   return {
     ...state,
     loading: true,
   };
 };
 
-const authSuccess = (state,action) => {
+const authSuccess = (state,action) => { 
   return {
     ...state,
     token: action.token,
@@ -26,10 +26,17 @@ const authSuccess = (state,action) => {
 const authFail = (state,action) => {
   return {
     ...state,
-    error: action.err,
+    error: action.error.message,
     loading: false,
   };
 };
+
+const authResetError = (state,action) => {
+  return {
+    ...state,
+    error: null
+  }
+}
 
 const authLogout = (state,action) => {
   return {
@@ -42,9 +49,10 @@ const authLogout = (state,action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.AUTH_START: return authStart(state, action);
+    case actionTypes.AUTH_INIT: return authInit(state, action);
     case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
     case actionTypes.AUTH_FAIL: return authFail(state, action);
+    case actionTypes.AUTH_RESET_ERROR: return authResetError(state,action);
     case actionTypes.AUTH_LOGOUT: return authLogout(state,action);
     default:
       return state;
