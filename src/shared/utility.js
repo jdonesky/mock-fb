@@ -3,11 +3,11 @@ export const fieldBuilder = (
   inputType,
   placeholder,
   value,
-  validation,
+  validation, 
   valid,
   touched
 ) => {
-  return {
+  return { 
     elementType: elType,
     elementConfig: {
       type: inputType,

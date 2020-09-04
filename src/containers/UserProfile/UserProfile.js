@@ -11,7 +11,6 @@ import axios from '../../axios/db-axios-instance'
 
 import classes from "./UserProfile.css";
 
-// FIX STORE PROFILE HANDLER - CURRENTLY DELETES PREVIOUS USERS WHEN NEW USER IS SAVED
 
 class UserProfile extends Component {
   constructor(props) {
