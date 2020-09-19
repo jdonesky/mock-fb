@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,6 +9,7 @@ import NavigationItem from "./NavigationItem/NavigationItem";
 import classes from "./NavigationItems.css";
 
 const navigationItems = (props) => {
+
   const defaultRoutes = (
     <ul className={classes.NavigationItems}>
       <NavigationItem exact link="/">
@@ -37,4 +39,4 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.token !== null,
   };
 };
-export default connect(mapStateToProps)(navigationItems);
+export default connect(mapStateToProps)(withRouter(navigationItems));

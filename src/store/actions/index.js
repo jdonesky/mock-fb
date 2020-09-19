@@ -19,3 +19,7 @@ export {
 export {
    fetchUsersAttempt
 } from "./users"
+
+export {
+   fetchFriendsAttempt
+} from "./friends"

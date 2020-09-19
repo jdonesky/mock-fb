@@ -6,6 +6,7 @@ import Logo from "../../UI/Logo/Logo";
 import classes from "./Toolbar.css";
 
 const toolbar = (props) => {
+
   return (
     <header className={classes.Toolbar}>
       <div onClick={() => props.history.push('/')} className={classes.Logo}>

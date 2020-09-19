@@ -1,21 +1,36 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
+import User from '../../components/Users/User/User'
+import Spinner from '../../components/UI/Spinner/Spinner'
 
-// import * as actions from '../../store/actions/index'
+import * as actions from '../../store/actions/index'
 
 
 class Friends extends Component {
 
-  componentDidMount() {
 
+  componentDidMount() {
+    this.props.onFetchFriends(this.props.userId, this.props.authToken)
   }
 
+
   render() {
+
+    let friends;
+
+    if (this.props.loading) {
+      friends = <Spinner />;
+    }
+
+    if (this.props.friends) {
+        friends = this.props.friends.map(friend => {
+          return <User name={friend.name} userImage={friend.uploadedImage} />
+        })
+    }
+
     return (
       <div>
-        <ul>
-          <div>USERS</div>
-        </ul>
+        {friends}
       </div>
     );
   }
@@ -24,16 +39,15 @@ class Friends extends Component {
 const mapStateToProps = state => {
   return {
     userId: state.auth.userId,
-    usersLoading: state.users.usersLoading,
-    clickProcessing: state.users.clickProcessing,
-    error: state.users.error
+    authToken: state.auth.token,
+    friends: state.friends.friends,
+    loading: state.friends.loading
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onMessageSent: (message) => dispatch(),
-    onUnfriend: () => dispatch()
+    onFetchFriends : (userId, authToken) => dispatch(actions.fetchFriendsAttempt(userId,authToken))
   }
 }
 

@@ -27,6 +27,7 @@ const AsyncLogout = asyncComponent(() => {
   return import("./containers/Logout/Logout");
 });
 
+
 class App extends Component {
   componentDidMount() {
     this.props.onReloadApp();
