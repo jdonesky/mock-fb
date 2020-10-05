@@ -3,11 +3,11 @@
   height: 150px;
   position: sticky;
   top: 10%;
-  margin: 16px 0;
+  margin: 16px auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 6px;
-  width: 80%;
+  width: 40%;
   border: 1px solid #ccd;
   border-radius: 10px;
   box-shadow: 2px 3px 2px #b8b5b5;
@@ -16,9 +16,8 @@
 }
   
 .ImageContainer {
-  height: 60%;
   display: flex;
-  width: 10%;
+  width:40%;
   border: 1px solid black;
   border-radius: 100px;
   overflow: hidden;

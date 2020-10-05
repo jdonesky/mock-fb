@@ -45,7 +45,6 @@ class UserProfile extends Component {
 
   componentDidMount() {
     this.props.onFetchProfile(this.props.userId, this.props.authToken);
-    // console.log('[userProfile] - componentDidMount', this.props.name)
     if (this.props.fetched) {
       this.setState({
         uploadedImage: this.props.profileImage,

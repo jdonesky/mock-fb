@@ -68,6 +68,7 @@ export const storeProfileAttempt = (userProfile, authToken) => {
       const matchingKey = Object.keys(response.data).map((key) => {
         return key;
       });
+      console.log(matchingKey)
       console.log(matchingKey[0]);
       if (matchingKey[0]) {
         const deleteParams = `/${matchingKey[0]}.json/?auth=${authToken}`;
@@ -119,6 +120,7 @@ export const fetchProfileAttempt = (userId, authToken) => {
     dispatch(updateProfileInit());
     const queryParams =
       "?auth=" + authToken + '&orderBy="userId"&equalTo="' + userId + '"';
+    console.log("/users.json" + queryParams)
     axios
       .get("/users.json" + queryParams)
       .then((response) => {
@@ -173,3 +175,4 @@ export const clearProfile = () => {
     type: actionTypes.CLEAR_PROFILE,
   };
 };
+
