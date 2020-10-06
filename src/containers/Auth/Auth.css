@@ -1,6 +1,72 @@
-.SwitchMode {
-    margin: 30px;
+
+
+.Form {
+    width: 80%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
     display: flex;
     flex-flow: column;
     justify-content: space-between;
+    align-content: flex-start;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px 2px rgba(0,0,0,0.2)
 }
+
+.Form h1 {
+    margin: 0;
+}
+
+.Form p {
+    margin: 0 0 5px;
+    font-weight: 100;
+}
+
+.Form input {
+    width: 27rem;
+    border-radius: 7px;
+}
+
+.LoginButton {
+    margin: 10px auto;
+    width: 93%;
+    height: 3rem;
+    background: #1665f7;
+    color: white;
+    font-size: 20px;
+    border:none;
+    border-radius: 10px;
+}
+
+.LoginButton:hover {
+    background: #155fe8;
+    cursor: pointer;
+}
+
+.SignUpButton {
+    margin: 10px auto;
+    width: 45%;
+    height: 3rem;
+    background: #23a84d;
+    color: white;
+    font-size: 18px;
+    border:none;
+    border-radius: 10px;
+}
+
+.SignUpButton:hover {
+    background: #219646;
+    cursor: pointer;
+}
+
+.Break {
+    height: 1px;
+    width: 80%;
+    background: #b8b5b5;
+    margin: 5px auto;
+}
+
+
+

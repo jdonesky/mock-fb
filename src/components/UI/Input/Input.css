@@ -1,17 +1,22 @@
 .Input {
-  width: 40%;
-  margin: 25px auto;
-  box-sizing: border-box;
-  border-bottom: 2px solid #ccc;
+  width: 100%;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .InputElement {
-  display: block;
+  border: 1px solid #b8b5b5;
+  font-size: 16px;
   height: 30px;
-  width: 90%;
+  width: 100%;
   margin: 4px auto;
-  border: none;
-  text-align: center;
+  padding: 5px;
+}
+
+
+.InputElement::placeholder {
+  color: #b8b5b5;
+  font-size: 16px;
 }
 
 .Label {
@@ -20,6 +25,7 @@
 }
 
 .Invalid {
-  border: 1px solid red;
-  background: #FDA49A;
+  border: 1px solid #a51515;
+  border-radius: 5px;
 }
+

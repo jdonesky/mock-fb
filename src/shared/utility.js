@@ -42,3 +42,5 @@ export const validityCheck = (value, rules) => {
 
   return isValid
 }
+
+

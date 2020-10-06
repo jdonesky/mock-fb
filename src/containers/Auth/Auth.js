@@ -1,22 +1,20 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { fieldBuilder, validityCheck } from "../../shared/utility";
 import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button";
 import Modal from "../../components/UI/Modal/Modal";
-
 import * as actions from "../../store/actions/index";
-
 import classes from "./Auth.css";
 
-class Auth extends Component {
-  state = {
-    formInputs: {
+
+const auth = props => {
+  const [formInputs, setFormInputs] = useState(
+      {
       email: fieldBuilder(
         "input",
         "text",
-        "email",
+        "Email",
         "",
         { required: true, isEmail: true },
         false,
@@ -25,103 +23,88 @@ class Auth extends Component {
       password: fieldBuilder(
         "input",
         "text",
-        "password",
+        "Password",
         "",
         { required: true, minLength: 6 },
         false,
         false
       ),
-    },
-    isSignup: false,
-    formIsValid: false,
-    authError: null
-  };
+    })
 
-  changeHandler = (event, key) => {
-    const updatedFormInput = { ...this.state.formInputs[key] };
+  const [formIsValid, setFormIsValid] = useState(true);
+  const [error, setError] = useState(null)
+
+
+  const changeHandler = (event, key) => {
+    const updatedFormInput = { ...formInputs[key] };
     updatedFormInput.value = event.target.value;
     updatedFormInput.valid = validityCheck(updatedFormInput.value, updatedFormInput.validation )
     updatedFormInput.touched = true
-    const updatedInputs = { ...this.state.formInputs };
+    const updatedInputs = { ...formInputs };
     updatedInputs[key] = updatedFormInput;
-    this.setState({
-      formInputs: updatedInputs,
-    });
+    setFormInputs(updatedInputs)
+
+    let formIsValid = true;
+    for (let input in formInputs) {
+      formIsValid = updatedFormInput.valid && formIsValid
+    }
+    setFormIsValid(formIsValid)
   };
 
-  authSubmitHandler = (event) => {
+  const authSubmitHandler = (event) => {
     event.preventDefault();
-    const authData = {
-      email: this.state.formInputs.email.value,
-      password: this.state.formInputs.password.value,
-      isSignup: this.state.isSignup,
-    };
-    this.props.onAuthSubmit(
-      authData.email,
-      authData.password,
-      authData.isSignup
+    props.onAuthSubmit(
+        formInputs.email.value,
+        formInputs.password.value,
+        false
     );
   };
 
-  switchModeHandler = () => {
-    this.setState((prevState) => {
-      return {
-        isSignup: !prevState.isSignup,
-      };
-    });
+  const switchModeHandler = () => {
+    props.history.push('/sign-up')
   };
 
-  confirmErrorHandler = () => {
-    this.props.onResetError();
+  const confirmErrorHandler = () => {
+    props.onResetError();
   };
 
-  render() {
-    let formFields = Object.keys(this.state.formInputs).map((key) => (
+
+    let formFields = Object.keys(formInputs).map((key) => (
       <Input
         key={key}
-        elementType={this.state.formInputs[key].elementType}
-        inputType={this.state.formInputs[key].elementConfig.inputType}
-        placeholder={this.state.formInputs[key].elementConfig.placeholder}
-        value={this.state.formInputs[key].value}
-        touched={this.state.formInputs[key].touched}
-        changed={(event) => this.changeHandler(event, key)}
-        invalid={!this.state.formInputs[key].valid}
+        elementType={formInputs[key].elementType}
+        inputType={formInputs[key].elementConfig.inputType}
+        placeholder={formInputs[key].elementConfig.placeholder}
+        value={formInputs[key].value}
+        touched={formInputs[key].touched}
+        changed={(event) => changeHandler(event, key)}
+        invalid={!formInputs[key].valid}
       />
     ));
 
-    let form = <form className={classes.Auth}>{formFields}</form>;
-
-    let onAuthRedirect = this.props.isAuthenticated ? (
+    let authRedirect = props.isAuthenticated ? (
       <Redirect to="/" />
     ) : null;
 
-    let errorModal = (
-      <Modal show={this.props.error} close={this.confirmErrorHandler}>
-        {this.props.error ? this.props.error : null}
+    const errorModal = (
+      <Modal show={props.error} close={confirmErrorHandler}>
+        {props.error ? props.error : null}
       </Modal>
     );
 
-    return (
-      <div>
-        {onAuthRedirect}
+  return (
+      <React.Fragment>
+        {authRedirect}
         {errorModal}
-        {this.state.isSignup ? form : <div style={{ height: "110px" }}></div>}
-        <div className={classes.SwitchMode}>
-          <Button
-            clicked={(event) => this.authSubmitHandler(event)}
-            add="Success"
-            // disabled={!this.state.formIsValid}
-          >
-            {this.state.isSignup ? "Sign-Up" : "Sign-In"}
-          </Button>
-          <Button clicked={this.switchModeHandler} add="Neutral">
-            Or {this.state.isSignup ? "Sign-In" : "Sign-Up"}
-          </Button>
-        </div>
-        {!this.state.isSignup ? form : <div style={{ height: "110px" }}></div>}
-      </div>
-    );
-  }
+        <form className={classes.Form} onSubmit={authSubmitHandler}>
+          {formFields}
+          <button className={classes.LoginButton} type="submit" /*disabled={formIsValid} */>Log In</button>
+          <div className={classes.Break}/>
+          <button className={classes.SignUpButton} onClick={switchModeHandler}>Create New Account</button>
+        </form>
+      </React.Fragment>
+  );
+
 }
 
 const mapStateToProps = (state) => {
@@ -139,4 +122,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(auth);

@@ -1,76 +1,87 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+
+import React, {useEffect, Suspense} from "react";
+import {connect} from "react-redux";
+import {Route, Switch} from "react-router-dom";
 import Layout from "./hoc/Layout/Layout";
+import Spinner from './components/UI/Spinner/Spinner'
 import * as actions from "./store/actions/index";
 
-import asyncComponent from "./hoc/asyncComponent";
 
-const AsyncUserProfile = asyncComponent(() => {
-  return import("./containers/UserProfile/UserProfile");
+const AsyncUserProfile = React.lazy(() => {
+    return import("./containers/UserProfile/UserProfile");
 });
-const AsyncPosts = asyncComponent(() => {
-  return import("./containers/Posts/Posts");
+const AsyncPosts = React.lazy(() => {
+    return import("./containers/Posts/Posts");
 });
-const AsyncFriends = asyncComponent(() => {
-  return import("./containers/Friends/Friends");
+const AsyncFriends = React.lazy(() => {
+    return import("./containers/Friends/Friends");
+});
+const AsyncSearch = React.lazy(() => {
+    return import ("./containers/Search/Search")
+})
+const AsyncAuth = React.lazy(() => {
+    return import("./containers/Auth/Auth");
 });
 
-const AsyncSearch = asyncComponent(() => {
-  return import ("./containers/Search/Search")
+const AsyncSignUp = React.lazy(() => {
+    return import("./containers/Auth/SignUp")
 })
 
-const AsyncAuth = asyncComponent(() => {
-  return import("./containers/Auth/Auth");
-});
-const AsyncLogout = asyncComponent(() => {
-  return import("./containers/Logout/Logout");
+const AsyncLogout = React.lazy(() => {
+    return import("./containers/Logout/Logout");
 });
 
 
-class App extends Component {
-  componentDidMount() {
-    this.props.onReloadApp();
-  }
 
-  render() {
-    const defaultRoutes = (
-      <Switch>
-        <Route path="/authentication" component={AsyncAuth} />
-        <Route path="/" component={AsyncPosts} />
-        <Route component={AsyncAuth} />
-      </Switch>
-    );
+const app = (props) => {
 
-    const authenticatedRoutes = (
-      <Switch>
-        <Route path="/authentication" component={AsyncAuth} />
-        <Route path="/user-profile" component={AsyncUserProfile} />
-        <Route path="/friends" component={AsyncFriends} />
-        <Route path="/logout" component={AsyncLogout} />
-        <Route path="/search-users" component={AsyncSearch}/>
-        <Route component={AsyncPosts} />
-      </Switch>
+    useEffect(() => {
+        props.onReloadApp();
+    }, [])
+
+
+
+    let routes = (
+        <Switch>
+            <Route path="/authentication" component={AsyncAuth}/>
+            <Route path="/sign-up" component={AsyncSignUp}/>
+            <Route path="/" component={AsyncPosts}/>
+            <Route component={AsyncAuth}/>
+        </Switch>
     );
+    if (props.isAuthenticated) {
+        routes = (
+            <Switch>
+                <Route path="/authentication" component={AsyncAuth}/>
+                <Route path="/user-profile" component={AsyncUserProfile}/>
+                <Route path="/friends" component={AsyncFriends}/>
+                <Route path="/logout" component={AsyncLogout}/>
+                <Route path="/search-users" component={AsyncSearch}/>
+                <Route component={AsyncPosts}/>
+            </Switch>
+        );
+    }
 
     return (
-      <Layout>
-        {this.props.isAuthenticated ? authenticatedRoutes : defaultRoutes}
-      </Layout>
+        <Layout>
+            <Suspense fallback={<Spinner />}>
+                {routes}
+            </Suspense>
+        </Layout>
     );
-  }
+
 }
 
 const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: state.auth.token !== null,
-  };
+    return {
+        isAuthenticated: state.auth.token !== null,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    onReloadApp: () => dispatch(actions.autoSignIn()),
-  };
+    return {
+        onReloadApp: () => dispatch(actions.autoSignIn()),
+    };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(app);
