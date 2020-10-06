@@ -1,4 +1,5 @@
-  import * as actionTypes from "./actionTypes";
+import * as actionTypes from "./actionTypes";
+import * as actions from "./index"
 import axiosSignIn from "../../axios/signin-axios-instance";
 import axiosSignUp from "../../axios/signup-axios-instance";
 
@@ -46,7 +47,7 @@ const checkAuthTimeout = (expirationTime) => {
   };
 };
 
-export const authAttempt = (email, password, isSignUp) => {
+export const authAttempt = (email, password, isSignUp, newUserData) => {
   return (dispatch) => {
     dispatch(authInit());
     const axiosInstance = isSignUp ? axiosSignUp : axiosSignIn;
@@ -62,17 +63,19 @@ export const authAttempt = (email, password, isSignUp) => {
         const token = response.data.idToken;
         const userId = response.data.localId;
         const expirationTime = response.data.expiresIn;
- 
         const expirationDate = new Date(
           new Date().getTime() + expirationTime * 1000
         );
-
         localStorage.setItem("expirationDate", expirationDate);
         localStorage.setItem("authToken", token);
         localStorage.setItem("userId", userId);
 
         dispatch(authSuccess(token, userId));
         dispatch(checkAuthTimeout(expirationTime));
+        if (isSignUp) {
+          dispatch(actions.createProfileAttempt(token, newUserData))
+        }
+
       })
       .catch((error) => {
         console.log('[authAttempt] Error : ', error.response.data.error)

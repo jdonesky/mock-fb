@@ -1,60 +1,54 @@
 import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
 
+
+const createProfileSuccess = (userData) => {
+  return {
+    type: actionTypes.CREATE_PROFILE_SUCCESS,
+    userData: userData
+  }
+}
+
+export const createProfileAttempt = (token,newUserData) => {
+  return dispatch => {
+    dispatch(updateProfileInit());
+    console.log('NEW-USER-DATA ---> ',newUserData)
+    axios.post(`/users.json?auth=${token}`, newUserData)
+        .then(response => {
+          console.log('CREATE-PROFILE-RESPONSE -----> ',response)
+          const userData= {key: response.data.name,...newUserData};
+          console.log(userData)
+          dispatch(createProfileSuccess(userData));
+        })
+        .catch(error => {
+          console.log(error);
+          dispatch(updateProfileFail(error))
+        })
+  }
+}
+
 const updateProfileInit = () => {
   return {
     type: actionTypes.UPDATE_PROFILE_INIT,
   };
 };
 
-const storeProfileSuccess = (userProfile) => {
+const updateProfileSuccess = (userProfile) => {
   return {
-    type: actionTypes.STORE_PROFILE_SUCCESS,
+    type: actionTypes.UPDATE_PROFILE_SUCCESS,
     userProfile: userProfile,
   };
 };
 
-const storeProfileFail = (error) => {
+const updateProfileFail = (error) => {
   return {
-    type: actionTypes.STORE_PROFILE_FAIL,
+    type: actionTypes.UPDATE_PROFILE_FAIL,
     error: error,
   };
 };
 
-// export const storeProfileAttempt = (userProfile, authToken) => {
-//   return (dispatch) => {
-//     dispatch(updateProfileInit());
-//     const fetchFirebaseKeyParams =
-//       "?auth=" +
-//       authToken +
-//       '&orderBy="userId"&equalTo="' +
-//       userProfile.userId +
-//       '"';
-//     axios.get("/users.json" + fetchFirebaseKeyParams).then((response) => {
-//       let matchingKey = Object.keys(response.data).map((key) => {
-//         return key;
-//       });
-//       console.log(matchingKey[0]);
-//       matchingKey = matchingKey[0]
-//       console.log(matchingKey)
-//       if (matchingKey) {
-//         const patchParams = `/${matchingKey[0]}.json/?auth=${authToken}`;
-//         // const deleteParams = `/${matchingKey}.json/?auth=${authToken}`;
-//         // axios.delete("/users" + deleteParams).then((response) => {
-//         axios
-//           .patch("/users" + patchParams, userProfile)
-//           .then((response) => {
-//             dispatch(storeProfileSuccess(userProfile));
-//           })
-//           .catch((error) => {
-//             dispatch(storeProfileFail(error));
-//           });
-//       }
-//     });
-//   };
-// };
 
-export const storeProfileAttempt = (userProfile, authToken) => {
+export const updateProfileAttempt = (userProfile, authToken) => {
   return (dispatch) => {
     dispatch(updateProfileInit());
     const postParams = `?auth=${authToken}`;
@@ -73,28 +67,23 @@ export const storeProfileAttempt = (userProfile, authToken) => {
       if (matchingKey[0]) {
         const deleteParams = `/${matchingKey[0]}.json/?auth=${authToken}`;
         axios.delete("/users" + deleteParams).then((response) => {
-          // axios
-          //   .delete("/users.json" + postParams, {
-          //     users: { id: matchingKey[0] },
-          //   })
-          //   .then((response) => {
           axios
             .post("/users.json" + postParams, userProfile)
             .then((response) => {
-              dispatch(storeProfileSuccess(userProfile));
+              dispatch(updateProfileSuccess(userProfile));
             })
             .catch((err) => {
-              dispatch(storeProfileFail(err));
+              dispatch(updateProfileFail(err));
             });
         });
       } else {
         axios
           .post("/users.json" + postParams, userProfile)
           .then((response) => {
-            dispatch(storeProfileSuccess(userProfile));
+            dispatch(updateProfileSuccess(userProfile));
           })
           .catch((err) => {
-            dispatch(storeProfileFail(err));
+            dispatch(updateProfileFail(err));
           });
       }
     });

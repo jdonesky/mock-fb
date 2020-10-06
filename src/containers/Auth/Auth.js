@@ -100,7 +100,7 @@ const auth = props => {
           {formFields}
           <button className={classes.LoginButton} type="submit" /*disabled={formIsValid} */>Log In</button>
           <div className={classes.Break}/>
-          <button className={classes.SignUpButton} onClick={switchModeHandler}>Create New Account</button>
+          <button className={classes.SignUpButton} type="button" onClick={switchModeHandler}>Create New Account</button>
         </form>
       </React.Fragment>
   );

@@ -250,7 +250,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onProfileSubmit: (userProfile, authToken) =>
-      dispatch(actions.storeProfileAttempt(userProfile, authToken)),
+      dispatch(actions.updateProfileAttempt(userProfile, authToken)),
     onFetchProfile: (userId, authToken) =>
       dispatch(actions.fetchProfileAttempt(userId, authToken)),
     onStatusUpdate: (authToken, statusInfo) =>

@@ -43,7 +43,6 @@ const authLogout = (state,action) => {
     ...state,
     token: null,
     userId: null,
-    
   };
 };
 

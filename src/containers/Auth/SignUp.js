@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { fieldBuilder, validityCheck } from "../../shared/utility";
 import Input from '../../components/UI/Input/Input'
@@ -8,14 +9,14 @@ import Modal from "../../components/UI/Modal/Modal";
 
 const signUp = props => {
 
-  const { token, history } = props
+  // const { token, history } = props
 
-  useEffect(() => {
-      if (token) {
-          console.log('reached redirect')
-          history.push('/user-profile')
-      }
-  }, [token, history]);
+  // useEffect(() => {
+  //     if (token) {
+  //         console.log('reached redirect')
+  //         history.push('/user-profile')
+  //     }
+  // }, [token, history]);
 
   const [formInputs, setFormInputs] = useState(
       {
@@ -89,13 +90,16 @@ const signUp = props => {
       props.onSignUp(
           formInputs.email.value,
           formInputs.password.value,
-          true)
+          true,
+          {firstName: formInputs.firstName.value,
+           lastName: formInputs.lastName.value,
+           birthday: formInputs.birthday.value}
+          )
   }
 
   const confirmErrorHandler = () => {
       props.onResetError();
   }
-
 
   const formFields = Object.keys(formInputs).map(key => (
       <Input
@@ -110,15 +114,16 @@ const signUp = props => {
       />
       )
   )
-
-    const errorModal = (
+  const authRedirect = props.token !== null ? <Redirect to="/user-profile" /> : null
+  const errorModal = (
         <Modal show={props.error} close={confirmErrorHandler}>
             {props.error ? props.error : null}
         </Modal>
-    );
+  );
 
   return (
       <React.Fragment>
+          {authRedirect}
           {errorModal}
           <form className={classes.Form} onSubmit={(event) => createAccountHandler(event)}>
               <h1>Sign Up</h1>
@@ -141,7 +146,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSignUp: (email,password,isSignUp) => dispatch(actions.authAttempt(email,password,isSignUp)),
+        onSignUp: (email,password,isSignUp,userData) => dispatch(actions.authAttempt(email,password,isSignUp,userData)),
         onResetError: () => dispatch(actions.authResetError())
     }
 }

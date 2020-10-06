@@ -2,13 +2,14 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   profileImage: null,
+  firstName: null,
+  lastName: null,
   name: null,
-  age: null,
+  birthday: null,
   location: null,
   status: null,
   error: null,
   firebaseKey: null,
-  fetched: false,
   profileLoading: false,
   statusLoading: false
 };
@@ -17,9 +18,20 @@ const updateProfileInit = (state,action) => {
   return { 
     ...state,
     profileLoading: true,
-    fetched: false
   }
 }
+
+const createProfileSuccess = (state,action) => {
+  return {
+    ...state,
+    firstName: action.userData.firstName,
+    lastName: action.userData.lastName,
+    birthday: action.userData.birthday,
+    firebaseKey: action.userData.key,
+    profileLoading: false
+  }
+}
+
 
 const storeProfileSuccess = (state, action) => {
   return {
@@ -32,7 +44,7 @@ const storeProfileSuccess = (state, action) => {
   };
 };
 
-const storeProfileFail = (state,action) => {
+const updateProfileFail = (state,action) => {
   return {
     ...state,
     error: action.error,
@@ -40,7 +52,7 @@ const storeProfileFail = (state,action) => {
   }
 }
 
-const fetchProfileSuccess = (state, action) => {
+const updateProfileSuccess = (state, action) => {
   return {
     ...state,
     profileImage: action.userData.uploadedImage,
@@ -95,11 +107,12 @@ const clearProfile = (state,action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.UPDATE_PROFILE_INIT: return updateProfileInit(state,action)
-    case actionTypes.FETCH_PROFILE_SUCCESS: return fetchProfileSuccess(state, action);
+    case actionTypes.CREATE_PROFILE_SUCCESS: return createProfileSuccess(state,action);
+    case actionTypes.FETCH_PROFILE_SUCCESS: return updateProfileSuccess(state, action);
     case actionTypes.FETCH_PROFILE_FAIL: return fetchProfileFail(state, action);
-    case actionTypes.STORE_PROFILE_SUCCESS: return storeProfileSuccess(state,action);
-    case actionTypes.STORE_PROFILE_FAIL: return storeProfileFail(state,action);
+    case actionTypes.UPDATE_PROFILE_INIT: return updateProfileInit(state,action)
+    case actionTypes.UPDATE_PROFILE_SUCCESS: return storeProfileSuccess(state,action);
+    case actionTypes.UPDATE_PROFILE_FAIL: return updateProfileFail(state,action);
     case actionTypes.STATUS_UPDATE_INIT: return statusUpdateInit(state,action);
     case actionTypes.STATUS_UPDATE_SUCCESS: return statusUpdateSuccess(state, action);
     case actionTypes.STATUS_UPDATE_FAIL: return statusUpdateFail(state,action);

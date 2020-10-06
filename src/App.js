@@ -32,13 +32,11 @@ const AsyncLogout = React.lazy(() => {
 });
 
 
-
 const app = (props) => {
 
     useEffect(() => {
         props.onReloadApp();
     }, [])
-
 
 
     let routes = (
@@ -53,6 +51,7 @@ const app = (props) => {
         routes = (
             <Switch>
                 <Route path="/authentication" component={AsyncAuth}/>
+                <Route path="/sign-up" component={AsyncSignUp}/>
                 <Route path="/user-profile" component={AsyncUserProfile}/>
                 <Route path="/friends" component={AsyncFriends}/>
                 <Route path="/logout" component={AsyncLogout}/>

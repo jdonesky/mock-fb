@@ -6,8 +6,9 @@ export {
 } from "./auth";
 
 export {
+  createProfileAttempt,
   fetchProfileAttempt,
-  storeProfileAttempt,
+  updateProfileAttempt,
   statusUpdateAttempt,
   clearProfile
 } from "./profile";
