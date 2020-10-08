@@ -47,7 +47,7 @@ const checkAuthTimeout = (expirationTime) => {
   };
 };
 
-export const authAttempt = (email, password, isSignUp, newUserData) => {
+export const authAttempt = (email, password, isSignUp, userData) => {
   return (dispatch) => {
     dispatch(authInit());
     const axiosInstance = isSignUp ? axiosSignUp : axiosSignIn;
@@ -72,10 +72,11 @@ export const authAttempt = (email, password, isSignUp, newUserData) => {
 
         dispatch(authSuccess(token, userId));
         dispatch(checkAuthTimeout(expirationTime));
+
         if (isSignUp) {
+          const newUserData = {userId: userId, ...userData}
           dispatch(actions.createProfileAttempt(token, newUserData))
         }
-
       })
       .catch((error) => {
         console.log('[authAttempt] Error : ', error.response.data.error)

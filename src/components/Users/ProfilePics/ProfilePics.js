@@ -1,8 +1,7 @@
 
 import React, {useState, useEffect, useRef} from 'react'
-import ProfilePlaceholder from "../../../assets/images/placeholder-profile-pic.png";
-
 import classes from './ProfilePics.css'
+
 
 const profilePics = (props) => {
     const [profilePic, uploadProfilePic] = useState(null);
@@ -11,6 +10,10 @@ const profilePics = (props) => {
     const profilePicContainer = useRef(null);
     const coverPicUploader = useRef(null);
     const coverPicContainer = useRef(null);
+
+    useEffect(() => {
+
+    }, [])
 
     const imageUploadHandler = (event, type) => {
         const [file] = event.target.files;
@@ -47,7 +50,7 @@ const profilePics = (props) => {
                     className={classes.CoverPicUploadButton}
                     onClick={() => coverPicUploader.current.click()}
                 >
-                    <div></div>
+                    <div className={classes.PhotoUploadIcon}></div>
                     <p>Add Cover Photo</p>
                 </div>
             </div>

@@ -34,8 +34,10 @@
     margin: 0;
     position: absolute;
     top: 56px;
-    background-color: #b8b5b5;
+    background-image: linear-gradient(0deg,#b8b5b5,transparent);
     background-size: contain;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .CoverPicUploadButton {
@@ -43,7 +45,7 @@
     width: 200px;
     padding: 7px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     background: white;
     border-radius: 10px;
@@ -54,7 +56,7 @@
 }
 
 
-.CoverPicUploadButton div {
+.CoverPicUploadButton .PhotoUploadIcon {
     height: 100%;
     width: 20%;
     background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSmLDoBXDGV2lu_vQ5DYn6c2ZBXBWoHr0xhMg&usqp=CAU");

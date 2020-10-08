@@ -20,8 +20,8 @@ const navigationItems = (props) => {
   );
   const authenticatedRoutes = (
     <ul className={classes.NavigationItems}>
-      <NavigationItem link="/search-users">
-        <FontAwesomeIcon icon={faSearch} />
+      <NavigationItem link="/search-users" style={{width: "100px"}}>
+        <FontAwesomeIcon icon={faSearch} style={{margin: "2px 10px 0 10px"}}/>
       </NavigationItem>
       <NavigationItem exact link="/">
         Home

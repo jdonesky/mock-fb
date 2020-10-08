@@ -1,6 +1,29 @@
+
 import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
 
+
+
+const updateProfileInit = () => {
+  return {
+    type: actionTypes.UPDATE_PROFILE_INIT,
+  };
+};
+
+
+export const createProfileAttempt =  (token,newUserData) => {
+  return dispatch => {
+    dispatch(updateProfileInit());
+    axios.post(`/users.json?auth=${token}`, newUserData)
+        .then( response => {
+          const userData= {key: response.data.name,...newUserData};
+          dispatch(createProfileSuccess(userData));
+        })
+        .catch(error => {
+          dispatch(updateProfileFail(error))
+        })
+  }
+}
 
 const createProfileSuccess = (userData) => {
   return {
@@ -9,84 +32,23 @@ const createProfileSuccess = (userData) => {
   }
 }
 
-export const createProfileAttempt = (token,newUserData) => {
-  return dispatch => {
-    dispatch(updateProfileInit());
-    console.log('NEW-USER-DATA ---> ',newUserData)
-    axios.post(`/users.json?auth=${token}`, newUserData)
-        .then(response => {
-          console.log('CREATE-PROFILE-RESPONSE -----> ',response)
-          const userData= {key: response.data.name,...newUserData};
-          console.log(userData)
-          dispatch(createProfileSuccess(userData));
-        })
-        .catch(error => {
-          console.log(error);
-          dispatch(updateProfileFail(error))
-        })
-  }
-}
-
-const updateProfileInit = () => {
-  return {
-    type: actionTypes.UPDATE_PROFILE_INIT,
-  };
-};
-
-const updateProfileSuccess = (userProfile) => {
-  return {
-    type: actionTypes.UPDATE_PROFILE_SUCCESS,
-    userProfile: userProfile,
-  };
-};
-
-const updateProfileFail = (error) => {
-  return {
-    type: actionTypes.UPDATE_PROFILE_FAIL,
-    error: error,
-  };
-};
-
-
-export const updateProfileAttempt = (userProfile, authToken) => {
+export const fetchProfileAttempt = (userId, authToken) => {
   return (dispatch) => {
     dispatch(updateProfileInit());
-    const postParams = `?auth=${authToken}`;
-    const fetchFirebaseKeyParams =
-      "?auth=" +
-      authToken +
-      '&orderBy="userId"&equalTo="' +
-      userProfile.userId +
-      '"';
-    axios.get("/users.json" + fetchFirebaseKeyParams).then((response) => {
-      const matchingKey = Object.keys(response.data).map((key) => {
-        return key;
+    const queryParams =
+      "?auth=" + authToken + '&orderBy="userId"&equalTo="' + userId + '"';
+    axios
+      .get("/users.json" + queryParams)
+      .then((response) => {
+        const userData = Object.keys(response.data).map((key) => {
+          return { key: key, ...response.data[key] };
+        })[0]
+        dispatch(fetchProfileSuccess(userData));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(updateProfileFail(err));
       });
-      console.log(matchingKey)
-      console.log(matchingKey[0]);
-      if (matchingKey[0]) {
-        const deleteParams = `/${matchingKey[0]}.json/?auth=${authToken}`;
-        axios.delete("/users" + deleteParams).then((response) => {
-          axios
-            .post("/users.json" + postParams, userProfile)
-            .then((response) => {
-              dispatch(updateProfileSuccess(userProfile));
-            })
-            .catch((err) => {
-              dispatch(updateProfileFail(err));
-            });
-        });
-      } else {
-        axios
-          .post("/users.json" + postParams, userProfile)
-          .then((response) => {
-            dispatch(updateProfileSuccess(userProfile));
-          })
-          .catch((err) => {
-            dispatch(updateProfileFail(err));
-          });
-      }
-    });
   };
 };
 
@@ -97,33 +59,23 @@ const fetchProfileSuccess = (userData) => {
   };
 };
 
-const fetchProfileFail = (err) => {
+
+
+const updateProfileSuccess = (userProfile) => {
   return {
-    type: actionTypes.FETCH_PROFILE_FAIL,
-    error: err,
+    type: actionTypes.UPDATE_PROFILE_SUCCESS,
+    userProfile: userProfile,
   };
 };
 
-export const fetchProfileAttempt = (userId, authToken) => {
-  return (dispatch) => {
-    dispatch(updateProfileInit());
-    const queryParams =
-      "?auth=" + authToken + '&orderBy="userId"&equalTo="' + userId + '"';
-    console.log("/users.json" + queryParams)
-    axios
-      .get("/users.json" + queryParams)
-      .then((response) => {
-        const userData = Object.keys(response.data).map((key) => {
-          return { key: key, ...response.data[key] };
-        });
-        dispatch(fetchProfileSuccess(userData[0]));
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(fetchProfileFail(err));
-      });
+
+const updateProfileFail = (error) => {
+  return {
+    type: actionTypes.UPDATE_PROFILE_FAIL,
+    error: error,
   };
 };
+
 
 const statusUpdateInit = () => {
   return {
@@ -165,3 +117,45 @@ export const clearProfile = () => {
   };
 };
 
+
+// export const updateProfileAttempt = (userProfile, authToken) => {
+//   return (dispatch) => {
+//     dispatch(updateProfileInit());
+//     const postParams = `?auth=${authToken}`;
+//     const fetchFirebaseKeyParams =
+//       "?auth=" +
+//       authToken +
+//       '&orderBy="userId"&equalTo="' +
+//       userProfile.userId +
+//       '"';
+//     axios.get("/users.json" + fetchFirebaseKeyParams).then((response) => {
+//       const matchingKey = Object.keys(response.data).map((key) => {
+//         return key;
+//       });
+//       console.log(matchingKey)
+//       console.log(matchingKey[0]);
+//       if (matchingKey[0]) {
+//         const deleteParams = `/${matchingKey[0]}.json/?auth=${authToken}`;
+//         axios.delete("/users" + deleteParams).then((response) => {
+//           axios
+//             .post("/users.json" + postParams, userProfile)
+//             .then((response) => {
+//               dispatch(updateProfileSuccess(userProfile));
+//             })
+//             .catch((err) => {
+//               dispatch(updateProfileFail(err));
+//             });
+//         });
+//       } else {
+//         axios
+//           .post("/users.json" + postParams, userProfile)
+//           .then((response) => {
+//             dispatch(updateProfileSuccess(userProfile));
+//           })
+//           .catch((err) => {
+//             dispatch(updateProfileFail(err));
+//           });
+//       }
+//     });
+//   };
+// };

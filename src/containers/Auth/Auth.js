@@ -32,8 +32,6 @@ const auth = props => {
     })
 
   const [formIsValid, setFormIsValid] = useState(true);
-  const [error, setError] = useState(null)
-
 
   const changeHandler = (event, key) => {
     const updatedFormInput = { ...formInputs[key] };

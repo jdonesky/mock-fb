@@ -10,6 +10,12 @@ import classes from "./UserProfile.css";
 
   const userProfile = (props) => {
 
+    const {onFetchProfile,userId,authToken} = props
+
+    useEffect(() => {
+      onFetchProfile(userId, authToken);
+    }, [onFetchProfile,userId,authToken])
+
     return (
         <div>
           <ProfilePics />
@@ -24,24 +30,19 @@ const mapStateToProps = (state) => {
     authToken: state.auth.token,
     key: state.profile.firebaseKey,
     profileImage: state.profile.profileImage,
-    name: state.profile.name,
-    age: state.profile.age,
+    coverImage: state.profile.coverImage,
+    firstName: state.profile.firstName,
+    lastName: state.profile.lastName,
+    birthday: state.profile.birthday,
     location: state.profile.location,
-    status: state.profile.status,
-    fetched: state.profile.fetched,
     profileLoading: state.profile.profileLoading,
-    statusLoading: state.profile.statusLoading,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onProfileSubmit: (userProfile, authToken) =>
-      dispatch(actions.updateProfileAttempt(userProfile, authToken)),
-    onFetchProfile: (userId, authToken) =>
-      dispatch(actions.fetchProfileAttempt(userId, authToken)),
-    onStatusUpdate: (authToken, statusInfo) =>
-      dispatch(actions.statusUpdateAttempt(authToken, statusInfo)),
+    onFetchProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
+
   };
 };
 
