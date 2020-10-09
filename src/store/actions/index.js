@@ -9,7 +9,6 @@ export {
   createProfileAttempt,
   fetchProfileAttempt,
   updateProfileAttempt,
-  statusUpdateAttempt,
   clearProfile
 } from "./profile";
 

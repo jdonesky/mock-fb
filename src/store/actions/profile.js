@@ -32,11 +32,11 @@ const createProfileSuccess = (userData) => {
   }
 }
 
-export const fetchProfileAttempt = (userId, authToken) => {
+export const fetchProfileAttempt = (userId, token) => {
   return (dispatch) => {
     dispatch(updateProfileInit());
     const queryParams =
-      "?auth=" + authToken + '&orderBy="userId"&equalTo="' + userId + '"';
+      "?auth=" + token + '&orderBy="userId"&equalTo="' + userId + '"';
     axios
       .get("/users.json" + queryParams)
       .then((response) => {
@@ -59,15 +59,40 @@ const fetchProfileSuccess = (userData) => {
   };
 };
 
+// -------------------
+
+export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload) => {
+  return dispatch => {
+    dispatch(updateProfileInit());
+    let updatedUserProfile;
+    const url = `/users/${firebaseKey}.json?auth=${authToken}`
+    axios.get(url)
+        .then(response => {
+          console.log('UPDATE_PROFILE ', response.data)
+         updatedUserProfile = {...response.data, [fieldName]: payload}
+          console.log('UPDATED: ', updatedUserProfile)
+          return axios.put(url, updatedUserProfile)
+        })
+        .then(response => {
+          console.log('PUT REQ RESPONSE', response)
+          dispatch(updateProfileSuccess(updatedUserProfile))
+        })
+        .catch(error => {
+          console.log(error)
+          dispatch(updateProfileFail(error));
+        })
+  }
+}
 
 
-const updateProfileSuccess = (userProfile) => {
+const updateProfileSuccess = (userData) => {
   return {
     type: actionTypes.UPDATE_PROFILE_SUCCESS,
-    userProfile: userProfile,
+    userData: userData,
   };
 };
 
+// ------------------------
 
 const updateProfileFail = (error) => {
   return {
@@ -77,39 +102,39 @@ const updateProfileFail = (error) => {
 };
 
 
-const statusUpdateInit = () => {
-  return {
-    type: actionTypes.STATUS_UPDATE_INIT,
-  };
-};
-
-const statusUpdateSuccess = (status) => {
-  return {
-    type: actionTypes.STATUS_UPDATE_SUCCESS,
-    status: status,
-  };
-};
-
-const statusUpdateFail = (error) => {
-  return {
-    type: actionTypes.STATUS_UPDATE_FAIL,
-    error: error,
-  };
-};
-
-export const statusUpdateAttempt = (authToken, statusInfo) => {
-  return (dispatch) => {
-    dispatch(statusUpdateInit());
-    axios
-      .post("/posts.json?auth=" + authToken, statusInfo)
-      .then(() => {
-        dispatch(statusUpdateSuccess(statusInfo.status));
-      })
-      .catch((error) => {
-        dispatch(statusUpdateFail(error));
-      });
-  };
-};
+// const statusUpdateInit = () => {
+//   return {
+//     type: actionTypes.STATUS_UPDATE_INIT,
+//   };
+// };
+//
+// const statusUpdateSuccess = (status) => {
+//   return {
+//     type: actionTypes.STATUS_UPDATE_SUCCESS,
+//     status: status,
+//   };
+// };
+//
+// const statusUpdateFail = (error) => {
+//   return {
+//     type: actionTypes.STATUS_UPDATE_FAIL,
+//     error: error,
+//   };
+// };
+//
+// export const statusUpdateAttempt = (authToken, statusInfo) => {
+//   return (dispatch) => {
+//     dispatch(statusUpdateInit());
+//     axios
+//       .post("/posts.json?auth=" + authToken, statusInfo)
+//       .then(() => {
+//         dispatch(statusUpdateSuccess(statusInfo.status));
+//       })
+//       .catch((error) => {
+//         dispatch(statusUpdateFail(error));
+//       });
+//   };
+// };
 
 export const clearProfile = () => {
   return {

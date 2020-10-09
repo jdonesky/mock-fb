@@ -44,7 +44,7 @@ const fetchProfileSuccess = (state, action) => {
   return {
     ...state,
     profileImage: action.userData.profileImage || null,
-    coverImage: action.userData.profileImage || null,
+    coverImage: action.userData.coverImage || null,
     firstName: action.userData.firstName || null,
     lastName: action.userData.lastName || null,
     birthday: action.userData.birthday || null,
@@ -55,6 +55,21 @@ const fetchProfileSuccess = (state, action) => {
   };
 };
 
+const updateProfileSuccess = (state,action) => {
+  return {
+    ...state,
+    profileImage: action.userData.profileImage || null,
+    coverImage: action.userData.coverImage || null,
+    firstName: action.userData.firstName || null,
+    lastName: action.userData.lastName || null,
+    birthday: action.userData.birthday || null,
+    location: action.userData.location || null,
+    firebaseKey: action.userData.key || null,
+    userId: action.userData.userId || null,
+    profileLoading: false,
+  }
+}
+
 const clearProfile = (state,action) => {
   return {
     ...initialState
@@ -63,11 +78,12 @@ const clearProfile = (state,action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.UPDATE_PROFILE_INIT: return updateProfileInit(state,action)
-    case actionTypes.CREATE_PROFILE_SUCCESS: return createProfileSuccess(state,action);
+    case actionTypes.UPDATE_PROFILE_INIT: return updateProfileInit(state, action);
+    case actionTypes.CREATE_PROFILE_SUCCESS: return createProfileSuccess(state, action);
     case actionTypes.FETCH_PROFILE_SUCCESS: return fetchProfileSuccess(state, action);
+    case actionTypes.UPDATE_PROFILE_SUCCESS: return updateProfileSuccess(state, action);
     case actionTypes.UPDATE_PROFILE_FAIL: return updateProfileFail(state,action);
-    case actionTypes.CLEAR_PROFILE: return clearProfile(state,action)
+    case actionTypes.CLEAR_PROFILE: return clearProfile(state,action);
     default:
       return state;
   }

@@ -63,7 +63,9 @@ const auth = props => {
   };
 
   const confirmErrorHandler = () => {
-    props.onResetError();
+    if (props.error) {
+      props.onResetError();
+    }
   };
 
 

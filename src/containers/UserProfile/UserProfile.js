@@ -2,7 +2,7 @@ import React, { useState, useReducer, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 import withErrorHandler from "../../hoc/withErrorHandler";
-import ProfilePics from '../../components/Users/ProfilePics/ProfilePics'
+import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics'
 import axios from '../../axios/db-axios-instance'
 
 import classes from "./UserProfile.css";
@@ -29,8 +29,6 @@ const mapStateToProps = (state) => {
     userId: state.auth.userId,
     authToken: state.auth.token,
     key: state.profile.firebaseKey,
-    profileImage: state.profile.profileImage,
-    coverImage: state.profile.coverImage,
     firstName: state.profile.firstName,
     lastName: state.profile.lastName,
     birthday: state.profile.birthday,
@@ -42,7 +40,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
-
   };
 };
 

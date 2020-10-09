@@ -1,19 +1,29 @@
 
-import React, {useState, useEffect, useRef} from 'react'
-import classes from './ProfilePics.css'
+import React, {useState, useEffect, useRef} from 'react';
+import { connect } from 'react-redux';
+import classes from './ProfilePics.css';
+import * as actions from '../../../store/actions/index'
 
 
-const profilePics = (props) => {
-    const [profilePic, uploadProfilePic] = useState(null);
-    const [coverPic, uploadCoverPic] = useState(null);
+const profilePics = React.memo((props) => {
     const profilePicUploader = useRef(null);
     const profilePicContainer = useRef(null);
     const coverPicUploader = useRef(null);
     const coverPicContainer = useRef(null);
 
-    useEffect(() => {
+    const {token, firebaseKey, profilePic, coverPic} = props
 
-    }, [])
+    useEffect(() => {
+        if (profilePic) {
+            profilePicContainer.current.style.backgroundImage = `url(${profilePic})`;
+        }
+    }, [profilePic])
+
+    useEffect(() => {
+        if (coverPic) {
+            coverPicContainer.current.style.backgroundImage = `url(${coverPic})`;
+        }
+    }, [coverPic])
 
     const imageUploadHandler = (event, type) => {
         const [file] = event.target.files;
@@ -22,10 +32,11 @@ const profilePics = (props) => {
             reader.onload = (event) => {
                 if (type === 'PROFILE') {
                     profilePicContainer.current.style.backgroundImage = `url(${event.target.result})`;
-                  uploadProfilePic(event.target.result);
+                    props.onProfileUpdate(token,firebaseKey,"profileImage",event.target.result)
                 } else {
                     coverPicContainer.current.style.backgroundImage = `url(${event.target.result})`;
-                    uploadCoverPic(event.target.result);
+                    props.onProfileUpdate(token,firebaseKey,"coverImage",event.target.result)
+
                 }
             };
             reader.readAsDataURL(file);
@@ -77,7 +88,24 @@ const profilePics = (props) => {
         </form>
         </React.Fragment>
     )
+}, (prevProps, nextProps) => {
+    return prevProps.profilePic === nextProps.profilePic || prevProps.coverPic === nextProps.coverPic
+})
+
+const mapStateToProps = state => {
+    return {
+        token: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
+        profilePic: state.profile.profileImage,
+        coverPic: state.profile.coverImage,
+    }
 }
 
-export default profilePics;
+const mapDispatchToProps = dispatch => {
+    return {
+        onProfileUpdate: (authToken,firebaseKey,fieldName,file) => dispatch(actions.updateProfileAttempt(authToken,firebaseKey,fieldName,file)),
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(profilePics);
 
