@@ -5,13 +5,13 @@ import classes from './ProfilePics.css';
 import * as actions from '../../../store/actions/index'
 
 
-const profilePics = React.memo((props) => {
+const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onProfileUpdate}) => {
     const profilePicUploader = useRef(null);
     const profilePicContainer = useRef(null);
     const coverPicUploader = useRef(null);
     const coverPicContainer = useRef(null);
 
-    const {token, firebaseKey, profilePic, coverPic} = props
+    // const {token, firebaseKey, profilePic, coverPic} = props
 
     useEffect(() => {
         if (profilePic) {
@@ -32,10 +32,10 @@ const profilePics = React.memo((props) => {
             reader.onload = (event) => {
                 if (type === 'PROFILE') {
                     profilePicContainer.current.style.backgroundImage = `url(${event.target.result})`;
-                    props.onProfileUpdate(token,firebaseKey,"profileImage",event.target.result)
+                    onProfileUpdate(token,firebaseKey,"profileImage",event.target.result)
                 } else {
                     coverPicContainer.current.style.backgroundImage = `url(${event.target.result})`;
-                    props.onProfileUpdate(token,firebaseKey,"coverImage",event.target.result)
+                    onProfileUpdate(token,firebaseKey,"coverImage",event.target.result)
 
                 }
             };

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 import withErrorHandler from "../../hoc/withErrorHandler";
 import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics'
+import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader'
 import axios from '../../axios/db-axios-instance'
 
 import classes from "./UserProfile.css";
@@ -19,6 +20,7 @@ import classes from "./UserProfile.css";
     return (
         <div>
           <ProfilePics />
+          <ProfileHeader name={props.name}/>
         </div>
     )
   }
@@ -29,8 +31,7 @@ const mapStateToProps = (state) => {
     userId: state.auth.userId,
     authToken: state.auth.token,
     key: state.profile.firebaseKey,
-    firstName: state.profile.firstName,
-    lastName: state.profile.lastName,
+    name: state.profile.firstName + ' ' + state.profile.lastName,
     birthday: state.profile.birthday,
     location: state.profile.location,
     profileLoading: state.profile.profileLoading,

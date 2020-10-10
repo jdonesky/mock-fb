@@ -1,0 +1,123 @@
+
+.HeaderContainer {
+    border-top: none;
+    border-bottom: 1px solid #b8b5b5;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.15);
+}
+
+.Intro {
+    width: 100%;
+    margin-top: 90px;
+    align-content: center;
+}
+
+.Intro h1 {
+    font-family: "Arial";
+    font-size: 35px;
+    margin: 0;
+}
+
+.Intro p {
+    color: cornflowerblue;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.Intro p:hover {
+    text-decoration: underline;
+}
+
+.Intro h1,
+.Intro p {
+    text-align: center;
+}
+
+.NavigationBar {
+    width: 100%;
+    height: 60px;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 15px;
+}
+
+.NavigationBar nav {
+    height: 100%;
+}
+
+.TabControls {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.TabControls a {
+    height: 100%;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    display: inline-flex;
+    cursor: pointer;
+}
+
+.TabControls a {
+    text-decoration: none;
+    color: inherit;
+    height:100%;
+    width: 100%;
+}
+
+.TabControls a:hover {
+    background: #ebebeb;
+    border-radius: 10px;
+    border-bottom: 3px solid #2b5de6;
+}
+
+.TabControls a:active,
+.TabControls a.active {
+    border-radius: 10px;
+    border-bottom: 3px solid #2b5de6;
+    color: #1665f7;
+    font-weight: 900;
+}
+
+.EditControls {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.EditControls li {
+    height: 80%;
+    margin: 5px;
+    padding: 13px;
+    box-sizing: border-box;
+    text-align: center;
+    display: inline-flex;
+    border: none;
+    border-radius: 10px;
+    background: #e6e6e6;
+    cursor: pointer;
+}
+
+.EditControls li:hover {
+    background: #d4d4d4;
+}
+
+.Break {
+    height: 1px;
+    width: 95%;
+    background: #cccccc;
+    margin: 5px auto;
+}
