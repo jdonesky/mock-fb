@@ -3,6 +3,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
 import classes from './ProfileHeader.css'
+import ProfileAbout from "../ProfileAbout/ProfileAbout";
 
 const profileHeader = (props) => {
     return (
@@ -16,11 +17,12 @@ const profileHeader = (props) => {
                 <nav>
                     <ul className={classes.TabControls}>
                         <NavLink
+                            exact
                             to="/user-profile"
                             activeClassName={classes.active}
                             >Timeline</NavLink>
                         <NavLink
-                            to="/about"
+                            to="/user-profile/about"
                             activeClassName={classes.active}
                             >
                             About</NavLink>
@@ -38,6 +40,7 @@ const profileHeader = (props) => {
                     </ul>
                 </nav>
             </section>
+            <ProfileAbout />
         </div>
     )
 }

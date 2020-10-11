@@ -1,8 +1,8 @@
 
 .HeaderContainer {
     border-top: none;
-    border-bottom: 1px solid #b8b5b5;
-    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.15);
+    /*border-bottom: 1px solid #b8b5b5;*/
+    /*box-shadow: 0 1px 1px 1px rgba(0,0,0,0.15);*/
 }
 
 .Intro {
@@ -40,6 +40,8 @@
     justify-content: space-around;
     align-items: center;
     font-size: 15px;
+    /*border-bottom: 1px solid #b8b5b5;*/
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.15);
 }
 
 .NavigationBar nav {
@@ -82,7 +84,7 @@
 
 .TabControls a:active,
 .TabControls a.active {
-    border-radius: 10px;
+    border-radius: 0;
     border-bottom: 3px solid #2b5de6;
     color: #1665f7;
     font-weight: 900;

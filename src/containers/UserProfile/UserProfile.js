@@ -4,6 +4,7 @@ import * as actions from "../../store/actions/index";
 import withErrorHandler from "../../hoc/withErrorHandler";
 import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics'
 import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader'
+import ProfileAbout from '../../components/Profile/ProfileAbout/ProfileAbout'
 import axios from '../../axios/db-axios-instance'
 
 import classes from "./UserProfile.css";
@@ -21,6 +22,7 @@ import classes from "./UserProfile.css";
         <div>
           <ProfilePics />
           <ProfileHeader name={props.name}/>
+          {/*<ProfileAbout />*/}
         </div>
     )
   }

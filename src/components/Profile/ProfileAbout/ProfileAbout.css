@@ -1,0 +1,69 @@
+
+.AboutContainer {
+    width: 95%;
+    margin: 20px auto;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
+    display: flex;
+}
+
+.IndexContainer {
+    display:inline-block;
+    height: 100%;
+    width: 300px;
+    margin: 0;
+    padding: 7px;
+    border-right: 1px solid #cccccc;
+}
+
+.IndexContainer h2 {
+    margin: 5px 0 10px 8px;
+}
+
+.IndexContainer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: column
+}
+
+.IndexContainer a {
+    margin: 5px 0 0;
+    padding: 7px 8px;
+    align-text: left;
+    cursor: pointer;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+.IndexContainer a:hover {
+    background: rgba(204,206,208,.31);
+}
+
+.IndexContainer a:active {
+    background: rgba(204,206,208,.66);
+}
+
+.IndexContainer a.active {
+    color: #0B86DE;
+    background: rgba(26,115,223,0.1);
+}
+
+.IndexContainer a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.LoadedContent {
+    display: inline-block;
+    height: 100%;
+    width: 50%;
+    margin: 0;
+    padding: 5px;
+}
+
+.LoadedContent h3 {
+    margin: 12px 10px;
+}
