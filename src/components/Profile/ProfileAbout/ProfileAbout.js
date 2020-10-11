@@ -1,7 +1,12 @@
 
-import React from 'react';
+import React, {Suspense} from 'react';
 import {NavLink} from 'react-router-dom';
+import {Route} from 'react-router';
 import classes from './ProfileAbout.css';
+
+const LoadedContent = React.lazy(() => {
+    return import('./AboutContent/AboutContent')
+})
 
 const profileAbout = props => {
     return (
@@ -9,7 +14,7 @@ const profileAbout = props => {
         <section className={classes.IndexContainer}>
             <h2>About</h2>
             <ul>
-                <NavLink to={"/user-profile/about"} activeClassName={classes.active}>Overview</NavLink>
+                <NavLink exact to={"/user-profile/about"} activeClassName={classes.active}>Overview</NavLink>
                 <NavLink to={"/user-profile/about/work-education"} activeClassName={classes.active}>Work and Education</NavLink>
                 <NavLink to={"/user-profile/about/places-lived"} activeClassName={classes.active}>Places Lived</NavLink>
                 <NavLink to={"/user-profile/about/contact-info"} activeClassName={classes.active}>Contact and Basic Info</NavLink>
@@ -19,7 +24,9 @@ const profileAbout = props => {
             </ul>
         </section>
         <section className={classes.LoadedContent}>
-            {/*<h3>Placeholder</h3>*/}
+            <Suspense fallback={<h1>Oops!</h1>}>
+                <Route path={"/user-profile/about/:tab"} component={LoadedContent}/>
+            </Suspense>
         </section>
         </div>
     );

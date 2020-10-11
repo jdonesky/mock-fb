@@ -1,28 +1,5 @@
-.ProfileContainer {
-    width: 80%;
+
+.UserProfile {
+    max-width: 1100px;
     margin: 0 auto;
-    text-align: center;
 }
-
-.ProfilePicContainer {
-    width: 30%;
-    margin: 25px auto;
-    border-radius: 100px;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.FormContainer {
-    margin: 30px auto 90px;
-    padding: 0 0 15px;
-    width: 70%;
-    border: 1px solid rgb(10, 10, 10);
-    border-radius: 40px;
-    box-sizing: border-box;
-}
-
-.ProfileImg {
-    height: 100%;
-    width: 100%;
-}
-

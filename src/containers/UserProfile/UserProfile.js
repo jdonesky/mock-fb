@@ -1,13 +1,17 @@
 import React, { useState, useReducer, useRef, useEffect } from "react";
+import {Switch, Route} from 'react-router'
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 import withErrorHandler from "../../hoc/withErrorHandler";
 import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics'
 import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader'
-import ProfileAbout from '../../components/Profile/ProfileAbout/ProfileAbout'
 import axios from '../../axios/db-axios-instance'
-
 import classes from "./UserProfile.css";
+
+const ProfileAbout = React.lazy(() => {
+  return import('../../components/Profile/ProfileAbout/ProfileAbout')
+})
+
 
 
   const userProfile = (props) => {
@@ -19,10 +23,12 @@ import classes from "./UserProfile.css";
     }, [onFetchProfile,userId,authToken])
 
     return (
-        <div>
+        <div className={classes.UserProfile}>
           <ProfilePics />
           <ProfileHeader name={props.name}/>
-          {/*<ProfileAbout />*/}
+          <Switch>
+            <Route path="/user-profile/about" component={ProfileAbout} />
+          </Switch>
         </div>
     )
   }

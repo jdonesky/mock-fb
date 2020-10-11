@@ -45,7 +45,7 @@ const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onPro
 
     return (
         <React.Fragment>
-        <form>
+        <form className={classes.CoverPicBoundary}>
             <div className={classes.CoverPicContainer} ref={coverPicContainer}>
                 <input
                     ref={coverPicUploader}
@@ -57,13 +57,13 @@ const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onPro
                         display: "none"
                     }}
                 />
-                <div
-                    className={classes.CoverPicUploadButton}
-                    onClick={() => coverPicUploader.current.click()}
-                >
-                    <div className={classes.PhotoUploadIcon}></div>
-                    <p>Add Cover Photo</p>
-                </div>
+                {/*<div*/}
+                {/*    className={classes.CoverPicUploadButton}*/}
+                {/*    onClick={() => coverPicUploader.current.click()}*/}
+                {/*>*/}
+                {/*    <div className={classes.PhotoUploadIcon}></div>*/}
+                {/*    <p>Add Cover Photo</p>*/}
+                {/*</div>*/}
             </div>
         </form>
         <form>
@@ -84,6 +84,13 @@ const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onPro
                 <div className={classes.ProfileUploadButton}
                     onClick={() => profilePicUploader.current.click()}
                 ></div>
+            </div>
+            <div
+                className={classes.CoverPicUploadButton}
+                onClick={() => coverPicUploader.current.click()}
+            >
+                <div className={classes.PhotoUploadIcon}></div>
+                <p>Add Cover Photo</p>
             </div>
         </form>
         </React.Fragment>

@@ -3,7 +3,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
 import classes from './ProfileHeader.css'
-import ProfileAbout from "../ProfileAbout/ProfileAbout";
 
 const profileHeader = (props) => {
     return (
@@ -40,7 +39,6 @@ const profileHeader = (props) => {
                     </ul>
                 </nav>
             </section>
-            <ProfileAbout />
         </div>
     )
 }
