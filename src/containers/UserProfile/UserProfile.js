@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useRef, useEffect } from "react";
+import React, { useState, useReducer, useRef, useEffect, Suspense } from "react";
 import {Switch, Route} from 'react-router'
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
@@ -27,7 +27,11 @@ const ProfileAbout = React.lazy(() => {
           <ProfilePics />
           <ProfileHeader name={props.name}/>
           <Switch>
-            <Route path="/user-profile/about" component={ProfileAbout} />
+            <Route path="/user-profile/about" render={(props) => (
+                <Suspense fallback={<h1>...Loading</h1>}>
+                  <ProfileAbout {...props}/>
+                </Suspense>
+            )} />
           </Switch>
         </div>
     )

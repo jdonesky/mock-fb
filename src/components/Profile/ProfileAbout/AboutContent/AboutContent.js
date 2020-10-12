@@ -2,31 +2,25 @@
 import React, {useEffect} from 'react';
 import AddContentButton from './ContentShared/AddContentButton'
 import ContentEntry from './ContentShared/ContentEntry'
+import Overview from './LoadedContent/Overview'
 
 const aboutContent = (props) => {
 
     const {match} = props
-    let content;
-    useEffect(() => {
-        switch (match.params.tab) {
-            case 'work-education':
-            case 'places-lived':
-            case 'contact-info':
-            case 'family-relationships':
-            case 'details':
-            case 'life-events':
-            default:
-        }
-    }, [match])
+    let content = null;
+    switch (match.params.tab) {
+        // case 'work-education':
+        // case 'places-lived':
+        // case 'contact-info':
+        // case 'family-relationships':
+        // case 'details':
+        // case 'life-events':
+        default:
+            content = <Overview {...props}/>
+    }
 
-    return (
-        <React.Fragment>
-            {/*{content}*/}
-            <h1>{match.params.tab}</h1>
-            <AddContentButton text="Add a workplace "/>
-            <ContentEntry category="work" />
-        </React.Fragment>
-    );
+    return content;
+
 }
 
 export default aboutContent;
