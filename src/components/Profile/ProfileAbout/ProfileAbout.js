@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom';
 import {Route} from 'react-router';
 import classes from './ProfileAbout.css';
 
-const LoadedContent = React.lazy(() => {
+const AboutContent = React.lazy(() => {
     return import('./AboutContent/AboutContent')
 })
 
@@ -25,7 +25,7 @@ const profileAbout = props => {
         </section>
         <section className={classes.LoadedContent}>
             <Suspense fallback={<h1>Oops!</h1>}>
-                <Route path={"/user-profile/about/:tab"} component={LoadedContent}/>
+                <Route path={"/user-profile/about/:tab"} component={AboutContent}/>
             </Suspense>
         </section>
         </div>

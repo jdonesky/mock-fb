@@ -1,6 +1,7 @@
 
 import React, {useEffect} from 'react';
-import AddContentButton from './AddContentButton/AddContentButton'
+import AddContentButton from './ContentShared/AddContentButton'
+import ContentEntry from './ContentShared/ContentEntry'
 
 const aboutContent = (props) => {
 
@@ -22,7 +23,8 @@ const aboutContent = (props) => {
         <React.Fragment>
             {/*{content}*/}
             <h1>{match.params.tab}</h1>
-            <AddContentButton />
+            <AddContentButton text="Add a workplace "/>
+            <ContentEntry category="work" />
         </React.Fragment>
     );
 }

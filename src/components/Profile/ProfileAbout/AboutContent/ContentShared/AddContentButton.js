@@ -6,9 +6,9 @@ import classes from './AddContentButton.css'
 const addContentButton = props => {
 
     return (
-        <div className={classes.AddButton}>
+        <div className={classes.AddButton} onClick={props.clicked}>
             <div className={classes.PlusIcon}></div>
-            <span>Add a Workplace</span>
+            <span>{props.text}</span>
         </div>
     )
 }
