@@ -7,8 +7,6 @@ const overview = props => {
 
   const {occupation, education, currLocation, fromLocation, relationship, contact} = props;
 
-
-
   return (
       <React.Fragment>
           <ContentEntry

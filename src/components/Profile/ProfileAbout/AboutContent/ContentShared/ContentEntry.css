@@ -3,10 +3,9 @@
     display:flex;
     flex-flow: row;
     justify-content: center;
-    align-content: center;
-    height: 40px;
+    align-items: center;
+    height: 60px;
     width: 100%;
-    margin-top: 15px;
     padding: 3px;
 }
 
@@ -15,7 +14,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    height: 70%;
+    height: 27px;
     width: 75px;
     padding: 0;
     margin-right: 7px;
@@ -28,10 +27,6 @@
 }
 
 
-.MainText {
-
-}
-
 .SubText {
     color: #878787;
     font-size: 13px;
@@ -41,8 +36,10 @@
 .Icons {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100px;
     margin-left: auto;
+    height: 100%;
 }
 
 .Share {
@@ -51,9 +48,14 @@
 
 .Edit {
     background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTLpejdxcDc5uhxm7_dVUxrYtN0aoHZcUJgsw&usqp=CAU");
+    background-size: 30px;
     cursor: pointer;
+    height: 40px
 }
 
-
+.Edit:hover {
+    border-radius: 200px;
+    border: 1px solid #cccccc;
+}
 
 
