@@ -1,23 +1,31 @@
 .Button {
-  display: block;
   background: white;
   border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
   cursor: pointer;
   height: 20px;
-  width: 150px;
   margin: 5px auto;
-  font-weight: bold;
-  font-size: 18px;
+  font-size: 15px;
 }
 
-
 .Neutral {
-  color: #3b5998;
+  background: #e6e6e6;
 }
 
 .Neutral:hover {
-  color: #7d93c2;
+  background: #d4d4d4;
 }
+
+.Save {
+  background: #1665f7;
+  color: white;
+}
+
+.Save:hover {
+  background: #155fe8;
+}
+
 .Success {
   color: green;
 }

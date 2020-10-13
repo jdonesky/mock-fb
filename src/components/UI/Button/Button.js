@@ -3,8 +3,8 @@ import classes from "./Button.css";
 
 const button = (props) => {
   const buttonClass = [classes.Button];
-  if (props.add) {
-    buttonClass.push(classes[props.add]);
+  if (props.addClass) {
+    buttonClass.push(classes[props.addClass]);
   }
   return (
     <div>

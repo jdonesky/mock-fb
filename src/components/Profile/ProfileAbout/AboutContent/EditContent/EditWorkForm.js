@@ -2,6 +2,7 @@
 
 import React, {useState} from 'react';
 import Input from '../../../../UI/Input/Input'
+import Button from '../../../../UI/Button/Button'
 import {fieldBuilder} from "../../../../../shared/utility";
 import classes from './EditWorkForm.css'
 
@@ -88,7 +89,23 @@ const editWorkForm = (props) => {
         )
     })
 
-    return formInputs
+    const submitChangesHandler = (event) => {
+        event.preventDefault();
+    }
+
+    return (
+        <form onSubmit={submitChangesHandler}>
+            {formInputs}
+            <hr/>
+            <div className={classes.Buttons}>
+                <Button addClass="Neutral">Privacy</Button>
+                <div className={classes.SubmitOrCancel}>
+                <Button addClass="Neutral" clicked={props.cancel}>Cancel</Button>
+                <Button addClass="Save">Save</Button>
+                </div>
+            </div>
+        </form>
+    )
 
 }
 

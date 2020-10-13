@@ -17,6 +17,18 @@ const contentEntry = props => {
         editDropdownClasses.push(classes.VisibleDropdown)
     }
 
+    const toggleEditDropdown = () => {
+        setEditDropdown((prevState) => {
+            return !prevState
+        })
+    }
+
+    const toggleEditing = () => {
+        setEditing((prevState) => {
+            return !prevState
+        })
+    }
+
     let categoryIcon;
     let dropdownCaption;
     let editForm;
@@ -24,7 +36,7 @@ const contentEntry = props => {
         case 'work':
             categoryIcon = 'https://www.flaticon.com/svg/static/icons/svg/1086/1086511.svg'
             dropdownCaption = 'workplace'
-            editForm = <EditWorkForm />
+            editForm = <EditWorkForm cancel={toggleEditing}/>
             break;
         case 'education':
             categoryIcon = 'https://globalvoices.wm.edu/files/2014/04/Business-Graduation-cap-icon.png'
@@ -76,9 +88,6 @@ const contentEntry = props => {
             shareIcon = 'https://cdn4.vectorstock.com/i/1000x1000/61/68/globe-icon-on-gray-vector-7606168.jpg'
     }
 
-    const toggleEditDropdown = () => {
-        setEditDropdown((prevState) => !prevState)
-    }
 
     const entry = (
         <div className={classes.Entry}>
@@ -92,7 +101,7 @@ const contentEntry = props => {
                 <div className={[classes.Icon,classes.Edit].join(' ')} onClick={toggleEditDropdown}/>
                 <div className={editDropdownClasses.join(' ')} >
                     <div className={classes.UpArrow}/>
-                    <div className={classes.MenuItem}><span className={classes.EditIcon}></span><span>{`Edit ${dropdownCaption}`}</span></div>
+                    <div className={classes.MenuItem} onClick={toggleEditing}><span className={classes.EditIcon}></span><span>{`Edit ${dropdownCaption}`}</span></div>
                     <div className={classes.MenuItem}><span className={classes.DeleteIcon}></span><span>{`Delete ${dropdownCaption}`}</span></div>
                 </div>
             </div>

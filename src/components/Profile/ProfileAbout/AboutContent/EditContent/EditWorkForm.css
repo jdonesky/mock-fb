@@ -1,0 +1,17 @@
+
+.Buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.SubmitOrCancel {
+    display: flex;
+    align-items: center;
+}
+
+.Buttons button {
+    margin: 5px;
+    width: 70px;
+    height: 40px;
+}
