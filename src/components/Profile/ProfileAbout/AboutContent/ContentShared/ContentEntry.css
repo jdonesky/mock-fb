@@ -7,6 +7,7 @@
     height: 60px;
     width: 100%;
     padding: 3px;
+    position: relative;
 }
 
 
@@ -40,6 +41,7 @@
     width: 100px;
     margin-left: auto;
     height: 100%;
+    position: relative;
 }
 
 .Share {
@@ -59,3 +61,42 @@
 }
 
 
+.EditDropdown {
+    /*display: none;*/
+    z-index: 2;
+    position: absolute;
+    top: 55px;
+    right: 20px;
+    background: white;
+    padding: 5px;
+    width: 300px;
+    box-shadow: 0 1px 8px 6px rgba(0,0,0,0.15);
+    border-radius: 10px;
+}
+
+.UpArrow {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #d4d4d4;
+    position: absolute;
+    left: 280px;
+    bottom: 75px;
+}
+
+.MenuItem {
+    height: 30px;
+    padding: 3px 3px 3px 5px;
+    box-sizing: border-box;
+}
+
+.MenuItem:hover {
+    border-radius: 5px;
+    background: rgba(204,206,208,.31);
+    cursor: pointer;
+}
+
+.EditDropdown div {
+    margin: 2px;
+}

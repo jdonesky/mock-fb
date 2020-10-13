@@ -55,15 +55,17 @@ const contentEntry = props => {
         <div className={classes.Entry}>
             <div className={classes.Icon} style={{backgroundImage: `url('${categoryIcon}')`}}/>
             <div className={classes.Text}>
-            <span className={classes.MainText}>{props.mainText}</span>
-            {props.subText && <span className={classes.SubText}>{props.subText}</span>}
+                <span className={classes.MainText}>{props.mainText}</span>
+                {props.subText && <span className={classes.SubText}>{props.subText}</span>}
             </div>
             <div className={classes.Icons}>
-            <div className={[classes.Icon,classes.Share].join(' ')} style={{backgroundImage: `url('${shareIcon}')`}}/>
-            <div className={[classes.Icon,classes.Edit].join(' ')} />
-            <div className={classes.EditDropdown}>
-                <div><span>Edit</span></div>
-            </div>
+                <div className={[classes.Icon,classes.Share].join(' ')} style={{backgroundImage: `url('${shareIcon}')`}}/>
+                <div className={[classes.Icon,classes.Edit].join(' ')} />
+                <div className={classes.EditDropdown}>
+                    <div className={classes.UpArrow}/>
+                    <div className={classes.MenuItem}><span className={classes.EditIcon}></span><span>{`Edit ${dropdownCaption}`}</span></div>
+                    <div className={classes.MenuItem}><span className={classes.DeleteIcon}></span><span>{`Delete ${dropdownCaption}`}</span></div>
+                </div>
             </div>
         </div>
     );

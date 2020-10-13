@@ -23,7 +23,6 @@ const profileAbout = props => {
                     <NavLink to={"/user-profile/about/life-events"} activeClassName={classes.active}>Life Events</NavLink>
                 </ul>
             </section>
-            {/*<div className={classes.Break}/>*/}
             <section className={classes.LoadedContent}>
                 <Suspense fallback={<h1>Oops!</h1>}>
                     <Route exact path={"/user-profile/about"} component={AboutContent} />
