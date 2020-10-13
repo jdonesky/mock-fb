@@ -27,7 +27,6 @@ const input = (props) => {
       inputClasses.push(classes.TextArea)
       inputElement = (
           <textarea
-              resize="none"
               rows={props.rows}
               cols={props.cols}
               placeholder={props.placeholder}

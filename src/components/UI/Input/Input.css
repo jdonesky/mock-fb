@@ -14,13 +14,17 @@
   height: 100px;
 }
 
-.InputElement::placeholder {
-  color: #b8b5b5;
-  font-weight: lighter;
+.InputElement:hover {
+  border: 1px solid #878787;
 }
 
 .InputElement:focus {
   border: 1px solid #0B86DE;
+}
+
+.InputElement::placeholder {
+  color: #b8b5b5;
+  font-weight: lighter;
 }
 
 .Invalid {

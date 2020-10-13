@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { fieldBuilder, validityCheck } from "../../shared/utility";
@@ -22,7 +22,7 @@ const auth = props => {
       ),
       password: fieldBuilder(
         "input",
-        "text",
+        "password",
         "Password",
         "",
         { required: true, minLength: 6 },
@@ -69,28 +69,28 @@ const auth = props => {
   };
 
 
-    let formFields = Object.keys(formInputs).map((key) => (
-      <Input
-        key={key}
-        elementType={formInputs[key].elementType}
-        inputType={formInputs[key].elementConfig.inputType}
-        placeholder={formInputs[key].elementConfig.placeholder}
-        value={formInputs[key].value}
-        touched={formInputs[key].touched}
-        changed={(event) => changeHandler(event, key)}
-        invalid={!formInputs[key].valid}
-      />
-    ));
+  let formFields = Object.keys(formInputs).map((key) => (
+    <Input
+      key={key}
+      elementType={formInputs[key].elementType}
+      type={formInputs[key].elementConfig.type}
+      placeholder={formInputs[key].elementConfig.placeholder}
+      value={formInputs[key].value}
+      touched={formInputs[key].touched}
+      changed={(event) => changeHandler(event, key)}
+      invalid={!formInputs[key].valid}
+    />
+  ));
 
-    let authRedirect = props.isAuthenticated ? (
-      <Redirect to="/" />
-    ) : null;
+  let authRedirect = props.isAuthenticated ? (
+    <Redirect to="/" />
+  ) : null;
 
-    const errorModal = (
-      <Modal show={props.error} close={confirmErrorHandler}>
-        {props.error ? props.error : null}
-      </Modal>
-    );
+  const errorModal = (
+    <Modal show={props.error} close={confirmErrorHandler}>
+      {props.error ? props.error : null}
+    </Modal>
+  );
 
   return (
       <React.Fragment>

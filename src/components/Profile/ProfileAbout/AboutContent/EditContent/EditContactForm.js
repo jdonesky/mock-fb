@@ -2,8 +2,9 @@
 
 import React, {useState} from 'react';
 import Input from '../../../../UI/Input/Input'
+import Button from '../../../../UI/Button/Button'
 import {fieldBuilder} from "../../../../../shared/utility";
-import classes from './EditWorkForm.css'
+import classes from './SharedEditFormUI.css'
 
 const editWorkForm = (props) => {
 
@@ -41,9 +42,9 @@ const editWorkForm = (props) => {
             null
         ),
         description: fieldBuilder(
-            "textArea",
+            "textarea",
             "text",
-            "Company",
+            "Description",
             description,
             null,
             true,
@@ -72,15 +73,39 @@ const editWorkForm = (props) => {
 
     const formInputs = Object.keys(formFields).map(key => {
         return (
-            <h2>TEST</h2>
-            // <Input
-            //     key={key}
-            //     changed={(event) => updateInput(event,key)}
-            // />
+            <Input
+                key={key}
+                elementType={formFields[key].elementType}
+                type={formFields[key].elementConfig.type}
+                placeholder={formFields[key].elementConfig.placeholder}
+                rows={formFields[key].elementConfig.rows}
+                cols={formFields[key].elementConfig.cols}
+                value={formFields[key].value}
+                validation={formFields[key].validation}
+                invalid={!formFields[key].valid}
+                touched={formFields[key].touched}
+                changed={(event) => updateInput(event,key)}
+            />
         )
     })
 
-    return formInputs
+    const submitChangesHandler = (event) => {
+        event.preventDefault();
+    }
+
+    return (
+        <form onSubmit={submitChangesHandler} className={classes.EditForm}>
+            {formInputs}
+            <hr/>
+            <div className={classes.Buttons}>
+                <Button addClass="Neutral">Privacy</Button>
+                <div className={classes.SubmitOrCancel}>
+                    <Button addClass="Neutral" clicked={props.cancel}>Cancel</Button>
+                    <Button addClass="Save">Save</Button>
+                </div>
+            </div>
+        </form>
+    )
 
 }
 

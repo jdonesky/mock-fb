@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import Input from '../../../../UI/Input/Input'
 import Button from '../../../../UI/Button/Button'
 import {fieldBuilder} from "../../../../../shared/utility";
-import classes from './EditWorkForm.css'
+import classes from './SharedEditFormUI.css'
 
 const editWorkForm = (props) => {
 
@@ -94,7 +94,7 @@ const editWorkForm = (props) => {
     }
 
     return (
-        <form onSubmit={submitChangesHandler}>
+        <form onSubmit={submitChangesHandler} >
             {formInputs}
             <hr/>
             <div className={classes.Buttons}>
