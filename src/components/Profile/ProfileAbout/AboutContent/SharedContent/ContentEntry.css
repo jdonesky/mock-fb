@@ -60,9 +60,8 @@
     border: 1px solid #cccccc;
 }
 
-
 .EditDropdown {
-    /*display: none;*/
+    display: none;
     z-index: 2;
     position: absolute;
     top: 55px;
@@ -70,8 +69,12 @@
     background: white;
     padding: 5px;
     width: 300px;
-    box-shadow: 0 1px 8px 6px rgba(0,0,0,0.15);
+    box-shadow: 0 1px 12px 2px rgba(0,0,0,0.15);
     border-radius: 10px;
+}
+
+.VisibleDropdown {
+    display: block;
 }
 
 .UpArrow {

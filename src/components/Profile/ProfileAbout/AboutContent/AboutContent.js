@@ -1,7 +1,7 @@
 
 import React, {useEffect} from 'react';
-import AddContentButton from './ContentShared/AddContentButton'
-import ContentEntry from './ContentShared/ContentEntry'
+import AddContentButton from './SharedContent/AddContentButton'
+import ContentEntry from './SharedContent/ContentEntry'
 import Overview from './LoadedContent/Overview'
 
 const aboutContent = (props) => {

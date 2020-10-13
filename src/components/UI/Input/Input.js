@@ -23,17 +23,25 @@ const input = (props) => {
         />
       );
       break;
-
+    case "textarea":
+      inputClasses.push(classes.TextArea)
+      inputElement = (
+          <textarea
+              resize="none"
+              rows={props.rows}
+              cols={props.cols}
+              placeholder={props.placeholder}
+              onChange={props.changed}
+              className={inputClasses.join(" ")}
+          >
+            {props.value}
+          </textarea>
+      )
+      break;
     default:
       inputElement = null;
   }
-
-  return (
-    <div className={classes.Input}>
-      {/* <label className={classes.Label}>{props.label || null}</label> */}
-      {inputElement}
-    </div>
-  );
+  return inputElement;
 };
 
 export default input;
