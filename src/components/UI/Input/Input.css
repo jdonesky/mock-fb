@@ -27,7 +27,7 @@
   font-weight: lighter;
 }
 
-.Container {
+.CheckContainer {
   margin: 10px 0;
   position:relative;
   right: 6px;
@@ -60,10 +60,18 @@
   background: rgba(0,0,0,.1);
 }
 
-.Label {
+.CheckLabel {
   position: relative;
   bottom: 3px;
   margin-left: 3px;
+}
+
+.SelectContainer {
+
+}
+
+.SelectLabel {
+
 }
 
 .Invalid {

@@ -1,18 +1,28 @@
 
-
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import {connect} from 'react-redux';
 import Input from '../../../../UI/Input/Input'
 import Button from '../../../../UI/Button/Button'
 import {fieldBuilder} from "../../../../../shared/utility";
 import classes from './SharedEditFormUI.css'
 
-const editWorkForm = (props) => {
+const editSchoolForm = (props) => {
 
     const [school, setSchool] = useState(props.school || '');
     const [startDate, setStartDate] = useState(props.startDate || '');
     const [endDate, setEndDate] = useState(props.endDate || '');
     const [graduated, setGraduated] = useState(false);
     const [description, setDescription] = useState(props.description || '');
+
+    const { birthday } = props
+    const currentYear = new Date().getFullYear();
+    const birthYear = new Date(birthday).getFullYear()
+    const startDateArray = Array(currentYear-birthYear+1).fill().map((_,idx) => (currentYear - idx).toString())
+    const startDateOptions = startDateArray.map(date => ({key: date,value:date,label:date}))
+
+    const endDateOptions = startDate ?
+        startDateOptions.slice(0, startDateOptions.findIndex(option => option.value === startDate)+1)
+        : startDateOptions.slice()
 
     const formFields = {
         school: fieldBuilder(
@@ -26,22 +36,26 @@ const editWorkForm = (props) => {
             null
         ),
         startDate: fieldBuilder(
-            "input",
-            "text",
-            "Start Date",
+            "select",
+            null,
+null,
              startDate,
             null,
             true,
             null,
+            "Start Date",
+            startDateOptions
         ),
         endDate: fieldBuilder(
-            "input",
-            "text",
+            "select",
+            null,
             "End Date",
             endDate,
             null,
             true,
             null,
+            "End Date",
+            endDateOptions
         ),
         graduated: fieldBuilder(
             "checkbox",
@@ -98,6 +112,7 @@ const editWorkForm = (props) => {
                 invalid={!formFields[key].valid}
                 touched={formFields[key].touched}
                 label={formFields[key].label}
+                options={formFields[key].options}
                 changed={(event) => updateInput(event,key)}
             />
         )
@@ -120,8 +135,13 @@ const editWorkForm = (props) => {
             </div>
         </form>
     )
+}
 
+const mapStateToProps = state => {
+    return {
+        birthday: state.profile.birthday
+    }
 }
 
 
-export default editWorkForm;
+export default connect(mapStateToProps)(editSchoolForm);

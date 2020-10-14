@@ -4,6 +4,12 @@ import classes from "./Input.css";
 const input = (props) => {
   let inputElement = null;
   const inputClasses = [classes.InputElement];
+  //
+  // if (props.options) {
+  //   console.log(props.options.map(option => {
+  //     return <option value={option.value}>{option.label}</option>
+  //   }))
+  // }
 
   if (props.invalid && props.touched) {
     inputClasses.push(classes.Invalid);
@@ -49,10 +55,10 @@ const input = (props) => {
     case "select":
       inputClasses.push(classes.Select);
       inputElement = (
-          <select value={props.value}>
-            {props.options.map(option => {
-              return <option value={option.value}>{option.label}</option>
-            })}
+          <select value={props.value} onChange={props.changed}>
+            {props.options? props.options.map(option => {
+              return <option key={option.value} value={option.value}>{option.label}</option>
+            }) : null}
           </select>
       );
       break;
@@ -64,13 +70,24 @@ const input = (props) => {
 
   if (props.elementType === 'checkbox') {
     customInput = (
-        <div className={classes.Container}>
+        <div className={classes.CheckContainer}>
             <div className={classes.CheckCircle}>
               {inputElement}
             </div>
-            <label className={classes.Label} htmlFor={props.placeholder}>{props.label || null}</label>
+            <label className={classes.CheckLabel} htmlFor={props.placeholder}>{props.label || null}</label>
         </div>
     );
+  }
+
+  if (props.elementType === 'select') {
+    customInput = (
+        <div className={classes.SelectContainer}>
+          <label>
+            {props.label}
+            {inputElement}
+          </label>
+        </div>
+    )
   }
 
   return customInput;
