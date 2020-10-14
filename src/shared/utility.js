@@ -5,7 +5,8 @@ export const fieldBuilder = (
   value,
   validation, 
   valid,
-  touched
+  touched,
+  label
 ) => {
   return { 
     elementType: elType,
@@ -17,6 +18,7 @@ export const fieldBuilder = (
     validation: validation,
     valid: valid,
     touched: touched,
+    label: label
   };
 };
 

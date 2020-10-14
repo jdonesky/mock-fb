@@ -10,7 +10,7 @@ import classes from "./ContentEntry.css";
 const contentEntry = props => {
 
     const [showEditDropdown, setEditDropdown] = useState(false);
-    const [editing, setEditing] = useState(false);
+    const [editing, setEditing] = useState(true);
 
     let editDropdownClasses = [classes.EditDropdown]
     if (showEditDropdown) {

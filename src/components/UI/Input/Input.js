@@ -7,7 +7,7 @@ const input = (props) => {
 
   if (props.invalid && props.touched) {
     inputClasses.push(classes.Invalid);
-  }
+  };
 
   switch (props.elementType) {
     case "input":
@@ -24,23 +24,56 @@ const input = (props) => {
       );
       break;
     case "textarea":
-      inputClasses.push(classes.TextArea)
+      inputClasses.push(classes.TextArea);
       inputElement = (
           <textarea
-              rows={props.rows}
-              cols={props.cols}
+              value={props.value}
               placeholder={props.placeholder}
               onChange={props.changed}
               className={inputClasses.join(" ")}
-          >
-            {props.value}
-          </textarea>
-      )
+          />
+      );
+      break;
+    case "checkbox":
+      inputClasses.push(classes.Checkbox);
+      inputElement = (
+        <input
+            name={props.placeholder}
+            type={props.type}
+            value={props.value}
+            onChange={props.changed}
+            className={inputClasses.join(" ")}
+        />
+      );
+      break;
+    case "select":
+      inputClasses.push(classes.Select);
+      inputElement = (
+          <select value={props.value}>
+            {props.options.map(option => {
+              return <option value={option.value}>{option.label}</option>
+            })}
+          </select>
+      );
       break;
     default:
       inputElement = null;
+  };
+
+  let customInput = inputElement
+
+  if (props.elementType === 'checkbox') {
+    customInput = (
+        <div className={classes.Container}>
+            <div className={classes.CheckCircle}>
+              {inputElement}
+            </div>
+            <label className={classes.Label} htmlFor={props.placeholder}>{props.label || null}</label>
+        </div>
+    );
   }
-  return inputElement;
+
+  return customInput;
 };
 
 export default input;

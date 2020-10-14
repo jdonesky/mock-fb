@@ -27,6 +27,45 @@
   font-weight: lighter;
 }
 
+.Container {
+  margin: 10px 0;
+  position:relative;
+  right: 6px;
+}
+
+.CheckCircle {
+  display: inline-block;
+  align-items: center;
+  height: 38px;
+  width: 38px;
+  border-radius: 100px;
+  cursor:pointer
+}
+
+.CheckCircle:hover {
+  background: rgba(0,0,0,.1);
+}
+
+.Checkbox {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  position: relative;
+  left: 8px;
+  top: 3px;
+}
+
+.Checkbox:hover {
+  border-radius: 100px;
+  background: rgba(0,0,0,.1);
+}
+
+.Label {
+  position: relative;
+  bottom: 3px;
+  margin-left: 3px;
+}
+
 .Invalid {
   border: 1px solid #a51515;
   border-radius: 5px;
