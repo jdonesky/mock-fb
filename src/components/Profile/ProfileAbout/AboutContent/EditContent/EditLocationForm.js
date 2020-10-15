@@ -6,19 +6,29 @@ import Button from '../../../../UI/Button/Button'
 import {fieldBuilder} from "../../../../../shared/utility";
 import classes from './SharedEditFormUI.css'
 
-const editWorkForm = (props) => {
+const editLocationForm = (props) => {
 
-    const [location, setLocation] = useState(props.location || '');
+    const [currentLocation, setCurrentLocation] = useState(props.currentLocation || '');
+    const [hometown, setHometown] = useState(props.hometown || '');
 
     let placeholder;
+    let value;
+    let changeHandler;
+    // let submitHandler;  <<<<<<< !
+
     switch (props.locType) {
         case "current":
-            placeholder = "Current City/Town"
+            placeholder = "Current City/Town";
+            value = currentLocation;
+            changeHandler = setCurrentLocation;
             break;
         case "origin":
-            placeholder = "Hometown"
-            break
+            placeholder = "Hometown";
+            value = hometown;
+            changeHandler = setHometown;
+            break;
         default:
+            placeholder = null;
     }
 
     const formFields = {
@@ -26,7 +36,7 @@ const editWorkForm = (props) => {
             "input",
             "text",
             placeholder,
-            location,
+            value,
             {required: true},
             false,
             false
@@ -34,7 +44,7 @@ const editWorkForm = (props) => {
     }
 
     const updateInput = (event) => {
-       setLocation(event.target.value)
+        changeHandler(event.target.value);
     }
 
     const formInputs = Object.keys(formFields).map(key => {
@@ -44,8 +54,6 @@ const editWorkForm = (props) => {
                 elementType={formFields[key].elementType}
                 type={formFields[key].elementConfig.type}
                 placeholder={formFields[key].elementConfig.placeholder}
-                rows={formFields[key].elementConfig.rows}
-                cols={formFields[key].elementConfig.cols}
                 value={formFields[key].value}
                 validation={formFields[key].validation}
                 invalid={!formFields[key].valid}
@@ -76,4 +84,4 @@ const editWorkForm = (props) => {
 }
 
 
-export default editWorkForm;
+export default editLocationForm;
