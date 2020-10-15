@@ -87,6 +87,7 @@
   height: 100%;
   margin-left: 0;
   border: none;
+  cursor: pointer;
 }
 
 .Select:hover {

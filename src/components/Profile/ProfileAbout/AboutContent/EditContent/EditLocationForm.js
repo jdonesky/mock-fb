@@ -8,67 +8,33 @@ import classes from './SharedEditFormUI.css'
 
 const editWorkForm = (props) => {
 
-    const [company, setCompany] = useState(props.company || '');
-    const [position, setPosition] = useState(props.position || '');
     const [location, setLocation] = useState(props.location || '');
-    const [description, setDescription] = useState(props.description || '');
+
+    let placeholder;
+    switch (props.locType) {
+        case "current":
+            placeholder = "Current City/Town"
+            break;
+        case "origin":
+            placeholder = "Hometown"
+            break
+        default:
+    }
 
     const formFields = {
-        company: fieldBuilder(
-            "input",
-            "text",
-            "Company",
-            company,
-            {required: true},
-            false,
-            false
-        ),
-        position: fieldBuilder(
-            "input",
-            "text",
-            "Position",
-            position,
-            null,
-            true,
-            null
-        ),
         location: fieldBuilder(
             "input",
             "text",
-            "City/Town",
+            placeholder,
             location,
-            null,
-            true,
-            null
-        ),
-        description: fieldBuilder(
-            "textarea",
-            "text",
-            "Description",
-            description,
-            null,
-            true,
-            null
+            {required: true},
+            false,
+            false
         )
     }
 
-    const updateInput = (event, key) => {
-        switch (key) {
-            case "company":
-                setCompany(event.target.value)
-                break;
-            case "position":
-                setPosition(event.target.value)
-                break;
-            case "location":
-                setLocation(event.target.value)
-                break;
-            case "description":
-                setDescription(event.target.value)
-                break;
-            default:
-                throw new Error("Oops, shouldn't be here")
-        }
+    const updateInput = (event) => {
+       setLocation(event.target.value)
     }
 
     const formInputs = Object.keys(formFields).map(key => {
