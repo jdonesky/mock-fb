@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import EditWorkForm from "../EditContent/EditWorkForm"
 import EditSchoolForm from "../EditContent/EditSchoolForm"
 import EditLocationForm from "../EditContent/EditLocationForm"

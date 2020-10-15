@@ -9,20 +9,30 @@ import classes from './SharedEditFormUI.css'
 const editSchoolForm = (props) => {
 
     const [school, setSchool] = useState(props.school || '');
-    const [startDate, setStartDate] = useState(props.startDate || '');
-    const [endDate, setEndDate] = useState(props.endDate || '');
+    const [startYear, setStartYear] = useState(props.startYear || '');
+    const [startMonth, setStartMonth] = useState(props.startMonth || '');
+    const [endYear, setEndYear] = useState(props.endYear || '');
+    const [endMonth, setEndMonth] = useState(props.endMonth || '');
     const [graduated, setGraduated] = useState(false);
     const [description, setDescription] = useState(props.description || '');
 
     const { birthday } = props
     const currentYear = new Date().getFullYear();
     const birthYear = new Date(birthday).getFullYear()
-    const startDateArray = Array(currentYear-birthYear+1).fill().map((_,idx) => (currentYear - idx).toString())
-    const startDateOptions = startDateArray.map(date => ({key: date,value:date,label:date}))
+    const startYearArray = Array(currentYear-birthYear+1).fill().map((_,idx) => (currentYear - idx).toString())
+    const startYearOptions = startYearArray.map(date => ({value:date,label:date}))
+    const endYearOptions = startYear ?
+        startYearOptions.slice(0, startYearOptions.findIndex(option => option.value === startYear)+1)
+        : startYearOptions.slice()
+    startYearOptions.unshift({label: 'Year'})
+    endYearOptions.unshift({label: 'Year'})
 
-    const endDateOptions = startDate ?
-        startDateOptions.slice(0, startDateOptions.findIndex(option => option.value === startDate)+1)
-        : startDateOptions.slice()
+    const startMonthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const startMonthOptions = startMonthArray.map(month => ({value: month, label: month}))
+    const endMonthOptions = startYear && startMonth && startYear === endYear ?
+        startMonthOptions.slice(startMonthOptions.findIndex(option => option.value === startMonth )) : startMonthOptions.slice()
+    startMonthOptions.unshift({label:'Month'})
+    endMonthOptions.unshift({label:'Month'})
 
     const formFields = {
         school: fieldBuilder(
@@ -35,27 +45,55 @@ const editSchoolForm = (props) => {
             false,
             null
         ),
-        startDate: fieldBuilder(
+        startYear: fieldBuilder(
             "select",
             null,
-null,
-             startDate,
+            null,
+             startYear,
             null,
             true,
             null,
             "Start Date",
-            startDateOptions
+            startYearOptions,
+            "Year",
+            "start"
         ),
-        endDate: fieldBuilder(
+        startMonth: fieldBuilder(
+            "select",
+            null,
+            null,
+            startMonth,
+            null,
+            true,
+            null,
+            "Start Date",
+            startMonthOptions,
+            "Year",
+            'break'
+        ),
+        endYear: fieldBuilder(
             "select",
             null,
             "End Date",
-            endDate,
+            endYear,
             null,
             true,
             null,
             "End Date",
-            endDateOptions
+            endYearOptions,
+            "Year"
+        ),
+        endMonth: fieldBuilder(
+            "select",
+            null,
+            "End Date",
+            endMonth,
+            null,
+            true,
+            null,
+            "End Date",
+            endMonthOptions,
+            "Year"
         ),
         graduated: fieldBuilder(
             "checkbox",
@@ -83,11 +121,17 @@ null,
             case "school":
                 setSchool(event.target.value)
                 break;
-            case "startDate":
-                setStartDate(event.target.value)
+            case "startYear":
+                setStartYear(event.target.value)
                 break;
-            case "endDate":
-                setEndDate(event.target.value)
+            case "startMonth":
+                setStartMonth(event.target.value)
+                break;
+            case "endYear":
+                setEndYear(event.target.value)
+                break;
+            case "endMonth":
+                setEndMonth(event.target.value)
                 break;
             case "graduated":
                 setGraduated(event.target.checked);
@@ -114,6 +158,7 @@ null,
                 label={formFields[key].label}
                 options={formFields[key].options}
                 changed={(event) => updateInput(event,key)}
+                extra={formFields[key].extra}
             />
         )
     })

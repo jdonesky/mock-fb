@@ -4,12 +4,6 @@ import classes from "./Input.css";
 const input = (props) => {
   let inputElement = null;
   const inputClasses = [classes.InputElement];
-  //
-  // if (props.options) {
-  //   console.log(props.options.map(option => {
-  //     return <option value={option.value}>{option.label}</option>
-  //   }))
-  // }
 
   if (props.invalid && props.touched) {
     inputClasses.push(classes.Invalid);
@@ -55,7 +49,7 @@ const input = (props) => {
     case "select":
       inputClasses.push(classes.Select);
       inputElement = (
-          <select value={props.value} onChange={props.changed}>
+          <select value={props.value} name={props.name} onChange={props.changed} className={inputClasses.join(' ')}>
             {props.options? props.options.map(option => {
               return <option key={option.value} value={option.value}>{option.label}</option>
             }) : null}
@@ -81,12 +75,13 @@ const input = (props) => {
 
   if (props.elementType === 'select') {
     customInput = (
-        <div className={classes.SelectContainer}>
-          <label>
-            {props.label}
-            {inputElement}
-          </label>
-        </div>
+        <React.Fragment>
+          {props.extra === 'start' && <h4 style={{margin: '10px 0 0 0'}}>Years Attended</h4> }
+          <div className={classes.SelectContainer}>
+              {inputElement}
+              {props.extra === 'break' && <span style={{marginLeft: '10px', marginRight:'5px'}}>to</span>}
+          </div>
+        </React.Fragment>
     )
   }
 

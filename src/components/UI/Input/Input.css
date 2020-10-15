@@ -67,11 +67,31 @@
 }
 
 .SelectContainer {
-
+  margin: 5px 5px 10px 0;
+  height: 40px;
+  display: inline-block;
 }
 
 .SelectLabel {
+  margin: 6px;
+}
 
+.Select {
+  display: inline-block;
+  background-color: #e6e6e6;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px;
+  max-width: 100%;
+  width: 80px;
+  height: 100%;
+  margin-left: 0;
+  border: none;
+}
+
+.Select:hover {
+  background: #d4d4d4;
+  border: none;
 }
 
 .Invalid {
