@@ -1,0 +1,13 @@
+
+.Form {
+    margin-top: 20px;
+}
+
+.Form div:first-of-type {
+    width: 97%;
+}
+
+.Form select:first-of-type {
+    width: 100%;
+}
+

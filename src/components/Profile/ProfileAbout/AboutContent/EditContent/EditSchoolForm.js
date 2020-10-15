@@ -42,8 +42,7 @@ const editSchoolForm = (props) => {
             school,
             {required: true},
             false,
-            false,
-            null
+            false
         ),
         startYear: fieldBuilder(
             "select",
@@ -53,9 +52,8 @@ const editSchoolForm = (props) => {
             null,
             true,
             null,
-            "Start Date",
+            null,
             startYearOptions,
-            "Year",
             "start"
         ),
         startMonth: fieldBuilder(
@@ -66,22 +64,20 @@ const editSchoolForm = (props) => {
             null,
             true,
             null,
-            "Start Date",
+            null,
             startMonthOptions,
-            "Year",
             'break'
         ),
         endYear: fieldBuilder(
             "select",
             null,
-            "End Date",
+            null,
             endYear,
             null,
             true,
             null,
-            "End Date",
+            null,
             endYearOptions,
-            "Year"
         ),
         endMonth: fieldBuilder(
             "select",
@@ -91,9 +87,8 @@ const editSchoolForm = (props) => {
             null,
             true,
             null,
-            "End Date",
+            null,
             endMonthOptions,
-            "Year"
         ),
         graduated: fieldBuilder(
             "checkbox",
@@ -159,6 +154,7 @@ const editSchoolForm = (props) => {
                 options={formFields[key].options}
                 changed={(event) => updateInput(event,key)}
                 extra={formFields[key].extra}
+                header={formFields[key].header}
             />
         )
     })

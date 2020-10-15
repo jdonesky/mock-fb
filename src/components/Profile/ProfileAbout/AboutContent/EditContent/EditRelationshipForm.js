@@ -1,70 +1,77 @@
 
 
 import React, {useState} from 'react';
+import {connect} from 'react-redux'
 import Input from '../../../../UI/Input/Input'
 import Button from '../../../../UI/Button/Button'
 import {fieldBuilder} from "../../../../../shared/utility";
-import classes from './SharedEditFormUI.css'
+import formClasses from "./EditRelationshipForm.css"
+import sharedClasses from './SharedEditFormUI.css'
 
-const editWorkForm = (props) => {
+const editRelationshipForm = (props) => {
 
-    const [company, setCompany] = useState(props.company || '');
-    const [position, setPosition] = useState(props.position || '');
-    const [location, setLocation] = useState(props.location || '');
-    const [description, setDescription] = useState(props.description || '');
+    const [status, setStatus] = useState(props.relationshipStatus || '');
+    const [partner, setPartner] = useState(props.partner || '');
+    const [start, setStart] = useState(props.relationshipStart || '');
+
+    const statusOptions = ['Single', 'In a Relationship','Engaged','Married','In a civil union', 'In a domestic partnership','In an open relationship',"It's complicated",'Separated','Divorced','Widowed']
+        .map(option => ({value:option, label: option}))
+
+    const { birthday } = props
+    const currentYear = new Date().getFullYear();
+    const birthYear = new Date(birthday).getFullYear()
+    const startYearArray = Array(currentYear-birthYear+1).fill().map((_,idx) => (currentYear - idx).toString())
+    const startYearOptions = startYearArray.map(date => ({value:date,label:date}))
+    startYearOptions.unshift({label: 'Year'})
 
     const formFields = {
-        company: fieldBuilder(
-            "input",
-            "text",
-            "Company",
-            company,
+        status: fieldBuilder(
+            "select",
+            null,
+            null,
+            status,
             {required: true},
             false,
-            false
+            false,
+            null,
+            statusOptions,
+            null,
+            null
         ),
-        position: fieldBuilder(
+        partner: fieldBuilder(
             "input",
             "text",
-            "Position",
-            position,
+            "Partner",
+            partner,
             null,
             true,
-            null
         ),
-        location: fieldBuilder(
-            "input",
-            "text",
-            "City/Town",
-            location,
+        start: fieldBuilder(
+            "select",
+            null,
+            null,
+            start,
             null,
             true,
-            null
-        ),
-        description: fieldBuilder(
-            "textarea",
-            "text",
-            "Description",
-            description,
             null,
-            true,
-            null
+            null,
+            startYearOptions,
+            "start",
+            "Since"
+
         )
     }
 
     const updateInput = (event, key) => {
         switch (key) {
-            case "company":
-                setCompany(event.target.value)
+            case "status":
+                setStatus(event.target.value)
                 break;
-            case "position":
-                setPosition(event.target.value)
+            case "partner":
+                setPartner(event.target.value)
                 break;
-            case "location":
-                setLocation(event.target.value)
-                break;
-            case "description":
-                setDescription(event.target.value)
+            case "start":
+                setStart(event.target.value)
                 break;
             default:
                 throw new Error("Oops, shouldn't be here")
@@ -78,13 +85,14 @@ const editWorkForm = (props) => {
                 elementType={formFields[key].elementType}
                 type={formFields[key].elementConfig.type}
                 placeholder={formFields[key].elementConfig.placeholder}
-                rows={formFields[key].elementConfig.rows}
-                cols={formFields[key].elementConfig.cols}
                 value={formFields[key].value}
                 validation={formFields[key].validation}
                 invalid={!formFields[key].valid}
                 touched={formFields[key].touched}
                 changed={(event) => updateInput(event,key)}
+                options={formFields[key].options}
+                extra={formFields[key].extra}
+                header={formFields[key].header}
             />
         )
     })
@@ -94,12 +102,12 @@ const editWorkForm = (props) => {
     }
 
     return (
-        <form onSubmit={submitChangesHandler}>
+        <form onSubmit={submitChangesHandler} className={formClasses.Form}>
             {formInputs}
             <hr/>
-            <div className={classes.Buttons} className={classes.EditForm}>
+            <div className={sharedClasses.Buttons}>
                 <Button addClass="Neutral">Privacy</Button>
-                <div className={classes.SubmitOrCancel}>
+                <div className={sharedClasses.SubmitOrCancel}>
                     <Button addClass="Neutral" clicked={props.cancel}>Cancel</Button>
                     <Button addClass="Save">Save</Button>
                 </div>
@@ -109,5 +117,11 @@ const editWorkForm = (props) => {
 
 }
 
+const mapStateToProps = state => {
+    return {
+        birthday: state.profile.birthday
+    }
+}
 
-export default editWorkForm;
+
+export default connect(mapStateToProps)(editRelationshipForm);

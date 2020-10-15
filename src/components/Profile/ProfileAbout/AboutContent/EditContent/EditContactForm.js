@@ -6,46 +6,46 @@ import Button from '../../../../UI/Button/Button'
 import {fieldBuilder} from "../../../../../shared/utility";
 import classes from './SharedEditFormUI.css'
 
-const editWorkForm = (props) => {
+const editContactForm = (props) => {
 
-    const [company, setCompany] = useState(props.company || '');
-    const [position, setPosition] = useState(props.position || '');
-    const [location, setLocation] = useState(props.location || '');
-    const [description, setDescription] = useState(props.description || '');
+    const [phone, setPhone] = useState(props.phone || '');
+    const [email, setEmail] = useState(props.email || '');
+    const [instagram, setInstagram] = useState(props.instagram || '');
+    const [twitter, setTwitter] = useState(props.twitter || '');
 
     const formFields = {
-        company: fieldBuilder(
+        phone: fieldBuilder(
             "input",
-            "text",
-            "Company",
-            company,
+            "tel",
+            "(888)-888-8888",
+            phone,
             {required: true},
             false,
             false
         ),
-        position: fieldBuilder(
+        email: fieldBuilder(
             "input",
             "text",
-            "Position",
-            position,
+            "Email",
+            email,
+            {required:false, isEmail:true},
+            true,
+            null
+        ),
+        instagram: fieldBuilder(
+            "input",
+            "text",
+            "@instagram",
+            instagram,
             null,
             true,
             null
         ),
-        location: fieldBuilder(
+        twitter: fieldBuilder(
             "input",
             "text",
-            "City/Town",
-            location,
-            null,
-            true,
-            null
-        ),
-        description: fieldBuilder(
-            "textarea",
-            "text",
-            "Description",
-            description,
+            "@twitter",
+            twitter,
             null,
             true,
             null
@@ -54,17 +54,17 @@ const editWorkForm = (props) => {
 
     const updateInput = (event, key) => {
         switch (key) {
-            case "company":
-                setCompany(event.target.value)
+            case "phone":
+                setPhone(event.target.value)
                 break;
-            case "position":
-                setPosition(event.target.value)
+            case "email":
+                setEmail(event.target.value)
                 break;
-            case "location":
-                setLocation(event.target.value)
+            case "instagram":
+                setInstagram(event.target.value)
                 break;
-            case "description":
-                setDescription(event.target.value)
+            case "twitter":
+                setTwitter(event.target.value)
                 break;
             default:
                 throw new Error("Oops, shouldn't be here")
@@ -78,8 +78,6 @@ const editWorkForm = (props) => {
                 elementType={formFields[key].elementType}
                 type={formFields[key].elementConfig.type}
                 placeholder={formFields[key].elementConfig.placeholder}
-                rows={formFields[key].elementConfig.rows}
-                cols={formFields[key].elementConfig.cols}
                 value={formFields[key].value}
                 validation={formFields[key].validation}
                 invalid={!formFields[key].valid}
@@ -110,4 +108,4 @@ const editWorkForm = (props) => {
 }
 
 
-export default editWorkForm;
+export default editContactForm;

@@ -8,8 +8,8 @@ export const fieldBuilder = (
   touched,
   label,
   options,
-  name,
   extra,
+  header
 ) => {
   return { 
     elementType: elType,
@@ -23,8 +23,8 @@ export const fieldBuilder = (
     touched: touched,
     label: label,
     options: options,
-    name: name,
-    extra: extra
+    extra: extra,
+    header: header
   };
 };
 
