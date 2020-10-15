@@ -78,8 +78,6 @@ const editWorkForm = (props) => {
                 elementType={formFields[key].elementType}
                 type={formFields[key].elementConfig.type}
                 placeholder={formFields[key].elementConfig.placeholder}
-                rows={formFields[key].elementConfig.rows}
-                cols={formFields[key].elementConfig.cols}
                 value={formFields[key].value}
                 validation={formFields[key].validation}
                 invalid={!formFields[key].valid}
@@ -89,19 +87,26 @@ const editWorkForm = (props) => {
         )
     })
 
-    const submitChangesHandler = (event) => {
+    const saveChangesHandler = (event) => {
         event.preventDefault();
+        const payload = {
+            company: company,
+            position: position,
+            location: location,
+            description: description
+        }
+        props.save('occupations',payload)
     }
 
     return (
-        <form onSubmit={submitChangesHandler} >
+        <form onSubmit={saveChangesHandler} >
             {formInputs}
             <hr/>
             <div className={classes.Buttons}>
                 <Button addClass="Neutral">Privacy</Button>
                 <div className={classes.SubmitOrCancel}>
-                <Button addClass="Neutral" clicked={props.cancel}>Cancel</Button>
-                <Button addClass="Save">Save</Button>
+                <Button addClass="Neutral" clicked={props.cancel} type="button">Cancel</Button>
+                <Button addClass="Save" type="submit">Save</Button>
                 </div>
             </div>
         </form>

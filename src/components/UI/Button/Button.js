@@ -9,6 +9,7 @@ const button = (props) => {
   return (
     <div>
       <button
+      type={props.type}
       className={buttonClass.join(" ")} 
       onClick={props.clicked}
       disabled={props.disabled}

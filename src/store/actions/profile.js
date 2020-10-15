@@ -61,7 +61,7 @@ const fetchProfileSuccess = (userData) => {
 
 // -------------------
 
-export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload) => {
+export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload, how) => {
   return dispatch => {
     dispatch(updateProfileInit());
     let updatedUserProfile;
@@ -69,7 +69,34 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload)
     axios.get(url)
         .then(response => {
           console.log('UPDATE_PROFILE ', response.data)
-         updatedUserProfile = {...response.data, [fieldName]: payload}
+          switch (how) {
+              case "edit":
+                  switch (fieldName) {
+                      case 'occupations' || 'education' || 'relationships' || 'currLocations':
+                          if (response.data[fieldName]) {
+                              const updatedArray = [...response.data[fieldName]]
+                              updatedArray[0] = payload
+                              updatedUserProfile = {...response.data, [fieldName]: updatedArray}
+                          } else {
+                              updatedUserProfile = {...response.data, [fieldName]: [payload]}
+                          }
+                          break;
+                      default:
+                          updatedUserProfile = {...response.data, [fieldName]: payload}
+                  }
+                  break;
+              case "add":
+                  switch (fieldName) {
+                      case 'occupations' || 'education' || 'relationships' || 'currLocations':
+                          if (response.data[fieldName]) {
+                              updatedUserProfile = {...response.data, [fieldName]: [...response.data[fieldName],payload]}
+                          }
+                          break;
+                      default:
+                          updatedUserProfile = {...response.data, [fieldName]: [payload]}
+                  }
+                  break;
+          }
           console.log('UPDATED: ', updatedUserProfile)
           return axios.put(url, updatedUserProfile)
         })

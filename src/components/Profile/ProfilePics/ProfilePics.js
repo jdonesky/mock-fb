@@ -11,8 +11,6 @@ const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onPro
     const coverPicUploader = useRef(null);
     const coverPicContainer = useRef(null);
 
-    // const {token, firebaseKey, profilePic, coverPic} = props
-
     useEffect(() => {
         if (profilePic) {
             profilePicContainer.current.style.backgroundImage = `url(${profilePic})`;
@@ -32,10 +30,10 @@ const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onPro
             reader.onload = (event) => {
                 if (type === 'PROFILE') {
                     profilePicContainer.current.style.backgroundImage = `url(${event.target.result})`;
-                    onProfileUpdate(token,firebaseKey,"profileImage",event.target.result)
+                    onProfileUpdate(token,firebaseKey,"profileImage",event.target.result, 'edit')
                 } else {
                     coverPicContainer.current.style.backgroundImage = `url(${event.target.result})`;
-                    onProfileUpdate(token,firebaseKey,"coverImage",event.target.result)
+                    onProfileUpdate(token,firebaseKey,"coverImage",event.target.result, 'edit')
 
                 }
             };
@@ -57,13 +55,6 @@ const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onPro
                         display: "none"
                     }}
                 />
-                {/*<div*/}
-                {/*    className={classes.CoverPicUploadButton}*/}
-                {/*    onClick={() => coverPicUploader.current.click()}*/}
-                {/*>*/}
-                {/*    <div className={classes.PhotoUploadIcon}></div>*/}
-                {/*    <p>Add Cover Photo</p>*/}
-                {/*</div>*/}
             </div>
         </form>
         <form>
@@ -110,7 +101,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onProfileUpdate: (authToken,firebaseKey,fieldName,file) => dispatch(actions.updateProfileAttempt(authToken,firebaseKey,fieldName,file)),
+        onProfileUpdate: (authToken,firebaseKey,fieldName,file, how) => dispatch(actions.updateProfileAttempt(authToken,firebaseKey,fieldName,file, how)),
     }
 }
 
