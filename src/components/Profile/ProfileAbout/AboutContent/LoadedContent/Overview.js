@@ -6,7 +6,7 @@ import ContentEntry from "../SharedContent/ContentEntry";
 
 const overview = props => {
 
-  const {occupations, education, currLocations, fromLocation, relationships, contacts} = props;
+  const {occupations, education, currLocations, hometown, relationships, contacts} = props;
 
   return (
       <React.Fragment>
@@ -19,18 +19,18 @@ const overview = props => {
           />
           <ContentEntry
               category="education"
-              mainText={education ? `Studied at ${education[0]}` : 'Add a school'}
-              subText={education? `${education[0][1]}` : 'Years attended'}
+              mainText={education ? `Studied at ${education[0].school}` : 'Add a school'}
+              subText={education? `${education[0].startDate} to ${education[0].endDate} `  : 'Years attended'}
               sharedWith="private"
           />
           <ContentEntry
               category="currLocation"
-              mainText={currLocations ? `Lives in ${currLocations[0]}` : 'Add your current location'}
+              mainText={currLocations ? `Lives in ${currLocations[0].name}` : 'Add your current location'}
               sharedWith="public"
           />
           <ContentEntry
               category="fromLocation"
-              mainText={fromLocation ? `Originally from ${fromLocation}` : "Add your hometown"}
+              mainText={hometown ? `Originally from ${hometown.name}` : "Add your hometown"}
               sharedWith="public"
           />
           <ContentEntry
@@ -54,7 +54,7 @@ const mapStateToProps = state => {
         occupations: state.profile.occupations,
         education: state.profile.education,
         currLocations: state.profile.currLocations,
-        fromLocation: state.profile.fromLocation,
+        hometown: state.profile.hometown,
         relationship: state.profile.relationships,
         contacts: state.profile.contacts
     }

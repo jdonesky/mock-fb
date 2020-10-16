@@ -68,20 +68,20 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
     const url = `/users/${firebaseKey}.json?auth=${authToken}`
     axios.get(url)
         .then(response => {
-          console.log('UPDATE_PROFILE ', response.data)
           switch (how) {
               case "edit":
-                  switch (fieldName) {
-                      case 'occupations' || 'education' || 'relationships' || 'currLocations':
-                          if (response.data[fieldName]) {
-                              const updatedArray = [...response.data[fieldName]]
-                              updatedArray[0] = payload
-                              updatedUserProfile = {...response.data, [fieldName]: updatedArray}
-                          } else {
-                              updatedUserProfile = {...response.data, [fieldName]: [payload]}
-                          }
-                          break;
-                      default:
+                  if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'currLocations') {
+                      console.log('REACHED FIELDNAME education block')
+                      if (response.data[fieldName]) {
+                          const updatedArray = [...response.data[fieldName]]
+                          updatedArray[0] = payload
+                          updatedUserProfile = {...response.data, [fieldName]: updatedArray}
+                      } else {
+                          console.log('REACH ELSE BLOCK - NO EXISTING ENTRY')
+                          updatedUserProfile = {...response.data, [fieldName]: [payload]}
+                      }
+                      console.log('UPDATED PROFILE', updatedUserProfile)
+                  } else {
                           updatedUserProfile = {...response.data, [fieldName]: payload}
                   }
                   break;

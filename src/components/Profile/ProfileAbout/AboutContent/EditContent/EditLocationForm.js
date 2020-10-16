@@ -11,21 +11,24 @@ const editLocationForm = (props) => {
     const [currentLocation, setCurrentLocation] = useState(props.currentLocation || '');
     const [hometown, setHometown] = useState(props.hometown || '');
 
+
+
     let placeholder;
     let value;
     let changeHandler;
-    // let submitHandler;  <<<<<<< !
-
+    let fieldName;
     switch (props.locType) {
         case "current":
             placeholder = "Current City/Town";
             value = currentLocation;
             changeHandler = setCurrentLocation;
+            fieldName = 'currLocations'
             break;
         case "origin":
             placeholder = "Hometown";
             value = hometown;
             changeHandler = setHometown;
+            fieldName = 'hometown'
             break;
         default:
             placeholder = null;
@@ -47,6 +50,13 @@ const editLocationForm = (props) => {
         changeHandler(event.target.value);
     }
 
+    const saveChangesHandler = (event) => {
+        event.preventDefault();
+        const payload = {name: value}
+        props.save(fieldName, payload)
+
+    }
+
     const formInputs = Object.keys(formFields).map(key => {
         return (
             <Input
@@ -63,19 +73,15 @@ const editLocationForm = (props) => {
         )
     })
 
-    const submitChangesHandler = (event) => {
-        event.preventDefault();
-    }
-
     return (
-        <form onSubmit={submitChangesHandler} className={classes.EditForm}>
+        <form onSubmit={saveChangesHandler} className={classes.EditForm}>
             {formInputs}
             <hr/>
             <div className={classes.Buttons}>
                 <Button addClass="Neutral">Privacy</Button>
                 <div className={classes.SubmitOrCancel}>
-                    <Button addClass="Neutral" clicked={props.cancel}>Cancel</Button>
-                    <Button addClass="Save">Save</Button>
+                    <Button addClass="Neutral" clicked={props.cancel} type="button">Cancel</Button>
+                    <Button addClass="Save" type="submit">Save</Button>
                 </div>
             </div>
         </form>

@@ -159,19 +159,26 @@ const editSchoolForm = (props) => {
         )
     })
 
-    const submitChangesHandler = (event) => {
+    const saveChangesHandler = (event) => {
         event.preventDefault();
+        const payload = {
+            school: school,
+            startDate: startMonth + ' ' + startYear,
+            endDate: endMonth + ' ' + endYear,
+            graduated: graduated,
+            description: description
+        }
+        props.save('education',payload)
     }
-
     return (
-        <form onSubmit={submitChangesHandler} className={classes.EditForm}>
+        <form onSubmit={saveChangesHandler} className={classes.EditForm}>
             {formInputs}
             <hr/>
             <div className={classes.Buttons}>
                 <Button addClass="Neutral">Privacy</Button>
                 <div className={classes.SubmitOrCancel}>
-                    <Button addClass="Neutral" clicked={props.cancel}>Cancel</Button>
-                    <Button addClass="Save">Save</Button>
+                    <Button addClass="Neutral" clicked={props.cancel} type="button">Cancel</Button>
+                    <Button addClass="Save" type="submit">Save</Button>
                 </div>
             </div>
         </form>
