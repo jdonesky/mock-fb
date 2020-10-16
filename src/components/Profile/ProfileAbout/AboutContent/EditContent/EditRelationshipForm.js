@@ -16,6 +16,7 @@ const editRelationshipForm = (props) => {
 
     const statusOptions = ['Single', 'In a Relationship','Engaged','Married','In a civil union', 'In a domestic partnership','In an open relationship',"It's complicated",'Separated','Divorced','Widowed']
         .map(option => ({value:option, label: option}))
+    statusOptions.unshift({label: 'Status'})
 
     const { birthday } = props
     const currentYear = new Date().getFullYear();
@@ -97,19 +98,25 @@ const editRelationshipForm = (props) => {
         )
     })
 
-    const submitChangesHandler = (event) => {
+    const saveChangesHandler = (event) => {
         event.preventDefault();
+        const payload = {
+            status: status,
+            partner: partner,
+            started: start
+        }
+        props.save('relationships', payload)
     }
 
     return (
-        <form onSubmit={submitChangesHandler} className={formClasses.Form}>
+        <form onSubmit={saveChangesHandler} className={formClasses.Form}>
             {formInputs}
             <hr/>
             <div className={sharedClasses.Buttons}>
                 <Button addClass="Neutral">Privacy</Button>
                 <div className={sharedClasses.SubmitOrCancel}>
-                    <Button addClass="Neutral" clicked={props.cancel}>Cancel</Button>
-                    <Button addClass="Save">Save</Button>
+                    <Button addClass="Neutral" clicked={props.cancel} type="button">Cancel</Button>
+                    <Button addClass="Save" type="submit">Save</Button>
                 </div>
             </div>
         </form>

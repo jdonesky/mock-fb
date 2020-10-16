@@ -35,14 +35,14 @@ const overview = props => {
           />
           <ContentEntry
               category="relationship"
-              mainText={relationships ? `${relationships[0]}` : "Add your relationship status"}
-              subText={relationships ? `Partner: ${relationships[0].partner}` : "With: "}
+              mainText={relationships ? `${relationships[0].status}` : "Add your relationship status"}
+              subText={relationships ? `With ${relationships[0].partner}` : "With: "}
               sharedWith="private"
           />
           <ContentEntry
               category="contact"
               mainText={contacts? `${contacts.phone}` : "Add contact information"}
-              subText={contacts? `${contacts.phone.type}` : "Phone, email, IM"}
+              subText={contacts? null : "Phone, Email, IG, Twitter"}
               sharedWith="friends"
           />
       </React.Fragment>
@@ -55,7 +55,7 @@ const mapStateToProps = state => {
         education: state.profile.education,
         currLocations: state.profile.currLocations,
         hometown: state.profile.hometown,
-        relationship: state.profile.relationships,
+        relationships: state.profile.relationships,
         contacts: state.profile.contacts
     }
 }

@@ -71,6 +71,18 @@ const editContactForm = (props) => {
         }
     }
 
+
+    const submitChangesHandler = (event) => {
+        event.preventDefault();
+        const payload = {
+            phone: phone,
+            email: email,
+            instagram: instagram,
+            twitter: twitter
+        }
+        props.save('contacts', payload)
+    }
+
     const formInputs = Object.keys(formFields).map(key => {
         return (
             <Input
@@ -86,10 +98,6 @@ const editContactForm = (props) => {
             />
         )
     })
-
-    const submitChangesHandler = (event) => {
-        event.preventDefault();
-    }
 
     return (
         <form onSubmit={submitChangesHandler} className={classes.EditForm}>
