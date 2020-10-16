@@ -54,7 +54,8 @@ const editSchoolForm = (props) => {
             null,
             null,
             startYearOptions,
-            "start"
+            "start",
+            "Time Period"
         ),
         startMonth: fieldBuilder(
             "select",
@@ -166,7 +167,7 @@ const editSchoolForm = (props) => {
             startDate: startMonth + ' ' + startYear,
             endDate: endMonth + ' ' + endYear,
             graduated: graduated,
-            description: description
+            description: description,
         }
         props.save('education',payload)
     }

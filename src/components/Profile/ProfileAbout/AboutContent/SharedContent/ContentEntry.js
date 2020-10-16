@@ -90,7 +90,7 @@ const contentEntry = props => {
             shareIcon = 'https://www.cwc.edu/media/marketing-files/cwcedu/style-assets/icons/two-people.png'
             break;
         default:
-            shareIcon = 'https://cdn4.vectorstock.com/i/1000x1000/61/68/globe-icon-on-gray-vector-7606168.jpg'
+            shareIcon = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQflbtqqJio9KclP0Zjb6n91_iGA1rZ7wFI_w&usqp=CAU'
     }
 
 

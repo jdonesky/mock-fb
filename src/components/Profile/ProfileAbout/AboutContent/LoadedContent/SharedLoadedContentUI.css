@@ -1,0 +1,10 @@
+
+.SubCategory {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.SubCategory h3 {
+    margin: 10px;
+}

@@ -76,7 +76,7 @@ const input = (props) => {
   if (props.elementType === 'select') {
     customInput = (
         <React.Fragment>
-          {props.extra === 'start' && <h4 style={{margin: '10px 0 0 0'}}>{props.header}</h4> }
+          {props.extra === 'start' && <h4 style={{margin: '10px 0 0 0'}}>{props.header}</h4>}
           <div className={classes.SelectContainer}>
               {inputElement}
               {props.extra === 'break' && <span style={{marginLeft: '10px', marginRight:'5px'}}>to</span>}
