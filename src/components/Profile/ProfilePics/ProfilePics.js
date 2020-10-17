@@ -1,8 +1,9 @@
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import { connect } from 'react-redux';
 import classes from './ProfilePics.css';
 import * as actions from '../../../store/actions/index'
+import CameraSvg from '../../../assets/images/photo-camera';
 
 
 const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onProfileUpdate}) => {
@@ -73,14 +74,19 @@ const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onPro
                     }}
                 />
                 <div className={classes.ProfileUploadButton}
-                    onClick={() => profilePicUploader.current.click()}
-                ></div>
+                    onClick={() => profilePicUploader.current.click()}>
+                    <div className={classes.CameraIcon}>
+                        <CameraSvg />
+                    </div>
+                </div>
             </div>
             <div
                 className={classes.CoverPicUploadButton}
                 onClick={() => coverPicUploader.current.click()}
             >
-                <div className={classes.PhotoUploadIcon}></div>
+                <div className={[classes.CameraIcon, classes.CoverPicIcon].join(" ")}>
+                    <CameraSvg />
+                </div>
                 <p>Add Cover Photo</p>
             </div>
         </form>
