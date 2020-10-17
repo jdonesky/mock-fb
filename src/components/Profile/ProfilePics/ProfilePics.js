@@ -3,7 +3,7 @@ import React, {useEffect, useRef} from 'react';
 import { connect } from 'react-redux';
 import classes from './ProfilePics.css';
 import * as actions from '../../../store/actions/index'
-import CameraSvg from '../../../assets/images/photo-camera';
+import CameraSvg from '../../../assets/images/camera';
 
 
 const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onProfileUpdate}) => {

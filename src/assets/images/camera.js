@@ -1,11 +1,7 @@
-// <!--<?xml version="1.0" standalone="no"?>-->
-// <!--<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"-->
-// <!-- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">-->
 
 import React from 'react';
 
-const cameraLogo = () => {
-    return (
+const cameraSvg = () => (
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          width="200" height="200" viewBox="0 0 500 500"
          preserveAspectRatio="xMidYMid meet"
@@ -31,7 +27,8 @@ const cameraLogo = () => {
     79 -73 160 -116 261 -142 204 -52 414 0 569 142 121 111 191 257 202 423 16
     249 -136 497 -368 598 -103 45 -235 63 -340 47z"/>
         </g>
-    </svg>);
-}
+    </svg>
+);
 
-export default cameraLogo;
+
+export default cameraSvg;
