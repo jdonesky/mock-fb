@@ -15,6 +15,7 @@ import Phone from "../../../../../assets/images/phone";
 import Padlock from "../../../../../assets/images/padlock";
 import Earth from "../../../../../assets/images/earth";
 import Friends from "../../../../../assets/images/friends";
+import Edit from "../../../../../assets/images/edit"
 
 import classes from "./ContentEntry.css";
 import * as actions from '../../../../../store/actions/index'
@@ -114,10 +115,12 @@ const contentEntry = props => {
                 {props.subText && <span className={classes.SubText}>{props.subText}</span>}
             </div>
             <div className={classes.Icons}>
-                <div className={classes.Icon}>
+                <div className={[classes.Icon, classes.Share].join(" ")}>
                     {shareIcon}
                 </div>
-                <div className={[classes.Icon,classes.Edit].join(' ')} onClick={toggleEditDropdown}/>
+                <div className={[classes.Icon,classes.Edit].join(" ")} onClick={toggleEditDropdown}>
+                    <Edit />
+                </div>
                 <div className={editDropdownClasses.join(' ')} >
                     <div className={classes.UpArrow}/>
                     <div className={classes.MenuItem} onClick={toggleEditing}><span className={classes.EditIcon}></span><span>{`Edit ${dropdownCaption}`}</span></div>

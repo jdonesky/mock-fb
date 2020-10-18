@@ -4,6 +4,7 @@ import React from 'react';
 import {connect} from 'react-redux'
 import ContentEntry from "../SharedContent/ContentEntry";
 import sharedClasses from './SharedLoadedContentUI.css'
+import AddButton from '../SharedContent/AddContentButton'
 
 const workAndEducation = props => {
 
@@ -33,10 +34,12 @@ const workAndEducation = props => {
         <React.Fragment>
             <section className={sharedClasses.SubCategory} style={{marginTop: '0'}}>
                 <h3>Work</h3>
+                <AddButton text="Add a workplace"/>
                 {workEntries && workEntries}
             </section>
             <section className={sharedClasses.SubCategory}>
                 <h3>Education</h3>
+                <AddButton text="Add a school"/>
                 {educationEntries && educationEntries}
             </section>
         </React.Fragment>

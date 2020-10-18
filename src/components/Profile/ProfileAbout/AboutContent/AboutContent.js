@@ -8,6 +8,10 @@ const WorkAndEducation = React.lazy(() => {
     return import('./LoadedContent/WorkandEducation')
 })
 
+const PlacesLived = React.lazy(() => {
+    return import('./LoadedContent/PlacesLived')
+})
+
 const aboutContent = (props) => {
 
     const {match} = props
@@ -16,7 +20,9 @@ const aboutContent = (props) => {
         case 'work-education':
             content = <WorkAndEducation {...props}/>
             break;
-        // case 'places-lived':
+        case 'places-lived':
+            content = <PlacesLived {...props}/>
+            break;
         // case 'contact-info':
         // case 'family-relationships':
         // case 'details':

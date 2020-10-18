@@ -5,39 +5,37 @@ import {connect} from 'react-redux'
 import ContentEntry from "../SharedContent/ContentEntry";
 import sharedClasses from './SharedLoadedContentUI.css'
 
-const workAndEducation = ({currLocations, hometown}) => {
-
-
-
-    const currLocationEntries = currLocations && occupations.map((job,i) => (
+const placesLived = ({currLocations, hometown}) => {
+    console.log(hometown)
+    const currentDate = new Date()
+    const currLocationEntries = currLocations && currLocations.map((location,i) => (
         <ContentEntry
             key={i}
             category="work"
-            mainText={`${!job.currentEmployer && 'Former'} ${job.position} at ${job.company}`}
-            subText={job.location}
-            sharedWith={job.privacy || 'public'}
+            mainText={`${location.name}`}
+            subText={i === 0 ? 'Current city': 'Moved in'}
+            sharedWith={location.privacy || 'public'}
         />
     ))
-    const currentDate = new Date()
-    const educationEntries = education && education.map((school,i) => (
+
+    const hometownEntry = (
         <ContentEntry
-            key={i}
-            category="education"
-            mainText={`${new Date(school.endDate) > currentDate && !school.graduated ? 'Studies': 'Former Student'} at ${school.school}`}
-            subText={`${school.startDate.split(' ')[1]} - ${school.endDate.split(' ')[1]}`}
-            sharedWith={school.privacy || "public"}
+            category="fromLocation"
+            mainText={hometown && hometown.name}
+            subText="Hometown"
+            sharedWith={hometown ? hometown.privacy : "public"}
         />
-    ))
+    )
 
     return (
         <React.Fragment>
             <section className={sharedClasses.SubCategory} style={{marginTop: '0'}}>
-                <h3>Work</h3>
-                {workEntries && workEntries}
+                <h3>Places Lived</h3>
+                {currLocationEntries && currLocationEntries}
             </section>
             <section className={sharedClasses.SubCategory}>
-                <h3>Education</h3>
-                {educationEntries && educationEntries}
+                <h3>Hometown</h3>
+                {hometownEntry && hometownEntry}
             </section>
         </React.Fragment>
     );
@@ -50,4 +48,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(workAndEducation);
+export default connect(mapStateToProps)(placesLived);

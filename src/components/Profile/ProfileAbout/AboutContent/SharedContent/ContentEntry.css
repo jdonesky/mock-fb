@@ -10,6 +10,11 @@
     position: relative;
 }
 
+@media (max-width: 675px) {
+    .Entry {
+        margin: 10px 0;
+    }
+}
 
 .Icon {
     position: relative;
@@ -51,16 +56,29 @@
     cursor: pointer;
 }
 
+.Share svg {
+    position: absolute;
+    top: 3px;
+}
+
 .Edit {
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTLpejdxcDc5uhxm7_dVUxrYtN0aoHZcUJgsw&usqp=CAU");
-    background-size: 30px;
     cursor: pointer;
-    height: 40px
+    height: 38px;
+    width: 50px;
+    position: relative
+}
+
+.Edit svg {
+    height: 60%;
+    position: absolute;
+    top: 6px;
+    left: 2px;
 }
 
 .Edit:hover {
     border-radius: 200px;
-    border: 1px solid #cccccc;
+    border: none;
+    background: rgba(0,0,0,0.1)
 }
 
 .EditDropdown {
