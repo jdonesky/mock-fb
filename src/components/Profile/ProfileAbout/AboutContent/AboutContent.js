@@ -7,10 +7,10 @@ import Overview from './LoadedContent/Overview'
 const WorkAndEducation = React.lazy(() => {
     return import('./LoadedContent/WorkandEducation')
 })
-
 const PlacesLived = React.lazy(() => {
     return import('./LoadedContent/PlacesLived')
 })
+
 
 const aboutContent = (props) => {
 
