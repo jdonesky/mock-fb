@@ -50,8 +50,8 @@ const input = (props) => {
       inputClasses.push(classes.Select);
       inputElement = (
           <select value={props.value} onChange={props.changed} className={inputClasses.join(' ')}>
-            {props.options? props.options.map(option => {
-              return <option key={option.value} value={option.value}>{option.label}</option>
+            {props.options? props.options.map((option,i) => {
+              return <option key={i} value={option.value}>{option.label}</option>
             }) : null}
           </select>
       );

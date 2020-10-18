@@ -10,9 +10,9 @@
     position: relative;
 }
 
-@media (max-width: 675px) {
+@media (max-width: 686px) {
     .Entry {
-        margin: 10px 0;
+        margin: 15px 0;
     }
 }
 

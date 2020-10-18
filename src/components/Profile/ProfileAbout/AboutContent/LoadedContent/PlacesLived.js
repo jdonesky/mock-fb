@@ -3,10 +3,10 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import ContentEntry from "../SharedContent/ContentEntry";
+import AddContentButton from '../SharedContent/AddContentButton'
 import sharedClasses from './SharedLoadedContentUI.css'
 
 const placesLived = ({currLocations, hometown}) => {
-    console.log(hometown)
     const currentDate = new Date()
     const currLocationEntries = currLocations && currLocations.map((location,i) => (
         <ContentEntry
@@ -31,6 +31,7 @@ const placesLived = ({currLocations, hometown}) => {
         <React.Fragment>
             <section className={sharedClasses.SubCategory} style={{marginTop: '0'}}>
                 <h3>Places Lived</h3>
+                <AddContentButton category="currLocation" />
                 {currLocationEntries && currLocationEntries}
             </section>
             <section className={sharedClasses.SubCategory}>

@@ -1,13 +1,14 @@
 
 
 import React, {useState} from 'react';
+import {connect} from 'react-redux'
 import classes from './AddContentButton.css'
 import Plus from '../../../../../assets/images/plus'
 import EditWorkForm from "../EditContent/EditWorkForm";
 import EditSchoolForm from "../EditContent/EditSchoolForm";
 import EditLocationForm from "../EditContent/EditLocationForm";
 import EditRelationshipForm from "../EditContent/EditRelationshipForm";
-import EditContactForm from "../EditContent/EditContactForm";
+import * as actions from "../../../../../store/actions";
 
 const addContentButton = props => {
     const [addingContent, setAddingContent] = useState(false);
@@ -26,28 +27,25 @@ const addContentButton = props => {
     let editForm;
     switch (props.category) {
         case 'work':
-            text = 'workplace'
+            text = 'Add a workplace'
             editForm = <EditWorkForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'education':
-            text = 'school'
+            text = 'Add a school'
             editForm = <EditSchoolForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'currLocation':
-
-            text = 'current location'
+            text = 'Add city/town'
             editForm = <EditLocationForm locType="current" cancel={toggleEditing} save={saveEdits}/>
             break;
-        case 'fromLocation':
-            editForm = <EditLocationForm locType="origin" cancel={toggleEditing} save={saveEdits}/>
-            break;
         case 'relationship':
+            text = 'Add a family member'
             editForm = <EditRelationshipForm cancel={toggleEditing} save={saveEdits}/>
             break;
-        case 'contact':
-            text = 'contact information'
-            editForm = <EditContactForm cancel={toggleEditing} save={saveEdits}/>
-            break;
+        // case 'lifeEvent':
+        //     text = 'Add a life event'
+        //     editForm = <EditContactForm cancel={toggleEditing} save={saveEdits}/>
+        //     break;
         default:
             text = null;
             editForm = null;
@@ -58,7 +56,7 @@ const addContentButton = props => {
             <div className={classes.PlusIcon}>
                 <Plus fill="#0B86DE" className={classes.Plus}/>
             </div>
-            <span>{props.text}</span>
+            <span>{text}</span>
         </div>
     )
 
@@ -66,4 +64,17 @@ const addContentButton = props => {
     return content ;
 }
 
-export default addContentButton;
+const mapStateToProps = state => {
+    return {
+        authToken: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(addContentButton);

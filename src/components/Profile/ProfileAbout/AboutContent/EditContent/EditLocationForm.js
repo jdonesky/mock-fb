@@ -19,7 +19,7 @@ const editLocationForm = (props) => {
     let fieldName;
     switch (props.locType) {
         case "current":
-            placeholder = "Current City/Town";
+            placeholder = "City/Town";
             value = currentLocation;
             changeHandler = setCurrentLocation;
             fieldName = 'currLocations'

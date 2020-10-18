@@ -71,33 +71,31 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
           switch (how) {
               case "edit":
                   if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'currLocations') {
-                      console.log('REACHED FIELDNAME education block')
                       if (response.data[fieldName]) {
                           const updatedArray = [...response.data[fieldName]]
                           updatedArray[0] = payload
                           updatedUserProfile = {...response.data, [fieldName]: updatedArray}
                       } else {
-                          console.log('REACH ELSE BLOCK - NO EXISTING ENTRY')
                           updatedUserProfile = {...response.data, [fieldName]: [payload]}
                       }
-                      console.log('UPDATED PROFILE', updatedUserProfile)
                   } else {
                           updatedUserProfile = {...response.data, [fieldName]: payload}
                   }
                   break;
               case "add":
-                  switch (fieldName) {
-                      case 'occupations' || 'education' || 'relationships' || 'currLocations':
+                  if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'currLocations') {
                           if (response.data[fieldName]) {
                               updatedUserProfile = {...response.data, [fieldName]: [...response.data[fieldName],payload]}
+                          } else {
+                              updatedUserProfile = {...response.data, [fieldName]: [payload]}
                           }
-                          break;
-                      default:
-                          updatedUserProfile = {...response.data, [fieldName]: [payload]}
+                  } else {
+                      updatedUserProfile = {...response.data, [fieldName]: payload}
                   }
                   break;
+              default:
+                  throw new Error("Shouldn't be here!")
           }
-          console.log('UPDATED: ', updatedUserProfile)
           return axios.put(url, updatedUserProfile)
         })
         .then(response => {

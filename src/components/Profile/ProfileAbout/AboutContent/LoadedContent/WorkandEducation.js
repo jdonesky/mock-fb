@@ -14,7 +14,7 @@ const workAndEducation = props => {
         <ContentEntry
             key={i}
             category="work"
-            mainText={`${!job.currentEmployer && 'Former'} ${job.position} at ${job.company}`}
+            mainText={`${!job.currentEmployer ? 'Former': ''} ${job.position} at ${job.company}`}
             subText={job.location}
             sharedWith={job.privacy || 'public'}
         />
@@ -34,12 +34,12 @@ const workAndEducation = props => {
         <React.Fragment>
             <section className={sharedClasses.SubCategory} style={{marginTop: '0'}}>
                 <h3>Work</h3>
-                <AddButton text="Add a workplace"/>
+                <AddButton category="work"/>
                 {workEntries && workEntries}
             </section>
             <section className={sharedClasses.SubCategory}>
                 <h3>Education</h3>
-                <AddButton text="Add a school"/>
+                <AddButton category="education"/>
                 {educationEntries && educationEntries}
             </section>
         </React.Fragment>
