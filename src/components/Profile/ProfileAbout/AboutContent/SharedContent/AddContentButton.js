@@ -10,6 +10,7 @@ import EditLocationForm from "../EditContent/EditLocationForm";
 import EditRelationshipForm from "../EditContent/EditRelationshipForm";
 import EditPhoneForm from "../EditContent/EditPhoneForm"
 import EditEmailForm from "../EditContent/EditEmailForm"
+import EditGenderForm from "../EditContent/EditGenderForm";
 import * as actions from "../../../../../store/actions";
 import EditFamilyForm from "../EditContent/EditFamilyForm";
 
@@ -52,6 +53,10 @@ const addContentButton = props => {
         case 'email':
             text = 'Add an email'
             editForm = <EditEmailForm cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'gender':
+            text = 'Add your gender'
+            editForm = <EditGenderForm cancel={toggleEditing} save={saveEdits}/>
             break;
         // case 'lifeEvent':
         //     text = 'Add a life event'

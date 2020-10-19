@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { fieldBuilder, validityCheck } from "../../shared/utility";
@@ -9,14 +9,7 @@ import Modal from "../../components/UI/Modal/Modal";
 
 const signUp = props => {
 
-  // const { token, history } = props
 
-  // useEffect(() => {
-  //     if (token) {
-  //         console.log('reached redirect')
-  //         history.push('/user-profile')
-  //     }
-  // }, [token, history]);
 
   const [formInputs, setFormInputs] = useState(
       {
@@ -49,7 +42,7 @@ const signUp = props => {
         ),
         password: fieldBuilder(
             "input",
-            "text",
+            "password",
             "Password",
             "",
             { required: true, minLength: 6 },

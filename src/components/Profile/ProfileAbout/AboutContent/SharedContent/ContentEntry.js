@@ -9,6 +9,9 @@ import EditContactForm from "../EditContent/EditContactForm";
 import EditEmailForm from "../EditContent/EditEmailForm"
 import EditPhoneForm from "../EditContent/EditPhoneForm"
 import EditFamilyForm from "../EditContent/EditFamilyForm";
+import EditBirthdayForm from "../EditContent/EditBirthdayForm"
+import EditGenderForm from "../EditContent/EditGenderForm";
+
 import BriefCase from "../../../../../assets/images/briefcase";
 import GraduationCap from "../../../../../assets/images/graduation-cap";
 import House from "../../../../../assets/images/home";
@@ -22,6 +25,9 @@ import Edit from "../../../../../assets/images/edit";
 import Avatar from "../../../../../assets/images/avatar";
 import Cake from "../../../../../assets/images/cake";
 import Email from "../../../../../assets/images/email";
+import Like from "../../../../../assets/images/like";
+import Male from "../../../../../assets/images/male";
+import Female from "../../../../../assets/images/female";
 
 import classes from "./ContentEntry.css";
 import * as actions from '../../../../../store/actions/index'
@@ -107,7 +113,18 @@ const contentEntry = props => {
         case 'birthday':
             categoryIcon = <Cake />
             dropdownCaption = 'birthday'
-            editForm = <EditContactForm cancel={toggleEditing} save={saveEdits}/>
+            editForm = <EditBirthdayForm cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'gender':
+            if (props.extra === 'Male') {
+                categoryIcon = <Male />
+            } else if (props.extra === 'Female') {
+                categoryIcon = <Female />
+            } else {
+                categoryIcon = <Like />
+            }
+            dropdownCaption = 'gender'
+            editForm = <EditGenderForm cancel={toggleEditing} save={saveEdits}/>
             break;
         default:
             categoryIcon = null;

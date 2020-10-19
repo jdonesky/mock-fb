@@ -13,25 +13,22 @@ const editBirthdayForm = (props) => {
     const formFields = {
         email: fieldBuilder(
             "input",
-            "text",
-            "Email",
-            email,
-            {required:false, isEmail:true},
-            true,
+            "date",
+            "Birthday",
+            birthday,
+            {required: true},
+            false,
             null
         )
     }
 
     const updateInput = (event) => {
-        setEmail(event.target.value)
+        setBirthday(event.target.value)
     }
 
     const submitChangesHandler = (event) => {
         event.preventDefault();
-        const payload = {
-            email: email,
-        }
-        // props.save('contacts', payload)
+        props.save('birthday', birthday)
     }
 
     const formInputs = Object.keys(formFields).map(key => {
@@ -67,4 +64,4 @@ const editBirthdayForm = (props) => {
 }
 
 
-export default editEmailForm;
+export default editBirthdayForm;

@@ -7,9 +7,9 @@ import AddContentButton from '../SharedContent/AddContentButton'
 import sharedClasses from './SharedLoadedContentUI.css'
 import {convertDate} from "../../../../../shared/utility";
 
-const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orientation}) => {
-    const currentDate = new Date()
+const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orientation,gender}) => {
 
+    const currentDate = new Date()
 
     const emailEntry = contacts && contacts.email ? (
         <ContentEntry
@@ -33,9 +33,20 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
         <ContentEntry
             category="birthday"
             mainText={ birthday && `${convertedBDay[0]} ${convertedBDay[1]}, ${convertedBDay[2]}`}
+            subText='Birth Date'
             sharedWith={birthday ? birthday.privacy : "public"}
         />
     )
+
+    const genderEntry = gender ? (
+        <ContentEntry
+            category="gender"
+            mainText={gender && gender}
+            subText='Gender'
+            sharedWith={gender ? gender.privacy : "public"}
+            extra={gender && gender}
+        />
+    ) : <AddContentButton category="gender" />
 
     return (
         <React.Fragment>
@@ -46,6 +57,7 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
             </section>
             <section className={sharedClasses.SubCategory}>
                 <h3>Basic Info</h3>
+                {genderEntry}
                 {birthDayEntry}
             </section>
         </React.Fragment>
@@ -59,6 +71,7 @@ const mapStateToProps = state => {
         language: state.profile.language,
         religion: state.profile.religion,
         politics: state.profile.politics,
+        gender: state.profile.gender,
         orientation: state.profile.orientation
     }
 }

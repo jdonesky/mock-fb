@@ -19,7 +19,7 @@ const profileAbout = props => {
                     <NavLink to={"/user-profile/about/places-lived"} activeClassName={classes.active}>Places Lived</NavLink>
                     <NavLink to={"/user-profile/about/contact-info"} activeClassName={classes.active}>Contact and Basic Info</NavLink>
                     <NavLink to={"/user-profile/about/family-relationships"} activeClassName={classes.active}>Family and Relationships</NavLink>
-                    <NavLink to={"/user-profile/about/details"} activeClassName={classes.active}>Details About You</NavLink>
+                    {/*<NavLink to={"/user-profile/about/details"} activeClassName={classes.active}>Details About You</NavLink>*/}
                     <NavLink to={"/user-profile/about/life-events"} activeClassName={classes.active}>Life Events</NavLink>
                 </ul>
             </section>
