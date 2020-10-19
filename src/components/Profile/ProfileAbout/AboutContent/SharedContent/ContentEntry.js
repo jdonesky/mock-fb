@@ -6,6 +6,8 @@ import EditSchoolForm from "../EditContent/EditSchoolForm";
 import EditLocationForm from "../EditContent/EditLocationForm";
 import EditRelationshipForm from "../EditContent/EditRelationshipForm";
 import EditContactForm from "../EditContent/EditContactForm";
+import EditEmailForm from "../EditContent/EditEmailForm"
+import EditPhoneForm from "../EditContent/EditPhoneForm"
 import EditFamilyForm from "../EditContent/EditFamilyForm";
 import BriefCase from "../../../../../assets/images/briefcase";
 import GraduationCap from "../../../../../assets/images/graduation-cap";
@@ -16,8 +18,10 @@ import Phone from "../../../../../assets/images/phone";
 import Padlock from "../../../../../assets/images/padlock";
 import Earth from "../../../../../assets/images/earth";
 import Friends from "../../../../../assets/images/friends";
-import Edit from "../../../../../assets/images/edit"
-import Avatar from "../../../../../assets/images/avatar"
+import Edit from "../../../../../assets/images/edit";
+import Avatar from "../../../../../assets/images/avatar";
+import Cake from "../../../../../assets/images/cake";
+import Email from "../../../../../assets/images/email";
 
 import classes from "./ContentEntry.css";
 import * as actions from '../../../../../store/actions/index'
@@ -88,6 +92,21 @@ const contentEntry = props => {
         case 'contact':
             categoryIcon = <Phone />
             dropdownCaption = 'contact information'
+            editForm = <EditContactForm cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'phone':
+            categoryIcon = <Phone />
+            dropdownCaption = 'phone number'
+            editForm = <EditPhoneForm cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'email':
+            categoryIcon = <Email />
+            dropdownCaption = 'email'
+            editForm = <EditEmailForm cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'birthday':
+            categoryIcon = <Cake />
+            dropdownCaption = 'birthday'
             editForm = <EditContactForm cancel={toggleEditing} save={saveEdits}/>
             break;
         default:
