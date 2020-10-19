@@ -4,23 +4,30 @@ import React from 'react';
 import {connect} from 'react-redux'
 import ContentEntry from "../SharedContent/ContentEntry";
 
+
 const overview = props => {
 
   const {occupations, education, currLocations, hometown, relationships, contacts} = props;
+
+  const currentOccupation = occupations && occupations.find(job => job.currentEmployer)
+  const mostRecentOccupation = occupations && occupations.sort((a,b) => (new Date(a.endYear) < new Date(b.endYear)) ? 1: -1)[0]
+
+  const currentDate = new Date()
+  const sortedEducation = education && education.sort((a,b) => (new Date(a.endDate) < new Date(b.endDate)) ? 1: -1)
 
   return (
       <React.Fragment>
           <ContentEntry
               category="work"
-              occupations={occupations}
-              mainText={occupations ? `Employed as a ${occupations[0].position}` : 'Add your current job'}
+              mainText={occupations ? `Employed as a ${currentOccupation ? currentOccupation.position : mostRecentOccupation && mostRecentOccupation.position}` : 'Add a job'}
               subText={occupations? `${occupations[0].company}, ${occupations[0].location}` : 'Employer, location'}
               sharedWith="friends"
           />
           <ContentEntry
               category="education"
-              mainText={education ? `Studied at ${education[0].school}` : 'Add a school'}
-              subText={education? `${education[0].startDate} to ${education[0].endDate} `  : 'Years attended'}
+              mainText={sortedEducation && `${new Date(sortedEducation[0].endDate) > currentDate && !sortedEducation[0].graduated ? 'Studies': 'Former Student'} at ${sortedEducation[0].school}`}
+              // mainText={education ? `Studied at ${education[0].school}` : 'Add a school'}
+              subText={sortedEducation ? `${sortedEducation[0].startDate} to ${sortedEducation[0].endDate} ` : 'Years attended'}
               sharedWith="private"
           />
           <ContentEntry

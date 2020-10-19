@@ -73,3 +73,10 @@ export const convertDate = (date) => {
   return [month, day, year]
 }
 
+
+export class KeyGenerator {
+  static getKey = () => {
+    this.key = (this.key || 0) + 1;
+    return this.key;
+  }
+}

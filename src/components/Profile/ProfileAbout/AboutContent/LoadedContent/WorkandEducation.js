@@ -10,7 +10,11 @@ const workAndEducation = props => {
 
     const {occupations, education} = props;
 
-    const workEntries = occupations && occupations.map((job,i) => (
+
+    const sortedOccupations = occupations && occupations.sort((a,b) => (new Date(a.endYear) < new Date(b.endYear)) ? 1: -1)
+    const sortedEducation = education && education.sort((a,b) => (new Date(a.endDate) < new Date(b.endDate)) ? 1: -1)
+
+    const workEntries = sortedOccupations && sortedOccupations.map((job,i) => (
         <ContentEntry
             key={i}
             category="work"
@@ -20,7 +24,7 @@ const workAndEducation = props => {
         />
     ))
     const currentDate = new Date()
-    const educationEntries = education && education.map((school,i) => (
+    const educationEntries = sortedEducation && sortedEducation.map((school,i) => (
         <ContentEntry
             key={i}
             category="education"
