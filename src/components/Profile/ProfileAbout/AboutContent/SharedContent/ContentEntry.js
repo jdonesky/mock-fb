@@ -6,6 +6,7 @@ import EditSchoolForm from "../EditContent/EditSchoolForm";
 import EditLocationForm from "../EditContent/EditLocationForm";
 import EditRelationshipForm from "../EditContent/EditRelationshipForm";
 import EditContactForm from "../EditContent/EditContactForm";
+import EditFamilyForm from "../EditContent/EditFamilyForm";
 import BriefCase from "../../../../../assets/images/briefcase";
 import GraduationCap from "../../../../../assets/images/graduation-cap";
 import House from "../../../../../assets/images/home";
@@ -16,6 +17,7 @@ import Padlock from "../../../../../assets/images/padlock";
 import Earth from "../../../../../assets/images/earth";
 import Friends from "../../../../../assets/images/friends";
 import Edit from "../../../../../assets/images/edit"
+import Avatar from "../../../../../assets/images/avatar"
 
 import classes from "./ContentEntry.css";
 import * as actions from '../../../../../store/actions/index'
@@ -77,6 +79,11 @@ const contentEntry = props => {
             categoryIcon = <Heart />
             dropdownCaption = 'relationship status'
             editForm = <EditRelationshipForm cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'family':
+            categoryIcon = <Avatar />
+            dropdownCaption = 'family member'
+            editForm = <EditFamilyForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'contact':
             categoryIcon = <Phone />

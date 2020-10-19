@@ -11,6 +11,10 @@ const PlacesLived = React.lazy(() => {
     return import('./LoadedContent/PlacesLived')
 })
 
+const FamilyAndRelationships = React.lazy(() => {
+    return import('./LoadedContent/Family&Relationships')
+})
+
 
 const aboutContent = (props) => {
 
@@ -24,7 +28,9 @@ const aboutContent = (props) => {
             content = <PlacesLived {...props}/>
             break;
         // case 'contact-info':
-        // case 'family-relationships':
+        case 'family-relationships':
+            content = <FamilyAndRelationships {...props}/>
+            break;
         // case 'details':
         // case 'life-events':
         default:

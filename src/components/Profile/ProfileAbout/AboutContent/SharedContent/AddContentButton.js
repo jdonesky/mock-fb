@@ -9,6 +9,7 @@ import EditSchoolForm from "../EditContent/EditSchoolForm";
 import EditLocationForm from "../EditContent/EditLocationForm";
 import EditRelationshipForm from "../EditContent/EditRelationshipForm";
 import * as actions from "../../../../../store/actions";
+import EditFamilyForm from "../EditContent/EditFamilyForm";
 
 const addContentButton = props => {
     const [addingContent, setAddingContent] = useState(false);
@@ -38,9 +39,9 @@ const addContentButton = props => {
             text = 'Add city/town'
             editForm = <EditLocationForm locType="current" cancel={toggleEditing} save={saveEdits}/>
             break;
-        case 'relationship':
+        case 'family':
             text = 'Add a family member'
-            editForm = <EditRelationshipForm cancel={toggleEditing} save={saveEdits}/>
+            editForm = <EditFamilyForm cancel={toggleEditing} save={saveEdits}/>
             break;
         // case 'lifeEvent':
         //     text = 'Add a life event'
