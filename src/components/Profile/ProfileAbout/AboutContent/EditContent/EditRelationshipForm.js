@@ -80,6 +80,11 @@ const editRelationshipForm = (props) => {
     }
 
     const formInputs = Object.keys(formFields).map(key => {
+        if (status === 'Single') {
+            if (key === 'partner' || key === 'start') {
+                return null;
+            }
+        }
         return (
             <Input
                 key={key}

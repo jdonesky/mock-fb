@@ -40,8 +40,20 @@ const addContentButton = props => {
             editForm = <EditSchoolForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'currLocation':
-            text = 'Add city/town'
+            text = 'Add current location'
             editForm = <EditLocationForm locType="current" cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'pastLocation':
+            text = "Add past location"
+            editForm = <EditLocationForm locType="pastLocation" cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'hometown':
+            text = 'Add hometown'
+            editForm = <EditLocationForm locType="origin" cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'relationship':
+            text = 'Add a relationship '
+            editForm = <EditRelationshipForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'family':
             text = 'Add a family member'

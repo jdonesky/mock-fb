@@ -8,7 +8,7 @@ import sharedClasses from './SharedLoadedContentUI.css'
 
 const familyAndRelationships = ({family, relationships}) => {
 
-    const relationshipEntry = relationships &&
+    const relationshipEntry = relationships ?
         (
         <ContentEntry
             category="relationship"
@@ -16,7 +16,7 @@ const familyAndRelationships = ({family, relationships}) => {
             subText={relationships[0].partner ? relationships[0].partner : ''}
             sharedWith={relationships[0].privacy || 'public'}
         />
-    )
+    ) : <AddContentButton category="relationship"/>
 
     const familyEntries = family && family.map((member, i) => (
         <ContentEntry

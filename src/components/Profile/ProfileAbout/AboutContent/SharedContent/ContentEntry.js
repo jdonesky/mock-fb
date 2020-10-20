@@ -28,6 +28,8 @@ import Email from "../../../../../assets/images/email";
 import Like from "../../../../../assets/images/like";
 import Male from "../../../../../assets/images/male";
 import Female from "../../../../../assets/images/female";
+import Move from "../../../../../assets/images/travel";
+import Delete from "../../../../../assets/images/delete"
 
 import classes from "./ContentEntry.css";
 import * as actions from '../../../../../store/actions/index'
@@ -58,7 +60,7 @@ const contentEntry = props => {
     }
 
     const saveEdits = (fieldName, payload) => {
-        props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, payload, 'edit')
+        props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, payload, 'edit', props.id && props.id)
     }
 
     let categoryIcon;
@@ -79,6 +81,11 @@ const contentEntry = props => {
             categoryIcon = <House />
             dropdownCaption = 'current location'
             editForm = <EditLocationForm locType="current" cancel={toggleEditing} save={saveEdits}/>
+            break;
+        case 'pastLocation':
+            categoryIcon = <Move />
+            dropdownCaption = 'past location'
+            editForm = <EditLocationForm locType="pastLocation" cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'fromLocation':
             categoryIcon = <Pin />
@@ -166,8 +173,8 @@ const contentEntry = props => {
                 </div>
                 <div className={editDropdownClasses.join(' ')} >
                     <div className={classes.UpArrow}/>
-                    <div className={classes.MenuItem} onClick={toggleEditing}><span className={classes.EditIcon}></span><span>{`Edit ${dropdownCaption}`}</span></div>
-                    <div className={classes.MenuItem}><span className={classes.DeleteIcon}></span><span>{`Delete ${dropdownCaption}`}</span></div>
+                    <div className={classes.MenuItem} onClick={toggleEditing}><div className={classes.DropdownIcon}><Edit /></div><span className={classes.DropdownText}>{`Edit ${dropdownCaption}`}</span></div>
+                    <div className={classes.MenuItem}><div className={classes.DropdownIcon}><Delete /></div><span className={classes.DropdownText}>{`Delete ${dropdownCaption}`}</span></div>
                 </div>
             </div>
         </div>
@@ -186,7 +193,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how))
+        onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how, id))
     }
 }
 

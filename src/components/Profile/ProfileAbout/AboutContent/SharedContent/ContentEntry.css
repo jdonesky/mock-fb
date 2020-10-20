@@ -110,6 +110,8 @@
 }
 
 .MenuItem {
+    display: flex;
+    align-items: center;
     height: 30px;
     padding: 3px 3px 3px 5px;
     box-sizing: border-box;
@@ -120,6 +122,28 @@
     background: rgba(204,206,208,.31);
     cursor: pointer;
 }
+
+.DropdownIcon {
+    position: relative;
+    height: 15px;
+    width: 15px;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.DropdownIcon svg {
+    width: 90%;
+    height: auto;
+    position: absolute;
+    bottom: 1px;
+}
+
+
+.DropdownText {
+    margin-left: 10px;
+}
+
+
 
 .EditDropdown div {
     margin: 2px;

@@ -1,14 +1,30 @@
-{
-  "rules": {
-    "users": {
-      ".read": "auth != null",
-      ".write": "auth != null",
-      ".indexOn": ["firstName", "userId"]
-    },
-    "posts": {
-      ".read" : "true",
-      ".write": "auth != null",
-      ".indexOn": ["userId"]
+[
+  {
+    "rules": {
+      "users": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".indexOn": ["firstName", "userId"]
+      },
+      "posts": {
+        ".read" : "true",
+        ".write": "auth != null",
+        ".indexOn": ["userId"]
+      }
+    }
+  },
+  {
+    "rules": {
+      "users": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".indexOn": ["firstName", "userId"]
+      },
+      "posts": {
+        ".read" : "true",
+        ".write": "auth != null",
+        ".indexOn": ["userId"]
+      }
     }
   }
-}
+]

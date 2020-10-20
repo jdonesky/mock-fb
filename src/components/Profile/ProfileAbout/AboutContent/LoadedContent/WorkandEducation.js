@@ -9,14 +9,13 @@ import AddButton from '../SharedContent/AddContentButton'
 const workAndEducation = props => {
 
     const {occupations, education} = props;
-
-
     const sortedOccupations = occupations && occupations.sort((a,b) => (new Date(a.endYear) < new Date(b.endYear)) ? 1: -1)
     const sortedEducation = education && education.sort((a,b) => (new Date(a.endDate) < new Date(b.endDate)) ? 1: -1)
 
     const workEntries = sortedOccupations && sortedOccupations.map((job,i) => (
         <ContentEntry
-            key={i}
+            key={job.id}
+            id={job.id}
             category="work"
             mainText={`${!job.currentEmployer ? 'Former': ''} ${job.position} at ${job.company}`}
             subText={job.location}
@@ -26,7 +25,8 @@ const workAndEducation = props => {
     const currentDate = new Date()
     const educationEntries = sortedEducation && sortedEducation.map((school,i) => (
         <ContentEntry
-            key={i}
+            key={school.id}
+            id={school.id}
             category="education"
             mainText={`${new Date(school.endDate) > currentDate && !school.graduated ? 'Studies': 'Former Student'} at ${school.school}`}
             subText={`${school.startDate.split(' ')[1]} - ${school.endDate.split(' ')[1]}`}

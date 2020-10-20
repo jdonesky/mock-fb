@@ -1,7 +1,7 @@
 
 import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
-
+import {KeyGenerator} from "../../shared/utility";
 
 
 const updateProfileInit = () => {
@@ -61,7 +61,7 @@ const fetchProfileSuccess = (userData) => {
 
 // -------------------
 
-export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload, how) => {
+export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload, how, id) => {
   return dispatch => {
     dispatch(updateProfileInit());
     let updatedUserProfile;
@@ -70,20 +70,21 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
         .then(response => {
           switch (how) {
               case "edit":
-                  if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'currLocations') {
+                  if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
                       if (response.data[fieldName]) {
                           const updatedArray = [...response.data[fieldName]]
-                          updatedArray[0] = payload
+                          const itemIndex = updatedArray.findIndex(item => item.id === id)
+                          updatedArray[itemIndex] = {...payload, id: KeyGenerator.getKey()}
                           updatedUserProfile = {...response.data, [fieldName]: updatedArray}
                       } else {
-                          updatedUserProfile = {...response.data, [fieldName]: [payload]}
+                          updatedUserProfile = {...response.data, [fieldName]: [{...payload, id: KeyGenerator.getKey()}]}
                       }
                   } else {
                           updatedUserProfile = {...response.data, [fieldName]: payload}
                   }
                   break;
               case "add":
-                  if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'currLocations') {
+                  if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
                           if (response.data[fieldName]) {
                               updatedUserProfile = {...response.data, [fieldName]: [...response.data[fieldName],payload]}
                           } else {
