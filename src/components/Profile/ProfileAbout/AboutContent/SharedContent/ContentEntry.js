@@ -30,6 +30,7 @@ import Male from "../../../../../assets/images/male";
 import Female from "../../../../../assets/images/female";
 import Move from "../../../../../assets/images/travel";
 import Delete from "../../../../../assets/images/delete"
+import Close from "../../../../../assets/images/close"
 
 import classes from "./ContentEntry.css";
 import * as actions from '../../../../../store/actions/index'
@@ -168,8 +169,8 @@ const contentEntry = props => {
                 <div className={[classes.Icon, classes.Share].join(" ")}>
                     {shareIcon}
                 </div>
-                <div className={[classes.Icon,classes.Edit].join(" ")} onClick={toggleEditDropdown}>
-                    <Edit />
+                <div className={[classes.Icon,classes.Edit].join(" ")} onClick={toggleEditDropdown} style={{background: showEditDropdown && "rgba(0,0,0,0.1)", borderRadius: "100px"}}>
+                    {showEditDropdown ? <Close className={classes.CancelSvg}/> : <Edit /> }
                 </div>
                 <div className={editDropdownClasses.join(' ')} >
                     <div className={classes.UpArrow}/>

@@ -75,6 +75,13 @@
     left: 2px;
 }
 
+.Edit .CancelSvg {
+    height: 55%;
+    position: absolute;
+    top:9px;
+    left:2px;
+}
+
 .Edit:hover {
     border-radius: 200px;
     border: none;
@@ -86,7 +93,7 @@
     z-index: 2;
     position: absolute;
     top: 55px;
-    right: 20px;
+    right: 22px;
     background: white;
     padding: 5px;
     width: 300px;
