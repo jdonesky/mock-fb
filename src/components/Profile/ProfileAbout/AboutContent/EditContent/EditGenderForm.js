@@ -1,6 +1,6 @@
 
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux'
 import Input from '../../../../UI/Input/Input'
 import Button from '../../../../UI/Button/Button'
@@ -54,6 +54,7 @@ const editGenderForm = (props) => {
                 throw new Error("Oops, shouldn't be here")
         }
     }
+
 
     const formInputs = Object.keys(formFields).map(key => {
         if (gender === 'Male' || gender === 'Female' || gender !== 'Custom') {

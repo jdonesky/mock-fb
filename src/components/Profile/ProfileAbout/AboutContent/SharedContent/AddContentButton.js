@@ -13,13 +13,13 @@ import EditEmailForm from "../EditContent/EditEmailForm"
 import EditGenderForm from "../EditContent/EditGenderForm";
 import EditFamilyForm from "../EditContent/EditFamilyForm";
 import * as actions from "../../../../../store/actions";
-import {KeyGenerator} from "../../../../../shared/utility";
 
 const addContentButton = props => {
     const [addingContent, setAddingContent] = useState(false);
 
     const saveEdits = (fieldName, payload) => {
-        props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, {...payload, id: KeyGenerator.getKey()}, 'add')
+        props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, payload, 'add')
+
     }
 
     const toggleEditing = () => {

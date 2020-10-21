@@ -77,7 +77,12 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                           updatedArray[itemIndex] = {...payload, id: KeyGenerator.getKey()}
                           updatedUserProfile = {...response.data, [fieldName]: updatedArray}
                       } else {
-                          updatedUserProfile = {...response.data, [fieldName]: [{...payload, id: KeyGenerator.getKey()}]}
+                          if (typeof(payload) === 'object') {
+                            updatedUserProfile = {...response.data, [fieldName]: [{...payload, id: KeyGenerator.getKey()}]}
+                          } else {
+
+                              updatedUserProfile = {...response.data, [fieldName]: [{payload, id: KeyGenerator.getKey()}]}
+                          }
                       }
                   } else {
                           updatedUserProfile = {...response.data, [fieldName]: payload}
@@ -86,9 +91,9 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
               case "add":
                   if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
                           if (response.data[fieldName]) {
-                              updatedUserProfile = {...response.data, [fieldName]: [...response.data[fieldName],payload]}
+                              updatedUserProfile = {...response.data, [fieldName]: [...response.data[fieldName],{...payload, id: KeyGenerator.getKey() }]}
                           } else {
-                              updatedUserProfile = {...response.data, [fieldName]: [payload]}
+                              updatedUserProfile = {...response.data, [fieldName]: [{...payload, id: KeyGenerator.getKey()}]}
                           }
                   } else {
                       updatedUserProfile = {...response.data, [fieldName]: payload}
