@@ -16,6 +16,7 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
             category="email"
             mainText={`${contacts.email}`}
             sharedWith={contacts.email.privacy || 'public'}
+            content={contacts}
         />
     ) : <AddContentButton category="email"/>
 
@@ -24,6 +25,7 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
             category="phone"
             mainText={ contacts && contacts.phone && contacts.phone}
             sharedWith={contacts ? contacts.phone.privacy : "public"}
+            content={contacts}
         />
     ) : <AddContentButton category="phone" />
 
@@ -35,6 +37,7 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
             mainText={ birthday && `${convertedBDay[0]} ${convertedBDay[1]}, ${convertedBDay[2]}`}
             subText='Birth Date'
             sharedWith={birthday ? birthday.privacy : "public"}
+            content={birthday}
         />
     )
 
@@ -45,6 +48,7 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
             subText='Gender'
             sharedWith={gender ? gender.privacy : "public"}
             extra={gender && gender}
+            content={gender}
         />
     ) : <AddContentButton category="gender" />
 

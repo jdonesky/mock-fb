@@ -64,6 +64,10 @@ const contentEntry = props => {
         props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, payload, 'edit', props.id && props.id)
     }
 
+    const deleteEntry = (fieldName) => {
+        props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, null, 'delete', props.id && props.id )
+    }
+
     let categoryIcon;
     let dropdownCaption;
     let editForm;
@@ -173,9 +177,9 @@ const contentEntry = props => {
                     {showEditDropdown ? <Close className={classes.CancelSvg}/> : <Edit /> }
                 </div>
                 <div className={editDropdownClasses.join(' ')} >
-                    <div className={classes.UpArrow}/>
+                    <div className={classes.UpArrow} style={{bottom: !props.content && '42px'}}/>
                     <div className={classes.MenuItem} onClick={toggleEditing}><div className={classes.DropdownIcon}><Edit /></div><span className={classes.DropdownText}>{`Edit ${dropdownCaption}`}</span></div>
-                    <div className={classes.MenuItem}><div className={classes.DropdownIcon}><Delete /></div><span className={classes.DropdownText}>{`Delete ${dropdownCaption}`}</span></div>
+                    {props.content && <div className={classes.MenuItem}><div className={classes.DropdownIcon}><Delete /></div><span className={classes.DropdownText}>{`Delete ${dropdownCaption}`}</span></div>}
                 </div>
             </div>
         </div>

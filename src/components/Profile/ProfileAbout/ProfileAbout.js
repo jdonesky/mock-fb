@@ -24,7 +24,7 @@ const profileAbout = props => {
                 </ul>
             </section>
             <section className={classes.LoadedContent}>
-                <Suspense fallback={<h1>Oops!</h1>}>
+                <Suspense fallback={<h1>Loading...</h1>}>
                     <Route exact path={"/user-profile/about"} component={AboutContent} />
                     <Route path={"/user-profile/about/:tab"} component={AboutContent}/>
                 </Suspense>

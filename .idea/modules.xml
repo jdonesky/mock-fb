@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../reactCompleteGuide/NOTES/AnimationInReact/.idea/AnimationInReact.iml" filepath="$PROJECT_DIR$/../../reactCompleteGuide/NOTES/AnimationInReact/.idea/AnimationInReact.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/dumb-facebook.iml" filepath="$PROJECT_DIR$/.idea/dumb-facebook.iml" />
     </modules>
   </component>

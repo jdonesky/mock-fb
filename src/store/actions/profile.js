@@ -68,45 +68,70 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
     const url = `/users/${firebaseKey}.json?auth=${authToken}`
     axios.get(url)
         .then(response => {
-          switch (how) {
-              case "edit":
-                  if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
-                      if (response.data[fieldName]) {
-                          const updatedArray = [...response.data[fieldName]]
-                          const itemIndex = updatedArray.findIndex(item => item.id === id)
-                          updatedArray[itemIndex] = {...payload, id: KeyGenerator.getKey()}
-                          updatedUserProfile = {...response.data, [fieldName]: updatedArray}
-                      } else {
-                          if (typeof(payload) === 'object') {
-                            updatedUserProfile = {...response.data, [fieldName]: [{...payload, id: KeyGenerator.getKey()}]}
+          KeyGenerator.getKey(authToken, (newKey) => {
+              switch (how) {
+                  case "edit":
+                      if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
+                          if (response.data[fieldName]) {
+                              const updatedArray = [...response.data[fieldName]];
+                              const itemIndex = updatedArray.findIndex(item => item.id === id);
+                              updatedArray[itemIndex] = {...payload, id: newKey};
+                              updatedUserProfile = {...response.data, [fieldName]: updatedArray};
                           } else {
+                              if (typeof (payload) === 'object') {
+                                  updatedUserProfile = {
+                                      ...response.data,
+                                      [fieldName]: [{...payload, id: newKey}]
+                                  }
+                              } else {
+                                  updatedUserProfile = {
+                                      ...response.data,
+                                      [fieldName]: [{payload, id: newKey}]
+                                  }
+                              }
+                          }
+                      } else {
+                          updatedUserProfile = {...response.data, [fieldName]: payload};
+                      }
+                      break;
+                  case "add":
+                      if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
+                          if (response.data[fieldName]) {
+                              updatedUserProfile = {
+                                  ...response.data,
+                                  [fieldName]: [...response.data[fieldName], {...payload, id: newKey}]
+                              }
+                          } else {
+                              updatedUserProfile = {
+                                  ...response.data,
+                                  [fieldName]: [{...payload, id: newKey}]
+                              }
+                          }
+                      } else {
+                          updatedUserProfile = {...response.data, [fieldName]: payload};
+                      }
+                      break;
+                  case "delete":
+                      if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
+                          if (!response.data[fieldName]) {
+                              return;
+                          } else {
+                            const updatedArray = [...response.data[fieldName]];
+                            const deleteIndex = updatedArray.findIndex(item => item.id === id);
+                            updatedArray.splice(deleteIndex, 1);
 
-                              updatedUserProfile = {...response.data, [fieldName]: [{payload, id: KeyGenerator.getKey()}]}
                           }
                       }
-                  } else {
-                          updatedUserProfile = {...response.data, [fieldName]: payload}
-                  }
-                  break;
-              case "add":
-                  if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
-                          if (response.data[fieldName]) {
-                              updatedUserProfile = {...response.data, [fieldName]: [...response.data[fieldName],{...payload, id: KeyGenerator.getKey() }]}
-                          } else {
-                              updatedUserProfile = {...response.data, [fieldName]: [{...payload, id: KeyGenerator.getKey()}]}
-                          }
-                  } else {
-                      updatedUserProfile = {...response.data, [fieldName]: payload}
-                  }
-                  break;
-              default:
-                  throw new Error("Shouldn't be here!")
-          }
-          return axios.put(url, updatedUserProfile)
-        })
-        .then(response => {
-          console.log('PUT REQ RESPONSE', response)
-          dispatch(updateProfileSuccess(updatedUserProfile))
+                  default:
+                      throw new Error("Shouldn't be here!")
+              }
+          axios.put(url, updatedUserProfile)
+            .then(response => {
+              console.log('PUT REQ RESPONSE', response)
+              dispatch(updateProfileSuccess(updatedUserProfile))
+            })
+              .catch(err => console.log(err))
+          })
         })
         .catch(error => {
           console.log(error)

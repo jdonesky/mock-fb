@@ -1,3 +1,5 @@
+import axios from '../axios/db-axios-instance'
+
 export const fieldBuilder = (
   elType,
   inputType,
@@ -75,8 +77,34 @@ export const convertDate = (date) => {
 
 
 export class KeyGenerator {
-  static getKey = () => {
-    this.key = (this.key || 0) + 1;
-    return this.key;
+  // static getKey = () => {
+  //   axios.get("key.json")
+  //       .then(response => {
+  //         console.log(response.data)
+  //         this.key = (response.data || 0) + 1
+  //         console.log('KEY FROM DB', this.key)
+  //         return axios.put("key.json", this.key)
+  //       })
+  //       .then(response => {
+  //         console.log('SENT BACK KEY')
+  //         return this.key;
+  //       })
+  //       .catch(err => console.log(err))
+  // }
+
+  static getKey = (authToken, cb) => {
+    const url = "key.json?auth=" + authToken
+    axios.get(url)
+        .then(response => {
+          console.log('GOT OLD KEY', response);
+          this.key = (response.data || 0) + 1
+          return axios.put(url, this.key)
+        })
+        .then(response => {
+          console.log('PUT NEW KEY', this.key)
+          cb(this.key)
+        })
+        .catch(err => console.log(err))
+
   }
 }

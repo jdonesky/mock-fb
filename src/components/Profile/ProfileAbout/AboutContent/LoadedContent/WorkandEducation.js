@@ -20,6 +20,7 @@ const workAndEducation = props => {
             mainText={`${!job.currentEmployer ? 'Former': ''} ${job.position} at ${job.company}`}
             subText={job.location}
             sharedWith={job.privacy || 'public'}
+            content={job}
         />
     ))
     const currentDate = new Date()
@@ -31,6 +32,7 @@ const workAndEducation = props => {
             mainText={`${new Date(school.endDate) > currentDate && !school.graduated ? 'Studies': 'Former Student'} at ${school.school}`}
             subText={`${school.startDate.split(' ')[1]} - ${school.endDate.split(' ')[1]}`}
             sharedWith={school.privacy || "public"}
+            content={school}
         />
     ))
 

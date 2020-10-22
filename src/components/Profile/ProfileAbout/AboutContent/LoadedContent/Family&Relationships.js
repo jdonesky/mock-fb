@@ -15,6 +15,7 @@ const familyAndRelationships = ({family, relationships}) => {
             mainText={`${relationships[0].status}`}
             subText={relationships[0].partner ? relationships[0].partner : ''}
             sharedWith={relationships[0].privacy || 'public'}
+            content={relationships}
         />
     ) : <AddContentButton category="relationship"/>
 
@@ -25,6 +26,7 @@ const familyAndRelationships = ({family, relationships}) => {
             mainText={member && member.name}
             subText={member && member.relationship}
             sharedWith={member ? member.privacy : "public"}
+            content={family}
         />
     ))
 

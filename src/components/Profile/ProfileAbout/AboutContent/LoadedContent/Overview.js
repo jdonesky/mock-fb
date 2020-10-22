@@ -25,6 +25,7 @@ const overview = props => {
               mainText={occupations ? `Employed as a ${currentOccupation ? currentOccupation.position : mostRecentOccupation && mostRecentOccupation.position}` : 'Add a job'}
               subText={occupations? `${occupations[0].company}, ${occupations[0].location}` : 'Employer, location'}
               sharedWith="friends"
+              content={occupations}
           />
           <ContentEntry
               id={sortedEducation && sortedEducation[0].id}
@@ -32,16 +33,19 @@ const overview = props => {
               mainText={sortedEducation ? `${new Date(sortedEducation[0].endDate) > currentDate && !sortedEducation[0].graduated ? 'Studies': 'Former Student'} at ${sortedEducation[0].school}`: 'Add a School'}
               subText={sortedEducation ? `${sortedEducation[0].startDate} to ${sortedEducation[0].endDate} ` : 'Years attended'}
               sharedWith="private"
+              content={sortedEducation}
           />
           <ContentEntry
               category="currLocation"
               mainText={currLocation ? `Lives in ${currLocation.name}` : 'Add your current location'}
               sharedWith="public"
+              content={currLocation}
           />
           <ContentEntry
               category="fromLocation"
               mainText={hometown ? `Originally from ${hometown.name}` : "Add your hometown"}
               sharedWith="public"
+              content={hometown}
           />
           <ContentEntry
               id={relationships && relationships[0].id}
@@ -49,12 +53,14 @@ const overview = props => {
               mainText={relationships ? `${relationships[0].status}` : "Add your relationship status"}
               subText={relationships ? `With ${relationships[0].partner}` : "With: "}
               sharedWith="private"
+              content={relationships}
           />
           <ContentEntry
               category="contact"
               mainText={contacts? `${contacts.phone}` : "Add contact information"}
               subText={contacts? null : "Phone, Email, IG, Twitter"}
               sharedWith="friends"
+              content={contacts}
           />
       </React.Fragment>
   );

@@ -86,9 +86,26 @@ const auth = props => {
     <Redirect to="/" />
   ) : null;
 
+  let errorMessage;
+  if (props.error) {
+    switch(props.error) {
+      case 'INVALID_EMAIL':
+        errorMessage = 'Please enter a valid email'
+        break
+      case 'INVALID_PASSWORD':
+        errorMessage = 'Please enter a valid password'
+        break;
+      case 'EMAIL_NOT_FOUND':
+        errorMessage = 'Please enter a valid password'
+        break;
+      default:
+        errorMessage = 'TEST'
+    }
+  }
+
   const errorModal = (
     <Modal show={props.error} close={confirmErrorHandler}>
-      {props.error ? props.error : null}
+      {props.error ? <span>{errorMessage}</span> : null}
     </Modal>
   );
 

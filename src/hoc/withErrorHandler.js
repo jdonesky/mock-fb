@@ -6,6 +6,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
 
       const [error,setError] = useState(null);
 
+      useEffect(() => {console.log(error.data.response.error.message)})
 
       useEffect(() => {
           const reqInterceptor = axios.interceptors.request.use(
@@ -36,10 +37,26 @@ const withErrorHandler = (WrappedComponent, axios) => {
         setError(null);
       };
 
+      let message;
+      switch(error) {
+          case 'INVALID_EMAIL':
+              message = 'Please enter a valid email'
+              break
+          case 'INVALID_PASSWORD':
+              message = 'Please enter a valid password'
+              break;
+          case 'EMAIL_NOT_FOUND':
+              message = 'Please enter a valid password'
+              break;
+          default:
+              message = 'TEST'
+      }
+
+
       return (
         <React.Fragment>
           <Modal show={error} close={errorConfirmHandler}>
-            {error ? error.message : null}
+            {error ? message : null}
           </Modal>
           <WrappedComponent {...props} />
         </React.Fragment>

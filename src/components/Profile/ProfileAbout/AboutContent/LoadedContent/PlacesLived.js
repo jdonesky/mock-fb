@@ -7,22 +7,26 @@ import AddContentButton from '../SharedContent/AddContentButton'
 import sharedClasses from './SharedLoadedContentUI.css'
 
 const placesLived = ({currLocation, pastLocations, hometown}) => {
+
+    const sortedPlaces = pastLocations && pastLocations.sort((a,b) => (new Date(a.moveDate) < new Date(b.moveDate)) ? 1: -1)
     const currLocationEntry = currLocation && (
         <ContentEntry
             category="currLocation"
             mainText={`${currLocation.name}`}
             subText='Current city'
             sharedWith={currLocation.privacy || 'public'}
+            content={currLocation}
         />
     )
 
-    const pastLocationEntries = pastLocations && pastLocations.map(loc => (
+    const pastLocationEntries = sortedPlaces && sortedPlaces.map(loc => (
         <ContentEntry
             key={loc.id}
             category="pastLocation"
             mainText={`${loc.name}`}
             subText={'Moved in ' + loc.moveDate}
-            sharedWith={currLocation.privacy || 'public'}
+            sharedWith={loc.privacy || 'public'}
+            content={loc}
         />
     ))
 
@@ -33,6 +37,7 @@ const placesLived = ({currLocation, pastLocations, hometown}) => {
             mainText={hometown && hometown.name}
             subText="Hometown"
             sharedWith={hometown ? hometown.privacy : "public"}
+            content={hometown}
         />
     ) : <AddContentButton category="hometown"/>
 
