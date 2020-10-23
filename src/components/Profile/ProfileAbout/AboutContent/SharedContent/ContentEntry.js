@@ -32,6 +32,7 @@ import Move from "../../../../../assets/images/travel";
 import Delete from "../../../../../assets/images/delete"
 import Close from "../../../../../assets/images/close"
 
+
 import classes from "./ContentEntry.css";
 import * as actions from '../../../../../store/actions/index'
 

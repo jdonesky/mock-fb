@@ -1,39 +1,57 @@
-import React, { useState, useReducer, useRef, useEffect, Suspense } from "react";
+import React, { useState,useEffect,useContext, Suspense } from "react";
 import {Switch, Route} from 'react-router'
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 import withErrorHandler from "../../hoc/withErrorHandler";
 import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics'
 import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader'
+import Modal from "../../components/UI/Modal/Modal";
 import axios from '../../axios/db-axios-instance'
 import classes from "./UserProfile.css";
+import DeleteContextProvider from "../../context/delete-context";
+import {DeleteContext} from "../../context/delete-context";
 
 const ProfileAbout = React.lazy(() => {
   return import('../../components/Profile/ProfileAbout/ProfileAbout')
 })
 
 
-
   const userProfile = (props) => {
 
     const {onFetchProfile,userId,authToken} = props
+    const [showModal, setShowModal] = useState(false);
+    const deleteContext = useContext(DeleteContext)
+
 
     useEffect(() => {
       onFetchProfile(userId, authToken);
     }, [onFetchProfile,userId,authToken])
 
+    const closeModal = () => {
+        deleteContext.toggleModal()
+    }
+
+    const deleteModal = (
+        <Modal show={showModal} close={closeModal}>
+
+        </Modal>
+    )
+
     return (
-        <div className={classes.UserProfile}>
-          <ProfilePics />
-          <ProfileHeader name={props.name}/>
-          <Switch>
-            <Route path="/user-profile/about" render={(props) => (
-                <Suspense fallback={<h1>...Loading</h1>}>
-                  <ProfileAbout {...props}/>
-                </Suspense>
-            )} />
-          </Switch>
-        </div>
+        <DeleteContextProvider>
+            {deleteModal}
+            <div className={classes.UserProfile}>
+              <ProfilePics />
+              <ProfileHeader name={props.name}/>
+              <Switch>
+                <Route path="/user-profile/about" render={(props) => (
+                    <Suspense fallback={<h1>...Loading</h1>}>
+                      <ProfileAbout {...props}/>
+                    </Suspense>
+                )} />
+              </Switch>
+            </div>
+        </DeleteContextProvider>
     )
   }
 
