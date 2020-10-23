@@ -12,7 +12,7 @@ const modal = (props) => {
           opacity: props.show ? "1" : "0",
         }}
         show={props.show}
-        onClick={props.close}
+        onClick={props.type === 'error' && props.close}
       >
         {props.children}
       </div>

@@ -5,6 +5,7 @@ import {Route, Switch} from "react-router-dom";
 import Layout from "./hoc/Layout/Layout";
 import Spinner from './components/UI/Spinner/Spinner'
 import * as actions from "./store/actions/index";
+import DeleteContextProvider from "./context/delete-context";
 
 
 const AsyncUserProfile = React.lazy(() => {
@@ -62,11 +63,13 @@ const app = (props) => {
     }
 
     return (
-        <Layout>
-            <Suspense fallback={<Spinner />}>
-                {routes}
-            </Suspense>
-        </Layout>
+        <DeleteContextProvider>
+            <Layout>
+                <Suspense fallback={<Spinner />}>
+                    {routes}
+                </Suspense>
+            </Layout>
+        </DeleteContextProvider>
     );
 
 }

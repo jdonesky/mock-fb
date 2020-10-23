@@ -109,7 +109,7 @@ const signUp = props => {
   )
   const authRedirect = props.token !== null ? <Redirect to="/user-profile" /> : null
   const errorModal = (
-        <Modal show={props.error} close={confirmErrorHandler}>
+        <Modal show={props.error} close={confirmErrorHandler} type="error">
             {props.error ? props.error : null}
         </Modal>
   );

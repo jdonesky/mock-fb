@@ -6,22 +6,21 @@ import withErrorHandler from "../../hoc/withErrorHandler";
 import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics'
 import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader'
 import Modal from "../../components/UI/Modal/Modal";
+import Close from "../../assets/images/close"
 import axios from '../../axios/db-axios-instance'
 import classes from "./UserProfile.css";
-import DeleteContextProvider from "../../context/delete-context";
 import {DeleteContext} from "../../context/delete-context";
+import sharedClasses from "../../components/Profile/ProfileAbout/AboutContent/EditContent/SharedEditFormUI.css";
+import Button from "../../components/UI/Button/Button";
 
 const ProfileAbout = React.lazy(() => {
   return import('../../components/Profile/ProfileAbout/ProfileAbout')
 })
 
-
   const userProfile = (props) => {
 
     const {onFetchProfile,userId,authToken} = props
-    const [showModal, setShowModal] = useState(false);
     const deleteContext = useContext(DeleteContext)
-
 
     useEffect(() => {
       onFetchProfile(userId, authToken);
@@ -32,13 +31,28 @@ const ProfileAbout = React.lazy(() => {
     }
 
     const deleteModal = (
-        <Modal show={showModal} close={closeModal}>
-
+        <Modal show={deleteContext.showModal} close={closeModal}>
+            <div className={classes.DeleteModal}>
+              <div className={classes.Header}>
+                <h1>Are you sure?</h1>
+                <div className={classes.CancelIcon} onClick={deleteContext.toggleModal}>
+                  <Close />
+                </div>
+              </div>
+              <div className={classes.Break}/>
+              <p>{`Are you sure you want to remove this ${deleteContext.caption} from your profile?`}</p>
+              <div className={sharedClasses.Buttons}>
+                <div className={sharedClasses.SubmitOrCancel} style={{marginLeft: 'auto'}}>
+                  <Button addClass="Neutral" clicked={deleteContext.toggleModal} type="button">Cancel</Button>
+                  <Button addClass="Save" type="submit">Confirm</Button>
+                </div>
+              </div>
+            </div>
         </Modal>
     )
 
     return (
-        <DeleteContextProvider>
+        <React.Fragment>
             {deleteModal}
             <div className={classes.UserProfile}>
               <ProfilePics />
@@ -51,7 +65,7 @@ const ProfileAbout = React.lazy(() => {
                 )} />
               </Switch>
             </div>
-        </DeleteContextProvider>
+        </React.Fragment>
     )
   }
 

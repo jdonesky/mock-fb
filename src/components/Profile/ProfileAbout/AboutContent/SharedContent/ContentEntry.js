@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {connect} from 'react-redux';
 import EditWorkForm from "../EditContent/EditWorkForm";
 import EditSchoolForm from "../EditContent/EditSchoolForm";
@@ -32,7 +32,7 @@ import Move from "../../../../../assets/images/travel";
 import Delete from "../../../../../assets/images/delete"
 import Close from "../../../../../assets/images/close"
 
-
+import {DeleteContext} from "../../../../../context/delete-context";
 import classes from "./ContentEntry.css";
 import * as actions from '../../../../../store/actions/index'
 
@@ -40,6 +40,7 @@ const contentEntry = props => {
 
     const [showEditDropdown, setEditDropdown] = useState(false);
     const [editing, setEditing] = useState(false);
+    const deleteContext = useContext(DeleteContext)
 
     let editDropdownClasses = [classes.EditDropdown]
     if (showEditDropdown) {
@@ -65,67 +66,79 @@ const contentEntry = props => {
         props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, payload, 'edit', props.id && props.id)
     }
 
-    const deleteEntry = (fieldName) => {
-        props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, null, 'delete', props.id && props.id )
-    }
+    // const deleteEntry = () => {
+    //     props.onProfileUpdate(props.authToken, props.firebaseKey, deleteContext.field, 'delete', deleteContext.id)
+    // }
 
     let categoryIcon;
     let dropdownCaption;
     let editForm;
+    let fieldName;
     switch (props.category) {
         case 'work':
             categoryIcon = <BriefCase />
             dropdownCaption = 'workplace'
+            fieldName = 'occupations'
             editForm = <EditWorkForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'education':
             categoryIcon = <GraduationCap />
             dropdownCaption = 'school'
+            fieldName = 'education'
             editForm = <EditSchoolForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'currLocation':
             categoryIcon = <House />
             dropdownCaption = 'current location'
+            fieldName = 'currLocation'
             editForm = <EditLocationForm locType="current" cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'pastLocation':
             categoryIcon = <Move />
             dropdownCaption = 'past location'
+            fieldName = 'pastLocations'
             editForm = <EditLocationForm locType="pastLocation" cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'fromLocation':
             categoryIcon = <Pin />
             dropdownCaption = 'hometown'
+            fieldName = 'hometown'
             editForm = <EditLocationForm locType="origin" cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'relationship':
             categoryIcon = <Heart />
             dropdownCaption = 'relationship status'
+            fieldName = 'relationships'
             editForm = <EditRelationshipForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'family':
             categoryIcon = <Avatar />
             dropdownCaption = 'family member'
+            fieldName = 'family'
             editForm = <EditFamilyForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'contact':
             categoryIcon = <Phone />
             dropdownCaption = 'contact information'
+            fieldName = 'contacts'
             editForm = <EditContactForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'phone':
             categoryIcon = <Phone />
             dropdownCaption = 'phone number'
+            fieldName = 'contacts'
             editForm = <EditPhoneForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'email':
             categoryIcon = <Email />
             dropdownCaption = 'email'
+            fieldName = 'contacts'
             editForm = <EditEmailForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'birthday':
             categoryIcon = <Cake />
             dropdownCaption = 'birthday'
+            fieldName = 'birthday'
             editForm = <EditBirthdayForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'gender':
@@ -137,6 +150,7 @@ const contentEntry = props => {
                 categoryIcon = <Like />
             }
             dropdownCaption = 'gender'
+            fieldName = 'gender'
             editForm = <EditGenderForm cancel={toggleEditing} save={saveEdits}/>
             break;
         default:
@@ -144,6 +158,7 @@ const contentEntry = props => {
             dropdownCaption = null;
             editForm = null;
     }
+
 
     let shareIcon;
     switch (props.sharedWith) {
@@ -160,6 +175,10 @@ const contentEntry = props => {
             shareIcon = <Earth />
     }
 
+    const toggleDeleteModal = () => {
+        deleteContext.passData(fieldName, props.id && props.id, dropdownCaption && dropdownCaption)
+        deleteContext.toggleModal();
+    }
 
     const entry = (
         <div className={classes.Entry}>
@@ -180,7 +199,7 @@ const contentEntry = props => {
                 <div className={editDropdownClasses.join(' ')} >
                     <div className={classes.UpArrow} style={{bottom: !props.content && '42px'}}/>
                     <div className={classes.MenuItem} onClick={toggleEditing}><div className={classes.DropdownIcon}><Edit /></div><span className={classes.DropdownText}>{`Edit ${dropdownCaption}`}</span></div>
-                    {props.content && <div className={classes.MenuItem}><div className={classes.DropdownIcon}><Delete /></div><span className={classes.DropdownText}>{`Delete ${dropdownCaption}`}</span></div>}
+                    {props.content && <div className={classes.MenuItem} onClick={toggleDeleteModal}><div className={classes.DropdownIcon}><Delete /></div><span className={classes.DropdownText}>{`Delete ${dropdownCaption}`}</span></div>}
                 </div>
             </div>
         </div>

@@ -1,18 +1,22 @@
 
 import React, {useState} from 'react';
+import {connect} from 'react-redux'
+import * as actions from "../store/actions";
 
 export const DeleteContext = React.createContext({
     field: null,
     id: null,
     passData: () => {},
     showModal: false,
-    toggleModal: () => {}
+    toggleModal: () => {},
+    caption: null
 })
 
 const DeleteContextProvider = (props) => {
     const [field, setField] = useState(null)
     const [id, setId] = useState(null)
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(true)
+    const [caption, setCaption] = useState(null);
 
     const toggleModal = () => {
         setShowModal((prevState) => {
@@ -20,16 +24,36 @@ const DeleteContextProvider = (props) => {
         })
     }
 
-    const passData = (field,id) => {
+    const passData = (field,id,caption) => {
         setField(field)
         setId(id)
+        setCaption(caption)
+    }
+
+    const deleteEntry = () => {
+        props.onProfileUpdate(props.authToken, props.firebaseKey, DeleteContext.field, 'delete', DeleteContext.id);
     }
 
     return (
-        <DeleteContext.Provider value={{field: field, id: id, passData: passData, showModal: showModal, toggleModal: toggleModal}}>
+        <DeleteContext.Provider value={{field: field, id: id, passData: passData, showModal: showModal, toggleModal: toggleModal, caption: caption}}>
             {props.children}
         </DeleteContext.Provider>
     );
 }
 
-export default DeleteContextProvider;
+const mapStateToProps = state => {
+    return {
+        authToken: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
+    }
+}
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how, id))
+    }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(DeleteContextProvider);
