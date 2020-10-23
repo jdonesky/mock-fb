@@ -11,6 +11,7 @@ const placesLived = ({currLocation, pastLocations, hometown}) => {
     const sortedPlaces = pastLocations && pastLocations.sort((a,b) => (new Date(a.moveDate) < new Date(b.moveDate)) ? 1: -1)
     const currLocationEntry = currLocation && (
         <ContentEntry
+            id={currLocation.id}
             category="currLocation"
             mainText={`${currLocation.name}`}
             subText='Current city'
@@ -22,6 +23,7 @@ const placesLived = ({currLocation, pastLocations, hometown}) => {
     const pastLocationEntries = sortedPlaces && sortedPlaces.map(loc => (
         <ContentEntry
             key={loc.id}
+            id={loc.id}
             category="pastLocation"
             mainText={`${loc.name}`}
             subText={'Moved in ' + loc.moveDate}
@@ -33,6 +35,7 @@ const placesLived = ({currLocation, pastLocations, hometown}) => {
 
     const hometownEntry = hometown ? (
         <ContentEntry
+            id={hometown.id}
             category="fromLocation"
             mainText={hometown && hometown.name}
             subText="Hometown"

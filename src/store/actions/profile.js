@@ -114,14 +114,20 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                   case "delete":
                       if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
                           if (!response.data[fieldName]) {
+                              console.log('NO DATA EXISTS')
                               return;
                           } else {
+                            console.log('DATA EXISTS');
                             const updatedArray = [...response.data[fieldName]];
                             const deleteIndex = updatedArray.findIndex(item => item.id === id);
                             updatedArray.splice(deleteIndex, 1);
-
+                            updatedUserProfile = {...response.data, [fieldName]: updatedArray}
                           }
+                      } else {
+                          console.log('deleting single entry field')
+                          updatedUserProfile = {...response.data, [fieldName]: null}
                       }
+                      break;
                   default:
                       throw new Error("Shouldn't be here!")
               }

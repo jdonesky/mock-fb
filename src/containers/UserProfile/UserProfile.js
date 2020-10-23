@@ -23,15 +23,13 @@ const ProfileAbout = React.lazy(() => {
     const deleteContext = useContext(DeleteContext)
 
     useEffect(() => {
+      console.log(deleteContext.id)
       onFetchProfile(userId, authToken);
     }, [onFetchProfile,userId,authToken])
 
-    const closeModal = () => {
-        deleteContext.toggleModal()
-    }
 
     const deleteModal = (
-        <Modal show={deleteContext.showModal} close={closeModal}>
+        <Modal show={deleteContext.showModal}>
             <div className={classes.DeleteModal}>
               <div className={classes.Header}>
                 <h1>Are you sure?</h1>
@@ -42,9 +40,9 @@ const ProfileAbout = React.lazy(() => {
               <div className={classes.Break}/>
               <p>{`Are you sure you want to remove this ${deleteContext.caption} from your profile?`}</p>
               <div className={sharedClasses.Buttons}>
-                <div className={sharedClasses.SubmitOrCancel} style={{marginLeft: 'auto'}}>
-                  <Button addClass="Neutral" clicked={deleteContext.toggleModal} type="button">Cancel</Button>
-                  <Button addClass="Save" type="submit">Confirm</Button>
+                <div className={sharedClasses.SubmitOrCancel} style={{marginLeft: 'auto', marginBottom: '10px'}}>
+                  <Button addClass="Neutral" clicked={deleteContext.toggleModal}>Cancel</Button>
+                  <Button addClass="Save" clicked={deleteContext.deleteEntry}>Confirm</Button>
                 </div>
               </div>
             </div>
@@ -74,7 +72,7 @@ const mapStateToProps = (state) => {
   return {
     userId: state.auth.userId,
     authToken: state.auth.token,
-    key: state.profile.firebaseKey,
+    firebaseKey: state.profile.firebaseKey,
     name: state.profile.firstName + ' ' + state.profile.lastName,
     birthday: state.profile.birthday,
     location: state.profile.location,

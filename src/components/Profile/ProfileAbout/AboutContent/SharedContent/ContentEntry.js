@@ -66,9 +66,6 @@ const contentEntry = props => {
         props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, payload, 'edit', props.id && props.id)
     }
 
-    // const deleteEntry = () => {
-    //     props.onProfileUpdate(props.authToken, props.firebaseKey, deleteContext.field, 'delete', deleteContext.id)
-    // }
 
     let categoryIcon;
     let dropdownCaption;
@@ -176,7 +173,7 @@ const contentEntry = props => {
     }
 
     const toggleDeleteModal = () => {
-        deleteContext.passData(fieldName, props.id && props.id, dropdownCaption && dropdownCaption)
+        deleteContext.passData(fieldName && fieldName, props.id && props.id, dropdownCaption && dropdownCaption)
         deleteContext.toggleModal();
     }
 
@@ -193,7 +190,7 @@ const contentEntry = props => {
                 <div className={[classes.Icon, classes.Share].join(" ")}>
                     {shareIcon}
                 </div>
-                <div className={[classes.Icon,classes.Edit].join(" ")} onClick={toggleEditDropdown} style={{background: showEditDropdown && "rgba(0,0,0,0.1)", borderRadius: "100px"}}>
+                <div className={[classes.Icon,classes.Edit].join(" ")} onClick={toggleEditDropdown} /* onBlur={toggleEditDropdown} onFocus={toggleEditDropdown} tabIndex="0" */ style={{background: showEditDropdown && "rgba(0,0,0,0.1)", borderRadius: "100px"}}>
                     {showEditDropdown ? <Close className={classes.CancelSvg}/> : <Edit /> }
                 </div>
                 <div className={editDropdownClasses.join(' ')} >
