@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux'
 import * as actions from "../store/actions";
 
@@ -24,10 +24,6 @@ const DeleteContextProvider = (props) => {
             return !prevState;
         })
     }
-
-    useEffect(() => {
-        console.log('field', field)
-    })
 
     const passData = (field,id,caption) => {
         setField(field)

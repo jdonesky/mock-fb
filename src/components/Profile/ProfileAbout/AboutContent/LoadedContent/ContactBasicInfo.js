@@ -9,8 +9,6 @@ import {convertDate} from "../../../../../shared/utility";
 
 const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orientation,gender}) => {
 
-    const currentDate = new Date()
-
     const emailEntry = contacts && contacts.email ? (
         <ContentEntry
             category="email"

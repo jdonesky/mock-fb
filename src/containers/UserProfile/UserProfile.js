@@ -1,4 +1,4 @@
-import React, { useState,useEffect,useContext, Suspense } from "react";
+import React, {useEffect,useContext, Suspense} from "react";
 import {Switch, Route} from 'react-router'
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
@@ -23,7 +23,6 @@ const ProfileAbout = React.lazy(() => {
     const deleteContext = useContext(DeleteContext)
 
     useEffect(() => {
-      console.log(deleteContext.id)
       onFetchProfile(userId, authToken);
     }, [onFetchProfile,userId,authToken])
 

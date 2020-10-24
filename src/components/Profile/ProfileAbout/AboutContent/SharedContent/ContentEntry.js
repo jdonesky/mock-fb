@@ -32,6 +32,7 @@ import Move from "../../../../../assets/images/travel";
 import Delete from "../../../../../assets/images/delete"
 import Close from "../../../../../assets/images/close"
 
+import OutsideAlerter from "../../../../../hooks/outsideClickHandler";
 import {DeleteContext} from "../../../../../context/delete-context";
 import classes from "./ContentEntry.css";
 import * as actions from '../../../../../store/actions/index'
@@ -173,6 +174,7 @@ const contentEntry = props => {
     }
 
     const toggleDeleteModal = () => {
+        toggleEditDropdown()
         deleteContext.passData(fieldName && fieldName, props.id && props.id, dropdownCaption && dropdownCaption)
         deleteContext.toggleModal();
     }
@@ -190,14 +192,25 @@ const contentEntry = props => {
                 <div className={[classes.Icon, classes.Share].join(" ")}>
                     {shareIcon}
                 </div>
+
                 <div className={[classes.Icon,classes.Edit].join(" ")} onClick={toggleEditDropdown} /* onBlur={toggleEditDropdown} onFocus={toggleEditDropdown} tabIndex="0" */ style={{background: showEditDropdown && "rgba(0,0,0,0.1)", borderRadius: "100px"}}>
                     {showEditDropdown ? <Close className={classes.CancelSvg}/> : <Edit /> }
                 </div>
-                <div className={editDropdownClasses.join(' ')} >
-                    <div className={classes.UpArrow} style={{bottom: !props.content && '42px'}}/>
-                    <div className={classes.MenuItem} onClick={toggleEditing}><div className={classes.DropdownIcon}><Edit /></div><span className={classes.DropdownText}>{`Edit ${dropdownCaption}`}</span></div>
-                    {props.content && <div className={classes.MenuItem} onClick={toggleDeleteModal}><div className={classes.DropdownIcon}><Delete /></div><span className={classes.DropdownText}>{`Delete ${dropdownCaption}`}</span></div>}
-                </div>
+                { showEditDropdown &&
+                    <OutsideAlerter action={toggleEditDropdown}>
+                        <div className={editDropdownClasses.join(' ')}>
+                            <div className={classes.UpArrow} style={{bottom: !props.content && '42px'}}/>
+                            <div className={classes.MenuItem} onClick={toggleEditing}>
+                                <div className={classes.DropdownIcon}><Edit/></div>
+                                <span className={classes.DropdownText}>{`Edit ${dropdownCaption}`}</span></div>
+                            {props.content && <div className={classes.MenuItem} onClick={toggleDeleteModal}>
+                                <div className={classes.DropdownIcon}><Delete/></div>
+                                <span className={classes.DropdownText}>{`Delete ${dropdownCaption}`}</span>
+                            </div>
+                            }
+                        </div>
+                    </OutsideAlerter>
+                }
             </div>
         </div>
     );
