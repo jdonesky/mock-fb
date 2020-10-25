@@ -28,10 +28,7 @@ const editEmailForm = (props) => {
 
     const submitChangesHandler = (event) => {
         event.preventDefault();
-        const payload = {
-            email: email,
-        }
-        // props.save('contacts', payload)
+        props.save('email', email)
     }
 
     const formInputs = Object.keys(formFields).map(key => {
@@ -57,8 +54,8 @@ const editEmailForm = (props) => {
             <div className={classes.Buttons}>
                 <Button addClass="Neutral">Privacy</Button>
                 <div className={classes.SubmitOrCancel}>
-                    <Button addClass="Neutral" clicked={props.cancel}>Cancel</Button>
-                    <Button addClass="Save">Save</Button>
+                    <Button addClass="Neutral" clicked={props.cancel} type="button">Cancel</Button>
+                    <Button addClass="Save" type="submit">Save</Button>
                 </div>
             </div>
         </form>

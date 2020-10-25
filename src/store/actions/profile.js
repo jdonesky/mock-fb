@@ -90,6 +90,9 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                                   }
                               }
                           }
+                      } else if (fieldName === 'email' || fieldName === 'phone') {
+                          const updatedContacts = {...response.data['contacts'], [fieldName] : payload}
+                          updatedUserProfile = {...response.data, contacts: updatedContacts}
                       } else {
                           updatedUserProfile = {...response.data, [fieldName]: payload};
                       }
@@ -107,6 +110,9 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                                   [fieldName]: [{...payload, id: newKey}]
                               }
                           }
+                      } else if (fieldName === 'email' || fieldName === 'phone') {
+                          const updatedContacts = {...response.data['contacts'], [fieldName] : payload}
+                          updatedUserProfile = {...response.data, contacts: updatedContacts}
                       } else {
                           updatedUserProfile = {...response.data, [fieldName]: payload};
                       }
@@ -114,15 +120,16 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                   case "delete":
                       if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
                           if (!response.data[fieldName]) {
-                              console.log('NO DATA EXISTS')
                               return;
                           } else {
-                            console.log('DATA EXISTS');
-                            const updatedArray = [...response.data[fieldName]];
-                            const deleteIndex = updatedArray.findIndex(item => item.id === id);
-                            updatedArray.splice(deleteIndex, 1);
-                            updatedUserProfile = {...response.data, [fieldName]: updatedArray}
+                              const updatedArray = [...response.data[fieldName]];
+                              const deleteIndex = updatedArray.findIndex(item => item.id === id);
+                              updatedArray.splice(deleteIndex, 1);
+                              updatedUserProfile = {...response.data, [fieldName]: updatedArray}
                           }
+                      } else if (fieldName === 'email' || fieldName === 'phone') {
+                          const updatedContacts = {...response.data['contacts'], [fieldName] : null}
+                          updatedUserProfile = {...response.data, contacts: updatedContacts}
                       } else {
                           console.log('deleting single entry field')
                           updatedUserProfile = {...response.data, [fieldName]: null}

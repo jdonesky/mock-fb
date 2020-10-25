@@ -19,7 +19,6 @@ const addContentButton = props => {
 
     const saveEdits = (fieldName, payload) => {
         props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, payload, 'add')
-
     }
 
     const toggleEditing = () => {

@@ -29,10 +29,7 @@ const editPhoneForm = (props) => {
 
     const submitChangesHandler = (event) => {
         event.preventDefault();
-        const payload = {
-            phone: phone
-        }
-        // props.save('contacts', payload)
+        props.save('phone', phone)
     }
 
     const formInputs = Object.keys(formFields).map(key => {
@@ -58,8 +55,8 @@ const editPhoneForm = (props) => {
             <div className={classes.Buttons}>
                 <Button addClass="Neutral">Privacy</Button>
                 <div className={classes.SubmitOrCancel}>
-                    <Button addClass="Neutral" clicked={props.cancel}>Cancel</Button>
-                    <Button addClass="Save">Save</Button>
+                    <Button addClass="Neutral" clicked={props.cancel} type="button">Cancel</Button>
+                    <Button addClass="Save" type="submit">Save</Button>
                 </div>
             </div>
         </form>

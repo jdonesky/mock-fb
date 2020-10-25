@@ -124,13 +124,13 @@ const contentEntry = props => {
         case 'phone':
             categoryIcon = <Phone />
             dropdownCaption = 'phone number'
-            fieldName = 'contacts'
+            fieldName = 'phone'
             editForm = <EditPhoneForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'email':
             categoryIcon = <Email />
             dropdownCaption = 'email'
-            fieldName = 'contacts'
+            fieldName = 'email'
             editForm = <EditEmailForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'birthday':
