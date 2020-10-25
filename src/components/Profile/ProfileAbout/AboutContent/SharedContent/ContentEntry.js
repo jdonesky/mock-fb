@@ -32,6 +32,7 @@ import Move from "../../../../../assets/images/travel";
 import Delete from "../../../../../assets/images/delete"
 import Close from "../../../../../assets/images/close"
 
+import InlineDots from "../../../../UI/Spinner/InlineDots"
 import OutsideAlerter from "../../../../../hooks/outsideClickHandler";
 import {DeleteContext} from "../../../../../context/delete-context";
 import classes from "./ContentEntry.css";
@@ -216,6 +217,11 @@ const contentEntry = props => {
     );
 
     let content = editing? editForm : entry;
+
+    if (props.contentEntryLoading) {
+        content = <InlineDots />
+    }
+
     return content;
 }
 
@@ -223,6 +229,7 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
+        contentLoading: state.profile.contentEntryLoading
     }
 }
 

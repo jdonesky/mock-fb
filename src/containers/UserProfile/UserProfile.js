@@ -12,6 +12,7 @@ import classes from "./UserProfile.css";
 import {DeleteContext} from "../../context/delete-context";
 import sharedClasses from "../../components/Profile/ProfileAbout/AboutContent/EditContent/SharedEditFormUI.css";
 import Button from "../../components/UI/Button/Button";
+import SquareFold from "../../components/UI/Spinner/SquareFold"
 
 const ProfileAbout = React.lazy(() => {
   return import('../../components/Profile/ProfileAbout/ProfileAbout')
@@ -48,22 +49,28 @@ const ProfileAbout = React.lazy(() => {
         </Modal>
     )
 
-    return (
+    let profile = (
         <React.Fragment>
-            {deleteModal}
-            <div className={classes.UserProfile}>
-              <ProfilePics />
-              <ProfileHeader name={props.name}/>
-              <Switch>
-                <Route path="/user-profile/about" render={(props) => (
-                    <Suspense fallback={<h1>...Loading</h1>}>
-                      <ProfileAbout {...props}/>
-                    </Suspense>
-                )} />
-              </Switch>
-            </div>
+          {deleteModal}
+          <div className={classes.UserProfile}>
+            <ProfilePics />
+            <ProfileHeader name={props.name}/>
+            <Switch>
+              <Route path="/user-profile/about" render={(props) => (
+                  <Suspense fallback={<h1>...Loading</h1>}>
+                    <ProfileAbout {...props}/>
+                  </Suspense>
+              )} />
+            </Switch>
+          </div>
         </React.Fragment>
     )
+
+    if (props.profileLoading) {
+      profile = <SquareFold />
+    }
+
+    return profile;
   }
 
 

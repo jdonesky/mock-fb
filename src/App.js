@@ -3,7 +3,7 @@ import React, {useEffect, Suspense} from "react";
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 import Layout from "./hoc/Layout/Layout";
-import Spinner from './components/UI/Spinner/Spinner'
+import FoldingSquare from './components/UI/Spinner/SquareFold'
 import * as actions from "./store/actions/index";
 import DeleteContextProvider from "./context/delete-context";
 
@@ -65,7 +65,7 @@ const app = (props) => {
     return (
         <DeleteContextProvider>
             <Layout>
-                <Suspense fallback={<Spinner />}>
+                <Suspense fallback={<FoldingSquare />}>
                     {routes}
                 </Suspense>
             </Layout>

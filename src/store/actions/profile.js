@@ -4,6 +4,12 @@ import axios from "../../axios/db-axios-instance";
 import {KeyGenerator} from "../../shared/utility";
 
 
+const loadProfileInit = () => {
+    return {
+        type: actionTypes.LOAD_PROFILE_INIT
+    }
+}
+
 const updateProfileInit = () => {
   return {
     type: actionTypes.UPDATE_PROFILE_INIT,
@@ -13,7 +19,7 @@ const updateProfileInit = () => {
 
 export const createProfileAttempt =  (token,newUserData) => {
   return dispatch => {
-    dispatch(updateProfileInit());
+    dispatch(loadProfileInit());
     axios.post(`/users.json?auth=${token}`, newUserData)
         .then( response => {
           const userData= {key: response.data.name,...newUserData};
@@ -34,7 +40,7 @@ const createProfileSuccess = (userData) => {
 
 export const fetchProfileAttempt = (userId, token) => {
   return (dispatch) => {
-    dispatch(updateProfileInit());
+    dispatch(loadProfileInit());
     const queryParams =
       "?auth=" + token + '&orderBy="userId"&equalTo="' + userId + '"';
     axios
@@ -59,7 +65,6 @@ const fetchProfileSuccess = (userData) => {
   };
 };
 
-// -------------------
 
 export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload, how, id) => {
   return dispatch => {

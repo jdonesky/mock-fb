@@ -11,12 +11,20 @@ const initialState = {
   userId: null,
   error: null,
   profileLoading: false,
+  contentEntryLoading: false
 };
+
+const loadProfileInit = (state,action) => {
+  return {
+    ...state,
+    profileLoading: true
+  }
+}
 
 const updateProfileInit = (state,action) => {
   return { 
     ...state,
-    profileLoading: true,
+    contentEntryLoading: true,
   }
 }
 
@@ -24,7 +32,7 @@ const updateProfileFail = (state,action) => {
   return {
     ...state,
     error: action.error,
-    profileLoading: false
+    contentEntryLoading: false
   }
 }
 
@@ -82,7 +90,7 @@ const updateProfileSuccess = (state,action) => {
     contacts: action.userData.contacts || null,
     firebaseKey: action.userData.key || null,
     userId: action.userData.userId || null,
-    profileLoading: false,
+    contentEntryLoading: false,
   }
 }
 
@@ -94,6 +102,7 @@ const clearProfile = (state,action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.LOAD_PROFILE_INIT: return loadProfileInit(state,action);
     case actionTypes.UPDATE_PROFILE_INIT: return updateProfileInit(state, action);
     case actionTypes.CREATE_PROFILE_SUCCESS: return createProfileSuccess(state, action);
     case actionTypes.FETCH_PROFILE_SUCCESS: return fetchProfileSuccess(state, action);

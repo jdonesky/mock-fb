@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Post from "../../components/Users/Post/Post";
-import Spinner from "../../components/UI/Spinner/Spinner";
+import FoldingSquare from "../../components/UI/Spinner/SquareFold";
 
 import classes from './Posts.css'
 import * as actions from "../../store/actions/index";
@@ -34,7 +34,7 @@ class Posts extends Component {
       })
     }
     if (this.props.loading) {
-      posts = <Spinner />
+      posts = <FoldingSquare />
     }
     return (
       <div className={classes.Posts}>
