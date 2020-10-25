@@ -3,6 +3,9 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
 import classes from './ProfileHeader.css'
+import SearchSvg from '../../../assets/images/search'
+import ViewSvg from '../../../assets/images/eye'
+import DownArrow from '../../../assets/images/down-arrow'
 
 const profileHeader = (props) => {
     return (
@@ -15,26 +18,50 @@ const profileHeader = (props) => {
             <section className={classes.NavigationBar}>
                 <nav>
                     <ul className={classes.TabControls}>
-                        <NavLink
-                            exact
-                            to="/user-profile"
-                            activeClassName={classes.active}
-                            >Timeline</NavLink>
-                        <NavLink
-                            to="/user-profile/about"
-                            activeClassName={classes.active}
-                            >
-                            About</NavLink>
-                        <NavLink
-                            to='/more'
-                            activeClassName={classes.active}
-                            >More</NavLink>
+                        <div className={classes.TimelineTab}>
+                            <NavLink
+                                exact
+                                to="/user-profile"
+                                activeClassName={classes.active}
+                                >Timeline
+                            </NavLink>
+                        </div>
+                        <div className={classes.AboutTab}>
+                            <NavLink
+                                to="/user-profile/about"
+                                activeClassName={classes.active}
+                                >About
+                            </NavLink>
+                        </div>
+                        <div className={classes.FriendsTab}>
+                            <NavLink
+                                to="/user-profile/friends"
+                                activeClassName={classes.active}
+                                >Friends
+                            </NavLink>
+                        </div>
+                        <div className={classes.PhotosTab}>
+                            <NavLink
+                                to="/user-profile/friends"
+                                activeClassName={classes.active}
+                            >Photos
+                            </NavLink>
+                        </div>
+                        <div className={classes.MoreTab}>
+                            <NavLink
+                                to='/more'
+                                activeClassName={classes.active}
+                                >More
+                            </NavLink>
+                            <DownArrow />
+                        </div>
                     </ul>
                 </nav>
                 <nav>
                     <ul className={classes.EditControls}>
                         <li>Edit Profile</li>
-                        <li>View As</li>
+                        <li><ViewSvg /></li>
+                        <li><SearchSvg /></li>
                         <li>...</li>
                     </ul>
                 </nav>

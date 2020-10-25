@@ -23,10 +23,8 @@ const navigationItems = (props) => {
       <NavigationItem link="/search-users" style={{width: "100px"}}>
         <FontAwesomeIcon icon={faSearch} style={{margin: "2px 10px 0 10px"}}/>
       </NavigationItem>
-      <NavigationItem exact link="/">
-        Home
-      </NavigationItem>
-      <NavigationItem link="/friends">Friends</NavigationItem>
+      <NavigationItem exact link="/">Home</NavigationItem>
+      {/*<NavigationItem link="/friends">Friends</NavigationItem>*/}
       <NavigationItem link="/user-profile">Profile</NavigationItem>
       <NavigationItem link="/logout">Sign Out</NavigationItem>
     </ul>

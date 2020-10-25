@@ -69,18 +69,35 @@ const auth = props => {
   };
 
 
-  let formFields = Object.keys(formInputs).map((key) => (
-    <Input
-      key={key}
-      elementType={formInputs[key].elementType}
-      type={formInputs[key].elementConfig.type}
-      placeholder={formInputs[key].elementConfig.placeholder}
-      value={formInputs[key].value}
-      touched={formInputs[key].touched}
-      changed={(event) => changeHandler(event, key)}
-      invalid={!formInputs[key].valid}
-    />
-  ));
+  let formFields = Object.keys(formInputs).map((key) => {
+    if (key === 'password') {
+      return (
+          <Input
+              key={key}
+              autocomplete="current-password"
+              elementType={formInputs[key].elementType}
+              type={formInputs[key].elementConfig.type}
+              placeholder={formInputs[key].elementConfig.placeholder}
+              value={formInputs[key].value}
+              touched={formInputs[key].touched}
+              changed={(event) => changeHandler(event, key)}
+              invalid={!formInputs[key].valid}
+          />
+      )
+    } else {
+      return (
+          <Input
+          key={key}
+          elementType={formInputs[key].elementType}
+          type={formInputs[key].elementConfig.type}
+          placeholder={formInputs[key].elementConfig.placeholder}
+          value={formInputs[key].value}
+          touched={formInputs[key].touched}
+          changed={(event) => changeHandler(event, key)}
+          invalid={!formInputs[key].valid}
+      />)
+    }
+  });
 
   let authRedirect = props.isAuthenticated ? (
     <Redirect to="/" />
