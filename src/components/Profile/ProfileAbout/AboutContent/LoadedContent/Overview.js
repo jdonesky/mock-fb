@@ -4,7 +4,6 @@ import React from 'react';
 import {connect} from 'react-redux'
 import ContentEntry from "../SharedContent/ContentEntry";
 
-
 const overview = props => {
 
   const {occupations, education, currLocation, hometown, relationships, contacts} = props;
@@ -16,22 +15,21 @@ const overview = props => {
   const sortedEducation = education && education.sort((a,b) => (new Date(a.endDate) < new Date(b.endDate)) ? 1: -1)
 
 
-
   return (
       <React.Fragment>
           <ContentEntry
               id={currentOccupation ? currentOccupation.id : mostRecentOccupation && mostRecentOccupation.id }
               category="work"
-              mainText={occupations ? `Employed as a ${currentOccupation ? currentOccupation.position : mostRecentOccupation && mostRecentOccupation.position}` : 'Add a job'}
-              subText={occupations? `${occupations[0].company}, ${occupations[0].location}` : 'Employer, location'}
+              mainText={occupations && occupations.length ? `Employed as a ${currentOccupation ? currentOccupation.position : mostRecentOccupation && mostRecentOccupation.position}` : 'Add a job'}
+              subText={occupations && occupations.length ? `${occupations[0].company}, ${occupations[0].location}` : 'Employer, location'}
               sharedWith="friends"
               content={occupations}
           />
           <ContentEntry
               id={sortedEducation && sortedEducation[0].id}
               category="education"
-              mainText={sortedEducation ? `${new Date(sortedEducation[0].endDate) > currentDate && !sortedEducation[0].graduated ? 'Studies': 'Former Student'} at ${sortedEducation[0].school}`: 'Add a School'}
-              subText={sortedEducation ? `${sortedEducation[0].startDate} to ${sortedEducation[0].endDate} ` : 'Years attended'}
+              mainText={sortedEducation && sortedEducation.length ? `${new Date(sortedEducation[0].endDate) > currentDate && !sortedEducation[0].graduated ? 'Studies': 'Former Student'} at ${sortedEducation[0].school}`: 'Add a School'}
+              subText={sortedEducation && sortedEducation.length ? `${sortedEducation[0].startDate} to ${sortedEducation[0].endDate} ` : 'Years attended'}
               sharedWith="private"
               content={sortedEducation}
           />
@@ -50,14 +48,14 @@ const overview = props => {
           <ContentEntry
               id={relationships && relationships[0].id}
               category="relationship"
-              mainText={relationships ? `${relationships[0].status}` : "Add your relationship status"}
-              subText={relationships ? `With ${relationships[0].partner}` : "With: "}
+              mainText={relationships && relationships.length ? `${relationships[0].status}` : "Add your relationship status"}
+              subText={relationships && relationships.length ? `With ${relationships[0].partner}` : "With: "}
               sharedWith="private"
               content={relationships}
           />
           <ContentEntry
               category="contact"
-              mainText={contacts? `${contacts.phone}` : "Add contact information"}
+              mainText={contacts && contacts.phone? `${contacts.phone}` : "Add contact information"}
               subText={contacts? null : "Phone, Email, IG, Twitter"}
               sharedWith="friends"
               content={contacts}

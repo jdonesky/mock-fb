@@ -12,7 +12,7 @@ const familyAndRelationships = ({family, relationships}) => {
         (
         <ContentEntry
             category="relationship"
-            mainText={`${relationships[0].status}`}
+            mainText={`${relationships && relationships[0].status}`}
             subText={relationships[0].partner ? relationships[0].partner : ''}
             sharedWith={relationships[0].privacy || 'public'}
             content={relationships}

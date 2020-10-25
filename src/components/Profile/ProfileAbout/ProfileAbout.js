@@ -1,9 +1,11 @@
 
 import React, {Suspense} from 'react';
+import { connect } from 'react-redux'
 import {NavLink} from 'react-router-dom';
 import {Route} from 'react-router';
 import classes from './ProfileAbout.css';
 import FoldingSquare from '../../UI/Spinner/SquareFold'
+import InlineDots from "../../UI/Spinner/InlineDots"
 
 const AboutContent = React.lazy(() => {
     return import('./AboutContent/AboutContent')
@@ -25,13 +27,19 @@ const profileAbout = props => {
                 </ul>
             </section>
             <section className={classes.LoadedContent}>
-                <Suspense fallback={<FoldingSquare />}>
+                {props.contentLoading ? <InlineDots /> : (<Suspense fallback={<FoldingSquare />}>
                     <Route exact path={"/user-profile/about"} component={AboutContent} />
                     <Route path={"/user-profile/about/:tab"} component={AboutContent}/>
-                </Suspense>
+                </Suspense>)}
             </section>
         </div>
     );
 }
 
-export default profileAbout;
+const mapStateToProps = state => {
+    return {
+        contentLoading: state.profile.contentEntryLoading
+    }
+}
+
+export default connect(mapStateToProps)(profileAbout);

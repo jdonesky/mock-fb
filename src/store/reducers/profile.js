@@ -65,7 +65,7 @@ const fetchProfileSuccess = (state, action) => {
     pastLocations: action.userData.pastLocations || null,
     hometown: action.userData.hometown || null,
     contacts: action.userData.contacts || null,
-    firebaseKey: action.userData.key || null,
+    firebaseKey: action.userData.key && action.userData.key,
     userId: action.userData.userId || null,
     profileLoading: false,
   };
@@ -88,7 +88,6 @@ const updateProfileSuccess = (state,action) => {
     pastLocations: action.userData.pastLocations || null,
     hometown: action.userData.hometown || null,
     contacts: action.userData.contacts || null,
-    firebaseKey: action.userData.key || null,
     userId: action.userData.userId || null,
     contentEntryLoading: false,
   }
