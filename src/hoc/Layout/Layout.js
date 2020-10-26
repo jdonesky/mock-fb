@@ -4,12 +4,14 @@ import classes from './Layout.css'
 
 const layout = (props) => {
   return (
-    <React.Fragment>
+    <div className={classes.Container}>
       <Toolbar />
       <div className={classes.Content}>
       {props.children}
       </div>
-    </React.Fragment>
+      <div className={classes.Break}/>
+      <div className={classes.ProfileContentBackdrop} />
+    </div>
   );
 };
 

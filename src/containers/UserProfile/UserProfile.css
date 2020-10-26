@@ -1,6 +1,13 @@
 
+
 .UserProfile {
-    max-width: 1100px;
+    max-width: 955px;
+    margin: 0 auto;
+}
+
+.SwitchContent {
+    width: 80%;
+    max-width: 930px;
     margin: 0 auto;
 }
 
@@ -24,7 +31,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 15px 0 15px;
+    padding: 0;
     box-sizing: border-box;
 }
 

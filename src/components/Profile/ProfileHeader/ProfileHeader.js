@@ -59,7 +59,7 @@ const profileHeader = (props) => {
                 </nav>
                 <nav>
                     <ul className={classes.EditControls}>
-                        <li>Edit Profile</li>
+                        <li className={classes.EditProfile}>Edit Profile</li>
                         <li><ViewSvg /></li>
                         <li><SearchSvg /></li>
                         <li>...</li>

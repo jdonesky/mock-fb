@@ -1,6 +1,7 @@
 
 .HeaderContainer {
     border-top: none;
+    width: 100%;
     /*border-bottom: 1px solid #b8b5b5;*/
     /*box-shadow: 0 1px 1px 1px rgba(0,0,0,0.15);*/
 }
@@ -33,15 +34,18 @@
 }
 
 .NavigationBar {
-    width: 100%;
+    width: 80%;
+    max-width: 930px;
+    border-left: none;
+    border-right: none;
     height: 60px;
-    margin: 0 10px;
+    margin: 0 auto;
     padding: 0 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 15px;
-    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.15);
+    /*box-shadow: 0 1px 1px 1px rgba(0,0,0,0.15);*/
 }
 
 .NavigationBar nav {
@@ -179,6 +183,10 @@
     cursor: pointer;
 }
 
+.EditProfile {
+    width: 100px;
+}
+
 .EditControls li:hover {
     background: #d4d4d4;
 }
@@ -190,7 +198,8 @@
 
 .Break {
     height: 1px;
-    width: 95%;
+    width: 85%;
+    max-width: 960px;
     background: #cccccc;
     margin: 5px auto;
 }

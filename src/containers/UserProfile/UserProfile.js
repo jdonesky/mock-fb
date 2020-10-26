@@ -55,9 +55,11 @@ const ProfileAbout = React.lazy(() => {
           <div className={classes.UserProfile}>
             <ProfilePics />
             <ProfileHeader name={props.name}/>
+          </div>
+          <div className={classes.SwitchContent}>
             <Switch>
               <Route path="/user-profile/about" render={(props) => (
-                  <Suspense fallback={<h1>...Loading</h1>}>
+                  <Suspense fallback={<SquareFold />}>
                     <ProfileAbout {...props}/>
                   </Suspense>
               )} />
