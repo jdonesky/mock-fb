@@ -7,7 +7,7 @@ const layout = (props) => {
     <div className={classes.Container}>
       <Toolbar />
       <div className={classes.Content}>
-      {props.children}
+        {props.children}
       </div>
       <div className={classes.Break}/>
       <div className={classes.ProfileContentBackdrop} />

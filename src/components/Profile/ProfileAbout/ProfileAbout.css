@@ -1,11 +1,9 @@
 
 .AboutContainer {
     position: absolute;
-    top: 500px;
-    left: 160px;
     z-index: 5;
     width: 80%;
-    max-width: 800px;
+    max-width: 930px;
     margin: 20px auto;
     border: none;
     border-radius: 10px;
