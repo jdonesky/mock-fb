@@ -9,6 +9,8 @@ const input = (props) => {
     inputClasses.push(classes.Invalid);
   };
 
+  inputClasses.push(props.className)
+
   switch (props.elementType) {
     case "input":
       inputElement = (

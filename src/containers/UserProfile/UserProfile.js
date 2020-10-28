@@ -84,6 +84,7 @@ const mapStateToProps = (state) => {
     name: state.profile.firstName + ' ' + state.profile.lastName,
     birthday: state.profile.birthday,
     location: state.profile.location,
+    bio: state.profile.bio,
     profileLoading: state.profile.profileLoading,
   };
 };

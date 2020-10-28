@@ -18,13 +18,13 @@
     margin: 0;
 }
 
-.Intro p {
+.EditBio {
     color: cornflowerblue;
     font-weight: 900;
     cursor: pointer;
 }
 
-.Intro p:hover {
+.EditBio:hover {
     text-decoration: underline;
 }
 
@@ -115,8 +115,15 @@
     }
 }
 
+.MoreTabContainer {
+    width: 130px;
+    display: flex;
+    justify-content: flex-start;
+}
+
 .MoreTab {
     height: 62px;
+    width: 100px;
 }
 
 .MoreTab svg {
