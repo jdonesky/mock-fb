@@ -20,6 +20,7 @@ const profileHeader = (props) => {
     }
 
     const saveBioEdits = (fieldName, payload, how) => {
+        alert('clicked')
         props.onProfileUpdate()
     }
 

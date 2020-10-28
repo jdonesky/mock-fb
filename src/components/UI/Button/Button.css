@@ -41,3 +41,14 @@
 .Danger:hover {
   color: salmon;
 }
+
+.Disabled {
+  background-color: #e6e6e6;
+  color: #cccccc;
+}
+
+.Disabled:hover {
+  background-color: #e6e6e6;
+  color: #cccccc;
+  cursor: default;
+}

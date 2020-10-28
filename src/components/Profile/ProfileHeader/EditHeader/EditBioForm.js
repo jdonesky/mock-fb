@@ -7,9 +7,15 @@ import Button from "../../../UI/Button/Button";
 
 const editBioForm = (props) => {
     const [bio, setBio] = useState(props.bio || '');
+    const [disableSave, setDisableSave] = useState(false)
 
     const updateBio = (event) => {
         setBio(event.target.value);
+        if (100-bio.length < 0) {
+            setDisableSave(true)
+        } else {
+            setDisableSave(false);
+        }D
     }
 
     const saveChangesHandler = (event) => {
@@ -37,7 +43,7 @@ const editBioForm = (props) => {
                 <Button addClass="Neutral">Privacy</Button>
                 <div className={sharedClasses.SubmitOrCancel}>
                     <Button addClass="Neutral" clicked={props.cancel} type="button">Cancel</Button>
-                    <Button addClass="Save" type="submit">Save</Button>
+                    <Button addClass="Save" type="submit" disabled={disableSave}>Save</Button>
                 </div>
             </div>
         </form>

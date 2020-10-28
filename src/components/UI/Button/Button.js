@@ -6,6 +6,10 @@ const button = (props) => {
   if (props.addClass) {
     buttonClass.push(classes[props.addClass]);
   }
+  if (props.disabled) {
+      buttonClass.push(classes.Disabled)
+  }
+
   return (
     <div>
       <button
