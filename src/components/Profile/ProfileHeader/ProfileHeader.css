@@ -2,13 +2,11 @@
 .HeaderContainer {
     border-top: none;
     width: 100%;
-    /*border-bottom: 1px solid #b8b5b5;*/
-    /*box-shadow: 0 1px 1px 1px rgba(0,0,0,0.15);*/
 }
 
 .Intro {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 15px;
     align-content: center;
 }
 
@@ -18,19 +16,27 @@
     margin: 0;
 }
 
+.Intro h1,
+.Intro p {
+    text-align: center;
+}
+
 .EditBio {
-    color: cornflowerblue;
+    margin: 5px auto 10px;
+    color: #1665f7;
     font-weight: 900;
     cursor: pointer;
 }
 
-.EditBio:hover {
-    text-decoration: underline;
+.LoadingIndicator {
+    margin: 15px auto;
+    width: 100px;
+    height: 150px;
+
 }
 
-.Intro h1,
-.Intro p {
-    text-align: center;
+.EditBio:hover {
+    text-decoration: underline;
 }
 
 .NavigationBar {

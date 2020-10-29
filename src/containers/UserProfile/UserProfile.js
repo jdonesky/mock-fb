@@ -54,7 +54,7 @@ const ProfileAbout = React.lazy(() => {
           {deleteModal}
           <div className={classes.UserProfile}>
             <ProfilePics />
-            <ProfileHeader name={props.name}/>
+            <ProfileHeader name={props.name} bio={props.bio}/>
           </div>
           <div className={classes.SwitchContent}>
             <Switch>

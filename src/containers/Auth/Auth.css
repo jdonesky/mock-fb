@@ -1,6 +1,9 @@
 
 
 .Form {
+    position: absolute;
+    top: 150px;
+    left: 150px;
     width: 80%;
     max-width: 500px;
     margin: 0 auto;
@@ -12,7 +15,8 @@
     align-content: flex-start;
     border: none;
     border-radius: 10px;
-    box-shadow: 0 3px 6px 2px rgba(0,0,0,0.2)
+    box-shadow: 0 3px 6px 2px rgba(0,0,0,0.2);
+    background-color: white;
 }
 
 .Form h1 {
@@ -27,6 +31,18 @@
 .Form input {
     width: 27rem;
     border-radius: 7px;
+}
+
+@media (max-width: 570px) {
+    .Form input {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 550px) {
+    .Form input {
+        max-width: 350px;
+    }
 }
 
 .LoginButton {

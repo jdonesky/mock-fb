@@ -10,12 +10,13 @@ const editBioForm = (props) => {
     const [disableSave, setDisableSave] = useState(false)
 
     const updateBio = (event) => {
-        setBio(event.target.value);
         if (100-bio.length < 0) {
             setDisableSave(true)
+
         } else {
             setDisableSave(false);
-        }D
+        }
+        setBio(event.target.value);
     }
 
     const saveChangesHandler = (event) => {
