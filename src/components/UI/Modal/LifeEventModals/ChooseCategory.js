@@ -5,7 +5,7 @@ import {LifeEventContext} from "../../../../context/life-event-context";
 const chooseCategory = () => {
     const lifeEventContext = useContext(LifeEventContext);
 
-    const categories = ['Work','Education','Relationship','Home & Living','Family','Travel','Interests & Activities','Health & Wellness','Milestones & Achievements','Remembrance','Create Your Own']
+    const categories = ['Work','Education','Relationship','Home','Family','Travel','Interests','Health','Milestones','Remembrance','Custom']
     const buttons = categories.map(category => <div onClick={}></div>)
 
     return (

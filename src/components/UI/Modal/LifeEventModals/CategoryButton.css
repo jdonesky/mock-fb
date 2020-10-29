@@ -1,0 +1,24 @@
+.Button {
+    height: 50px;
+    width: 100px;
+    background-radius: 5px;
+    margin: 5px;
+}
+
+.Button:hover {
+    background-color: rgba(0,0,0,0.05)
+}
+
+.Icon {
+    width: 30px;
+    height: 30px;
+}
+
+.Icon svg {
+    height: 100%;
+    width: auto;
+}
+
+.Button p {
+    margin: 0 auto;
+}
