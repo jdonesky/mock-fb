@@ -14,7 +14,7 @@
     width: 22px;
     position: relative;
     top: 2px;
-    border: 1px solid #0B86DE;
+    border: 1.5px solid #0B86DE;
     border-radius: 100px;
 }
 
@@ -24,7 +24,7 @@
     width: auto;
     position: absolute;
     top: 4px;
-    left: 4px;
+    left: 5px;
 }
 
 .AddButton span {

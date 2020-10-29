@@ -1,17 +1,22 @@
 
+.ModalContainer {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+}
 .Modal {
-    position: fixed;
-    z-index: 200;
+    position: relative;
+    left: -50%;
+    z-index: 105;
     border: 1px solid #eeeeee;
     border-radius: 5px;
     box-shadow: 0 2px 2px #ccc;
     background-color: white;
     text-align: center;
     box-sizing: border-box;
-    top: 30%;
-    left: 25%;
     min-height: 100px;
-    width: 50%;
+    min-width: 500px;
+    margin: 0 auto;
     transition: all 0.3s ease-out;
 }
 

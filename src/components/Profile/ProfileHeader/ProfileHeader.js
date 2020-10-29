@@ -77,7 +77,7 @@ const profileHeader = (props) => {
                         </div>
                         <div className={classes.PhotosTab}>
                             <NavLink
-                                to="/user-profile/friends"
+                                to="/user-profile/photos"
                                 activeClassName={classes.active}
                             >Photos
                             </NavLink>

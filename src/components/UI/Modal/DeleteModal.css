@@ -1,0 +1,35 @@
+
+.DeleteModal {
+    height: 100%;
+    width: 100%;
+}
+
+.DeleteModal p {
+    text-align: left;
+    padding-left: 15px;
+}
+
+.Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0 10px 0 15px;
+    box-sizing: border-box;
+}
+
+.CancelIcon {
+    background: rgba(0,0,0,.13);
+    position: relative;
+    border-radius: 100px;
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+}
+
+.CancelIcon svg {
+    height: 50%;
+    width: 100%;
+    position: relative;
+    top: 10px;
+}

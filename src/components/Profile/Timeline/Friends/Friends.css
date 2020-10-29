@@ -1,0 +1,48 @@
+
+.Container {
+    z-index: 5;
+    width: 100%;
+    max-width: 930px;
+    margin: 0 0 15px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
+    background: white;
+}
+
+.Container h2 {
+    margin: 0;
+}
+
+.Header {
+    width: 95%;
+    margin: 15px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Header a {
+    line-height: 30px;
+}
+
+.Link {
+    width: 70px;
+    height: 30px;
+    text-align: center;
+}
+
+.Link {
+    color: #1665f7;
+    text-decoration: none;
+}
+
+.Link:hover {
+    border-radius: 5px;
+    background: rgba(0,0,0,0.05);
+}
+
+
+
+
+

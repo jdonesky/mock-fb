@@ -32,7 +32,6 @@ const DeleteContextProvider = (props) => {
     }
 
     const deleteEntry = () => {
-        console.log('fieldName: ', field)
         props.onProfileUpdate(props.authToken, props.firebaseKey, field, null, 'delete', id);
         toggleModal();
     }

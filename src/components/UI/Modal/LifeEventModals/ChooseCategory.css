@@ -1,0 +1,29 @@
+
+.EventCategoryModal {
+    height: 100%;
+    width: 100%;
+}
+
+.MainImage {
+    height: 300px;
+    width: 100%;
+}
+
+.Heading h2 {
+    margin: 0;
+}
+
+.Heading p {
+    margin: 0;
+}
+
+.Break {
+    width: 95%;
+    height: 1px;
+    background-color: rgba(0,0,0,.3);
+    margin: 10px auto;
+}
+
+.CategoryButtons h4 {
+    margin: 50px;
+}

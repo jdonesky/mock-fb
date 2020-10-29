@@ -7,10 +7,12 @@ import classes from './Intro.css'
 const intro = (props) => {
     return (
         <div className={classes.Container}>
-            <h1>Intro</h1>
+            <h2>Intro</h2>
+            <div className={classes.Buttons}>
             <Button addClass="Neutral">Edit Details</Button>
             <Button addClass="Neutral">Add Hobbies</Button>
             <Button addClass="Neutral">Edit Featured</Button>
+            </div>
         </div>
     );
 };

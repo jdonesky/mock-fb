@@ -1,6 +1,6 @@
 
 
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {connect} from 'react-redux'
 import classes from './AddContentButton.css'
 import Plus from '../../../../../assets/images/plus'
@@ -12,10 +12,12 @@ import EditPhoneForm from "../EditContent/EditPhoneForm"
 import EditEmailForm from "../EditContent/EditEmailForm"
 import EditGenderForm from "../EditContent/EditGenderForm";
 import EditFamilyForm from "../EditContent/EditFamilyForm";
+import {LifeEventContext} from "../../../../../context/life-event-context";
 import * as actions from "../../../../../store/actions";
 
 const addContentButton = props => {
     const [addingContent, setAddingContent] = useState(false);
+    const lifeEventContext = useContext(LifeEventContext)
 
     const saveEdits = (fieldName, payload) => {
         props.onProfileUpdate(props.authToken, props.firebaseKey, fieldName, payload, 'add')
@@ -70,17 +72,16 @@ const addContentButton = props => {
             text = 'Add your gender'
             editForm = <EditGenderForm cancel={toggleEditing} save={saveEdits}/>
             break;
-        // case 'lifeEvent':
-        //     text = 'Add a life event'
-        //     editForm = <EditContactForm cancel={toggleEditing} save={saveEdits}/>
-        //     break;
+        case 'lifeEvent':
+            text = 'Add a life event'
+            break;
         default:
             text = null;
             editForm = null;
     }
 
     const addButton = (
-        <div className={classes.AddButton} onClick={toggleEditing}>
+        <div className={classes.AddButton} onClick={props.category === 'lifeEvent' ? lifeEventContext.toggleModal :toggleEditing}>
             <div className={classes.PlusIcon}>
                 <Plus fill="#0B86DE" className={classes.Plus}/>
             </div>
