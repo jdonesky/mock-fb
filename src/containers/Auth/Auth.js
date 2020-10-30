@@ -116,7 +116,7 @@ const auth = props => {
         errorMessage = 'Please enter a valid password'
         break;
       default:
-        errorMessage = 'TEST'
+        errorMessage = 'Something went wrong'
     }
   }
 

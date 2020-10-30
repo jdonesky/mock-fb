@@ -1,8 +1,14 @@
 .Button {
-    height: 50px;
-    width: 100px;
-    background-radius: 5px;
+    height: 100px;
+    width: 110px;
+    border-radius: 5px;
     margin: 5px;
+    align-content: center;
+    cursor: pointer;
+}
+.Content {
+    position: relative;
+    top: 12px;
 }
 
 .Button:hover {
@@ -12,6 +18,7 @@
 .Icon {
     width: 30px;
     height: 30px;
+    margin: 3px auto;
 }
 
 .Icon svg {
@@ -20,5 +27,6 @@
 }
 
 .Button p {
+    font-size: 15px;
     margin: 0 auto;
 }

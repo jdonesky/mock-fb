@@ -5,9 +5,41 @@
 }
 
 .MainImage {
-    height: 300px;
+    height: 400px;
     width: 100%;
 }
+
+
+.Balloon {
+    height: 150px;
+    width: 100px;
+}
+
+.Balloon svg {
+    width: 100%;
+    height: auto;
+}
+
+.Cake {
+    height: 100px;
+    width: 100px;
+}
+
+.Cake svg {
+    width: 100%;
+    height: auto;
+}
+
+.Fireworks {
+    height: 120px;
+    width: 90px;
+}
+
+.Fireworks svg {
+    width: 100%;
+    height: auto;
+}
+
 
 .Heading h2 {
     margin: 0;
@@ -15,15 +47,28 @@
 
 .Heading p {
     margin: 0;
+    color: #878787;
 }
 
 .Break {
     width: 95%;
     height: 1px;
-    background-color: rgba(0,0,0,.3);
-    margin: 10px auto;
+    background-color: rgba(0,0,0,.2);
+    margin: 40px auto;
 }
 
-.CategoryButtons h4 {
-    margin: 50px;
+.Categories {
+    margin: 0 0 20px;
 }
+
+
+.ButtonsContainer {
+    width: 90%;
+    min-width: 480px;
+    margin: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+}
+
+
