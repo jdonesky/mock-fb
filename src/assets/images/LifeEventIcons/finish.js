@@ -1,16 +1,14 @@
 
 import React from 'react';
 
-const finishSvg = () => (
+const finishSvg = (props) => (
 
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
-<metadata>
-Created by potrace 1.16, written by Peter Selinger 2001-2019
-</metadata>
+
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+   fill={props.fill || "#000000"} stroke="none">
 <path d="M4208 5053 c-132 -140 -203 -200 -322 -271 -142 -86 -343 -149 -546
 -172 -170 -20 -541 -7 -910 31 -280 29 -349 33 -620 33 -272 1 -318 -1 -425
 -21 -309 -56 -559 -180 -766 -380 l-87 -84 -46 34 c-58 45 -106 61 -181 61

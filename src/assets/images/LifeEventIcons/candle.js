@@ -1,16 +1,14 @@
 
 import React from 'react';
 
-const candleSvg = () => (
+const candleSvg = (props) => (
 
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
-<metadata>
-Created by potrace 1.16, written by Peter Selinger 2001-2019
-</metadata>
+
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+fill={props.fill || "#000000"} stroke="none">
 <path d="M2899 4875 c-34 -18 -49 -61 -49 -139 0 -135 -48 -308 -113 -411 -17
 -27 -99 -120 -183 -205 -168 -173 -211 -240 -240 -380 -18 -84 -14 -220 9
 -305 44 -161 165 -296 343 -380 117 -56 201 -46 258 28 42 55 43 108 5 202

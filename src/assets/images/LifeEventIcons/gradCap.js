@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const gradCapSvg = () => (
+const gradCapSvg = (props) => (
 
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
@@ -10,7 +10,7 @@ const gradCapSvg = () => (
 Created by potrace 1.16, written by Peter Selinger 2001-2019
 </metadata>
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+   fill={props.fill || "#000000"} stroke="none">
 <path d="M2470 4353 c-37 -8 -2360 -793 -2397 -810 -48 -22 -73 -69 -73 -137
 0 -95 -10 -89 655 -412 325 -158 594 -290 598 -294 19 -17 -118 -521 -221
 -813 -105 -302 -81 -377 186 -566 286 -202 673 -396 1007 -505 226 -73 444

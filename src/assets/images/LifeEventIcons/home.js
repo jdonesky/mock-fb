@@ -1,13 +1,13 @@
 
 import React from 'react';
 
-const homeSvg = () => (
+const homeSvg = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
 
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+   fill={props.fill || "#000000"} stroke="none">
 <path d="M1287 3946 c-890 -826 -1266 -1182 -1271 -1201 -15 -59 27 -115 85
 -115 43 0 69 20 238 179 l111 103 0 -1456 0 -1456 2110 0 2110 0 0 1456 0
 1456 100 -93 c183 -170 207 -189 249 -189 61 0 104 64 82 122 -5 14 -183 187

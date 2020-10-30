@@ -1,16 +1,14 @@
 
 import React from 'react';
 
-const globeSvg = () => (
+const globeSvg = (props) => (
 
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
-<metadata>
-Created by potrace 1.16, written by Peter Selinger 2001-2019
-</metadata>
+
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+   fill={props.fill || "#000000"}stroke="none">
 <path d="M3238 4959 c-13 -13 -55 -81 -93 -151 -39 -71 -75 -128 -81 -128 -6
 0 -44 15 -85 34 -320 147 -737 176 -1091 76 -589 -165 -1029 -636 -1159 -1238
 -30 -140 -37 -418 -15 -570 69 -467 334 -879 734 -1142 l23 -15 -90 -160 c-89

@@ -1,15 +1,13 @@
 
 import React from 'react';
 
-const briefcaseSvg = () => (
+const briefcaseSvg = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
-<metadata>
-Created by potrace 1.16, written by Peter Selinger 2001-2019
-</metadata>
+
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+fill={props.fill || "#000000"} stroke="none">
 <path d="M1691 4855 c-157 -35 -291 -173 -321 -334 -5 -29 -10 -136 -10 -237
 l0 -184 -573 0 c-629 0 -626 0 -699 -60 -20 -17 -48 -53 -62 -82 l-26 -52 0
 -1016 0 -1016 26 -52 c27 -54 83 -109 121 -118 l23 -6 0 -624 c0 -675 -2 -654

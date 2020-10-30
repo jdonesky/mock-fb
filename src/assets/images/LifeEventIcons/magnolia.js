@@ -1,15 +1,13 @@
 
 import React from 'react';
 
-const treeSvg = () => (
+const treeSvg = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
-<metadata>
-Created by potrace 1.16, written by Peter Selinger 2001-2019
-</metadata>
+
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+   fill={props.fill || "#000000"} stroke="none">
 <path d="M2100 4940 c-20 -20 -22 -30 -18 -100 6 -97 41 -174 112 -246 78 -77
 149 -107 269 -112 l97 -4 0 -104 c0 -101 -1 -107 -51 -231 -28 -70 -53 -132
 -56 -136 -3 -5 -60 46 -128 112 -116 116 -124 121 -163 121 -29 0 -48 -6 -62

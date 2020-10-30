@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const heartsSvg = () => (
+const heartsSvg = (props) => (
 
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
@@ -10,7 +10,7 @@ const heartsSvg = () => (
 Created by potrace 1.16, written by Peter Selinger 2001-2019
 </metadata>
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+   fill={props.fill || "#000000"} stroke="none">
 <path d="M1110 4683 c-491 -53 -904 -394 -1054 -871 -41 -130 -56 -240 -56
 -403 0 -229 39 -397 140 -604 132 -270 307 -464 805 -890 316 -272 1135 -915
 1266 -994 70 -43 86 -37 318 139 l212 159 117 -105 c225 -204 753 -638 816
