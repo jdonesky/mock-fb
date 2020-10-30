@@ -18,7 +18,6 @@ const lifeEventModal = () => {
                 <Close/>
             </div>
             {modalContent}
-
         </Modal>
     );
 }
