@@ -5,14 +5,19 @@
 }
 
 .MainImage {
+    position: relative;
     height: 400px;
     width: 100%;
+    z-index: 90;
 }
 
-
 .Balloon {
-    height: 150px;
-    width: 100px;
+    position: relative;
+    top: 30px;
+    left: 10px;
+    height: 400px;
+    width: 300px;
+    transform: rotate(-10deg)
 }
 
 .Balloon svg {
@@ -21,8 +26,11 @@
 }
 
 .Cake {
-    height: 100px;
-    width: 100px;
+    position: relative;
+    left: 350px;
+    bottom: 280px;
+    height: 150px;
+    width: 150px;
 }
 
 .Cake svg {
@@ -30,9 +38,27 @@
     height: auto;
 }
 
+.Basket {
+    position: relative;
+    bottom: 143px;
+    left: 154px;
+    transform: rotate(-10deg);
+    height: 40px;
+    width: 30px;
+}
+
+.Basket svg {
+    width: 100%;
+    height: auto;
+}
+
 .Fireworks {
-    height: 120px;
-    width: 90px;
+    height: 130px;
+    width: 120px;
+    position: relative;
+    bottom: 520px;
+    left: 280px;
+    transform: rotate(-15deg);
 }
 
 .Fireworks svg {
@@ -40,6 +66,31 @@
     height: auto;
 }
 
+.Swirl {
+    position: relative;
+    bottom: 420px;
+    left: 200px;
+    height: 60px;
+    width: 60px;
+}
+
+.Swirl svg {
+    width: 100%;
+    height: auto;
+}
+
+.Seagulls {
+    position: relative;
+    bottom: 550px;
+    left: 70px;
+    height: 60px;
+    width: 60px;
+}
+
+.Seagulls svg {
+    width: 100%;
+    height: auto;
+}
 
 .Heading h2 {
     margin: 0;

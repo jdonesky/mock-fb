@@ -1,11 +1,12 @@
 .CancelIcon {
+    z-index: 100;
     background: rgba(0,0,0,.13);
     position: absolute;
     border-radius: 100px;
     right: 12px;
     top: 12px;
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     cursor: pointer;
 }
 

@@ -11,6 +11,8 @@ export const LifeEventContext = React.createContext({
     passData: () => {},
     showModal: false,
     toggleModal: () => {},
+    modalContent: false,
+    toggleModalContent: () => {}
 })
 
 const LifeEventContextProvider = (props) => {
@@ -19,6 +21,7 @@ const LifeEventContextProvider = (props) => {
     const [title, setTitle] = useState(null);
     const [description, setDescription] = useState(null);
     const [date, setDate] = useState(null);
+    const [modalContent, setModalContent] = useState(true)
 
     const toggleModal = () => {
         setShowModal((prevState) => {
@@ -26,12 +29,24 @@ const LifeEventContextProvider = (props) => {
         })
     }
 
-    const passData = () => {
+    const toggleModalContent = () => {
+        setModalContent((prevState) => {
+            return !prevState;
+        })
+    }
 
+    const passData = (type,payload) => {
+        switch (type) {
+            case 'category':
+                setCategory(payload)
+                break;
+            default:
+                setCategory('TEST')
+        }
     }
 
     return (
-        <LifeEventContext.Provider value={{ passData: passData, showModal: showModal, toggleModal: toggleModal, category: category, title: title, description: description, date: date }}>
+        <LifeEventContext.Provider value={{ passData: passData, showModal: showModal, toggleModal: toggleModal, modalContent: modalContent, toggleModalContent: toggleModalContent, category: category, title: title, description: description, date: date }}>
             {props.children}
         </LifeEventContext.Provider>
     );
@@ -44,12 +59,10 @@ const mapStateToProps = state => {
     }
 }
 
-
 const mapDispatchToProps = dispatch => {
     return {
         onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how, id))
     }
 }
-
 
 export default connect(mapStateToProps,mapDispatchToProps)(LifeEventContextProvider);

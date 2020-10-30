@@ -69,7 +69,7 @@ const categoryButton = (props) => {
     }
 
     return (
-        <div className={classes.Button}>
+        <div className={classes.Button} onClick={props.clicked}>
             <div className={classes.Content}>
                 <section className={classes.Icon}>
                     {icon}

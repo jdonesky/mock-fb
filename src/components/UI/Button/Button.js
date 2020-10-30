@@ -9,9 +9,11 @@ const button = (props) => {
   if (props.disabled) {
       buttonClass.push(classes.Disabled)
   }
+  if (props.type === 'privacy') {
+    buttonClass.push(classes.Privacy)
+  }
 
   return (
-    <div>
       <button
       type={props.type}
       className={buttonClass.join(" ")} 
@@ -20,7 +22,6 @@ const button = (props) => {
       >
         {props.children}
       </button>
-    </div>
   );
 };
 

@@ -1,0 +1,14 @@
+
+
+.IconContainer {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+}
+
+.IconContainer svg {
+    width: 90%;
+    height: auto;
+    position:relative;
+    bottom: 35px;
+ }
