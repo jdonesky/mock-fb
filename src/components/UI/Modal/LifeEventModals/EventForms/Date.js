@@ -53,6 +53,7 @@ const dateForm = ({birthday, update, values, year, month, day}) => {
 
     return (
         <div className={classes.Container}>
+            <div className={classes.BaseArrow}></div>
             {inputs}
         </div>
     );
