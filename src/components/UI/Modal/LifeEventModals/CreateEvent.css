@@ -50,6 +50,7 @@
     position: relative;
     height: 250px;
     width: 100%;
+    min-width: 548px;
     margin: 0;
     background-color: #fcb21e;
 }
@@ -67,7 +68,6 @@
     align-items: center;
     cursor: pointer;
 }
-
 
 .UploadImageButton:hover {
     background: #edeceb;
@@ -119,6 +119,31 @@
     top: 5px;
     position: relative;
     height: auto;
+}
+
+.FormSection {
+    width: 98%;
+    margin: 0 auto;
+}
+
+.BaseInput {
+    width: 93%;
+}
+
+.TitleCaption {
+    width: 90%;
+    margin: 0 13px;
+    font-size: 8px;
+    color: #878787;
+    text-align: left;
+}
+
+.AddInputs {
+    margin: 10px auto;
+    width: 98%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
 }
 
 .BaseButtons {
