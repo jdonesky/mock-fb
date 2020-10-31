@@ -1,0 +1,11 @@
+
+.SchoolInputs {
+    display: flex;
+    width: 95%;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.SchoolType {
+    width: 240px;
+}

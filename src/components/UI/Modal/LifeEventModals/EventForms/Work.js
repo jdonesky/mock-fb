@@ -8,10 +8,6 @@ const workEvent = ({update, values}) => {
         update('workplace', event.target.value)
     }
 
-    // const updateDescription = (event) => {
-    //     update('description',event.target.value)
-    // }
-
     const workPlaceInput = (
         <Input
             elementType="input"
@@ -24,19 +20,9 @@ const workEvent = ({update, values}) => {
         />
     );
 
-    // const descriptionInput = (
-    //     <Input
-    //         elementType="textarea"
-    //         placeholder="Description"
-    //         value={values['description'] || ''}
-    //         changed={(event) => updateDescription(event)}
-    //     />
-    // );
-
     return (
         <React.Fragment>
             {workPlaceInput}
-            {/*{descriptionInput}*/}
         </React.Fragment>
     );
 }

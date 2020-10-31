@@ -24,14 +24,17 @@ import Flag from "../../../../assets/images/LifeEventIcons/finish";
 import Pin from "../../../../assets/images/pin"
 
 import Work from './EventForms/Work'
+import School from './EventForms/School'
 
 const createEvent = (props) => {
 
     useEffect(() => {
         const payload = {
             title: title,
+            ...addedInputs,
             description: description
         }
+        console.log(payload)
     })
 
     const lifeEventContext = useContext(LifeEventContext)
@@ -69,6 +72,7 @@ const createEvent = (props) => {
         case "Education":
             icon = <GradCap fill="white"/>
             caption = "Example: achievement, new skill or joined a club or team"
+            addInputs = <School values={addedInputs} update={updateInputs}/>
             break;
         case "Relationship":
             icon = <Hearts fill="white"/>
@@ -128,7 +132,7 @@ const createEvent = (props) => {
     const descriptionInput = (
         <Input
             elementType="textarea"
-            placeholder="Description"
+            placeholder="Description (optional)"
             value={description}
             changed={(event) => updateDescription(event)}
             className={classes.BaseInput}
