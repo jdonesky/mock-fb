@@ -25,8 +25,13 @@ import Pin from "../../../../assets/images/pin"
 
 import Work from './EventForms/Work'
 import School from './EventForms/School'
+import Relationship from './EventForms/Relationship'
+import Location from './EventForms/Locations'
+import DateForm from './EventForms/Date'
 
 const createEvent = (props) => {
+
+    const [showDateForm, setShowDateForm] = useState(false)
 
     useEffect(() => {
         const payload = {
@@ -35,7 +40,15 @@ const createEvent = (props) => {
             description: description
         }
         console.log(payload)
+        console.log(month,day,year)
+        console.log(new Date().getMonth())
     })
+
+    const toggleDateForm = () => {
+        setShowDateForm((prevState) => {
+            return !prevState
+        })
+    }
 
     const lifeEventContext = useContext(LifeEventContext)
     const [month,day,year] = convertDate(`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`);
@@ -77,10 +90,12 @@ const createEvent = (props) => {
         case "Relationship":
             icon = <Hearts fill="white"/>
             caption = "Example: shared milestone, first trip or moved in together"
+            addInputs = <Relationship values={addedInputs} update={updateInputs}/>
             break;
         case "Home":
             icon = <Home fill="white"/>
             caption = "Example: new roommate, home improvement, new house or new car"
+            addInputs = <Location values={addedInputs} update={updateInputs}/>
             break;
         case "Family":
             icon = <Tree fill="white"/>
@@ -89,6 +104,7 @@ const createEvent = (props) => {
         case "Travel":
             icon = <Globe fill="white"/>
             caption = "Example: travel, road trip or first flight"
+            addInputs = <Location values={addedInputs} update={updateInputs}/>
             break;
         case "Interests":
             icon = <Stars fill="white"/>
@@ -108,11 +124,9 @@ const createEvent = (props) => {
             break;
         case "Custom":
             icon = <Flag fill="white"/>
-            caption = null
             break;
         default:
             icon = <Stars fill="white"/>;
-            caption = null;
     }
 
     const titleInput = (
@@ -127,17 +141,27 @@ const createEvent = (props) => {
             className={classes.BaseInput}
         />
     )
+
     const titleCaption = caption ? <div className={classes.TitleCaption}>{caption}</div> : null
 
+    const descriptionClass = [classes.BaseInput]
+    if (!addInputs) {
+        descriptionClass.push(classes.NoAddedInputs)
+    }
     const descriptionInput = (
         <Input
             elementType="textarea"
             placeholder="Description (optional)"
             value={description}
             changed={(event) => updateDescription(event)}
-            className={classes.BaseInput}
+            className={descriptionClass.join(" ")}
         />
     );
+
+    let dateForm;
+    if (showDateForm) {
+        dateForm = <DateForm values={addedInputs} update={updateInputs} year={year} month={month} day={day} />
+    }
 
     return (
         <div>
@@ -173,7 +197,8 @@ const createEvent = (props) => {
                     </div>
                     {descriptionInput}
                     <section className={classes.BaseButtons}>
-                        <Button className={classes.CalendarButton} addClass="Neutral" type="button"><div className={classes.CalendarIcon}><Calendar /></div>{date}</Button>
+                        {dateForm}
+                        <Button className={classes.CalendarButton} addClass="Neutral" type="button" clicked={toggleDateForm}><div className={classes.CalendarIcon}><Calendar /></div>{date}</Button>
                         <Button className={classes.LocationButton} addClass="Neutral" type="button"><div className={classes.PinIcon}><Pin/></div></Button>
                         <Button className={classes.ShareButton} addClass="Neutral" type="submit">Share</Button>
                     </section>

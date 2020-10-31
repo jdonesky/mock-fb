@@ -132,7 +132,7 @@
 
 .TitleCaption {
     width: 90%;
-    margin: 0 13px;
+    margin: 0 15px;
     font-size: 8px;
     color: #878787;
     text-align: left;
@@ -146,7 +146,12 @@
     justify-content: space-between;
 }
 
+.NoAddedInputs {
+    margin-top: 0;
+}
+
 .BaseButtons {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

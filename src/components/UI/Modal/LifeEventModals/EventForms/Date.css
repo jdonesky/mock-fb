@@ -1,0 +1,22 @@
+
+.Container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    position: absolute;
+    bottom: 100px;
+    left: 60px;
+    box-shadow: 0 5px 12px 7px rgba(0,0,0,0.05)
+}
+
+.ShortInput {
+    width: 70px;
+}
+
+.LongInput {
+    width: 130px;
+}
