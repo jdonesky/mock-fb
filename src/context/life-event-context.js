@@ -41,7 +41,7 @@ const LifeEventContextProvider = (props) => {
                 setCategory(payload)
                 break;
             default:
-                setCategory('TEST')
+                setCategory(null)
         }
     }
 

@@ -13,6 +13,8 @@ const button = (props) => {
     buttonClass.push(classes.Privacy)
   }
 
+  buttonClass.push(props.className)
+
   return (
       <button
       type={props.type}

@@ -20,7 +20,7 @@ import Health from "../../../../assets/images/LifeEventIcons/health-report";
 import Milestone from "../../../../assets/images/LifeEventIcons/goal";
 import Candle from "../../../../assets/images/LifeEventIcons/candle";
 import Flag from "../../../../assets/images/LifeEventIcons/finish";
-
+import Pin from "../../../../assets/images/pin"
 
 const createEvent = (props) => {
 
@@ -106,8 +106,11 @@ const createEvent = (props) => {
                     </div>
                 </div>
             </section>
+
             <section className={classes.BaseButtons}>
-                <Button addClass="Neutral"><div className={classes.CalendarIcon}><Calendar /></div>{date}</Button>
+                <Button className={classes.CalendarButton} addClass="Neutral"><div className={classes.CalendarIcon}><Calendar /></div>{date}</Button>
+                <Button className={classes.LocationButton} addClass="Neutral"><div className={classes.PinIcon}><Pin/></div></Button>
+                <Button className={classes.ShareButton} addClass="Neutral">Share</Button>
             </section>
         </div>
     );

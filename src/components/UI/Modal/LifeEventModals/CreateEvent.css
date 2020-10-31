@@ -70,7 +70,7 @@
 
 
 .UploadImageButton:hover {
-    background: rgba(0,0,0,0.05)
+    background: #edeceb;
 }
 
 .UploadImageIcon {
@@ -121,21 +121,53 @@
     height: auto;
 }
 
-.BaseButtons button {
-    height: 30px;
-    width: 90%;
+.BaseButtons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px auto;
+    width: 95%;
+    height: 100px;
 }
 
-.CalendarButton {
+.BaseButtons button {
+    height: 35px;
+}
 
+.CalendarButton  {
+    display: flex;
+    flex: 8;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
 }
 
 .CalendarIcon {
-    height: 20px;
-    width: 20px;
+    height: 15px;
+    width: 15px;
+    margin: 10px;
 }
 
 .CalendarIcon svg {
     height: auto;
+    width: 100%;
+}
+
+.LocationButton {
+    flex: 1;
+}
+
+.PinIcon {
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+}
+
+.PinIcon svg {
+    height: auto;
+    width: 100%;
+}
+
+.ShareButton {
     width: 100%;
 }
