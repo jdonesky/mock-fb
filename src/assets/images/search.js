@@ -1,14 +1,12 @@
 import React from 'react';
 
-const searchSvg = () => (
+const searchSvg = (props) => (
    <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
     width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
     preserveAspectRatio="xMidYMid meet">
-   <metadata>
-   Created by potrace 1.16, written by Peter Selinger 2001-2019
-   </metadata>
+
    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-   fill="#000000" stroke="none">
+   fill={props.fill || "#000000"} stroke="none">
    <path d="M1600 5100 c-409 -69 -756 -247 -1045 -535 -239 -240 -400 -516 -492
    -845 -83 -299 -86 -658 -7 -972 121 -485 436 -909 866 -1167 517 -310 1171
    -355 1723 -121 159 68 273 135 423 248 l73 55 39 -38 40 -39 0 -116 0 -115

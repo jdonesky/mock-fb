@@ -1,0 +1,39 @@
+
+.Container {
+    height: 45px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.Container:hover {
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 7px;
+}
+
+.Icon {
+    height: 32px;
+    width: 32px;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 6px;
+    margin-right: 10px;
+    margin-left: 8px;
+}
+
+.Icon svg {
+    position: relative;
+    top: 4px;
+    height: auto;
+    width: 70%;
+}
+
+.Text {
+    height: 40px;
+    margin-right: auto;
+}
+
+.Text span {
+    line-height: 40px;
+}

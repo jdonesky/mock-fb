@@ -35,7 +35,7 @@ const searchBar = ({loadData,dbDoc,token}) => {
 
     return (
         <div className={classes.Container}>
-            <div className={classes.SearchIcon}><Search /></div>
+            <div className={classes.SearchIcon}><Search fill="#8c8c8c"/></div>
             <input
                 ref={userInputRef}
                 value={searchTerm}

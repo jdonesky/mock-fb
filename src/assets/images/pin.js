@@ -1,13 +1,13 @@
 
 import React from 'react';
 
-const pinSvg = () => (
+const pinSvg = (props) => (
   <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
    width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
    preserveAspectRatio="xMidYMid meet">
 
   <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-  fill="#000000" stroke="none">
+  fill={props.fill || "#000000"} stroke="none">
   <path d="M2360 5110 c-661 -81 -1204 -510 -1445 -1140 -136 -355 -150 -769
   -40 -1135 19 -60 50 -148 70 -195 57 -133 1345 -2486 1388 -2535 21 -24 63
   -56 95 -72 47 -23 70 -28 132 -28 97 1 164 29 223 95 46 53 1328 2391 1391

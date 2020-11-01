@@ -10,8 +10,33 @@
     background-color: white;
     position: absolute;
     bottom: 107px;
-    left: 60px;
+    left: 334px;
     box-shadow: 0 12px 28px 0px rgba(0,0,0,0.2)
+}
+
+.Header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 270px;
+}
+
+.ConfirmButton {
+    width: 60px;
+    height: 35px;
+    margin-left: auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.ConfirmButton:hover {
+    border-radius: 6px;
+    background-color: rgba(0,0,0,0.05)
+}
+
+.ConfirmButton span {
+    line-height: 35px;
+    font-size: 15px;
 }
 
 .BaseArrow {

@@ -70,7 +70,6 @@ const createEvent = (props) => {
         setShowLocationForm(false)
     }
 
-
     const lifeEventContext = useContext(LifeEventContext)
     const [month,day,year] = convertDate(`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`);
     const date = `${addedInputs['month'] || month} ${addedInputs['day'] || day}, ${addedInputs['year'] || year}`
@@ -177,12 +176,12 @@ const createEvent = (props) => {
 
     let dateForm;
     if (showDateForm) {
-        dateForm = <DateForm values={addedInputs} update={updateInputs} toggle={toggleDateForm} year={year} month={month} day={day} />
+        dateForm = <DateForm values={addedInputs} update={updateInputs} year={year} month={month} day={day} />
     }
 
     let currentLocationForm;
     if (showLocationForm) {
-        currentLocationForm = <CurrentLocationForm />
+        currentLocationForm = <CurrentLocationForm values={addInputs} update={updateInputs} close={closeLocationForm} />
     }
 
 
@@ -226,7 +225,7 @@ const createEvent = (props) => {
                         </OutsideAlerter>
                         <OutsideAlerter action={closeLocationForm}>
                             {currentLocationForm}
-                            <Button className={classes.LocationButton} addClass="Neutral" type="button" clicked={toggleLocationForm}><div className={classes.PinIcon}><Pin/></div></Button>
+                            <Button className={classes.LocationButton} addClass={addedInputs['location'] ? 'Selected' : 'Neutral'  } type="button" clicked={toggleLocationForm}><div className={classes.PinIcon}><Pin fill={addedInputs['location'] ? "#077df2" : null }/></div></Button>
                         </OutsideAlerter>
                         <Button className={classes.ShareButton} addClass="Neutral" type="submit">Share</Button>
                     </section>
