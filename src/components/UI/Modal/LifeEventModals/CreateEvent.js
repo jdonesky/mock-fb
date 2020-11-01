@@ -28,20 +28,25 @@ import School from './EventForms/School'
 import Relationship from './EventForms/Relationship'
 import Location from './EventForms/Locations'
 import DateForm from './EventForms/Date'
+import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 
 const createEvent = (props) => {
 
     const [showDateForm, setShowDateForm] = useState(false)
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [addedInputs, setAddedInputs] = useState({})
 
     useEffect(() => {
         const payload = {
             title: title,
             ...addedInputs,
-            description: description
+            description: description,
+            year: addedInputs['year'] || year,
+            month: addedInputs['month'] || month[0],
+            day: addedInputs['day'] || day
         }
         console.log(payload)
-        console.log(month,day,year)
-        console.log(new Date().getMonth())
     })
 
     const toggleDateForm = () => {
@@ -50,13 +55,13 @@ const createEvent = (props) => {
         })
     }
 
+    const closeDateForm = () => {
+        setShowDateForm(false)
+    }
+
     const lifeEventContext = useContext(LifeEventContext)
     const [month,day,year] = convertDate(`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`);
-    const date = `${month} ${day}, ${year}`
-
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [addedInputs, setAddedInputs] = useState({})
+    const date = `${addedInputs['month'] || month} ${addedInputs['day'] || day}, ${addedInputs['year'] || year}`
 
     const updateTitle = (event) => {
         setTitle(event.target.value)
@@ -160,7 +165,7 @@ const createEvent = (props) => {
 
     let dateForm;
     if (showDateForm) {
-        dateForm = <DateForm values={addedInputs} update={updateInputs} year={year} month={month} day={day} />
+        dateForm = <DateForm values={addedInputs} update={updateInputs} toggle={toggleDateForm} year={year} month={month} day={day} />
     }
 
     return (
@@ -197,8 +202,10 @@ const createEvent = (props) => {
                     </div>
                     {descriptionInput}
                     <section className={classes.BaseButtons}>
-                        {dateForm}
-                        <Button className={classes.CalendarButton} addClass="Neutral" type="button" clicked={toggleDateForm}><div className={classes.CalendarIcon}><Calendar /></div>{date}</Button>
+                        <OutsideAlerter action={closeDateForm}>
+                            {dateForm}
+                            <Button className={classes.CalendarButton} addClass="Neutral" type="button" clicked={toggleDateForm}><div className={classes.CalendarIcon}><Calendar /></div>{date}</Button>
+                        </OutsideAlerter>
                         <Button className={classes.LocationButton} addClass="Neutral" type="button"><div className={classes.PinIcon}><Pin/></div></Button>
                         <Button className={classes.ShareButton} addClass="Neutral" type="submit">Share</Button>
                     </section>

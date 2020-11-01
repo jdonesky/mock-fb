@@ -6,7 +6,7 @@ import Input from '../../../Input/Input'
 import {connect} from 'react-redux'
 import {fieldBuilder} from "../../../../../shared/utility";
 
-const dateForm = ({birthday, update, values, year, month, day}) => {
+const dateForm = ({update, values, birthday, year, month, day}) => {
 
     const currentYear = new Date().getFullYear();
     const birthYear = new Date(birthday).getFullYear()
@@ -52,10 +52,10 @@ const dateForm = ({birthday, update, values, year, month, day}) => {
 
 
     return (
-        <div className={classes.Container}>
-            <div className={classes.BaseArrow}></div>
-            {inputs}
-        </div>
+            <div className={classes.Container}>
+                <div className={classes.BaseArrow}></div>
+                {inputs}
+            </div>
     );
 
 }

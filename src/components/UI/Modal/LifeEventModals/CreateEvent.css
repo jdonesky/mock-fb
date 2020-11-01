@@ -166,7 +166,7 @@
 
 .CalendarButton  {
     display: flex;
-    flex: 8;
+    width: 435px;
     align-items: center;
     justify-content: center;
     margin-right: 10px;
