@@ -2,9 +2,9 @@
 
 import React from 'react';
 import classes from './Date.css'
-import Input from '../../../Input/Input'
+import Input from '../../../../Input/Input'
 import {connect} from 'react-redux'
-import {fieldBuilder} from "../../../../../shared/utility";
+import {fieldBuilder} from "../../../../../../shared/utility";
 
 const dateForm = ({update, values, birthday, year, month, day}) => {
 

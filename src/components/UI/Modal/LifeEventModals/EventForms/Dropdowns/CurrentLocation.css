@@ -1,0 +1,33 @@
+
+.Container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    position: absolute;
+    bottom: 107px;
+    left: 60px;
+    box-shadow: 0 12px 28px 0px rgba(0,0,0,0.2)
+}
+
+.BaseArrow {
+    border-style: solid;
+    position: absolute;
+    border-color: transparent;
+    border-width: 8px 8px 0 8px;
+    bottom: -8px;
+}
+
+.BaseArrow:after {
+    border-color: white transparent;
+    border-style: solid;
+    border-width: 7px 7px 0 7px;
+    bottom: 1px;
+    content: "";
+    position: absolute;
+    left: -7px;
+}

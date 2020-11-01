@@ -27,12 +27,14 @@ import Work from './EventForms/Work'
 import School from './EventForms/School'
 import Relationship from './EventForms/Relationship'
 import Location from './EventForms/Locations'
-import DateForm from './EventForms/Date'
+import DateForm from './EventForms/Dropdowns/Date'
+import CurrentLocationForm from './EventForms/Dropdowns/CurrentLocation'
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 
 const createEvent = (props) => {
 
     const [showDateForm, setShowDateForm] = useState(false)
+    const [showLocationForm, setShowLocationForm] = useState(false);
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [addedInputs, setAddedInputs] = useState({})
@@ -58,6 +60,16 @@ const createEvent = (props) => {
     const closeDateForm = () => {
         setShowDateForm(false)
     }
+
+    const toggleLocationForm = () => {
+        setShowLocationForm((prevState) => {
+            return !prevState
+        })
+    }
+    const closeLocationForm = () => {
+        setShowLocationForm(false)
+    }
+
 
     const lifeEventContext = useContext(LifeEventContext)
     const [month,day,year] = convertDate(`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`);
@@ -168,6 +180,12 @@ const createEvent = (props) => {
         dateForm = <DateForm values={addedInputs} update={updateInputs} toggle={toggleDateForm} year={year} month={month} day={day} />
     }
 
+    let currentLocationForm;
+    if (showLocationForm) {
+        currentLocationForm = <CurrentLocationForm />
+    }
+
+
     return (
         <div>
             <section className={classes.Header}>
@@ -206,7 +224,10 @@ const createEvent = (props) => {
                             {dateForm}
                             <Button className={classes.CalendarButton} addClass="Neutral" type="button" clicked={toggleDateForm}><div className={classes.CalendarIcon}><Calendar /></div>{date}</Button>
                         </OutsideAlerter>
-                        <Button className={classes.LocationButton} addClass="Neutral" type="button"><div className={classes.PinIcon}><Pin/></div></Button>
+                        <OutsideAlerter action={closeLocationForm}>
+                            {currentLocationForm}
+                            <Button className={classes.LocationButton} addClass="Neutral" type="button" clicked={toggleLocationForm}><div className={classes.PinIcon}><Pin/></div></Button>
+                        </OutsideAlerter>
                         <Button className={classes.ShareButton} addClass="Neutral" type="submit">Share</Button>
                     </section>
                 </form>

@@ -1,0 +1,27 @@
+
+.Container {
+   height: 40px;
+   width: 200px;
+   background-color: rgba(0,0,0,0.05);
+   border: none;
+   border-radius: 20px;
+}
+
+.Input {
+    border: none;
+    height: 33px;
+}
+
+.Input::placeholder {
+    color: #b8b5b5;
+}
+
+.SearchIcon {
+    height: 35px;
+    width: 35px;
+}
+
+.SearchIcon svg {
+    height: auto;
+    width: 100%;
+}
