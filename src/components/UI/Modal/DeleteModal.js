@@ -10,7 +10,7 @@ const deleteModal = () => {
     const deleteContext = useContext(DeleteContext)
     return (
         <Modal show={deleteContext.showModal}>
-            <div className={classes.DeleteModal}>
+            <div className={classes.DeleteModal} style={{display: !deleteContext.showModal && 'none'}}>
                 <div className={classes.Header}>
                     <h1>Are you sure?</h1>
                     <div className={classes.CancelIcon} onClick={deleteContext.toggleModal}>

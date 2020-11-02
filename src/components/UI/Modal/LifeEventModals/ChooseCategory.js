@@ -9,7 +9,7 @@ import Basket from '../../../../assets/images/LifeEventIcons/shopping-basket'
 import Swirl from '../../../../assets/images/LifeEventIcons/line-swirl'
 import Seagulls from '../../../../assets/images/LifeEventIcons/seagull'
 
-const chooseCategory = () => {
+const chooseCategory = (props) => {
     const lifeEventContext = useContext(LifeEventContext);
 
     const onCategorySelect = (category) => {
@@ -21,7 +21,7 @@ const chooseCategory = () => {
     const buttons = categories.map(category => <CategoryButton clicked={() => onCategorySelect(category)} type={category} />)
 
     return (
-        <div className={classes.EventCategoryModal}>
+        <div className={classes.EventCategoryModal} style={{display: !props.show && 'none'}}>
             <div className={classes.MainImage}>
                 <div className={classes.Balloon}>
                     <Balloon />

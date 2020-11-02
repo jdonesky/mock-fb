@@ -103,7 +103,7 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                       }
                       break;
                   case "add":
-                      if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
+                      if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations' || fieldName === 'lifeEvents') {
                           if (response.data[fieldName]) {
                               updatedUserProfile = {
                                   ...response.data,

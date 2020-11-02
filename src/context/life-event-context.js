@@ -5,22 +5,17 @@ import * as actions from "../store/actions";
 
 export const LifeEventContext = React.createContext({
     category: null,
-    title: null,
-    description: null,
-    date: null,
-    passData: () => {},
     showModal: false,
-    toggleModal: () => {},
     modalContent: false,
-    toggleModalContent: () => {}
+    passData: () => {},
+    toggleModal: () => {},
+    toggleModalContent: () => {},
+    saveEvent: () => {}
 })
 
 const LifeEventContextProvider = (props) => {
     const [showModal, setShowModal] = useState(true);
     const [category, setCategory] = useState(null);
-    const [title, setTitle] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [date, setDate] = useState(null);
     const [modalContent, setModalContent] = useState(true)
 
     const toggleModal = () => {
@@ -45,8 +40,12 @@ const LifeEventContextProvider = (props) => {
         }
     }
 
+    const saveEvent = (payload) => {
+        props.onProfileUpdate(props.authToken, props.firebaseKey, 'lifeEvents', payload, 'add')
+    }
+
     return (
-        <LifeEventContext.Provider value={{ passData: passData, showModal: showModal, toggleModal: toggleModal, modalContent: modalContent, toggleModalContent: toggleModalContent, category: category, title: title, description: description, date: date }}>
+        <LifeEventContext.Provider value={{ saveEvent: saveEvent, passData: passData, showModal: showModal, toggleModal: toggleModal, modalContent: modalContent, toggleModalContent: toggleModalContent, category: category}}>
             {props.children}
         </LifeEventContext.Provider>
     );

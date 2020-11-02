@@ -10,7 +10,7 @@ import CreateEvent from './CreateEvent'
 const lifeEventModal = () => {
     const lifeEventContext = useContext(LifeEventContext)
 
-    let modalContent = lifeEventContext.modalContent ? <CreateEvent /> : <ChooseCategory />
+    let modalContent = lifeEventContext.modalContent ? <CreateEvent show={lifeEventContext.showModal} /> : <ChooseCategory show={lifeEventContext.showModal}/>
 
     return (
         <Modal show={lifeEventContext.showModal}>

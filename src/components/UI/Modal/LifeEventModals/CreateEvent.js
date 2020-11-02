@@ -1,5 +1,5 @@
 
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext, useEffect, useRef} from 'react';
 import classes from './CreateEvent.css'
 import Input from '../../Input/Input'
 import Button from '../../Button/Button'
@@ -52,22 +52,31 @@ const createEvent = (props) => {
     const [description, setDescription] = useState('')
     const [addedInputs, setAddedInputs] = useState({})
 
+    const [image, setImage] = useState(null)
+    const imageUploader = useRef(null);
+    const imageContainer = useRef(null);
+
     const lifeEventContext = useContext(LifeEventContext)
     const [month,day,year] = convertDate(`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`);
     const date = `${addedInputs['month'] || month} ${addedInputs['day'] || day}, ${addedInputs['year'] || year}`
 
     useEffect(() => {
-        const payload = {
-            category: lifeEventContext.category,
-            title: title,
-            ...addedInputs,
-            description: description,
-            year: addedInputs['year'] || year,
-            month: addedInputs['month'] || month[0],
-            day: addedInputs['day'] || day
+        if (image) {
+            imageContainer.current.style.backgroundImage = `url(${image})`
         }
-        console.log(payload)
-    })
+    }, [image])
+
+    const imageUploadHandler = (event, type) => {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                imageContainer.current.style.backgroundImage = `url(${event.target.result})`;
+                setImage(event.target.result)
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const toggleDateForm = () => {
         setShowDateForm((prevState) => {
@@ -101,7 +110,17 @@ const createEvent = (props) => {
 
     const saveEvent = (event) => {
         event.preventDefault()
-
+        const payload = {
+            category: lifeEventContext.category,
+            title: title,
+            ...addedInputs,
+            image: image,
+            description: description,
+            year: addedInputs['year'] || year,
+            month: addedInputs['month'] || month[0],
+            day: addedInputs['day'] || day
+        }
+        lifeEventContext.saveEvent(payload);
     }
 
     let icon;
@@ -142,7 +161,7 @@ const createEvent = (props) => {
             icon = <Tree fill="white"/>;
             caption = "Example: new family member, family reunion, family event or adopted a pet";
             animation = Family;
-            backColor = "rgba(70, 225, 242,0.9)"
+            backColor = "rgba(255, 241, 199,0.9)"
             break;
         case "Travel":
             icon = <Globe fill="white"/>;
@@ -221,9 +240,8 @@ const createEvent = (props) => {
         currentLocationForm = <CurrentLocationForm values={addInputs} update={updateInputs} close={closeLocationForm} />
     }
 
-
     return (
-        <div>
+        <div style={{display: !props.show && 'none'}}>
             <section className={classes.Header}>
                 <div className={classes.BackButton} onClick={lifeEventContext.toggleModalContent}>
                     <BackArrow />
@@ -234,8 +252,18 @@ const createEvent = (props) => {
             <section className={classes.PrivacySelection}>
                 <span>Sharing with</span><div className={classes.PrivacyButton}><PrivacyButton privacy="public"></PrivacyButton></div>
             </section>
-            <div className={classes.MainImage} style={{backgroundImage: `url(${animation})` || null, backgroundColor: backColor}}>
-                <div className={classes.UploadImageButton}>
+            <div className={classes.MainImage}  ref={imageContainer} style={{backgroundImage: `url(${animation})` || null, backgroundColor: backColor}}>
+                <input
+                    ref={imageUploader}
+                    type="file"
+                    accept="image/*"
+                    multiple={false}
+                    onChange={imageUploadHandler}
+                    style={{
+                        display: "none"
+                    }}
+                />
+                <div className={classes.UploadImageButton} onClick={() => imageUploader.current.click() }>
                     <div className={classes.UploadImageIcon}><PlusPhoto /></div>
                     <span className={classes.UploadImageText}>Add a Photo</span>
                 </div>
