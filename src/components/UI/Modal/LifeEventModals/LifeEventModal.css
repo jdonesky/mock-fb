@@ -10,9 +10,13 @@
     cursor: pointer;
 }
 
+.CancelIcon:hover {
+    background: rgba(0,0,0,.16);
+}
+
 .CancelIcon svg {
     height: 50%;
     width: 100%;
     position: relative;
-    top: 10px;
+    top: 8px;
 }

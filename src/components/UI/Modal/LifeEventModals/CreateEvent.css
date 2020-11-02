@@ -19,6 +19,10 @@
     cursor: pointer;
 }
 
+.BackButton:hover {
+    background: rgba(0,0,0,.16);
+}
+
 .BackButton svg {
     height: 60%;
     width: auto;
@@ -52,7 +56,10 @@
     width: 100%;
     min-width: 548px;
     margin: 0;
-    background-color: #fcb21e;
+    background-color: rgba(37, 127, 217,0.2);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .UploadImageButton {

@@ -8,6 +8,15 @@ import {convertDate} from "../../../../shared/utility";
 import {LifeEventContext} from "../../../../context/life-event-context";
 
 import LadderClimb from '../../../../assets/images/LifeEventGifs/ladderClimb.gif'
+import CapThrow from '../../../../assets/images/LifeEventGifs/grad_cap.gif'
+import Love from '../../../../assets/images/LifeEventGifs/paint-heart.gif'
+import Move from '../../../../assets/images/LifeEventGifs/moving-day.gif'
+import Dreams from '../../../../assets/images/LifeEventGifs/catch-stars.gif'
+import Journey from '../../../../assets/images/LifeEventGifs/journey.gif'
+import Motivation from '../../../../assets/images/LifeEventGifs/motivation.gif'
+import Lanterns from '../../../../assets/images/LifeEventGifs/lanterns.gif'
+import Sports from '../../../../assets/images/LifeEventGifs/sports.gif'
+import Family from '../../../../assets/images/LifeEventGifs/couple-kids.gif'
 
 import BackArrow from '../../../../assets/images/LifeEventIcons/left-arrow'
 import PlusPhoto from '../../../../assets/images/LifeEventIcons/addCamera'
@@ -35,7 +44,6 @@ import CurrentLocationForm from './EventForms/Dropdowns/CurrentLocation'
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 
 
-
 const createEvent = (props) => {
 
     const [showDateForm, setShowDateForm] = useState(false)
@@ -50,6 +58,7 @@ const createEvent = (props) => {
 
     useEffect(() => {
         const payload = {
+            category: lifeEventContext.category,
             title: title,
             ...addedInputs,
             description: description,
@@ -92,61 +101,82 @@ const createEvent = (props) => {
 
     const saveEvent = (event) => {
         event.preventDefault()
+
     }
 
     let icon;
     let caption;
     let addInputs;
-    let image;
+    let animation;
+    let backColor;
     switch (lifeEventContext.category) {
         case "Work":
-            icon = <Briefcase fill="white"/>
-            caption = "Example: achievement, volunteer, new skill or certification"
-            addInputs = <Work values={addedInputs} update={updateInputs}/>
-            image = LadderClimb
+            icon = <Briefcase fill="white"/>;
+            caption = "Example: achievement, volunteer, new skill or certification";
+            addInputs = <Work values={addedInputs} update={updateInputs}/>;
+            animation = LadderClimb;
+            backColor = "rgba(255, 162, 122,0.9)"
             break;
         case "Education":
-            icon = <GradCap fill="white"/>
-            caption = "Example: achievement, new skill or joined a club or team"
-            addInputs = <School values={addedInputs} update={updateInputs}/>
+            icon = <GradCap fill="white"/>;
+            caption = "Example: achievement, new skill or joined a club or team";
+            addInputs = <School values={addedInputs} update={updateInputs}/>;
+            animation = CapThrow;
+            backColor = "rgba(61, 208, 224,0.9)"
             break;
         case "Relationship":
-            icon = <Hearts fill="white"/>
-            caption = "Example: shared milestone, first trip or moved in together"
-            addInputs = <Relationship values={addedInputs} update={updateInputs}/>
+            icon = <Hearts fill="white"/>;
+            caption = "Example: shared milestone, first trip or moved in together";
+            addInputs = <Relationship values={addedInputs} update={updateInputs}/>;
+            animation = Love;
+            backColor = "white"
             break;
         case "Home":
-            icon = <Home fill="white"/>
-            caption = "Example: new roommate, home improvement, new house or new car"
-            addInputs = <Location values={addedInputs} update={updateInputs}/>
+            icon = <Home fill="white"/>;
+            caption = "Example: new roommate, home improvement, new house or new car";
+            addInputs = <Location values={addedInputs} update={updateInputs}/>;
+            animation = Move;
+            backColor = "rgba(141, 212, 247,0.9)"
             break;
         case "Family":
-            icon = <Tree fill="white"/>
-            caption = "Example: new family member, family reunion, family event or adopted a pet"
+            icon = <Tree fill="white"/>;
+            caption = "Example: new family member, family reunion, family event or adopted a pet";
+            animation = Family;
+            backColor = "rgba(70, 225, 242,0.9)"
             break;
         case "Travel":
-            icon = <Globe fill="white"/>
-            caption = "Example: travel, road trip or first flight"
-            addInputs = <Location values={addedInputs} update={updateInputs}/>
+            icon = <Globe fill="white"/>;
+            caption = "Example: travel, road trip or first flight";
+            addInputs = <Location values={addedInputs} update={updateInputs}/>;
+            animation = Journey;
+            backColor = "rgba(173, 107, 0,0.9)"
             break;
         case "Interests":
-            icon = <Stars fill="white"/>
-            caption = "Example: concert, event, new hobby or activism"
+            icon = <Stars fill="white"/>;
+            caption = "Example: concert, event, new hobby or activism";
+            animation = Sports;
+            backColor = "rgba(255, 204, 0,0.9)"
             break;
         case "Health":
-            icon = <Health fill="white"/>
-            caption = "Example: new habit, health update, training or athletic event"
+            icon = <Health fill="white"/>;
+            caption = "Example: new habit, health update, training or athletic event";
+            animation = Motivation;
+            backColor = "rgba(23, 139, 255,0.9)"
             break;
         case "Milestones":
-            icon = <Milestone fill="white"/>
-            caption = "Example: cultural event, religious event, achievement, first or milestone birthday"
+            icon = <Milestone fill="white"/>;
+            caption = "Example: cultural event, religious event, achievement, first or milestone birthday";
+            animation = Dreams;
+            backColor = "rgba(243, 135, 255,0.9)"
             break;
         case "Remembrance":
-            icon = <Candle fill="white"/>
-            caption = "Example: remembering a friend, celebration of life, in memory of..."
+            icon = <Candle fill="white"/>;
+            caption = "Example: remembering a friend, celebration of life, in memory of...";
+            animation = Lanterns;
+            backColor = "rgba(37, 41, 37,0.9)"
             break;
         case "Custom":
-            icon = <Flag fill="white"/>
+            icon = <Flag fill="white"/>;
             break;
         default:
             icon = <Stars fill="white"/>;
@@ -204,7 +234,7 @@ const createEvent = (props) => {
             <section className={classes.PrivacySelection}>
                 <span>Sharing with</span><div className={classes.PrivacyButton}><PrivacyButton privacy="public"></PrivacyButton></div>
             </section>
-            <div className={classes.MainImage} style={{backgroundImage: `url(${image})` || null}}>
+            <div className={classes.MainImage} style={{backgroundImage: `url(${animation})` || null, backgroundColor: backColor}}>
                 <div className={classes.UploadImageButton}>
                     <div className={classes.UploadImageIcon}><PlusPhoto /></div>
                     <span className={classes.UploadImageText}>Add a Photo</span>
