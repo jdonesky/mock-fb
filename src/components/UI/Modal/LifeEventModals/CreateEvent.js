@@ -7,6 +7,8 @@ import PrivacyButton from '../../Button/PrivacyButton'
 import {convertDate} from "../../../../shared/utility";
 import {LifeEventContext} from "../../../../context/life-event-context";
 
+import LadderClimb from '../../../../assets/images/LifeEventGifs/ladderClimb.gif'
+
 import BackArrow from '../../../../assets/images/LifeEventIcons/left-arrow'
 import PlusPhoto from '../../../../assets/images/LifeEventIcons/addCamera'
 import Calendar from '../../../../assets/images/LifeEventIcons/calendar'
@@ -27,9 +29,12 @@ import Work from './EventForms/Work'
 import School from './EventForms/School'
 import Relationship from './EventForms/Relationship'
 import Location from './EventForms/Locations'
+
 import DateForm from './EventForms/Dropdowns/Date'
 import CurrentLocationForm from './EventForms/Dropdowns/CurrentLocation'
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
+
+
 
 const createEvent = (props) => {
 
@@ -38,6 +43,10 @@ const createEvent = (props) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [addedInputs, setAddedInputs] = useState({})
+
+    const lifeEventContext = useContext(LifeEventContext)
+    const [month,day,year] = convertDate(`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`);
+    const date = `${addedInputs['month'] || month} ${addedInputs['day'] || day}, ${addedInputs['year'] || year}`
 
     useEffect(() => {
         const payload = {
@@ -70,10 +79,6 @@ const createEvent = (props) => {
         setShowLocationForm(false)
     }
 
-    const lifeEventContext = useContext(LifeEventContext)
-    const [month,day,year] = convertDate(`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`);
-    const date = `${addedInputs['month'] || month} ${addedInputs['day'] || day}, ${addedInputs['year'] || year}`
-
     const updateTitle = (event) => {
         setTitle(event.target.value)
     }
@@ -92,11 +97,13 @@ const createEvent = (props) => {
     let icon;
     let caption;
     let addInputs;
+    let image;
     switch (lifeEventContext.category) {
         case "Work":
             icon = <Briefcase fill="white"/>
             caption = "Example: achievement, volunteer, new skill or certification"
             addInputs = <Work values={addedInputs} update={updateInputs}/>
+            image = LadderClimb
             break;
         case "Education":
             icon = <GradCap fill="white"/>
@@ -197,7 +204,7 @@ const createEvent = (props) => {
             <section className={classes.PrivacySelection}>
                 <span>Sharing with</span><div className={classes.PrivacyButton}><PrivacyButton privacy="public"></PrivacyButton></div>
             </section>
-            <div className={classes.MainImage}>
+            <div className={classes.MainImage} style={{backgroundImage: `url(${image})` || null}}>
                 <div className={classes.UploadImageButton}>
                     <div className={classes.UploadImageIcon}><PlusPhoto /></div>
                     <span className={classes.UploadImageText}>Add a Photo</span>
@@ -227,7 +234,7 @@ const createEvent = (props) => {
                             {currentLocationForm}
                             <Button className={classes.LocationButton} addClass={addedInputs['location'] ? 'Selected' : 'Neutral'  } type="button" clicked={toggleLocationForm}><div className={classes.PinIcon}><Pin fill={addedInputs['location'] ? "#077df2" : null }/></div></Button>
                         </OutsideAlerter>
-                        <Button className={classes.ShareButton} addClass="Neutral" type="submit">Share</Button>
+                        <Button disabled={!title.length} className={classes.ShareButton} addClass="Neutral" type="submit">Share</Button>
                     </section>
                 </form>
             </section>
