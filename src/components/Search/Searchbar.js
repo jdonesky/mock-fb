@@ -1,11 +1,10 @@
 
 import React, {useState, useEffect,useRef} from 'react'
 import {connect} from 'react-redux'
-import axios from '../../axios/db-axios-instance'
 import classes from './Searchbar.css'
 import Search from '../../assets/images/search'
 
-const searchBar = ({loadData,dbDoc,token}) => {
+const searchBar = ({filterResults}) => {
 
     const [searchTerm, setSearchTerm] =  useState('')
     const userInputRef = useRef()
@@ -14,24 +13,14 @@ const searchBar = ({loadData,dbDoc,token}) => {
         const timer = setTimeout(() => {
             if (searchTerm.length) {
                 if (searchTerm === userInputRef.current.value) {
-                    let query = `/${dbDoc}.json?auth=${token}&orderBy="name"&equalTo="${searchTerm}"`
-                    console.log(query)
-                    axios.get(query)
-                        .then(response => {
-                            loadData(response.data)
-                        })
-                        .catch(err => console.log(err));
+                    filterResults(searchTerm)
                 }
             }
         },500)
         return () => {
             clearTimeout(timer)
         }
-    }, [searchTerm,loadData,userInputRef])
-
-    useEffect(() => {
-        console.log(searchTerm)
-    })
+    }, [searchTerm, filterResults, userInputRef])
 
     return (
         <div className={classes.Container}>

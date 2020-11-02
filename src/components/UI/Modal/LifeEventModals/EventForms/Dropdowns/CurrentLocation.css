@@ -19,6 +19,7 @@
     justify-content: space-around;
     align-items: center;
     width: 270px;
+    margin-bottom: 10px;
 }
 
 .ConfirmButton {
