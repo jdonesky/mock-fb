@@ -10,6 +10,16 @@
     background: white;
 }
 
+.LeftEvent {
+    border-bottom-left-radius: 7px;
+    border-top-left-radius: 7px;
+}
+
+.RightEvent {
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
 .Container h2 {
     margin: 0;
 }
@@ -44,6 +54,10 @@
 
 .EventsContainer {
     display: flex;
+    justify-content: stretch;
+    align-content: center;
+    margin: 12px 15px 18px;
+    border-radius: 7px;
 }
 
 

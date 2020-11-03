@@ -12,15 +12,26 @@ const lifeEvents = (props) => {
         console.log(props.lifeEvents)
     })
 
-    let events = props.lifeEvents && props.lifeEvents.map(ev => {
-        console.log({...ev})
+    const first = props.lifeEvents && [props.lifeEvents[0]].map(ev => {
         return (
             <Event
-                {...ev}
                 key={ev.id}
                 category={ev.category}
-                title={ev.title}
-                description={ev.description}
+                mainText={ev.title}
+                subText={`${ev.month} ${ev.day} ${ev.year !== new Date().getFullYear().toString() ? ', ' + ev.year : ''}`}
+                className={classes.LeftEvent}
+            />
+        )
+    })
+
+    const second = props.lifeEvents && [props.lifeEvents[1]].map(ev => {
+        return (
+            <Event
+                key={ev.id}
+                category={ev.category}
+                mainText={ev.title}
+                subText={`${ev.month} ${ev.day}, ${ev.year !== new Date().getFullYear() && ev.year}`}
+                className={classes.RightEvent}
             />
         )
     })
@@ -32,12 +43,13 @@ const lifeEvents = (props) => {
                 <Link className={classes.Link} to="user-profile/life-events">See All</Link>
             </div>
             <div className={classes.EventsContainer}>
-                {events}
+                {first}
+                {second}
             </div>
         </div>
     )
 
-    return events && events.length ? lifeEvents : null
+    return lifeEvents;
 }
 
 const mapStateToProps = state => {
