@@ -1,9 +1,12 @@
 
 .ModalContainer {
-    position: absolute;
+    position: fixed;
+    height: 0;
     left: 50%;
-    top: 40%;
+    top: 1%;
+    z-index: 500;
 }
+
 .Modal {
     position: relative;
     left: -50%;

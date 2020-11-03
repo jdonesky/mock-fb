@@ -252,7 +252,7 @@ const createEvent = (props) => {
             <section className={classes.PrivacySelection}>
                 <span>Sharing with</span><div className={classes.PrivacyButton}><PrivacyButton privacy="public"></PrivacyButton></div>
             </section>
-            <div className={classes.MainImage}  ref={imageContainer} style={{backgroundImage: `url(${animation})` || null, backgroundColor: backColor}}>
+            <div className={classes.MainImage}  ref={imageContainer} style={{backgroundImage: lifeEventContext.image ? lifeEventContext.image : `url(${animation})`, backgroundColor: backColor}}>
                 <input
                     ref={imageUploader}
                     type="file"

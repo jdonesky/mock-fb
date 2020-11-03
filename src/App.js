@@ -7,6 +7,7 @@ import FoldingSquare from './components/UI/Spinner/SquareFold'
 import * as actions from "./store/actions/index";
 import DeleteContextProvider from "./context/delete-context";
 import LifeEventContextProvider from "./context/life-event-context";
+import PostContextProvider from "./context/post-context";
 
 
 const AsyncUserProfile = React.lazy(() => {
@@ -64,15 +65,17 @@ const app = (props) => {
     }
 
     return (
-        <LifeEventContextProvider>
-            <DeleteContextProvider>
-                <Layout>
-                    <Suspense fallback={<FoldingSquare />}>
-                        {routes}
-                    </Suspense>
-                </Layout>
-            </DeleteContextProvider>
-        </LifeEventContextProvider>
+        <PostContextProvider>
+            <LifeEventContextProvider>
+                <DeleteContextProvider>
+                    <Layout>
+                        <Suspense fallback={<FoldingSquare />}>
+                            {routes}
+                        </Suspense>
+                    </Layout>
+                </DeleteContextProvider>
+            </LifeEventContextProvider>
+        </PostContextProvider>
     );
 
 }

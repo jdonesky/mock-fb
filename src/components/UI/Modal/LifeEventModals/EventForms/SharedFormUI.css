@@ -7,9 +7,11 @@
 }
 
 .SchoolType {
+    position: relative;
+    bottom: 1px;
     width: 240px;
     margin-top: 2px;
-    height: 41px;
+    height: 42px;
     background: white;
     border:  1px solid #b8b5b5;
 }

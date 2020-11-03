@@ -113,7 +113,10 @@ const auth = props => {
         errorMessage = 'Please enter a valid password'
         break;
       case 'EMAIL_NOT_FOUND':
-        errorMessage = 'Please enter a valid password'
+        errorMessage = 'Please enter a valid email'
+        break;
+      case 'MISSING_PASSWORD':
+        errorMessage = 'Please enter your password'
         break;
       default:
         errorMessage = 'Something went wrong'

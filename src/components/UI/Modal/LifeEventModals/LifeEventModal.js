@@ -13,9 +13,9 @@ const lifeEventModal = () => {
     let modalContent = lifeEventContext.modalContent ? <CreateEvent show={lifeEventContext.showModal} /> : <ChooseCategory show={lifeEventContext.showModal}/>
 
     return (
-        <Modal show={lifeEventContext.showModal}>
-            <div className={classes.CancelIcon} onClick={lifeEventContext.toggleModal}>
-                <Close/>
+        <Modal show={lifeEventContext.showModal} close={lifeEventContext.cancelModal}>
+            <div className={classes.CancelIcon} onClick={lifeEventContext.cancelModal}>
+                <Close />
             </div>
             {modalContent}
         </Modal>

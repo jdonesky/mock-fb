@@ -9,8 +9,10 @@ import Timeline from '../../components/Profile/Timeline/Timeline'
 import axios from '../../axios/db-axios-instance'
 import classes from "./UserProfile.css";
 import SquareFold from "../../components/UI/Spinner/SquareFold"
+
 import DeleteModal from "../../components/UI/Modal/DeleteModal"
 import LifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal'
+import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost'
 
 const ProfileAbout = React.lazy(() => {
   return import('../../components/Profile/ProfileAbout/ProfileAbout')
@@ -29,6 +31,7 @@ const userProfile = (props) => {
         <React.Fragment>
           <LifeEventModal />
           <DeleteModal />
+          <CreatePostModal />
           <div className={classes.UserProfile}>
             <ProfilePics />
             <ProfileHeader name={props.name} bio={props.bio}/>

@@ -3,21 +3,21 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux'
 import * as actions from "../store/actions";
 
-export const LifeEventContext = React.createContext({
-    category: null,
+export const PostContext = React.createContext({
+    image: null,
     showModal: false,
     modalContent: false,
     passData: () => {},
     toggleModal: () => {},
     cancelModal: () => {},
     toggleModalContent: () => {},
-    saveEvent: () => {}
+    savePost: () => {}
 })
 
-const LifeEventContextProvider = (props) => {
+const PostContextProvider = (props) => {
     const [showModal, setShowModal] = useState(false);
-    const [category, setCategory] = useState(null);
-    const [modalContent, setModalContent] = useState(false);
+    const [image, setImage] = useState(null);
+    const [modalContent, setModalContent] = useState('CREATE_POST');
 
     const toggleModal = () => {
         setShowModal((prevState) => {
@@ -27,7 +27,7 @@ const LifeEventContextProvider = (props) => {
 
     const cancelModal = () => {
         setShowModal(false);
-        setModalContent(false);
+        setModalContent('CREATE_POST');
     }
 
     const toggleModalContent = () => {
@@ -38,22 +38,22 @@ const LifeEventContextProvider = (props) => {
 
     const passData = (type,payload) => {
         switch (type) {
-            case 'category':
-                setCategory(payload)
+            case 'image':
+                setImage(payload)
                 break;
             default:
-                setCategory(null)
+                setImage(null)
         }
     }
 
-    const saveEvent = (payload) => {
-        props.onProfileUpdate(props.authToken, props.firebaseKey, 'lifeEvents', payload, 'add')
+    const savePost = (payload) => {
+        props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts', payload, 'add')
     }
 
     return (
-        <LifeEventContext.Provider value={{ saveEvent: saveEvent, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, category: category}}>
+        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, image: image}}>
             {props.children}
-        </LifeEventContext.Provider>
+        </PostContext.Provider>
     );
 }
 
@@ -70,4 +70,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(LifeEventContextProvider);
+export default connect(mapStateToProps,mapDispatchToProps)(PostContextProvider);

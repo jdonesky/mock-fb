@@ -16,8 +16,8 @@
     justify-content: stretch;
     align-items: center;
     height: 50px;
-    width: 95%;
-    margin: 5px;
+    width: 98%;
+    margin: 8px auto 0;
 }
 
 .ProfileImageContainer {
@@ -25,20 +25,22 @@
     width: 50px;
     display: flex;
     align-items: center;
-
+    margin: 0 6px;
 }
 
 .ProfileImage {
     height: 40px;
     width: 40px;
     border-radius: 100px;
+    border: 1px solid #cccccc;
     background: rgba(0,0,0,.1);
     margin: 0 auto;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .ProfileImage:hover {
-    background: rgba(0,0,0,.1);
+    background: rgba(0,0,0,.2);
 }
 
 .ProfileImage svg {
@@ -50,12 +52,73 @@
 }
 
 .QueryBar {
-    height: 70%;
-    width: 60%;
-    background-color: rgba(0,0,0,.1);
+    height: 40px;
+    width: 86%;
+    background-color: rgba(0,0,0,.05);
+    border-radius: 40px;
     cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
 }
 
 .QueryBar:hover {
     background-color: rgba(0,0,0,.1);
+}
+
+.QueryBar span {
+    color: #878787;
+}
+
+.Break {
+    height: 1px;
+    width: 95%;
+    margin: 8px auto;
+    background-color: #cccccc;
+}
+
+.ButtonsContainer {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    margin: 0 auto 8px;
+    width: 95%;
+    height: 40px;
+}
+
+.Button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 40px;
+    width: 50%;
+    border-radius: 8px;
+}
+
+.ButtonIcon {
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+}
+
+.ButtonIcon svg {
+    height: auto;
+    width: 90%;
+    position: relative;
+    top: 3px;
+}
+
+.Flag {
+    margin-right: 1px;
+}
+
+.Flag svg {
+    width: 75%;
+    top: 5px;
+}
+
+.Button:hover {
+    background-color: rgba(0,0,0,0.05)
 }
