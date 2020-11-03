@@ -15,8 +15,16 @@
     border-top-left-radius: 7px;
 }
 
+.LeftEventImage {
+    border-top-left-radius: 7px;
+}
+
 .RightEvent {
     border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+.RightEventImage {
     border-top-right-radius: 7px;
 }
 

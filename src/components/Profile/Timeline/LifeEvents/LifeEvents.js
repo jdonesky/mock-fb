@@ -3,35 +3,42 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {mapMonths} from "../../../../shared/utility";
 import Event from './LifeEvent/LifeEvent'
 import classes from './LifeEvents.css'
 
 const lifeEvents = (props) => {
 
-    useEffect(() => {
-        console.log(props.lifeEvents)
-    })
 
-    const first = props.lifeEvents && [props.lifeEvents[0]].map(ev => {
+    let sortedEvents;
+    if (props.lifeEvents) {
+        sortedEvents = props.lifeEvents && props.lifeEvents.map(ev => ({...ev, date: new Date(`${ev.year} ${ev.month} ${ev.day}`)})).sort((a,b) => a.date < b.date ? 1: -1)
+    }
+
+
+
+    const first = sortedEvents && [sortedEvents[0]].map(ev => {
         return (
             <Event
                 key={ev.id}
                 category={ev.category}
                 mainText={ev.title}
-                subText={`${ev.month} ${ev.day} ${ev.year !== new Date().getFullYear().toString() ? ', ' + ev.year : ''}`}
+                subText={`${ev.year} ${mapMonths[ev.month]} ${ev.day}` === `${new Date().getFullYear().toString()} ${new Date().getMonth().toString()} ${new Date().getDate().toString()}` ? 'Today' : `${ev.month} ${ev.day} ${ev.year !== new Date().getFullYear().toString() ? ', ' + ev.year : ''}`}
                 className={classes.LeftEvent}
+                imageClass={classes.LeftEventImage}
             />
         )
     })
 
-    const second = props.lifeEvents && [props.lifeEvents[1]].map(ev => {
+    const second = sortedEvents && [sortedEvents[1]].map(ev => {
         return (
             <Event
                 key={ev.id}
                 category={ev.category}
                 mainText={ev.title}
-                subText={`${ev.month} ${ev.day}, ${ev.year !== new Date().getFullYear() && ev.year}`}
+                subText={`${ev.year} ${mapMonths[ev.month]} ${ev.day}` === `${new Date().getFullYear().toString()} ${new Date().getMonth().toString()} ${new Date().getDate().toString()}` ? 'Today' : `${ev.month} ${ev.day} ${ev.year !== new Date().getFullYear().toString() ? ', ' + ev.year : ''}`}
                 className={classes.RightEvent}
+                imageClass={classes.RightEventImage}
             />
         )
     })

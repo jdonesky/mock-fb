@@ -43,6 +43,15 @@
 }
 
 
+.PhotosContainer {
+    margin: 12px 15px 18px;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 
 
 

@@ -92,7 +92,7 @@ const event = (props) => {
     }
 
     const containerClass = [classes.Container, props.className].join(" ");
-    const imageClass = [classes.MainImage, props.className].join(" ");
+    const imageClass = [classes.MainImage, props.imageClass].join(" ");
     return (
         <div className={containerClass}>
             <div className={imageClass} style={{backgroundImage: props.image || `url(${animation})`, backgroundColor: backColor}}/>

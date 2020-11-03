@@ -1,0 +1,61 @@
+
+
+.Container {
+    z-index: 5;
+    width: 100%;
+    max-width: 930px;
+    margin: 0 0 15px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
+    background: white;
+}
+
+.Header {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    height: 50px;
+    width: 95%;
+    margin: 5px;
+}
+
+.ProfileImageContainer {
+    height: 100%;
+    width: 50px;
+    display: flex;
+    align-items: center;
+
+}
+
+.ProfileImage {
+    height: 40px;
+    width: 40px;
+    border-radius: 100px;
+    background: rgba(0,0,0,.1);
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.ProfileImage:hover {
+    background: rgba(0,0,0,.1);
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 90%;
+    position: relative;
+    top: 3px;
+    left: 2px;
+}
+
+.QueryBar {
+    height: 70%;
+    width: 60%;
+    background-color: rgba(0,0,0,.1);
+    cursor: pointer;
+}
+
+.QueryBar:hover {
+    background-color: rgba(0,0,0,.1);
+}

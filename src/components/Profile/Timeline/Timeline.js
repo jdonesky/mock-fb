@@ -5,6 +5,7 @@ import Intro from './Intro/Intro'
 import Photos from './Photos/Photos'
 import Friends from './Friends/Friends'
 import LifeEvents from "./LifeEvents/LifeEvents";
+import CreatePost from './Posts/Create/StartCreating'
 
 const timeLine = (props) => {
     return (
@@ -13,6 +14,7 @@ const timeLine = (props) => {
             <Photos />
             <Friends />
             <LifeEvents />
+            <CreatePost />
         </div>
     )
 }
