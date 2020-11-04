@@ -9,7 +9,7 @@ import {DeleteContext} from "../../../context/delete-context";
 const deleteModal = () => {
     const deleteContext = useContext(DeleteContext)
     return (
-        <Modal show={deleteContext.showModal} close={deleteContext.toggleModal}>
+        <Modal show={deleteContext.showModal} close={deleteContext.toggleModal} addClass={classes.DeleteModalContainer}>
             <div className={classes.DeleteModal} style={{display: !deleteContext.showModal && 'none'}}>
                 <div className={classes.Header}>
                     <h1>Are you sure?</h1>

@@ -1,4 +1,8 @@
 
+.DeleteModalContainer {
+    top: 40%;
+}
+
 .DeleteModal {
     height: 100%;
     width: 100%;

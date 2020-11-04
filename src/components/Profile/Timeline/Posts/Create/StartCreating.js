@@ -1,23 +1,18 @@
 
 
-import React, {useContext,useRef, useEffect} from 'react';
+import React, { useContext, useRef } from 'react';
 import classes from './StartCreating.css'
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
 import Flag from '../../../../../assets/images/LifeEventIcons/finish';
 import AddPhoto from '../../../../../assets/images/LifeEventIcons/addCamera';
-import {LifeEventContext} from "../../../../../context/life-event-context";
-import {PostContext} from "../../../../../context/post-context";
+import { LifeEventContext } from "../../../../../context/life-event-context";
+import { PostContext } from "../../../../../context/post-context";
 
 const startPost = () => {
-
 
     const lifeEventContext = useContext(LifeEventContext);
     const postContext = useContext(PostContext)
     const imageUploader = useRef(null);
-
-    useEffect(() => {
-        console.log(postContext)
-    })
 
     const imageUploadHandler = (event) => {
         const [file] = event.target.files;

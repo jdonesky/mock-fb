@@ -1,4 +1,4 @@
-import React, {useEffect,useContext, Suspense} from "react";
+import React, {useEffect, Suspense} from "react";
 import {Switch, Route} from 'react-router'
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";

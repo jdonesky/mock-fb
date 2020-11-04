@@ -3,6 +3,7 @@ import React, {useContext} from 'react';
 import Modal from '../Modal';
 import {PostContext} from '../../../../context/post-context';
 import BaseForm from './BaseForm/BaseForm'
+import classes from './CreatePost.css'
 
 
 const createPost = (props) => {
@@ -18,7 +19,7 @@ const createPost = (props) => {
     }
 
     return (
-        <Modal show={postContext.showModal} close={postContext.cancelModal}>
+        <Modal show={postContext.showModal} close={postContext.cancelModal} addClass={classes.CreatePostContainer}>
             {modalContent}
         </Modal>
     );

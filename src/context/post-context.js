@@ -15,7 +15,8 @@ export const PostContext = React.createContext({
 })
 
 const PostContextProvider = (props) => {
-    const [showModal, setShowModal] = useState(false);
+
+    const [showModal, setShowModal] = useState(true);
     const [image, setImage] = useState(null);
     const [modalContent, setModalContent] = useState('CREATE_POST');
 

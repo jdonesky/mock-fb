@@ -13,7 +13,10 @@ const button = (props) => {
     buttonClass.push(classes.Privacy)
   }
 
-  buttonClass.push(props.className)
+  if (props.className) {
+    buttonClass.push(props.className)
+  }
+
 
   return (
       <button

@@ -1,14 +1,35 @@
 
+.Header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    margin: 12px;
+}
+
+.Title {
+   display: flex;
+   align-items: center;
+   justify-self: center;
+   flex: 12;
+}
+
+.Title h3 {
+    position: relative;
+    left: 15px;
+    margin: 0 auto;
+    font-size: 20px;
+}
+
 .CancelIcon {
     z-index: 100;
     background: rgba(0,0,0,.13);
-    position: absolute;
     border-radius: 100px;
-    right: 12px;
-    top: 12px;
     height: 35px;
     width: 35px;
     cursor: pointer;
+    margin-left: auto;
+    flex: 1;
 }
 
 .CancelIcon:hover {
@@ -21,3 +42,114 @@
     position: relative;
     top: 8px;
 }
+
+.Break {
+    width: 95%;
+    height: 1px;
+    background-color: rgba(0,0,0,.2);
+    margin: 10px auto;
+}
+
+.NameSection {
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 8px;
+}
+
+.ProfileImageContainer {
+    height: 100%;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    margin: 0 6px;
+}
+
+.ProfileImage {
+    height: 40px;
+    width: 40px;
+    border-radius: 100px;
+    border: 1px solid #cccccc;
+    background: rgba(0,0,0,.1);
+    margin: 0 auto;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.ProfileImage:hover {
+    background: rgba(0,0,0,.2);
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 90%;
+    position: relative;
+    top: 3px;
+}
+
+.IdContainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 50px;
+}
+
+.PrivacyButton {
+    width: 100px;
+    justify-content: flex-start;
+}
+
+.PrivacyButton svg {
+    height: auto;
+    width: 70%;
+    position: relative;
+    bottom: 38px;
+    right: 1px;
+}
+
+.StatusSection {
+    height: 120px;
+    width: 99%;
+    margin: 10px auto;
+    font-size: 30px;
+}
+
+.StatusTextArea {
+    width: 95%;
+    height: 100%;
+    border: none;
+    margin: 0 auto;
+    text-align: start;
+    font-family: ".AppleSystemUIFont";
+    font-size: 25px;
+    font-weight: 300;
+    resize: none;
+}
+
+.StatusTextArea::placeholder {
+    color: #b8b5b5;
+}
+
+.BackgroundSection {
+    height: 50px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.BackgroundButton {
+    height: 30px;
+    width: 30px;
+    border-radius: 8px;
+    border: 3px solid white;
+    box-shadow: 0 1px 2px 2px rgba(0,0,0,0.03);
+    /*background-image: radial-gradient();*/
+}
+
+.BackgroundButton svg {
+    height: auto;
+    width: 90%;
+}
+
+
+

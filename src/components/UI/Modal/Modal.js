@@ -3,9 +3,15 @@ import classes from "./Modal.css";
 import Backdrop from "../Backdrop/Backdrop";
 
 const modal = (props) => {
+
+  const containerClasses = [classes.ModalContainer]
+  if (props.addClass) {
+      containerClasses.push(props.addClass)
+  }
+
   return (
     <React.Fragment>
-      <div className={classes.ModalContainer}>
+      <div className={containerClasses.join(" ")}>
           <div
             className={classes.Modal}
             style={{

@@ -28,7 +28,7 @@ const privacyButton = (props) => {
 
     const iconContainer = <span className={classes.IconContainer}>{icon}</span>
     return (
-        <Button addClass="Neutral" type="privacy" clicked={props.clicked}>{iconContainer}{text}</Button>
+        <Button className={props.className} addClass="Neutral" type="privacy" clicked={props.clicked}>{iconContainer}{text}</Button>
     );
 };
 
