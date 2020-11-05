@@ -12,6 +12,8 @@ const baseForm = (props) => {
 
     const postContext = useContext(PostContext);
 
+    let backgroundOptions;
+
     return (
         <div>
             <section className={classes.Header}>
@@ -41,6 +43,9 @@ const baseForm = (props) => {
                 <div className={classes.BackgroundButton}>
                     <Letters fill="white" />
                 </div>
+            </section>
+            <section className={classes.BackgroundOptions}>
+                {backgroundOptions}
             </section>
         </div>
     );
