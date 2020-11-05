@@ -1,18 +1,26 @@
 
-import React, {useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {connect} from 'react-redux'
 import classes from "./BaseForm.css";
-import Close from "../../../../../assets/images/close";
 import {PostContext} from "../../../../../context/post-context";
+import Close from "../../../../../assets/images/close";
 import PrivacyButton from "../../../Button/PrivacyButton"
 import NoGenderPlaceholder from "../../../../../assets/images/profile-placeholder-gender-neutral";
 import Letters from "../../../../../assets/images/text-font"
 
+import BackgroundSelectBar from './Background/Backgrounds'
+
 const baseForm = (props) => {
 
     const postContext = useContext(PostContext);
+    const [showBackgroundBar, setShowBackgroundBar] = useState(false);
 
-    let backgroundOptions;
+
+    const toggleBackgroundBar = () => {
+        setShowBackgroundBar((prevState) => {
+            return !prevState;
+        })
+    }
 
     return (
         <div>
@@ -40,13 +48,12 @@ const baseForm = (props) => {
                 <textarea type="textarea" placeholder="What's on your mind?" className={classes.StatusTextArea}></textarea>
             </section>
             <section className={classes.BackgroundSection}>
-                <div className={classes.BackgroundButton}>
+                <div className={classes.BackgroundButton} onClick={toggleBackgroundBar}>
                     <Letters fill="white" />
                 </div>
             </section>
-            <section className={classes.BackgroundOptions}>
-                {backgroundOptions}
-            </section>
+            {showBackgroundBar && <BackgroundSelectBar />}
+
         </div>
     );
 }

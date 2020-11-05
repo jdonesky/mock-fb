@@ -17,7 +17,6 @@ const button = (props) => {
     buttonClass.push(props.className)
   }
 
-
   return (
       <button
       type={props.type}
