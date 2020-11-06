@@ -1,40 +1,23 @@
 
 .Background {
-    height: 26px;
-    width: 26px;
+    height: 32px;
+    width: 32px;
+    margin: 0 4px;
     border-radius: 8px;
     border: none;
     box-shadow: 0 1px 2px 2px rgba(0,0,0,0.1);
     filter: opacity(0.8);
     cursor: pointer;
-    background-size: 30px 30px;
+    background-size: 80px 80px;
     background-position: center;
 }
 
-Background:hover {
-    filter: saturate(4);
+.Background:hover {
+    filter: opacity(1);
 }
-
 
 .BackgroundOptions {
     display: flex;
     justify-content: space-around;
-}
-
-
-.BackgroundTEST {
-    height: 26px;
-    width: 26px;
-    border-radius: 8px;
-    border: none;
-    box-shadow: 0 1px 2px 2px rgba(0,0,0,0.1);
-    filter: opacity(0.8);
-    cursor: pointer;
-    background-size: contain;
-    background-position: center;
-}
-
-.BackgroundTEST svg {
-    height: auto;
-    width: 110%;
+    position: relative;
 }

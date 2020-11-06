@@ -135,6 +135,9 @@
     height: 50px;
     width: 95%;
     margin: 0 auto;
+    display: flex;
+    justify-self: stretch;
+    align-items: center;
 }
 
 .BackgroundButton {
@@ -145,6 +148,7 @@
     box-shadow: 0 1px 2px 2px rgba(0,0,0,0.1);
     background-image: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
     filter: opacity(0.8);
+    margin-right: 4px;
     cursor: pointer;
 }
 
@@ -157,4 +161,47 @@
 
 .BackgroundButton:hover {
     filter: opacity(1);
+}
+
+.CloseBackgroundOptions {
+    height: 31px;
+    width: 31px;
+    border-radius: 8px;
+    border:none;
+    background-color: rgba(0,0,0,0.1);
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.CloseBackgroundOptions:hover {
+    background-color: rgba(0,0,0,0.15);
+}
+
+.CloseBackgroundOptions svg {
+    height: auto;
+    width: 45%;
+    position: relative;
+    top: 6px;
+    right: 2px;
+}
+
+.GridViewButton {
+    height: 32px;
+    width: 32px;
+    border-radius: 8px;
+    border:none;
+    background-color: rgba(0,0,0,0.1);
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.GridViewButton:hover {
+    background-color: rgba(0,0,0,0.15);
+}
+
+.GridViewButton svg {
+    height: auto;
+    width: 50%;
+    position: relative;
+    top: 7px;
 }

@@ -7,8 +7,12 @@ import Close from "../../../../../assets/images/close";
 import PrivacyButton from "../../../Button/PrivacyButton"
 import NoGenderPlaceholder from "../../../../../assets/images/profile-placeholder-gender-neutral";
 import Letters from "../../../../../assets/images/text-font"
+import BackChevron from "../../../../../assets/images/left-chevron"
+import GridView from "../../../../../assets/images/grid"
+
 
 import BackgroundSelectBar from './Background/Backgrounds'
+import grid from "../../../../../assets/images/grid";
 
 const baseForm = (props) => {
 
@@ -21,6 +25,31 @@ const baseForm = (props) => {
             return !prevState;
         })
     }
+
+    let backgroundButton = (
+        <div className={classes.BackgroundButton} onClick={toggleBackgroundBar}>
+            <Letters fill="white" />
+        </div>
+    );
+
+    if (showBackgroundBar) {
+        backgroundButton = (
+            <div className={classes.CloseBackgroundOptions} onClick={toggleBackgroundBar}>
+                <BackChevron />
+            </div>
+        );
+    }
+
+    let gridViewButton;
+
+    if (showBackgroundBar) {
+        gridViewButton = (
+            <div className={classes.GridViewButton} onClick={toggleBackgroundBar}>
+                <GridView />
+            </div>
+        );
+    }
+
 
     return (
         <div>
@@ -48,11 +77,10 @@ const baseForm = (props) => {
                 <textarea type="textarea" placeholder="What's on your mind?" className={classes.StatusTextArea}></textarea>
             </section>
             <section className={classes.BackgroundSection}>
-                <div className={classes.BackgroundButton} onClick={toggleBackgroundBar}>
-                    <Letters fill="white" />
-                </div>
+                {backgroundButton}
+                {showBackgroundBar && <BackgroundSelectBar />}
+                {gridViewButton}
             </section>
-            {showBackgroundBar && <BackgroundSelectBar />}
 
         </div>
     );
