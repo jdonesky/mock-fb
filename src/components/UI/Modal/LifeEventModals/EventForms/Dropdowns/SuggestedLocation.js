@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './SuggestedLocation.css'
-import Pin from '../../../../../../assets/images/pin';
+import Pin from '../../../../../../assets/images/Pin';
 import House from '../../../../../../assets/images/home'
 
 const suggestedLocation = (props) => {

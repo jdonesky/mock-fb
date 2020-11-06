@@ -5,6 +5,7 @@ import * as actions from "../store/actions";
 
 export const PostContext = React.createContext({
     image: null,
+    background: null,
     showModal: false,
     modalContent: null,
     passData: () => {},
@@ -18,6 +19,7 @@ const PostContextProvider = (props) => {
 
     const [showModal, setShowModal] = useState(true);
     const [image, setImage] = useState(null);
+    const [background, setBackground] = useState(null);
     const [modalContent, setModalContent] = useState('CREATE_POST');
 
     const toggleModal = () => {
@@ -40,6 +42,9 @@ const PostContextProvider = (props) => {
             case 'image':
                 setImage(payload)
                 break;
+            case 'background':
+                setBackground(payload)
+                break;
             default:
                 setImage(null)
         }
@@ -50,7 +55,7 @@ const PostContextProvider = (props) => {
     }
 
     return (
-        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, image: image}}>
+        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, image: image, background: background}}>
             {props.children}
         </PostContext.Provider>
     );

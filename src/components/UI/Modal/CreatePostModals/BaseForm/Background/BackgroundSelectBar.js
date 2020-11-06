@@ -18,6 +18,7 @@ import QuantumGradient from '../../../../../../assets/images/Backgrounds/Pattern
 const backgroundSelectBar = (props) => {
 
     const options = [
+        {svg: null, color: "white"},
         {svg: OrangeSquares},
         {svg: SpectrumGradient},
         {svg: Honeycomb},
@@ -27,11 +28,11 @@ const backgroundSelectBar = (props) => {
         {svg: WinterBurst},
         {svg: BermudaSquare},
         {svg: LiquidCheese},
-        {svg: QuantumGradient},
     ];
 
     const backgrounds = options.map(opt => (
         <Background
+            toggle={() => props.toggle(opt.svg)}
             svg={opt.svg}
             color={opt.color}
         />
@@ -40,7 +41,6 @@ const backgroundSelectBar = (props) => {
     return (
         <div className={classes.BackgroundOptions}>
             {backgrounds}
-
         </div>
     );
 }

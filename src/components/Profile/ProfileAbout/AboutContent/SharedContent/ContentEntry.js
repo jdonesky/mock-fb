@@ -15,7 +15,7 @@ import EditGenderForm from "../EditContent/EditGenderForm";
 import BriefCase from "../../../../../assets/images/briefcase";
 import GraduationCap from "../../../../../assets/images/graduation-cap";
 import House from "../../../../../assets/images/home";
-import Pin from "../../../../../assets/images/pin";
+import Pin from "../../../../../assets/images/Pin";
 import Heart from "../../../../../assets/images/heart";
 import Phone from "../../../../../assets/images/phone";
 import Padlock from "../../../../../assets/images/padlock";

@@ -32,7 +32,7 @@ import Health from "../../../../assets/images/LifeEventIcons/health-report";
 import Milestone from "../../../../assets/images/LifeEventIcons/goal";
 import Candle from "../../../../assets/images/LifeEventIcons/candle";
 import Flag from "../../../../assets/images/LifeEventIcons/finish";
-import Pin from "../../../../assets/images/pin"
+import Pin from "../../../../assets/images/Pin"
 
 import Work from './EventForms/Work'
 import School from './EventForms/School'
