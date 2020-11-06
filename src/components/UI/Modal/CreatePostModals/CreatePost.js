@@ -3,6 +3,7 @@ import React, {useContext} from 'react';
 import Modal from '../Modal';
 import {PostContext} from '../../../../context/post-context';
 import BaseForm from './BaseForm/BaseForm'
+import ChooseBackground from './ChooseBackground/ChooseBackground'
 import classes from './CreatePost.css'
 
 
@@ -13,6 +14,9 @@ const createPost = (props) => {
     switch (postContext.modalContent) {
         case 'CREATE_POST':
             modalContent = <BaseForm />
+            break;
+        case 'CHOOSE_BACKGROUND':
+            modalContent = <ChooseBackground />
             break;
         default:
             modalContent = null;

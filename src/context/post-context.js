@@ -6,7 +6,7 @@ import * as actions from "../store/actions";
 export const PostContext = React.createContext({
     image: null,
     showModal: false,
-    modalContent: false,
+    modalContent: null,
     passData: () => {},
     toggleModal: () => {},
     cancelModal: () => {},
@@ -31,10 +31,8 @@ const PostContextProvider = (props) => {
         setModalContent('CREATE_POST');
     }
 
-    const toggleModalContent = () => {
-        setModalContent((prevState) => {
-            return !prevState;
-        })
+    const toggleModalContent = (page) => {
+        setModalContent(page)
     }
 
     const passData = (type,payload) => {

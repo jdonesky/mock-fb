@@ -1,0 +1,28 @@
+
+.PageContainer {
+    overflow: auto;
+}
+
+.BackgroundSection {
+    margin: 10px;
+    text-align: left;
+}
+
+.BackgroundTitle {
+    margin: 0 auto 0 10px;
+    font-size: 17px;
+}
+
+.SectionContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.Background {
+    height: 50px;
+    width: 50px;
+    background-size: cover;
+    background-size: 90px 90px;
+}

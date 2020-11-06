@@ -3,22 +3,20 @@ import React, {useState, useContext} from 'react';
 import {connect} from 'react-redux'
 import classes from "./BaseForm.css";
 import {PostContext} from "../../../../../context/post-context";
+
 import Close from "../../../../../assets/images/close";
 import PrivacyButton from "../../../Button/PrivacyButton"
 import NoGenderPlaceholder from "../../../../../assets/images/profile-placeholder-gender-neutral";
 import Letters from "../../../../../assets/images/text-font"
 import BackChevron from "../../../../../assets/images/left-chevron"
 import GridView from "../../../../../assets/images/grid"
-
-
 import BackgroundSelectBar from './Background/Backgrounds'
-import grid from "../../../../../assets/images/grid";
+
 
 const baseForm = (props) => {
 
     const postContext = useContext(PostContext);
     const [showBackgroundBar, setShowBackgroundBar] = useState(false);
-
 
     const toggleBackgroundBar = () => {
         setShowBackgroundBar((prevState) => {
@@ -41,15 +39,13 @@ const baseForm = (props) => {
     }
 
     let gridViewButton;
-
     if (showBackgroundBar) {
         gridViewButton = (
-            <div className={classes.GridViewButton} onClick={toggleBackgroundBar}>
+            <div className={classes.GridViewButton} onClick={() => postContext.toggleModalContent('CHOOSE_BACKGROUND')}>
                 <GridView />
             </div>
         );
     }
-
 
     return (
         <div>
@@ -81,7 +77,6 @@ const baseForm = (props) => {
                 {showBackgroundBar && <BackgroundSelectBar />}
                 {gridViewButton}
             </section>
-
         </div>
     );
 }
