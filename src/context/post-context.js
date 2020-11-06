@@ -26,16 +26,16 @@ const PostContextProvider = (props) => {
         setShowModal((prevState) => {
             return !prevState;
         })
-    }
+    };
 
     const cancelModal = () => {
         setShowModal(false);
         setModalContent('CREATE_POST');
-    }
+    };
 
     const toggleModalContent = (page) => {
         setModalContent(page)
-    }
+    };
 
     const passData = (type,payload) => {
         switch (type) {
@@ -48,30 +48,30 @@ const PostContextProvider = (props) => {
             default:
                 setImage(null)
         }
-    }
+    };
 
     const savePost = (payload) => {
-        props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts', payload, 'add')
-    }
+        props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts', payload, 'add');
+    };
 
     return (
         <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, image: image, background: background}}>
             {props.children}
         </PostContext.Provider>
     );
-}
+};
 
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
-    }
-}
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how, id))
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps,mapDispatchToProps)(PostContextProvider);

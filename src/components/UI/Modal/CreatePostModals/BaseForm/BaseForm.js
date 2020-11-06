@@ -25,18 +25,29 @@ const baseForm = (props) => {
 
     const postContext = useContext(PostContext);
     const backgroundContainer = useRef(null);
-
+    const imageUploader = useRef(null);
     const [showBackgroundBar, setShowBackgroundBar] = useState(false);
+
+    const uploadImage = (event) => {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                postContext.passData('image', event.target.result)
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const toggleBackground = (pattern) => {
         postContext.passData('background',pattern)
-    }
+    };
 
     const toggleBackgroundBar = () => {
         setShowBackgroundBar((prevState) => {
             return !prevState;
-        })
-    }
+        });
+    };
 
     let backgroundButton = (
         <div className={classes.BackgroundButton} onClick={toggleBackgroundBar}>
@@ -61,8 +72,27 @@ const baseForm = (props) => {
         );
     }
 
+
+    const image = (
+        <div className={classes.ImageSection}>
+            <section className={[classes.StatusSection, classes.StatusWithImage].join(" ")}>
+                    <textarea type="textarea" placeholder="What's on your mind?" className={classes.StatusTextArea}>
+                    </textarea>
+            </section>
+            <div
+                className={classes.ImageContainer}
+                style={{backgroundImage: `url(${postContext.image && postContext.image})`}}
+            >
+                <div className={[classes.CancelIcon,classes.ImageCancel].join(" ")} onClick={() => postContext.passData('image',null)}>
+                    <Close />
+                </div>
+            </div>
+        </div>
+        )
+
+
     return (
-        <div className={classes.PageContainer}>
+        <div>
             <section className={classes.Header}>
                 <div className={classes.Title}>
                     <h3>Create Post</h3>
@@ -83,29 +113,55 @@ const baseForm = (props) => {
                     <PrivacyButton className={classes.PrivacyButton} privacy="public" />
                 </div>
             </section>
-            <div ref={backgroundContainer} className={classes.Backdrop} style={{backgroundImage: `url(${postContext.background && postContext.background.img ? postContext.background.img : postContext.background})`, backgroundColor: postContext.background && postContext.background.color ? postContext.background.color : null, height: postContext.background && "280px"}}>
-                <section className={classes.StatusSection}>
+            { postContext.image ? image : (
+                <div ref={backgroundContainer} className={classes.Backdrop} style={{
+                    backgroundImage: `url(${postContext.background && postContext.background.img ? postContext.background.img : postContext.background})`,
+                    backgroundColor: postContext.background && postContext.background.color ? postContext.background.color : null,
+                    height: postContext.background && "280px"
+                }}>
+                    <section className={classes.StatusSection}>
                     <textarea type="textarea" placeholder="What's on your mind?" className={classes.StatusTextArea}
-                              style={ postContext.background && {fontWeight: "bolder",fontSize: "30px",color: "#bababa",webkitTextStroke: "1px black", textAlign: "center", position: "relative", top: "40px", height: "250px"}}>
+                              style={postContext.background && {
+                                  fontWeight: "bolder",
+                                  fontSize: "30px",
+                                  color: "#bababa",
+                                  webkitTextStroke: "1px black",
+                                  textAlign: "center",
+                                  position: "relative",
+                                  top: "40px",
+                                  height: "250px"
+                              }}>
                     </textarea>
-                </section>
-                <section className={classes.BackgroundSection} style={ postContext.background && {position: "relative", top: "100px"}}>
-                    {backgroundButton}
-                    {showBackgroundBar && <BackgroundSelectBar toggle={toggleBackground} />}
-                    {gridViewButton}
-                </section>
-            </div>
+                    </section>
+                    <section className={classes.BackgroundSection}
+                             style={postContext.background && {position: "relative", top: "100px"}}>
+                        {backgroundButton}
+                        {showBackgroundBar && <BackgroundSelectBar toggle={toggleBackground}/>}
+                        {gridViewButton}
+                    </section>
+                </div>
+                )}
+            <input
+                ref={imageUploader}
+                type="file"
+                accept="image/*"
+                multiple={false}
+                onChange={uploadImage}
+                style={{
+                    display: "none"
+                }}
+            />
             <section className={classes.AddToPostSection}>
                 <h5 className={classes.AddPostHeader}>Add to Your Post</h5>
                 <div className={classes.AddToPostButtons}>
-                    <div className={[classes.AddButton, classes.AddPhoto].join(" ")}><AddPhoto fill="#08bf02" /></div>
+                    <div className={[classes.AddButton, classes.AddPhoto].join(" ")} onClick={() => imageUploader.current.click()}><AddPhoto fill="#08bf02" /></div>
                     <div className={[classes.AddButton, classes.AddTag].join(" ")}><Tag fill="#386be0"/></div>
                     <div className={[classes.AddButton, classes.AddPin].join(" ")}><Pin fill="#e32727"/></div>
                     <div className={[classes.AddButton, classes.AddDots].join(" ")}><Dots /></div>
                 </div>
             </section>
             <section className={classes.ShareSection}>
-                <Button className={classes.ShareButton} addClass="Save">Share</Button>
+                <Button className={classes.ShareButton} addClass="Save">Post</Button>
             </section>
         </div>
     );

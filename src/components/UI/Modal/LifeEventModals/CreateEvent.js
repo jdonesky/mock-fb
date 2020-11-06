@@ -66,7 +66,7 @@ const createEvent = (props) => {
         }
     }, [image])
 
-    const imageUploadHandler = (event, type) => {
+    const imageUploadHandler = (event) => {
         const [file] = event.target.files;
         if (file) {
             const reader = new FileReader();
