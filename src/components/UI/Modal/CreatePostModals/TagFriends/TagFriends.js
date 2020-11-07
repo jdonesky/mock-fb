@@ -7,7 +7,6 @@ import BackArrow from "../../../../../assets/images/LifeEventIcons/left-arrow";
 import Cancel from "../../../../../assets/images/close"
 import {PostContext} from "../../../../../context/post-context";
 
-import SearchBar from '../../../../Search/Searchbar';
 import Suggestion from './Suggestion/Suggestion'
 import Search from "../../../../Search/Searchbar";
 
@@ -19,11 +18,7 @@ const tagFriends = ({friends}) => {
     //     {name: friend.name, img: friend.img}
     // ))
 
-    useEffect(() => {
-        console.log(tagged);
-    })
-
-    const allSuggestions = [{name: 'John Doe', img: null, id: 1}, {name:'Mary Smith',img: null, id: 2}, {name:'Freddy Roach',img: null, id: 3}].map(friend => (
+    const allSuggestions = [{name: 'John Doe', img: null, id: 1}, {name:'Mary Smith',img: null, id: 2}, {name:'Freddy Roach',img: null, id: 3},{name:'Mickey Mouse',img: null, id: 4},{name:'Jimmy John',img: null, id: 5},{name:'Frankie Edgar',img: null, id: 6}].map(friend => (
         {name: friend.name, img: friend.img, id: friend.id}
     ))
 
@@ -34,8 +29,7 @@ const tagFriends = ({friends}) => {
     const selectSuggestion = (id) => {
         const selectedFriend = /*friends*/allSuggestions.find(friend => id === friend.id);
         setSuggestions(prevState => {
-            const newSuggestions = prevState.filter(friend => friend.id !== id);
-            return newSuggestions;
+            return prevState.filter(friend => friend.id !== id);
         })
 
         setTagged(prevState => {
@@ -45,7 +39,7 @@ const tagFriends = ({friends}) => {
 
     const filterTerms = useCallback((name) => {
         setSearchName(name)
-        const filtered = allSuggestions.filter(suggestion => suggestion.name.slice(0,name.length).toLowerCase() === name.toLowerCase())
+        const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase())
         setSuggestions(filtered.length ? filtered : '')
     }, [])
 
@@ -56,19 +50,32 @@ const tagFriends = ({friends}) => {
         setSearchName('')
     }
 
+    const removeTag = (id) => {
+        const taggedFriend = tagged.find(friend => friend.id === id);
+        setTagged(prevState => {
+            return prevState.filter(friend => friend.id !== id);
+        });
+        setSuggestions(prevState => {
+            return [...prevState,taggedFriend];
+        })
+    }
+
     const friendSuggestions = suggestions && suggestions.map(suggest => (
         <Suggestion key={suggest.id} name={suggest.name} img={suggest.img} clicked={() => selectSuggestion(suggest.id)} />
     ))
 
     const taggedFriends = (
-        <section className={classes.TaggedSection} style={{display: tagged.length && 'flex'}}>
-            {tagged.length && tagged.map(friend => (
-                <div className={classes.Tag}>
-                    <span>{friend.name}</span>
-                    <div className={classes.RemoveTagIcon}><Cancel fill="#0B86DE" /></div>
-                </div>
-            ))}
-        </section>
+        <React.Fragment>
+            <h5 className={classes.SuggestionsTitle} style={{display: tagged.length ? 'block' : 'none'}}>TAGGED</h5>
+            <section className={classes.TaggedSection} style={{display: tagged.length ? 'flex' : 'none'}}>
+                {tagged.length ? tagged.map(friend => (
+                    <div className={classes.Tag} onClick={() => removeTag(friend.id)}>
+                        <span>{friend.name}</span>
+                        <div className={classes.RemoveTagIcon}><Cancel fill="#0B86DE" /></div>
+                    </div>
+                )): null}
+            </section>
+        </React.Fragment>
     )
 
     return (
@@ -86,8 +93,8 @@ const tagFriends = ({friends}) => {
                 <div className={classes.ConfirmButton} onClick={confirmSearch}><span>Done</span></div>
             </section>
             <section className={classes.SuggestionsSection}>
-                <h5 className={classes.SuggestionsTitle}>SUGGESTIONS</h5>
                 {taggedFriends}
+                <h5 className={classes.SuggestionsTitle}>SUGGESTIONS</h5>
                 {friendSuggestions}
             </section>
         </div>

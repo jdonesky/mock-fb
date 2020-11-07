@@ -1,5 +1,5 @@
 
-import React, {useState, useContext, useRef} from 'react';
+import React, {useState, useContext, useRef, useEffect} from 'react';
 import {connect} from 'react-redux';
 import classes from "./BaseForm.css";
 import {PostContext} from "../../../../../context/post-context";
@@ -22,6 +22,10 @@ import BackgroundSelectBar from './Background/BackgroundSelectBar';
 
 
 const baseForm = (props) => {
+
+    useEffect(() => {
+        console.log(props.profileImage)
+    })
 
     const postContext = useContext(PostContext);
     const backgroundContainer = useRef(null);
@@ -102,8 +106,8 @@ const baseForm = (props) => {
             <div className={classes.Break}/>
             <section className={classes.NameSection}>
                 <div className={classes.ProfileImageContainer}>
-                    <div className={classes.ProfileImage}>
-                        <NoGenderPlaceholder />
+                    <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                        {props.profileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
                 <div className={classes.IdContainer}>
@@ -168,6 +172,7 @@ const baseForm = (props) => {
 const mapStateToProps = state => {
     return {
         name: state.profile.firstName + ' ' + state.profile.lastName,
+        profileImage: state.profile.profileImage
     }
 }
 

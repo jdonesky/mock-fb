@@ -1,4 +1,7 @@
 
+.PageContent {
+    height: 400px;
+}
 
 .Header {
     margin-bottom: 0;
@@ -60,17 +63,20 @@
     display: none;
     flex-wrap: wrap;
     justify-content: flex-start;
+    padding: 10px 5px 0;
     align-items: center;
-    padding: 10px;
     border: 1px solid #0B86DE;
     border-radius: 6px;
+    width: 92%;
+    margin: 0 auto;
 }
 
 .Tag {
     height: 30px;
     background-color: rgba(29, 165, 219, 0.15);
     border: none;
-    padding: 0 0 0 10px;
+    padding: 1px 3px 1px 10px;
+    margin: 0 5px 10px;
     border-radius: 3px;
     display: flex;
     justify-content: space-around;
@@ -79,8 +85,8 @@
 }
 
 .RemoveTagIcon {
-    height: 33px;
-    width: 33px;
+    height: 26px;
+    width: 26px;
     border-radius: 100px;
     cursor: pointer;
 }
@@ -91,7 +97,7 @@
 
 .RemoveTagIcon svg {
     height: auto;
-    width: 35%;
+    width: 40%;
     position: relative;
-    top: 6px;
+    top: 2px;
 }

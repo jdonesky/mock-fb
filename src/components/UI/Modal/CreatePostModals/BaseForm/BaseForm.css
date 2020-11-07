@@ -70,14 +70,16 @@
     width: 40px;
     border-radius: 100px;
     border: 1px solid #cccccc;
-    background: rgba(0,0,0,.1);
+    background-color: rgba(0,0,0,.1);
+    background-size: cover;
+    background-position: center;
     margin: 0 auto;
     overflow: hidden;
     cursor: pointer;
 }
 
 .ProfileImage:hover {
-    background: rgba(0,0,0,.2);
+    box-shadow: 0 0 3px 3px rgba(0,0,0,.1);
 }
 
 .ProfileImage svg {

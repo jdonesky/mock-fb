@@ -34,6 +34,8 @@
     border-radius: 100px;
     border: 1px solid #cccccc;
     background: rgba(0,0,0,.1);
+    background-size: cover;
+    background-position: center;
     margin: 0 auto;
     overflow: hidden;
     cursor: pointer;

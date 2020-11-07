@@ -1,6 +1,7 @@
 
 
 import React, { useContext, useRef } from 'react';
+import {connect} from 'react-redux';
 import classes from './StartCreating.css'
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
 import Flag from '../../../../../assets/images/LifeEventIcons/finish';
@@ -8,7 +9,7 @@ import AddPhoto from '../../../../../assets/images/LifeEventIcons/addCamera';
 import { LifeEventContext } from "../../../../../context/life-event-context";
 import { PostContext } from "../../../../../context/post-context";
 
-const startPost = () => {
+const startPost = (props) => {
 
     const lifeEventContext = useContext(LifeEventContext);
     const postContext = useContext(PostContext)
@@ -30,8 +31,8 @@ const startPost = () => {
         <div className={classes.Container}>
             <section className={classes.Header}>
                 <div className={classes.ProfileImageContainer}>
-                    <div className={classes.ProfileImage}>
-                        <NoGenderPlaceholder />
+                    <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                        {props.profileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
                 <div className={classes.QueryBar} onClick={postContext.toggleModal}>
@@ -63,4 +64,10 @@ const startPost = () => {
     );
 }
 
-export default startPost;
+const mapStateToProps = state => {
+    return {
+        profileImage: state.profile.profileImage
+    }
+}
+
+export default connect(mapStateToProps)(startPost);

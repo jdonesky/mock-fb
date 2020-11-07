@@ -33,7 +33,7 @@ const searchBar = ({filterResults, className}) => {
             <input
                 ref={userInputRef}
                 value={searchTerm}
-                placeholder="Where are you?"
+                placeholder="Search for friends"
                 onChange={(event) => setSearchTerm(event.target.value)}
                 className={classes.Input}
             />
