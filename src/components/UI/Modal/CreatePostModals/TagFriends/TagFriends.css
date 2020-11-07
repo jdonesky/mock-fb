@@ -2,3 +2,57 @@
 .PageContent {
 
 }
+
+.Header {
+    margin-bottom: 0;
+}
+
+.SearchSection {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 10px 10px 2px;
+    border-bottom: 1px solid rgba(0,0,0,0.1)
+}
+
+.SearchBar {
+    width: 400px;
+    margin-left: 10px;
+    cursor: text;
+}
+
+.ConfirmButton {
+    width: 60px;
+    height: 35px;
+    font-weight: bolder;
+    color: #155fe8;
+    margin-left: auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.ConfirmButton:hover {
+    color: #0B86DE;
+}
+
+.ConfirmButton span {
+    line-height: 35px;
+    font-size: 15px;
+}
+
+.SuggestionsSection {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    margin: 5px auto;
+}
+
+.SuggestionsTitle {
+    margin: 10px 0 10px 16px;
+    text-align: left;
+    font-size: 10px;
+    color: rgba(0,0,0,.6);
+    font-weight: 900;
+}

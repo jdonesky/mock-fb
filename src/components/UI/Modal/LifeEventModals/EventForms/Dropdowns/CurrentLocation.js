@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import classes from './CurrentLocation.css'
 import {connect} from 'react-redux'
 import Search from '../../../../../Search/Searchbar'

@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import classes from './Searchbar.css'
 import Search from '../../assets/images/search'
 
-const searchBar = ({filterResults}) => {
+const searchBar = ({filterResults, className}) => {
 
     const [searchTerm, setSearchTerm] =  useState('')
     const userInputRef = useRef()
@@ -22,8 +22,13 @@ const searchBar = ({filterResults}) => {
         }
     }, [searchTerm, filterResults, userInputRef])
 
+    const containerClasses = [classes.Container]
+    if (className) {
+        containerClasses.push(className);
+    }
+
     return (
-        <div className={classes.Container}>
+        <div className={containerClasses.join(" ")}>
             <div className={classes.SearchIcon}><Search fill="#8c8c8c"/></div>
             <input
                 ref={userInputRef}

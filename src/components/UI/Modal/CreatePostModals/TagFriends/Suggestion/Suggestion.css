@@ -1,39 +1,60 @@
 
 .Container {
-    height: 45px;
+    height: 50px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 100%;
+    width: 97%;
     cursor: pointer;
+    margin: 0 auto;
 }
 
 .Container:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0,0,0,0.1);
     border-radius: 7px;
-}
-
-.Icon {
-    height: 32px;
-    width: 32px;
-    background-color: rgba(0,0,0,0.6);
-    border-radius: 6px;
-    margin-right: 10px;
-    margin-left: 8px;
-}
-
-.Icon svg {
-    position: relative;
-    top: 4px;
-    height: auto;
-    width: 70%;
 }
 
 .Text {
     height: 40px;
     margin-right: auto;
+    font-weight: 900;
+    font-size: 15px;
 }
 
 .Text span {
     line-height: 40px;
+}
+
+.ProfileImageContainer {
+    height: 100%;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    margin: 0 6px;
+    position: relative;
+    top: 5px;
+    position: relative;
+    top: 1px;
+}
+
+.ProfileImage {
+    height: 35px;
+    width: 35px;
+    border-radius: 100px;
+    border: 1px solid #cccccc;
+    background: rgba(0,0,0,.1);
+    margin: 0 auto;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.ProfileImage:hover {
+    background: rgba(0,0,0,.2);
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 90%;
+    position: relative;
+    top: 3px;
 }

@@ -1,12 +1,17 @@
 import React from 'react';
 import classes from './Suggestion.css'
+import NoGenderPlaceholder from "../../../../../../assets/images/profile-placeholder-gender-neutral";
 
 const suggestedLocation = (props) => {
-    let icon;
+
     return (
         <div className={classes.Container} onClick={props.clicked}>
-            <div className={classes.Icon}>{icon}</div>
-            <div className={classes.Text}><span>{props.text}</span></div>
+            <div className={classes.ProfileImageContainer}>
+                <div className={classes.ProfileImage}>
+                    {props.image || <NoGenderPlaceholder /> }
+                </div>
+            </div>
+            <div className={classes.Text}><span>{props.name}</span></div>
         </div>
     );
 }
