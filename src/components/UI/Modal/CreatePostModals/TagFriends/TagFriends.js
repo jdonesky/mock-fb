@@ -1,9 +1,10 @@
 
-import React, {useContext, useState, useCallback} from 'react';
+import React, {useContext, useState, useCallback, useEffect} from 'react';
 import {connect} from 'react-redux';
 import baseClasses from '../ChooseBackground/ChooseBackground.css';
 import classes from "./TagFriends.css";
 import BackArrow from "../../../../../assets/images/LifeEventIcons/left-arrow";
+import Cancel from "../../../../../assets/images/close"
 import {PostContext} from "../../../../../context/post-context";
 
 import SearchBar from '../../../../Search/Searchbar';
@@ -13,21 +14,34 @@ import Search from "../../../../Search/Searchbar";
 const tagFriends = ({friends}) => {
 
     const postContext = useContext(PostContext)
-    // const allSuggestions = friends && friends.map(friend => (
+
+    // const allSuggestions = friends && friends.slice(0, 10).map(friend => (
     //     {name: friend.name, img: friend.img}
     // ))
 
-    const allSuggestions = [{name: 'John Doe', img: null, id: 1}, {name:'Mary Smith',img: null, id: 2}].map(friend => (
-        {name: friend.name, img: friend.img}
+    useEffect(() => {
+        console.log(tagged);
+    })
+
+    const allSuggestions = [{name: 'John Doe', img: null, id: 1}, {name:'Mary Smith',img: null, id: 2}, {name:'Freddy Roach',img: null, id: 3}].map(friend => (
+        {name: friend.name, img: friend.img, id: friend.id}
     ))
 
     const [searchName, setSearchName] = useState('')
     const [suggestions, setSuggestions] = useState(allSuggestions)
     const [tagged, setTagged] = useState([])
 
-    const friendSuggestions = suggestions && suggestions.map(suggest => (
-        <Suggestion id={suggest.id} name={suggest.name} img={suggest.img} />
-    ))
+    const selectSuggestion = (id) => {
+        const selectedFriend = /*friends*/allSuggestions.find(friend => id === friend.id);
+        setSuggestions(prevState => {
+            const newSuggestions = prevState.filter(friend => friend.id !== id);
+            return newSuggestions;
+        })
+
+        setTagged(prevState => {
+            return [...prevState, selectedFriend]
+        })
+    }
 
     const filterTerms = useCallback((name) => {
         setSearchName(name)
@@ -42,12 +56,23 @@ const tagFriends = ({friends}) => {
         setSearchName('')
     }
 
-    const selectSuggestion = () => {
+    const friendSuggestions = suggestions && suggestions.map(suggest => (
+        <Suggestion key={suggest.id} name={suggest.name} img={suggest.img} clicked={() => selectSuggestion(suggest.id)} />
+    ))
 
-    }
+    const taggedFriends = (
+        <section className={classes.TaggedSection} style={{display: tagged.length && 'flex'}}>
+            {tagged.length && tagged.map(friend => (
+                <div className={classes.Tag}>
+                    <span>{friend.name}</span>
+                    <div className={classes.RemoveTagIcon}><Cancel fill="#0B86DE" /></div>
+                </div>
+            ))}
+        </section>
+    )
 
     return (
-        <div className={classes.PageContent}>
+        <div>
             <section className={[baseClasses.Header, classes.Header].join(" ")}>
                 <div className={baseClasses.CancelIcon} onClick={() => postContext.toggleModalContent('CREATE_POST')}>
                     <BackArrow />
@@ -62,6 +87,7 @@ const tagFriends = ({friends}) => {
             </section>
             <section className={classes.SuggestionsSection}>
                 <h5 className={classes.SuggestionsTitle}>SUGGESTIONS</h5>
+                {taggedFriends}
                 {friendSuggestions}
             </section>
         </div>

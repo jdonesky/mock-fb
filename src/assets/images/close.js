@@ -9,7 +9,7 @@ const closeSvg = (props) => (
             Created by potrace 1.16, written by Peter Selinger 2001-2019
         </metadata>
         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           fill="#000000" stroke="none">
+           fill={props.fill || "#000000"} stroke="none">
             <path d="M102 5099 c-60 -30 -95 -85 -100 -159 -2 -32 1 -75 8 -96 10 -32 220
 -247 1134 -1162 l1121 -1122 -1117 -1118 c-790 -790 -1122 -1128 -1133 -1154
 -37 -90 -7 -207 67 -256 47 -31 135 -41 194 -22 32 10 247 220 1162 1133
