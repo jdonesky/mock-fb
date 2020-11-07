@@ -63,3 +63,26 @@
 }
 
 
+.CancelIcon {
+    z-index: 100;
+    background: rgba(0,0,0,.13);
+    border-radius: 100px;
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+    margin-left: auto;
+    flex: 1;
+}
+
+.CancelIcon:hover {
+    background: rgba(0,0,0,.16);
+}
+
+.CancelIcon svg {
+    height: 50%;
+    width: 100%;
+    position: relative;
+    top: 8px;
+}
+
+

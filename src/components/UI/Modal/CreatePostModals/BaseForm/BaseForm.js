@@ -72,7 +72,6 @@ const baseForm = (props) => {
         );
     }
 
-
     const image = (
         <div className={classes.ImageSection}>
             <section className={[classes.StatusSection, classes.StatusWithImage].join(" ")}>
@@ -89,7 +88,6 @@ const baseForm = (props) => {
             </div>
         </div>
         )
-
 
     return (
         <div>
@@ -154,8 +152,8 @@ const baseForm = (props) => {
             <section className={classes.AddToPostSection}>
                 <h5 className={classes.AddPostHeader}>Add to Your Post</h5>
                 <div className={classes.AddToPostButtons}>
-                    <div className={[classes.AddButton, classes.AddPhoto].join(" ")} onClick={() => imageUploader.current.click()}><AddPhoto fill="#08bf02" /></div>
-                    <div className={[classes.AddButton, classes.AddTag].join(" ")}><Tag fill="#386be0"/></div>
+                    <div className={[classes.AddButton, classes.AddPhoto, postContext.image && classes.ImageSelected, postContext.background && classes.DisableImageSelect].join(" ")} onClick={postContext.background ? null : () => imageUploader.current.click()}><AddPhoto fill={postContext.background ? "rgba(0,0,0,0.3)" : "#08bf02"} /></div>
+                    <div className={[classes.AddButton, classes.AddTag].join(" ")} onClick={() => postContext.toggleModalContent('TAG_FRIENDS')}><Tag fill="#386be0"/></div>
                     <div className={[classes.AddButton, classes.AddPin].join(" ")}><Pin fill="#e32727"/></div>
                     <div className={[classes.AddButton, classes.AddDots].join(" ")}><Dots /></div>
                 </div>

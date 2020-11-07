@@ -4,6 +4,7 @@ import Modal from '../Modal';
 import {PostContext} from '../../../../context/post-context';
 import BaseForm from './BaseForm/BaseForm'
 import ChooseBackground from './ChooseBackground/ChooseBackground'
+import TagFriends from './TagFriends/TagFriends'
 import classes from './CreatePost.css'
 
 
@@ -17,6 +18,9 @@ const createPost = (props) => {
             break;
         case 'CHOOSE_BACKGROUND':
             modalContent = <ChooseBackground />
+            break;
+        case 'TAG_FRIENDS':
+            modalContent = <TagFriends />
             break;
         default:
             modalContent = null;
