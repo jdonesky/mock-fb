@@ -93,10 +93,14 @@ const baseForm = (props) => {
 
     let tags;
     if (postContext.tagged.length) {
-        if (postContext.tagged.length === 2) {
+        if (postContext.tagged.length === 1) {
+            tags = postContext.tagged.map(tag => tag.name).join(", ");
+        } else if (postContext.tagged.length === 2) {
             tags = postContext.tagged.map(tag => tag.name).join(" and ");
         } else {
+            const last = postContext.tagged.pop().name;
             tags = postContext.tagged.map(tag => tag.name).join(", ");
+            tags = tags + ` and ${last}`;
         }
     }
 
@@ -118,7 +122,7 @@ const baseForm = (props) => {
                     </div>
                 </div>
                 <div className={classes.IdContainer}>
-                    <div>{props.name && props.name}{postContext.tagged.length ? ` is with ${tags}` : null}</div>
+                    <div className={classes.NameTags}>{props.name && props.name}{postContext.tagged.length ? ` is with ${tags}` : null}</div>
                     <PrivacyButton className={classes.PrivacyButton} privacy="public" />
                 </div>
             </section>
