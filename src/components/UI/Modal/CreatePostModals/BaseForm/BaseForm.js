@@ -16,15 +16,13 @@ import Tag from "../../../../../assets/images/tag";
 import Pin from "../../../../../assets/images/Pin";
 import Dots from "../../../../../assets/images/dots";
 
-
 import Button from '../../../Button/Button';
 import BackgroundSelectBar from './Background/BackgroundSelectBar';
-
 
 const baseForm = (props) => {
 
     useEffect(() => {
-        console.log(props.profileImage)
+        console.log(tags)
     })
 
     const postContext = useContext(PostContext);
@@ -93,6 +91,15 @@ const baseForm = (props) => {
         </div>
         )
 
+    let tags;
+    if (postContext.tagged.length) {
+        if (postContext.tagged.length === 2) {
+            tags = postContext.tagged.map(tag => tag.name).join(" and ");
+        } else {
+            tags = postContext.tagged.map(tag => tag.name).join(", ");
+        }
+    }
+
     return (
         <div>
             <section className={classes.Header}>
@@ -111,7 +118,7 @@ const baseForm = (props) => {
                     </div>
                 </div>
                 <div className={classes.IdContainer}>
-                    <div>{props.name && props.name}</div>
+                    <div>{props.name && props.name}{postContext.tagged.length ? ` is with ${tags}` : null}</div>
                     <PrivacyButton className={classes.PrivacyButton} privacy="public" />
                 </div>
             </section>
@@ -158,7 +165,7 @@ const baseForm = (props) => {
                 <div className={classes.AddToPostButtons}>
                     <div className={[classes.AddButton, classes.AddPhoto, postContext.image && classes.ImageSelected, postContext.background && classes.DisableImageSelect].join(" ")} onClick={postContext.background ? null : () => imageUploader.current.click()}><AddPhoto fill={postContext.background ? "rgba(0,0,0,0.3)" : "#08bf02"} /></div>
                     <div className={[classes.AddButton, classes.AddTag].join(" ")} onClick={() => postContext.toggleModalContent('TAG_FRIENDS')}><Tag fill="#386be0"/></div>
-                    <div className={[classes.AddButton, classes.AddPin].join(" ")}><Pin fill="#e32727"/></div>
+                    <div className={[classes.AddButton, classes.AddPin].join(" ")} onClick={() => postContext.toggleModalContent('CHECK_IN')}><Pin fill="#e32727"/></div>
                     <div className={[classes.AddButton, classes.AddDots].join(" ")}><Dots /></div>
                 </div>
             </section>

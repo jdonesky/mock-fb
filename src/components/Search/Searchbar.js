@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import classes from './Searchbar.css'
 import Search from '../../assets/images/search'
 
-const searchBar = ({filterResults, className}) => {
+const searchBar = ({filterResults, className, placeholder}) => {
 
     const [searchTerm, setSearchTerm] =  useState('')
     const userInputRef = useRef()
@@ -33,7 +33,7 @@ const searchBar = ({filterResults, className}) => {
             <input
                 ref={userInputRef}
                 value={searchTerm}
-                placeholder="Search for friends"
+                placeholder={placeholder}
                 onChange={(event) => setSearchTerm(event.target.value)}
                 className={classes.Input}
             />

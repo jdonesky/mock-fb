@@ -6,6 +6,7 @@ import * as actions from "../store/actions";
 export const PostContext = React.createContext({
     image: null,
     background: null,
+    tagged: [],
     showModal: false,
     modalContent: null,
     passData: () => {},
@@ -18,9 +19,11 @@ export const PostContext = React.createContext({
 const PostContextProvider = (props) => {
 
     const [showModal, setShowModal] = useState(true);
+    const [modalContent, setModalContent] = useState('CREATE_POST');
     const [image, setImage] = useState(null);
     const [background, setBackground] = useState(null);
-    const [modalContent, setModalContent] = useState('CREATE_POST');
+    const [tagged, setTagged] = useState([]);
+    const [location, setLocation] = useState(null);
 
     const toggleModal = () => {
         setShowModal((prevState) => {
@@ -45,6 +48,19 @@ const PostContextProvider = (props) => {
             case 'background':
                 setBackground(payload)
                 break;
+            case 'tag':
+                setTagged(prevState => {
+                    return [...prevState, payload]
+                })
+                break;
+            case 'remove-tag':
+                setTagged(prevState => {
+                    return prevState.filter(tag => tag.id !== payload);
+                })
+                break;
+            case 'location':
+                setLocation(payload)
+                break;
             default:
                 setImage(null)
         }
@@ -55,7 +71,7 @@ const PostContextProvider = (props) => {
     };
 
     return (
-        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, image: image, background: background}}>
+        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, image: image, background: background, tagged: tagged}}>
             {props.children}
         </PostContext.Provider>
     );

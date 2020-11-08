@@ -12,6 +12,7 @@
 .Input {
     border: none;
     height: 33px;
+    width: 100%;
     background-color: transparent;
 }
 

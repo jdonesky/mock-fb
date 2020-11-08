@@ -1,0 +1,107 @@
+
+.PageContent {
+    height: 400px;
+}
+
+.Header {
+    margin-bottom: 0;
+    position: relative;
+}
+
+.SearchSection {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 10px 10px 2px;
+    border-bottom: 1px solid rgba(0,0,0,0.1)
+}
+
+.SearchBar {
+    width: 95%;
+    margin-left: 10px;
+    cursor: text;
+}
+
+.SearchBar input {
+    width: 100%;
+}
+
+.ConfirmButton {
+    width: 60px;
+    height: 35px;
+    font-weight: bolder;
+    color: #155fe8;
+    margin-left: auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.ConfirmButton:hover {
+    color: #0B86DE;
+}
+
+.ConfirmButton span {
+    line-height: 35px;
+    font-size: 15px;
+}
+
+.SuggestionsSection {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    margin: 5px auto;
+    overflow: auto;
+}
+
+.SuggestionsTitle {
+    margin: 10px 0 10px 16px;
+    text-align: left;
+    font-size: 10px;
+    color: rgba(0,0,0,.6);
+    font-weight: 900;
+}
+
+.TaggedSection {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 10px 5px 0;
+    align-items: center;
+    border: 1px solid #0B86DE;
+    border-radius: 6px;
+    width: 92%;
+    margin: 0 auto;
+}
+
+.Tag {
+    height: 30px;
+    background-color: rgba(29, 165, 219, 0.15);
+    border: none;
+    padding: 1px 3px 1px 10px;
+    margin: 0 5px 10px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #0B86DE;
+}
+
+.RemoveTagIcon {
+    height: 26px;
+    width: 26px;
+    border-radius: 100px;
+    cursor: pointer;
+}
+
+.RemoveTagIcon:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.RemoveTagIcon svg {
+    height: auto;
+    width: 40%;
+    position: relative;
+    top: 2px;
+}

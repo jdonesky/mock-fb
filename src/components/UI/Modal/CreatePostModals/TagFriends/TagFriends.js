@@ -6,11 +6,12 @@ import classes from "./TagFriends.css";
 import BackArrow from "../../../../../assets/images/LifeEventIcons/left-arrow";
 import Cancel from "../../../../../assets/images/close"
 import {PostContext} from "../../../../../context/post-context";
+import {KeyGenerator} from "../../../../../shared/utility";
 
 import Suggestion from './Suggestion/Suggestion'
 import Search from "../../../../Search/Searchbar";
 
-const tagFriends = ({friends}) => {
+const tagFriends = ({authToken,friends}) => {
 
     const postContext = useContext(PostContext)
 
@@ -24,17 +25,14 @@ const tagFriends = ({friends}) => {
 
     const [searchName, setSearchName] = useState('')
     const [suggestions, setSuggestions] = useState(allSuggestions)
-    const [tagged, setTagged] = useState([])
 
     const selectSuggestion = (id) => {
-        const selectedFriend = /*friends*/allSuggestions.find(friend => id === friend.id);
+        const selectedFriend = /*friends*/suggestions.find(friend => id === friend.id);
         setSuggestions(prevState => {
             return prevState.filter(friend => friend.id !== id);
         })
 
-        setTagged(prevState => {
-            return [...prevState, selectedFriend]
-        })
+        postContext.passData('tag', selectedFriend)
     }
 
     const filterTerms = useCallback((name) => {
@@ -43,20 +41,17 @@ const tagFriends = ({friends}) => {
         setSuggestions(filtered.length ? filtered : '')
     }, [])
 
-    const confirmSearch = () => {
-        setTagged(prevState => {
-            return [...prevState,{name: searchName, img: null}]
-        })
-        setSearchName('')
-    }
-
     const removeTag = (id) => {
-        const taggedFriend = tagged.find(friend => friend.id === id);
-        setTagged(prevState => {
-            return prevState.filter(friend => friend.id !== id);
-        });
+        const taggedFriend = postContext.tagged.find(friend => friend.id === id);
+        postContext.passData('remove-tag',id)
         setSuggestions(prevState => {
             return [...prevState,taggedFriend];
+        })
+    }
+
+    const confirmSearch = () => {
+        KeyGenerator.getKey(authToken, (newKey) => {
+            postContext.passData('tag', {name: searchName, img: null, id: newKey})
         })
     }
 
@@ -66,9 +61,9 @@ const tagFriends = ({friends}) => {
 
     const taggedFriends = (
         <React.Fragment>
-            <h5 className={classes.SuggestionsTitle} style={{display: tagged.length ? 'block' : 'none'}}>TAGGED</h5>
-            <section className={classes.TaggedSection} style={{display: tagged.length ? 'flex' : 'none'}}>
-                {tagged.length ? tagged.map(friend => (
+            <h5 className={classes.SuggestionsTitle} style={{display: postContext.tagged.length ? 'block' : 'none'}}>TAGGED</h5>
+            <section className={classes.TaggedSection} style={{display: postContext.tagged.length ? 'flex' : 'none'}}>
+                {postContext.tagged.length ? postContext.tagged.map(friend => (
                     <div className={classes.Tag} onClick={() => removeTag(friend.id)}>
                         <span>{friend.name}</span>
                         <div className={classes.RemoveTagIcon}><Cancel fill="#0B86DE" /></div>
@@ -77,6 +72,7 @@ const tagFriends = ({friends}) => {
             </section>
         </React.Fragment>
     )
+
 
     return (
         <div>
@@ -89,8 +85,8 @@ const tagFriends = ({friends}) => {
                 </div>
             </section>
             <section className={classes.SearchSection}>
-                <Search filterResults={filterTerms} className={classes.SearchBar}/>
-                <div className={classes.ConfirmButton} onClick={confirmSearch}><span>Done</span></div>
+                <Search filterResults={filterTerms} className={classes.SearchBar} placeholder="Search for friends"/>
+                <div className={classes.ConfirmButton} onClick={searchName ? confirmSearch : null} style={{color: searchName ?  "#155fe8" : "#c4c4c4"}}><span>Done</span></div>
             </section>
             <section className={classes.SuggestionsSection}>
                 {taggedFriends}
@@ -103,6 +99,7 @@ const tagFriends = ({friends}) => {
 
 const mapStateToProps = (state) => {
     return {
+        authToken: state.auth.token,
         friends: state.profile.friends
     }
 }

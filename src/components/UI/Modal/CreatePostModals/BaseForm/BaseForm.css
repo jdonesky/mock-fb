@@ -57,6 +57,10 @@
     margin-bottom: 8px;
 }
 
+.PrivacyButtonContainer {
+    height: 10px;
+}
+
 .ProfileImageContainer {
     height: 100%;
     width: 50px;
@@ -98,16 +102,17 @@
 }
 
 .PrivacyButton {
-    width: 100px;
-    justify-content: flex-start;
+    width: 75px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .PrivacyButton svg {
     height: auto;
-    width: 70%;
+    width: 75%;
     position: relative;
-    bottom: 38px;
-    right: 1px;
+    bottom: 37px;
+    right: 2px;
 }
 
 .Backdrop {

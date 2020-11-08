@@ -5,6 +5,7 @@ import {PostContext} from '../../../../context/post-context';
 import BaseForm from './BaseForm/BaseForm'
 import ChooseBackground from './ChooseBackground/ChooseBackground'
 import TagFriends from './TagFriends/TagFriends'
+import Location from './Location/Location'
 import classes from './CreatePost.css'
 
 
@@ -21,6 +22,9 @@ const createPost = (props) => {
             break;
         case 'TAG_FRIENDS':
             modalContent = <TagFriends />
+            break;
+        case 'CHECK_IN':
+            modalContent = <Location />
             break;
         default:
             modalContent = null;
