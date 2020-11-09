@@ -1,5 +1,5 @@
 
-import React, {useState, useContext, useRef} from 'react';
+import React, {useState, useContext, useRef, useEffect} from 'react';
 import {connect} from 'react-redux';
 import classes from "./BaseForm.css";
 import {PostContext} from "../../../../../context/post-context";
@@ -18,6 +18,8 @@ import Dots from "../../../../../assets/images/dots";
 
 import Button from '../../../Button/Button';
 import BackgroundSelectBar from './Background/BackgroundSelectBar';
+import InlineDots from '../../../Spinner/InlineDots';
+
 
 const baseForm = (props) => {
 
@@ -51,6 +53,12 @@ const baseForm = (props) => {
         });
     };
 
+    const savePost = () => {
+        postContext.savePost();
+        setTimeout(() => {
+            postContext.toggleModal()
+        }, 2000)
+    }
 
     let backgroundButton = (
         <div className={classes.BackgroundButton} onClick={toggleBackgroundBar}>
@@ -105,8 +113,18 @@ const baseForm = (props) => {
         }
     }
 
+    let postingOverlay;
+    if (props.contentLoading) {
+        postingOverlay = (
+            <div className={classes.PostingOverlay}>
+                <div className={classes.PostingMessage}><h1>Posting</h1><div className={classes.PostingDotsContainer}><InlineDots className={classes.PostingDots}/></div></div>
+            </div>
+        )
+    }
+
     return (
         <div className={classes.PageContent}>
+            {postingOverlay}
             <section className={classes.Header}>
                 <div className={classes.Title}>
                     <h3>Create Post</h3>
@@ -176,7 +194,7 @@ const baseForm = (props) => {
                 </div>
             </section>
             <section className={classes.ShareSection}>
-                <Button className={[classes.ShareButton, postContext.allowPost ? null : classes.DisableShare].join(" ")} addClass="Save" clicked={postContext.allowPost ? postContext.savePost : null}>Post</Button>
+                <Button className={[classes.ShareButton, postContext.allowPost ? null : classes.DisableShare].join(" ")} addClass="Save" clicked={postContext.allowPost ? savePost : null}>Post</Button>
             </section>
         </div>
     );
@@ -185,7 +203,8 @@ const baseForm = (props) => {
 const mapStateToProps = state => {
     return {
         name: state.profile.firstName + ' ' + state.profile.lastName,
-        profileImage: state.profile.profileImage
+        profileImage: state.profile.profileImage,
+        contentLoading: state.profile.contentEntryLoading
     }
 }
 

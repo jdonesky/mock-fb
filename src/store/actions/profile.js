@@ -76,7 +76,7 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
           KeyGenerator.getKey(authToken, (newKey) => {
               switch (how) {
                   case "edit":
-                      if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
+                      if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations' || fieldName === 'posts') {
                           if (response.data[fieldName]) {
                               const updatedArray = [...response.data[fieldName]];
                               const itemIndex = updatedArray.findIndex(item => item.id === id);

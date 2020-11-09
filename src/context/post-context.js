@@ -21,7 +21,7 @@ export const PostContext = React.createContext({
 
 const PostContextProvider = (props) => {
 
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState('CREATE_POST');
     const [text,setText] = useState('');
     const [image, setImage] = useState(null);
@@ -93,9 +93,15 @@ const PostContextProvider = (props) => {
             image: image || null,
             background: background || null,
             tagged: tagged,
-            location: location
+            location: location,
+            date: new Date()
         };
         props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts', post, 'add');
+        setText('');
+        setImage(null);
+        setBackground(null);
+        setTagged([]);
+        setLocation(null);
     };
 
     return (

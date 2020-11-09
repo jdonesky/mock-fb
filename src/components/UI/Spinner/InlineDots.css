@@ -5,10 +5,9 @@
 }
 
 .spinner > div {
-    width: 15px;
-    height: 15px;
+    width: 10px;
+    height: 10px;
     background-color: #333;
-
     border-radius: 100%;
     display: inline-block;
     -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;

@@ -125,7 +125,7 @@ const auth = props => {
 
   const errorModal = (
     <Modal show={props.error} close={confirmErrorHandler} type="error">
-      {props.error ? <span>{errorMessage}</span> : null}
+        {props.error ? <span>{errorMessage}</span> : null}
     </Modal>
   );
 

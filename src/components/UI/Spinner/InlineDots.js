@@ -2,7 +2,8 @@
 import React from 'react';
 import classes from './InlineDots.css'
 
-const inlineDots = () => {
+const inlineDots = (props) => {
+
 
     return (
         <div className={classes.spinner}>

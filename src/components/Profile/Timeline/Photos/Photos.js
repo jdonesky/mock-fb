@@ -8,8 +8,9 @@ import classes from './Photos.css'
 
 const photos = (props) => {
 
-    const photos = [props.profileImage].map(pic => (
+    const photos = [props.profileImage].map((pic, i) => (
         <Photo
+            key={i}
             photo={pic}
         />
     ))

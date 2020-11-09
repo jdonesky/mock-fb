@@ -67,6 +67,7 @@ const fetchProfileSuccess = (state, action) => {
     hometown: action.userData.hometown || null,
     contacts: action.userData.contacts || null,
     lifeEvents: action.userData.lifeEvents || null,
+    posts: action.userData.posts || null,
     firebaseKey: action.userData.key && action.userData.key,
     userId: action.userData.userId || null,
     profileLoading: false,
@@ -92,6 +93,7 @@ const updateProfileSuccess = (state,action) => {
     hometown: action.userData.hometown || null,
     contacts: action.userData.contacts || null,
     lifeEvents: action.userData.lifeEvents || null,
+    posts: action.userData.posts || null,
     userId: action.userData.userId || null,
     contentEntryLoading: false,
   }
