@@ -1,4 +1,9 @@
 
+.PageContent {
+    max-height: 80vh;
+    overflow: auto;
+}
+
 .Header {
     display: flex;
     justify-content: center;
@@ -329,7 +334,11 @@
     width: 75%;
     position: relative;
     top: 6px;
-    left: 2px;
+    left: 1px;
+}
+
+.TagSelected {
+    background-color: rgba(3, 86, 252, 0.1)
 }
 
 .AddPin svg {
@@ -337,7 +346,10 @@
     width: 62%;
     position: relative;
     top: 8px;
-    left: 1px;
+}
+
+.LocationSelected {
+    background-color: rgba(199, 38, 38,0.1)
 }
 
 .AddDots svg {
@@ -356,4 +368,15 @@
 .ShareButton {
     width: 100%;
     height: 100%;
+}
+
+.DisableShare {
+    background-color: rgba(0,0,0,0.09);
+    color: #b8b5b5;
+    cursor: default;
+}
+
+.DisableShare:hover {
+    background-color: rgba(0,0,0,0.09);
+    color: #b8b5b5;
 }

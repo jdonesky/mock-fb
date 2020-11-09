@@ -1,6 +1,8 @@
 
 .EventCategoryModal {
     width: 100%;
+    height: 97vh;
+    overflow: auto;
 }
 
 .MainImage {

@@ -241,7 +241,7 @@ const createEvent = (props) => {
     }
 
     return (
-        <div style={{display: !props.show && 'none'}}>
+        <div className={classes.PageContent} style={{display: !props.show && 'none'}}>
             <section className={classes.Header}>
                 <div className={classes.BackButton} onClick={lifeEventContext.toggleModalContent}>
                     <BackArrow />

@@ -49,13 +49,13 @@ const chooseBackground = (props) => {
     }
 
     const patterns = [Boxes, Quantum, Confetti, Stingrays, Tortoise, Honeycomb, Chevrons, Squares, Geometric, Bermuda]
-        .map(pattern => (<div className={classes.Background} style={{backgroundImage: `url(${pattern}`}} onClick={() => toggleBackground(pattern)}></div>))
+        .map((pattern, i) => (<div key={i} className={classes.Background} style={{backgroundImage: `url(${pattern}`}} onClick={() => toggleBackground(pattern)}></div>))
 
     const emojis = [Happy, Sad, StarEyes, Sick, Injured, Laughing, Love, Mad, Tongues, Angel]
-        .map(pattern => (<div className={classes.Background} style={{backgroundImage: `url(${pattern}`}} onClick={() => toggleBackground(pattern)}></div>))
+        .map((pattern, i) => (<div key={i} className={classes.Background} style={{backgroundImage: `url(${pattern}`}} onClick={() => toggleBackground(pattern)}></div>))
 
     const objects = [{img: Pizza,color: "rgba(240, 162, 79,0.8)"}, {img:Anchor, color: 'rgba(14, 43, 232,0.8)'}, {img:Beer, color: 'rgba(199, 125, 28,0.8)'}, {img:Watermelon, color: 'rgba(124, 191, 69,0.9)'}, {img:Crowns, color: 'rgba(19, 146, 189,0.8)'}, {img:Money, color: 'rgba(103, 166, 134,0.9)'}, {img:Burger, color: 'rgba(242, 231, 157,0.9)'}, {img:Cassette, color: 'rgba(90, 150, 214,0.9)'}, {img:Leaf, color: 'rgba(242, 138, 10,0.9)'}, {img:Avocados, color: 'rgba(7, 125, 27,0.9)'}]
-        .map(pattern => (<div className={classes.Background} style={{backgroundImage: `url(${pattern.img}`, backgroundColor: pattern.color}} onClick={() => toggleBackground(pattern)}></div>))
+        .map((pattern, i)=> (<div key={i} className={classes.Background} style={{backgroundImage: `url(${pattern.img}`, backgroundColor: pattern.color}} onClick={() => toggleBackground(pattern)}></div>))
 
 
     return (

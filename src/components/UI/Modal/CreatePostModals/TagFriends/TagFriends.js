@@ -64,7 +64,7 @@ const tagFriends = ({authToken,friends}) => {
             <h5 className={classes.SuggestionsTitle} style={{display: postContext.tagged.length ? 'block' : 'none'}}>TAGGED</h5>
             <section className={classes.TaggedSection} style={{display: postContext.tagged.length ? 'flex' : 'none'}}>
                 {postContext.tagged.length ? postContext.tagged.map(friend => (
-                    <div className={classes.Tag} onClick={() => removeTag(friend.id)}>
+                    <div key={friend.id} className={classes.Tag} onClick={() => removeTag(friend.id)}>
                         <span>{friend.name}</span>
                         <div className={classes.RemoveTagIcon}><Cancel fill="#0B86DE" /></div>
                     </div>

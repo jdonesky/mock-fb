@@ -4,52 +4,45 @@ import {connect} from 'react-redux';
 import baseClasses from '../ChooseBackground/ChooseBackground.css';
 import classes from "./Location.css";
 import BackArrow from "../../../../../assets/images/LifeEventIcons/left-arrow";
-import Cancel from "../../../../../assets/images/close"
 import {PostContext} from "../../../../../context/post-context";
+import axios from 'axios';
 
-import Suggestion from '../TagFriends/Suggestion/Suggestion'
+import Suggestion from './Suggestion/SuggestedLocation';
 import Search from "../../../../Search/Searchbar";
 
-const tagFriends = ({pastLocations, currLocation, hometown}) => {
 
-    const postContext = useContext(PostContext)
+const searchLocations = ({pastLocations, currLocation, hometown}) => {
 
-    const curLoc = {key: 'currLocation', name: currLocation.name}
-    const homeLoc = {key: 'hometown', name: hometown.name}
-    const pastLocs = pastLocations.map(loc => ({key: 'pastLocation', name: loc.name}))
-    const allSuggestions = [curLoc, homeLoc, ...pastLocs]
+    const postContext = useContext(PostContext);
 
-    // const allSuggestions = friends && friends.slice(0, 10).map(friend => (
-    //     {name: friend.name, img: friend.img}
-    // ))
+    const curLoc = {type: 'current', name: currLocation.name};
+    const homeLoc = {type: 'hometown', name: hometown.name};
+    const pastLocs = pastLocations.map(loc => ({type: 'pastLocation', name: loc.name}));
+    const allSuggestions = [curLoc, homeLoc, ...pastLocs];
 
-    // const allSuggestions = [{name: 'John Doe', img: null, id: 1}, {name:'Mary Smith',img: null, id: 2}, {name:'Freddy Roach',img: null, id: 3},{name:'Mickey Mouse',img: null, id: 4},{name:'Jimmy John',img: null, id: 5},{name:'Frankie Edgar',img: null, id: 6}].map(friend => (
-    //     {name: friend.name, img: friend.img, id: friend.id}
-    // ))
+    const [suggestions, setSuggestions] = useState(allSuggestions);
 
-    const [searchName, setSearchName] = useState('')
-    const [suggestions, setSuggestions] = useState(allSuggestions)
-
-    const selectSuggestion = (id) => {
-        const selectedLocation = allSuggestions.find(friend => id === friend.id);
-        setSuggestions(prevState => {
-            return prevState.filter(friend => friend.id !== id);
-        })
+    const selectSuggestion = (name) => {
+        postContext.passData('location', name);
+        postContext.toggleModalContent('CREATE_POST');
     }
 
     const filterTerms = useCallback((name) => {
-        setSearchName(name)
-        const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase())
-        setSuggestions(filtered.length ? filtered : '')
+        axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${name}&types=(cities)&language=en&key=AIzaSyD4T1w5B2QyiyC4gFZ_f1dmvZ8_ghJkX0E`)
+            .then(response => {
+                const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
+                filtered.push(...[...response.data.predictions].map(city => ({type: 'pastLocation', name: city.description})))
+                setSuggestions(filtered.length ? filtered : '')
+            })
+            .catch(err => {
+                const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
+                setSuggestions(filtered.length ? filtered : '')
+                console.log(err)
+            })
     }, [])
 
-    const confirmSearch = () => {
-
-        setSearchName('')
-    }
-
-    const friendSuggestions = suggestions && suggestions.map(suggest => (
-        <Suggestion key={suggest.id} name={suggest.name} img={suggest.img} clicked={() => selectSuggestion(suggest.id)} />
+    const friendSuggestions = suggestions && suggestions.map((suggest,i) => (
+        <Suggestion key={i} name={suggest.name} img={suggest.img} clicked={() => selectSuggestion(suggest.name)} />
     ))
 
     return (
@@ -74,10 +67,11 @@ const tagFriends = ({pastLocations, currLocation, hometown}) => {
 
 const mapStateToProps = (state) => {
     return {
+        authToken: state.auth.token,
         pastLocations: state.profile.pastLocations,
         currLocation: state.profile.currLocation,
         hometown: state.profile.hometown
     }
 }
 
-export default connect(mapStateToProps)(tagFriends);
+export default connect(mapStateToProps)(searchLocations);

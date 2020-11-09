@@ -32,7 +32,7 @@ const createPost = (props) => {
 
     return (
         <Modal show={postContext.showModal} close={postContext.cancelModal} addClass={classes.CreatePostContainer}>
-            {modalContent}
+                {modalContent}
         </Modal>
     );
 }

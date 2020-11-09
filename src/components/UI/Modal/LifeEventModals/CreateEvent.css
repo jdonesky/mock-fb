@@ -1,4 +1,9 @@
 
+.PageContent {
+    height: 97vh;
+    overflow: auto;
+}
+
 .Header {
     margin-left: 10px;
     position: relative;

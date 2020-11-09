@@ -1,14 +1,17 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux'
 import * as actions from "../store/actions";
 
 export const PostContext = React.createContext({
+    text: '',
     image: null,
     background: null,
     tagged: [],
+    location: null,
     showModal: false,
     modalContent: null,
+    allowPost: false,
     passData: () => {},
     toggleModal: () => {},
     cancelModal: () => {},
@@ -20,10 +23,16 @@ const PostContextProvider = (props) => {
 
     const [showModal, setShowModal] = useState(true);
     const [modalContent, setModalContent] = useState('CREATE_POST');
+    const [text,setText] = useState('');
     const [image, setImage] = useState(null);
     const [background, setBackground] = useState(null);
     const [tagged, setTagged] = useState([]);
     const [location, setLocation] = useState(null);
+    const [allowPost, setAllowPost] = useState(false);
+
+    useEffect(() => {
+        validatePost()
+    }, [text,image,background,tagged,location])
 
     const toggleModal = () => {
         setShowModal((prevState) => {
@@ -40,8 +49,19 @@ const PostContextProvider = (props) => {
         setModalContent(page)
     };
 
+    const validatePost = () => {
+        if (!text && !image && !background && !tagged.length && !location) {
+            setAllowPost(false);
+        } else {
+            setAllowPost(true);
+        }
+    }
+
     const passData = (type,payload) => {
         switch (type) {
+            case 'text':
+                setText(payload)
+                break;
             case 'image':
                 setImage(payload)
                 break;
@@ -64,14 +84,22 @@ const PostContextProvider = (props) => {
             default:
                 setImage(null)
         }
+        validatePost();
     };
 
-    const savePost = (payload) => {
-        props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts', payload, 'add');
+    const savePost = () => {
+        const post = {
+            text: text,
+            image: image || null,
+            background: background || null,
+            tagged: tagged,
+            location: location
+        };
+        props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts', post, 'add');
     };
 
     return (
-        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, image: image, background: background, tagged: tagged}}>
+        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost}}>
             {props.children}
         </PostContext.Provider>
     );

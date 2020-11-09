@@ -1,5 +1,5 @@
 
-import React, {useState, useContext, useRef, useEffect} from 'react';
+import React, {useState, useContext, useRef} from 'react';
 import {connect} from 'react-redux';
 import classes from "./BaseForm.css";
 import {PostContext} from "../../../../../context/post-context";
@@ -21,10 +21,6 @@ import BackgroundSelectBar from './Background/BackgroundSelectBar';
 
 const baseForm = (props) => {
 
-    useEffect(() => {
-        console.log(tags)
-    })
-
     const postContext = useContext(PostContext);
     const backgroundContainer = useRef(null);
     const imageUploader = useRef(null);
@@ -41,6 +37,10 @@ const baseForm = (props) => {
         }
     };
 
+    const updatePostText = (event) => {
+        postContext.passData('text',event.target.value)
+    }
+
     const toggleBackground = (pattern) => {
         postContext.passData('background',pattern)
     };
@@ -50,6 +50,7 @@ const baseForm = (props) => {
             return !prevState;
         });
     };
+
 
     let backgroundButton = (
         <div className={classes.BackgroundButton} onClick={toggleBackgroundBar}>
@@ -77,7 +78,7 @@ const baseForm = (props) => {
     const image = (
         <div className={classes.ImageSection}>
             <section className={[classes.StatusSection, classes.StatusWithImage].join(" ")}>
-                    <textarea type="textarea" placeholder="What's on your mind?" className={classes.StatusTextArea}>
+                    <textarea type="textarea" placeholder="What's on your mind?" className={classes.StatusTextArea} value={postContext.text} onChange={(event) => updatePostText(event)}>
                     </textarea>
             </section>
             <div
@@ -105,7 +106,7 @@ const baseForm = (props) => {
     }
 
     return (
-        <div>
+        <div className={classes.PageContent}>
             <section className={classes.Header}>
                 <div className={classes.Title}>
                     <h3>Create Post</h3>
@@ -138,12 +139,13 @@ const baseForm = (props) => {
                                   fontWeight: "bolder",
                                   fontSize: "30px",
                                   color: "#bababa",
-                                  webkitTextStroke: "1px black",
+                                  WebkitTextStroke: "1px black",
                                   textAlign: "center",
                                   position: "relative",
                                   top: "40px",
                                   height: "250px"
-                              }}>
+                              }}
+                              value={postContext.text} onChange={(event) => updatePostText(event)}>
                     </textarea>
                     </section>
                     <section className={classes.BackgroundSection}
@@ -168,13 +170,13 @@ const baseForm = (props) => {
                 <h5 className={classes.AddPostHeader}>Add to Your Post</h5>
                 <div className={classes.AddToPostButtons}>
                     <div className={[classes.AddButton, classes.AddPhoto, postContext.image && classes.ImageSelected, postContext.background && classes.DisableImageSelect].join(" ")} onClick={postContext.background ? null : () => imageUploader.current.click()}><AddPhoto fill={postContext.background ? "rgba(0,0,0,0.3)" : "#08bf02"} /></div>
-                    <div className={[classes.AddButton, classes.AddTag].join(" ")} onClick={() => postContext.toggleModalContent('TAG_FRIENDS')}><Tag fill="#386be0"/></div>
-                    <div className={[classes.AddButton, classes.AddPin].join(" ")} onClick={() => postContext.toggleModalContent('CHECK_IN')}><Pin fill="#e32727"/></div>
+                    <div className={[classes.AddButton, classes.AddTag, postContext.tagged.length && classes.TagSelected].join(" ")} onClick={() => postContext.toggleModalContent('TAG_FRIENDS')}><Tag fill="#386be0"/></div>
+                    <div className={[classes.AddButton, classes.AddPin, postContext.location && classes.LocationSelected].join(" ")} onClick={() => postContext.toggleModalContent('CHECK_IN')}><Pin fill="#e32727"/></div>
                     <div className={[classes.AddButton, classes.AddDots].join(" ")}><Dots /></div>
                 </div>
             </section>
             <section className={classes.ShareSection}>
-                <Button className={classes.ShareButton} addClass="Save">Post</Button>
+                <Button className={[classes.ShareButton, postContext.allowPost ? null : classes.DisableShare].join(" ")} addClass="Save" clicked={postContext.allowPost ? postContext.savePost : null}>Post</Button>
             </section>
         </div>
     );

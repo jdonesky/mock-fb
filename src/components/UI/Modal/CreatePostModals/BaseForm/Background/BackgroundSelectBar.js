@@ -30,8 +30,9 @@ const backgroundSelectBar = (props) => {
         {svg: LiquidCheese},
     ];
 
-    const backgrounds = options.map(opt => (
+    const backgrounds = options.map((opt, i) => (
         <Background
+            key={i}
             toggle={() => props.toggle(opt.svg)}
             svg={opt.svg}
             color={opt.color}
