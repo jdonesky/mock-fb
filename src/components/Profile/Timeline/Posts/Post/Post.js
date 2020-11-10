@@ -1,18 +1,28 @@
 
 
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef} from 'react';
 import {connect} from 'react-redux';
 import classes from './Post.css'
-import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
 
+import D from '../../../../../assets/images/Raster/d.png'
+import K from '../../../../../assets/images/Raster/kaleidoscope.jpg'
+
+import Comment from './Comment/Comment';
+
+import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
 import Like from '../../../../../assets/images/like-outline';
 import SpeechBubble from '../../../../../assets/images/speech-bubble';
-
-import { LifeEventContext } from "../../../../../context/life-event-context";
-import { PostContext } from "../../../../../context/post-context";
+import Smiley from '../../../../../assets/images/smile';
+import Camera from '../../../../../assets/images/camera-outline';
+import Gif from '../../../../../assets/images/gif';
 import Globe from "../../../../../assets/images/earth";
 import Lock from "../../../../../assets/images/padlock";
 import Friends from "../../../../../assets/images/friends";
+
+import { LifeEventContext } from "../../../../../context/life-event-context";
+import { PostContext } from "../../../../../context/post-context";
+import {convertDatetime} from "../../../../../shared/utility";
+
 
 
 const post = (props) => {
@@ -50,7 +60,7 @@ const post = (props) => {
     }
 
     const status = (
-        <section className={[classes.StatusSection, classes.StatusWithImage].join(" ")}>
+        <section className={classes.StatusSection}>
             <p className={classes.Status}>{props.status && props.status}</p>
         </section>
     )
@@ -69,21 +79,12 @@ const post = (props) => {
         <div className={classes.Backdrop} style={{
             backgroundImage: `url(${props.background && props.background.img ? props.background.img : props.background})`,
             backgroundColor: postContext.background && postContext.background.color ? postContext.background.color : null,
-            height: postContext.background && "280px"
+            height: "400px"
         }}>
-            <section className={classes.StatusSection}>
+            <section className={[classes.StatusSection,classes.StatusWithBackground].join(" ")}>
                 <p className={classes.StatusTextArea}
-                   style={props.background && {
-                       fontWeight: "bolder",
-                       fontSize: "30px",
-                       color: "#bababa",
-                       WebkitTextStroke: "1px black",
-                       textAlign: "center",
-                       position: "relative",
-                       top: "40px",
-                       height: "250px"
-                   }}
-                >{props.status && props.status}
+                style={{WebkitTextStroke: "1px black"}}>
+                    {props.status && props.status}
                 </p>
             </section>
         </div>
@@ -98,6 +99,37 @@ const post = (props) => {
         body = status;
     }
 
+    let commentsSection;
+    let comments;
+    const testComments = [
+        {id: 1,userId: 1, userName: 'Username', text: 'example-comment ', image: D, replies: [
+                {id:2, userId: 2, userName: 'Username', text: 'example-reply', image: K }
+            ]},
+        {id: 2,userId: 2, userName: 'Username', text: 'example-comment ', image: K, replies: [
+                {id:3, userId: 3, userName: 'Username', text: 'example-reply'}
+            ]}
+        ]
+
+    if (true) {
+        // comments = props.comments && props.comments.length && props.comments.map(comment => (
+         comments = testComments.map(comment => (
+            <Comment
+                key={comment.id}
+                userId={comment.userId}
+                userName={comment.userName}
+                text={comment.text}
+                image={comment.img}
+                gif={comment.gif}
+                replies={comment.replies}
+            />
+        ))
+        commentsSection = (
+            <section className={classes.CommentsSection}>
+                {comments}
+            </section>
+        )
+    }
+
     return (
         <div className={classes.Container}>
             <section className={classes.Header}>
@@ -109,13 +141,14 @@ const post = (props) => {
                 <div className={classes.IdContainer}>
                     <div>{props.name && props.name}</div>
                     <div className={classes.DateAndPrivacyContainer}>
-                        <span className={classes.Date}>{props.date ? props.date : '-- -- ----'}</span>
+                        <span className={classes.Date}>{props.date ? convertDatetime(props.date) + '          •' : '-- -- ---        •'}</span>
                         <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>
                     </div>
                 </div>
             </section>
             { body }
-            <div className={classes.Break}/>
+            {!props.image && !props.background && <div className={classes.Break}/>}
+            {commentsSection}
             <section className={classes.ButtonsContainer}>
                 <div className={classes.Button} onClick={() => imageUploader.current.click()}>
                     <div className={[classes.ButtonIcon, classes.Like].join(" ")}><Like /></div>
@@ -137,7 +170,7 @@ const post = (props) => {
                 </div>
             </section>
             <div className={classes.Break} />
-            <section className={classes.CommentSection}>
+            <section className={classes.CommentBarSection}>
                 <div className={classes.CommenterProfileImageContainer}>
                     <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
                         {props.profileImage ? null : <NoGenderPlaceholder />}
@@ -145,8 +178,16 @@ const post = (props) => {
                 </div>
                 <div className={classes.CommentBar}>
                     <input  placeholder="Write a comment..." />
+                    <div className={classes.CommentButtons}>
+                        <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
+                        <div className={classes.CommentButtonIcon}><Camera fill="#545353" /></div>
+                        <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")}><Gif fill="#545353" /></div>
+                    </div>
                 </div>
             </section>
+            <div className={classes.EnterCommentCaption}>
+                <span>Press Enter To Post</span>
+            </div>
         </div>
     );
 }

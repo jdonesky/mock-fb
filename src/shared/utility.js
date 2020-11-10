@@ -83,6 +83,21 @@ export const mapMonths = {
   'December' : '11'
 }
 
+export const reverseMapMonths = {
+  '1' : 'January',
+  '2' : 'February',
+  '3' : 'March',
+  '4' : 'April',
+  '5' : 'May',
+  '6' : 'June',
+  '7' : 'July',
+  '8' : 'August',
+  '9' : 'September',
+  '10': 'October',
+  '11': 'November',
+  '12': 'December'
+}
+
 
 
 export const convertDate = (date) => {
@@ -91,6 +106,27 @@ export const convertDate = (date) => {
   const day = date.split('-')[2]
   return [month, day, year]
 }
+
+
+export const convertDatetime = (date) => {
+
+  const rawDate = date.toString().split("T")[0].split("-").reverse()
+  let day = rawDate[0];
+  const month = reverseMapMonths[rawDate[1]];
+  const year = rawDate[2];
+  let formatted = `${month} ${day}, ${year}`
+
+  const checkDate = new Date(date);
+  const today = new Date();
+  if (checkDate.getDate() === today.getDate() &&
+      checkDate.getMonth() === today.getMonth() &&
+      checkDate.getFullYear() === today.getFullYear()) {
+    formatted = 'Today'
+  }
+
+  return formatted;
+}
+
 
 
 export class KeyGenerator {

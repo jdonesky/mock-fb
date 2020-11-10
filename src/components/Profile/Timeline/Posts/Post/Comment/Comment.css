@@ -1,0 +1,128 @@
+.Comment {
+    height: 75px;
+    width: 100%;
+}
+
+.CommentContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.CommenterProfileImageContainer {
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    margin: 0 6px;
+}
+
+.CommenterProfileImage {
+    height: 35px;
+    width: 35px;
+    border-radius: 100%;
+    border: 1px solid #cccccc;
+    background: rgba(0,0,0,.1);
+    background-size: cover;
+    background-position: center;
+    margin: 0 auto;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    top: 3px;
+}
+
+.CommenterProfileImage:hover {
+    box-shadow: 0 0 3px 3px rgba(0,0,0,.1);
+}
+
+.CommenterProfileImage svg {
+    height: auto;
+    width: 80%;
+    position: relative;
+    top: 5px;
+    left: 3px;
+}
+
+.CommentBubbleContainer {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.CommentBubble {
+    display: flex;
+    height: 90%;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    background-color: rgba(0,0,0,0.06);
+}
+
+.CommenterName {
+    font-size: 14px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.CommentText {
+    font-size: 13px;
+    font-weight: 100;
+}
+
+.CommentBubbleOptionButtons {
+    height: 10%;
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.CommentBubbleButton {
+    width: 50%;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bolder;
+    color: rgba(0,0,0,0.6);
+    cursor: pointer;
+}
+
+.CommentBubbleButton:hover {
+    text-decoration: underline;
+}
+
+.ReplierProfileImageContainer {
+    height: 26px;
+    width: 26px;
+    display: flex;
+    align-items: center;
+    margin: 0 6px;
+}
+
+.ReplierProfileImage {
+    height: 26px;
+    width: 26px;
+    border-radius: 100%;
+    border: 1px solid #cccccc;
+    background: rgba(0,0,0,.1);
+    background-size: cover;
+    background-position: center;
+    margin: 0 auto;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.ReplierProfileImage:hover {
+    box-shadow: 0 0 3px 3px rgba(0,0,0,.1);
+}
+
+.InterPoint {
+    font-size: 8px;
+    color: #b8b5b5;
+    position: relative;
+    top: 4px;
+}
