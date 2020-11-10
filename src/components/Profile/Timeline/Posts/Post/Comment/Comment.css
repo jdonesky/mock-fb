@@ -1,12 +1,21 @@
 .Comment {
-    height: 75px;
     width: 100%;
+    margin-bottom: 10px;
+}
+
+.Reply .Comment {
+    margin-left: 45px;
 }
 
 .CommentContainer {
     width: 100%;
     display: flex;
     justify-content: flex-start;
+    margin-bottom: 5px;
+}
+
+.Reply .CommentContainer {
+    width: 70%;
 }
 
 .CommenterProfileImageContainer {
@@ -15,6 +24,11 @@
     display: flex;
     align-items: center;
     margin: 0 6px;
+}
+
+.Reply .CommenterProfileImageContainer {
+    height: 26px;
+    width: 26px;
 }
 
 .CommenterProfileImage {
@@ -32,6 +46,11 @@
     top: 3px;
 }
 
+.Reply .CommenterProfileImage {
+    height: 26px;
+    width: 26px;
+}
+
 .CommenterProfileImage:hover {
     box-shadow: 0 0 3px 3px rgba(0,0,0,.1);
 }
@@ -41,6 +60,11 @@
     width: 80%;
     position: relative;
     top: 5px;
+    left: 3px;
+}
+
+.Reply .CommenterProfileImage svg {
+    top: 3px;
     left: 3px;
 }
 
@@ -77,7 +101,7 @@
 
 .CommentBubbleOptionButtons {
     height: 10%;
-    width: 80%;
+    width: 45%;
     display: flex;
     justify-content: space-around;
 }
@@ -85,9 +109,9 @@
 .CommentBubbleButton {
     width: 50%;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bolder;
-    color: rgba(0,0,0,0.6);
+    color: rgba(0,0,0,0.8);
     cursor: pointer;
 }
 
@@ -95,17 +119,43 @@
     text-decoration: underline;
 }
 
-.ReplierProfileImageContainer {
-    height: 26px;
-    width: 26px;
+.InterPoint {
+    font-size: 8px;
+    color: #b8b5b5;
+    position: relative;
+    top: 4px;
+}
+
+.AttachedImage {
+    height: 200px;
+    width: 200px;
+    background-size: contain;
+    background-position: center;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.CommentBarSection {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    height: 50px;
+    width: 95%;
+    margin: 3px auto 0;
+}
+
+.CommenterProfileImageContainer {
+    height: 35px;
+    width: 35px;
     display: flex;
     align-items: center;
     margin: 0 6px;
 }
 
-.ReplierProfileImage {
-    height: 26px;
-    width: 26px;
+.CommenterProfileImage {
+    height: 35px;
+    width: 35px;
     border-radius: 100%;
     border: 1px solid #cccccc;
     background: rgba(0,0,0,.1);
@@ -116,13 +166,57 @@
     cursor: pointer;
 }
 
-.ReplierProfileImage:hover {
+.CommenterProfileImage:hover {
     box-shadow: 0 0 3px 3px rgba(0,0,0,.1);
 }
 
-.InterPoint {
-    font-size: 8px;
-    color: #b8b5b5;
+.CommentBar {
+    height: 40px;
+    width: 93%;
+    background-color: rgba(0,0,0,.05);
+    border-radius: 40px;
+    cursor: text;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.CommentBar input {
+    background-color: transparent;
+    border: none;
+    width: 75%;
+    height: 100%;
+    font-size: 16px;
+}
+
+.CommentButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 120px;
+    margin: 0;
+}
+
+.CommentButtonIcon {
+    height: 39px;
+    width: 39px;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.CommentButtonIcon svg {
+    height: auto;
+    width: 50%;
     position: relative;
-    top: 4px;
+    top: 10px;
+    left: 10px;
+}
+
+.CommentButtonIcon:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.Gif svg {
+    width: 48%;
 }

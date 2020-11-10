@@ -106,7 +106,7 @@ const post = (props) => {
                 {id:2, userId: 2, userName: 'Username', text: 'example-reply', image: K }
             ]},
         {id: 2,userId: 2, userName: 'Username', text: 'example-comment ', image: K, replies: [
-                {id:3, userId: 3, userName: 'Username', text: 'example-reply'}
+                {id:3, userId: 3, userName: 'Username', image: D, text: 'example-reply'}
             ]}
         ]
 
@@ -118,7 +118,7 @@ const post = (props) => {
                 userId={comment.userId}
                 userName={comment.userName}
                 text={comment.text}
-                image={comment.img}
+                image={comment.image}
                 gif={comment.gif}
                 replies={comment.replies}
             />
@@ -148,7 +148,6 @@ const post = (props) => {
             </section>
             { body }
             {!props.image && !props.background && <div className={classes.Break}/>}
-            {commentsSection}
             <section className={classes.ButtonsContainer}>
                 <div className={classes.Button} onClick={() => imageUploader.current.click()}>
                     <div className={[classes.ButtonIcon, classes.Like].join(" ")}><Like /></div>
@@ -170,6 +169,7 @@ const post = (props) => {
                 </div>
             </section>
             <div className={classes.Break} />
+            {commentsSection}
             <section className={classes.CommentBarSection}>
                 <div className={classes.CommenterProfileImageContainer}>
                     <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
