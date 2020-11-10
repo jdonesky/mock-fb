@@ -86,23 +86,38 @@
 
 .DateAndPrivacyContainer {
     display: flex;
-    justify-content: left;
-    width: 200px;
+    justify-content: space-around;
+    min-width: 80px;
+}
+
+.Date {
+    font-size: 15px;
+    color: rgb(115,115,115);
+}
+
+.PrivacyIconContainer {
+    height: 22px;
+    width: 22px;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.PrivacyIconContainer:hover {
+    background-color: rgba(0,0,0,0.09);
 }
 
 .PrivacyIcon {
-    height: 15px;
-    width: 15px;
-    margin-left: 10px;
-}
-
-.PrivacyIcon:hover {
-
+    height: 14px;
+    width: 14px;
 }
 
 .PrivacyIcon svg {
     height: auto;
     width: 100%;
+    position: relative;
+    left: 4px;
+    top: 1px;
 }
 
 .ProfileImageContainer {
@@ -178,16 +193,91 @@
     left: 10px;
 }
 
+.Like {
+    position: relative;
+    top: 1px;
+    right: 1px;
+}
+
 .Comment {
     margin-right: 6px;
     position: relative;
-    top: 1px;
+    top: 3px;
+    left: 1px;
 }
 
 .Comment svg {
-    width: 65%;
+    width: 60%;
 }
 
 .Button:hover {
     background-color: rgba(0,0,0,0.05)
+}
+
+.ImageSection {
+    margin: 0 auto;
+    overflow: auto;
+    height: 400px;
+    z-index: 9;
+}
+
+.StatusWithImage {
+    height: 90px;
+}
+
+.ImageContainer {
+    margin: 5px auto;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
+    height: 300px;
+    width:95%;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 8px;
+    z-index: 9;
+}
+
+.StatusSection {
+    width: 99%;
+    margin: 10px auto;
+    font-size: 30px;
+    background: transparent;
+    z-index: 9;
+}
+
+.Status {
+    margin: 0;
+    font-size: 22px;
+}
+
+.StatusTextArea {
+    background: transparent;
+    width: 90%;
+    border: none;
+    margin: 0 auto;
+    text-align: start;
+    font-family: ".AppleSystemUIFont";
+    font-size: 25px;
+    font-weight: 300;
+    resize: none;
+}
+
+.BackgroundSection {
+    z-index: 20;
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    justify-self: stretch;
+    align-items: center;
+    background: transparent;
+    z-index: 9;
+}
+
+.Backdrop {
+    z-index: -20;
+    width: 100%;
+    height: 150%;
+    background-size: 600px 600px;
+    background-position: center;
 }

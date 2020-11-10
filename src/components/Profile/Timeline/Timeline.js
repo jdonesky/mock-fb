@@ -11,9 +11,17 @@ import Post from './Posts/Post/Post'
 
 const timeLine = ({posts}) => {
 
-    const posts_ = posts && posts.map(post => (
-        <Post key={post.id} />
-    ))
+    const posts_ = posts && posts.length ? posts.map(post => (
+        <Post
+            key={post.id}
+            status={post.text}
+            background={post.background}
+            image={post.image}
+            date={post.date}
+            location={post.location}
+            id={post.id}
+        />
+    )) : null
 
     return (
         <div className={classes.Timeline}>

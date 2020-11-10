@@ -37,18 +37,66 @@ const post = (props) => {
 
     switch (props.privacy) {
         case 'public':
-            icon = <Globe />
+            icon = <Globe fill="rgb(89, 89, 89)"/>
             break;
         case 'private':
-            icon = <Lock />
+            icon = <Lock fill="rgb(89, 89, 89)"/>
             break;
         case 'friends':
-            icon = <Friends />
+            icon = <Friends fill="rgb(89, 89, 89)"/>
             break;
         default:
-            icon = <Globe />
+            icon = <Globe fill="rgb(89, 89, 89)"/>
     }
 
+    const status = (
+        <section className={[classes.StatusSection, classes.StatusWithImage].join(" ")}>
+            <p className={classes.Status}>{props.status && props.status}</p>
+        </section>
+    )
+
+    const withImage = (
+        <div className={classes.ImageSection}>
+            {status}
+            <div
+                className={classes.ImageContainer}
+                style={{backgroundImage: `url(${props.image && props.image})`}}
+            />
+        </div>
+    )
+
+    const withBackground = (
+        <div className={classes.Backdrop} style={{
+            backgroundImage: `url(${props.background && props.background.img ? props.background.img : props.background})`,
+            backgroundColor: postContext.background && postContext.background.color ? postContext.background.color : null,
+            height: postContext.background && "280px"
+        }}>
+            <section className={classes.StatusSection}>
+                <p className={classes.StatusTextArea}
+                   style={props.background && {
+                       fontWeight: "bolder",
+                       fontSize: "30px",
+                       color: "#bababa",
+                       WebkitTextStroke: "1px black",
+                       textAlign: "center",
+                       position: "relative",
+                       top: "40px",
+                       height: "250px"
+                   }}
+                >{props.status && props.status}
+                </p>
+            </section>
+        </div>
+    )
+
+    let body;
+    if (props.image) {
+        body = withImage;
+    } else if (props.background) {
+        body = withBackground;
+    } else {
+        body = status;
+    }
 
     return (
         <div className={classes.Container}>
@@ -61,15 +109,16 @@ const post = (props) => {
                 <div className={classes.IdContainer}>
                     <div>{props.name && props.name}</div>
                     <div className={classes.DateAndPrivacyContainer}>
-                        <span>{props.date || 'Today'}</span>
-                        <div className={classes.PrivacyIcon}>{icon}</div>
+                        <span className={classes.Date}>{props.date ? props.date : '-- -- ----'}</span>
+                        <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>
                     </div>
                 </div>
             </section>
+            { body }
             <div className={classes.Break}/>
             <section className={classes.ButtonsContainer}>
                 <div className={classes.Button} onClick={() => imageUploader.current.click()}>
-                    <div className={classes.ButtonIcon}><Like /></div>
+                    <div className={[classes.ButtonIcon, classes.Like].join(" ")}><Like /></div>
                     <span>Like</span>
                     <input
                         ref={imageUploader}
