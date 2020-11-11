@@ -19,6 +19,7 @@ const timeLine = ({posts}) => {
             image={post.image}
             date={post.date}
             location={post.location}
+            comments={post.comments}
             id={post.id}
         />
     )) : null

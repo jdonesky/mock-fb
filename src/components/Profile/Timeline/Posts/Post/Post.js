@@ -1,6 +1,6 @@
 
 
-import React, { useContext, useRef} from 'react';
+import React, { useState, useContext, useRef, useEffect} from 'react';
 import {connect} from 'react-redux';
 import classes from './Post.css'
 
@@ -18,28 +18,59 @@ import Gif from '../../../../../assets/images/gif';
 import Globe from "../../../../../assets/images/earth";
 import Lock from "../../../../../assets/images/padlock";
 import Friends from "../../../../../assets/images/friends";
+import Delete from "../../../../../assets/images/delete";
 
 import { LifeEventContext } from "../../../../../context/life-event-context";
 import { PostContext } from "../../../../../context/post-context";
 import {convertDatetime} from "../../../../../shared/utility";
+import * as actions from "../../../../../store/actions";
 
 
 const post = (props) => {
 
+    useEffect(() => {
+        const comment = {
+            userId: props.userId,
+            profileImage: props.profileImage,
+            text: commentText,
+            image: commentImage,
+            gif: commentGif,
+        }
+        console.log(comment)
+    })
     const lifeEventContext = useContext(LifeEventContext);
     const postContext = useContext(PostContext)
     const imageUploader = useRef(null);
+    const gifUploader = useRef(null);
+
+    const [commentText, setCommentText] = useState('');
+    const [commentImage, setCommentImage] = useState(null);
+    const [commentGif, setCommentGif] = useState(null);
+
+    const updateCommentText = (event) => {
+        setCommentText(event.target.value)
+    }
 
     const imageUploadHandler = (event) => {
         const [file] = event.target.files;
         if (file) {
             const reader = new FileReader();
             reader.onload = (event) => {
-                postContext.passData('image',event.target.result)
+               setCommentImage(event.target.result);
             };
             reader.readAsDataURL(file);
         }
-        postContext.toggleModal()
+    }
+
+    const gifUploadHandler = (event) => {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setCommentGif(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
     }
 
     let icon;
@@ -130,6 +161,13 @@ const post = (props) => {
         )
     }
 
+    let commentImagePreview = (
+        <section className={classes.CommentImagePreviewSection} style={{display: commentImage ? 'flex' : 'none'}}>
+            <div className={classes.CommentImagePreviewContainer} style={{backgroundImage: commentImage ? `url(${commentImage}` : null}}></div>
+            <div className={classes.CancelCommentImagePreviewButton} onClick={() => setCommentImage(null)}><Delete /></div>
+        </section>
+    )
+
     return (
         <div className={classes.Container}>
             <section className={classes.Header}>
@@ -152,16 +190,6 @@ const post = (props) => {
                 <div className={classes.Button} onClick={() => imageUploader.current.click()}>
                     <div className={[classes.ButtonIcon, classes.Like].join(" ")}><Like /></div>
                     <span>Like</span>
-                    <input
-                        ref={imageUploader}
-                        type="file"
-                        accept="image/*"
-                        multiple={false}
-                        onChange={imageUploadHandler}
-                        style={{
-                            display: "none"
-                        }}
-                    />
                 </div>
                 <div className={classes.Button} onClick={lifeEventContext.toggleModal}>
                     <div className={[classes.ButtonIcon,classes.Comment].join(" ")}><SpeechBubble /></div>
@@ -177,26 +205,57 @@ const post = (props) => {
                     </div>
                 </div>
                 <div className={classes.CommentBar}>
-                    <input  placeholder="Write a comment..." />
+                    <input  placeholder="Write a comment..." value={commentText} onChange={(event) => updateCommentText(event)}/>
                     <div className={classes.CommentButtons}>
                         <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
-                        <div className={classes.CommentButtonIcon}><Camera fill="#545353" /></div>
-                        <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")}><Gif fill="#545353" /></div>
+                        <div className={classes.CommentButtonIcon} onClick={() => imageUploader.current.click()}><Camera fill="#545353" /></div>
+                        <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={() => gifUploader.current.click()}><Gif fill="#545353" /></div>
                     </div>
                 </div>
             </section>
+            {commentImagePreview}
             <div className={classes.EnterCommentCaption}>
                 <span>Press Enter To Post</span>
             </div>
+            <input
+                ref={imageUploader}
+                type="file"
+                accept="image/*"
+                multiple={false}
+                onChange={imageUploadHandler}
+                style={{
+                    display: "none"
+                }}
+            />
+            <input
+                ref={gifUploader}
+                type="file"
+                accept="image/*"
+                multiple={false}
+                onChange={gifUploadHandler}
+                style={{
+                    display: "none"
+                }}
+            />
         </div>
     );
 }
 
 const mapStateToProps = state => {
     return {
+        authToken: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
+        userId: state.profile.userId,
         profileImage: state.profile.profileImage,
         name: state.profile.firstName + ' ' + state.profile.lastName
     }
 }
 
-export default connect(mapStateToProps)(post);
+const mapDispatchToProps = dispatch => {
+    return {
+        onProfileUpdate: (authToken,firebaseKey,fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken,firebaseKey,fieldName, payload, how, id))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(post);

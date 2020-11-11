@@ -35,8 +35,8 @@ const comment = (props) => {
 
     const startReplyHandler = () => {
         setReplying(true);
-        replyInput.current.focus();
         replyInput.current.offsetTop;
+        replyInput.current.focus();
     }
 
     const editDropDown = (
@@ -51,6 +51,7 @@ const comment = (props) => {
     if (props.replies) {
         replies = props.replies && props.replies.map(reply => (
             <Reply
+                key={reply.id}
                 id={reply.id}
                 userName={reply.userName}
                 profileImage={reply.profileImage}
