@@ -105,7 +105,8 @@ const post = (props) => {
                 {id:2, userId: 2, userName: 'Username', text: 'example-reply', image: K }
             ]},
         {id: 2,userId: 2, userName: 'Username', text: 'example-comment ', image: K, replies: [
-                {id:3, userId: 3, userName: 'Username', image: D, text: 'example-reply'}
+                {id:3, userId: 3, userName: 'Username', image: D, text: 'example-reply'},
+                {id:4, userId: 4, userName: 'Username2', image: K, text: 'example-reply2'}
             ]}
         ]
 

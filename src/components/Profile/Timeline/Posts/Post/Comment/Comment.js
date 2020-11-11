@@ -7,25 +7,30 @@ import Dots from '../../../../../../assets/images/dots';
 import Smiley from "../../../../../../assets/images/smile";
 import Camera from "../../../../../../assets/images/camera-outline";
 import Gif from "../../../../../../assets/images/gif";
-
+import OutsideAlerter from "../../../../../../hooks/outsideClickHandler";
+import Reply from './Reply/Reply'
 
 const comment = (props) => {
 
     const [replying, setReplying] = useState(false);
-    const [editingReply, setEditingReply] = useState(false)
     const [editingComment, setEditingComment] = useState(false);
+    const [editingDropdown, setEditingDropdown] = useState(false);
     const replyInput = useRef(null);
 
-    const toggleEditing = (type) => {
-        if (type === 'reply') {
-            setEditingReply(prevState => {
-                return !prevState;
-            });
-        } else if (type === 'comment') {
+    const toggleEditingButton = () => {
             setEditingComment(prevState => {
                 return !prevState;
             });
-        }
+    }
+
+    const toggleEditingDropdown = () => {
+        setEditingDropdown(prevState => {
+            return !prevState;
+        })
+    }
+
+    const closeEditingDropdown = () => {
+        setEditingDropdown(false);
     }
 
     const startReplyHandler = () => {
@@ -34,38 +39,27 @@ const comment = (props) => {
         replyInput.current.offsetTop;
     }
 
+    const editDropDown = (
+        <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
+            <div className={classes.BaseArrow} />
+            <div className={classes.EditDropdownButton}>Edit</div>
+            <div className={classes.EditDropdownButton}>Delete</div>
+        </div>
+    )
+
     let replies;
     if (props.replies) {
         replies = props.replies && props.replies.map(reply => (
-            <div className={classes.Reply} onMouseEnter={() => toggleEditing('reply')} onMouseLeave={() => toggleEditing('reply')}>
-                <div className={classes.Comment}>
-                    <div className={classes.CommentContainer}>
-                        <div className={classes.CommenterProfileImageContainer}>
-                            <div className={classes.CommenterProfileImage} style={{backgroundImage: reply.profileImage ? `url(${reply.profileImage})` : null}}>
-                                {reply.profileImage ? null : <NoGenderPlaceholder />}
-                            </div>
-                        </div>
-                        <div className={classes.CommentBubbleContainer}>
-                            <div className={classes.CommentBubbleAndEditButtonContainer}>
-                                <div className={classes.CommentBubble}>
-                                    <h5 className={classes.CommenterName}>{reply.userName}</h5>
-                                    <div className={classes.CommentText}>
-                                        <span>{reply.text}</span>
-                                    </div>
-                                </div>
-                                <div className={classes.EditButton} style={{display: editingReply ? 'block' : 'none'}}><Dots /></div>
-                            </div>
-                            {reply.image || reply.gif ?  <div className={classes.AttachedImage} style={{backgroundImage: `url(${reply.image || reply.gif})`}}></div> : null}
-                            <div className={classes.CommentBubbleOptionButtons}>
-                                <div className={classes.CommentBubbleButton}>Like</div>
-                                <span className={classes.InterPoint}>{"•"}</span>
-                                <div className={classes.CommentBubbleButton} onClick={startReplyHandler}>Reply</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            ))
+            <Reply
+                id={reply.id}
+                userName={reply.userName}
+                profileImage={reply.profileImage}
+                text={reply.text}
+                image={reply.image}
+                gif={reply.gif}
+                startReply={startReplyHandler}
+            />
+        ))
     }
 
     let replyBar = (
@@ -87,8 +81,8 @@ const comment = (props) => {
     )
 
     return (
-        <div className={classes.Comment} onMouseEnter={() => toggleEditing('comment')} onMouseLeave={() => toggleEditing('comment')}>
-            <div className={classes.CommentContainer}>
+        <div className={classes.Comment} >
+            <div className={classes.CommentContainer} onMouseEnter={() => toggleEditingButton()} onMouseLeave={() => toggleEditingButton()}>
                 <div className={classes.CommenterProfileImageContainer}>
                     <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
                         {props.profileImage ? null : <NoGenderPlaceholder />}
@@ -102,7 +96,12 @@ const comment = (props) => {
                                 <span>{props.text}</span>
                             </div>
                         </div>
-                        <div className={classes.EditButton} style={{display: editingComment ? 'block' : 'none'}}><Dots /></div>
+                        <OutsideAlerter action={closeEditingDropdown}>
+                            <div className={classes.EditOptionsPositioner}>
+                                {editDropDown}
+                                <div className={classes.EditButton} style={{display: editingComment ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
+                            </div>
+                        </OutsideAlerter>
                     </div>
                     {props.image || props.gif ?  <div className={classes.AttachedImage} style={{backgroundImage: `url(${props.image || props.gif})`}}></div> : null}
                     <div className={classes.CommentBubbleOptionButtons}>
