@@ -187,11 +187,11 @@ const post = (props) => {
             { body }
             {!props.image && !props.background && <div className={classes.Break}/>}
             <section className={classes.ButtonsContainer}>
-                <div className={classes.Button} onClick={() => imageUploader.current.click()}>
+                <div className={classes.Button}>
                     <div className={[classes.ButtonIcon, classes.Like].join(" ")}><Like /></div>
                     <span>Like</span>
                 </div>
-                <div className={classes.Button} onClick={lifeEventContext.toggleModal}>
+                <div className={classes.Button}>
                     <div className={[classes.ButtonIcon,classes.Comment].join(" ")}><SpeechBubble /></div>
                     <span>Comment</span>
                 </div>
