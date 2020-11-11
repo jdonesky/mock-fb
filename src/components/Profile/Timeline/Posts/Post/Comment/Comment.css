@@ -64,8 +64,8 @@
 }
 
 .Reply .CommenterProfileImage svg {
-    top: 3px;
-    left: 3px;
+    top: 4px;
+    left: 2px;
 }
 
 .CommentBubbleContainer {
@@ -74,6 +74,33 @@
     flex-flow: column;
     justify-content: center;
     align-items: flex-start;
+}
+
+.CommentBubbleAndEditButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.EditButton {
+    height: 34px;
+    width: 34px;
+    border-radius: 100%;
+    cursor: pointer;
+    position: relative;
+    left: 4px;
+}
+
+.EditButton:hover {
+    background-color: rgba(0,0,0,0.07);
+}
+
+.EditButton svg {
+    height: auto;
+    width: 40%;
+    position: relative;
+    top: 7px;
+    left: 10px;
 }
 
 .CommentBubble {
@@ -87,6 +114,7 @@
     border: none;
     background-color: rgba(0,0,0,0.06);
 }
+
 
 .CommenterName {
     font-size: 14px;
@@ -111,7 +139,7 @@
     text-align: center;
     font-size: 14px;
     font-weight: bolder;
-    color: rgba(0,0,0,0.8);
+    color: rgba(0,0,0,0.65);
     cursor: pointer;
 }
 
@@ -140,34 +168,9 @@
     display: flex;
     justify-content: stretch;
     align-items: center;
-    height: 50px;
+    height: 30px;
     width: 95%;
-    margin: 3px auto 0;
-}
-
-.CommenterProfileImageContainer {
-    height: 35px;
-    width: 35px;
-    display: flex;
-    align-items: center;
-    margin: 0 6px;
-}
-
-.CommenterProfileImage {
-    height: 35px;
-    width: 35px;
-    border-radius: 100%;
-    border: 1px solid #cccccc;
-    background: rgba(0,0,0,.1);
-    background-size: cover;
-    background-position: center;
-    margin: 0 auto;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.CommenterProfileImage:hover {
-    box-shadow: 0 0 3px 3px rgba(0,0,0,.1);
+    margin: 3px 0 0 47px;
 }
 
 .CommentBar {
@@ -219,4 +222,24 @@
 
 .Gif svg {
     width: 48%;
+}
+
+.CommentBarSection .CommenterProfileImageContainer {
+    height: 26px;
+    width: 26px;
+    position: relative;
+    bottom: 5px;
+}
+
+.CommentBarSection .CommenterProfileImage {
+    height: 26px;
+    width: 26px;
+}
+
+.CommentBarSection .CommenterProfileImage svg{
+    left: 2px;
+}
+
+.CommentBarSection .CommentBar {
+    width: 80%;
 }
