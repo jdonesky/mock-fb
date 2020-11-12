@@ -9,8 +9,6 @@ import Modal from "../../components/UI/Modal/Modal";
 
 const signUp = props => {
 
-
-
   const [formInputs, setFormInputs] = useState(
       {
         firstName: fieldBuilder(

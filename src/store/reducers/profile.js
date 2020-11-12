@@ -8,6 +8,7 @@ const initialState = {
   birthday: null,
   location: null,
   firebaseKey: null,
+  postsKey: null,
   userId: null,
   error: null,
   profileLoading: false,
@@ -43,7 +44,8 @@ const createProfileSuccess = (state,action) => {
     lastName: action.userData.lastName,
     birthday: action.userData.birthday,
     userId: action.userData.userId,
-    firebaseKey: action.userData.key,
+    firebaseKey: action.userData.userKey,
+    postsKey: action.userData.postsKey,
     profileLoading: false
   }
 }
@@ -68,7 +70,8 @@ const fetchProfileSuccess = (state, action) => {
     contacts: action.userData.contacts || null,
     lifeEvents: action.userData.lifeEvents || null,
     posts: action.userData.posts || null,
-    firebaseKey: action.userData.key && action.userData.key,
+    firebaseKey: action.userData.key || null,
+    postsKey: action.userData.postsKey || null,
     userId: action.userData.userId || null,
     profileLoading: false,
   };

@@ -2,6 +2,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
 import {KeyGenerator} from "../../shared/utility";
+import {convertDatetime} from "../../shared/utility";
 
 
 const loadProfileInit = () => {
@@ -18,27 +19,37 @@ const updateProfileInit = () => {
 
 
 export const createProfileAttempt =  (token,newUserData) => {
-  return dispatch => {
-    dispatch(loadProfileInit());
-    // let userData;
-    axios.post(`/users.json?auth=${token}`, newUserData)
-        .then( response => {
-          const userData= {key: response.data.name,...newUserData};
-            // send post request with empty array:
-            // axios.post(`/posts.json?auth=${token}`, [])
-            // .then(response => {
-            //    userData = {...userData, postKey: response.data.name}
-            // }
-            // and userData you should move to outer scope, above first post request to /users
-          dispatch(createProfileSuccess(userData));
-        })
-        .catch(error => {
-          dispatch(updateProfileFail(error))
-        })
-  }
+    return dispatch => {
+        dispatch(loadProfileInit());
+        let userData;
+        axios.post(`/posts.json?auth=${token}`,[{text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(new Date())}`, date: new Date()}])
+            .then(response => {
+                userData = {postsKey: response.data.name, ...newUserData}
+                return axios.post(`/users.json?auth=${token}`, userData)
+            })
+            .then( response => {
+                userData = {userKey: response.data.name,...userData};
+                dispatch(createProfileSuccess(userData));
+            })
+            .catch(error => {
+                dispatch(updateProfileFail(error))
+            })
+    }
 }
 
-
+// export const createProfileAttempt =  (token,newUserData) => {
+//     return dispatch => {
+//         dispatch(loadProfileInit());
+//         axios.post(`/users.json?auth=${token}`, newUserData)
+//             .then( response => {
+//                 const userData= {userKey: response.data.name,...newUserData};
+//                 dispatch(createProfileSuccess(userData));
+//             })
+//             .catch(error => {
+//                 dispatch(updateProfileFail(error))
+//             })
+//     }
+// }
 
 const createProfileSuccess = (userData) => {
   return {

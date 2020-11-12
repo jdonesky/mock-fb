@@ -78,12 +78,16 @@ export const authAttempt = (email, password, isSignUp, userData) => {
 
         if (isSignUp) {
           const newUserData = {userId: userId, ...userData}
+          console.log('IS SIGN UP', newUserData)
           dispatch(actions.createProfileAttempt(token, newUserData))
         }
       })
       .catch((error) => {
-        console.log('[authAttempt] Error : ', error.response.data.error)
-        dispatch(authFail(error.response.data.error));
+        // if (error.response.data) {
+        //   console.log('[authAttempt] Error : ', error.response.data.error)
+        //   dispatch(authFail(error.response.data.error));
+        // }
+        console.log(error);
       });
   };
 };
