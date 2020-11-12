@@ -20,9 +20,16 @@ const updateProfileInit = () => {
 export const createProfileAttempt =  (token,newUserData) => {
   return dispatch => {
     dispatch(loadProfileInit());
+    // let userData;
     axios.post(`/users.json?auth=${token}`, newUserData)
         .then( response => {
           const userData= {key: response.data.name,...newUserData};
+            // send post request with empty array:
+            // axios.post(`/posts.json?auth=${token}`, [])
+            // .then(response => {
+            //    userData = {...userData, postKey: response.data.name}
+            // }
+            // and userData you should move to outer scope, above first post request to /users
           dispatch(createProfileSuccess(userData));
         })
         .catch(error => {
@@ -30,6 +37,8 @@ export const createProfileAttempt =  (token,newUserData) => {
         })
   }
 }
+
+
 
 const createProfileSuccess = (userData) => {
   return {
@@ -96,7 +105,7 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                               }
                           }
                       } else if (fieldName === 'email' || fieldName === 'phone') {
-                          const updatedContacts = {...response.data['contacts'], [fieldName] : payload}
+                          const updatedContacts = {...response.data['contacts'], [fieldName]: payload}
                           updatedUserProfile = {...response.data, contacts: updatedContacts}
                       } else {
                           updatedUserProfile = {...response.data, [fieldName]: payload};
@@ -116,7 +125,7 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                               }
                           }
                       } else if (fieldName === 'email' || fieldName === 'phone') {
-                          const updatedContacts = {...response.data['contacts'], [fieldName] : payload}
+                          const updatedContacts = {...response.data['contacts'], [fieldName]: payload}
                           updatedUserProfile = {...response.data, contacts: updatedContacts}
                       } else {
                           updatedUserProfile = {...response.data, [fieldName]: payload};

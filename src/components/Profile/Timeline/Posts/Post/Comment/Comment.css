@@ -247,6 +247,10 @@
     padding-left: 10px;
 }
 
+.CommentBar input:focus {
+    border-bottom: 1px solid #0B86DE;
+}
+
 .CommentBar input {
     background-color: transparent;
     border: none;

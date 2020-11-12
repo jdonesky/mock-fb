@@ -20,7 +20,6 @@ import Lock from "../../../../../assets/images/padlock";
 import Friends from "../../../../../assets/images/friends";
 import Delete from "../../../../../assets/images/delete";
 
-import { LifeEventContext } from "../../../../../context/life-event-context";
 import { PostContext } from "../../../../../context/post-context";
 import {convertDatetime} from "../../../../../shared/utility";
 import * as actions from "../../../../../store/actions";
@@ -38,7 +37,7 @@ const post = (props) => {
         }
         console.log(comment)
     })
-    const lifeEventContext = useContext(LifeEventContext);
+
     const postContext = useContext(PostContext)
     const imageUploader = useRef(null);
     const gifUploader = useRef(null);
@@ -60,6 +59,11 @@ const post = (props) => {
             };
             reader.readAsDataURL(file);
         }
+    }
+
+    const saveComment = (event) => {
+        event.preventDefault();
+        props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts',)
     }
 
     const gifUploadHandler = (event) => {
@@ -163,7 +167,7 @@ const post = (props) => {
 
     let commentImagePreview = (
         <section className={classes.CommentImagePreviewSection} style={{display: commentImage ? 'flex' : 'none'}}>
-            <div className={classes.CommentImagePreviewContainer} style={{backgroundImage: commentImage ? `url(${commentImage}` : null}}></div>
+            <div className={classes.CommentImagePreviewContainer} style={{backgroundImage: commentImage ? `url(${commentImage}` : null}} onClick={() => imageUploader.current.click()}></div>
             <div className={classes.CancelCommentImagePreviewButton} onClick={() => setCommentImage(null)}><Delete /></div>
         </section>
     )
@@ -204,14 +208,16 @@ const post = (props) => {
                         {props.profileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
-                <div className={classes.CommentBar}>
-                    <input  placeholder="Write a comment..." value={commentText} onChange={(event) => updateCommentText(event)}/>
-                    <div className={classes.CommentButtons}>
-                        <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
-                        <div className={classes.CommentButtonIcon} onClick={() => imageUploader.current.click()}><Camera fill="#545353" /></div>
-                        <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={() => gifUploader.current.click()}><Gif fill="#545353" /></div>
+                <form onSubmit={saveComment} className={classes.CommentForm}>
+                    <div className={classes.CommentBar}>
+                        <input  placeholder="Write a comment..." value={commentText} onChange={(event) => updateCommentText(event)}/>
+                        <div className={classes.CommentButtons}>
+                            <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
+                            <div className={classes.CommentButtonIcon} onClick={() => imageUploader.current.click()}><Camera fill="#545353" /></div>
+                            <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={() => gifUploader.current.click()}><Gif fill="#545353" /></div>
+                        </div>
                     </div>
-                </div>
+                </form>
             </section>
             {commentImagePreview}
             <div className={classes.EnterCommentCaption}>
@@ -253,7 +259,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onProfileUpdate: (authToken,firebaseKey,fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken,firebaseKey,fieldName, payload, how, id))
+        onProfileUpdate: (authToken,firebaseKey,fieldName, payload, how, id, nestedId) => dispatch(actions.updateProfileAttempt(authToken,firebaseKey,fieldName, payload, how, id, nestedId))
     }
 }
 

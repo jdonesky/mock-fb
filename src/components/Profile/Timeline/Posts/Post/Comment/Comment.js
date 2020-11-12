@@ -1,5 +1,4 @@
 
-
 import React, {useState, useRef, useEffect} from 'react';
 import classes from './Comment.css';
 import postClasses from '../Post.css'
@@ -82,6 +81,7 @@ const comment = (props) => {
         setReplying(true);
         replyInput.current.offsetTop;
         replyInput.current.focus();
+
     }
 
     const editDropDown = (

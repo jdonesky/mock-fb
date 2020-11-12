@@ -284,6 +284,10 @@
     box-shadow: 0 0 3px 3px rgba(0,0,0,.1);
 }
 
+.CommentForm {
+    width: 100%;
+}
+
 .CommentBar {
     height: 40px;
     width: 93%;

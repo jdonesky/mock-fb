@@ -2,39 +2,41 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   posts: [],
-  loading: false,
-  error: null
+  loadingNewPost: false,
+  loadingPosts: false,
+  error: null,
+  postsKey: null
 };
 
-const fetchPostsInit = (state,action) => {
+const addPostInit = (state,action) => {
     return {
         ...state,
-        loading: true
+        loadingNewPost: true
     }
 }
 
-const fetchPostsSuccess = (state, action) => {
-  return {
-    ...state,
-    posts: action.posts,
-    loading: false
-  };
-};
+const addPostSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        loadingNewPost: false
+    }
+}
 
-const fetchPostsFail = (state, action) => {
-  return {
-    ...state,
-    error: action.error,
-    loading: false
-  };
-};
+const addPostFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        loadingNewPost: false
+    }
+}
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_POSTS_INIT: return fetchPostsInit(state,action);
-    case actionTypes.FETCH_POSTS_SUCCESS: return fetchPostsSuccess(state, action);
-    case actionTypes.FETCH_POSTS_FAIL: return fetchPostsFail(state, action);
-    default: 
+      case actionTypes.ADD_POST_INIT: return addPostInit(state,action);
+      case actionTypes.ADD_POST_SUCCESS: return addPostSuccess(state,action);
+      case actionTypes.ADD_POST_FAIL: return addPostFail(state,action);
+    default:
         return state
   }
 };

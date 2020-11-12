@@ -94,7 +94,8 @@ const PostContextProvider = (props) => {
             background: background || null,
             tagged: tagged,
             location: location,
-            date: new Date()
+            date: new Date(),
+            firebaseKey: props.firebaseKey
         };
         props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts', post, 'add');
         setText('');
