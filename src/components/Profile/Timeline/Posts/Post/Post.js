@@ -41,10 +41,17 @@ const post = (props) => {
     const postContext = useContext(PostContext)
     const imageUploader = useRef(null);
     const gifUploader = useRef(null);
+    const commentInput = useRef(null);
 
     const [commentText, setCommentText] = useState('');
     const [commentImage, setCommentImage] = useState(null);
     const [commentGif, setCommentGif] = useState(null);
+
+    const startCommentHandler = () => {
+        commentInput.current.offsetTop;
+        commentInput.current.focus();
+
+    }
 
     const updateCommentText = (event) => {
         setCommentText(event.target.value)
@@ -195,7 +202,7 @@ const post = (props) => {
                     <div className={[classes.ButtonIcon, classes.Like].join(" ")}><Like /></div>
                     <span>Like</span>
                 </div>
-                <div className={classes.Button}>
+                <div className={classes.Button}  onClick={startCommentHandler}>
                     <div className={[classes.ButtonIcon,classes.Comment].join(" ")}><SpeechBubble /></div>
                     <span>Comment</span>
                 </div>
@@ -210,7 +217,7 @@ const post = (props) => {
                 </div>
                 <form onSubmit={saveComment} className={classes.CommentForm}>
                     <div className={classes.CommentBar}>
-                        <input  placeholder="Write a comment..." value={commentText} onChange={(event) => updateCommentText(event)}/>
+                        <input  placeholder="Write a comment..." value={commentText} onChange={(event) => updateCommentText(event)} ref={commentInput}/>
                         <div className={classes.CommentButtons}>
                             <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
                             <div className={classes.CommentButtonIcon} onClick={() => imageUploader.current.click()}><Camera fill="#545353" /></div>

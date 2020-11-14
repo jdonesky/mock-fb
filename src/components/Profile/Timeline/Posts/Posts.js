@@ -7,6 +7,7 @@ const posts = ({posts}) => {
 
     const posted = posts && posts.length ? posts.map(post => (
         <Post
+            userPostKey={post.userPostKey}  // !!
             key={post.id}
             status={post.text}
             background={post.background}
@@ -28,6 +29,7 @@ const posts = ({posts}) => {
 const mapStateToProps = state => {
     return {
         posts: state.profile.posts
+        //posts: state.posts.posts
     }
 }
 
