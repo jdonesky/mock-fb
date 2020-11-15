@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from '../../axios/db-axios-instance'
+import {KeyGenerator} from "../../shared/utility";
 
 const addPostInit = () => {
     return {
@@ -7,13 +8,18 @@ const addPostInit = () => {
     }
 }
 
-const addFirstPostAttempt = (authToken, post) => {
+const addFirstPostAttempt = (authToken, postsKey, post) => {
     return dispatch => {
         dispatch(addPostInit());
-        axios.post(`/posts.json?auth=${authToken}`, post)
-            .then(response => {
-
-            })
+        KeyGenerator.getKey(authToken, (newKey) => {
+            axios.post(`/posts/${postsKey}.json?auth=${authToken}`, {...post, id: newKey})
+                .then(response => {
+                    dispatch(addPostSuccess(post))
+                })
+                .catch(error => {
+                    dispatch(addPostFail(error))
+                })
+        })
     }
 }
 
