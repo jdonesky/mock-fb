@@ -8,7 +8,7 @@ const addPostInit = () => {
     }
 }
 
-const addFirstPostAttempt = (authToken, postsKey, post) => {
+export const addPostAttempt = (authToken, postsKey, post) => {
     return dispatch => {
         dispatch(addPostInit());
         KeyGenerator.getKey(authToken, (newKey) => {
@@ -38,45 +38,37 @@ const addPostFail = (error) => {
 }
 
 
+const fetchSelfPostsInit = () => {
+    return {
+        type: actionTypes.FETCH_SELF_POSTS_INIT,
+    }
+}
 
-// const fetchPostsInit = () => {
-//   return {
-//     type: actionTypes.FETCH_POSTS_INIT
-//   };
-// };
-//
-// const fetchPostsSuccess = (posts) => {
-//   return {
-//     type: actionTypes.FETCH_POSTS_SUCCESS,
-//     posts: posts,
-//   };
-// };
-//
-// const fetchPostsFail = (error) => {
-//   return {
-//     type: actionTypes.FETCH_POSTS_FAIL,
-//     error: error,
-//   };
-// };
-//
-// export const fetchPostsAttempt = (db, userId=null) => {
-//   return (dispatch) => {
-//     dispatch(fetchPostsInit());
-//     let queryUrl = "/" + db + '.json'
-//     if (userId) {
-//       queryUrl = queryUrl + '?orderBy="userId"&equalTo="' + userId + '"'
-//     }
-//     axios.get(queryUrl)
-//     .then((response) => {
-//       const posts = Object.keys(response.data)
-//       .map((key) => {
-//         return { key: key, ...response.data[key] };
-//       });
-//
-//       dispatch(fetchPostsSuccess(posts));
-//     })
-//     .catch(error => {
-//         dispatch(fetchPostsFail(error))
-//     });
-//   };
-// };
+export const fetchSelfPostsAttempt = (authToken, postsKey) => {
+    return dispatch => {
+        dispatch(fetchSelfPostsInit())
+        axios.get(`/posts/${postsKey}.json?auth=${authToken}`)
+            .then(response => {
+                console.log(response.data);
+            //    dispatch(fetchSelfPostsSuccess(posts))
+            })
+            .catch(error => {
+                console.log(error)
+            //    dispatch(fetchSelfPostsFail(error))
+            })
+    }
+}
+
+const fetchSelfPostsSuccess = (posts) => {
+    return {
+        type: actionTypes.FETCH_SELF_POSTS_SUCCESS,
+        posts: posts
+    }
+}
+
+const fetchSelfPostsfail = (error) => {
+    return {
+        type: actionTypes.FETCH_SELF_POSTS_FAIL,
+        error: error
+    }
+}

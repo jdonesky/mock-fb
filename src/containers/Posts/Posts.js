@@ -47,8 +47,10 @@ const posts = () => {
 const mapStateToProps = (state) => {
   return {
     userId: state.auth.userId,
+    postsKey: state.profile.postsKey,
     isAuthenticated: state.auth.token !== null,
-    loading: state.posts.loading,
+    loadingNewPost: state.posts.loadingNewPost,
+    loadingSelfPosts: state.posts.loadingSelfPosts,
     error: state.posts.error,
     posts: state.posts.posts,
   };
@@ -57,7 +59,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchPosts: (db, userId) =>
-      dispatch(actions.fetchPostsAttempt(db, userId)),
+      dispatch(actions.fetchSelfPostsAttempt(db, userId)),
   };
 };
 

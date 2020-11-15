@@ -4,9 +4,16 @@ const initialState = {
   posts: [],
   loadingNewPost: false,
   loadingSelfPosts: false,
+  loadingFriendPosts: false,
   error: null,
-  postsKey: null
 };
+
+const fetchFriendsPostsInit = (state,action) => {
+    return {
+        ...state,
+        loadingFriendPosts: true
+    }
+}
 
 
 const fetchSelfPostsInit = (state,action) => {

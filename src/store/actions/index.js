@@ -12,8 +12,10 @@ export {
   clearProfile
 } from "./profile";
 
-export { 
-   fetchPostsAttempt 
+export {
+   fetchFriendsPostAttempt,
+   fetchSelfPostsAttempt,
+   addPostAttempt,
 } from "./posts";
 
 export {

@@ -122,6 +122,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how, id))
+
     };
 };
 
