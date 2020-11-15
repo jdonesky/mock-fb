@@ -83,11 +83,7 @@ export const authAttempt = (email, password, isSignUp, userData) => {
         }
       })
       .catch((error) => {
-        // if (error.response.data) {
-        //   console.log('[authAttempt] Error : ', error.response.data.error)
-        //   dispatch(authFail(error.response.data.error));
-        // }
-        console.log(error);
+        dispatch(authFail(error.response.data.error));
       });
   };
 };

@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { fieldBuilder, validityCheck } from "../../shared/utility";
@@ -9,6 +9,7 @@ import classes from "./Auth.css";
 
 
 const auth = props => {
+
   const [formInputs, setFormInputs] = useState(
       {
       email: fieldBuilder(
@@ -100,7 +101,7 @@ const auth = props => {
   });
 
   let authRedirect = props.isAuthenticated ? (
-    <Redirect to="/" />
+    <Redirect to="/user-profile" />
   ) : null;
 
   let errorMessage;

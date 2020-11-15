@@ -22,18 +22,20 @@ export const createProfileAttempt =  (token,newUserData) => {
     return dispatch => {
         dispatch(loadProfileInit());
         let userData;
-        axios.post(`/posts.json?auth=${token}`,[{text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(new Date())}`, date: new Date()}])
-            .then(response => {
-                userData = {postsKey: response.data.name, ...newUserData}
-                return axios.post(`/users.json?auth=${token}`, userData)
-            })
-            .then( response => {
-                userData = {userKey: response.data.name,...userData};
-                dispatch(createProfileSuccess(userData));
-            })
-            .catch(error => {
-                dispatch(updateProfileFail(error))
-            })
+        KeyGenerator.getKey(token, (newKey) => {
+            axios.post(`/posts.json?auth=${token}`,[{text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(new Date(), true)}`, date: new Date(), id: newKey}])
+                .then(response => {
+                    userData = {postsKey: response.data.name, ...newUserData}
+                    return axios.post(`/users.json?auth=${token}`, userData)
+                })
+                .then( response => {
+                    userData = {userKey: response.data.name,...userData};
+                    dispatch(createProfileSuccess(userData));
+                })
+                .catch(error => {
+                    dispatch(updateProfileFail(error))
+                })
+        })
     }
 }
 

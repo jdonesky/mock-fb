@@ -99,7 +99,6 @@ export const reverseMapMonths = {
 }
 
 
-
 export const convertDate = (date) => {
   const year = date.split('-')[0]
   const month = [date.split('-')[1]].map(month => monthMap[month]);
@@ -108,20 +107,22 @@ export const convertDate = (date) => {
 }
 
 
-export const convertDatetime = (date) => {
+export const convertDatetime = (date, noCheck) => {
 
-  const rawDate = date.toString().split("T")[0].split("-").reverse()
-  let day = rawDate[0];
-  const month = reverseMapMonths[rawDate[1]];
-  const year = rawDate[2];
+  const rawDate = date.toString().split(" ")
+  let day = rawDate[2];
+  const month = rawDate[1];
+  const year = rawDate[3];
   let formatted = `${month} ${day}, ${year}`
 
-  const checkDate = new Date(date);
-  const today = new Date();
-  if (checkDate.getDate() === today.getDate() &&
-      checkDate.getMonth() === today.getMonth() &&
-      checkDate.getFullYear() === today.getFullYear()) {
-    formatted = 'Today'
+  if (!noCheck) {
+    const checkDate = new Date(date);
+    const today = new Date();
+    if (checkDate.getDate() === today.getDate() &&
+        checkDate.getMonth() === today.getMonth() &&
+        checkDate.getFullYear() === today.getFullYear()) {
+      formatted = 'today'
+    }
   }
 
   return formatted;
