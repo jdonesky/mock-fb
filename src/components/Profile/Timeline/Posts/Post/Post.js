@@ -146,6 +146,7 @@ const post = (props) => {
             <Comment
                 postsKey={props.postsKey}
                 key={comment.id}
+                postId={props.id}
                 id={comment.id}
                 userId={comment.userId}
                 userName={comment.name}

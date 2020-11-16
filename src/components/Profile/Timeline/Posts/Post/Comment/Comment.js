@@ -17,9 +17,10 @@ import * as actions from '../../../../../../store/actions/index'
 const comment = (props) => {
 
     useEffect(() => {
-        console.log('COMMENT')
+        console.log('REPLY')
         const reply = {
             postsKey: props.postsKey,
+            postId: props.postId,
             commentId: props.id,
             userId: props.userId,
             profileImage: props.profileImage,
@@ -94,6 +95,7 @@ const comment = (props) => {
         event.preventDefault();
         const reply = {
             postsKey: props.postsKey,
+            postId: props.postId,
             commentId: props.id,
             userId: props.userId,
             profileImage: props.profileImage,
@@ -101,7 +103,7 @@ const comment = (props) => {
             image: replyImage,
             gif: replyGif
         }
-
+        props.onPostReply(props.authToken, props.postsKey, props.postId, props.id, reply)
     }
 
     const editDropDown = (
@@ -223,7 +225,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddReply: (authToken, postsKey, postId, commentId, reply) => dispatch(actions.addReplyAttempt(authToken, postsKey, postId, commentId, reply))
+        onPostReply: (authToken, postsKey, postId, commentId, reply) => dispatch(actions.addReplyAttempt(authToken, postsKey, postId, commentId, reply))
     }
 }
 

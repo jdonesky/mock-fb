@@ -112,10 +112,41 @@ const addReplyInit = () => {
 
 export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply) => {
     return dispatch => {
-        addReplyInit();
+        dispatch(addReplyInit());
         KeyGenerator.getKey(authToken, (newKey) => {
+            const url = `/posts/${postsKey}.json?auth=${authToken}`
             const newReply = {...reply, id: newKey}
+            let newPosts;
+            axios.get(url)
+                .then(response => {
+                    newPosts = [...response.data];
+                    const targetPostIndex = newPosts.findIndex(post => post.id === postId);
+                    const targetPost = newPosts.find(post => post.id === postId);
 
+                    const targetPostComments = [...targetPost.comments];
+                    const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
+                    const targetComment = targetPostComments.find(comment => comment.id === commentId);
+
+                    let targetCommentReplies;
+                    if (targetComment.replies && targetComment.replies.length) {
+                        targetCommentReplies = [...targetComment.replies, newReply];
+                    } else {
+                        targetCommentReplies = [newReply];
+                    }
+
+                    targetComment.replies = targetCommentReplies;
+                    targetPostComments[targetCommentIndex] = targetComment;
+                    targetPost.comments = targetPostComments;
+                    newPosts[targetPostIndex] = targetPost;
+
+                    return axios.put(url, newPosts)
+                })
+                .then(response => {
+                    dispatch(addReplySuccess(newPosts));
+                })
+                .catch(error => {
+                    dispatch(addReplyFail(error))
+                })
         })
     }
 }
@@ -133,7 +164,6 @@ const addReplyFail = (error) => {
         error: error
     }
 }
-
 
 const fetchSelfPostsInit = () => {
     return {

@@ -4,6 +4,7 @@ const initialState = {
   posts: [],
   loadingNewPost: false,
   loadingNewComment: false,
+  loadingNewReply: false,
   loadingSelfPosts: false,
   loadingFriendPosts: false,
   error: null,
@@ -55,6 +56,30 @@ const addCommentFail = (state,action) => {
         loadingNewComment: false,
     }
 }
+
+const addReplyInit = (state,action) => {
+    return {
+        ...state,
+        loadingNewReply: true
+    }
+}
+
+const addReplySuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        loadingNewReply: false
+    }
+}
+
+const addReplyFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        loadingNewReply: false
+    }
+}
+
 
 const fetchSelfPostsInit = (state,action) => {
     return {
