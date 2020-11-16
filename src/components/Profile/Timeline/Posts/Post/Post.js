@@ -20,8 +20,10 @@ import Lock from "../../../../../assets/images/padlock";
 import Friends from "../../../../../assets/images/friends";
 import Delete from "../../../../../assets/images/delete";
 
+import InlineDots from '../../../../UI/Spinner/InlineDots'
+
 import { PostContext } from "../../../../../context/post-context";
-import {convertDatetime} from "../../../../../shared/utility";
+import {convertDashedDatetime} from "../../../../../shared/utility";
 import * as actions from "../../../../../store/actions";
 
 
@@ -69,7 +71,15 @@ const post = (props) => {
 
     const saveComment = (event) => {
         event.preventDefault();
-        props.onPostComment()
+        const comment = {
+            userId: props.userId,
+            name: props.name,
+            profileImage: props.profileImage,
+            text: commentText,
+            image: commentImage,
+            gif: commentGif,
+        }
+        props.onPostComment(props.authToken, props.postsKey, props.id, comment)
     }
 
     const gifUploadHandler = (event) => {
@@ -140,35 +150,30 @@ const post = (props) => {
     }
 
     let commentsSection;
-    let comments;
-    const testComments = [
-        {id: 1,userId: 1, userName: 'Username', text: 'example-comment ', image: D, replies: [
-                {id:2, userId: 2, userName: 'Username', text: 'example-reply', image: K }
-            ]},
-        {id: 2,userId: 2, userName: 'Username', text: 'example-comment ', image: K, replies: [
-                {id:3, userId: 3, userName: 'Username', image: D, text: 'example-reply'},
-                {id:4, userId: 4, userName: 'Username2', image: K, text: 'example-reply2'}
-            ]}
-        ]
-
+    let postsComments;
     if (true) {
-        // comments = props.comments && props.comments.length && props.comments.map(comment => (
-         comments = testComments.map(comment => (
+        postsComments = props.comments && props.comments.length && props.comments.map(comment => (
             <Comment
                 key={comment.id}
                 userId={comment.userId}
-                userName={comment.userName}
+                userName={comment.name}
+                profileImage={comment.profileImage}
                 text={comment.text}
                 image={comment.image}
                 gif={comment.gif}
                 replies={comment.replies}
             />
         ))
+
         commentsSection = (
             <section className={classes.CommentsSection}>
-                {comments}
+                {postsComments}
             </section>
         )
+    }
+
+    if (props.loadingNewComment) {
+        commentsSection = <InlineDots />
     }
 
     let commentImagePreview = (
@@ -189,7 +194,7 @@ const post = (props) => {
                 <div className={classes.IdContainer}>
                     <div>{props.name && props.name}</div>
                     <div className={classes.DateAndPrivacyContainer}>
-                        <span className={classes.Date}>{props.date ? convertDatetime(props.date) + '          •' : '-- -- ---        •'}</span>
+                        <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date) + '          •' : '-- -- ---        •'}</span>
                         <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>
                     </div>
                 </div>
@@ -259,13 +264,15 @@ const mapStateToProps = state => {
         firebaseKey: state.profile.firebaseKey,
         userId: state.profile.userId,
         profileImage: state.profile.profileImage,
-        name: state.profile.firstName + ' ' + state.profile.lastName
+        name: state.profile.firstName + ' ' + state.profile.lastName,
+        loadingNewComment: state.posts.loadingNewComment
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPostComment: () => dispatch()
+        onPostComment: (authToken, postsKey, postId, comment) => dispatch(actions.addCommentAttempt(authToken, postsKey, postId, comment)),
+        onFetchSelfPosts: (authToken, postsKey) => dispatch(actions.fetchSelfPostsAttempt(authToken, postsKey))
     }
 }
 

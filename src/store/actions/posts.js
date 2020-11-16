@@ -48,6 +48,73 @@ const addPostFail = (error) => {
     }
 }
 
+const addCommentInit = () => {
+    return {
+        type: actionTypes.ADD_COMMENT_INIT
+    }
+}
+
+export const addCommentAttempt = (authToken, postsKey, id, comment) => {
+    return dispatch => {
+
+        console.log('authToken',authToken);
+        console.log('postsKey', postsKey)
+        console.log('id', id)
+        console.log('comment', comment)
+
+        dispatch(addCommentInit());
+        const url = `/posts/${postsKey}.json?auth=${authToken}`
+        KeyGenerator.getKey(authToken, (newKey) => {
+            const newComment = {...comment, id: newKey}
+            axios.get(url)
+                .then(response => {
+                    const newPosts = [...response.data]
+                    const targetPostIndex = response.data.findIndex(post => post.id === id);
+                    const targetPost = response.data.find(post => post.id === id);
+                    let targetPostComments;
+                    if (targetPost.comments && targetPost.comments.length) {
+                        targetPostComments = [ ...targetPost.comments, newComment ];
+                    } else {
+                        targetPostComments = [newComment];
+                    }
+                    targetPost.comments = targetPostComments;
+                    newPosts[targetPostIndex] = targetPost;
+                    axios.put(url,newPosts)
+                        .then(response => {
+                            console.log('PUT NEW COMMENT SUCCESS');
+                            console.log('NEW POSTS ', newPosts);
+                            dispatch(addCommentSuccess(newPosts))
+                        })
+                        .catch(error => {
+                            console.log('PUT NEW COMMENT FAIL')
+                            dispatch(addCommentFail(error))
+                        })
+                })
+                .catch(error => {
+                    console.log('GET POSTS FAILED')
+                    console.log(error)
+                    dispatch(addCommentFail(error))
+                })
+        })
+
+
+    }
+}
+
+const addCommentSuccess = () => {
+    return {
+        type: actionTypes.ADD_COMMENT_SUCCESS
+    }
+}
+
+const addCommentFail = (error) => {
+    return {
+        type: actionTypes.ADD_COMMENT_FAIL,
+        error: error
+    }
+}
+
+
 const fetchSelfPostsInit = () => {
     return {
         type: actionTypes.FETCH_SELF_POSTS_INIT,

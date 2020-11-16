@@ -7,8 +7,9 @@ import * as actions from '../../../../store/actions/index'
 const posts = ({posts, authToken, postsKey, onFetchSelfPosts}) => {
 
     useEffect(() => {
+        console.log('posts component: posts ', posts && posts);
         onFetchSelfPosts(authToken, postsKey)
-    }, [])
+    }, [onFetchSelfPosts, authToken, postsKey])
 
     const posted = posts && posts.length ? posts.map(post => (
         <Post

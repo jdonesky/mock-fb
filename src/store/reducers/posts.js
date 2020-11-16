@@ -3,10 +3,12 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   posts: [],
   loadingNewPost: false,
+  loadingNewComment: false,
   loadingSelfPosts: false,
   loadingFriendPosts: false,
   error: null,
 };
+
 
 const addPostInit = (state,action) => {
     return {
@@ -28,6 +30,27 @@ const addPostFail = (state,action) => {
         ...state,
         error: action.error,
         loadingNewPost: false
+    }
+}
+
+const addCommentInit = (state,action) => {
+    return {
+        ...state,
+        loadingNewComment: true
+    }
+}
+
+const addCommentSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts
+    }
+}
+
+const addCommentFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error
     }
 }
 
@@ -61,6 +84,22 @@ const fetchFriendsPostsInit = (state,action) => {
     }
 }
 
+const fetchFriendsPostsSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        loadingFriendPosts: false
+    }
+}
+
+const fetchFriendsPostsFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        loadingFriendPosts: false
+    }
+}
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -70,6 +109,9 @@ const reducer = (state = initialState, action) => {
       case actionTypes.ADD_POST_INIT: return addPostInit(state,action);
       case actionTypes.ADD_POST_SUCCESS: return addPostSuccess(state,action);
       case actionTypes.ADD_POST_FAIL: return addPostFail(state,action);
+      case actionTypes.ADD_COMMENT_INIT: return addCommentInit(state,action);
+      case actionTypes.ADD_COMMENT_SUCCESS: return addCommentSuccess(state,action);
+      case actionTypes.ADD_COMMENT_FAIL: return addCommentFail(state,action);
     default:
         return state
   }

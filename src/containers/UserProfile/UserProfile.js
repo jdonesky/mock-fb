@@ -23,7 +23,7 @@ const ProfileAbout = React.lazy(() => {
 
 const userProfile = (props) => {
 
-    const {onFetchProfile,userId,authToken} = props
+    const {onFetchProfile, userId, authToken} = props
 
     useEffect(() => {
       onFetchProfile(userId, authToken);
@@ -68,6 +68,7 @@ const mapStateToProps = (state) => {
   return {
     userId: state.auth.userId,
     authToken: state.auth.token,
+    posts: state.posts.posts,
     firebaseKey: state.profile.firebaseKey,
     name: state.profile.firstName + ' ' + state.profile.lastName,
     birthday: state.profile.birthday,

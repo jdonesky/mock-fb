@@ -13,16 +13,16 @@ import Delete from "../../../../../../assets/images/delete";
 
 const comment = (props) => {
 
-    useEffect(() => {
-        const reply = {
-            userId: props.userId,
-            profileImage: props.profileImage,
-            text: replyText,
-            image: replyImage,
-            gif: replyGif
-        }
-        console.log(reply)
-    })
+    // useEffect(() => {
+    //     const reply = {
+    //         userId: props.userId,
+    //         profileImage: props.profileImage,
+    //         text: replyText,
+    //         image: replyImage,
+    //         gif: replyGif
+    //     }
+    //     console.log(reply)
+    // })
 
     const [replying, setReplying] = useState(false);
     const [editingComment, setEditingComment] = useState(false);

@@ -17,22 +17,35 @@ const updateProfileInit = () => {
   };
 };
 
-
 export const createProfileAttempt =  (token,newUserData) => {
     return dispatch => {
         dispatch(loadProfileInit());
         let userData;
+        let postsKey;
         KeyGenerator.getKey(token, (newKey) => {
             axios.post(`/posts.json?auth=${token}`,[{text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(new Date(), true)}`, date: new Date(), id: newKey}])
                 .then(response => {
-                    userData = {postsKey: response.data.name, ...newUserData}
+                    postsKey = response.data.name;
+                    console.log('POSTS KEY', postsKey)
+                    return axios.get(`/posts/${postsKey}.json?auth=${token}`)
+                })
+                .then(response => {
+                    const postWithKey = {...response.data[0], postsKey: postsKey}
+                    console.log('POST WITH KEY', postWithKey)
+                    return axios.put(`/posts/${postsKey}.json?auth=${token}`, [postWithKey]);
+                })
+                .then(response => {
+                    userData = {postsKey: postsKey, ...newUserData}
+                    console.log('USER DATA WITH POSTS KEY ', userData)
                     return axios.post(`/users.json?auth=${token}`, userData)
                 })
                 .then( response => {
                     userData = {userKey: response.data.name,...userData};
+                    console.log('USER DATA WITH USER KEY ', userData)
                     dispatch(createProfileSuccess(userData));
                 })
                 .catch(error => {
+                    console.log(error.message);
                     dispatch(updateProfileFail(error))
                 })
         })
@@ -42,14 +55,21 @@ export const createProfileAttempt =  (token,newUserData) => {
 // export const createProfileAttempt =  (token,newUserData) => {
 //     return dispatch => {
 //         dispatch(loadProfileInit());
-//         axios.post(`/users.json?auth=${token}`, newUserData)
-//             .then( response => {
-//                 const userData= {userKey: response.data.name,...newUserData};
-//                 dispatch(createProfileSuccess(userData));
-//             })
-//             .catch(error => {
-//                 dispatch(updateProfileFail(error))
-//             })
+//         let userData;
+//         KeyGenerator.getKey(token, (newKey) => {
+//             axios.post(`/posts.json?auth=${token}`,[{text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(new Date(), true)}`, date: new Date(), id: newKey}])
+//                 .then(response => {
+//                     userData = {postsKey: response.data.name, ...newUserData}
+//                     return axios.post(`/users.json?auth=${token}`, userData)
+//                 })
+//                 .then( response => {
+//                     userData = {userKey: response.data.name,...userData};
+//                     dispatch(createProfileSuccess(userData));
+//                 })
+//                 .catch(error => {
+//                     dispatch(updateProfileFail(error))
+//                 })
+//         })
 //     }
 // }
 
