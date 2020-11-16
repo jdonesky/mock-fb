@@ -12,12 +12,23 @@ export const addPostAttempt = (authToken, postsKey, post) => {
     return dispatch => {
         dispatch(addPostInit());
         KeyGenerator.getKey(authToken, (newKey) => {
-            axios.post(`/posts/${postsKey}.json?auth=${authToken}`, {...post, id: newKey})
+            const url = `/posts/${postsKey}.json?auth=${authToken}`
+            axios.get(url)
                 .then(response => {
-                    dispatch(addPostSuccess(post))
+                    console.log(response.data)
+                    const newPosts = [...response.data, {...post, id: newKey}]
+                    axios.put(url, newPosts)
+                        .then(response => {
+                            console.log('PUT NEW POST SUCCESSFULLY')
+                            dispatch(addPostSuccess(newPosts))
+                        })
+                        .catch(error => {
+                            console.log('PUT NEW POST FAILED')
+                            dispatch(addPostFail(error))
+                        })
                 })
                 .catch(error => {
-                    dispatch(addPostFail(error))
+                    console.log(error)
                 })
         })
     }
@@ -37,7 +48,6 @@ const addPostFail = (error) => {
     }
 }
 
-
 const fetchSelfPostsInit = () => {
     return {
         type: actionTypes.FETCH_SELF_POSTS_INIT,
@@ -50,11 +60,11 @@ export const fetchSelfPostsAttempt = (authToken, postsKey) => {
         axios.get(`/posts/${postsKey}.json?auth=${authToken}`)
             .then(response => {
                 console.log(response.data);
-            //    dispatch(fetchSelfPostsSuccess(posts))
+               // dispatch(fetchSelfPostsSuccess(posts))
             })
             .catch(error => {
                 console.log(error)
-            //    dispatch(fetchSelfPostsFail(error))
+               // dispatch(fetchSelfPostsFail(error))
             })
     }
 }
@@ -72,3 +82,33 @@ const fetchSelfPostsfail = (error) => {
         error: error
     }
 }
+
+const fetchFriendsPostsInit = () => {
+    return {
+        type: actionTypes.FETCH_FRIENDS_POSTS_INIT
+    }
+}
+
+
+const fetchFriendsPostsAttempt = () => {
+    return dispatch => {
+        dispatch(fetchFriendsPostsInit())
+    }
+}
+
+const fetchFriendsPostsSuccess = (posts) => {
+    return {
+        type: actionTypes.FETCH_FRIENDS_POSTS_SUCCESS,
+        posts: posts
+    }
+}
+
+const fetchFriendsPostsFail = (error) => {
+    return {
+        type: actionTypes.FETCH_FRIENDS_POSTS_FAIL,
+        error: error
+    }
+}
+
+
+

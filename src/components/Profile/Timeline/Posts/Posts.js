@@ -1,13 +1,18 @@
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import Post from './Post/Post';
+import * as actions from '../../../../store/actions/index'
 
-const posts = ({posts}) => {
+const posts = ({posts, authToken, postsKey, onFetchSelfPosts}) => {
+
+    useEffect(() => {
+        onFetchSelfPosts(authToken, postsKey)
+    }, [])
 
     const posted = posts && posts.length ? posts.map(post => (
         <Post
-            userPostKey={post.userPostKey}  // !!
+            userPostKey={post.userPostKey}
             key={post.id}
             status={post.text}
             background={post.background}
@@ -28,9 +33,16 @@ const posts = ({posts}) => {
 
 const mapStateToProps = state => {
     return {
-        posts: state.profile.posts
-        //posts: state.posts.posts
+        authToken: state.auth.token,
+        postsKey: state.profile.postsKey,
+        posts: state.posts.posts
     }
 }
 
-export default connect(mapStateToProps)(posts);
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchSelfPosts: (authToken, postsKey) => dispatch(actions.fetchSelfPostsAttempt(authToken, postsKey))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(posts);

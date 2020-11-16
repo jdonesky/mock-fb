@@ -8,37 +8,6 @@ const initialState = {
   error: null,
 };
 
-const fetchFriendsPostsInit = (state,action) => {
-    return {
-        ...state,
-        loadingFriendPosts: true
-    }
-}
-
-
-const fetchSelfPostsInit = (state,action) => {
-    return {
-        ...state,
-        loadingSelfPosts: true
-    }
-}
-
-const fetchSelfPostsSuccess = (state,action) => {
-    return {
-        ...state,
-        posts: [...state.posts, action.posts],
-        loadingSelfPosts: false,
-    }
-}
-
-const fetchSelfPostsFail = (state,action) => {
-    return {
-        ...state,
-        error: action.error,
-        loadingSelfPosts: false,
-    }
-}
-
 const addPostInit = (state,action) => {
     return {
         ...state,
@@ -61,6 +30,37 @@ const addPostFail = (state,action) => {
         loadingNewPost: false
     }
 }
+
+const fetchSelfPostsInit = (state,action) => {
+    return {
+        ...state,
+        loadingSelfPosts: true
+    }
+}
+
+const fetchSelfPostsSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        loadingSelfPosts: false,
+    }
+}
+
+const fetchSelfPostsFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        loadingSelfPosts: false,
+    }
+}
+
+const fetchFriendsPostsInit = (state,action) => {
+    return {
+        ...state,
+        loadingFriendPosts: true
+    }
+}
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {

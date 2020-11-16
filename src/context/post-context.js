@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux'
 import * as actions from "../store/actions";
+import post from "../components/Users/Post/Post";
 
 export const PostContext = React.createContext({
     text: '',
@@ -95,9 +96,10 @@ const PostContextProvider = (props) => {
             tagged: tagged,
             location: location,
             date: new Date(),
-            firebaseKey: props.firebaseKey
+            userKey: props.firebaseKey,
+            postsKey: props.postsKey,
         };
-        props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts', post, 'add');
+        props.onAddPost(props.authToken, props.postsKey, post);
         setText('');
         setImage(null);
         setBackground(null);
@@ -116,13 +118,13 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
+        postsKey: state.profile.postsKey
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how, id))
-
+        onAddPost: (authToken, postsKey, payload) => dispatch(actions.addPostAttempt(authToken, postsKey, payload))
     };
 };
 

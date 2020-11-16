@@ -1,5 +1,5 @@
 
-import React, {useContext, useState, useCallback, useEffect} from 'react';
+import React, {useContext, useState, useCallback} from 'react';
 import {connect} from 'react-redux';
 import baseClasses from '../ChooseBackground/ChooseBackground.css';
 import classes from "./Location.css";
@@ -13,12 +13,17 @@ import Search from "../../../../Search/Searchbar";
 
 const searchLocations = ({pastLocations, currLocation, hometown}) => {
 
+
     const postContext = useContext(PostContext);
 
-    const curLoc = {type: 'current', name: currLocation.name};
-    const homeLoc = {type: 'hometown', name: hometown.name};
-    const pastLocs = pastLocations.map(loc => ({type: 'pastLocation', name: loc.name}));
-    const allSuggestions = [curLoc, homeLoc, ...pastLocs];
+    const curLoc = currLocation ? {type: 'current', name: currLocation.name} : {name: ''};
+    const homeLoc = hometown ? {type: 'hometown', name: hometown.name} : {name: ''};
+    const pastLocs = pastLocations && pastLocations.length ? pastLocations.map(loc => ({type: 'pastLocation', name: loc.name})) : null;
+    let allSuggestions = [curLoc, homeLoc];
+
+    if (pastLocs && pastLocs.length) {
+        allSuggestions = [...allSuggestions,...pastLocs]
+    }
 
     const [suggestions, setSuggestions] = useState(allSuggestions);
 
@@ -30,7 +35,7 @@ const searchLocations = ({pastLocations, currLocation, hometown}) => {
     const filterTerms = useCallback((name) => {
         axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${name}&types=(cities)&language=en&key=AIzaSyD4T1w5B2QyiyC4gFZ_f1dmvZ8_ghJkX0E`)
             .then(response => {
-                const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
+                const filtered = allSuggestions.filter(suggestion => suggestion.name.slice(0,name.length).toLowerCase() === name.toLowerCase());
                 filtered.push(...[...response.data.predictions].map(city => ({type: 'pastLocation', name: city.description})))
                 setSuggestions(filtered.length ? filtered : '')
             })
@@ -41,9 +46,11 @@ const searchLocations = ({pastLocations, currLocation, hometown}) => {
             })
     }, [])
 
-    const friendSuggestions = suggestions && suggestions.map((suggest,i) => (
-        <Suggestion key={i} name={suggest.name} img={suggest.img} clicked={() => selectSuggestion(suggest.name)} />
-    ))
+    const locationSuggestions = suggestions && suggestions.map((suggest,i) => {
+        if (suggest.name.length) {
+            return <Suggestion key={i} name={suggest.name} img={suggest.img} clicked={() => selectSuggestion(suggest.name)}/>
+        }
+    })
 
     return (
         <div>
@@ -59,7 +66,7 @@ const searchLocations = ({pastLocations, currLocation, hometown}) => {
                 <Search filterResults={filterTerms} className={classes.SearchBar} placeholder="Where are you?"/>
             </section>
             <section className={classes.SuggestionsSection}>
-                {friendSuggestions}
+                {locationSuggestions}
             </section>
         </div>
     );
