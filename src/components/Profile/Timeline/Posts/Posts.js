@@ -12,15 +12,16 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts}) => {
 
     const posted = posts && posts.length ? posts.map(post => (
         <Post
-            userPostKey={post.userPostKey}
+            postsKey={post.postsKey}
+            userKey={post.userKey}
             key={post.id}
+            id={post.id}
             status={post.text}
             background={post.background}
             image={post.image}
             date={post.date}
             location={post.location}
             comments={post.comments}
-            id={post.id}
         />
     )) : null
 

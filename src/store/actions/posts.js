@@ -60,11 +60,11 @@ export const fetchSelfPostsAttempt = (authToken, postsKey) => {
         axios.get(`/posts/${postsKey}.json?auth=${authToken}`)
             .then(response => {
                 console.log(response.data);
-               // dispatch(fetchSelfPostsSuccess(posts))
+               dispatch(fetchSelfPostsSuccess(response.data))
             })
             .catch(error => {
                 console.log(error)
-               // dispatch(fetchSelfPostsFail(error))
+               dispatch(fetchSelfPostsFail(error))
             })
     }
 }
@@ -76,7 +76,7 @@ const fetchSelfPostsSuccess = (posts) => {
     }
 }
 
-const fetchSelfPostsfail = (error) => {
+const fetchSelfPostsFail = (error) => {
     return {
         type: actionTypes.FETCH_SELF_POSTS_FAIL,
         error: error

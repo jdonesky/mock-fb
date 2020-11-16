@@ -13,7 +13,6 @@ export {
 } from "./profile";
 
 export {
-   fetchFriendsPostAttempt,
    fetchSelfPostsAttempt,
    addPostAttempt,
 } from "./posts";

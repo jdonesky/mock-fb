@@ -50,7 +50,6 @@ const post = (props) => {
     const startCommentHandler = () => {
         commentInput.current.offsetTop;
         commentInput.current.focus();
-
     }
 
     const updateCommentText = (event) => {
@@ -70,7 +69,7 @@ const post = (props) => {
 
     const saveComment = (event) => {
         event.preventDefault();
-        props.onProfileUpdate(props.authToken, props.firebaseKey, 'posts',)
+        props.onPostComment()
     }
 
     const gifUploadHandler = (event) => {
@@ -266,7 +265,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onProfileUpdate: (authToken,firebaseKey,fieldName, payload, how, id, nestedId) => dispatch(actions.updateProfileAttempt(authToken,firebaseKey,fieldName, payload, how, id, nestedId))
+        onPostComment: () => dispatch()
     }
 }
 
