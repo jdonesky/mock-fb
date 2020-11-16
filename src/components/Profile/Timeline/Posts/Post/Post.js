@@ -29,17 +29,6 @@ import * as actions from "../../../../../store/actions";
 
 const post = (props) => {
 
-    useEffect(() => {
-        const comment = {
-            userId: props.userId,
-            profileImage: props.profileImage,
-            text: commentText,
-            image: commentImage,
-            gif: commentGif,
-        }
-        console.log(comment)
-    })
-
     const postContext = useContext(PostContext)
     const imageUploader = useRef(null);
     const gifUploader = useRef(null);
@@ -72,6 +61,7 @@ const post = (props) => {
     const saveComment = (event) => {
         event.preventDefault();
         const comment = {
+            postsKey: props.postsKey,
             userId: props.userId,
             name: props.name,
             profileImage: props.profileImage,
@@ -154,7 +144,9 @@ const post = (props) => {
     if (true) {
         postsComments = props.comments && props.comments.length && props.comments.map(comment => (
             <Comment
+                postsKey={props.postsKey}
                 key={comment.id}
+                id={comment.id}
                 userId={comment.userId}
                 userName={comment.name}
                 profileImage={comment.profileImage}
@@ -165,15 +157,17 @@ const post = (props) => {
             />
         ))
 
+        let loadingNewCommentIndicator;
+        if (props.loadingNewComment) {
+            loadingNewCommentIndicator = <InlineDots />
+        }
+
         commentsSection = (
             <section className={classes.CommentsSection}>
                 {postsComments}
+                {loadingNewCommentIndicator}
             </section>
         )
-    }
-
-    if (props.loadingNewComment) {
-        commentsSection = <InlineDots />
     }
 
     let commentImagePreview = (

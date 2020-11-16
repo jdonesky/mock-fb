@@ -16,6 +16,7 @@ export {
    fetchSelfPostsAttempt,
    addPostAttempt,
    addCommentAttempt,
+   addReplyAttempt
 } from "./posts";
 
 export {

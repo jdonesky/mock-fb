@@ -43,14 +43,16 @@ const addCommentInit = (state,action) => {
 const addCommentSuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts
+        posts: action.posts,
+        loadingNewComment: false
     }
 }
 
 const addCommentFail = (state,action) => {
     return {
         ...state,
-        error: action.error
+        error: action.error,
+        loadingNewComment: false,
     }
 }
 

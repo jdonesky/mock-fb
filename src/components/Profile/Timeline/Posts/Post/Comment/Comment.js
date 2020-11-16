@@ -1,5 +1,6 @@
 
 import React, {useState, useRef, useEffect} from 'react';
+import {connect} from 'react-redux'
 import classes from './Comment.css';
 import postClasses from '../Post.css'
 import NoGenderPlaceholder from "../../../../../../assets/images/profile-placeholder-gender-neutral";
@@ -11,18 +12,23 @@ import OutsideAlerter from "../../../../../../hooks/outsideClickHandler";
 import Reply from './Reply/Reply'
 import Delete from "../../../../../../assets/images/delete";
 
+import * as actions from '../../../../../../store/actions/index'
+
 const comment = (props) => {
 
-    // useEffect(() => {
-    //     const reply = {
-    //         userId: props.userId,
-    //         profileImage: props.profileImage,
-    //         text: replyText,
-    //         image: replyImage,
-    //         gif: replyGif
-    //     }
-    //     console.log(reply)
-    // })
+    useEffect(() => {
+        console.log('COMMENT')
+        const reply = {
+            postsKey: props.postsKey,
+            commentId: props.id,
+            userId: props.userId,
+            profileImage: props.profileImage,
+            text: replyText,
+            image: replyImage,
+            gif: replyGif
+        }
+        console.log(reply)
+    })
 
     const [replying, setReplying] = useState(false);
     const [editingComment, setEditingComment] = useState(false);
@@ -84,6 +90,20 @@ const comment = (props) => {
 
     }
 
+    const saveReply = (event) => {
+        event.preventDefault();
+        const reply = {
+            postsKey: props.postsKey,
+            commentId: props.id,
+            userId: props.userId,
+            profileImage: props.profileImage,
+            text: replyText,
+            image: replyImage,
+            gif: replyGif
+        }
+
+    }
+
     const editDropDown = (
         <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
             <div className={classes.BaseArrow} />
@@ -115,6 +135,7 @@ const comment = (props) => {
                     {props.profileImage ? null : <NoGenderPlaceholder />}
                 </div>
             </div>
+            <form className={classes.ReplyForm} onSubmit={saveReply}>
             <div className={classes.CommentBar}>
                 <input  ref={replyInput} placeholder="Write a comment..." value={replyText} onChange={(event) => updateReplyText(event)}/>
                 <div className={classes.CommentButtons}>
@@ -123,6 +144,7 @@ const comment = (props) => {
                     <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={() => gifUploader.current.click()}><Gif fill="#545353" /></div>
                 </div>
             </div>
+            </form>
         </section>
     )
 
@@ -193,4 +215,16 @@ const comment = (props) => {
     )
 }
 
-export default comment;
+const mapStateToProps = state => {
+    return {
+        authToken: state.auth.token
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddReply: (authToken, postsKey, postId, commentId, reply) => dispatch(actions.addReplyAttempt(authToken, postsKey, postId, commentId, reply))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(comment);

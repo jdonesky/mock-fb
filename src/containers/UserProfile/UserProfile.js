@@ -14,7 +14,6 @@ import DeleteModal from "../../components/UI/Modal/DeleteModal"
 import LifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal'
 import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost'
 
-import {convertDatetime} from "../../shared/utility";
 
 
 const ProfileAbout = React.lazy(() => {
@@ -68,7 +67,6 @@ const mapStateToProps = (state) => {
   return {
     userId: state.auth.userId,
     authToken: state.auth.token,
-    posts: state.posts.posts,
     firebaseKey: state.profile.firebaseKey,
     name: state.profile.firstName + ' ' + state.profile.lastName,
     birthday: state.profile.birthday,

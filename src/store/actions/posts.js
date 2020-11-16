@@ -56,12 +56,6 @@ const addCommentInit = () => {
 
 export const addCommentAttempt = (authToken, postsKey, id, comment) => {
     return dispatch => {
-
-        console.log('authToken',authToken);
-        console.log('postsKey', postsKey)
-        console.log('id', id)
-        console.log('comment', comment)
-
         dispatch(addCommentInit());
         const url = `/posts/${postsKey}.json?auth=${authToken}`
         KeyGenerator.getKey(authToken, (newKey) => {
@@ -81,18 +75,13 @@ export const addCommentAttempt = (authToken, postsKey, id, comment) => {
                     newPosts[targetPostIndex] = targetPost;
                     axios.put(url,newPosts)
                         .then(response => {
-                            console.log('PUT NEW COMMENT SUCCESS');
-                            console.log('NEW POSTS ', newPosts);
                             dispatch(addCommentSuccess(newPosts))
                         })
                         .catch(error => {
-                            console.log('PUT NEW COMMENT FAIL')
                             dispatch(addCommentFail(error))
                         })
                 })
                 .catch(error => {
-                    console.log('GET POSTS FAILED')
-                    console.log(error)
                     dispatch(addCommentFail(error))
                 })
         })
@@ -101,15 +90,46 @@ export const addCommentAttempt = (authToken, postsKey, id, comment) => {
     }
 }
 
-const addCommentSuccess = () => {
+const addCommentSuccess = (posts) => {
     return {
-        type: actionTypes.ADD_COMMENT_SUCCESS
+        type: actionTypes.ADD_COMMENT_SUCCESS,
+        posts: posts
     }
 }
 
 const addCommentFail = (error) => {
     return {
         type: actionTypes.ADD_COMMENT_FAIL,
+        error: error
+    }
+}
+
+const addReplyInit = () => {
+    return {
+        type: actionTypes.ADD_REPLY_INIT
+    }
+}
+
+export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply) => {
+    return dispatch => {
+        addReplyInit();
+        KeyGenerator.getKey(authToken, (newKey) => {
+            const newReply = {...reply, id: newKey}
+
+        })
+    }
+}
+
+const addReplySuccess = (posts) => {
+    return {
+        type: actionTypes.ADD_REPLY_SUCCESS,
+        posts: posts
+    }
+}
+
+const addReplyFail = (error) => {
+    return {
+        type: actionTypes.ADD_REPLY_FAIL,
         error: error
     }
 }
