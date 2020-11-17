@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   posts: [],
   loadingNewPost: false,
+  deletingPost: false,
   loadingNewComment: false,
   loadingNewReply: false,
   loadingSelfPosts: false,
@@ -31,6 +32,29 @@ const addPostFail = (state,action) => {
         ...state,
         error: action.error,
         loadingNewPost: false
+    }
+}
+
+const deletePostInit = (state,action) => {
+    return {
+        ...state,
+        deletingPosts: true
+    }
+}
+
+const deletePostSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        deletingPost: false
+    }
+}
+
+const deletePostFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        deletingPost: false
     }
 }
 
@@ -136,9 +160,15 @@ const reducer = (state = initialState, action) => {
       case actionTypes.ADD_POST_INIT: return addPostInit(state,action);
       case actionTypes.ADD_POST_SUCCESS: return addPostSuccess(state,action);
       case actionTypes.ADD_POST_FAIL: return addPostFail(state,action);
+      case actionTypes.DELETE_POST_INIT: return deletePostInit(state,action);
+      case actionTypes.DELETE_POST_SUCCESS: return deletePostSuccess(state,action);
+      case actionTypes.DELETE_POST_FAIL: return deletePostFail(state,action);
       case actionTypes.ADD_COMMENT_INIT: return addCommentInit(state,action);
       case actionTypes.ADD_COMMENT_SUCCESS: return addCommentSuccess(state,action);
       case actionTypes.ADD_COMMENT_FAIL: return addCommentFail(state,action);
+      case actionTypes.ADD_REPLY_INIT: return addReplyInit(state,action);
+      case actionTypes.ADD_REPLY_SUCCESS: return addReplySuccess(state,action);
+      case actionTypes.ADD_REPLY_FAIL: return addReplyFail(state,action);
     default:
         return state
   }

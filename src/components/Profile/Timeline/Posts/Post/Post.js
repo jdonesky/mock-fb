@@ -10,6 +10,7 @@ import K from '../../../../../assets/images/Raster/kaleidoscope.jpg'
 import Comment from './Comment/Comment';
 
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
+import Dots from '../../../../../assets/images/dots'
 import Like from '../../../../../assets/images/like-outline';
 import SpeechBubble from '../../../../../assets/images/speech-bubble';
 import Smiley from '../../../../../assets/images/smile';
@@ -19,28 +20,52 @@ import Globe from "../../../../../assets/images/earth";
 import Lock from "../../../../../assets/images/padlock";
 import Friends from "../../../../../assets/images/friends";
 import Delete from "../../../../../assets/images/delete";
+import Pen from "../../../../../assets/images/edit";
+
 
 import InlineDots from '../../../../UI/Spinner/InlineDots'
 
 import { PostContext } from "../../../../../context/post-context";
+import { DeleteContext } from "../../../../../context/delete-context";
 import {convertDashedDatetime} from "../../../../../shared/utility";
+import OutsideAlerter from "../../../../../hooks/outsideClickHandler";
 import * as actions from "../../../../../store/actions";
 
 
 const post = (props) => {
 
-    const postContext = useContext(PostContext)
+    const postContext = useContext(PostContext);
+    const deleteContext = useContext(DeleteContext);
+
     const imageUploader = useRef(null);
     const gifUploader = useRef(null);
     const commentInput = useRef(null);
+
+    const [editingDropdown, setEditingDropdown] = useState(false);
 
     const [commentText, setCommentText] = useState('');
     const [commentImage, setCommentImage] = useState(null);
     const [commentGif, setCommentGif] = useState(null);
 
+    const toggleEditDropDown = () => {
+        setEditingDropdown(prevState => {
+            return !prevState;
+        })
+    }
+
+    const cancelEditDropdown = () => {
+        setEditingDropdown(false);
+    }
+
     const startCommentHandler = () => {
         commentInput.current.offsetTop;
         commentInput.current.focus();
+    }
+
+    const toggleDeleteModal = () => {
+        setEditingDropdown(false);
+        deleteContext.passData(null,props.id,'post','DELETE_POST')
+        deleteContext.toggleModal();
     }
 
     const updateCommentText = (event) => {
@@ -97,6 +122,21 @@ const post = (props) => {
             break;
         default:
             icon = <Globe fill="rgb(89, 89, 89)"/>
+    }
+
+    const editDropDown = (
+        <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
+            <div className={classes.BaseArrow} />
+            <div className={classes.EditDropdownButton}><div className={classes.EditDropDownButtonIcon}><Pen /></div><span>Edit post</span></div>
+            <div className={classes.EditDropdownButton}><div className={classes.EditDropDownButtonIcon}><Lock /></div><span>Edit audience</span></div>
+            <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}><div className={classes.EditDropDownButtonIcon}><Delete /></div><span>Delete post</span></div>
+
+        </div>
+    )
+
+    let editingDropdownButtonClasses = [classes.HeaderControlDropdown]
+    if (editingDropdown) {
+        editingDropdownButtonClasses.push(classes.ActiveEditingDropdown)
     }
 
     const status = (
@@ -181,18 +221,26 @@ const post = (props) => {
     return (
         <div className={classes.Container}>
             <section className={classes.Header}>
-                <div className={classes.ProfileImageContainer}>
-                    <div className={classes.ProfileImage} style={{backgroundImage: props.postProfileImage ? `url(${props.postProfileImage})` : null}}>
-                        {props.postProfileImage ? null : <NoGenderPlaceholder />}
+                <div className={classes.HeaderInfo}>
+                    <div className={classes.ProfileImageContainer}>
+                        <div className={classes.ProfileImage} style={{backgroundImage: props.postProfileImage ? `url(${props.postProfileImage})` : null}}>
+                            {props.postProfileImage ? null : <NoGenderPlaceholder />}
+                        </div>
+                    </div>
+                    <div className={classes.IdContainer}>
+                        <div>{props.name && props.name}</div>
+                        <div className={classes.DateAndPrivacyContainer}>
+                            <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date) + '          •' : '-- -- ---        •'}</span>
+                            <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>
+                        </div>
                     </div>
                 </div>
-                <div className={classes.IdContainer}>
-                    <div>{props.name && props.name}</div>
-                    <div className={classes.DateAndPrivacyContainer}>
-                        <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date) + '          •' : '-- -- ---        •'}</span>
-                        <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>
+                <OutsideAlerter action={cancelEditDropdown}>
+                    <div className={classes.EditOptionsPositioner}>
+                        {editDropDown}
+                        <div className={editingDropdownButtonClasses.join(" ")} onClick={toggleEditDropDown}><Dots /></div>
                     </div>
-                </div>
+                </OutsideAlerter>
             </section>
             { body }
             {!props.image && !props.background && <div className={classes.Break}/>}

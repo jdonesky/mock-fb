@@ -10,6 +10,7 @@ import axios from '../../axios/db-axios-instance'
 import classes from "./UserProfile.css";
 import SquareFold from "../../components/UI/Spinner/SquareFold"
 
+import {DeleteContext} from "../../context/delete-context";
 import DeleteModal from "../../components/UI/Modal/DeleteModal"
 import LifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal'
 import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost'

@@ -1,8 +1,6 @@
 
 import React from 'react';
-
 import Overview from './LoadedContent/Overview'
-// import WorkAndEducation from './LoadedContent/WorkandEducation'
 
 const WorkAndEducation = React.lazy(() => {
     return import('./LoadedContent/WorkandEducation')

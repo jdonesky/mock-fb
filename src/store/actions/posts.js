@@ -48,6 +48,48 @@ const addPostFail = (error) => {
     }
 }
 
+const deletePostInit = () => {
+    return {
+        type: actionTypes.DELETE_POST_INIT,
+    }
+}
+
+export const deletePostAttempt = (authToken, postsKey, postId) => {
+    return dispatch => {
+        dispatch(deletePostInit());
+        const url = `/posts/${postsKey}`;
+        let newPosts;
+        axios.get(url)
+            .then(response => {
+                newPosts = [...response.data];
+                const targetPostIndex = newPosts.findIndex(post => post.id === postId);
+                newPosts.splice(targetPostIndex, 1);
+                return axios.put(url, newPosts);
+            })
+            .then(response => {
+                dispatch(deletePostSuccess(newPosts));
+            })
+            .catch(error => {
+                dispatch(deletePostFail(error));
+            })
+    }
+}
+
+const deletePostSuccess = (posts) => {
+    return {
+        type: actionTypes.DELETE_POST_SUCCESS,
+        posts: posts
+    }
+}
+
+const deletePostFail = (error) => {
+    return {
+        type: actionTypes.DELETE_POST_FAIL,
+        error: error
+    }
+}
+
+
 const addCommentInit = () => {
     return {
         type: actionTypes.ADD_COMMENT_INIT

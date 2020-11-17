@@ -175,6 +175,7 @@
     border: none;
     background-color: rgba(0,0,0,0.06);
     position: relative;
+    min-width: 110px;
 }
 
 
@@ -214,6 +215,7 @@
     color: #b8b5b5;
     position: relative;
     top: 4px;
+    margin: 0 5px;
 }
 
 .AttachedImage {

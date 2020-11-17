@@ -17,7 +17,7 @@ const lifeEvents = (props) => {
 
 
 
-    const first = sortedEvents && [sortedEvents[0]].map(ev => {
+    const first = sortedEvents && sortedEvents[0] && [sortedEvents[0]].map(ev => {
         return (
             <Event
                 key={ev.id}
@@ -30,7 +30,7 @@ const lifeEvents = (props) => {
         )
     })
 
-    const second = sortedEvents && [sortedEvents[1]].map(ev => {
+    const second = sortedEvents && sortedEvents[1] && [sortedEvents[1]].map(ev => {
         return (
             <Event
                 key={ev.id}

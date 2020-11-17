@@ -1,5 +1,5 @@
 
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import {connect} from 'react-redux'
 import classes from './Comment.css';
 import postClasses from '../Post.css'
@@ -12,25 +12,10 @@ import OutsideAlerter from "../../../../../../hooks/outsideClickHandler";
 import Reply from './Reply/Reply'
 import Delete from "../../../../../../assets/images/delete";
 
+import InlineDots from '../../../../../UI/Spinner/InlineDots'
 import * as actions from '../../../../../../store/actions/index'
 
 const comment = (props) => {
-
-    useEffect(() => {
-        console.log('REPLY')
-        const reply = {
-            postsKey: props.postsKey,
-            postId: props.postId,
-            commentId: props.id,
-            userId: props.userId,
-            profileImage: props.profileImage,
-            name: props.name,
-            text: replyText,
-            image: replyImage,
-            gif: replyGif
-        }
-        console.log(reply)
-    })
 
     const [replying, setReplying] = useState(false);
     const [editingComment, setEditingComment] = useState(false);
@@ -94,7 +79,6 @@ const comment = (props) => {
 
     const saveReply = (event) => {
         event.preventDefault();
-        console.log('SAVED REPLY')
         const reply = {
             postsKey: props.postsKey,
             postId: props.postId,
@@ -107,6 +91,10 @@ const comment = (props) => {
             gif: replyGif
         }
         props.onPostReply(props.authToken, props.postsKey, props.postId, props.id, reply)
+        setReplyText('');
+        setReplying(false);
+        setReplyImage(null);
+        setReplyGif(null);
     }
 
     const editDropDown = (
@@ -153,6 +141,10 @@ const comment = (props) => {
         </section>
     )
 
+    if (props.loadingNewReply) {
+        replyBar = <InlineDots />
+    }
+
     let replyImagePreview = (
         <div className={classes.ReplyImagePreviewContainer}>
             <section className={postClasses.CommentImagePreviewSection} style={{display: replyImage ? 'flex' : 'none'}}>
@@ -181,7 +173,7 @@ const comment = (props) => {
                         <OutsideAlerter action={closeEditingDropdown}>
                             <div className={classes.EditOptionsPositioner}>
                                 {editDropDown}
-                                <div className={classes.EditButton} style={{display: editingComment ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
+                                <div className={classes.EditButton} style={{display: editingComment || editingDropdown ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
                             </div>
                         </OutsideAlerter>
                     </div>
@@ -224,7 +216,8 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         profileImage: state.profile.profileImage,
-        name: state.profile.firstName + ' ' + state.profile.lastName
+        name: state.profile.firstName + ' ' + state.profile.lastName,
+        loadingNewReply: state.posts.loadingNewReply
     }
 }
 

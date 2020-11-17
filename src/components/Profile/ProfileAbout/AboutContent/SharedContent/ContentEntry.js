@@ -176,7 +176,7 @@ const contentEntry = props => {
 
     const toggleDeleteModal = () => {
         toggleEditDropdown()
-        deleteContext.passData(fieldName && fieldName, props.id && props.id, dropdownCaption && dropdownCaption)
+        deleteContext.passData(fieldName && fieldName, props.id && props.id, dropdownCaption && dropdownCaption, 'DELETE_ABOUT_ENTRY')
         deleteContext.toggleModal();
     }
 
