@@ -24,6 +24,7 @@ const comment = (props) => {
             commentId: props.id,
             userId: props.userId,
             profileImage: props.profileImage,
+            name: props.name,
             text: replyText,
             image: replyImage,
             gif: replyGif
@@ -93,12 +94,14 @@ const comment = (props) => {
 
     const saveReply = (event) => {
         event.preventDefault();
+        console.log('SAVED REPLY')
         const reply = {
             postsKey: props.postsKey,
             postId: props.postId,
             commentId: props.id,
             userId: props.userId,
-            profileImage: props.profileImage,
+            name: props.name,
+            replyProfileImage: props.profileImage,
             text: replyText,
             image: replyImage,
             gif: replyGif
@@ -120,8 +123,8 @@ const comment = (props) => {
             <Reply
                 key={reply.id}
                 id={reply.id}
-                userName={reply.userName}
-                profileImage={reply.profileImage}
+                name={reply.name}
+                replyProfileImage={reply.replyProfileImage}
                 text={reply.text}
                 image={reply.image}
                 gif={reply.gif}
@@ -133,8 +136,8 @@ const comment = (props) => {
     let replyBar = (
         <section className={classes.CommentBarSection} style={{display: replying ? 'flex' : 'none'}}>
             <div className={classes.CommenterProfileImageContainer}>
-                <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                    {props.profileImage ? null : <NoGenderPlaceholder />}
+                <div className={classes.CommenterProfileImage} style={{backgroundImage: props.commentProfileImage ? `url(${props.commentProfileImage})` : null}}>
+                    {props.commentProfileImage ? null : <NoGenderPlaceholder />}
                 </div>
             </div>
             <form className={classes.ReplyForm} onSubmit={saveReply}>
@@ -164,7 +167,7 @@ const comment = (props) => {
             <div className={classes.CommentContainer} onMouseEnter={() => toggleEditingButton()} onMouseLeave={() => toggleEditingButton()}>
                 <div className={classes.CommenterProfileImageContainer}>
                     <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                        {props.profileImage ? null : <NoGenderPlaceholder />}
+                        {props.commentProfileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
                 <div className={classes.CommentBubbleContainer}>
@@ -219,7 +222,9 @@ const comment = (props) => {
 
 const mapStateToProps = state => {
     return {
-        authToken: state.auth.token
+        authToken: state.auth.token,
+        profileImage: state.profile.profileImage,
+        name: state.profile.firstName + ' ' + state.profile.lastName
     }
 }
 

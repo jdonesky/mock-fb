@@ -14,6 +14,7 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts}) => {
         <Post
             postsKey={post.postsKey}
             userKey={post.userKey}
+            postProfileImage={post.postProfileImage}
             key={post.id}
             id={post.id}
             status={post.text}

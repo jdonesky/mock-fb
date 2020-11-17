@@ -40,14 +40,14 @@ const reply = (props) => {
             <div className={classes.Comment}>
                 <div className={classes.CommentContainer}>
                     <div className={classes.CommenterProfileImageContainer}>
-                        <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                            {props.profileImage ? null : <NoGenderPlaceholder />}
+                        <div className={classes.CommenterProfileImage} style={{backgroundImage: props.replyProfileImage ? `url(${props.replyProfileImage})` : null}}>
+                            {props.replyProfileImage ? null : <NoGenderPlaceholder />}
                         </div>
                     </div>
                     <div className={classes.CommentBubbleContainer}>
                         <div className={classes.CommentBubbleAndEditButtonContainer}>
                             <div className={classes.CommentBubble}>
-                                <h5 className={classes.CommenterName}>{props.userName}</h5>
+                                <h5 className={classes.CommenterName}>{props.name}</h5>
                                 <div className={classes.CommentText}>
                                     <span>{props.text}</span>
                                 </div>

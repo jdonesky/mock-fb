@@ -64,7 +64,7 @@ const post = (props) => {
             postsKey: props.postsKey,
             userId: props.userId,
             name: props.name,
-            profileImage: props.profileImage,
+            commentProfileImage: props.profileImage,
             text: commentText,
             image: commentImage,
             gif: commentGif,
@@ -150,7 +150,7 @@ const post = (props) => {
                 id={comment.id}
                 userId={comment.userId}
                 userName={comment.name}
-                profileImage={comment.profileImage}
+                commentProfileImage={comment.commentProfileImage}
                 text={comment.text}
                 image={comment.image}
                 gif={comment.gif}
@@ -182,8 +182,8 @@ const post = (props) => {
         <div className={classes.Container}>
             <section className={classes.Header}>
                 <div className={classes.ProfileImageContainer}>
-                    <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                        {props.profileImage ? null : <NoGenderPlaceholder />}
+                    <div className={classes.ProfileImage} style={{backgroundImage: props.postProfileImage ? `url(${props.postProfileImage})` : null}}>
+                        {props.postProfileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
                 <div className={classes.IdContainer}>
