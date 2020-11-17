@@ -4,9 +4,6 @@ import React, { useState, useContext, useRef, useEffect} from 'react';
 import {connect} from 'react-redux';
 import classes from './Post.css'
 
-import D from '../../../../../assets/images/Raster/d.png'
-import K from '../../../../../assets/images/Raster/kaleidoscope.jpg'
-
 import Comment from './Comment/Comment';
 
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
@@ -21,7 +18,6 @@ import Lock from "../../../../../assets/images/padlock";
 import Friends from "../../../../../assets/images/friends";
 import Delete from "../../../../../assets/images/delete";
 import Pen from "../../../../../assets/images/edit";
-
 
 import InlineDots from '../../../../UI/Spinner/InlineDots'
 
@@ -230,7 +226,7 @@ const post = (props) => {
                     <div className={classes.IdContainer}>
                         <div>{props.name && props.name}</div>
                         <div className={classes.DateAndPrivacyContainer}>
-                            <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date) + '          •' : '-- -- ---        •'}</span>
+                            <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date.toString()) + '          •' : '-- -- ---        •'}</span>
                             <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>
                         </div>
                     </div>

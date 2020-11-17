@@ -2,15 +2,16 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import Post from './Post/Post';
-import * as actions from '../../../../store/actions/index'
+import InlineDots from '../../../UI/Spinner/InlineDots';
+import * as actions from '../../../../store/actions/index';
 
-const posts = ({posts, authToken, postsKey, onFetchSelfPosts}) => {
+const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost}) => {
 
     useEffect(() => {
         onFetchSelfPosts(authToken, postsKey)
     }, [onFetchSelfPosts, authToken, postsKey])
 
-    const posted = posts && posts.length ? posts.map(post => (
+    const posted = posts && posts.length && posts.length > 1 ? posts.slice(1).map(post => (
         <Post
             postsKey={post.postsKey}
             userKey={post.userKey}
@@ -26,8 +27,14 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts}) => {
         />
     )) : null
 
+    let deletingPostIndicator;
+    if (deletingPost) {
+        deletingPostIndicator = <InlineDots />
+    }
+
     return (
         <React.Fragment>
+            {deletingPostIndicator}
             {posted}
         </React.Fragment>
     )
@@ -37,7 +44,8 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         postsKey: state.profile.postsKey,
-        posts: state.posts.posts
+        posts: state.posts.posts,
+        deletingPost: state.posts.deletingPost
     }
 }
 

@@ -114,7 +114,7 @@ const baseForm = (props) => {
     }
 
     let postingOverlay;
-    if (props.contentLoading) {
+    if (props.loadingNewPost) {
         postingOverlay = (
             <div className={classes.PostingOverlay}>
                 <div className={classes.PostingMessage}><h1>Posting</h1><div className={classes.PostingDotsContainer}><InlineDots className={classes.PostingDots}/></div></div>
@@ -204,7 +204,7 @@ const mapStateToProps = state => {
     return {
         name: state.profile.firstName + ' ' + state.profile.lastName,
         profileImage: state.profile.profileImage,
-        contentLoading: state.profile.contentEntryLoading
+        loadingNewPost: state.posts.loadingNewPost
     }
 }
 

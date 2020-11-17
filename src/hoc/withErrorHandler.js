@@ -47,7 +47,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
               message = 'Please enter a valid password'
               break;
           default:
-              message = 'TEST'
+              message = 'Network error, please try again later'
       }
 
 

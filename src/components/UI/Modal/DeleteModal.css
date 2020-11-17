@@ -4,13 +4,22 @@
 }
 
 .DeleteModal {
-    height: 100%;
-    width: 100%;
+    height: 98%;
+    width: 98%;
+    padding: 5px;
 }
 
 .DeleteModal p {
     text-align: left;
     padding-left: 15px;
+}
+
+
+.Break {
+    height: 1px;
+    width: 95%;
+    background-color: rgba(0,0,0,0.09);
+    margin: 0 auto;
 }
 
 .Header {

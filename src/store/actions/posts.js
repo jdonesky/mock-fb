@@ -57,7 +57,7 @@ const deletePostInit = () => {
 export const deletePostAttempt = (authToken, postsKey, postId) => {
     return dispatch => {
         dispatch(deletePostInit());
-        const url = `/posts/${postsKey}`;
+        const url = `/posts/${postsKey}.json?auth=${authToken}`;
         let newPosts;
         axios.get(url)
             .then(response => {
@@ -88,7 +88,6 @@ const deletePostFail = (error) => {
         error: error
     }
 }
-
 
 const addCommentInit = () => {
     return {
@@ -145,6 +144,13 @@ const addCommentFail = (error) => {
         error: error
     }
 }
+
+const deleteCommentInit = () => {
+    return {
+        type: actionTypes.DELETE_COMMENT_INIT
+    }
+}
+
 
 const addReplyInit = () => {
     return {
@@ -218,7 +224,6 @@ export const fetchSelfPostsAttempt = (authToken, postsKey) => {
         dispatch(fetchSelfPostsInit())
         axios.get(`/posts/${postsKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log(response.data);
                dispatch(fetchSelfPostsSuccess(response.data))
             })
             .catch(error => {
