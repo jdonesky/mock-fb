@@ -23,6 +23,10 @@ import InlineDots from '../../../Spinner/InlineDots';
 
 const baseForm = (props) => {
 
+    useEffect(() => {
+        postContext.recordInitialValues()
+    }, [])
+
     const postContext = useContext(PostContext);
     const backgroundContainer = useRef(null);
     const imageUploader = useRef(null);
@@ -106,10 +110,11 @@ const baseForm = (props) => {
             tags = postContext.tagged.map(tag => tag.name).join(", ");
         } else if (postContext.tagged.length === 2) {
             tags = postContext.tagged.map(tag => tag.name).join(" and ");
-        } else {
-            const last = postContext.tagged.pop().name;
-            tags = postContext.tagged.map(tag => tag.name).join(", ");
-            tags = tags + ` and ${last}`;
+        } else if (postContext.tagged.length > 2) {
+            const allTags = [...postContext.tagged].map(tag => tag.name)
+            const last = allTags.pop()
+            tags = allTags.join(", ");
+            tags = allTags + ` and ${last}`;
         }
     }
 

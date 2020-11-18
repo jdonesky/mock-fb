@@ -2,7 +2,6 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux'
 import * as actions from "../store/actions";
-import post from "../components/Users/Post/Post";
 
 export const PostContext = React.createContext({
     text: '',
@@ -17,10 +16,17 @@ export const PostContext = React.createContext({
     toggleModal: () => {},
     cancelModal: () => {},
     toggleModalContent: () => {},
+    toggleEditingPost: () => {},
+    recordInitialValues: () => {},
     savePost: () => {}
 })
 
 const PostContextProvider = (props) => {
+
+    useEffect(() => {
+        console.log('context - editingPost ', editingPost)
+        console.log('context - initialValues ', initialValues)
+    })
 
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState('CREATE_POST');
@@ -30,6 +36,9 @@ const PostContextProvider = (props) => {
     const [tagged, setTagged] = useState([]);
     const [location, setLocation] = useState(null);
     const [allowPost, setAllowPost] = useState(false);
+
+    const [editingPost, setEditingPost] = useState(false);
+    const [initialValues, setInitialValues] = useState(null);
 
     useEffect(() => {
         validatePost()
@@ -44,11 +53,34 @@ const PostContextProvider = (props) => {
     const cancelModal = () => {
         setShowModal(false);
         setModalContent('CREATE_POST');
+        setEditingPost(false);
+        setText('');
+        setImage(null);
+        setBackground(null);
+        setTagged([]);
+        setLocation(null);
     };
 
     const toggleModalContent = (page) => {
         setModalContent(page)
     };
+
+
+    const toggleEditingPost = () => {
+        setEditingPost(prevState => {
+            return !prevState
+        })
+    }
+
+    const recordInitialValues = () => {
+        setInitialValues({
+            text: text,
+            image: image,
+            background: background,
+            tagged: tagged,
+            location: location
+        })
+    }
 
     const validatePost = () => {
         if (!text && !image && !background && !tagged.length && !location) {
@@ -56,6 +88,10 @@ const PostContextProvider = (props) => {
         } else {
             setAllowPost(true);
         }
+    }
+
+    const validateEdits = () => {
+
     }
 
     const passData = (type,payload) => {
@@ -74,6 +110,8 @@ const PostContextProvider = (props) => {
                     return [...prevState, payload]
                 })
                 break;
+            case 'tags':
+                setTagged([...payload])
             case 'remove-tag':
                 setTagged(prevState => {
                     return prevState.filter(tag => tag.id !== payload);
@@ -108,7 +146,7 @@ const PostContextProvider = (props) => {
     };
 
     return (
-        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost}}>
+        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, toggleEditingPost: toggleEditingPost, recordInitialValues: recordInitialValues, editingPost: editingPost, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost}}>
             {props.children}
         </PostContext.Provider>
     );

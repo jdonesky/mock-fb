@@ -115,6 +115,9 @@ const comment = (props) => {
     if (props.replies) {
         replies = props.replies && props.replies.length ? props.replies.map(reply => (
             <Reply
+                postsKey={props.postsKey}
+                postId={props.postId}
+                commentId={props.id}
                 key={reply.id}
                 id={reply.id}
                 name={reply.name}
@@ -127,6 +130,10 @@ const comment = (props) => {
                 toggleDeleteModal={props.toggleDeleteModal}
             />
         )) : null;
+    }
+
+    if (props.deletingReply) {
+        replies = <InlineDots />
     }
 
     let replyBar = (
@@ -231,7 +238,8 @@ const mapStateToProps = state => {
         authToken: state.auth.token,
         profileImage: state.profile.profileImage,
         name: state.profile.firstName + ' ' + state.profile.lastName,
-        loadingNewReply: state.posts.loadingNewReply
+        loadingNewReply: state.posts.loadingNewReply,
+        deletingReply: state.posts.deletingReply,
     }
 }
 

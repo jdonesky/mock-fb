@@ -273,7 +273,7 @@ export const deleteReplyAttempt = (authToken, postsKey, postId, commentId, reply
 
                 const targetPostComments = [...targetPost.comments];
                 const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
-                const targetComment = targetPostComments.findIndex(comment => comment.id === commentId);
+                const targetComment = targetPostComments.find(comment => comment.id === commentId);
 
                 const targetCommentReplies = [...targetComment.replies];
                 const targetReplyIndex = targetCommentReplies.findIndex(reply => reply.id === replyId);
@@ -283,6 +283,7 @@ export const deleteReplyAttempt = (authToken, postsKey, postId, commentId, reply
                 targetPostComments[targetCommentIndex] = targetComment;
                 targetPost.comments = targetPostComments;
                 newPosts[targetPostIndex] = targetPost;
+
                 return axios.put(url, newPosts)
             })
             .then(response => {

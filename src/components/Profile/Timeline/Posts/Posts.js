@@ -22,6 +22,7 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost}) => 
             background={post.background}
             image={post.image}
             date={post.date}
+            tagged={post.tagged}
             location={post.location}
             comments={post.comments}
         />

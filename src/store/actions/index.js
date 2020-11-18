@@ -18,7 +18,8 @@ export {
    deletePostAttempt,
    addCommentAttempt,
    deleteCommentAttempt,
-   addReplyAttempt
+   addReplyAttempt,
+   deleteReplyAttempt
 } from "./posts";
 
 export {

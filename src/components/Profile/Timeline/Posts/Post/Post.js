@@ -1,6 +1,6 @@
 
 
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import {connect} from 'react-redux';
 import classes from './Post.css'
 
@@ -59,9 +59,20 @@ const post = (props) => {
     }
 
     const toggleDeleteModal = () => {
-        setEditingDropdown(false);
+        cancelEditDropdown()
         deleteContext.passData(null,props.id,'post','DELETE_POST')
         deleteContext.toggleModal();
+    }
+
+    const toggleEditModal = () => {
+        cancelEditDropdown();
+        postContext.toggleEditingPost();
+        postContext.passData('text',props.status);
+        postContext.passData('image',props.image);
+        postContext.passData('background',props.background);
+        postContext.passData('location',props.location);
+        postContext.passData('tags',props.tagged && props.tagged.length ? props.tagged : null);
+        postContext.toggleModal();
     }
 
     const updateCommentText = (event) => {
@@ -123,7 +134,7 @@ const post = (props) => {
     const editDropDown = (
         <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
             <div className={classes.BaseArrow} />
-            <div className={classes.EditDropdownButton}><div className={classes.EditDropDownButtonIcon}><Pen /></div><span>Edit post</span></div>
+            <div className={classes.EditDropdownButton} onClick={toggleEditModal}><div className={classes.EditDropDownButtonIcon}><Pen /></div><span>Edit post</span></div>
             <div className={classes.EditDropdownButton}><div className={classes.EditDropDownButtonIcon}><Lock /></div><span>Edit audience</span></div>
             <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}><div className={classes.EditDropDownButtonIcon}><Delete /></div><span>Delete post</span></div>
         </div>
@@ -180,8 +191,8 @@ const post = (props) => {
         postsComments = props.comments && props.comments.length ? props.comments.map(comment => (
             <Comment
                 postsKey={props.postsKey}
-                key={comment.id}
                 postId={props.id}
+                key={comment.id}
                 id={comment.id}
                 userId={comment.userId}
                 userName={comment.name}
@@ -215,6 +226,28 @@ const post = (props) => {
         </section>
     )
 
+    let taggedFriends;
+    let names;
+    if (props.tagged && props.tagged.length) {
+        if (props.tagged.length === 1) {
+            taggedFriends = <span> is with <b>{props.tagged[0].name}</b></span>;
+        } else if (props.tagged.length === 2) {
+            taggedFriends = <span> is with <b>{props.tagged[0].name}</b> and <b>{props.tagged[1].name}</b></span>;
+        } else if (props.tagged.length > 2){
+            const nameList = props.tagged.map(tag => tag.name);
+            let last = nameList.pop()
+            last = ' and ' + last
+            names = nameList.join(", ")
+            names = names + last
+            taggedFriends = <span> is with <b>{names}</b></span>
+        }
+    }
+
+    let location;
+    if (props.location) {
+        location = <span> in <b>{props.location}</b></span>
+    }
+
     return (
         <div className={classes.Container}>
             <section className={classes.Header}>
@@ -225,7 +258,7 @@ const post = (props) => {
                         </div>
                     </div>
                     <div className={classes.IdContainer}>
-                        <div>{props.name && props.name}</div>
+                        <div>{props.name && props.name}{taggedFriends}{location}</div>
                         <div className={classes.DateAndPrivacyContainer}>
                             <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date.toString()) + '          •' : '-- -- ---        •'}</span>
                             <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>

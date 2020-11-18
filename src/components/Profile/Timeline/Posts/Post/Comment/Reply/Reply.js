@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import classes from "../Comment.css";
 import NoGenderPlaceholder from "../../../../../../../assets/images/profile-placeholder-gender-neutral";
 import Dots from "../../../../../../../assets/images/dots";
@@ -7,6 +7,13 @@ import OutsideAlerter from "../../../../../../../hooks/outsideClickHandler";
 
 
 const reply = (props) => {
+
+    // useEffect(() => {
+    //     console.log('postsKey ', props.postsKey)
+    //     console.log('postId ', props.postId)
+    //     console.log('commentId ', props.commentId)
+    //     console.log('replyId ', props.id)
+    // })
 
     const [editingButton, setEditingButton] = useState(false);
     const [editDropdown, setEditDropdown] = useState(false);
@@ -27,11 +34,18 @@ const reply = (props) => {
         setEditDropdown(false);
     }
 
+
+    const toggleDeleteModal = () => {
+        closeEditDropdown();
+        props.passDeleteData(null, props.postsKey, 'reply', 'DELETE_POST_REPLY', props.postId, props.commentId, props.id);
+        props.toggleDeleteModal();
+    }
+
     const editDropDown = (
         <div className={classes.EditDropdownContainer} style={{display: editDropdown ? 'flex' : 'none'}}>
             <div className={classes.BaseArrow} />
             <div className={classes.EditDropdownButton}>Edit</div>
-            <div className={classes.EditDropdownButton}>Delete</div>
+            <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}>Delete</div>
         </div>
     )
 
