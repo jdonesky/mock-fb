@@ -67,11 +67,13 @@ const post = (props) => {
     const toggleEditModal = () => {
         cancelEditDropdown();
         postContext.toggleEditingPost();
-        postContext.passData('text',props.status);
-        postContext.passData('image',props.image);
-        postContext.passData('background',props.background);
-        postContext.passData('location',props.location);
-        postContext.passData('tags',props.tagged && props.tagged.length ? props.tagged : null);
+        postContext.recordInitialValues(props.status || '',props.image || null, props.background || null, props.tagged || [], props.location || null)
+        postContext.passData('text',props.status || '');
+        postContext.passData('image',props.image || null);
+        postContext.passData('background',props.background || null);
+        postContext.passData('location',props.location || null);
+        postContext.passData('tags',props.tagged && props.tagged.length ? props.tagged : []);
+        postContext.passData('comments', props.comments && props.comments.length ? props.comments : []);
         postContext.toggleModal();
     }
 

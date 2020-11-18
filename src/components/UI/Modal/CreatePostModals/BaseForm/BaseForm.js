@@ -1,5 +1,5 @@
 
-import React, {useState, useContext, useRef, useEffect} from 'react';
+import React, {useState, useContext, useRef, useEffect, useLayoutEffect} from 'react';
 import {connect} from 'react-redux';
 import classes from "./BaseForm.css";
 import {PostContext} from "../../../../../context/post-context";
@@ -23,9 +23,7 @@ import InlineDots from '../../../Spinner/InlineDots';
 
 const baseForm = (props) => {
 
-    useEffect(() => {
-        postContext.recordInitialValues()
-    }, [])
+    const textRef = useRef();
 
     const postContext = useContext(PostContext);
     const backgroundContainer = useRef(null);
@@ -59,6 +57,13 @@ const baseForm = (props) => {
 
     const savePost = () => {
         postContext.savePost();
+        setTimeout(() => {
+            postContext.toggleModal()
+        }, 500)
+    }
+
+    const saveEdits = () => {
+        postContext.saveEdits();
         setTimeout(() => {
             postContext.toggleModal()
         }, 500)
@@ -157,7 +162,7 @@ const baseForm = (props) => {
                     height: postContext.background && "280px"
                 }}>
                     <section className={classes.StatusSection}>
-                    <textarea type="textarea" placeholder="What's on your mind?" className={classes.StatusTextArea}
+                    <textarea ref={textRef} type="textarea" placeholder="What's on your mind?" className={classes.StatusTextArea}
                               style={postContext.background && {
                                   fontWeight: "bolder",
                                   fontSize: "30px",
@@ -199,7 +204,7 @@ const baseForm = (props) => {
                 </div>
             </section>
             <section className={classes.ShareSection}>
-                <Button className={[classes.ShareButton, postContext.allowPost ? null : classes.DisableShare].join(" ")} addClass="Save" clicked={postContext.allowPost ? savePost : null}>Post</Button>
+                <Button className={[classes.ShareButton, postContext.allowPost ? null : classes.DisableShare].join(" ")} addClass="Save" clicked={postContext.allowPost && postContext.editingPost ? saveEdits : postContext.allowPost && !postContext.editingPost ? savePost : null}>{postContext.editingPost ? 'Save' : 'Post'}</Button>
             </section>
         </div>
     );

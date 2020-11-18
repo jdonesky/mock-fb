@@ -15,15 +15,12 @@ export const addPostAttempt = (authToken, postsKey, post) => {
             const url = `/posts/${postsKey}.json?auth=${authToken}`
             axios.get(url)
                 .then(response => {
-                    console.log(response.data)
                     const newPosts = [...response.data, {...post, id: newKey}]
                     axios.put(url, newPosts)
                         .then(response => {
-                            console.log('PUT NEW POST SUCCESSFULLY')
                             dispatch(addPostSuccess(newPosts))
                         })
                         .catch(error => {
-                            console.log('PUT NEW POST FAILED')
                             dispatch(addPostFail(error))
                         })
                 })
@@ -44,6 +41,48 @@ const addPostSuccess = (newPosts) => {
 const addPostFail = (error) => {
     return {
         type: actionTypes.ADD_POST_FAIL,
+        error: error
+    }
+}
+
+const editPostInit = () => {
+    return {
+        type: actionTypes.EDIT_POST_INIT
+    }
+}
+
+export const editPostAttempt = (authToken, postsKey, postId, payload) => {
+    return dispatch => {
+        dispatch(editPostInit());
+        const url = `/posts/${postsKey}.json?auth=${authToken}`;
+        let newPosts;
+        axios.get(url)
+            .then(response => {
+                newPosts = [...response.data];
+
+                //  EDIT TARGET POST
+
+                return axios.put(url, newPosts);
+            })
+            .then(response => {
+                dispatch(editPostSuccess(newPosts));
+            })
+            .catch(error => {
+                dispatch(editPostFail(error))
+            })
+    }
+}
+
+const editPostSuccess = (posts ) => {
+    return {
+        type: actionTypes.EDIT_POST_INIT,
+        posts: posts
+    }
+}
+
+const editPostFail = (error) => {
+    return {
+        type: actionTypes.EDIT_POST_INIT,
         error: error
     }
 }

@@ -3,10 +3,13 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   posts: [],
   loadingNewPost: false,
+  editingPost: false,
   deletingPost: false,
   loadingNewComment: false,
+  editingComment: false,
   deletingComment: false,
   loadingNewReply: false,
+  editingReply: false,
   deletingReply: false,
   loadingSelfPosts: false,
   loadingFriendPosts: false,
@@ -34,6 +37,30 @@ const addPostFail = (state,action) => {
         ...state,
         error: action.error,
         loadingNewPost: false
+    }
+}
+
+const editPostInit = (state,action) => {
+    return {
+        ...state,
+        editingPost: true
+    }
+}
+
+const editPostSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        editingPost: false
+    }
+}
+
+const editPostFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        editingPost: false
+
     }
 }
 
@@ -210,6 +237,9 @@ const reducer = (state = initialState, action) => {
       case actionTypes.ADD_POST_INIT: return addPostInit(state,action);
       case actionTypes.ADD_POST_SUCCESS: return addPostSuccess(state,action);
       case actionTypes.ADD_POST_FAIL: return addPostFail(state,action);
+      case actionTypes.EDIT_POST_INIT: return editPostInit(state,action);
+      case actionTypes.EDIT_POST_SUCCESS: return editPostSuccess(state,action);
+      case actionTypes.EDIT_POST_FAIL: return editPostFail(state,action);
       case actionTypes.DELETE_POST_INIT: return deletePostInit(state,action);
       case actionTypes.DELETE_POST_SUCCESS: return deletePostSuccess(state,action);
       case actionTypes.DELETE_POST_FAIL: return deletePostFail(state,action);

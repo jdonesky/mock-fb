@@ -18,14 +18,23 @@ export const PostContext = React.createContext({
     toggleModalContent: () => {},
     toggleEditingPost: () => {},
     recordInitialValues: () => {},
+    initialValues: null,
     savePost: () => {}
 })
 
 const PostContextProvider = (props) => {
 
     useEffect(() => {
-        console.log('context - editingPost ', editingPost)
-        console.log('context - initialValues ', initialValues)
+        console.log('editing? ', editingPost)
+        console.log('recorded initial values: ', initialValues);
+        console.log('values that can change', {
+            text: text,
+            image: image,
+            background: background,
+            tagged: tagged,
+            location: location
+        })
+        console.log('allow save? ', allowPost);
     })
 
     const [showModal, setShowModal] = useState(false);
@@ -38,10 +47,14 @@ const PostContextProvider = (props) => {
     const [allowPost, setAllowPost] = useState(false);
 
     const [editingPost, setEditingPost] = useState(false);
-    const [initialValues, setInitialValues] = useState(null);
+    const [initialValues, setInitialValues] = useState({});
 
     useEffect(() => {
-        validatePost()
+        if (editingPost) {
+            validateEdits();
+        } else {
+            validatePost();
+        }
     }, [text,image,background,tagged,location])
 
     const toggleModal = () => {
@@ -59,6 +72,8 @@ const PostContextProvider = (props) => {
         setBackground(null);
         setTagged([]);
         setLocation(null);
+        setInitialValues({});
+        setEditingPost(false);
     };
 
     const toggleModalContent = (page) => {
@@ -72,7 +87,7 @@ const PostContextProvider = (props) => {
         })
     }
 
-    const recordInitialValues = () => {
+    const recordInitialValues = (text,image,background,tagged,location) => {
         setInitialValues({
             text: text,
             image: image,
@@ -91,7 +106,15 @@ const PostContextProvider = (props) => {
     }
 
     const validateEdits = () => {
-
+        if (initialValues.text !== text ||
+            initialValues.image !== image ||
+            initialValues.background !== background ||
+            initialValues.tagged.length !== tagged.length ||
+            initialValues.location !== location) {
+            setAllowPost(true);
+        } else {
+            setAllowPost(false);
+        }
     }
 
     const passData = (type,payload) => {
@@ -123,7 +146,11 @@ const PostContextProvider = (props) => {
             default:
                 setImage(null)
         }
-        validatePost();
+        if (editingPost) {
+            validateEdits();
+        } else {
+            validatePost();
+        }
     };
 
     const savePost = () => {
@@ -145,8 +172,20 @@ const PostContextProvider = (props) => {
         setLocation(null);
     };
 
+    const saveEdits = () => {
+        const post = {
+
+        }
+        props.onEditPost();
+        setText('');
+        setImage(null);
+        setBackground(null);
+        setTagged([]);
+        setLocation(null);
+    }
+
     return (
-        <PostContext.Provider value={{savePost: savePost, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, toggleEditingPost: toggleEditingPost, recordInitialValues: recordInitialValues, editingPost: editingPost, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost}}>
+        <PostContext.Provider value={{savePost: savePost, saveEdits: saveEdits, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, toggleEditingPost: toggleEditingPost, recordInitialValues: recordInitialValues, initialValues: initialValues, editingPost: editingPost, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost}}>
             {props.children}
         </PostContext.Provider>
     );
@@ -162,7 +201,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddPost: (authToken, postsKey, payload) => dispatch(actions.addPostAttempt(authToken, postsKey, payload))
+        onAddPost: (authToken, postsKey, payload) => dispatch(actions.addPostAttempt(authToken, postsKey, payload)),
+        onEditPost: (authToken, postsKey, postId, payload) => dispatch(actions.editPostAttempt(authToken, postsKey, postId, payload))
     };
 };
 

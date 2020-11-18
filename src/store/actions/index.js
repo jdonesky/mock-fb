@@ -15,11 +15,12 @@ export {
 export {
    fetchSelfPostsAttempt,
    addPostAttempt,
+   editPostAttempt,
    deletePostAttempt,
    addCommentAttempt,
    deleteCommentAttempt,
    addReplyAttempt,
-   deleteReplyAttempt
+   deleteReplyAttempt,
 } from "./posts";
 
 export {
