@@ -254,6 +254,60 @@ const addReplyFail = (error) => {
     }
 }
 
+const deleteReplyInit = () => {
+    return {
+        type: actionTypes.DELETE_REPLY_INIT
+    }
+}
+
+export const deleteReplyAttempt = (authToken, postsKey, postId, commentId, replyId) => {
+    return dispatch => {
+        dispatch(deleteReplyInit());
+        const url = `/posts/${postsKey}.json?auth=${authToken}`;
+        let newPosts;
+        axios.get(url)
+            .then(response => {
+                newPosts = [...response.data];
+                const targetPostIndex = newPosts.findIndex(post => post.id === postId);
+                const targetPost = newPosts.find(post => post.id === postId);
+
+                const targetPostComments = [...targetPost.comments];
+                const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
+                const targetComment = targetPostComments.findIndex(comment => comment.id === commentId);
+
+                const targetCommentReplies = [...targetComment.replies];
+                const targetReplyIndex = targetCommentReplies.findIndex(reply => reply.id === replyId);
+                targetCommentReplies.splice(targetReplyIndex, 1);
+
+                targetComment.replies = targetCommentReplies;
+                targetPostComments[targetCommentIndex] = targetComment;
+                targetPost.comments = targetPostComments;
+                newPosts[targetPostIndex] = targetPost;
+                return axios.put(url, newPosts)
+            })
+            .then(response => {
+                dispatch(deleteReplySuccess(newPosts));
+            })
+            .catch(error => {
+                dispatch(deleteReplyFail(error));
+            })
+    }
+}
+
+const deleteReplySuccess = (posts) => {
+    return {
+        type: actionTypes.DELETE_REPLY_SUCCESS,
+        posts: posts
+    }
+}
+
+const deleteReplyFail = (error) => {
+    return {
+        type: actionTypes.DELETE_REPLY_FAIL,
+        error: error
+    }
+}
+
 const fetchSelfPostsInit = () => {
     return {
         type: actionTypes.FETCH_SELF_POSTS_INIT,

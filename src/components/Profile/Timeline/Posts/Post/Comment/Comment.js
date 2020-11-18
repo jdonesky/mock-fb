@@ -123,6 +123,8 @@ const comment = (props) => {
                 image={reply.image}
                 gif={reply.gif}
                 startReply={startReplyHandler}
+                passDeleteData={props.passDeleteData}
+                toggleDeleteModal={props.toggleDeleteModal}
             />
         )) : null;
     }
