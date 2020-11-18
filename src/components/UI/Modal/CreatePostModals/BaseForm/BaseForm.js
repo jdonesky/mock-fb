@@ -57,7 +57,7 @@ const baseForm = (props) => {
         postContext.savePost();
         setTimeout(() => {
             postContext.toggleModal()
-        }, 2000)
+        }, 500)
     }
 
     let backgroundButton = (

@@ -1,5 +1,5 @@
 
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {connect} from 'react-redux'
 import classes from './Comment.css';
 import postClasses from '../Post.css'
@@ -12,8 +12,9 @@ import OutsideAlerter from "../../../../../../hooks/outsideClickHandler";
 import Reply from './Reply/Reply'
 import Delete from "../../../../../../assets/images/delete";
 
-import InlineDots from '../../../../../UI/Spinner/InlineDots'
-import * as actions from '../../../../../../store/actions/index'
+import InlineDots from '../../../../../UI/Spinner/InlineDots';
+import * as actions from '../../../../../../store/actions/index';
+
 
 const comment = (props) => {
 
@@ -70,11 +71,16 @@ const comment = (props) => {
         setEditingDropdown(false);
     }
 
+    const toggleDeleteModal = () => {
+       setEditingDropdown(false);
+       props.passDeleteData(null,props.postsKey,'comment', 'DELETE_POST_COMMENT', props.postId, props.id);
+       props.toggleDeleteModal();
+    }
+
     const startReplyHandler = () => {
         setReplying(true);
         replyInput.current.offsetTop;
         replyInput.current.focus();
-
     }
 
     const saveReply = (event) => {
@@ -101,13 +107,13 @@ const comment = (props) => {
         <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
             <div className={classes.BaseArrow} />
             <div className={classes.EditDropdownButton}>Edit</div>
-            <div className={classes.EditDropdownButton}>Delete</div>
+            <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}>Delete</div>
         </div>
     )
 
     let replies;
     if (props.replies) {
-        replies = props.replies && props.replies.map(reply => (
+        replies = props.replies && props.replies.length ? props.replies.map(reply => (
             <Reply
                 key={reply.id}
                 id={reply.id}
@@ -118,7 +124,7 @@ const comment = (props) => {
                 gif={reply.gif}
                 startReply={startReplyHandler}
             />
-        ))
+        )) : null;
     }
 
     let replyBar = (
@@ -154,7 +160,7 @@ const comment = (props) => {
         </div>
     )
 
-    return (
+    let comment = (
         <div className={classes.Comment} >
             <div className={classes.CommentContainer} onMouseEnter={() => toggleEditingButton()} onMouseLeave={() => toggleEditingButton()}>
                 <div className={classes.CommenterProfileImageContainer}>
@@ -210,6 +216,12 @@ const comment = (props) => {
             />
         </div>
     )
+
+    if (props.deletingComment) {
+        comment = <InlineDots />
+    }
+
+    return comment;
 }
 
 const mapStateToProps = state => {

@@ -17,6 +17,7 @@ export {
    addPostAttempt,
    deletePostAttempt,
    addCommentAttempt,
+   deleteCommentAttempt,
    addReplyAttempt
 } from "./posts";
 

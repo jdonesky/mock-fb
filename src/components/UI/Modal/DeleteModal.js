@@ -18,7 +18,7 @@ const deleteModal = () => {
                     </div>
                 </div>
                 <div className={classes.Break}/>
-                <p>{`Are you sure you want to remove this ${deleteContext.caption} from your profile?`}</p>
+                <p>{`Are you sure you want to remove this ${deleteContext.caption}?`}</p>
                 <div className={sharedClasses.Buttons}>
                     <div className={sharedClasses.SubmitOrCancel} style={{marginLeft: 'auto', marginBottom: '10px'}}>
                         <Button addClass="Neutral" clicked={deleteContext.toggleModal}>Cancel</Button>

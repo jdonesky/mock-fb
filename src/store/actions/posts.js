@@ -151,6 +151,47 @@ const deleteCommentInit = () => {
     }
 }
 
+export const deleteCommentAttempt = (authToken, postsKey, postId, commentId) => {
+    return dispatch => {
+        dispatch(deleteCommentInit());
+        const url = `/posts/${postsKey}.json?auth=${authToken}`
+        let newPosts;
+        axios.get(url)
+            .then(response => {
+                newPosts = [...response.data];
+                const targetPostIndex = newPosts.findIndex(post => post.id === postId);
+                const targetPost = newPosts.find(post => post.id === postId);
+
+                const targetPostComments = [...targetPost.comments];
+                const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
+                targetPostComments.splice(targetCommentIndex, 1);
+
+                targetPost.comments = targetPostComments;
+                newPosts[targetPostIndex] = targetPost;
+                return axios.put(url,newPosts)
+            })
+            .then(response => {
+                dispatch(deleteCommentSuccess(newPosts));
+            })
+            .catch(error => {
+                dispatch(deleteCommentFail(error));
+            })
+    }
+}
+
+const deleteCommentSuccess = (posts) => {
+    return {
+        type: actionTypes.DELETE_COMMENT_SUCCESS,
+        posts: posts
+    }
+}
+
+const deleteCommentFail = (error) => {
+    return {
+        type: actionTypes.DELETE_COMMENT_FAIL,
+        error: error
+    }
+}
 
 const addReplyInit = () => {
     return {

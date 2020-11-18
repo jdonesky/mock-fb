@@ -139,6 +139,7 @@
     align-items: center;
     text-align: left;
     vertical-align: center;
+    cursor: pointer;
 }
 
 .EditDropdownButton:hover {

@@ -5,6 +5,7 @@ const initialState = {
   loadingNewPost: false,
   deletingPost: false,
   loadingNewComment: false,
+  deletingComment: false,
   loadingNewReply: false,
   loadingSelfPosts: false,
   loadingFriendPosts: false,
@@ -78,6 +79,29 @@ const addCommentFail = (state,action) => {
         ...state,
         error: action.error,
         loadingNewComment: false,
+    }
+}
+
+const deleteCommentInit = (state,action) => {
+    return {
+        ...state,
+        deletingComment: true
+    }
+}
+
+const deleteCommentSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        deletingComment: false
+    }
+}
+
+const deleteCommentFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        deletingComment: false
     }
 }
 
@@ -166,6 +190,9 @@ const reducer = (state = initialState, action) => {
       case actionTypes.ADD_COMMENT_INIT: return addCommentInit(state,action);
       case actionTypes.ADD_COMMENT_SUCCESS: return addCommentSuccess(state,action);
       case actionTypes.ADD_COMMENT_FAIL: return addCommentFail(state,action);
+      case actionTypes.DELETE_COMMENT_INIT: return deleteCommentInit(state,action);
+      case actionTypes.DELETE_COMMENT_SUCCESS: return deleteCommentSuccess(state,action);
+      case actionTypes.DELETE_COMMENT_FAIL: return deleteCommentFail(state,action);
       case actionTypes.ADD_REPLY_INIT: return addReplyInit(state,action);
       case actionTypes.ADD_REPLY_SUCCESS: return addReplySuccess(state,action);
       case actionTypes.ADD_REPLY_FAIL: return addReplyFail(state,action);

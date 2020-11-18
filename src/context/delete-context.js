@@ -14,6 +14,7 @@ export const DeleteContext = React.createContext({
     deleteEntry: () => {},
 })
 
+
 const DeleteContextProvider = (props) => {
 
     const [showModal, setShowModal] = useState(false)
@@ -22,7 +23,7 @@ const DeleteContextProvider = (props) => {
     const [caption, setCaption] = useState(null);
     const [deleteAction, setDeleteAction] = useState(null);
     const [nestedId1, setNestedId1] = useState(null);
-    const [subNested2, setNestedId2] = useState(null)
+    const [nestedId2, setNestedId2] = useState(null)
 
     const toggleModal = () => {
         setShowModal((prevState) => {
@@ -48,7 +49,8 @@ const DeleteContextProvider = (props) => {
                 props.onDeletePost(props.authToken, props.postsKey, id)
                 break;
             case "DELETE_POST_COMMENT":
-                props.onDeletePostComment(props.authToken)
+                props.onDeletePostComment(props.authToken, id, nestedId1, nestedId2)
+                break;
             default:
                 throw new Error('Oops, none of the above!')
 
@@ -62,15 +64,6 @@ const DeleteContextProvider = (props) => {
         toggleModal();
     }
 
-
-
-    const deletePostComment = () => {
-        toggleModal();
-    }
-
-    const deletePostReply = () => {
-        toggleModal();
-    }
 
     return (
         <DeleteContext.Provider value={{field: field, id: id, passData: passData, showModal: showModal, toggleModal: toggleModal, caption: caption, deleteAction: deleteAction, deleteEntry: deleteEntry}}>
@@ -92,7 +85,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how, id)),
         onDeletePost: (authToken, postsKey, postId) => dispatch(actions.deletePostAttempt(authToken, postsKey, postId)),
-        onDeletePostComment: (authToken ) => dispatch()
+        onDeletePostComment: (authToken, postsKey, postId, commentId) => dispatch(actions.deleteCommentAttempt(authToken, postsKey, postId, commentId))
     }
 }
 

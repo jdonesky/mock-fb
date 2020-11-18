@@ -1,6 +1,6 @@
 
 
-import React, { useState, useContext, useRef, useEffect} from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import {connect} from 'react-redux';
 import classes from './Post.css'
 
@@ -126,7 +126,6 @@ const post = (props) => {
             <div className={classes.EditDropdownButton}><div className={classes.EditDropDownButtonIcon}><Pen /></div><span>Edit post</span></div>
             <div className={classes.EditDropdownButton}><div className={classes.EditDropDownButtonIcon}><Lock /></div><span>Edit audience</span></div>
             <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}><div className={classes.EditDropDownButtonIcon}><Delete /></div><span>Delete post</span></div>
-
         </div>
     )
 
@@ -178,7 +177,7 @@ const post = (props) => {
     let commentsSection;
     let postsComments;
     if (true) {
-        postsComments = props.comments && props.comments.length && props.comments.map(comment => (
+        postsComments = props.comments && props.comments.length ? props.comments.map(comment => (
             <Comment
                 postsKey={props.postsKey}
                 key={comment.id}
@@ -191,8 +190,10 @@ const post = (props) => {
                 image={comment.image}
                 gif={comment.gif}
                 replies={comment.replies}
+                passDeleteData={deleteContext.passData}
+                toggleDeleteModal={deleteContext.toggleModal}
             />
-        ))
+        )) : null;
 
         let loadingNewCommentIndicator;
         if (props.loadingNewComment) {
