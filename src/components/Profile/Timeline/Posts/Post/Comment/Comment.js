@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {connect} from 'react-redux'
 import classes from './Comment.css';
 import postClasses from '../Post.css'
@@ -17,6 +17,13 @@ import * as actions from '../../../../../../store/actions/index';
 
 
 const comment = (props) => {
+
+    useEffect(() => {
+        document.addEventListener("keydown", escapeEditingForm, false)
+        return () => {
+            document.removeEventListener("keydown", escapeEditingForm, false)
+        }
+    }, [])
 
     const [replying, setReplying] = useState(false);
     const [hoveringComment, setHoveringComment] = useState(false);
@@ -86,11 +93,12 @@ const comment = (props) => {
         }
     }
 
+    const showEditingButton = () => {
+        setHoveringComment(true);
+    }
 
-    const toggleEditingButton = () => {
-            setHoveringComment(prevState => {
-                return !prevState;
-            });
+    const hideEditingButton = () => {
+        setHoveringComment(false);
     }
 
     const toggleEditingDropdown = () => {
@@ -150,6 +158,12 @@ const comment = (props) => {
         setEditingComment(false);
     }
 
+    const escapeEditingForm = useCallback((event) => {
+        if (event.keyCode === 27) {
+            setEditingComment(false);
+        }
+    }, [])
+
     const updateCommentEdits = (event) => {
         setEditCommentText(event.target.value);
     }
@@ -159,13 +173,18 @@ const comment = (props) => {
         const newComment = {
             postsKey: props.postsKey,
             userId: props.userId,
+            postId: props.postId,
+            id: props.id,
             name: props.name,
             commentProfileImage: props.profileImage,
             text: editCommentText,
             image: editCommentImage,
-            gif: editCommentGif
+            gif: editCommentGif,
+            replies: props.replies
         };
+        props.onEditComment(props.authToken, props.postsKey, props.postId, props.id, newComment);
         console.log('new comment', newComment);
+        setEditingComment(false);
     }
 
     const editDropDown = (
@@ -308,37 +327,49 @@ const comment = (props) => {
     )
 
 
-    let comment = (
-        <div className={classes.Comment} >
-            <div className={classes.CommentContainer} onMouseEnter={() => toggleEditingButton()} onMouseLeave={() => toggleEditingButton()}>
-                <div className={classes.CommenterProfileImageContainer}>
-                    <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                        {props.commentProfileImage ? null : <NoGenderPlaceholder />}
-                    </div>
-                </div>
-                <div className={classes.CommentBubbleContainer}>
-                    <div className={classes.CommentBubbleAndEditButtonContainer}>
-                        <div className={classes.CommentBubble}>
-                            <h5 className={classes.CommenterName}>{props.userName}</h5>
-                            <div className={classes.CommentText}>
-                                <span>{props.text}</span>
-                            </div>
-                        </div>
-                        <OutsideAlerter action={closeEditingDropdown}>
-                            <div className={classes.EditOptionsPositioner}>
-                                {editDropDown}
-                                <div className={classes.EditButton} style={{display: hoveringComment || editingDropdown ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
-                            </div>
-                        </OutsideAlerter>
-                    </div>
-                    {props.image || props.gif ?  <div className={classes.AttachedImage} style={{backgroundImage: `url(${props.image || props.gif})`}}></div> : null}
-                    <div className={classes.CommentBubbleOptionButtons}>
-                        <div className={classes.CommentBubbleButton}>Like</div>
-                        <span className={classes.InterPoint}>{"•"}</span>
-                        <div className={classes.CommentBubbleButton} onClick={startReplyHandler}>Reply</div>
-                    </div>
+    let commentContent = (
+        <div className={classes.CommentContainer} onMouseEnter={() => showEditingButton()} onMouseLeave={() => hideEditingButton()}>
+            <div className={classes.CommenterProfileImageContainer}>
+                <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                    {props.commentProfileImage ? null : <NoGenderPlaceholder />}
                 </div>
             </div>
+            <div className={classes.CommentBubbleContainer}>
+                <div className={classes.CommentBubbleAndEditButtonContainer}>
+                    <div className={classes.CommentBubble}>
+                        <h5 className={classes.CommenterName}>{props.userName}</h5>
+                        <div className={classes.CommentText}>
+                            <span>{props.text}</span>
+                        </div>
+                    </div>
+                    <OutsideAlerter action={closeEditingDropdown}>
+                        <div className={classes.EditOptionsPositioner}>
+                            {editDropDown}
+                            <div className={classes.EditButton} style={{display: hoveringComment || editingDropdown ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
+                        </div>
+                    </OutsideAlerter>
+                </div>
+                {props.image || props.gif ?  <div className={classes.AttachedImage} style={{backgroundImage: `url(${props.image || props.gif})`}}></div> : null}
+                <div className={classes.CommentBubbleOptionButtons}>
+                    <div className={classes.CommentBubbleButton}>Like</div>
+                    <span className={classes.InterPoint}>{"•"}</span>
+                    <div className={classes.CommentBubbleButton} onClick={startReplyHandler}>Reply</div>
+                </div>
+            </div>
+        </div>
+    )
+
+    if (editingComment) {
+        commentContent = editCommentBar;
+    }
+
+    if (props.commentEditSaving) {
+        commentContent = <InlineDots />
+    }
+
+    let comment = (
+        <div className={classes.Comment} >
+            {commentContent}
             {replies}
             {replyBar}
             {replyImagePreview}
@@ -347,10 +378,6 @@ const comment = (props) => {
 
     if (props.deletingComment) {
         comment = <InlineDots />
-    }
-
-    if (editingComment) {
-        comment = editCommentBar;
     }
 
     return comment;
@@ -363,12 +390,14 @@ const mapStateToProps = state => {
         name: state.profile.firstName + ' ' + state.profile.lastName,
         loadingNewReply: state.posts.loadingNewReply,
         deletingReply: state.posts.deletingReply,
+        commentEditSaving: state.posts.editingComment,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPostReply: (authToken, postsKey, postId, commentId, reply) => dispatch(actions.addReplyAttempt(authToken, postsKey, postId, commentId, reply))
+        onPostReply: (authToken, postsKey, postId, commentId, reply) => dispatch(actions.addReplyAttempt(authToken, postsKey, postId, commentId, reply)),
+        onEditComment: (authToken, postsKey, postId, commentId, newComment) => dispatch(actions.editCommentAttempt(authToken, postsKey, postId, commentId, newComment))
     }
 }
 

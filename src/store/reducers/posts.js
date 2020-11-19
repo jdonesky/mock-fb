@@ -179,6 +179,29 @@ const addReplyFail = (state,action) => {
     }
 }
 
+const editReplyInit = (state,action) => {
+    return {
+        ...state,
+        editingReply: true
+    }
+}
+
+const editReplySuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        editingReply: false
+    }
+}
+
+const editReplyFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        editingReply: true
+    }
+}
+
 const deleteReplyInit = (state,action) => {
     return {
         ...state,

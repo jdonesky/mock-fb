@@ -52,26 +52,26 @@ const editPostInit = () => {
     }
 }
 
+
 export const editPostAttempt = (authToken, postsKey, postId, payload) => {
     return dispatch => {
         dispatch(editPostInit());
         const url = `/posts/${postsKey}.json?auth=${authToken}`;
         let newPosts;
-        KeyGenerator.getKey(authToken, (newKey) => {
-            axios.get(url)
-                .then(response => {
-                    newPosts = [...response.data];
-                    const targetPostIndex = newPosts.findIndex(post => post.id === postId);
-                    newPosts[targetPostIndex] = {...payload, id: newKey}
-                    return axios.put(url, newPosts);
-                })
-                .then(response => {
-                    dispatch(editPostSuccess(newPosts));
-                })
-                .catch(error => {
-                    dispatch(editPostFail(error))
-                })
-        })
+        const editedPost = {...payload, id: postId};
+        axios.get(url)
+            .then(response => {
+                newPosts = [...response.data];
+                const targetPostIndex = newPosts.findIndex(post => post.id === postId);
+                newPosts[targetPostIndex] = editedPost;
+                return axios.put(url, newPosts);
+            })
+            .then(response => {
+                dispatch(editPostSuccess(newPosts));
+            })
+            .catch(error => {
+                dispatch(editPostFail(error))
+            })
     }
 }
 
@@ -197,7 +197,8 @@ export const editCommentAttempt = (authToken, postsKey, postId, commentId, paylo
         dispatch(editCommentInit())
         const url = `/posts/${postsKey}.json?auth=${authToken}`
         let newPosts;
-        const newComment = {...payload, id: commentId}
+        // const newComment = {...payload, id: commentId}
+        const newComment = {...payload}
         axios.get(url)
             .then(response => {
                 newPosts = [...response.data];
@@ -343,6 +344,36 @@ const addReplyFail = (error) => {
         error: error
     }
 }
+
+const editReplyInit = () => {
+    return {
+        type: actionTypes.EDIT_REPLY_INIT
+    }
+}
+
+const editReplyAttempt = (authToken, postsKey, postId, commentId, replyId, payload) => {
+    return dispatch => {
+        dispatch(editReplyInit());
+        const url = `/posts/${postsKey}.json?auth=${authToken}`
+        let newPosts;
+        const editedReply = {...payload}
+    }
+}
+
+const editReplySuccess = (posts) => {
+    return {
+        type: actionTypes.EDIT_REPLY_SUCCESS,
+        posts: posts
+    }
+}
+
+const editReplyFail = (error) => {
+    return {
+        type: actionTypes.EDIT_REPLY_FAIL,
+        error: error
+    }
+}
+
 
 const deleteReplyInit = () => {
     return {

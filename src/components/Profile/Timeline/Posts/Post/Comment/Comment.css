@@ -326,7 +326,7 @@
     height: 20px;
     text-align: left;
     align-items: center;
-    margin-left: 20px;
+    margin: 0 0 10px 20px;
 }
 
 .CancelEditingCaption {

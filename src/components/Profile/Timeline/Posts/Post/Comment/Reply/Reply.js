@@ -18,10 +18,12 @@ const reply = (props) => {
     const [editingButton, setEditingButton] = useState(false);
     const [editDropdown, setEditDropdown] = useState(false);
 
-    const toggleEditingButton = () => {
-            setEditingButton(prevState => {
-                return !prevState;
-            });
+    const showEditingButton = () => {
+        setEditingButton(true);
+    }
+
+    const hideEditingButton = () => {
+        setEditingButton(false);
     }
 
     const toggleEditDropdown = () => {
@@ -50,7 +52,7 @@ const reply = (props) => {
     )
 
     return (
-        <div className={classes.Reply} onMouseEnter={() => toggleEditingButton()} onMouseLeave={() => toggleEditingButton()}>
+        <div className={classes.Reply} onMouseEnter={() => showEditingButton()} onMouseLeave={() => hideEditingButton()}>
             <div className={classes.Comment}>
                 <div className={classes.CommentContainer}>
                     <div className={classes.CommenterProfileImageContainer}>
