@@ -16,6 +16,7 @@ export const addPostAttempt = (authToken, postsKey, post) => {
             axios.get(url)
                 .then(response => {
                     const newPosts = [...response.data, {...post, id: newKey}]
+                    console.log('ADDING POST: newPosts after adding new post: ', newPosts)
                     axios.put(url, newPosts)
                         .then(response => {
                             dispatch(addPostSuccess(newPosts))
@@ -56,19 +57,21 @@ export const editPostAttempt = (authToken, postsKey, postId, payload) => {
         dispatch(editPostInit());
         const url = `/posts/${postsKey}.json?auth=${authToken}`;
         let newPosts;
-        axios.get(url)
-            .then(response => {
-                newPosts = [...response.data];
-                const targetPostIndex = newPosts.findIndex(post => post.id = postId);
-                newPosts[targetPostIndex + 1] = {...payload, id: postId}
-                return axios.put(url, newPosts);
-            })
-            .then(response => {
-                dispatch(editPostSuccess(newPosts));
-            })
-            .catch(error => {
-                dispatch(editPostFail(error))
-            })
+        KeyGenerator.getKey(authToken, (newKey) => {
+            axios.get(url)
+                .then(response => {
+                    newPosts = [...response.data];
+                    const targetPostIndex = newPosts.findIndex(post => post.id === postId);
+                    newPosts[targetPostIndex] = {...payload, id: newKey}
+                    return axios.put(url, newPosts);
+                })
+                .then(response => {
+                    dispatch(editPostSuccess(newPosts));
+                })
+                .catch(error => {
+                    dispatch(editPostFail(error))
+                })
+        })
     }
 }
 
@@ -101,7 +104,7 @@ export const deletePostAttempt = (authToken, postsKey, postId) => {
             .then(response => {
                 newPosts = [...response.data];
                 const targetPostIndex = newPosts.findIndex(post => post.id === postId);
-                newPosts.splice(targetPostIndex + 1, 1);
+                newPosts.splice(targetPostIndex, 1);
                 return axios.put(url, newPosts);
             })
             .then(response => {

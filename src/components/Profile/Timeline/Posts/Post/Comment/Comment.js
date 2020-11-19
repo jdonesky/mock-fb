@@ -19,14 +19,19 @@ import * as actions from '../../../../../../store/actions/index';
 const comment = (props) => {
 
     const [replying, setReplying] = useState(false);
-    const [editingComment, setEditingComment] = useState(false);
+    const [hoveringComment, setHoveringComment] = useState(false);
     const [editingDropdown, setEditingDropdown] = useState(false);
-    const [editedCommentText, setEditedCommentText] = useState(null);
+
+    const [editingComment, setEditingComment] = useState(false);
+    const [editCommentText, setEditCommentText] = useState(null);
     const [editCommentImage, setEditCommentImage] = useState(null);
+    const [editCommentGif, setEditCommentGif] = useState(null);
+    const editImageUploader = useRef(null);
+    const editGifUploader = useRef(null);
 
     const replyInput = useRef(null);
-    const imageUploader = useRef(null);
-    const gifUploader = useRef(null);
+    const replyImageUploader = useRef(null);
+    const replyGifUploader = useRef(null);
 
     const [replyText, setReplyText] = useState('');
     const [replyImage, setReplyImage] = useState(null);
@@ -36,7 +41,7 @@ const comment = (props) => {
         setReplyText(event.target.value);
     }
 
-    const imageUploadHandler = (event) => {
+    const replyImageUploadHandler = (event) => {
         const [file] = event.target.files;
         if (file) {
             const reader = new FileReader();
@@ -47,7 +52,7 @@ const comment = (props) => {
         }
     }
 
-    const gifUploadHandler = (event) => {
+    const replyGifUploadHandler = (event) => {
         const [file] = event.target.files;
         if (file) {
             const reader = new FileReader();
@@ -58,8 +63,32 @@ const comment = (props) => {
         }
     }
 
+
+    const editImageUploadHandler = (event) => {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setEditCommentImage(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    const editGifUploadHandler = (event) => {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setEditCommentGif(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+
     const toggleEditingButton = () => {
-            setEditingComment(prevState => {
+            setHoveringComment(prevState => {
                 return !prevState;
             });
     }
@@ -106,18 +135,43 @@ const comment = (props) => {
         setReplyGif(null);
     }
 
-    const updateCommentEdits = (event) => {
-        setEditedCommentText(event.target.value);
+    const openEditingForm = () => {
+        setEditCommentText(props.text);
+        setEditCommentImage(props.image);
+        setEditCommentGif(props.gif);
+        setEditingComment(true);
+        toggleEditingDropdown();
     }
 
-    const saveCommentEdits = () => {
+    const closeEditingForm = () => {
+        setEditCommentText(null);
+        setEditCommentImage(null);
+        setEditCommentGif(null);
+        setEditingComment(false);
+    }
 
+    const updateCommentEdits = (event) => {
+        setEditCommentText(event.target.value);
+    }
+
+    const saveCommentEdits = (event) => {
+        event.preventDefault()
+        const newComment = {
+            postsKey: props.postsKey,
+            userId: props.userId,
+            name: props.name,
+            commentProfileImage: props.profileImage,
+            text: editCommentText,
+            image: editCommentImage,
+            gif: editCommentGif
+        };
+        console.log('new comment', newComment);
     }
 
     const editDropDown = (
         <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
             <div className={classes.BaseArrow} />
-            <div className={classes.EditDropdownButton}>Edit</div>
+            <div className={classes.EditDropdownButton} onClick={openEditingForm}>Edit</div>
             <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}>Delete</div>
         </div>
     )
@@ -155,14 +209,34 @@ const comment = (props) => {
                 </div>
             </div>
             <form className={classes.ReplyForm} onSubmit={saveReply}>
-            <div className={classes.CommentBar}>
-                <input  ref={replyInput} placeholder="Write a comment..." value={replyText} onChange={(event) => updateReplyText(event)}/>
-                <div className={classes.CommentButtons}>
-                    <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
-                    <div className={classes.CommentButtonIcon} onClick={() => imageUploader.current.click()}><Camera fill="#545353" /></div>
-                    <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={() => gifUploader.current.click()}><Gif fill="#545353" /></div>
+                <div className={classes.CommentBar}>
+                    <input  ref={replyInput} placeholder="Write a comment..." value={replyText} onChange={(event) => updateReplyText(event)}/>
+                    <div className={classes.CommentButtons}>
+                        <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
+                        <div className={classes.CommentButtonIcon} onClick={() => replyImageUploader.current.click()}><Camera fill="#545353" /></div>
+                        <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={() => replyGifUploader.current.click()}><Gif fill="#545353" /></div>
+                    </div>
                 </div>
-            </div>
+                <input
+                    ref={replyImageUploader}
+                    type="file"
+                    accept="image/*"
+                    multiple={false}
+                    onChange={replyImageUploadHandler}
+                    style={{
+                        display: "none"
+                    }}
+                />
+                <input
+                    ref={replyGifUploader}
+                    type="file"
+                    accept="image/*"
+                    multiple={false}
+                    onChange={replyGifUploadHandler}
+                    style={{
+                        display: "none"
+                    }}
+                />
             </form>
         </section>
     )
@@ -174,39 +248,62 @@ const comment = (props) => {
     let replyImagePreview = (
         <div className={classes.ReplyImagePreviewContainer}>
             <section className={postClasses.CommentImagePreviewSection} style={{display: replyImage ? 'flex' : 'none'}}>
-                <div className={postClasses.CommentImagePreviewContainer} style={{backgroundImage: replyImage ? `url(${replyImage}` : null}} onClick={() => imageUploader.current.click()}></div>
+                <div className={postClasses.CommentImagePreviewContainer} style={{backgroundImage: replyImage ? `url(${replyImage}` : null}} onClick={() => replyImageUploader.current.click()}></div>
                 <div className={postClasses.CancelCommentImagePreviewButton} onClick={() => setReplyImage(null)}><Delete /></div>
             </section>
         </div>
     )
 
     let editCommentImagePreview = (
-        <section className={classes.CommentImagePreviewSection} style={{display: editCommentImage ? 'flex' : 'none'}}>
-            <div className={classes.CommentImagePreviewContainer} style={{backgroundImage: editCommentImage ? `url(${editCommentImage}` : null}} onClick={() => imageUploader.current.click()}></div>
-            <div className={classes.CancelCommentImagePreviewButton} onClick={() => setEditCommentImage(null)}><Delete /></div>
+        <section className={postClasses.CommentImagePreviewSection} style={{display: editCommentImage ? 'flex' : 'none'}}>
+            <div className={postClasses.CommentImagePreviewContainer} style={{backgroundImage: editCommentImage ? `url(${editCommentImage}` : null}} onClick={() => editImageUploader.current.click()}></div>
+            <div className={postClasses.CancelCommentImagePreviewButton} onClick={() => setEditCommentImage(null)}><Delete /></div>
         </section>
     )
 
     const editCommentBar = (
         <div className={classes.EditCommentForm}>
-        <section className={postClasses.CommentBarSection}>
-            <div className={postClasses.CommenterProfileImageContainer}>
-                <div className={postClasses.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                    {props.profileImage ? null : <NoGenderPlaceholder />}
-                </div>
-            </div>
-            <form onSubmit={saveCommentEdits} className={postClasses.CommentForm}>
-                <div className={postClasses.CommentBar}>
-                    <input  placeholder="Write a comment..." value={editedCommentText} onChange={(event) => updateCommentEdits(event)}/>
-                    <div className={postClasses.CommentButtons}>
-                        <div className={postClasses.CommentButtonIcon}><Smiley fill="#545353" /></div>
-                        <div className={postClasses.CommentButtonIcon} onClick={() => imageUploader.current.click()}><Camera fill="#545353" /></div>
-                        <div className={[postClasses.CommentButtonIcon, postClasses.Gif].join(" ")} onClick={() => gifUploader.current.click()}><Gif fill="#545353" /></div>
+            <section className={postClasses.CommentBarSection}>
+                <div className={postClasses.CommenterProfileImageContainer}>
+                    <div className={postClasses.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                        {props.profileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
-            </form>
-        </section>
-        {editCommentImagePreview}
+                <form onSubmit={saveCommentEdits} className={postClasses.CommentForm}>
+                    <div className={postClasses.CommentBar}>
+                        <input  placeholder="Write a comment..." value={editCommentText} onChange={(event) => updateCommentEdits(event)}/>
+                        <div className={postClasses.CommentButtons}>
+                            <div className={postClasses.CommentButtonIcon}><Smiley fill="#545353" /></div>
+                            <div className={postClasses.CommentButtonIcon} onClick={() => editImageUploader.current.click()}><Camera fill="#545353" /></div>
+                            <div className={[postClasses.CommentButtonIcon, postClasses.Gif].join(" ")} onClick={() => editGifUploader.current.click()}><Gif fill="#545353" /></div>
+                        </div>
+                    </div>
+                    <input
+                        ref={editImageUploader}
+                        type="file"
+                        accept="image/*"
+                        multiple={false}
+                        onChange={editImageUploadHandler}
+                        style={{
+                            display: "none"
+                        }}
+                    />
+                    <input
+                        ref={editGifUploader}
+                        type="file"
+                        accept="image/*"
+                        multiple={false}
+                        onChange={editGifUploadHandler}
+                        style={{
+                            display: "none"
+                        }}
+                    />
+                </form>
+            </section>
+            {editCommentImagePreview}
+            <section className={classes.CancelEditingSection}>
+                <span className={classes.CancelEditingCaption}>Press Esc to <span className={classes.CancelEditingButton} onClick={closeEditingForm}>cancel</span></span>
+            </section>
         </div>
     )
 
@@ -230,7 +327,7 @@ const comment = (props) => {
                         <OutsideAlerter action={closeEditingDropdown}>
                             <div className={classes.EditOptionsPositioner}>
                                 {editDropDown}
-                                <div className={classes.EditButton} style={{display: editingComment || editingDropdown ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
+                                <div className={classes.EditButton} style={{display: hoveringComment || editingDropdown ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
                             </div>
                         </OutsideAlerter>
                     </div>
@@ -245,31 +342,15 @@ const comment = (props) => {
             {replies}
             {replyBar}
             {replyImagePreview}
-            <input
-                ref={imageUploader}
-                type="file"
-                accept="image/*"
-                multiple={false}
-                onChange={imageUploadHandler}
-                style={{
-                    display: "none"
-                }}
-            />
-            <input
-                ref={gifUploader}
-                type="file"
-                accept="image/*"
-                multiple={false}
-                onChange={gifUploadHandler}
-                style={{
-                    display: "none"
-                }}
-            />
         </div>
     )
 
     if (props.deletingComment) {
         comment = <InlineDots />
+    }
+
+    if (editingComment) {
+        comment = editCommentBar;
     }
 
     return comment;

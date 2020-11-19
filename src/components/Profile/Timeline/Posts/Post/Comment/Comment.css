@@ -319,5 +319,26 @@
 }
 
 .EditCommentForm {
+    width: 100%;
+}
 
+.CancelEditingSection {
+    height: 20px;
+    text-align: left;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.CancelEditingCaption {
+    color: rgba(0,0,0,0.2);
+    font-size: 13px;
+}
+
+.CancelEditingButton {
+    color: #0B86DE;
+    cursor: pointer;
+}
+
+.CancelEditingButton:hover {
+    text-decoration: underline;
 }

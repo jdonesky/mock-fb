@@ -108,6 +108,9 @@ const post = (props) => {
             gif: commentGif,
         }
         props.onPostComment(props.authToken, props.postsKey, props.id, comment)
+        setCommentText('');
+        setCommentImage(null);
+        setCommentGif(null);
     }
 
     const gifUploadHandler = (event) => {
@@ -294,8 +297,8 @@ const post = (props) => {
             {commentsSection}
             <section className={classes.CommentBarSection}>
                 <div className={classes.CommenterProfileImageContainer}>
-                    <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                        {props.profileImage ? null : <NoGenderPlaceholder />}
+                    <div className={classes.CommenterProfileImage} style={{backgroundImage: props.postProfileImage ? `url(${props.postProfileImage})` : null}}>
+                        {props.postProfileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
                 <form onSubmit={saveComment} className={classes.CommentForm}>

@@ -24,6 +24,10 @@ export const PostContext = React.createContext({
 
 const PostContextProvider = (props) => {
 
+    useEffect(() => {
+        console.log('postId',postId);
+    })
+
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState('CREATE_POST');
     const [text,setText] = useState('');
@@ -187,7 +191,6 @@ const PostContextProvider = (props) => {
     const saveEdits = () => {
         const post = {
             postsKey: postsKey,
-            postId: postId,
             text: text,
             image: image || null,
             background: background || null,

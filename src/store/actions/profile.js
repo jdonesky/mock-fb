@@ -23,16 +23,20 @@ export const createProfileAttempt =  (token,newUserData) => {
         let userData;
         let postsKey;
         KeyGenerator.getKey(token, (newKey) => {
-            axios.post(`/posts.json?auth=${token}`,[{text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(new Date(), true)}`, date: new Date(), id: newKey}])
+            const today = new Date();
+            let yesterday = new Date();
+            yesterday = new Date(yesterday.setDate(today.getDate() - 1));
+            const basePost = {text: 'hold postsKey', date: yesterday, id: -1}
+            axios.post(`/posts.json?auth=${token}`,[basePost, {text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(today, true)}`, date: today, id: newKey}])
                 .then(response => {
                     postsKey = response.data.name;
                     console.log('POSTS KEY', postsKey)
                     return axios.get(`/posts/${postsKey}.json?auth=${token}`)
                 })
                 .then(response => {
-                    const postWithKey = {...response.data[0], postsKey: postsKey}
-                    console.log('POST WITH KEY', postWithKey)
-                    return axios.put(`/posts/${postsKey}.json?auth=${token}`, [postWithKey]);
+                    const postsWithKeys = response.data.map(post => ({...post, postsKey: postsKey}))
+                    console.log('POSTS WITH KEYS', postsWithKeys)
+                    return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys]);
                 })
                 .then(response => {
                     userData = {postsKey: postsKey, ...newUserData}
