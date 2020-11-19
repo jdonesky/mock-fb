@@ -129,7 +129,14 @@ const baseForm = (props) => {
             <div className={classes.PostingOverlay}>
                 <div className={classes.PostingMessage}><h1>Posting</h1><div className={classes.PostingDotsContainer}><InlineDots className={classes.PostingDots}/></div></div>
             </div>
-        )
+        );
+    }
+    if (props.editingPost) {
+        postingOverlay = (
+            <div className={classes.PostingOverlay}>
+                <div className={classes.PostingMessage}><h1>Editing</h1><div className={classes.PostingDotsContainer}><InlineDots className={classes.PostingDots}/></div></div>
+            </div>
+        );
     }
 
     return (
@@ -214,7 +221,9 @@ const mapStateToProps = state => {
     return {
         name: state.profile.firstName + ' ' + state.profile.lastName,
         profileImage: state.profile.profileImage,
-        loadingNewPost: state.posts.loadingNewPost
+        loadingNewPost: state.posts.loadingNewPost,
+        editingPost: state.posts.editingPost,
+        firebaseKey: state.profile.firebaseKey
     }
 }
 

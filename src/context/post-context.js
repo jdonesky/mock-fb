@@ -24,19 +24,6 @@ export const PostContext = React.createContext({
 
 const PostContextProvider = (props) => {
 
-    useEffect(() => {
-        console.log('editing? ', editingPost)
-        console.log('recorded initial values: ', initialValues);
-        console.log('values that can change', {
-            text: text,
-            image: image,
-            background: background,
-            tagged: tagged,
-            location: location
-        })
-        console.log('allow save? ', allowPost);
-    })
-
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState('CREATE_POST');
     const [text,setText] = useState('');
@@ -44,8 +31,13 @@ const PostContextProvider = (props) => {
     const [background, setBackground] = useState(null);
     const [tagged, setTagged] = useState([]);
     const [location, setLocation] = useState(null);
-    const [allowPost, setAllowPost] = useState(false);
+    const [comments, setComments] = useState([]);
+    const [postsKey, setPostsKey] = useState(null);
+    const [userKey, setUserKey] = useState(null);
+    const [postId, setPostId] = useState(null);
+    const [postProfileImage, setPostProfileImage] = useState(null);
 
+    const [allowPost, setAllowPost] = useState(false);
     const [editingPost, setEditingPost] = useState(false);
     const [initialValues, setInitialValues] = useState({});
 
@@ -72,6 +64,11 @@ const PostContextProvider = (props) => {
         setBackground(null);
         setTagged([]);
         setLocation(null);
+        setComments([]);
+        setPostsKey(null);
+        setUserKey(null);
+        setPostId(null);
+        setPostProfileImage(null);
         setInitialValues({});
         setEditingPost(false);
     };
@@ -143,6 +140,21 @@ const PostContextProvider = (props) => {
             case 'location':
                 setLocation(payload)
                 break;
+            case 'comments':
+                setComments(payload)
+                break;
+            case 'postsKey':
+                setPostsKey(payload)
+                break;
+            case 'userKey':
+                setUserKey(payload)
+                break;
+            case 'postProfileImage':
+                setPostProfileImage(payload)
+                break;
+            case 'postId':
+                setPostId(payload)
+                break;
             default:
                 setImage(null)
         }
@@ -174,9 +186,19 @@ const PostContextProvider = (props) => {
 
     const saveEdits = () => {
         const post = {
-
+            postsKey: postsKey,
+            postId: postId,
+            text: text,
+            image: image || null,
+            background: background || null,
+            tagged: tagged,
+            comments: comments,
+            location: location,
+            date: new Date(),
+            userKey: props.firebaseKey,
+            postProfileImage: postProfileImage
         }
-        props.onEditPost();
+        props.onEditPost(props.authToken, postsKey, postId, post);
         setText('');
         setImage(null);
         setBackground(null);

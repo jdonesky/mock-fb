@@ -74,6 +74,10 @@ const post = (props) => {
         postContext.passData('location',props.location || null);
         postContext.passData('tags',props.tagged && props.tagged.length ? props.tagged : []);
         postContext.passData('comments', props.comments && props.comments.length ? props.comments : []);
+        postContext.passData('postsKey', props.postsKey || null);
+        postContext.passData('userKey', props.userKey || null);
+        postContext.passData('postProfileImage', props.postProfileImage || null);
+        postContext.passData('postId', props.id || null);
         postContext.toggleModal();
     }
 
@@ -340,7 +344,7 @@ const mapStateToProps = state => {
         userId: state.profile.userId,
         profileImage: state.profile.profileImage,
         name: state.profile.firstName + ' ' + state.profile.lastName,
-        loadingNewComment: state.posts.loadingNewComment
+        loadingNewComment: state.posts.loadingNewComment,
     }
 }
 

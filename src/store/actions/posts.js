@@ -59,9 +59,8 @@ export const editPostAttempt = (authToken, postsKey, postId, payload) => {
         axios.get(url)
             .then(response => {
                 newPosts = [...response.data];
-
-                //  EDIT TARGET POST
-
+                const targetPostIndex = newPosts.findIndex(post => post.id = postId);
+                newPosts[targetPostIndex + 1] = {...payload, id: postId}
                 return axios.put(url, newPosts);
             })
             .then(response => {
@@ -102,7 +101,7 @@ export const deletePostAttempt = (authToken, postsKey, postId) => {
             .then(response => {
                 newPosts = [...response.data];
                 const targetPostIndex = newPosts.findIndex(post => post.id === postId);
-                newPosts.splice(targetPostIndex, 1);
+                newPosts.splice(targetPostIndex + 1, 1);
                 return axios.put(url, newPosts);
             })
             .then(response => {
@@ -151,6 +150,7 @@ export const addCommentAttempt = (authToken, postsKey, id, comment) => {
                     } else {
                         targetPostComments = [newComment];
                     }
+                    console.log(targetPostComments)
                     targetPost.comments = targetPostComments;
                     newPosts[targetPostIndex] = targetPost;
                     axios.put(url,newPosts)
