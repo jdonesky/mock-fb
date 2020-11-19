@@ -150,7 +150,6 @@ export const addCommentAttempt = (authToken, postsKey, id, comment) => {
                     } else {
                         targetPostComments = [newComment];
                     }
-                    console.log(targetPostComments)
                     targetPost.comments = targetPostComments;
                     newPosts[targetPostIndex] = targetPost;
                     axios.put(url,newPosts)
@@ -180,6 +179,55 @@ const addCommentSuccess = (posts) => {
 const addCommentFail = (error) => {
     return {
         type: actionTypes.ADD_COMMENT_FAIL,
+        error: error
+    }
+}
+
+const editCommentInit = () => {
+    return {
+        type: actionTypes.EDIT_COMMENT_INIT
+    }
+}
+
+export const editCommentAttempt = (authToken, postsKey, postId, commentId, payload) => {
+    return dispatch => {
+        dispatch(editCommentInit())
+        const url = `/posts/${postsKey}.json?auth=${authToken}`
+        let newPosts;
+        const newComment = {...payload, id: commentId}
+        axios.get(url)
+            .then(response => {
+                newPosts = [...response.data];
+                const targetPostIndex = newPosts.findIndex(post => post.id === postId);
+                const targetPost = newPosts.find(post => post.id === postId);
+
+                const targetPostComments = [...targetPost.comments];
+                const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
+                targetPostComments[targetCommentIndex] = newComment
+
+                targetPost.comments = targetPostComments;
+                newPosts[targetPostIndex] = targetPost;
+                return axios.put(url,newPosts)
+            })
+            .then(response => {
+                dispatch(editCommentSuccess(newPosts));
+            })
+            .catch(error => {
+                dispatch(editCommentFail(error));
+            })
+    }
+}
+
+const editCommentSuccess = (posts) => {
+    return {
+        type: actionTypes.EDIT_COMMENT_SUCCESS,
+        posts: posts
+    }
+}
+
+const editCommentFail = (error) => {
+    return {
+        type: actionTypes.EDIT_COMMENT_FAIL,
         error: error
     }
 }

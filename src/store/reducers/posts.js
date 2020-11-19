@@ -110,6 +110,29 @@ const addCommentFail = (state,action) => {
     }
 }
 
+const editCommentInit = (state,action) => {
+    return {
+        ...state,
+        editingComment: true
+    }
+}
+
+const editCommentSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        editingComment: false
+    }
+}
+
+const editCommentFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        editingComment: false
+    }
+}
+
 const deleteCommentInit = (state,action) => {
     return {
         ...state,
@@ -180,8 +203,6 @@ const deleteReplyFail = (state,action) => {
 }
 
 
-
-
 const fetchSelfPostsInit = (state,action) => {
     return {
         ...state,
@@ -246,6 +267,9 @@ const reducer = (state = initialState, action) => {
       case actionTypes.ADD_COMMENT_INIT: return addCommentInit(state,action);
       case actionTypes.ADD_COMMENT_SUCCESS: return addCommentSuccess(state,action);
       case actionTypes.ADD_COMMENT_FAIL: return addCommentFail(state,action);
+      case actionTypes.EDIT_COMMENT_INIT: return editCommentInit(state,action);
+      case actionTypes.EDIT_COMMENT_SUCCESS: return editCommentSuccess(state,action);
+      case actionTypes.EDIT_COMMENT_FAIL: return editCommentFail(state,action);
       case actionTypes.DELETE_COMMENT_INIT: return deleteCommentInit(state,action);
       case actionTypes.DELETE_COMMENT_SUCCESS: return deleteCommentSuccess(state,action);
       case actionTypes.DELETE_COMMENT_FAIL: return deleteCommentFail(state,action);

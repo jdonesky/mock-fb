@@ -21,6 +21,9 @@ const comment = (props) => {
     const [replying, setReplying] = useState(false);
     const [editingComment, setEditingComment] = useState(false);
     const [editingDropdown, setEditingDropdown] = useState(false);
+    const [editedCommentText, setEditedCommentText] = useState(null);
+    const [editCommentImage, setEditCommentImage] = useState(null);
+
     const replyInput = useRef(null);
     const imageUploader = useRef(null);
     const gifUploader = useRef(null);
@@ -103,6 +106,14 @@ const comment = (props) => {
         setReplyGif(null);
     }
 
+    const updateCommentEdits = (event) => {
+        setEditedCommentText(event.target.value);
+    }
+
+    const saveCommentEdits = () => {
+
+    }
+
     const editDropDown = (
         <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
             <div className={classes.BaseArrow} />
@@ -168,6 +179,37 @@ const comment = (props) => {
             </section>
         </div>
     )
+
+    let editCommentImagePreview = (
+        <section className={classes.CommentImagePreviewSection} style={{display: editCommentImage ? 'flex' : 'none'}}>
+            <div className={classes.CommentImagePreviewContainer} style={{backgroundImage: editCommentImage ? `url(${editCommentImage}` : null}} onClick={() => imageUploader.current.click()}></div>
+            <div className={classes.CancelCommentImagePreviewButton} onClick={() => setEditCommentImage(null)}><Delete /></div>
+        </section>
+    )
+
+    const editCommentBar = (
+        <div className={classes.EditCommentForm}>
+        <section className={postClasses.CommentBarSection}>
+            <div className={postClasses.CommenterProfileImageContainer}>
+                <div className={postClasses.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                    {props.profileImage ? null : <NoGenderPlaceholder />}
+                </div>
+            </div>
+            <form onSubmit={saveCommentEdits} className={postClasses.CommentForm}>
+                <div className={postClasses.CommentBar}>
+                    <input  placeholder="Write a comment..." value={editedCommentText} onChange={(event) => updateCommentEdits(event)}/>
+                    <div className={postClasses.CommentButtons}>
+                        <div className={postClasses.CommentButtonIcon}><Smiley fill="#545353" /></div>
+                        <div className={postClasses.CommentButtonIcon} onClick={() => imageUploader.current.click()}><Camera fill="#545353" /></div>
+                        <div className={[postClasses.CommentButtonIcon, postClasses.Gif].join(" ")} onClick={() => gifUploader.current.click()}><Gif fill="#545353" /></div>
+                    </div>
+                </div>
+            </form>
+        </section>
+        {editCommentImagePreview}
+        </div>
+    )
+
 
     let comment = (
         <div className={classes.Comment} >
