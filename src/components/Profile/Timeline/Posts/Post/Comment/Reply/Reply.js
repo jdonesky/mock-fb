@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import { connect } from 'react-redux';
 import classes from "../Comment.css";
 import * as actions from '../../../../../../../store/actions/index'
@@ -15,8 +15,21 @@ import InlineDots from '../../../../../../UI/Spinner/InlineDots'
 
 const reply = (props) => {
 
+    useEffect(() => {
+        document.addEventListener("keydown", escapeEditingForm, false)
+        return () => {
+            document.removeEventListener("keydown", escapeEditingForm, false)
+        }
+    }, [])
+
+    const escapeEditingForm = useCallback((event) => {
+        if (event.keyCode === 27) {
+            setEditingReply(false);
+        }
+    }, [])
+
     const [hoveringReply, setHoveringReply] = useState(false);
-    const [editDropdown, setEditDropdown] = useState(false);
+    const [editingDropdown, setEditingDropdown] = useState(false);
 
     const [editingReply, setEditingReply] = useState(false);
     const [editReplyText, setEditReplyText] = useState(null);
@@ -62,13 +75,13 @@ const reply = (props) => {
     }
 
     const toggleEditDropdown = () => {
-        setEditDropdown(prevState => {
+        setEditingDropdown(prevState => {
             return !prevState;
         })
     }
 
     const closeEditDropdown = () => {
-        setEditDropdown(false);
+        setEditingDropdown(false);
     }
 
     const openEditReplyForm = () => {
@@ -112,7 +125,7 @@ const reply = (props) => {
     }
 
     const editDropDown = (
-        <div className={classes.EditDropdownContainer} style={{display: editDropdown ? 'flex' : 'none'}}>
+        <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
             <div className={classes.BaseArrow} />
             <div className={classes.EditDropdownButton} onClick={openEditReplyForm}>Edit</div>
             <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}>Delete</div>
@@ -198,7 +211,7 @@ const reply = (props) => {
                             <OutsideAlerter action={closeEditDropdown}>
                                 <div className={classes.EditOptionsPositioner}>
                                     {editDropDown}
-                                    <div className={classes.EditButton} style={{display: hoveringReply ? 'block' : 'none'}} onClick={toggleEditDropdown}><Dots /></div>
+                                    <div className={classes.EditButton} style={{display: hoveringReply || editingDropdown ? 'block' : 'none'}} onClick={toggleEditDropdown}><Dots /></div>
                                 </div>
                             </OutsideAlerter>
                         </div>

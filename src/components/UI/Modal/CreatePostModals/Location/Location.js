@@ -13,7 +13,6 @@ import Search from "../../../../Search/Searchbar";
 
 const searchLocations = ({pastLocations, currLocation, hometown}) => {
 
-
     const postContext = useContext(PostContext);
 
     const curLoc = currLocation ? {type: 'current', name: currLocation.name} : {name: ''};
@@ -40,7 +39,7 @@ const searchLocations = ({pastLocations, currLocation, hometown}) => {
                 setSuggestions(filtered.length ? filtered : '')
             })
             .catch(err => {
-                const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
+                    const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
                 setSuggestions(filtered.length ? filtered : '')
                 console.log(err)
             })
