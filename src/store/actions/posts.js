@@ -351,12 +351,40 @@ const editReplyInit = () => {
     }
 }
 
-const editReplyAttempt = (authToken, postsKey, postId, commentId, replyId, payload) => {
+export const editReplyAttempt = (authToken, postsKey, postId, commentId, replyId, payload) => {
     return dispatch => {
         dispatch(editReplyInit());
         const url = `/posts/${postsKey}.json?auth=${authToken}`
-        let newPosts;
         const editedReply = {...payload}
+        let newPosts;
+        axios.get(url)
+            .then(response => {
+                newPosts = [...response.data];
+                const targetPostIndex = newPosts.findIndex(post => post.id === postId);
+                const targetPost = newPosts.find(post => post.id === postId);
+
+                const targetPostComments = [...targetPost.comments];
+                const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
+                const targetComment = targetPostComments.find(comment => comment.id === commentId);
+
+                const targetCommentReplies = [...targetComment.replies]
+                const targetReplyIndex = targetCommentReplies.findIndex(reply => reply.id === replyId);
+                targetCommentReplies[targetReplyIndex] = editedReply;
+
+                targetComment.replies = targetCommentReplies;
+                targetPostComments[targetCommentIndex] = targetComment;
+                targetPost.comments = targetPostComments;
+                newPosts[targetPostIndex] = targetPost;
+
+                return axios.put(url, newPosts)
+            })
+            .then(response => {
+                dispatch(editReplySuccess(newPosts));
+            })
+            .catch(error => {
+                dispatch(editReplyFail(error))
+            })
+
     }
 }
 
@@ -444,7 +472,7 @@ export const fetchSelfPostsAttempt = (authToken, postsKey) => {
                dispatch(fetchSelfPostsSuccess(response.data))
             })
             .catch(error => {
-                console.log(error)
+               console.log('FETCH SELF POSTS: ERROR -> ', error)
                dispatch(fetchSelfPostsFail(error))
             })
     }

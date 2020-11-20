@@ -342,3 +342,7 @@
 .CancelEditingButton:hover {
     text-decoration: underline;
 }
+
+.EditReplyForm {
+    width: 100%;
+}

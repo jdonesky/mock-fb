@@ -299,6 +299,9 @@ const reducer = (state = initialState, action) => {
       case actionTypes.ADD_REPLY_INIT: return addReplyInit(state,action);
       case actionTypes.ADD_REPLY_SUCCESS: return addReplySuccess(state,action);
       case actionTypes.ADD_REPLY_FAIL: return addReplyFail(state,action);
+      case actionTypes.EDIT_REPLY_INIT: return editReplyInit(state,action);
+      case actionTypes.EDIT_REPLY_SUCCESS: return editReplySuccess(state,action);
+      case actionTypes.EDIT_REPLY_FAIL: return editReplyFail(state,action);
       case actionTypes.DELETE_REPLY_INIT: return deleteReplyInit(state,action);
       case actionTypes.DELETE_REPLY_SUCCESS: return deleteReplySuccess(state,action);
       case actionTypes.DELETE_REPLY_FAIL: return deleteReplyFail(state,action);
