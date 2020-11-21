@@ -3,6 +3,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import {connect} from 'react-redux';
 import Search from '../../../../../../Search/Searchbar'
 import Gif from './Gif'
+import InlineDots from '../../../../../../UI/Spinner/InlineDots'
 import classes from './GifSelector.css'
 import {KeyGenerator} from "../../../../../../../shared/utility";
 import axios from "axios";
@@ -10,8 +11,9 @@ import axios from "axios";
 const gifSelector = (props) => {
 
     const [initSuggestions, setInitSuggestions] = useState(null);
-    const [initSuggestionsReady, setInitSuggestionsReady] = useState(false);
-
+    const [initSuggestionsLoading, setInitSuggestionsLoading] = useState(false);
+    const [searchResults, setSearchResults] = useState(null);
+    const [searchResultsLoading, setSearchResultsLoading] = useState(false);
 
     let keys = [];
     let initialSuggestions = [
@@ -23,6 +25,7 @@ const gifSelector = (props) => {
     ]
 
     useEffect(() => {
+        setInitSuggestionsLoading(true);
         KeyGenerator.getKey(props.authToken, (newKey) => {
             keys.push(newKey)
             KeyGenerator.getKey(props.authToken, (newKey) => {
@@ -35,22 +38,21 @@ const gifSelector = (props) => {
                             keys.push(newKey)
                             initialSuggestions = initialSuggestions.map((suggestion, i) => ({...suggestion, id: keys[i]}))
                             setInitSuggestions(initialSuggestions);
-                            setInitSuggestionsReady(true);
+                            setInitSuggestionsLoading(false);
                         })
                     })
                 })
             })
         })
+        return () => {
+            setSearchResults(null);
+            setInitSuggestions(false);
+            setInitSuggestions(null);
+        }
     }, [])
 
-    useEffect(() => {
-        if (initSuggestionsReady) {
-            console.log(initSuggestions)
-        }
-    }, [initSuggestionsReady])
-
     let suggestedGifs;
-    if (initSuggestionsReady) {
+    if (initSuggestions && initSuggestions.length) {
         suggestedGifs = initSuggestions.map(suggestion => (
             <Gif
                 id={suggestion.id}
@@ -60,20 +62,29 @@ const gifSelector = (props) => {
         ))
     }
 
+    if (searchResults && searchResults.length) {
+        suggestedGifs = searchResults.map(result =>  (
+            <Gif
+                id={result.id}
+                key={result.id}
+                gif={result.url}
+            />
+        ))
+    }
 
     const filterTerms = useCallback((searchTerm) => {
+        const filtered = []
+        setSearchResultsLoading(true);
         axios.get(`https://api.giphy.com/v1/gifs/search?api_key=R8mK0oe2qMbo532MxQ9mfEOkH6pZsurf&q=${searchTerm}&limit=25&offset=0&rating=g&lang=en`)
             .then(response => {
-                console.log(response);
-                // const predictions = response.data.predictions;
-                // if (predictions && predictions.length) {
-                //     filtered.push(...[...response.data.predictions].map(city => ({type: 'pastLocation', name: city.description})))
-                // }
-                // setSuggestions(filtered.length ? filtered : '')
+                const searchResults = response.data.data
+                console.log('RAW SEARCH DATA', searchResults);
+                filtered.push(...[...searchResults].map(result => ({url: result.images.original.url, id: result.id})));
+                console.log('RESULTS: ', filtered);
+                setSearchResults(filtered);
+                setSearchResultsLoading(false);
             })
             .catch(err => {
-                // const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
-                // setSuggestions(filtered.length ? filtered : '')
                 console.log(err)
             })
     }, [])
@@ -82,10 +93,10 @@ const gifSelector = (props) => {
         <div className={classes.GifSelectorContainer}>
             <div className={classes.BaseArrow}/>
             <section className={classes.SearchSection}>
-                <Search filterResults={filterTerms} className={classes.SearchBar} placeholder="Where are you?"/>
+                <Search filterResults={filterTerms} className={classes.SearchBar} placeholder="Search"/>
             </section>
             <section className={classes.GifSuggestionsSection}>
-                {suggestedGifs}
+                {initSuggestionsLoading || searchResultsLoading ? <InlineDots /> : suggestedGifs}
             </section>
         </div>
     );
