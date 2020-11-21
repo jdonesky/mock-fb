@@ -2,14 +2,16 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {connect} from 'react-redux';
 import Search from '../../../../../../Search/Searchbar'
+import Gif from './Gif'
 import classes from './GifSelector.css'
 import {KeyGenerator} from "../../../../../../../shared/utility";
 import axios from "axios";
 
 const gifSelector = (props) => {
 
-    const [initSuggestionsReady, setInitSuggestionsReady] = useState(false);
     const [initSuggestions, setInitSuggestions] = useState(null);
+    const [initSuggestionsReady, setInitSuggestionsReady] = useState(false);
+
 
     let keys = [];
     let initialSuggestions = [
@@ -41,40 +43,49 @@ const gifSelector = (props) => {
         })
     }, [])
 
-
-
     useEffect(() => {
         if (initSuggestionsReady) {
             console.log(initSuggestions)
         }
     }, [initSuggestionsReady])
 
-    let allSuggestions;
+    let suggestedGifs;
+    if (initSuggestionsReady) {
+        suggestedGifs = initSuggestions.map(suggestion => (
+            <Gif
+                id={suggestion.id}
+                key={suggestion.id}
+                gif={suggestion.url}
+            />
+        ))
+    }
 
 
-    const [suggestions, setSuggestions] = useState(allSuggestions);
-
-    const filterTerms = useCallback((name) => {
-        axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${name}&types=(cities)&language=en&key=AIzaSyD4T1w5B2QyiyC4gFZ_f1dmvZ8_ghJkX0E`)
+    const filterTerms = useCallback((searchTerm) => {
+        axios.get(`https://api.giphy.com/v1/gifs/search?api_key=R8mK0oe2qMbo532MxQ9mfEOkH6pZsurf&q=${searchTerm}&limit=25&offset=0&rating=g&lang=en`)
             .then(response => {
-                const filtered = allSuggestions.filter(suggestion => suggestion.name.slice(0,name.length).toLowerCase() === name.toLowerCase());
-                const predictions = response.data.predictions;
-                if (predictions && predictions.length) {
-                    filtered.push(...[...response.data.predictions].map(city => ({type: 'pastLocation', name: city.description})))
-                }
-                setSuggestions(filtered.length ? filtered : '')
+                console.log(response);
+                // const predictions = response.data.predictions;
+                // if (predictions && predictions.length) {
+                //     filtered.push(...[...response.data.predictions].map(city => ({type: 'pastLocation', name: city.description})))
+                // }
+                // setSuggestions(filtered.length ? filtered : '')
             })
             .catch(err => {
-                const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
-                setSuggestions(filtered.length ? filtered : '')
+                // const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
+                // setSuggestions(filtered.length ? filtered : '')
                 console.log(err)
             })
     }, [])
 
     return (
         <div className={classes.GifSelectorContainer}>
+            <div className={classes.BaseArrow}/>
             <section className={classes.SearchSection}>
                 <Search filterResults={filterTerms} className={classes.SearchBar} placeholder="Where are you?"/>
+            </section>
+            <section className={classes.GifSuggestionsSection}>
+                {suggestedGifs}
             </section>
         </div>
     );

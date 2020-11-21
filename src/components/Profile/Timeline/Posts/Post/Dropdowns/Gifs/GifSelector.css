@@ -10,8 +10,8 @@
     border-radius: 10px;
     background-color: white;
     position: absolute;
-    bottom: 200px;
-    left: -300px;
+    bottom: 50px;
+    left: -263px;
     box-shadow: 0 12px 28px 0px rgba(0,0,0,0.2)
 }
 
@@ -30,7 +30,7 @@
     bottom: 1px;
     content: "";
     position: absolute;
-    right: -170px;
+    right: -140px;
 }
 
 .SearchSection {
@@ -40,7 +40,10 @@
     width: 100%;
     box-sizing: border-box;
     padding: 10px 10px 10px 2px;
-    border-bottom: 1px solid rgba(0,0,0,0.1)
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    left: 0;
 }
 
 .SearchBar {
@@ -51,4 +54,18 @@
 
 .SearchBar input {
     width: 100%;
+}
+
+.GifSuggestionsSection {
+    width: 100%;
+    height: 400px;
+    background-image: linear-gradient(0deg, royalblue, rgba(0,0,0,.2));
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    align-items: center;
+    overflow: auto;
+}
+
+.GifSuggestionsSection::-webkit-scrollbar {
+    display: none;
 }

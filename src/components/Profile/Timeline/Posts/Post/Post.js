@@ -328,7 +328,7 @@ const post = (props) => {
                             <OutsideAlerter action={closeGifSelector}>
                                 <div className={classes.GifMenuPositioner}>
                                     {gifSelectMenu}
-                                    <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={toggleGifSelector}><Gif fill="#545353" /></div>
+                                    <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={toggleGifSelector} style={{backgroundColor: showGifSelector ? 'rgba(0,0,0,0.05)' : null}}><Gif fill="#545353" /></div>
                                 </div>
                             </OutsideAlerter>
                         </div>
