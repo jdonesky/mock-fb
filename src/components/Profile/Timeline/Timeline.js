@@ -11,7 +11,6 @@ import Posts from './Posts/Posts'
 
 const timeLine = () => {
 
-
     return (
         <div className={classes.Timeline}>
             <Intro />

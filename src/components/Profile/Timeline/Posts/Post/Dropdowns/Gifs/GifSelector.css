@@ -2,7 +2,7 @@
 .GifSelectorContainer {
     z-index: 10;
     display: flex;
-    width: 350px;
+    width: 300px;
     flex-flow: column;
     justify-content: space-around;
     align-items: center;
@@ -10,13 +10,10 @@
     border-radius: 10px;
     background-color: white;
     position: absolute;
-    bottom: 44px;
-    left: -330px;
+    bottom: 200px;
+    left: -300px;
     box-shadow: 0 12px 28px 0px rgba(0,0,0,0.2)
 }
-
-
-
 
 .BaseArrow {
     border-style: solid;
@@ -34,4 +31,24 @@
     content: "";
     position: absolute;
     right: -170px;
+}
+
+.SearchSection {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 10px 10px 2px;
+    border-bottom: 1px solid rgba(0,0,0,0.1)
+}
+
+.SearchBar {
+    width: 95%;
+    margin-left: 10px;
+    cursor: text;
+}
+
+.SearchBar input {
+    width: 100%;
 }

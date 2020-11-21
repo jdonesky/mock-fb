@@ -35,11 +35,14 @@ const searchLocations = ({pastLocations, currLocation, hometown}) => {
         axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${name}&types=(cities)&language=en&key=AIzaSyD4T1w5B2QyiyC4gFZ_f1dmvZ8_ghJkX0E`)
             .then(response => {
                 const filtered = allSuggestions.filter(suggestion => suggestion.name.slice(0,name.length).toLowerCase() === name.toLowerCase());
-                filtered.push(...[...response.data.predictions].map(city => ({type: 'pastLocation', name: city.description})))
+                const predictions = response.data.predictions;
+                if (predictions && predictions.length) {
+                    filtered.push(...[...response.data.predictions].map(city => ({type: 'pastLocation', name: city.description})))
+                }
                 setSuggestions(filtered.length ? filtered : '')
             })
             .catch(err => {
-                    const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
+                const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
                 setSuggestions(filtered.length ? filtered : '')
                 console.log(err)
             })

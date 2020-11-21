@@ -5,7 +5,7 @@ import Post from './Post/Post';
 import InlineDots from '../../../UI/Spinner/InlineDots';
 import * as actions from '../../../../store/actions/index';
 
-const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost}) => {
+const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, loadingSelfPosts}) => {
 
     useEffect(() => {
         onFetchSelfPosts(authToken, postsKey)
@@ -28,14 +28,16 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost}) => 
         />
     )) : null
 
-    let deletingPostIndicator;
-    if (deletingPost) {
-        deletingPostIndicator = <InlineDots />
+    let loadingIndicator;
+    if (deletingPost || loadingSelfPosts) {
+        loadingIndicator = <InlineDots />
     }
+
+
 
     return (
         <React.Fragment>
-            {deletingPostIndicator}
+            {loadingIndicator}
             {posted}
         </React.Fragment>
     )
@@ -46,7 +48,8 @@ const mapStateToProps = state => {
         authToken: state.auth.token,
         postsKey: state.profile.postsKey,
         posts: state.posts.posts,
-        deletingPost: state.posts.deletingPost
+        deletingPost: state.posts.deletingPost,
+        loadingSelfPosts: state.posts.loadingSelfPosts
     }
 }
 

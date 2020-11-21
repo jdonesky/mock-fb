@@ -2,7 +2,9 @@
 import React from 'react';
 
 const gif = () => {
-    return ();
+    return (
+        <div className={classes.GifContainer} />
+    );
 }
 
 export default gif;

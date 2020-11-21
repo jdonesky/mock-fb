@@ -1,6 +1,5 @@
 
 import React, {useState, useEffect,useRef} from 'react'
-import {connect} from 'react-redux'
 import classes from './Searchbar.css'
 import Search from '../../assets/images/search'
 
@@ -41,10 +40,5 @@ const searchBar = ({filterResults, className, placeholder}) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        token: state.auth.token
-    }
-}
 
-export default connect(mapStateToProps)(searchBar)
+export default searchBar;

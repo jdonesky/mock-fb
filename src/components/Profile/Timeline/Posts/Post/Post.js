@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import classes from './Post.css'
 
 import Comment from './Comment/Comment';
+import GifSelector from './Dropdowns/Gifs/GifSelector';
 
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
 import Dots from '../../../../../assets/images/dots'
@@ -41,7 +42,18 @@ const post = (props) => {
 
     const [commentText, setCommentText] = useState('');
     const [commentImage, setCommentImage] = useState(null);
+    const [showGifSelector, setShowGifSelector] = useState(false);
     const [commentGif, setCommentGif] = useState(null);
+
+    const toggleGifSelector = () => {
+        setShowGifSelector(prevState => {
+            return !prevState;
+        });
+    }
+
+    const closeGifSelector = () => {
+        setShowGifSelector(false);
+    }
 
     const toggleEditDropDown = () => {
         setEditingDropdown(prevState => {
@@ -124,6 +136,7 @@ const post = (props) => {
         }
     }
 
+
     let icon;
 
     switch (props.privacy) {
@@ -152,6 +165,11 @@ const post = (props) => {
     let editingDropdownButtonClasses = [classes.HeaderControlDropdown]
     if (editingDropdown) {
         editingDropdownButtonClasses.push(classes.ActiveEditingDropdown)
+    }
+
+    let gifSelectMenu;
+    if (showGifSelector) {
+        gifSelectMenu = <GifSelector />
     }
 
     const status = (
@@ -307,7 +325,12 @@ const post = (props) => {
                         <div className={classes.CommentButtons}>
                             <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
                             <div className={classes.CommentButtonIcon} onClick={() => imageUploader.current.click()}><Camera fill="#545353" /></div>
-                            <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={() => gifUploader.current.click()}><Gif fill="#545353" /></div>
+                            <OutsideAlerter action={closeGifSelector}>
+                                <div className={classes.GifMenuPositioner}>
+                                    {gifSelectMenu}
+                                    <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={toggleGifSelector}><Gif fill="#545353" /></div>
+                                </div>
+                            </OutsideAlerter>
                         </div>
                     </div>
                 </form>
