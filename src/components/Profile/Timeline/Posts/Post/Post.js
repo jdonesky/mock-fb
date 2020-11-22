@@ -47,8 +47,17 @@ const post = (props) => {
     const [showEmojiSelector, setShowEmojiSelector] = useState(null);
     const [showGifSelector, setShowGifSelector] = useState(false);
 
-    const openEmojiSelector = () => {}
+    const openEmojiSelector = () => {
+        setTimeout(() => {
+            setShowEmojiSelector(true);
+        }, 500)
+    }
 
+    const closeEmojiSelector = () => {
+        setTimeout(() => {
+            setShowEmojiSelector(false);
+        }, 500)
+    }
 
     const toggleGifSelector = () => {
         setShowGifSelector(prevState => {
@@ -173,6 +182,11 @@ const post = (props) => {
     let editingDropdownButtonClasses = [classes.HeaderControlDropdown]
     if (editingDropdown) {
         editingDropdownButtonClasses.push(classes.ActiveEditingDropdown)
+    }
+
+    let emojiSelectMenu;
+    if (showEmojiSelector) {
+        emojiSelectMenu = <EmojiSelector />
     }
 
     let gifSelectMenu;
@@ -310,10 +324,15 @@ const post = (props) => {
             { body }
             {!props.image && !props.background && <div className={classes.Break}/>}
             <section className={classes.ButtonsContainer}>
-                <div className={classes.Button}>
-                    <div className={[classes.ButtonIcon, classes.Like].join(" ")}><Like /></div>
-                    <span>Like</span>
-                </div>
+                <OutsideAlerter action={closeEmojiSelector}>
+                    <div className={classes.GifMenuPositioner}>
+                        {emojiSelectMenu}
+                        <div className={classes.Button} onMouseEnter={openEmojiSelector} onMouseLeave={closeEmojiSelector}>
+                            <div className={[classes.ButtonIcon, classes.Like].join(" ")}><Like /></div>
+                            <span>Like</span>
+                        </div>
+                    </div>
+                </OutsideAlerter>
                 <div className={classes.Button}  onClick={startCommentHandler}>
                     <div className={[classes.ButtonIcon,classes.Comment].join(" ")}><SpeechBubble /></div>
                     <span>Comment</span>
