@@ -6,6 +6,7 @@ import classes from './Post.css'
 
 import Comment from './Comment/Comment';
 import GifSelector from './Dropdowns/Gifs/GifSelector';
+import EmojiSelector from './Dropdowns/Emojis/EmojiSelector'
 
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
 import Dots from '../../../../../assets/images/dots'
@@ -41,8 +42,13 @@ const post = (props) => {
 
     const [commentText, setCommentText] = useState('');
     const [commentImage, setCommentImage] = useState(null);
-    const [showGifSelector, setShowGifSelector] = useState(false);
     const [commentGif, setCommentGif] = useState(null);
+
+    const [showEmojiSelector, setShowEmojiSelector] = useState(null);
+    const [showGifSelector, setShowGifSelector] = useState(false);
+
+    const openEmojiSelector = () => {}
+
 
     const toggleGifSelector = () => {
         setShowGifSelector(prevState => {

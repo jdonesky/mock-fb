@@ -1,0 +1,13 @@
+
+
+.Emoji {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.Emoji:hover {
+    height: 53px;
+    width: 53px;
+}
