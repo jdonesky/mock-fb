@@ -125,6 +125,22 @@ const post = (props) => {
         setCommentGif(null);
     }
 
+    const saveGif = (gifUrl) => {
+        console.log(gifUrl)
+        const comment = {
+            postsKey: props.postsKey,
+            userId: props.userId,
+            name: props.name,
+            commentProfileImage: props.profileImage,
+            text: commentText,
+            image: commentImage,
+            gif: gifUrl,
+        };
+        props.onPostComment(props.authToken, props.postsKey, props.id, comment);
+        setShowGifSelector(false);
+
+    }
+
     const gifUploadHandler = (event) => {
         const [file] = event.target.files;
         if (file) {
@@ -169,7 +185,7 @@ const post = (props) => {
 
     let gifSelectMenu;
     if (showGifSelector) {
-        gifSelectMenu = <GifSelector />
+        gifSelectMenu = <GifSelector save={saveGif}/>
     }
 
     const status = (

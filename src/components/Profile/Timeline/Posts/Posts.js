@@ -29,11 +29,9 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, load
     )) : null
 
     let loadingIndicator;
-    if (deletingPost || loadingSelfPosts) {
+    if (loadingSelfPosts || deletingPost) {
         loadingIndicator = <InlineDots />
     }
-
-
 
     return (
         <React.Fragment>

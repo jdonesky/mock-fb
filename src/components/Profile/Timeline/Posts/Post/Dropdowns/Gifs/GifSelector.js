@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import Search from '../../../../../../Search/Searchbar'
 import Gif from './Gif'
 import InlineDots from '../../../../../../UI/Spinner/InlineDots'
+import Error from '../../../../../../../assets/images/network-error'
 import classes from './GifSelector.css'
 import {KeyGenerator} from "../../../../../../../shared/utility";
 import axios from "axios";
@@ -14,6 +15,11 @@ const gifSelector = (props) => {
     const [initSuggestionsLoading, setInitSuggestionsLoading] = useState(false);
     const [searchResults, setSearchResults] = useState(null);
     const [searchResultsLoading, setSearchResultsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const selectGif = (url) => {
+        props.save(url);
+    }
 
     let keys = [];
     let initialSuggestions = [
@@ -58,6 +64,7 @@ const gifSelector = (props) => {
                 id={suggestion.id}
                 key={suggestion.id}
                 gif={suggestion.url}
+                clicked={selectGif}
             />
         ))
     }
@@ -68,6 +75,7 @@ const gifSelector = (props) => {
                 id={result.id}
                 key={result.id}
                 gif={result.url}
+                clicked={selectGif}
             />
         ))
     }
@@ -78,14 +86,14 @@ const gifSelector = (props) => {
         axios.get(`https://api.giphy.com/v1/gifs/search?api_key=R8mK0oe2qMbo532MxQ9mfEOkH6pZsurf&q=${searchTerm}&limit=25&offset=0&rating=g&lang=en`)
             .then(response => {
                 const searchResults = response.data.data
-                console.log('RAW SEARCH DATA', searchResults);
                 filtered.push(...[...searchResults].map(result => ({url: result.images.original.url, id: result.id})));
-                console.log('RESULTS: ', filtered);
                 setSearchResults(filtered);
                 setSearchResultsLoading(false);
             })
             .catch(err => {
                 console.log(err)
+                setError(err)
+                setSearchResults({url: Error, id: -1})
             })
     }, [])
 

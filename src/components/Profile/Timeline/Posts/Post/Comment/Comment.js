@@ -43,6 +43,7 @@ const comment = (props) => {
     const [replyText, setReplyText] = useState('');
     const [replyImage, setReplyImage] = useState(null);
     const [replyGif, setReplyGif] = useState(null);
+    const [showGifSelector, setShowGifSelector] = useState(false);
 
     const updateReplyText = (event) => {
         setReplyText(event.target.value);
@@ -110,6 +111,16 @@ const comment = (props) => {
     const closeEditingDropdown = () => {
         setEditingDropdown(false);
     }
+
+    const toggleGifSelector = () => {
+        setShowGifSelector(prevState => {
+            return !prevState;
+        })
+    }
+
+    const closeGifSelector = () => {
+        setShowGifSelector(false)
+    };
 
     const toggleDeleteModal = () => {
        setEditingDropdown(false);
@@ -233,7 +244,7 @@ const comment = (props) => {
                     <div className={classes.CommentButtons}>
                         <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
                         <div className={classes.CommentButtonIcon} onClick={() => replyImageUploader.current.click()}><Camera fill="#545353" /></div>
-                        <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={() => replyGifUploader.current.click()}><Gif fill="#545353" /></div>
+                        <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={toggleGifSelector}><Gif fill="#545353" /></div>
                     </div>
                 </div>
                 <input
