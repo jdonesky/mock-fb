@@ -35,7 +35,6 @@ const post = (props) => {
     const deleteContext = useContext(DeleteContext);
 
     const imageUploader = useRef(null);
-    const gifUploader = useRef(null);
     const commentInput = useRef(null);
 
     const [editingDropdown, setEditingDropdown] = useState(false);
@@ -126,7 +125,6 @@ const post = (props) => {
     }
 
     const saveGif = (gifUrl) => {
-        console.log(gifUrl)
         const comment = {
             postsKey: props.postsKey,
             userId: props.userId,
@@ -138,20 +136,8 @@ const post = (props) => {
         };
         props.onPostComment(props.authToken, props.postsKey, props.id, comment);
         setShowGifSelector(false);
-
+        setCommentText('');
     }
-
-    const gifUploadHandler = (event) => {
-        const [file] = event.target.files;
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                setCommentGif(event.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
 
     let icon;
 
@@ -361,16 +347,6 @@ const post = (props) => {
                 accept="image/*"
                 multiple={false}
                 onChange={imageUploadHandler}
-                style={{
-                    display: "none"
-                }}
-            />
-            <input
-                ref={gifUploader}
-                type="file"
-                accept="image/*"
-                multiple={false}
-                onChange={gifUploadHandler}
                 style={{
                     display: "none"
                 }}

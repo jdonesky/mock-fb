@@ -12,6 +12,7 @@ import Gif from "../../../../../../../assets/images/gif";
 import postClasses from "../../Post.css";
 import Delete from "../../../../../../../assets/images/delete";
 import InlineDots from '../../../../../../UI/Spinner/InlineDots'
+import GifSelector from "../../Dropdowns/Gifs/GifSelector";
 
 const reply = (props) => {
 
@@ -35,8 +36,11 @@ const reply = (props) => {
     const [editReplyText, setEditReplyText] = useState(null);
     const [editReplyImage, setEditReplyImage] = useState(null);
     const [editReplyGif, setEditReplyGif] = useState(null);
+
+    const [showGifSelector, setShowGifSelector] = useState(false);
+
     const editImageUploader = useRef(null);
-    const editGifUploader = useRef(null);
+
 
     const editImageUploadHandler = (event) => {
         const [file] = event.target.files;
@@ -44,17 +48,6 @@ const reply = (props) => {
             const reader = new FileReader();
             reader.onload = (event) => {
                 setEditReplyImage(event.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    const editGifUploadHandler = (event) => {
-        const [file] = event.target.files;
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                setEditReplyGif(event.target.result);
             };
             reader.readAsDataURL(file);
         }
@@ -124,6 +117,26 @@ const reply = (props) => {
         closeEditReplyForm();
     }
 
+    const saveReplyGifEdit = (gifUrl) => {
+        const newReply = {
+            postsKey: props.postsKey,
+            postId: props.postId,
+            commentId: props.commentId,
+            id: props.id,
+            name: props.name,
+            replyProfileImage: props.replyProfileImage,
+            text: editReplyText,
+            image: editReplyImage,
+            gif: gifUrl
+        }
+        props.onEditReply(props.authToken, props.postsKey, props.postId, props.commentId, props.id, newReply);
+        setEditReplyText(null);
+        setEditReplyImage(null);
+        setEditReplyGif(null);
+        setEditingReply(false);
+        closeEditReplyForm();
+    }
+
     const editDropDown = (
         <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
             <div className={classes.BaseArrow} />
@@ -131,6 +144,21 @@ const reply = (props) => {
             <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}>Delete</div>
         </div>
     )
+
+    let gifSelector;
+    if (showGifSelector) {
+        gifSelector = <GifSelector save={saveReplyGifEdit} />
+    }
+
+    const toggleGifSelector = () => {
+        setShowGifSelector(prevState => {
+            return !prevState
+        })
+    }
+
+    const closeGifSelector = () => {
+        setShowGifSelector(false);
+    }
 
     let replyBar = (
         <section className={classes.CommentBarSection}>
@@ -145,7 +173,12 @@ const reply = (props) => {
                     <div className={classes.CommentButtons}>
                         <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
                         <div className={classes.CommentButtonIcon} onClick={() => editImageUploader.current.click()}><Camera fill="#545353" /></div>
-                        <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={() => editGifUploader.current.click()}><Gif fill="#545353" /></div>
+                        <OutsideAlerter action={closeGifSelector}>
+                            <div className={classes.GifDropdownPositioner}>
+                                {gifSelector}
+                                <div className={[classes.CommentButtonIcon, classes.Gif].join(" ")} onClick={toggleGifSelector}><Gif fill="#545353" /></div>
+                            </div>
+                        </OutsideAlerter>
                     </div>
                 </div>
                 <input
@@ -158,25 +191,15 @@ const reply = (props) => {
                         display: "none"
                     }}
                 />
-                <input
-                    ref={editGifUploader}
-                    type="file"
-                    accept="image/*"
-                    multiple={false}
-                    onChange={editGifUploadHandler}
-                    style={{
-                        display: "none"
-                    }}
-                />
             </form>
         </section>
     )
 
     let editReplyImagePreview = (
         <div className={classes.ReplyImagePreviewContainer}>
-            <section className={postClasses.CommentImagePreviewSection} style={{display: editReplyImage ? 'flex' : 'none'}}>
-                <div className={postClasses.CommentImagePreviewContainer} style={{backgroundImage: editReplyImage ? `url(${editReplyImage}` : null}} onClick={() => editImageUploader.current.click()}></div>
-                <div className={postClasses.CancelCommentImagePreviewButton} onClick={() => setEditReplyImage(null)}><Delete /></div>
+            <section className={postClasses.CommentImagePreviewSection} style={{display: editReplyImage || editReplyGif ? 'flex' : 'none'}}>
+                <div className={postClasses.CommentImagePreviewContainer} style={{backgroundImage: editReplyImage || editReplyGif ? `url(${editReplyImage || editReplyGif}` : null, cursor: editReplyGif && 'default'}} onClick={ editReplyImage ? () => editImageUploader.current.click() : null}></div>
+                <div className={postClasses.CancelCommentImagePreviewButton} onClick={editReplyImage ? () => setEditReplyImage(null): editReplyGif ? () => setEditReplyGif(null) : null}><Delete /></div>
             </section>
         </div>
     )

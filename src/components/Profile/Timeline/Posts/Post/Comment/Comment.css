@@ -346,3 +346,7 @@
 .EditReplyForm {
     width: 100%;
 }
+
+.GifDropdownPositioner {
+    position: relative;
+}

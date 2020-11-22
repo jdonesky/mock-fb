@@ -35,19 +35,21 @@ const editBioForm = (props) => {
     )
 
     return (
-        <form className={classes.BioForm} onSubmit={saveChangesHandler}>
-            {bioInput}
-            <div className={classes.CharCounter}>
-                <div><p>{`${101 - bio.length} characters remaining`}</p></div>
-            </div>
-            <div className={sharedClasses.Buttons}>
-                <Button addClass="Neutral">Privacy</Button>
-                <div className={sharedClasses.SubmitOrCancel}>
-                    <Button addClass="Neutral" clicked={props.cancel} type="button">Cancel</Button>
-                    <Button addClass="Save" type="submit" disabled={disableSave}>Save</Button>
+        <div className={classes.BioContainer}>
+            <form className={classes.BioForm} onSubmit={saveChangesHandler}>
+                {bioInput}
+                <div className={classes.CharCounter}>
+                    <div><p>{`${101 - bio.length} characters remaining`}</p></div>
                 </div>
-            </div>
-        </form>
+                <div className={sharedClasses.Buttons}>
+                    <Button addClass="Neutral">Privacy</Button>
+                    <div className={sharedClasses.SubmitOrCancel}>
+                        <Button addClass="Neutral" clicked={props.cancel} type="button">Cancel</Button>
+                        <Button addClass="Save" type="submit" disabled={disableSave}>Save</Button>
+                    </div>
+                </div>
+            </form>
+        </div>
     );
 }
 

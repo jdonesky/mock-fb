@@ -1,5 +1,9 @@
 
 
+.BioContainer {
+    width: 100%;
+}
+
 .BioForm {
     width: 350px;
     margin: 10px auto;
