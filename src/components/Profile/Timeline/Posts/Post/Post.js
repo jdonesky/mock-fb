@@ -32,6 +32,23 @@ import * as actions from "../../../../../store/actions";
 
 const post = (props) => {
 
+    useEffect(() => {
+        if (props.comments && props.comments.length) {
+            const countComments = props.comments.length;
+            const countReplies = props.comments.map(comment => {
+                if (comment.replies && comment.replies.length) {
+                    return comment.replies.length
+                } else {
+                    return 0
+                }
+            })
+                .reduce((a,b) => a + b, 0);
+
+            console.log('count comments ', countComments)
+            console.log('count replies ', countReplies)
+        }
+    })
+
     const postContext = useContext(PostContext);
     const deleteContext = useContext(DeleteContext);
 
@@ -283,6 +300,45 @@ const post = (props) => {
         </section>
     )
 
+    let postReactions;
+    if (props.reactions && props.reaction.length) {
+        if (props.reaction.length < 3) {
+            props.reactions.map(reaction => {
+
+            })
+        }
+    }
+
+    if (props.loadingNewReaction || props.editingReaction) {
+        postReactions = <InlineDots/>
+    }
+
+    let postCommentCount;
+    if (props.comments && props.comments.length) {
+        const countComments = props.comments.length;
+        const countReplies = props.comments.map(comment => {
+            if (comment.replies && comment.replies.length) {
+                return comment.replies.length
+            } else {
+                return 0
+            }
+        })
+            .reduce((a,b) => a + b, 0);
+
+        postCommentCount = <span className={classes.PostCommentCount}>{countComments + countReplies}</span>
+
+    }
+
+    let postReactionSection;
+    if (postCommentCount || postReactions) {
+        postReactionSection = (
+            <section className={classes.PostReactionSection} >
+                {postReactions}
+                {postCommentCount}
+            </section>
+        );
+    }
+
     let taggedFriends;
     let names;
     if (props.tagged && props.tagged.length) {
@@ -330,6 +386,7 @@ const post = (props) => {
                 </OutsideAlerter>
             </section>
             { body }
+            { postReactionSection }
             {!props.image && !props.background && <div className={classes.Break}/>}
             <section className={classes.ButtonsContainer}>
                 <OutsideAlerter action={closeEmojiSelector}>
@@ -396,6 +453,8 @@ const mapStateToProps = state => {
         profileImage: state.profile.profileImage,
         name: state.profile.firstName + ' ' + state.profile.lastName,
         loadingNewComment: state.posts.loadingNewComment,
+        loadingNewReaction: state.posts.loadingNewReaction,
+        editingReaction: state.posts.editingReaction
     }
 }
 

@@ -350,6 +350,18 @@
     border-bottom: 1px solid #cccccc;
 }
 
+.PostReactionSection {
+    width: 100%;
+    border-top: 1px solid #cccccc;
+    display: flex;
+    justify-content: space-between;
+    align-content: flex-start;
+}
+
+.CommentCount {
+
+}
+
 .CommentBarSection {
     display: flex;
     justify-content: stretch;

@@ -26,6 +26,7 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, load
             tagged={post.tagged}
             location={post.location}
             comments={post.comments}
+            reaction={post.reactions}
         />
     )) : null
 
