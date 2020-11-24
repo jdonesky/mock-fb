@@ -56,7 +56,7 @@ const post = (props) => {
     const closeEmojiSelector = () => {
         setTimeout(() => {
             setShowEmojiSelector(false);
-        }, 500)
+        }, 1000)
     }
 
     const toggleGifSelector = () => {
@@ -77,6 +77,14 @@ const post = (props) => {
 
     const cancelEditDropdown = () => {
         setEditingDropdown(false);
+    }
+
+    const postReactionHandler = (caption) => {
+        const reaction = {
+            caption: caption,
+            name: props.name,
+        }
+        props.onPostReaction(props.authToken,props.postsKey, props.id, reaction);
     }
 
     const startCommentHandler = () => {
@@ -186,7 +194,7 @@ const post = (props) => {
 
     let emojiSelectMenu;
     if (showEmojiSelector) {
-        emojiSelectMenu = <EmojiSelector />
+        emojiSelectMenu = <EmojiSelector handleReaction={postReactionHandler}/>
     }
 
     let gifSelectMenu;
@@ -325,14 +333,14 @@ const post = (props) => {
             {!props.image && !props.background && <div className={classes.Break}/>}
             <section className={classes.ButtonsContainer}>
                 <OutsideAlerter action={closeEmojiSelector}>
-                    <div className={classes.GifMenuPositioner}>
+                    <div className={classes.GifMenuPositioner} onMouseLeave={closeEmojiSelector}>
                         {emojiSelectMenu}
-                        <div className={classes.Button} onMouseEnter={openEmojiSelector} onMouseLeave={closeEmojiSelector}>
-                            <div className={[classes.ButtonIcon, classes.Like].join(" ")}><Like /></div>
-                            <span>Like</span>
-                        </div>
                     </div>
                 </OutsideAlerter>
+                <div className={classes.Button} onMouseEnter={openEmojiSelector} style={{backgroundColor: showEmojiSelector ? 'rgba(0,0,0,0.05)' : null }}>
+                    <div className={[classes.ButtonIcon, classes.Like].join(" ")} ><Like /></div>
+                    <span>Like</span>
+                </div>
                 <div className={classes.Button}  onClick={startCommentHandler}>
                     <div className={[classes.ButtonIcon,classes.Comment].join(" ")}><SpeechBubble /></div>
                     <span>Comment</span>
@@ -393,8 +401,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onFetchSelfPosts: (authToken, postsKey) => dispatch(actions.fetchSelfPostsAttempt(authToken, postsKey)),
         onPostComment: (authToken, postsKey, postId, comment) => dispatch(actions.addCommentAttempt(authToken, postsKey, postId, comment)),
-        onFetchSelfPosts: (authToken, postsKey) => dispatch(actions.fetchSelfPostsAttempt(authToken, postsKey))
+        onPostReaction: (authToken, postsKey, postId, reaction) => dispatch(actions.addPostReactionAttempt(authToken, postsKey, postId, reaction)),
+        onEditPostReaction: (authToken, postsKey, postId, reactionId, newReaction) => dispatch(actions.editPostReactionAttempt(authToken, postsKey, postId, reactionId, newReaction))
     }
 }
 

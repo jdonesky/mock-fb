@@ -23,6 +23,8 @@ export {
    addReplyAttempt,
    editReplyAttempt,
    deleteReplyAttempt,
+   addPostReactionAttempt,
+   editPostReactionAttempt,
 } from "./posts";
 
 export {

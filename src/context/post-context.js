@@ -173,6 +173,7 @@ const PostContextProvider = (props) => {
             tagged: tagged,
             location: location,
             date: new Date(),
+            name: props.name,
             userKey: props.firebaseKey,
             postsKey: props.postsKey,
         };
@@ -194,6 +195,7 @@ const PostContextProvider = (props) => {
             comments: comments,
             location: location,
             date: new Date(),
+            name: props.name,
             userKey: props.firebaseKey,
             postProfileImage: postProfileImage
         }
@@ -216,7 +218,8 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
-        postsKey: state.profile.postsKey
+        postsKey: state.profile.postsKey,
+        name: state.profile.firstName + ' ' + state.profile.lastName,
     };
 };
 
