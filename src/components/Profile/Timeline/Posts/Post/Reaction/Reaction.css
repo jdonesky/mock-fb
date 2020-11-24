@@ -1,0 +1,27 @@
+.ReactionContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 80px;
+    margin-bottom: 5px
+}
+
+.Name {
+    color: #878787;
+    cursor: pointer;
+}
+
+.Name:hover {
+    text-decoration: underline;
+}
+
+.Icon {
+    height: 15px;
+    width: 15px;
+}
+
+.Icon svg {
+    height: auto;
+    width: 70%;
+}
+

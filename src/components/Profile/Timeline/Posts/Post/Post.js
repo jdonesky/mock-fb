@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import classes from './Post.css'
 
 import Comment from './Comment/Comment';
+import Reaction from './Reaction/Reaction';
 import GifSelector from './Dropdowns/Gifs/GifSelector';
 import EmojiSelector from './Dropdowns/Emojis/EmojiSelector'
 
@@ -55,6 +56,7 @@ const post = (props) => {
     const imageUploader = useRef(null);
     const commentInput = useRef(null);
 
+    const [showComments, setShowComments] = useState(true);
     const [editingDropdown, setEditingDropdown] = useState(false);
 
     const [commentText, setCommentText] = useState('');
@@ -63,6 +65,12 @@ const post = (props) => {
 
     const [showEmojiSelector, setShowEmojiSelector] = useState(null);
     const [showGifSelector, setShowGifSelector] = useState(false);
+
+    const toggleComments = () => {
+        setShowComments(prevState => {
+            return !prevState;
+        })
+    }
 
     const openEmojiSelector = () => {
         setTimeout(() => {
@@ -97,10 +105,12 @@ const post = (props) => {
     }
 
     const postReactionHandler = (caption) => {
+        console.log('CLICKED');
         const reaction = {
             caption: caption,
             name: props.name,
         }
+        console.log(reaction);
         props.onPostReaction(props.authToken,props.postsKey, props.id, reaction);
     }
 
@@ -261,7 +271,7 @@ const post = (props) => {
 
     let commentsSection;
     let postsComments;
-    if (true) {
+    if (showComments) {
         postsComments = props.comments && props.comments.length ? props.comments.map(comment => (
             <Comment
                 postsKey={props.postsKey}
@@ -301,11 +311,11 @@ const post = (props) => {
     )
 
     let postReactions;
-    if (props.reactions && props.reaction.length) {
-        if (props.reaction.length < 3) {
-            props.reactions.map(reaction => {
-
-            })
+    if (props.reactions && props.reactions.length) {
+        if (props.reactions.length < 3) {
+            postReactions = props.reactions.map(reaction => (
+                <Reaction caption={reaction.caption} name={reaction.name}/>
+            ))
         }
     }
 
@@ -324,15 +334,13 @@ const post = (props) => {
             }
         })
             .reduce((a,b) => a + b, 0);
-
-        postCommentCount = <span className={classes.PostCommentCount}>{countComments + countReplies}</span>
-
+        postCommentCount = <span className={classes.PostCommentCount} onClick={toggleComments}>{`${countComments + countReplies} comments`}</span>
     }
 
     let postReactionSection;
     if (postCommentCount || postReactions) {
         postReactionSection = (
-            <section className={classes.PostReactionSection} >
+            <section className={classes.PostReactionSection} style={{borderTop: !props.image && !props.background ? '1px solid #cccccc' : null}}>
                 {postReactions}
                 {postCommentCount}
             </section>
@@ -387,7 +395,7 @@ const post = (props) => {
             </section>
             { body }
             { postReactionSection }
-            {!props.image && !props.background && <div className={classes.Break}/>}
+            {!props.image && !props.background || props.comments || props.reactions ? <div className={classes.Break}/> : null}
             <section className={classes.ButtonsContainer}>
                 <OutsideAlerter action={closeEmojiSelector}>
                     <div className={classes.GifMenuPositioner} onMouseLeave={closeEmojiSelector}>

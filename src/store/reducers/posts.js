@@ -5,6 +5,8 @@ const initialState = {
   loadingNewPost: false,
   editingPost: false,
   deletingPost: false,
+  addingPostReaction: false,
+  editingPostReaction: false,
   loadingNewComment: false,
   editingComment: false,
   deletingComment: false,
@@ -84,6 +86,52 @@ const deletePostFail = (state,action) => {
         ...state,
         error: action.error,
         deletingPost: false
+    }
+}
+
+const addPostReactionInit = (state,action) => {
+    return {
+        ...state,
+        addingPostReaction: true
+    }
+}
+
+const addPostReactionSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        addingPostReaction: false
+    }
+}
+
+const addPostReactionFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        addingPostReaction: false
+    }
+}
+
+const editPostReactionInit = (state,action) => {
+    return {
+        ...state,
+        editingPostReaction: true
+    }
+}
+
+const editPostReactionSuccess = (state,action) => {
+    return {
+        ...state,
+        posts: action.posts,
+        editingPostReaction: false
+    }
+}
+
+const editPostReactionFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        editingPostReaction: false
     }
 }
 
@@ -287,6 +335,12 @@ const reducer = (state = initialState, action) => {
       case actionTypes.DELETE_POST_INIT: return deletePostInit(state,action);
       case actionTypes.DELETE_POST_SUCCESS: return deletePostSuccess(state,action);
       case actionTypes.DELETE_POST_FAIL: return deletePostFail(state,action);
+      case actionTypes.ADD_POST_REACTION_INIT: return addPostReactionInit(state, action);
+      case actionTypes.ADD_POST_REACTION_SUCCESS: return addPostReactionSuccess(state, action);
+      case actionTypes.ADD_POST_REACTION_FAIL: return addPostReactionFail(state, action);
+      case actionTypes.ADD_POST_REACTION_INIT: return editPostReactionInit(state, action);
+      case actionTypes.ADD_POST_REACTION_SUCCESS: return editPostReactionSuccess(state, action);
+      case actionTypes.ADD_POST_REACTION_FAIL: return editPostReactionFail(state, action);
       case actionTypes.ADD_COMMENT_INIT: return addCommentInit(state,action);
       case actionTypes.ADD_COMMENT_SUCCESS: return addCommentSuccess(state,action);
       case actionTypes.ADD_COMMENT_FAIL: return addCommentFail(state,action);

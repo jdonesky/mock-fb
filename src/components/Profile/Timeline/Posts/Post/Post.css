@@ -351,15 +351,30 @@
 }
 
 .PostReactionSection {
-    width: 100%;
-    border-top: 1px solid #cccccc;
+    width: 95%;
+    min-height: 50px;
     display: flex;
-    justify-content: space-between;
-    align-content: flex-start;
+    align-items: center;
+    padding: 0 15px;
 }
 
-.CommentCount {
+.ReactionsCount {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    margin-right: auto;
+}
 
+.PostCommentCount {
+    color: #878787;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.PostCommentCount:hover {
+    text-decoration: underline;
 }
 
 .CommentBarSection {
