@@ -60,7 +60,7 @@ const reactions = (props) => {
             names = `${names[0]} and ${names[1]}`
         } else {
             let last = names.pop();
-            otherNames = [...names].map(name => (<b style={{marginBottom: '2px'}}>{name}</b>))
+            otherNames = [...names].map((name, i) => (<b key={i} style={{marginBottom: '2px'}}>{name}</b>))
             names = last + ' and ' + otherNames.length + ' others'
         }
     }

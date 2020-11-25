@@ -33,23 +33,6 @@ import * as actions from "../../../../../store/actions";
 
 const post = (props) => {
 
-    useEffect(() => {
-        if (props.comments && props.comments.length) {
-            const countComments = props.comments.length;
-            const countReplies = props.comments.map(comment => {
-                if (comment.replies && comment.replies.length) {
-                    return comment.replies.length
-                } else {
-                    return 0
-                }
-            })
-                .reduce((a,b) => a + b, 0);
-
-            console.log('count comments ', countComments)
-            console.log('count replies ', countReplies)
-        }
-    })
-
     const postContext = useContext(PostContext);
     const deleteContext = useContext(DeleteContext);
 
@@ -398,15 +381,15 @@ const post = (props) => {
             { postReactionSection }
             {!props.image && !props.background || props.comments || props.reactions ? <div className={classes.Break}/> : null}
             <section className={classes.ButtonsContainer}>
-                <OutsideAlerter action={cancelEmojiSelector}>
-                    <div className={classes.GifMenuPositioner}>
+                <OutsideAlerter action={closeEmojiSelector}>
+                    <div className={classes.GifMenuPositioner} onMouseLeave={cancelEmojiSelector} onMouseEnter={openEmojiSelector}>
                         {emojiSelectMenu}
                     </div>
-                    <div className={classes.Button} onMouseEnter={openEmojiSelector} style={{backgroundColor: showEmojiSelector ? 'rgba(0,0,0,0.05)' : null }}>
-                        <div className={[classes.ButtonIcon, classes.Like].join(" ")} ><Like /></div>
-                        <span>Like</span>
-                    </div>
                 </OutsideAlerter>
+                <div className={classes.Button} onMouseEnter={openEmojiSelector} style={{backgroundColor: showEmojiSelector ? 'rgba(0,0,0,0.05)' : null }}>
+                    <div className={[classes.ButtonIcon, classes.Like].join(" ")} ><Like /></div>
+                    <span>Like</span>
+                </div>
                 <div className={classes.Button}  onClick={startCommentHandler}>
                     <div className={[classes.ButtonIcon,classes.Comment].join(" ")}><SpeechBubble /></div>
                     <span>Comment</span>
