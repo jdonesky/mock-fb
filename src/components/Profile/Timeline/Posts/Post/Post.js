@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import classes from './Post.css'
 
 import Comment from './Comment/Comment';
-import Reaction from './Reaction/Reaction';
+import Reactions from './Reaction/Reactions';
 import GifSelector from './Dropdowns/Gifs/GifSelector';
 import EmojiSelector from './Dropdowns/Emojis/EmojiSelector'
 
@@ -78,10 +78,14 @@ const post = (props) => {
         }, 500)
     }
 
-    const closeEmojiSelector = () => {
+    const cancelEmojiSelector = () => {
         setTimeout(() => {
             setShowEmojiSelector(false);
         }, 1000)
+    }
+
+    const closeEmojiSelector = () => {
+        setShowEmojiSelector(false);
     }
 
     const toggleGifSelector = () => {
@@ -112,6 +116,7 @@ const post = (props) => {
         }
         console.log(reaction);
         props.onPostReaction(props.authToken,props.postsKey, props.id, reaction);
+        closeEmojiSelector()
     }
 
     const startCommentHandler = () => {
@@ -312,11 +317,7 @@ const post = (props) => {
 
     let postReactions;
     if (props.reactions && props.reactions.length) {
-        if (props.reactions.length < 3) {
-            postReactions = props.reactions.map(reaction => (
-                <Reaction caption={reaction.caption} name={reaction.name}/>
-            ))
-        }
+        postReactions = <Reactions reactions={props.reactions}/>
     }
 
     if (props.loadingNewReaction || props.editingReaction) {
@@ -341,7 +342,9 @@ const post = (props) => {
     if (postCommentCount || postReactions) {
         postReactionSection = (
             <section className={classes.PostReactionSection} style={{borderTop: !props.image && !props.background ? '1px solid #cccccc' : null}}>
-                {postReactions}
+                <div className={classes.ReactionsCountContainer}>
+                    {postReactions}
+                </div>
                 {postCommentCount}
             </section>
         );
@@ -397,8 +400,8 @@ const post = (props) => {
             { postReactionSection }
             {!props.image && !props.background || props.comments || props.reactions ? <div className={classes.Break}/> : null}
             <section className={classes.ButtonsContainer}>
-                <OutsideAlerter action={closeEmojiSelector}>
-                    <div className={classes.GifMenuPositioner} onMouseLeave={closeEmojiSelector}>
+                <OutsideAlerter action={cancelEmojiSelector}>
+                    <div className={classes.GifMenuPositioner} onMouseLeave={cancelEmojiSelector}>
                         {emojiSelectMenu}
                     </div>
                 </OutsideAlerter>
@@ -461,8 +464,8 @@ const mapStateToProps = state => {
         profileImage: state.profile.profileImage,
         name: state.profile.firstName + ' ' + state.profile.lastName,
         loadingNewComment: state.posts.loadingNewComment,
-        loadingNewReaction: state.posts.loadingNewReaction,
-        editingReaction: state.posts.editingReaction
+        loadingNewReaction: state.posts.addingPostReaction,
+        editingReaction: state.posts.editingPostReaction
     }
 }
 

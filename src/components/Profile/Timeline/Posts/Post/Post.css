@@ -358,9 +358,15 @@
     padding: 0 15px;
 }
 
-.ReactionsCount {
+.ReactionsCountContainer {
     display: flex;
     flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.ReactionsCount {
+    display: flex;
     justify-content: space-around;
     align-items: center;
     align-content: center;

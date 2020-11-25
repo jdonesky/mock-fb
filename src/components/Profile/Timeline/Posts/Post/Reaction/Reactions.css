@@ -1,0 +1,43 @@
+.ReactionsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px
+}
+
+.Names {
+    color: #878787;
+    font-weight: bolder;
+    cursor: pointer;
+    margin-left: 14px;
+}
+
+.Name:hover {
+    text-decoration: underline;
+}
+
+.IconsContainer {
+    position: relative;
+}
+
+.IconContainer {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border: 2px solid white;
+    position: absolute;
+    right: 5px;
+}
+
+.Icon {
+    height: 15px;
+    width: 15px;
+}
+
+.Icon svg {
+    height: auto;
+    width: 80%;
+    position: relative;
+    left: 4px;
+}
+
