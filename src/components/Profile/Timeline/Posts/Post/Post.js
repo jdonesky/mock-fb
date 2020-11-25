@@ -342,9 +342,7 @@ const post = (props) => {
     if (postCommentCount || postReactions) {
         postReactionSection = (
             <section className={classes.PostReactionSection} style={{borderTop: !props.image && !props.background ? '1px solid #cccccc' : null}}>
-                <div className={classes.ReactionsCountContainer}>
-                    {postReactions}
-                </div>
+                {postReactions}
                 {postCommentCount}
             </section>
         );

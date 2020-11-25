@@ -8,7 +8,22 @@ import Love from '../../../../../../assets/images/PostReactionIcons/love2'
 const reactions = (props) => {
 
     useEffect(() => {
-        console.log(iconTypes);
+        let names;
+        if (props.reactions && props.reactions.length) {
+            names = props.reactions.map(reaction => reaction.name);
+            if (names.length === 1) {
+                names = names[0]
+            } else if (names.length === 2) {
+                names = `${names[0]} and ${names[1]}`
+            } else {
+                let last = names.pop();
+                console.log('last', last);
+                console.log('names', names)
+                names = names.join(', ') + ' and ' + last;
+                console.log(names);
+            }
+        }
+        console.log(names)
     })
 
     let iconTypes;
@@ -25,16 +40,17 @@ const reactions = (props) => {
        icons = iconTypes.map((type, i) => {
            if (type === 'Like') {
                return (
-                   <div className={classes.IconContainer} style={{backgroundColor: 'blue', zIndex: i}}>
-                       <div className={classes.Icon}>
+                   <div key={i} className={classes.IconContainer} style={{backgroundColor: 'blue', zIndex: i + 1, position: 'absolute', left: `${(i+1)*18}px`}}>
+                       <div className={[classes.Icon, classes.Like].join(" ")}>
                            <Like />
                        </div>
                    </div>
                )
-           } else if (type === 'Love') {
+           }
+           if (type === 'Love') {
                return (
-                   <div className={classes.IconContainer} style={{backgroundColor: 'red', zIndex: i}}>
-                       <div className={classes.Icon}>
+                   <div key={i} className={classes.IconContainer} style={{backgroundColor: 'red', zIndex: i + 1, position: 'absolute', left: `${(i+1)*18}px`}}>
+                       <div className={[classes.Icon, classes.Love].join(" ")}>
                            <Love />
                        </div>
                    </div>
@@ -43,11 +59,26 @@ const reactions = (props) => {
        })
     }
 
-    const iconsContainerWidth = iconTypes.length * 18;
+    let names;
+    if (props.reactions && props.reactions.length) {
+        names = props.reactions.map(reaction => reaction.name);
+        if (names.length === 1) {
+            names = names[0]
+        } else if (names.length === 2) {
+            names = `${names[0]} and ${names[1]}`
+        } else {
+            let last = names.pop();
+            names = names.join(', ') + ' and ' + last;
+        }
+    }
+
     return (
-        <div className={classes.ReactionsContainer} style={{zIndex: -1}}>
-            <div className={classes.IconsContainer} style={{width: `${iconsContainerWidth}px`}}>
+        <div className={classes.ReactionsContainer}>
+            <div className={classes.IconsContainer}>
                 {icons}
+            </div>
+            <div className={classes.Names}>
+                {names}
             </div>
         </div>
     )
