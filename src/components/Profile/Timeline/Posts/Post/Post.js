@@ -399,14 +399,14 @@ const post = (props) => {
             {!props.image && !props.background || props.comments || props.reactions ? <div className={classes.Break}/> : null}
             <section className={classes.ButtonsContainer}>
                 <OutsideAlerter action={cancelEmojiSelector}>
-                    <div className={classes.GifMenuPositioner} onMouseLeave={cancelEmojiSelector}>
+                    <div className={classes.GifMenuPositioner}>
                         {emojiSelectMenu}
                     </div>
+                    <div className={classes.Button} onMouseEnter={openEmojiSelector} style={{backgroundColor: showEmojiSelector ? 'rgba(0,0,0,0.05)' : null }}>
+                        <div className={[classes.ButtonIcon, classes.Like].join(" ")} ><Like /></div>
+                        <span>Like</span>
+                    </div>
                 </OutsideAlerter>
-                <div className={classes.Button} onMouseEnter={openEmojiSelector} style={{backgroundColor: showEmojiSelector ? 'rgba(0,0,0,0.05)' : null }}>
-                    <div className={[classes.ButtonIcon, classes.Like].join(" ")} ><Like /></div>
-                    <span>Like</span>
-                </div>
                 <div className={classes.Button}  onClick={startCommentHandler}>
                     <div className={[classes.ButtonIcon,classes.Comment].join(" ")}><SpeechBubble /></div>
                     <span>Comment</span>

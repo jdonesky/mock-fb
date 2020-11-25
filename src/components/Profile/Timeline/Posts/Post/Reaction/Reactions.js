@@ -1,5 +1,5 @@
 
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import classes from './Reactions.css'
 
 import Like from '../../../../../../assets/images/PostReactionIcons/Like'
@@ -7,24 +7,15 @@ import Love from '../../../../../../assets/images/PostReactionIcons/love2'
 
 const reactions = (props) => {
 
-    useEffect(() => {
-        let names;
-        if (props.reactions && props.reactions.length) {
-            names = props.reactions.map(reaction => reaction.name);
-            if (names.length === 1) {
-                names = names[0]
-            } else if (names.length === 2) {
-                names = `${names[0]} and ${names[1]}`
-            } else {
-                let last = names.pop();
-                console.log('last', last);
-                console.log('names', names)
-                names = names.join(', ') + ' and ' + last;
-                console.log(names);
-            }
-        }
-        console.log(names)
-    })
+    const [showOtherNames, setShowOtherNames] = useState(false);
+
+    const openNamesDropdown = () => {
+        setShowOtherNames(true);
+    }
+
+    const closeNamesDropdown = () => {
+        setShowOtherNames(false);
+    }
 
     let iconTypes;
     if (props.reactions && props.reactions.length) {
@@ -60,6 +51,7 @@ const reactions = (props) => {
     }
 
     let names;
+    let otherNames;
     if (props.reactions && props.reactions.length) {
         names = props.reactions.map(reaction => reaction.name);
         if (names.length === 1) {
@@ -68,17 +60,31 @@ const reactions = (props) => {
             names = `${names[0]} and ${names[1]}`
         } else {
             let last = names.pop();
-            names = names.join(', ') + ' and ' + last;
+            otherNames = [...names].map(name => (<b style={{marginBottom: '2px'}}>{name}</b>))
+            names = last + ' and ' + otherNames.length + ' others'
         }
     }
+
+    let namesDropdown;
+    if (otherNames && otherNames.length && showOtherNames) {
+        namesDropdown = (
+            <div className={classes.OtherNamesDropdown}>
+                {otherNames}
+            </div>
+        )
+    }
+
 
     return (
         <div className={classes.ReactionsContainer}>
             <div className={classes.IconsContainer}>
                 {icons}
             </div>
-            <div className={classes.Names}>
-                {names}
+            <div className={classes.DropdownPositioner}>
+                <div className={classes.Names} onMouseEnter={openNamesDropdown} onMouseLeave={closeNamesDropdown}>
+                    {names}
+                </div>
+                {namesDropdown}
             </div>
         </div>
     )
