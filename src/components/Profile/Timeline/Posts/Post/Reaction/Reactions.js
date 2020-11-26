@@ -1,9 +1,12 @@
 
 import React, {useState} from 'react';
-import classes from './Reactions.css'
+import classes from './Reactions.css';
 
-import Like from '../../../../../../assets/images/PostReactionIcons/Like'
-import Love from '../../../../../../assets/images/PostReactionIcons/love2'
+import Like from '../../../../../../assets/images/PostReactionIcons/like';
+import Love from '../../../../../../assets/images/PostReactionIcons/love';
+import Shock from '../../../../../../assets/images/PostReactionIcons/shocked';
+import Cry from '../../../../../../assets/images/PostReactionIcons/crying';
+import Mad from '../../../../../../assets/images/PostReactionIcons/angry';
 
 const reactions = (props) => {
 
@@ -31,7 +34,7 @@ const reactions = (props) => {
        icons = iconTypes.map((type, i) => {
            if (type === 'Like') {
                return (
-                   <div key={i} className={classes.IconContainer} style={{backgroundColor: 'blue', zIndex: i + 1, position: 'absolute', left: `${(i+1)*18}px`}}>
+                   <div key={i} className={classes.IconContainer} style={{backgroundColor: '#1e4beb', zIndex: i + 1, position: 'absolute', left: `${(i+1)*18}px`}}>
                        <div className={[classes.Icon, classes.Like].join(" ")}>
                            <Like />
                        </div>
@@ -40,9 +43,36 @@ const reactions = (props) => {
            }
            if (type === 'Love') {
                return (
-                   <div key={i} className={classes.IconContainer} style={{backgroundColor: 'red', zIndex: i + 1, position: 'absolute', left: `${(i+1)*18}px`}}>
+                   <div key={i} className={classes.IconContainer} style={{backgroundColor: '#db2323', zIndex: i + 1, position: 'absolute', left: `${(i+1)*18}px`}}>
                        <div className={[classes.Icon, classes.Love].join(" ")}>
                            <Love />
+                       </div>
+                   </div>
+               )
+           }
+           if (type === 'Omg') {
+               return (
+                   <div key={i} className={classes.IconContainer} style={{backgroundColor: '#ebdb09', zIndex: i + 1, position: 'absolute', left: `${(i+1)*18}px`}}>
+                       <div className={[classes.Icon, classes.Omg].join(" ")}>
+                           <Shock />
+                       </div>
+                   </div>
+               )
+           }
+           if (type === 'Cry') {
+               return (
+                   <div key={i} className={[classes.IconContainer, classes.CryContainer].join(" ")} style={{backgroundColor: '#ebdb09', zIndex: i + 1, position: 'absolute', left: `${(i+1)*18}px`}}>
+                       <div className={[classes.Icon, classes.Cry].join(" ")}>
+                           <Cry />
+                       </div>
+                   </div>
+               )
+           }
+           if (type === 'Mad') {
+               return (
+                   <div key={i} className={classes.IconContainer} style={{backgroundColor: '#ff4336', zIndex: i + 1, position: 'absolute', left: `${(i+1)*18}px`}}>
+                       <div className={[classes.Icon, classes.Mad].join(" ")}>
+                           <Mad />
                        </div>
                    </div>
                )
@@ -74,14 +104,13 @@ const reactions = (props) => {
         )
     }
 
-
     return (
         <div className={classes.ReactionsContainer}>
             <div className={classes.IconsContainer}>
                 {icons}
             </div>
             <div className={classes.DropdownPositioner}>
-                <div className={classes.Names} onMouseEnter={openNamesDropdown} onMouseLeave={closeNamesDropdown}>
+                <div className={classes.Names} onMouseEnter={openNamesDropdown} onMouseLeave={closeNamesDropdown} style={{marginLeft: `${icons.length * 20 + 5}px`}}>
                     {names}
                 </div>
                 {namesDropdown}

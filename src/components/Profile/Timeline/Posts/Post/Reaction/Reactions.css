@@ -44,6 +44,23 @@
     bottom: 1px;
 }
 
+.CryContainer {
+    overflow: hidden;
+    position: relative;
+}
+
+.Cry svg {
+    width: 100%;
+    position: absolute;
+    right: 3px;
+    left: 0;
+}
+
+.Mad svg {
+    width: 100%;
+    left: 0;
+}
+
 .Names {
     color: #878787;
     font-weight: bolder;
@@ -51,14 +68,11 @@
     cursor: pointer;
     max-height: 20px;
     overflow: auto;
-    margin-left: 50px;
 }
 
 .Names:hover {
     text-decoration: underline;
 }
-
-
 
 .DropdownPositioner {
     position: relative;

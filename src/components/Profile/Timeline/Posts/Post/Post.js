@@ -55,16 +55,21 @@ const post = (props) => {
         })
     }
 
+    let closingTimer;
+    const startCloseEmojiSelector = () => {
+        closingTimer = setTimeout(() => {
+            setShowEmojiSelector(false);
+        }, 1100)
+    }
+
+    const cancelCloseEmojiSelector = () => {
+        clearTimeout(closingTimer);
+    }
+
     const openEmojiSelector = () => {
         setTimeout(() => {
             setShowEmojiSelector(true);
         }, 500)
-    }
-
-    const cancelEmojiSelector = () => {
-        setTimeout(() => {
-            setShowEmojiSelector(false);
-        }, 1000)
     }
 
     const closeEmojiSelector = () => {
@@ -303,7 +308,7 @@ const post = (props) => {
         postReactions = <Reactions reactions={props.reactions}/>
     }
 
-    if (props.loadingNewReaction || props.editingReaction) {
+    if (props.addingPostReaction || props.editingPostReaction) {
         postReactions = <InlineDots/>
     }
 
@@ -382,7 +387,7 @@ const post = (props) => {
             {!props.image && !props.background || props.comments || props.reactions ? <div className={classes.Break}/> : null}
             <section className={classes.ButtonsContainer}>
                 <OutsideAlerter action={closeEmojiSelector}>
-                    <div className={classes.GifMenuPositioner} onMouseLeave={cancelEmojiSelector} onMouseEnter={openEmojiSelector}>
+                    <div className={classes.GifMenuPositioner} onMouseLeave={startCloseEmojiSelector} onMouseEnter={cancelCloseEmojiSelector}>
                         {emojiSelectMenu}
                     </div>
                 </OutsideAlerter>
@@ -445,8 +450,8 @@ const mapStateToProps = state => {
         profileImage: state.profile.profileImage,
         name: state.profile.firstName + ' ' + state.profile.lastName,
         loadingNewComment: state.posts.loadingNewComment,
-        loadingNewReaction: state.posts.addingPostReaction,
-        editingReaction: state.posts.editingPostReaction
+        addingPostReaction: state.posts.addingPostReaction,
+        editingPostReaction: state.posts.editingPostReaction
     }
 }
 
