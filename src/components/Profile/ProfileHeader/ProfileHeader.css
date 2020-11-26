@@ -21,6 +21,11 @@
     text-align: center;
 }
 
+
+.Bio {
+    margin: 5px auto 10px;
+}
+
 .EditBio {
     margin: 5px auto 10px;
     color: #1665f7;
@@ -51,7 +56,6 @@
     justify-content: space-between;
     align-items: center;
     font-size: 15px;
-    /*box-shadow: 0 1px 1px 1px rgba(0,0,0,0.15);*/
 }
 
 .NavigationBar nav {
@@ -82,7 +86,26 @@
     width: 100%;
 }
 
+.TabControls .MoreTab {
+    height: 100%;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    display: inline-flex;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
 .TabControls a:hover {
+    background: #ebebeb;
+    border-radius: 10px;
+    border-bottom: 3px solid #2b5de6;
+}
+
+.TabControls .MoreTab:hover {
     background: #ebebeb;
     border-radius: 10px;
     border-bottom: 3px solid #2b5de6;
@@ -108,7 +131,7 @@
 }
 
 @media (max-width: 587px) {
-    .MoreTab a {
+    .MoreTab {
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
         border-bottom: 3px solid #2b5de6;
@@ -116,28 +139,32 @@
         font-weight: 900;
     }
 
+    .MoreTab div {
+        color: #1665f7;
+    }
+
     .Arrow {
         fill: #1665f7;
     }
 }
 
-.MoreTabContainer {
-    width: 130px;
-    display: flex;
-    justify-content: flex-start;
+
+.MoreTab div {
+    height: 62px;
+    width: 40px;
+    position: relative;
 }
 
-.MoreTab {
-    height: 62px;
-    width: 100px;
+.MoreArrowContainer {
+    position: relative;
 }
 
 .MoreTab svg {
-    position: relative;
-    bottom: 40px;
-    left: 63px;
-    height: 20%;
-    width: auto;
+    position: absolute;
+    top: 7px;
+    left: 6px;
+    height: auto;
+    width: 10px;
 }
 
 .AboutTab {
@@ -170,6 +197,14 @@
     }
 }
 
+.DropdownNavPositioner {
+    position: relative;
+}
+
+.DropdownNavPositioner a:hover {
+    background: none;
+    border-bottom: none;
+}
 
 .EditControls {
     list-style: none;

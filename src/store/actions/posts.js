@@ -136,6 +136,7 @@ const addPostReactionInit = () => {
     }
 }
 
+
 export const addPostReactionAttempt = (authToken, postsKey, postId, reaction) => {
     return dispatch => {
         dispatch(addPostReactionInit())
@@ -151,7 +152,12 @@ export const addPostReactionAttempt = (authToken, postsKey, postId, reaction) =>
 
                     let targetPostReactions;
                     if (targetPost.reactions && targetPost.reactions.length) {
-                        targetPostReactions = [...targetPost.reactions, newReaction]
+                        const previousReactionIndex = targetPost.reactions.findIndex(reaction => reaction.userId === newReaction.userId)
+                        if (previousReactionIndex === -1) {
+                            targetPostReactions = [...targetPost.reactions, newReaction]
+                        } else {
+                            targetPostReactions = [...targetPost.reactions.filter(reaction => reaction.userId !== newReaction.userId), newReaction ]
+                        }
                     } else {
                         targetPostReactions = [newReaction]
                     }
@@ -172,66 +178,18 @@ export const addPostReactionAttempt = (authToken, postsKey, postId, reaction) =>
 
 const addPostReactionSuccess = (posts) => {
     return {
-        type: actionTypes.ADD_POST_REACTION_INIT,
+        type: actionTypes.ADD_POST_REACTION_SUCCESS,
         posts: posts
     }
 }
 
 const addPostReactionFail = (error) => {
     return {
-        type: actionTypes.ADD_POST_REACTION_INIT,
+        type: actionTypes.ADD_POST_REACTION_FAIL,
         error: error
     }
 }
 
-const editPostReactionInit = () => {
-    return {
-        type: actionTypes.EDIT_POST_REACTION_INIT
-    }
-}
-
-export const editPostReactionAttempt = (authToken, postsKey, postId, reactionId, newReaction) => {
-    return dispatch => {
-        dispatch(editPostReactionInit())
-        const url = `/posts/${postsKey}.json?auth=${authToken}`
-        const newReaction = {...newReaction, id: reactionId}
-        let newPosts;
-        axios.get(url)
-            .then(response => {
-                newPosts = [...response.data];
-                const targetPostIndex = newPosts.findIndex(post => post.id === postId);
-                const targetPost = newPosts.find(post => post.id === postId);
-
-                const targetPostReactions = [...targetPost.reactions];
-                const targetReactionIndex = targetPostReactions.findIndex(reaction => reaction.id === reactionId);
-                targetPostReactions[targetReactionIndex] = newReaction;
-
-                targetPost.reactions = targetPostReactions;
-                newPosts[targetPostIndex] = targetPostReactions;
-                return axios.put(url, newPosts)
-            })
-            .then(response => {
-                dispatch(editPostReactionSuccess(newPosts));
-            })
-            .catch(error => {
-                dispatch(editPostReactionFail(error));
-            })
-    }
-}
-
-const editPostReactionSuccess = (posts) => {
-    return {
-        type: actionTypes.EDIT_POST_REACTION_INIT,
-        posts: posts
-    }
-}
-
-const editPostReactionFail = (error) => {
-    return {
-        type: actionTypes.EDIT_POST_REACTION_INIT,
-        error: error
-    }
-}
 
 const addCommentInit = () => {
     return {

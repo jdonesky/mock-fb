@@ -59,20 +59,43 @@ const post = (props) => {
     const startCloseEmojiSelector = () => {
         closingTimer = setTimeout(() => {
             setShowEmojiSelector(false);
-        }, 1100)
+        }, 700)
     }
 
     const cancelCloseEmojiSelector = () => {
         clearTimeout(closingTimer);
     }
 
-    const openEmojiSelector = () => {
-        setTimeout(() => {
+    let openingTimer;
+    const startOpeningEmojiSelector = () => {
+        openingTimer = setTimeout(() => {
             setShowEmojiSelector(true);
-        }, 500)
+        }, 500);
     }
 
-    const closeEmojiSelector = () => {
+    const cancelOpenEmojiSelector = () => {
+        clearTimeout(openingTimer)
+    }
+
+    const enterLikeButton = () => {
+        startOpeningEmojiSelector()
+        if (closingTimer) {
+            clearTimeout(closingTimer);
+        }
+    }
+
+    const leaveLikeButton = () => {
+        cancelOpenEmojiSelector()
+        if (setShowEmojiSelector) {
+            startCloseEmojiSelector()
+        }
+    }
+
+    const quickToggleEmojiSelector = () => {
+        setShowEmojiSelector(true);
+    }
+
+    const quickCloseEmojiSelector = () => {
         setShowEmojiSelector(false);
     }
 
@@ -99,12 +122,13 @@ const post = (props) => {
     const postReactionHandler = (caption) => {
         console.log('CLICKED');
         const reaction = {
-            caption: caption,
+            userId: props.userId,
             name: props.name,
+            caption: caption
         }
         console.log(reaction);
         props.onPostReaction(props.authToken,props.postsKey, props.id, reaction);
-        closeEmojiSelector()
+        quickCloseEmojiSelector()
     }
 
     const startCommentHandler = () => {
@@ -308,7 +332,7 @@ const post = (props) => {
         postReactions = <Reactions reactions={props.reactions}/>
     }
 
-    if (props.addingPostReaction || props.editingPostReaction) {
+    if (props.addingPostReaction) {
         postReactions = <InlineDots/>
     }
 
@@ -386,12 +410,12 @@ const post = (props) => {
             { postReactionSection }
             {!props.image && !props.background || props.comments || props.reactions ? <div className={classes.Break}/> : null}
             <section className={classes.ButtonsContainer}>
-                <OutsideAlerter action={closeEmojiSelector}>
+                <OutsideAlerter action={quickCloseEmojiSelector}>
                     <div className={classes.GifMenuPositioner} onMouseLeave={startCloseEmojiSelector} onMouseEnter={cancelCloseEmojiSelector}>
                         {emojiSelectMenu}
                     </div>
                 </OutsideAlerter>
-                <div className={classes.Button} onMouseEnter={openEmojiSelector} style={{backgroundColor: showEmojiSelector ? 'rgba(0,0,0,0.05)' : null }}>
+                <div className={classes.Button} onMouseEnter={enterLikeButton} onMouseLeave={leaveLikeButton} onClick={quickToggleEmojiSelector} style={{backgroundColor: showEmojiSelector ? 'rgba(0,0,0,0.05)' : null }}>
                     <div className={[classes.ButtonIcon, classes.Like].join(" ")} ><Like /></div>
                     <span>Like</span>
                 </div>
@@ -460,7 +484,6 @@ const mapDispatchToProps = dispatch => {
         onFetchSelfPosts: (authToken, postsKey) => dispatch(actions.fetchSelfPostsAttempt(authToken, postsKey)),
         onPostComment: (authToken, postsKey, postId, comment) => dispatch(actions.addCommentAttempt(authToken, postsKey, postId, comment)),
         onPostReaction: (authToken, postsKey, postId, reaction) => dispatch(actions.addPostReactionAttempt(authToken, postsKey, postId, reaction)),
-        onEditPostReaction: (authToken, postsKey, postId, reactionId, newReaction) => dispatch(actions.editPostReactionAttempt(authToken, postsKey, postId, reactionId, newReaction))
     }
 }
 

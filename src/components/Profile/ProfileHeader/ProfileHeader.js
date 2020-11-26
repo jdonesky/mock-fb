@@ -4,15 +4,31 @@ import {connect} from 'react-redux'
 import * as actions from '../../../store/actions/index.js'
 import {NavLink} from 'react-router-dom'
 import classes from './ProfileHeader.css'
+import bioClasses from './EditHeader/EditBioForm.css'
 import EditBioForm from './EditHeader/EditBioForm'
+import NavDropdown from './NavigationDropdown/NavigationDropdown'
+
 import SearchSvg from '../../../assets/images/search'
 import ViewSvg from '../../../assets/images/eye'
 import DownArrow from '../../../assets/images/down-arrow'
 import InlineDots from '../../UI/Spinner/InlineDots'
+import OutsideAlerter from "../../../hooks/outsideClickHandler";
 
 const profileHeader = (props) => {
 
     const [editingBio, setEditingBio] = useState(false)
+    const [showNavDropdown, setShowNavDropdown] = useState(false);
+
+
+    const toggleNavDropDown = () => {
+        setShowNavDropdown(prevState => {
+            return !prevState;
+        });
+    }
+
+    const closeNavDropdown = () => {
+        setShowNavDropdown(false);
+    }
 
     const toggleBioForm = () => {
         setEditingBio((prevState => {
@@ -30,8 +46,8 @@ const profileHeader = (props) => {
         bio = <EditBioForm bio={props.bio && props.bio} cancel={toggleBioForm} save={saveBioEdits}/>;
     } else if (!editingBio && props.bio) {
         bio = (
-            <div style={{width: '650px', margin: "0 auto", overflow: "auto"}}>
-                <p>{props.bio && props.bio}</p>
+            <div className={bioClasses.BioContainer}>
+                <p className={classes.Bio}>{props.bio && props.bio}</p>
                 <p className={classes.EditBio} onClick={toggleBioForm}>Edit</p>
             </ div>
         )
@@ -39,9 +55,15 @@ const profileHeader = (props) => {
         bio = <p className={classes.EditBio} onClick={toggleBioForm}>Add Bio</p>
     }
 
+    let navDropdown;
+    if (showNavDropdown) {
+        navDropdown = <NavDropdown />
+    }
+
     if (props.contentLoading) {
         bio = <InlineDots className={classes.LoadingIndicator}/>
     }
+
 
     return (
         <div className={classes.HeaderContainer}>
@@ -82,14 +104,19 @@ const profileHeader = (props) => {
                             >Photos
                             </NavLink>
                         </div>
-                        <div className={classes.MoreTab}>
-                            <NavLink
-                                to={"/user-profile/more"}
-                                activeClassName={classes.active}
+                        <div className={classes.MoreTab} onClick={toggleNavDropDown}>
+                            <div
                                 >More
-                            </NavLink>
-                            <DownArrow />
+                            </div>
+                            <div className={classes.MoreArrowContainer}>
+                                <DownArrow />
+                            </div>
                         </div>
+                        <OutsideAlerter action={closeNavDropdown}>
+                            <div className={classes.DropdownNavPositioner}>
+                                {navDropdown}
+                            </div>
+                        </OutsideAlerter>
                     </ul>
                 </nav>
                 <nav>

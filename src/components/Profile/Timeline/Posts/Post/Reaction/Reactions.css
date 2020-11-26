@@ -34,29 +34,17 @@
     left: 3px;
 }
 
-.Love svg {
-    position: relative;
-    top: 1px;
-}
-
 .Like svg {
     position: relative;
     bottom: 1px;
 }
 
-.CryContainer {
-    overflow: hidden;
+.Love svg {
     position: relative;
+    top: 1px;
 }
 
-.Cry svg {
-    width: 100%;
-    position: absolute;
-    right: 3px;
-    left: 0;
-}
-
-.Mad svg {
+.Emoji svg {
     width: 100%;
     left: 0;
 }
