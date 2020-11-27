@@ -1,23 +1,25 @@
 import React, {useEffect, Suspense} from "react";
-import {Switch, Route} from 'react-router'
+import {Switch, Route} from 'react-router';
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
+
 import withErrorHandler from "../../hoc/withErrorHandler";
-import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics'
-import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader'
-import Timeline from '../../components/Profile/Timeline/Timeline'
-import axios from '../../axios/db-axios-instance'
+import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics';
+import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader';
+import NavigationBar from '../../components/Profile/NavigationBar/NavigationBar';
+import Timeline from '../../components/Profile/Timeline/Timeline';
+import DeleteModal from "../../components/UI/Modal/DeleteModal";
+import LifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal';
+import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost';
+
+import axios from '../../axios/db-axios-instance';
 import classes from "./UserProfile.css";
-import SquareFold from "../../components/UI/Spinner/SquareFold"
-
-import DeleteModal from "../../components/UI/Modal/DeleteModal"
-import LifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal'
-import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost'
-
+import SquareFold from "../../components/UI/Spinner/SquareFold";
 
 const ProfileAbout = React.lazy(() => {
   return import('../../components/Profile/ProfileAbout/ProfileAbout')
 })
+
 
 const userProfile = (props) => {
 
@@ -37,19 +39,24 @@ const userProfile = (props) => {
             <ProfilePics />
             <ProfileHeader name={props.name} bio={props.bio} />
           </div>
-          <div className={classes.SwitchContent}>
-            <Switch>
-              <Route exact path="/user-profile" render={(props) => (
-                  <Suspense fallback={<SquareFold />}>
-                    <Timeline {...props}/>
-                  </Suspense>
-              )}/>
-              <Route path="/user-profile/about" render={(props) => (
-                  <Suspense fallback={<SquareFold />}>
-                    <ProfileAbout {...props}/>
-                  </Suspense>
-              )} />
-            </Switch>
+          <div className={classes.ScrollableContent}>
+              <NavigationBar />
+              <div className={classes.HeaderBreak}/>
+              <div className={classes.SwitchContent}>
+                <Switch>
+                  <Route exact path="/user-profile" render={(props) => (
+                      <Suspense fallback={<SquareFold />}>
+                        <Timeline {...props}/>
+                      </Suspense>
+                  )}/>
+                  <Route path="/user-profile/about" render={(props) => (
+                      <Suspense fallback={<SquareFold />}>
+                        <ProfileAbout {...props}/>
+                      </Suspense>
+                  )} />
+                </Switch>
+              </div>
+              <div className={classes.ProfileContentBackdrop}/>
           </div>
         </React.Fragment>
     )

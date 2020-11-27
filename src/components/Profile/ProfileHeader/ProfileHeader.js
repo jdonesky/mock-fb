@@ -98,66 +98,65 @@ const profileHeader = (props) => {
                 <h1>{props.name || 'Your Name'}</h1>
                 {bio}
             </section>
-            <div className={classes.Break} />
-            <section className={classes.NavigationBar}>
-                <nav>
-                    <ul className={classes.TabControls}>
-                        <div className={classes.TimelineTab}>
-                            <NavLink
-                                exact
-                                to="/user-profile"
-                                activeClassName={classes.active}
-                                >Timeline
-                            </NavLink>
-                        </div>
-                        <div className={classes.AboutTab}>
-                            <NavLink
-                                to="/user-profile/about"
-                                activeClassName={classes.active}
-                                >About
-                            </NavLink>
-                        </div>
-                        <div className={classes.FriendsTab}>
-                            <NavLink
-                                to="/user-profile/friends"
-                                activeClassName={classes.active}
-                                >Friends
-                            </NavLink>
-                        </div>
-                        <div className={classes.PhotosTab}>
-                            <NavLink
-                                to="/user-profile/photos"
-                                activeClassName={classes.active}
-                            >Photos
-                            </NavLink>
-                        </div>
-                        <div className={moreTabClasses.join(" ")} onClick={toggleNavDropdown}>
-                            <div
-                                >More
-                            </div>
-                            <div className={classes.MoreArrowContainer}>
-                                <DownArrow />
-                            </div>
-                        </div>
-                        <div className={classes.MoreTabBlockPositioner}>
-                            <div className={classes.MoreTabBlocker} style={{display: showNavDropdown ? 'block' : 'none'}}/>
-                            <OutsideAlerter action={closeNavDropdown}>
-                                <div className={classes.DropdownNavPositioner}>
-                                    {navDropdown}
-                                </div>
-                            </OutsideAlerter>
-                        </div>
-                    </ul>
-                </nav>
-                <nav>
-                    <ul className={classes.EditControls}>
-                        <li className={classes.EditProfile}>Edit Profile</li>
-                        <li><ViewSvg /></li>
-                        <li><SearchSvg /></li>
-                        <li>...</li>
-                    </ul>
-                </nav>
-            </section>
+            {/*<section className={classes.NavigationBar}>*/}
+            {/*    <nav>*/}
+            {/*        <ul className={classes.TabControls}>*/}
+            {/*            <div className={classes.TimelineTab}>*/}
+            {/*                <NavLink*/}
+            {/*                    exact*/}
+            {/*                    to="/user-profile"*/}
+            {/*                    activeClassName={classes.active}*/}
+            {/*                    >Timeline*/}
+            {/*                </NavLink>*/}
+            {/*            </div>*/}
+            {/*            <div className={classes.AboutTab}>*/}
+            {/*                <NavLink*/}
+            {/*                    to="/user-profile/about"*/}
+            {/*                    activeClassName={classes.active}*/}
+            {/*                    >About*/}
+            {/*                </NavLink>*/}
+            {/*            </div>*/}
+            {/*            <div className={classes.FriendsTab}>*/}
+            {/*                <NavLink*/}
+            {/*                    to="/user-profile/friends"*/}
+            {/*                    activeClassName={classes.active}*/}
+            {/*                    >Friends*/}
+            {/*                </NavLink>*/}
+            {/*            </div>*/}
+            {/*            <div className={classes.PhotosTab}>*/}
+            {/*                <NavLink*/}
+            {/*                    to="/user-profile/photos"*/}
+            {/*                    activeClassName={classes.active}*/}
+            {/*                >Photos*/}
+            {/*                </NavLink>*/}
+            {/*            </div>*/}
+            {/*            <div className={moreTabClasses.join(" ")} onClick={toggleNavDropdown}>*/}
+            {/*                <div*/}
+            {/*                    >More*/}
+            {/*                </div>*/}
+            {/*                <div className={classes.MoreArrowContainer}>*/}
+            {/*                    <DownArrow />*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*            <div className={classes.MoreTabBlockPositioner}>*/}
+            {/*                <div className={classes.MoreTabBlocker} style={{display: showNavDropdown ? 'block' : 'none'}}/>*/}
+            {/*                <OutsideAlerter action={closeNavDropdown}>*/}
+            {/*                    <div className={classes.DropdownNavPositioner}>*/}
+            {/*                        {navDropdown}*/}
+            {/*                    </div>*/}
+            {/*                </OutsideAlerter>*/}
+            {/*            </div>*/}
+            {/*        </ul>*/}
+            {/*    </nav>*/}
+            {/*    <nav>*/}
+            {/*        <ul className={classes.EditControls}>*/}
+            {/*            <li className={classes.EditProfile}>Edit Profile</li>*/}
+            {/*            <li><ViewSvg /></li>*/}
+            {/*            <li><SearchSvg /></li>*/}
+            {/*            <li>...</li>*/}
+            {/*        </ul>*/}
+            {/*    </nav>*/}
+            {/*</section>*/}
         </div>
     )
 }

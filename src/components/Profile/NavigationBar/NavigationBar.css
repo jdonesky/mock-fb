@@ -1,0 +1,243 @@
+.NavigationBar {
+    width: 80%;
+    max-width: 930px;
+    border-left: none;
+    border-right: none;
+    height: 60px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    background-color: white;
+    z-index: 12;
+    position: sticky;
+    top: 60px;
+}
+
+.NavigationBar nav {
+    height: 100%;
+    position: sticky;
+    top: 100px;
+}
+
+.TabControls {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.TabControls a {
+    height: 100%;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    display: inline-flex;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
+.TabControls .MoreTab {
+    height: 100%;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    display: inline-flex;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
+.TabControls a:hover {
+    background: #ebebeb;
+    border-radius: 10px;
+    border-bottom: 3px solid #2b5de6;
+}
+
+.TabControls .MoreTab:hover {
+    background: #ebebeb;
+    border-radius: 10px;
+    border-bottom: 3px solid #2b5de6;
+}
+
+.TabControls a:active,
+.TabControls a.active {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom: 3px solid #2b5de6;
+    color: #1665f7;
+    font-weight: 900;
+}
+
+.TimelineTab {
+    display: none;
+}
+
+@media (min-width: 588px) {
+    .TimelineTab {
+        display: block;
+    }
+}
+
+@media (max-width: 587px) {
+    .MoreTab {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-bottom: 3px solid #2b5de6;
+        color: #1665f7;
+        font-weight: 900;
+    }
+
+    .MoreTab div {
+        color: #1665f7;
+    }
+
+    .Arrow {
+        fill: #1665f7;
+    }
+}
+
+.MoreTab div {
+    height: 62px;
+    width: 40px;
+    position: relative;
+}
+
+.MoreArrowContainer {
+    position: relative;
+}
+
+.MoreTab svg {
+    position: absolute;
+    bottom: 46px;
+    left: 6px;
+    height: auto;
+    width: 10px;
+}
+
+.ActiveMoreTab {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom: 3px solid #2b5de6;
+    color: #1665f7;
+    font-weight: 900;
+}
+
+.ActiveMoreTab div {
+    color: #1665f7;
+}
+
+.ActiveMoreTab .Arrow {
+    fill: #1665f7;
+}
+
+.MoreTabBlocker {
+    height: 60px;
+    width: 130px;
+    position: absolute;
+    left: -120px;
+    top: -28px;
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.MoreTabBlockPositioner {
+    position: relative;
+}
+
+.AboutTab {
+    display: none;
+}
+
+@media (min-width: 664px) {
+    .AboutTab {
+        display: block;
+    }
+}
+
+.FriendsTab {
+    display: none;
+}
+
+@media (min-width: 777px) {
+    .FriendsTab {
+        display: block;
+    }
+}
+
+.PhotosTab {
+    display: none;
+}
+
+@media (min-width: 859px) {
+    .PhotosTab {
+        display: block;
+    }
+}
+
+.DropdownNavPositioner {
+    position: relative;
+}
+
+.DropdownNavPositioner a:hover {
+    background: none;
+    border-bottom: none;
+}
+
+.EditControls {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.EditControls li {
+    height: 45px;
+    position: relative;
+    top: 1px;
+    margin: 5px;
+    padding: 13px;
+    box-sizing: border-box;
+    text-align: center;
+    display: inline-flex;
+    border: none;
+    border-radius: 10px;
+    background: #e6e6e6;
+    cursor: pointer;
+}
+
+.EditProfile {
+    width: 100px;
+}
+
+.EditControls li:hover {
+    background: #d4d4d4;
+}
+
+.EditControls svg {
+    height: 100%;
+    width: auto;
+}
+
+.Break {
+    height: 1px;
+    width: 85%;
+    max-width: 960px;
+    background: #cccccc;
+    margin: 5px auto;
+}

@@ -19,6 +19,7 @@ const timeLine = () => {
             <LifeEvents />
             <CreatePost />
             <Posts />
+            <div className={classes.ProfileContentBackdrop}/>
         </div>
     )
 }

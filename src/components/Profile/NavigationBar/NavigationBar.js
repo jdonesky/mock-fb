@@ -10,11 +10,10 @@ import DownArrow from '../../../assets/images/down-arrow'
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 
-const profileHeader = (props) => {
+const navigationBar = (props) => {
 
     const [showNavDropdown, setShowNavDropdown] = useState(false);
     const {width, height} = getWindowDimensions()
-
 
     useEffect(() => {
         console.log('width', width)
@@ -57,11 +56,7 @@ const profileHeader = (props) => {
     }
 
     return (
-        <div className={classes.HeaderContainer}>
-            <section className={classes.Intro}>
-                <h1>{props.name || 'Your Name'}</h1>
-                {bio}
-            </section>
+            <React.Fragment>
             <div className={classes.Break} />
             <section className={classes.NavigationBar}>
                 <nav>
@@ -122,10 +117,9 @@ const profileHeader = (props) => {
                     </ul>
                 </nav>
             </section>
-            <div  className={classes.StickyScrollArea}/>
-        </div>
+            </React.Fragment>
     )
 }
 
 
-export default withRouter(profileHeader);
+export default withRouter(navigationBar);

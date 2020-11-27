@@ -9,8 +9,8 @@ const layout = (props) => {
       <div className={classes.Content}>
         {props.children}
       </div>
-      <div className={classes.Break}/>
-      <div className={classes.ProfileContentBackdrop} />
+      {/*<div className={classes.Break}/>*/}
+      {/*<div className={classes.ProfileContentBackdrop} />*/}
     </div>
   );
 };
