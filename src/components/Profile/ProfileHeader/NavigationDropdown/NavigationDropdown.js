@@ -91,36 +91,43 @@ const navDropdown = (props) => {
                 <div className={classes.DropdownItem}>
                     <NavLink to="/user-profile/music">Music</NavLink>
                 </div>
+                {props.location.pathname === "/user-profile/music" ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}>
                 <div className={classes.DropdownItem}>
                     <NavLink to="/user-profile/movies">Movies</NavLink>
                 </div>
+                {props.location.pathname === "/user-profile/movies" ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}>
                 <div className={classes.DropdownItem}>
                     <NavLink to="/user-profile/tv-shows">TV Shows</NavLink>
                 </div>
+                {props.location.pathname === "/user-profile/tv-shows" ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}>
                 <div className={classes.DropdownItem}>
                     <NavLink to="/user-profile/books">Books</NavLink>
                 </div>
+                {props.location.pathname === "/user-profile/books" ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}>
                 <div className={classes.DropdownItem}>
                     <NavLink to="/user-profile/events">Events</NavLink>
                 </div>
+                {props.location.pathname === "/user-profile/events" ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}>
                 <div className={classes.DropdownItem}>
                     <NavLink to="/user-profile/reviews">Reviews</NavLink>
                 </div>
+                {props.location.pathname === "/user-profile/reviews" ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}>
                 <div className={classes.DropdownItem}>
                     <NavLink to="/user-profile/groups">Groups</NavLink>
                 </div>
+                {props.location.pathname === "/user-profile/groups" ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}>
                 <div className={classes.DropdownItem}>

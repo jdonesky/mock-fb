@@ -2,6 +2,7 @@
 .HeaderContainer {
     border-top: none;
     width: 100%;
+    position: relative;
 }
 
 .Intro {
@@ -56,10 +57,14 @@
     justify-content: space-between;
     align-items: center;
     font-size: 15px;
+    position: sticky;
+    top: 0;
 }
 
 .NavigationBar nav {
     height: 100%;
+    position: sticky;
+    top: 0;
 }
 
 .TabControls {
@@ -280,4 +285,12 @@
     max-width: 960px;
     background: #cccccc;
     margin: 5px auto;
+}
+
+.StickyScrollArea {
+    height: 0;
+    width: 100%;
+    visibility: hidden;
+    z-index: -100;
+    background-color: transparent;
 }
