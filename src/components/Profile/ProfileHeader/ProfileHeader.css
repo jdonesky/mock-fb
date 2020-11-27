@@ -148,7 +148,6 @@
     }
 }
 
-
 .MoreTab div {
     height: 62px;
     width: 40px;
@@ -161,10 +160,41 @@
 
 .MoreTab svg {
     position: absolute;
-    bottom:120px;
-    left: 20px;
+    bottom: 46px;
+    left: 6px;
     height: auto;
     width: 10px;
+}
+
+.ActiveMoreTab {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom: 3px solid #2b5de6;
+    color: #1665f7;
+    font-weight: 900;
+}
+
+.ActiveMoreTab div {
+    color: #1665f7;
+}
+
+.ActiveMoreTab .Arrow {
+    fill: #1665f7;
+}
+
+.MoreTabBlocker {
+    height: 60px;
+    width: 130px;
+    position: absolute;
+    left: -120px;
+    top: -28px;
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.MoreTabBlockPositioner {
+    position: relative;
 }
 
 .AboutTab {

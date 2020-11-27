@@ -64,15 +64,33 @@ const profileHeader = (props) => {
         bio = <p className={classes.EditBio} onClick={toggleBioForm}>Add Bio</p>
     }
 
+    if (props.contentLoading) {
+        bio = <InlineDots className={classes.LoadingIndicator}/>
+    }
+
     let navDropdown;
     if (showNavDropdown) {
         navDropdown = <NavDropdown />
     }
 
-    if (props.contentLoading) {
-        bio = <InlineDots className={classes.LoadingIndicator}/>
+    const moreTabClasses = [classes.MoreTab]
+    if (width <= 859) {
+        if (props.location.pathname === '/user-profile/photos') {
+            moreTabClasses.push(classes.ActiveMoreTab);
+        }
     }
 
+    if (width <= 777) {
+        if (props.location.pathname === '/user-profile/friends' || props.location.pathname === '/user-profile/photos') {
+            moreTabClasses.push(classes.ActiveMoreTab);
+        }
+    }
+
+    if (width <= 664) {
+        if ( props.location.pathname === '/user-profile/about' || props.location.pathname === '/user-profile/friends' || props.location.pathname === '/user-profile/photos') {
+            moreTabClasses.push(classes.ActiveMoreTab);
+        }
+    }
 
     return (
         <div className={classes.HeaderContainer}>
@@ -113,19 +131,22 @@ const profileHeader = (props) => {
                             >Photos
                             </NavLink>
                         </div>
-                        <OutsideAlerter action={closeNavDropdown} className={classes.MoreTab}>
-                            <div onClick={toggleNavDropdown}>
-                                <div
-                                    >More
-                                </div>
-                                <div className={classes.MoreArrowContainer}>
-                                    <DownArrow />
-                                </div>
+                        <div className={moreTabClasses.join(" ")} onClick={toggleNavDropdown}>
+                            <div
+                                >More
                             </div>
-                            <div className={classes.DropdownNavPositioner}>
-                                {navDropdown}
+                            <div className={classes.MoreArrowContainer}>
+                                <DownArrow />
                             </div>
-                        </OutsideAlerter>
+                        </div>
+                        <div className={classes.MoreTabBlockPositioner}>
+                            <div className={classes.MoreTabBlocker} style={{display: showNavDropdown ? 'block' : 'none'}}/>
+                            <OutsideAlerter action={closeNavDropdown}>
+                                <div className={classes.DropdownNavPositioner}>
+                                    {navDropdown}
+                                </div>
+                            </OutsideAlerter>
+                        </div>
                     </ul>
                 </nav>
                 <nav>
