@@ -1,8 +1,9 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux'
-import * as actions from '../../../store/actions/index.js'
+import {withRouter} from 'react-router'
 import {NavLink} from 'react-router-dom'
+import * as actions from '../../../store/actions/index.js'
 import classes from './ProfileHeader.css'
 import bioClasses from './EditHeader/EditBioForm.css'
 import EditBioForm from './EditHeader/EditBioForm'
@@ -13,14 +14,22 @@ import ViewSvg from '../../../assets/images/eye'
 import DownArrow from '../../../assets/images/down-arrow'
 import InlineDots from '../../UI/Spinner/InlineDots'
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
+import getWindowDimensions from "../../../hooks/getWindowDimensions";
 
 const profileHeader = (props) => {
 
     const [editingBio, setEditingBio] = useState(false)
     const [showNavDropdown, setShowNavDropdown] = useState(false);
+    const {width, height} = getWindowDimensions()
 
 
-    const toggleNavDropDown = () => {
+    useEffect(() => {
+        console.log('width', width)
+        console.log('height', height)
+        console.log('props.match', props.location.pathname);
+    })
+
+    const toggleNavDropdown = () => {
         setShowNavDropdown(prevState => {
             return !prevState;
         });
@@ -104,15 +113,15 @@ const profileHeader = (props) => {
                             >Photos
                             </NavLink>
                         </div>
-                        <div className={classes.MoreTab} onClick={toggleNavDropDown}>
-                            <div
-                                >More
+                        <OutsideAlerter action={closeNavDropdown} className={classes.MoreTab}>
+                            <div onClick={toggleNavDropdown}>
+                                <div
+                                    >More
+                                </div>
+                                <div className={classes.MoreArrowContainer}>
+                                    <DownArrow />
+                                </div>
                             </div>
-                            <div className={classes.MoreArrowContainer}>
-                                <DownArrow />
-                            </div>
-                        </div>
-                        <OutsideAlerter action={closeNavDropdown}>
                             <div className={classes.DropdownNavPositioner}>
                                 {navDropdown}
                             </div>
@@ -146,4 +155,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(profileHeader);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(profileHeader));

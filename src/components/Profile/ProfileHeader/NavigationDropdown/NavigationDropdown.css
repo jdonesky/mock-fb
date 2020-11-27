@@ -20,7 +20,7 @@
     height: 40px;
     border-radius: 6px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
 }
@@ -42,4 +42,16 @@
     position:relative;
     top: 10px;
     left: 20px;
+}
+
+.ActiveCheck {
+    height: 30px;
+    width: 30px;
+}
+
+.ActiveCheck svg {
+    height: auto;
+    width: 70%;
+    position: relative;
+    top: 5px;
 }

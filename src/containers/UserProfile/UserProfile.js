@@ -24,7 +24,7 @@ const userProfile = (props) => {
     const {onFetchProfile, userId, authToken} = props
 
     useEffect(() => {
-      onFetchProfile(userId, authToken);
+        onFetchProfile(userId, authToken);
     }, [onFetchProfile,userId,authToken])
 
 
@@ -35,7 +35,7 @@ const userProfile = (props) => {
           <CreatePostModal />
           <div className={classes.UserProfile}>
             <ProfilePics />
-            <ProfileHeader name={props.name} bio={props.bio}/>
+            <ProfileHeader name={props.name} bio={props.bio} />
           </div>
           <div className={classes.SwitchContent}>
             <Switch>

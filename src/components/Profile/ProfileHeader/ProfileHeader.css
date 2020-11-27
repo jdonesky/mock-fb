@@ -161,8 +161,8 @@
 
 .MoreTab svg {
     position: absolute;
-    top: 7px;
-    left: 6px;
+    bottom:120px;
+    left: 20px;
     height: auto;
     width: 10px;
 }
