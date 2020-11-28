@@ -16,33 +16,33 @@ const navDropdown = (props) => {
         </div>
     )
     const timeline = (
-        <div className={classes.DropdownItemContainer}>
+        <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile")}>
             <div className={classes.DropdownItem}>
-                <NavLink to="/user-profile">Timeline</NavLink>
+                Timeline
             </div>
             {props.location.pathname === "/user-profile" ? activeCheck : null}
         </div>
     )
     const about = (
-        <div className={classes.DropdownItemContainer}>
+        <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile/about")}>
             <div className={classes.DropdownItem}>
-                <NavLink to="/user-profile/about">About</NavLink>
+                About
             </div>
             {props.location.pathname === "/user-profile/about" ? activeCheck : null}
         </div>
     )
     const friends = (
-        <div className={classes.DropdownItemContainer}>
+        <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile/friends")}>
             <div className={classes.DropdownItem}>
-                <NavLink to="/user-profile/friends">Friends</NavLink>
+                Friends
             </div>
             {props.location.pathname === "/user-profile/friends" ? activeCheck : null}
         </div>
     )
     const photos = (
-        <div className={classes.DropdownItemContainer}>
+        <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile/photos")}>
             <div className={classes.DropdownItem}>
-                <NavLink to="/user-profile/photos">Photos</NavLink>
+                Photos
             </div>
             {props.location.pathname === "/user-profile/photos" ? activeCheck : null}
         </div>
@@ -86,51 +86,51 @@ const navDropdown = (props) => {
                 </div>
                 {props.location.pathname === "/user-profile/check-ins" ? activeCheck : null}
             </div>
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer}  onClick={() => onClickTab("/user-profile/sports")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/sports">Sports</NavLink>
+                    Sports
                 </div>
                 {props.location.pathname === "/user-profile/sports" ? activeCheck : null}
             </div>
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer}  onClick={() => onClickTab("/user-profile/music")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/music">Music</NavLink>
+                    Music
                 </div>
                 {props.location.pathname === "/user-profile/music" ? activeCheck : null}
             </div>
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer}  onClick={() => onClickTab("/user-profile/movies")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/movies">Movies</NavLink>
+                    Movies
                 </div>
                 {props.location.pathname === "/user-profile/movies" ? activeCheck : null}
             </div>
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile/tv-shows")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/tv-shows">TV Shows</NavLink>
+                    TV Shows
                 </div>
                 {props.location.pathname === "/user-profile/tv-shows" ? activeCheck : null}
             </div>
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile/books")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/books">Books</NavLink>
+                    Books
                 </div>
                 {props.location.pathname === "/user-profile/books" ? activeCheck : null}
             </div>
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile/events")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/events">Events</NavLink>
+                    Events
                 </div>
                 {props.location.pathname === "/user-profile/events" ? activeCheck : null}
             </div>
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile/reviews")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/reviews">Reviews</NavLink>
+                    Reviews
                 </div>
                 {props.location.pathname === "/user-profile/reviews" ? activeCheck : null}
             </div>
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile/groups")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/groups">Groups</NavLink>
+                    Groups
                 </div>
                 {props.location.pathname === "/user-profile/groups" ? activeCheck : null}
             </div>

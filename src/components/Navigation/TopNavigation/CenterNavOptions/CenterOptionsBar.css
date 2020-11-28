@@ -1,0 +1,26 @@
+.CenterOptionsContainer {
+    min-width: 400px;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Button {
+    height: 100%;
+    min-width: 150px;
+    border-radius: 5px;
+}
+
+.Button:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.ButtonIcon {
+    height: 48px;
+    width: 48px;
+}
+.Button svg {
+    height: auto;
+    width: 80%;
+}
