@@ -1,6 +1,8 @@
 
+
 .AboutContainer {
-     position: absolute;
+     position: relative;
+     top: 20px;
      z-index: 5;
      width: 80%;
      max-width: 930px;

@@ -42,21 +42,23 @@ const userProfile = (props) => {
           <div className={classes.ScrollableContent}>
               <NavigationBar />
               <div className={classes.HeaderBreak}/>
-              <div className={classes.SwitchContent}>
-                <Switch>
-                  <Route exact path="/user-profile" render={(props) => (
-                      <Suspense fallback={<SquareFold />}>
-                        <Timeline {...props}/>
-                      </Suspense>
-                  )}/>
-                  <Route path="/user-profile/about" render={(props) => (
-                      <Suspense fallback={<SquareFold />}>
-                        <ProfileAbout {...props}/>
-                      </Suspense>
-                  )} />
-                </Switch>
+              <div className={classes.ProfileContentBackdrop}>
+                  <div className={classes.SwitchContent}>
+                    <Switch>
+                      <Route exact path="/user-profile" render={(props) => (
+                          <Suspense fallback={<SquareFold />}>
+                            <Timeline {...props}/>
+                          </Suspense>
+                      )}/>
+                      <Route path="/user-profile/about" render={(props) => (
+                          <Suspense fallback={<SquareFold />}>
+                            <ProfileAbout {...props}/>
+                          </Suspense>
+                      )} />
+                    </Switch>
+                  </div>
               </div>
-              <div className={classes.ProfileContentBackdrop}/>
+              <div className={classes.Footer}/>
           </div>
         </React.Fragment>
     )
