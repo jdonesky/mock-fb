@@ -1,9 +1,10 @@
 .LogoAndSearchContainer {
-    min-width: 200px;
+    min-width: 110px;
     max-width: 400px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-around;
     align-items: center;
+    margin-left: 15px;
 }
 
 .LogoContainer {

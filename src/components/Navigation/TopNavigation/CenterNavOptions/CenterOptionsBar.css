@@ -1,15 +1,20 @@
 .CenterOptionsContainer {
     min-width: 400px;
     max-width: 500px;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .Button {
-    height: 100%;
-    min-width: 150px;
+    height: 95%;
+    min-width: 120px;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .Button:hover {
@@ -29,14 +34,21 @@
 .MoreButton {
     height: 48px;
     width: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.MoreButton div {
+.Lines div {
     height: 3px;
+    border-radius: 100px;
+    margin-bottom: 7px;
     width: 30px;
     background-color: rgba(0,0,0,0.4);
+    position: relative;
+    top: 3px;
 }
 
-.MoreTabActive div {
+.MoreTabActive .Lines div {
     background-color: #1b6ee3;
 }

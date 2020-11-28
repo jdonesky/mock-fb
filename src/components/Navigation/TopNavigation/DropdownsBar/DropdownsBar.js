@@ -8,13 +8,13 @@ import Down from '../../../../assets/images/TopNavButtonIcons/caret-down';
 const dropdownsBar = (props) => {
     return (
         <div className={classes.DropdownsContainer}>
-            <div className={classes.Button}>
+            <div className={[classes.Button, classes.Plus].join(" ")}>
                 <Plus />
             </div>
-            <div className={classes.Button}>
+            <div className={[classes.Button, classes.Bell].join(" ")}>
                 <Bell />
             </div>
-            <div className={classes.Button}>
+            <div className={[classes.Button, classes.Down].join(" ")}>
                 <Down />
             </div>
         </div>

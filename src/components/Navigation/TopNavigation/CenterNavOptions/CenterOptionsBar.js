@@ -49,9 +49,11 @@ const centerOptions = (props) => {
            </div>
            <div className={classes.Button}>
                <div className={moreButtonClass.join(" ")}>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                   <div className={classes.Lines}>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                   </div>
                </div>
            </div>
         </div>
