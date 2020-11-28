@@ -28,7 +28,7 @@ const centerOptions = (props) => {
     }
 
     let homeIcon;
-    let homeClasses = [classes.Button];
+    const homeClasses = [classes.Button];
     if (props.location.pathname === '/home') {
         homeIcon = <HouseFilled fill="#1b6ee3" />
         homeClasses.push(classes.ButtonActive)
@@ -37,20 +37,21 @@ const centerOptions = (props) => {
     }
 
     let groupIcon;
+    const groupClasses = [classes.Button];
+    const groupIconClasses = [classes.ButtonIcon, classes.GroupIcon];
     if (props.location.pathname === '/groups') {
         groupIcon = <GroupFilled fill="white"/>
+        groupClasses.push(classes.ButtonActive);
+        groupIconClasses.push(classes.GroupsActive);
     } else {
         groupIcon = <GroupFilled fill="rgba(0,0,0,0.6)"/>
     }
 
     const moreButtonClass = [classes.MoreButton];
+    const moreContainerClass = [classes.Button];
     if (props.location.pathname === '/hub') {
-        moreButtonClass.push(classes.MoreTabActive)
-    }
-
-    const groupButtonClasses = [classes.ButtonIcon, classes.GroupIcon]
-    if (props.location.pathname === '/groups') {
-        groupButtonClasses.push(classes.GroupsActive)
+        moreButtonClass.push(classes.MoreTabActive);
+        moreContainerClass.push(classes.ButtonActive);
     }
 
     return (
@@ -60,12 +61,12 @@ const centerOptions = (props) => {
                     {homeIcon}
                 </div>
            </div>
-           <div className={classes.Button} onClick={navGroups}>
-               <div className={groupButtonClasses.join(" ")}>
+           <div className={groupClasses.join(" ")} onClick={navGroups}>
+               <div className={groupIconClasses.join(" ")}>
                    {groupIcon}
                </div>
            </div>
-           <div className={classes.Button} onClick={navFullMenu}>
+           <div className={[moreContainerClass.join(" ")]} onClick={navFullMenu}>
                <div className={moreButtonClass.join(" ")}>
                    <div className={classes.Lines}>
                         <div></div>
