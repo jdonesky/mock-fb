@@ -1,6 +1,7 @@
 .CenterOptionsContainer {
-    min-width: 400px;
-    max-width: 500px;
+    min-width: 175px;
+    max-width: 400px;
+    width: 33%;
     height: 60px;
     display: flex;
     justify-content: space-between;
@@ -9,8 +10,10 @@
 
 .Button {
     height: 95%;
-    min-width: 120px;
-    border-radius: 5px;
+    min-width: 50px;
+    max-width: 120px;
+    width: 33%;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,17 +21,47 @@
 }
 
 .Button:hover {
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.05);
 }
+
 
 .ButtonIcon {
-    height: 48px;
-    width: 48px;
+    height: 30px;
+    width: 30px;
 }
 
-.Button svg {
+.ButtonIcon svg {
     height: auto;
-    width: 80%;
+    width: 100%;
+}
+
+.HouseIcon svg {
+    width: 90%;
+}
+
+.ButtonActive {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 3px solid #1b6ee3;
+}
+
+.GroupIcon {
+    height: 28px;
+    width: 28px;
+    border-radius: 100px;
+    border: 1.5px solid rgba(0,0,0,0.65);
+}
+
+.GroupIcon svg {
+    width: 85%;
+    position: relative;
+    top: 2px;
+    left: 2px;
+}
+
+.GroupsActive {
+    border: 1.5px solid #1b6ee3;
+    background-color: #1b6ee3;
 }
 
 .MoreButton {
@@ -41,10 +74,10 @@
 
 .Lines div {
     height: 3px;
-    border-radius: 100px;
+    border-radius: 35%;
     margin-bottom: 7px;
-    width: 30px;
-    background-color: rgba(0,0,0,0.4);
+    width: 25px;
+    background-color: rgba(0,0,0,0.55);
     position: relative;
     top: 3px;
 }
