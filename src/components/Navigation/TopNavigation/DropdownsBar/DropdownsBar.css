@@ -1,0 +1,24 @@
+
+.DropdownsContainer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.Button {
+    height: 48px;
+    width: 48px;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.05);
+    cursor: pointer;
+}
+
+.Button:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.Button svg {
+    height: auto;
+    width: 70%;
+    position: relative;
+}

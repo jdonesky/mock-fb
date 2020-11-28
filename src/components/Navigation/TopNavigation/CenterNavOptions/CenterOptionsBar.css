@@ -20,7 +20,23 @@
     height: 48px;
     width: 48px;
 }
+
 .Button svg {
     height: auto;
     width: 80%;
+}
+
+.MoreButton {
+    height: 48px;
+    width: 48px;
+}
+
+.MoreButton div {
+    height: 3px;
+    width: 30px;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.MoreTabActive div {
+    background-color: #1b6ee3;
 }
