@@ -30,12 +30,17 @@
 }
 
 .DropdownItem {
+    margin-left: 10px;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .DropdownItem a {
     position: relative;
     bottom: 10px;
+    height: 100%;
 }
 
 .ManageSectionsButton {

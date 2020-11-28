@@ -66,18 +66,23 @@ const navDropdown = (props) => {
         extraTabs =  extraTabs.slice(1);
     }
 
+    const onClickTab = (path) => {
+        console.log('clicked')
+        props.history.push(path);
+    }
+
     return (
         <div className={classes.DropdownContainer}>
             {extraTabs}
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer}  onClick={() => onClickTab("/user-profile/story-archive")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/story-archive">Story Archive</NavLink>
+                    Story Archive
                 </div>
                 {props.location.pathname === "/user-profile/story-archive" ? activeCheck : null}
             </div>
-            <div className={classes.DropdownItemContainer}>
+            <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile/check-ins")}>
                 <div className={classes.DropdownItem}>
-                    <NavLink to="/user-profile/check-ins">Check-Ins</NavLink>
+                    Check-Ins
                 </div>
                 {props.location.pathname === "/user-profile/check-ins" ? activeCheck : null}
             </div>
