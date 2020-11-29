@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {NavLink} from 'react-router-dom'
@@ -21,13 +21,6 @@ const profileHeader = (props) => {
     const [editingBio, setEditingBio] = useState(false)
     const [showNavDropdown, setShowNavDropdown] = useState(false);
     const {width, height} = getWindowDimensions()
-
-
-    useEffect(() => {
-        console.log('width', width)
-        console.log('height', height)
-        console.log('props.match', props.location.pathname);
-    })
 
     const toggleNavDropdown = () => {
         setShowNavDropdown(prevState => {

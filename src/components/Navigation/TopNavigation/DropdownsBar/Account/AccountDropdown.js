@@ -1,5 +1,5 @@
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import classes from './AccountDropdown.css';
@@ -13,13 +13,18 @@ import RightArrow from '../../../../../assets/images/TopNavButtonIcons/right-arr
 
 const accountDropdown = (props) => {
 
-    useEffect(() => {
-        console.log(props.profileImage)
-    })
+    const navProfile = () => {
+        if (props.location.pathname !== '/user-profile') {
+            props.history.push('/user-profile')
+        }
+        props.close();
+    }
+
+
 
     return (
         <div className={classes.DropdownContainer}>
-            <section className={classes.HeaderContainer}>
+            <section className={classes.HeaderContainer} onClick={navProfile}>
                 <div className={classes.ProfileImageContainer}
                      style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}
                 >

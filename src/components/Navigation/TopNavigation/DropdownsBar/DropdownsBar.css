@@ -27,6 +27,11 @@
     left: 10px;
 }
 
+.ButtonActive {
+    background-color: rgba(196, 222, 255, 0.4);
+}
+
+
 .Plus svg {
     width: 43%;
     top: 12px;
@@ -63,3 +68,15 @@
     background-color: transparent;
     cursor: pointer;
 }
+
+.ButtonBlocker {
+    position: absolute;
+    bottom: -20px;
+    left: -48px;
+    height: 42px;
+    width: 42px;
+    border-radius: 100%;
+    background-color: transparent;
+    cursor: pointer;
+}
+

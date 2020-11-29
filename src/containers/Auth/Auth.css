@@ -50,7 +50,6 @@
     }
 }
 
-
 .Title {
     font-size: 50px;
     font-weight: 900;
@@ -102,17 +101,17 @@
     border-radius: 7px;
 }
 
-@media (max-width: 570px) {
-    .Form input {
-        max-width: 400px;
-    }
-}
+/*@media (max-width: 570px) {*/
+/*    .Form input {*/
+/*        max-width: 400px;*/
+/*    }*/
+/*}*/
 
-@media (max-width: 550px) {
-    .Form input {
-        max-width: 350px;
-    }
-}
+/*@media (max-width: 550px) {*/
+/*    .Form input {*/
+/*        max-width: 350px;*/
+/*    }*/
+/*}*/
 
 .LoginButton {
     margin: 10px auto;

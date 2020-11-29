@@ -15,12 +15,6 @@ const navigationBar = (props) => {
     const [showNavDropdown, setShowNavDropdown] = useState(false);
     const {width, height} = getWindowDimensions()
 
-    useEffect(() => {
-        console.log('width', width)
-        console.log('height', height)
-        console.log('props.match', props.location.pathname);
-    })
-
     const toggleNavDropdown = () => {
         setShowNavDropdown(prevState => {
             return !prevState;
