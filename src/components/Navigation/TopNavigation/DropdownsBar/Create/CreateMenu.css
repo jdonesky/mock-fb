@@ -1,10 +1,9 @@
 
-
 .DropdownContainer {
     position: absolute;
     width: 360px;
     top: 27px;
-    left: -318px;
+    left: -270px;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
@@ -32,62 +31,6 @@
     font-size: 23px;
     font-weight: 900;
     font-family: 'Lucida Grande';
-}
-
-.SubTitle {
-    font-size: 18px;
-    margin: 7px 7px;
-}
-
-.HeaderOptionsButton {
-    height: 35px;
-    width: 35px;
-    border-radius: 100%;
-}
-
-.HeaderOptionsButton:hover {
-    background-color: rgba(0,0,0,0.05);
-}
-
-.HeaderOptionsButton svg {
-    height: auto;
-    width: 50%;
-    position: relative;
-    top: 8px;
-    left: 8px;
-}
-
-.Placeholder {
-    margin: 0 0 8px 10px;
-
-}
-
-.NotificationsContainer {
-    width: 95%;
-    margin: 0;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-evenly;
-    align-items: flex-start;
-}
-
-.ProfileImageContainer {
-    height: 60px;
-    width: 60px;
-    border-radius: 100%;
-    border: 1px solid rgba(0,0,0,0.1);
-    background-color: rgba(0,0,0,0.1);
-    background-position: center;
-    background-size: cover;
-    margin-right: 10px;
-}
-
-.ProfileImageContainer svg {
-    height: auto;
-    width: 85%;
-    position: relative;
-    top: 8px;
-    left: 5px;
 }
 
 .NameTagContainer {

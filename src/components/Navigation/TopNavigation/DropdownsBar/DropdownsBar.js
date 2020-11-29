@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import classes from './DropdownsBar.css';
 
-import AccountDropdown from "./Account/AccountDropdown";
+import CreateMenu from './Create/CreateMenu';
 import Notifications from "./Notifications/Notifications";
+import AccountDropdown from "./Account/AccountDropdown";
+
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 import Plus from '../../../../assets/images/TopNavButtonIcons/plus';
 import Bell from '../../../../assets/images/TopNavButtonIcons/bell';
@@ -10,8 +12,8 @@ import Down from '../../../../assets/images/TopNavButtonIcons/caret-down';
 
 const dropdownsBar = (props) => {
 
-    const [showCreateMenu, setShowCreateMenu] = useState(false);
-    const [showNotifications, setShowNotifications] = useState(true);
+    const [showCreateMenu, setShowCreateMenu] = useState(true);
+    const [showNotifications, setShowNotifications] = useState(false);
     const [showAccountMenu,setShowAccountMenu] = useState(false);
 
     const toggleAccountMenu = () => {
@@ -47,7 +49,7 @@ const dropdownsBar = (props) => {
     let createMenu;
     const createButtonClasses = [classes.Button, classes.Plus];
     if (showCreateMenu) {
-        // createMenu = <CreateDropdown close={closeCreateMenu}/>
+        createMenu = <CreateMenu close={closeCreateMenu}/>
         createButtonClasses.push(classes.ButtonActive);
     }
 
