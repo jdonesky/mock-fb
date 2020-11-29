@@ -1,30 +1,141 @@
 
 .DropdownContainer {
-    position: fixed;
-    width: 300px;
-    height: 300px;
-    top: 0;
-    right: 0;
+    position: absolute;
+    width: 360px;
+    top: 27px;
+    left: -370px;
     display: flex;
     flex-flow: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 6px 4px rgba(0,0,0,0.05);
+    padding-bottom: 8px;
 }
 
 .HeaderContainer {
     width: 95%;
-    height: 70px;
-    margin: 3px auto;
+    height: 75px;
+    margin: 8px 2px 0;
+    padding: 8px;
     display: flex;
     justify-content: flex-start;
+    border-radius: 8px;
+    box-sizing: border-box;
     align-items: center;
+    cursor: pointer;
+}
+
+.HeaderContainer:hover {
+    background-color: rgba(0,0,0,0.05);
 }
 
 .ProfileImageContainer {
-    height: 55px;
-    width: 55px;
+    height: 60px;
+    width: 60px;
     border-radius: 100%;
+    border: 1px solid rgba(0,0,0,0.1);
     background-color: rgba(0,0,0,0.1);
+    background-position: center;
+    background-size: cover;
+    margin-right: 10px;
 }
 
+.ProfileImageContainer svg {
+    height: auto;
+    width: 85%;
+    position: relative;
+    top: 8px;
+    left: 5px;
+}
 
+.NameTagContainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.Name {
+    font-size: 20px;
+    font-weight: bolder;
+    color: rgba(0,0,0,0.9);
+}
+
+.SubText {
+    font-size: 15px;
+    font-weight: 100;
+    color: rgba(0,0,0,0.5);
+}
+
+.Break {
+    height: .5px;
+    width: 90%;
+    margin: 7px auto;
+    background-color: rgba(0,0,0,0.12);
+}
+
+.Button {
+    height: 55px;
+    width: 95%;
+    margin: 0 2px;
+    padding: 8px;
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 8px;
+    box-sizing: border-box;
+    align-items: center;
+    cursor: pointer;
+}
+
+.Button:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.Icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.08);
+    margin-right: 10px;
+}
+
+.Icon svg {
+    height: auto;
+    width: 55%;
+    position: relative;
+    top: 9px;
+    left: 9px;
+}
+
+.Logout svg {
+    top: 10px;
+    left: 11px;
+}
+
+.MainText {
+    font-size: 16px;
+    font-weight: bolder;
+    color: rgba(0,0,0,0.9);
+}
+
+.SmallText {
+    font-size: 14px;
+    font-weight: 100;
+    color: rgba(0,0,0,0.5);
+}
+
+.RightArrow {
+    height: 30px;
+    width: 30px;
+    margin-left: auto;
+}
+
+.RightArrow svg {
+    height: auto;
+    width: 75%;
+    position: relative;
+    top: 4px;
+    left: 7px;
+}

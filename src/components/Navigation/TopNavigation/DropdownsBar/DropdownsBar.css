@@ -48,3 +48,18 @@
     top: 12px;
     left: 14px;
 }
+
+.AccountDropdownPositioner {
+    position: relative;
+}
+
+.AccountButtonBlocker {
+    position: absolute;
+    bottom: -20px;
+    left: -48px;
+    height: 42px;
+    width: 42px;
+    border-radius: 100%;
+    background-color: transparent;
+    cursor: pointer;
+}
