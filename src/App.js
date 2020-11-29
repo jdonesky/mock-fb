@@ -46,7 +46,6 @@ const app = (props) => {
         <Switch>
             <Route path="/authentication" component={AsyncAuth}/>
             <Route path="/sign-up" component={AsyncSignUp}/>
-            <Route path="/" component={AsyncPosts}/>
             <Route component={AsyncAuth}/>
         </Switch>
     );
