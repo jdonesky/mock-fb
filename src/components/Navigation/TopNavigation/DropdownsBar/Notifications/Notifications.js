@@ -8,27 +8,32 @@ import Dots from "../../../../../assets/images/dots";
 
 const notifications = (props) => {
 
-    let notifications;
+    let newNotifications = [];
+    let earlierNotifications = [];
     if (props.notifications && props.notifications.length) {
-        notifications = props.notifications.map(note => (
-            <section className={classes.NotificationContainer}>
-                <div className={classes.ImageContainer}
-                     style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}
-                >
-                    {props.profileImage ? null : <Avatar />}
-                </div>
-                <div className={classes.TextContainer}>
-                    <div className={classes.Name}>{props.name ? props.name : ''}</div>
-                    <div className={classes.SubText}>See your profile</div>
-                </div>
-                <div className={classes.EditButtonContainer}>
-                    <div className={classes.EditButton}></div>
-                </div>
-            </section>
-        ))
+        props.notifications.forEach(note => {
+            if (note.date && new Date(note.date) < new Date()) {
+                newNotifications.push(
+                    <section className={classes.NotificationContainer}>
+                        <div className={classes.ImageContainer}
+                             style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}
+                        >
+                            {props.profileImage ? null : <Avatar />}
+                        </div>
+                        <div className={classes.TextContainer}>
+                            <div className={classes.Name}>{props.name ? props.name : ''}</div>
+                            <div className={classes.SubText}>See your profile</div>
+                        </div>
+                        <div className={classes.EditButtonContainer}>
+                            <div className={classes.EditButton}></div>
+                        </div>
+                    </section>
+                )
+            }
+        });
     }
 
-    const placeholder = (<span>No new notifications</span>)
+    const placeholder = (<span className={classes.Placeholder}>No activity</span>)
 
 
     return (
@@ -42,8 +47,10 @@ const notifications = (props) => {
                 </div>
             </section>
             <section className={classes.NotificationsContainer}>
-
-                {notifications ? notifications : placeholder}
+                <span className={[classes.DropdownTitle, classes.SubTitle].join(" ")}>New</span>
+                {newNotifications.length !== 0? newNotifications : placeholder}
+                <span className={[classes.DropdownTitle, classes.SubTitle].join(" ")}>Earlier</span>
+                {earlierNotifications.length !== 0 ? earlierNotifications : placeholder}
             </section>
         </div>
     );
