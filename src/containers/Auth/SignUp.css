@@ -1,0 +1,17 @@
+
+
+.SignupBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    background-color: rgba(255, 255, 255,0.2);
+}
+.SignupModal {
+    position: fixed;
+    top: 200px;
+    left: 200px;
+    z-index: 3;
+}

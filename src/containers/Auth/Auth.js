@@ -83,6 +83,7 @@ const auth = props => {
               touched={formInputs[key].touched}
               changed={(event) => changeHandler(event, key)}
               invalid={!formInputs[key].valid}
+              // className={classes.Input}
           />
       )
     } else {
@@ -96,6 +97,7 @@ const auth = props => {
           touched={formInputs[key].touched}
           changed={(event) => changeHandler(event, key)}
           invalid={!formInputs[key].valid}
+          // classname={classes.Input}
       />)
     }
   });
@@ -131,16 +133,22 @@ const auth = props => {
   );
 
   return (
-      <React.Fragment>
+      <div className={classes.AuthPage}>
         {authRedirect}
         {errorModal}
-        <form className={classes.Form} onSubmit={authSubmitHandler}>
-          {formFields}
-          <button className={classes.LoginButton} type="submit" /*disabled={formIsValid} */>Log In</button>
-          <div className={classes.Break}/>
-          <button className={classes.SignUpButton} type="button" onClick={switchModeHandler}>Create New Account</button>
-        </form>
-      </React.Fragment>
+        <div className={classes.AuthContainer}>
+          <div className={classes.TextContainer}>
+            <div className={classes.Title}><b>dumb facebook</b></div>
+            <div className={classes.SubTitle}>connect with your dumb friends and the world around you on the dumb facebook</div>
+          </div>
+          <form className={classes.Form} onSubmit={authSubmitHandler}>
+            {formFields}
+            <button className={classes.LoginButton} type="submit" /*disabled={formIsValid} */>Log In</button>
+            <div className={classes.Break}/>
+            <button className={classes.SignUpButton} type="button" onClick={switchModeHandler}>Create New Account</button>
+          </form>
+        </div>
+      </div>
   );
 
 }
