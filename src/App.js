@@ -10,6 +10,16 @@ import LifeEventContextProvider from "./context/life-event-context";
 import PostContextProvider from "./context/post-context";
 
 
+const AsyncAuth = React.lazy(() => {
+    return import("./containers/Auth/Auth");
+});
+const AsyncSignUp = React.lazy(() => {
+    return import("./containers/Auth/SignUp");
+})
+
+const AsyncHome = React.lazy(() => {
+    return import("./containers/Home/Home");
+})
 const AsyncUserProfile = React.lazy(() => {
     return import("./containers/UserProfile/UserProfile");
 });
@@ -20,14 +30,7 @@ const AsyncFriends = React.lazy(() => {
     return import("./containers/Friends/Friends");
 });
 const AsyncSearch = React.lazy(() => {
-    return import ("./containers/Search/Search")
-})
-const AsyncAuth = React.lazy(() => {
-    return import("./containers/Auth/Auth");
-});
-
-const AsyncSignUp = React.lazy(() => {
-    return import("./containers/Auth/SignUp")
+    return import ("./containers/Search/Search");
 })
 
 const AsyncLogout = React.lazy(() => {
@@ -37,9 +40,11 @@ const AsyncLogout = React.lazy(() => {
 
 const app = (props) => {
 
+    const {authToken, userId, onFetchProfile, onReloadApp} = props;
     useEffect(() => {
-        props.onReloadApp();
-    }, [])
+        onReloadApp();
+        onFetchProfile(userId, authToken);
+    }, [authToken, userId, onFetchProfile, onReloadApp])
 
 
     let routes = (
@@ -49,7 +54,7 @@ const app = (props) => {
             <Route component={AsyncAuth}/>
         </Switch>
     );
-    if (props.isAuthenticated) {
+    if (props.authToken) {
         routes = (
             <Switch>
                 <Route path="/authentication" component={AsyncAuth}/>
@@ -58,7 +63,8 @@ const app = (props) => {
                 <Route path="/friends" component={AsyncFriends}/>
                 <Route path="/logout" component={AsyncLogout}/>
                 <Route path="/search-users" component={AsyncSearch}/>
-                <Route component={AsyncPosts}/>
+                <Route path="/home" component={AsyncHome}/>
+                <Route component={AsyncHome}/>
             </Switch>
         );
     }
@@ -81,13 +87,15 @@ const app = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.auth.token !== null,
+        userId: state.auth.userId,
+        authToken: state.auth.token
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onReloadApp: () => dispatch(actions.autoSignIn()),
+        onFetchProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
     };
 };
 

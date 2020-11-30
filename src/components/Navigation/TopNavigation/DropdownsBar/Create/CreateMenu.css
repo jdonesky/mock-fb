@@ -92,6 +92,27 @@
     left: 9px;
 }
 
+.Paper svg {
+    left: 10px;
+}
+
+.Star svg {
+    width: 51%;
+    top: 10px;
+    left:  10px;
+}
+
+.Flag svg {
+    width: 60%;
+    left: 10px;
+}
+
+.Event svg {
+    width: 47%;
+    left: 11px;
+    top: 11px;
+}
+
 .Logout svg {
     top: 10px;
     left: 11px;

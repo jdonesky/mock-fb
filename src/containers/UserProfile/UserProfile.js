@@ -26,7 +26,7 @@ const userProfile = (props) => {
     const {onFetchProfile, userId, authToken} = props
 
     useEffect(() => {
-        onFetchProfile(userId, authToken);
+        // onFetchProfile(userId, authToken);
     }, [onFetchProfile,userId,authToken])
 
 

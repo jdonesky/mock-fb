@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, {useContext} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
+import {PostContext} from "../../../../../context/post-context";
 import classes from './CreateMenu.css';
 
 import Paper from '../../../../../assets/images/TopNavButtonIcons/paper-pen';
@@ -13,8 +14,10 @@ import Calendar from '../../../../../assets/images/TopNavButtonIcons/calendar';
 
 const createMenu = (props) => {
 
-    const openPostModal = () => {
+    const postContext = useContext(PostContext);
 
+    const openPostModal = () => {
+        postContext.toggleModal()
     }
 
     const openLifeEventModal = () => {
@@ -28,8 +31,8 @@ const createMenu = (props) => {
                     <b>Create</b>
                 </div>
             </section>
-            <section className={classes.Button}>
-                <div className={classes.Icon}>
+            <section className={classes.Button} onClick={openPostModal}>
+                <div className={[classes.Icon, classes.Paper].join(" ")}>
                     <Paper />
                 </div>
                 <div className={classes.NameTagContainer}>
@@ -47,7 +50,7 @@ const createMenu = (props) => {
                 </div>
             </section>
             <section className={classes.Button}>
-                <div className={classes.Icon}>
+                <div className={[classes.Icon, classes.Star].join(" ")}>
                     <Star />
                 </div>
                 <div className={classes.NameTagContainer}>
@@ -57,7 +60,7 @@ const createMenu = (props) => {
             </section>
             <div className={classes.Break}/>
             <section className={classes.Button}>
-                <div className={classes.Icon}>
+                <div className={[classes.Icon, classes.Flag].join(" ")}>
                     <Flag />
                 </div>
                 <div className={classes.NameTagContainer}>
@@ -75,7 +78,7 @@ const createMenu = (props) => {
                 </div>
             </section>
             <section className={classes.Button}>
-                <div className={classes.Icon}>
+                <div className={[classes.Icon, classes.Event].join(" ")}>
                     <Calendar />
                 </div>
                 <div className={classes.NameTagContainer}>
