@@ -3,6 +3,7 @@ import React, {useContext} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {PostContext} from "../../../../../context/post-context";
+import {LifeEventContext} from "../../../../../context/life-event-context";
 import classes from './CreateMenu.css';
 
 import Paper from '../../../../../assets/images/TopNavButtonIcons/paper-pen';
@@ -15,13 +16,16 @@ import Calendar from '../../../../../assets/images/TopNavButtonIcons/calendar';
 const createMenu = (props) => {
 
     const postContext = useContext(PostContext);
+    const lifeEventContext = useContext(LifeEventContext)
 
     const openPostModal = () => {
-        postContext.toggleModal()
+        postContext.toggleModal();
+        props.close();
     }
 
     const openLifeEventModal = () => {
-
+        lifeEventContext.toggleModal();
+        props.close();
     }
 
     return (
@@ -49,7 +53,7 @@ const createMenu = (props) => {
                     <div className={classes.SmallText}>Share a photo or write something</div>
                 </div>
             </section>
-            <section className={classes.Button}>
+            <section className={classes.Button} onClick={openLifeEventModal}>
                 <div className={[classes.Icon, classes.Star].join(" ")}>
                     <Star />
                 </div>

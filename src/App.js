@@ -41,6 +41,7 @@ const AsyncLogout = React.lazy(() => {
 const app = (props) => {
 
     const {authToken, userId, onFetchProfile, onReloadApp} = props;
+
     useEffect(() => {
         onReloadApp();
         onFetchProfile(userId, authToken);

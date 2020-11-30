@@ -30,22 +30,27 @@ const navigationBar = (props) => {
         navDropdown = <NavDropdown />
     }
 
+
     const moreTabClasses = [classes.MoreTab]
-    if (width <= 859) {
+    let moreFill;
+    if (width < 859) {
         if (props.location.pathname === '/user-profile/photos') {
             moreTabClasses.push(classes.ActiveMoreTab);
+            moreFill = true;
         }
     }
 
-    if (width <= 777) {
+    if (width < 777) {
         if (props.location.pathname === '/user-profile/friends' || props.location.pathname === '/user-profile/photos') {
             moreTabClasses.push(classes.ActiveMoreTab);
+            moreFill = true
         }
     }
 
-    if (width <= 664) {
+    if (width < 664) {
         if ( props.location.pathname === '/user-profile/about' || props.location.pathname === '/user-profile/friends' || props.location.pathname === '/user-profile/photos') {
             moreTabClasses.push(classes.ActiveMoreTab);
+            moreFill = true;
         }
     }
 
@@ -89,7 +94,7 @@ const navigationBar = (props) => {
                             >More
                             </div>
                             <div className={classes.MoreArrowContainer}>
-                                <DownArrow />
+                                <DownArrow fill={moreFill ? '#1665f7' : null} />
                             </div>
                         </div>
                         <div className={classes.MoreTabBlockPositioner}>

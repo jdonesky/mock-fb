@@ -55,7 +55,7 @@ const navDropdown = (props) => {
     }
 
     if (width <= 859 && width >= 777) {
-        extraTabs =  extraTabs[3];
+        extraTabs =  extraTabs.slice(3);
     }
 
     if (width <= 777 && width >= 664) {

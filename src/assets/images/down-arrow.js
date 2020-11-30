@@ -7,7 +7,7 @@ const downArrowSvg = (props) => (
     preserveAspectRatio="xMidYMid meet">
 
    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-   fill="#000000" stroke="none">
+   fill={props.fill || "#000000"} stroke="none">
    <path className={classes.Arrow} d="M156 3715 c-53 -19 -85 -44 -121 -94 -28 -40 -30 -49 -30 -129 0 -75
    3 -93 24 -126 18 -28 369 -315 1205 -984 650 -519 1199 -953 1221 -965 55 -29
    155 -29 210 0 22 12 571 446 1221 965 836 669 1187 956 1205 984 21 33 24 51

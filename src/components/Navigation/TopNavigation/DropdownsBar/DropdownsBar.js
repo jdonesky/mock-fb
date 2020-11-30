@@ -12,7 +12,7 @@ import Down from '../../../../assets/images/TopNavButtonIcons/caret-down';
 
 const dropdownsBar = (props) => {
 
-    const [showCreateMenu, setShowCreateMenu] = useState(true);
+    const [showCreateMenu, setShowCreateMenu] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
     const [showAccountMenu,setShowAccountMenu] = useState(false);
 

@@ -2,6 +2,7 @@
 
 .NavigationBar {
     width: 80%;
+    min-width: 350px;
     max-width: 930px;
     border-left: none;
     border-right: none;
@@ -114,7 +115,7 @@
 
 .MoreTab div {
     height: 62px;
-    width: 40px;
+    width: 25px;
     position: relative;
 }
 
@@ -125,7 +126,7 @@
 .MoreTab svg {
     position: absolute;
     bottom: 46px;
-    left: 6px;
+    left: 16px;
     height: auto;
     width: 10px;
 }
@@ -241,6 +242,7 @@
 .Break {
     height: 1px;
     width: 85%;
+    min-width: 350px;
     max-width: 960px;
     background: #cccccc;
     margin: 5px auto;

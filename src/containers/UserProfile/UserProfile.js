@@ -20,15 +20,11 @@ const ProfileAbout = React.lazy(() => {
   return import('../../components/Profile/ProfileAbout/ProfileAbout')
 })
 
+const Friends = React.lazy(() => {
+    return import('../../components/Profile/Friends/Friends')
+})
 
 const userProfile = (props) => {
-
-    const {onFetchProfile, userId, authToken} = props
-
-    useEffect(() => {
-        // onFetchProfile(userId, authToken);
-    }, [onFetchProfile,userId,authToken])
-
 
     let profile = (
         <React.Fragment>
@@ -53,6 +49,11 @@ const userProfile = (props) => {
                       <Route path="/user-profile/about" render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                             <ProfileAbout {...props}/>
+                          </Suspense>
+                      )} />
+                      <Route path="/user-profile/friends" render={(props) => (
+                          <Suspense fallback={<SquareFold />}>
+                             <Friends {...props}/>
                           </Suspense>
                       )} />
                     </Switch>

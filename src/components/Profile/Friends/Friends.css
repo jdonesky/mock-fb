@@ -1,0 +1,27 @@
+.FriendsContainer {
+    position: relative;
+    top: 20px;
+    z-index: 5;
+    width: 100%;
+    max-width: 930px;
+    margin: 20px auto;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
+    display: flex;
+    align-content: stretch;
+    background: white;
+}
+
+.HeaderSection {
+    height: 50px;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.Title:hover {
+    text-decoration: underline;
+}
