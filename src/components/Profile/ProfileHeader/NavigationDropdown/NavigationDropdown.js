@@ -67,7 +67,6 @@ const navDropdown = (props) => {
     }
 
     const onClickTab = (path) => {
-        console.log('clicked')
         props.history.push(path);
     }
 

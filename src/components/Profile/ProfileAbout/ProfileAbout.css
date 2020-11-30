@@ -16,6 +16,10 @@
      background: white;
  }
 
+.AboutContainer::-webkit-scrollbar {
+    display: none;
+}
+
 .IndexContainer {
     display: flex;
     flex-flow: column;

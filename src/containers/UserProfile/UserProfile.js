@@ -17,11 +17,15 @@ import classes from "./UserProfile.css";
 import SquareFold from "../../components/UI/Spinner/SquareFold";
 
 const ProfileAbout = React.lazy(() => {
-  return import('../../components/Profile/ProfileAbout/ProfileAbout')
+  return import('../../components/Profile/ProfileAbout/ProfileAbout');
 })
 
 const Friends = React.lazy(() => {
-    return import('../../components/Profile/Friends/Friends')
+    return import('../../components/Profile/Friends/Friends');
+})
+
+const Photos = React.lazy(() => {
+    return import('../../components/Profile/Photos/Photos');
 })
 
 const userProfile = (props) => {
@@ -54,6 +58,11 @@ const userProfile = (props) => {
                       <Route path="/user-profile/friends" render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                              <Friends {...props}/>
+                          </Suspense>
+                      )} />
+                      <Route path="/user-profile/photos" render={(props) => (
+                          <Suspense fallback={<SquareFold />}>
+                              <Photos {...props}/>
                           </Suspense>
                       )} />
                     </Switch>
