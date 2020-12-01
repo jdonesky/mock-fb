@@ -1,5 +1,6 @@
 
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
 import classes from './Friends.css';
 import Searchbar from '../../Search/Searchbar';
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
@@ -8,11 +9,8 @@ import Dots from '../../../assets/images/dots';
 const friends = (props) => {
 
     const [filter, setFilter] = useState('ALL')
+    const [selectedFriends, setSelectedFriends] = useState(null);
     const {width, height} = getWindowDimensions();
-
-    const toggleFilter = (filter) => {
-        setFilter(filter);
-    }
 
     const allButtonClasses = [classes.FilterButton];
     const birthdaysButtonClasses = [classes.FilterButton];
@@ -20,24 +18,41 @@ const friends = (props) => {
     const hometownButtonClasses = [classes.FilterButton];
     const followingButtonClasses = [classes.FilterButton];
 
-    switch (filter) {
-        case 'ALL':
-            allButtonClasses.push(classes.ActiveFilter);
-            break;
-        case 'BIRTHDAYS':
-            birthdaysButtonClasses.push(classes.ActiveFilter);
-            break;
-        case 'CURRENT_CITY':
-            currentCityButtonClasses.push(classes.ActiveFilter);
-            break;
-        case 'HOMETOWN':
-            hometownButtonClasses.push(classes.ActiveFilter);
-            break;
-        case 'FOLLOWING':
-            followingButtonClasses.push(classes.ActiveFilter);
-            break;
-        default:
-            allButtonClasses.push(classes.ActiveFilter);
+    let allFriends;
+    let birthdays;
+    let currentCity;
+    let hometown;
+    let following;
+    if (props.friends && props.friends.length) {
+
+    }
+
+    const toggleFilter = (filter) => {
+        setFilter(filter);
+        switch (filter) {
+            case 'ALL':
+                allButtonClasses.push(classes.ActiveFilter);
+                setSelectedFriends(allFriends);
+                break;
+            case 'BIRTHDAYS':
+                birthdaysButtonClasses.push(classes.ActiveFilter);
+                setSelectedFriends(birthdays);
+                break;
+            case 'CURRENT_CITY':
+                currentCityButtonClasses.push(classes.ActiveFilter);
+                setSelectedFriends(currentCity);
+                break;
+            case 'HOMETOWN':
+                hometownButtonClasses.push(classes.ActiveFilter);
+                setSelectedFriends(hometown);
+                break;
+            case 'FOLLOWING':
+                followingButtonClasses.push(classes.ActiveFilter);
+                setSelectedFriends(following);
+                break;
+            default:
+                allButtonClasses.push(classes.ActiveFilter);
+        }
     }
 
     return (
@@ -82,9 +97,20 @@ const friends = (props) => {
                     Following
                 </div>
             </section>
+            <section className={classes.FriendsSection}>
+
+            </section>
         </div>
     )
 
 }
 
-export default friends;
+const mapStateToProps = state => {
+    return {
+        authToken: state.auth.token,
+        friends: state.profile.friends
+    }
+}
+
+
+export default connect(mapStateToProps)(friends);
