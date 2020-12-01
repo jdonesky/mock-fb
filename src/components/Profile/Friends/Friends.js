@@ -3,8 +3,13 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import classes from './Friends.css';
 import Searchbar from '../../Search/Searchbar';
+import Friend from './Friend/Friend';
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 import Dots from '../../../assets/images/dots';
+import InlineDots from '../../../components/UI/Spinner/InlineDots';
+
+import K from '../../../assets/images/Raster/kaleidoscope.jpg'
+import D from '../../../assets/images/Raster/d.png'
 
 const friends = (props) => {
 
@@ -23,36 +28,72 @@ const friends = (props) => {
     let currentCity;
     let hometown;
     let following;
-    if (props.friends && props.friends.length) {
+    // if (props.friends && props.friends.length) {
+    //     allFriends = props.friends.map(friend => (<Friend />))
+    // }
 
-    }
+    const sampleFriends = [
+        {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D}]},
+        {name: 'Mary Smith',userId: 2, profileImage: D},
+        {name: 'Jimmy John',userId: 3, profileImage: K, friends:[
+            {name: 'Mary Smith',userId: 2, profileImage: D},
+            {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D}]}
+            ]
+        },
+        {name: 'Franklin Moore', userId: 4, profileImage: D, friends: [{name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D}]}]}
+    ]
+
+    const exampleFriends = sampleFriends.map(friend => (
+        <Friend
+            name={friend.name}
+            key={friend.userId}
+            userId={friend.userId}
+            profileImage={friend.profileImage}
+            myFriends={sampleFriends}
+            theirFriends={friend.friends}
+        />))
 
     const toggleFilter = (filter) => {
         setFilter(filter);
         switch (filter) {
             case 'ALL':
-                allButtonClasses.push(classes.ActiveFilter);
                 setSelectedFriends(allFriends);
                 break;
             case 'BIRTHDAYS':
-                birthdaysButtonClasses.push(classes.ActiveFilter);
                 setSelectedFriends(birthdays);
                 break;
             case 'CURRENT_CITY':
-                currentCityButtonClasses.push(classes.ActiveFilter);
                 setSelectedFriends(currentCity);
                 break;
             case 'HOMETOWN':
-                hometownButtonClasses.push(classes.ActiveFilter);
                 setSelectedFriends(hometown);
                 break;
             case 'FOLLOWING':
-                followingButtonClasses.push(classes.ActiveFilter);
                 setSelectedFriends(following);
                 break;
             default:
-                allButtonClasses.push(classes.ActiveFilter);
+                setSelectedFriends(allFriends);
         }
+    }
+
+    switch (filter) {
+        case 'ALL':
+            allButtonClasses.push(classes.ActiveFilter);
+            break;
+        case 'BIRTHDAYS':
+            birthdaysButtonClasses.push(classes.ActiveFilter);
+            break;
+        case 'CURRENT_CITY':
+            currentCityButtonClasses.push(classes.ActiveFilter);
+            break;
+        case 'HOMETOWN':
+            hometownButtonClasses.push(classes.ActiveFilter);
+            break;
+        case 'FOLLOWING':
+            followingButtonClasses.push(classes.ActiveFilter);
+            break;
+        default:
+            allButtonClasses.push(classes.ActiveFilter);
     }
 
     return (
@@ -98,7 +139,7 @@ const friends = (props) => {
                 </div>
             </section>
             <section className={classes.FriendsSection}>
-
+                {exampleFriends|| <InlineDots />}
             </section>
         </div>
     )

@@ -44,7 +44,9 @@ const app = (props) => {
 
     useEffect(() => {
         onReloadApp();
-        onFetchProfile(userId, authToken);
+        if (authToken) {
+            onFetchProfile(userId, authToken);
+        }
     }, [authToken, userId, onFetchProfile, onReloadApp])
 
 

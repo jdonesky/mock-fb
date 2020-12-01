@@ -18,7 +18,7 @@ const chooseCategory = (props) => {
     }
 
     const categories = ['Work','Education','Relationship','Home','Family','Travel','Interests','Health','Milestones','Remembrance','Custom']
-    const buttons = categories.map(category => <CategoryButton clicked={() => onCategorySelect(category)} type={category} />)
+    const buttons = categories.map((category, i) => <CategoryButton key={i} clicked={() => onCategorySelect(category)} type={category} />)
 
     return (
         <div className={classes.EventCategoryModal} style={{display: !props.show && 'none'}}>
