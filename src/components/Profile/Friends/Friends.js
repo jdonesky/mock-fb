@@ -13,6 +13,7 @@ import D from '../../../assets/images/Raster/d.png'
 
 import {checkBirthday} from "../../../shared/utility";
 
+
 const friends = (props) => {
 
     useEffect(() => {

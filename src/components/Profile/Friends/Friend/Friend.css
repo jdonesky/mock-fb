@@ -41,6 +41,7 @@
 
 .ProfileImage:hover {
     filter: saturate(3);
+    background-color: rgba(0,0,0,0.05);
 }
 
 .ProfileImage svg {
@@ -113,3 +114,44 @@
     background-color: rgba(176, 200, 232, 0.8);
 }
 
+.OptionsDropdownPositioner {
+    position: relative;
+}
+
+.OptionsDropdown {
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 120px;
+    z-index: 2;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 3px 5px 3px rgba(0,0,0,0.1);
+}
+
+.DropdownOptionsButton {
+    height: 35px;
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.DropdownOptionsButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.DropdownIcon {
+    height: 30px;
+    width: 30px;
+    margin-right: 12px;
+}
+
+.DropdownIcon svg {
+    height: auto;
+    width: 70%;
+    position: relative;
+}
