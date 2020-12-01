@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import classes from './Friends.css';
 import Searchbar from '../../Search/Searchbar';
@@ -11,7 +11,14 @@ import InlineDots from '../../../components/UI/Spinner/InlineDots';
 import K from '../../../assets/images/Raster/kaleidoscope.jpg'
 import D from '../../../assets/images/Raster/d.png'
 
+import {checkBirthday} from "../../../shared/utility";
+
 const friends = (props) => {
+
+    useEffect(() => {
+        setSelectedFriends(exAllFriends);
+        console.log(props.hometown.name)
+    }, [])
 
     const [filter, setFilter] = useState('ALL')
     const [selectedFriends, setSelectedFriends] = useState(null);
@@ -28,49 +35,56 @@ const friends = (props) => {
     let currentCity;
     let hometown;
     let following;
-    // if (props.friends && props.friends.length) {
-    //     allFriends = props.friends.map(friend => (<Friend />))
-    // }
+    if (props.friends && props.friends.length) {
+        allFriends = props.friends.map(friend => (<Friend {...friend} myFriends={props.friends}/>))
+        birthdays = props.friends.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend {...friend} myFriends={props.friends}/>))
+        currentCity = props.friends.filter(friend => friend.currentLocation === props.currentLocation).map(friend => (<Friend {...friend} myFriends={props.friends}/>))
+        hometown = props.friends.filter(friend => friend.hometown === props.hometown).map(friend => (<Friend {...friend} myFriends={props.friends}/>))
+    }
 
     const sampleFriends = [
-        {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D}]},
-        {name: 'Mary Smith',userId: 2, profileImage: D},
-        {name: 'Jimmy John',userId: 3, profileImage: K, friends:[
-            {name: 'Mary Smith',userId: 2, profileImage: D},
-            {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D}]}
+        {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993')},
+        {name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990'),hometown: 'Chevy Chase'},
+        {name: 'Jimmy John',userId: 3, profileImage: K, friends: [
+            {name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')},
+            {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993'), currentLocation: 'washington dc'}
             ]
         },
-        {name: 'Franklin Moore', userId: 4, profileImage: D, friends: [{name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D}]}]}
+        {name: 'Franklin Moore', userId: 4, profileImage: D, friends: [{name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993')}],birthday: new Date('7-10-1996'),  currentLocation: 'washington dc'}
     ]
 
-    const exampleFriends = sampleFriends.map(friend => (
+    const exAllFriends = sampleFriends.map(friend => (
         <Friend
-            name={friend.name}
-            key={friend.userId}
-            userId={friend.userId}
-            profileImage={friend.profileImage}
+            {...friend}
             myFriends={sampleFriends}
-            theirFriends={friend.friends}
         />))
+
+    const exBirthdays = sampleFriends.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
+    const exCurrentCity = sampleFriends.filter(friend => friend.currentLocation === props.currentLocation).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
+    const exHometown = sampleFriends.filter(friend => friend.hometown === props.hometown.name).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
 
     const toggleFilter = (filter) => {
         setFilter(filter);
         switch (filter) {
             case 'ALL':
-                setSelectedFriends(allFriends);
+                // setSelectedFriends(allFriends);
+                setSelectedFriends(exAllFriends);
                 break;
             case 'BIRTHDAYS':
-                setSelectedFriends(birthdays);
+                // setSelectedFriends(birthdays);
+                setSelectedFriends(exBirthdays);
                 break;
             case 'CURRENT_CITY':
-                setSelectedFriends(currentCity);
+                // setSelectedFriends(currentCity);
+                setSelectedFriends(exCurrentCity);
                 break;
             case 'HOMETOWN':
-                setSelectedFriends(hometown);
+                // setSelectedFriends(hometown);
+                setSelectedFriends(exHometown);
                 break;
             case 'FOLLOWING':
-                setSelectedFriends(following);
-                break;
+                // setSelectedFriends(following);
+                 break;
             default:
                 setSelectedFriends(allFriends);
         }
@@ -139,7 +153,7 @@ const friends = (props) => {
                 </div>
             </section>
             <section className={classes.FriendsSection}>
-                {exampleFriends|| <InlineDots />}
+                {selectedFriends || <InlineDots />}
             </section>
         </div>
     )
@@ -149,7 +163,9 @@ const friends = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
-        friends: state.profile.friends
+        friends: state.profile.friends,
+        currentLocation: state.profile.currentLocation,
+        hometown: state.profile.hometown,
     }
 }
 

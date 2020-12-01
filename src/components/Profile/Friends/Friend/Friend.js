@@ -1,5 +1,5 @@
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import classes from './Friend.css';
 
 import Avatar from '../../../../assets/images/profile-placeholder-gender-neutral';
@@ -13,8 +13,8 @@ const friend = (props) => {
     }
 
     let mutualFriends;
-    if (props.theirFriends && props.theirFriends.length) {
-        mutualFriends = props.myFriends.filter(myFriend => props.theirFriends.map(theirFriend => theirFriend.userId).includes(myFriend.userId))
+    if (props.friends && props.friends.length) {
+        mutualFriends = props.myFriends.filter(myFriend => props.friends.map(theirFriend => theirFriend.userId).includes(myFriend.userId))
     }
 
     return (
@@ -25,7 +25,7 @@ const friend = (props) => {
                 </div>
                 <div className={classes.NameTag}>
                     <h3 className={classes.Name}>{props.name}</h3>
-                    <p className={classes.MutualFriendCount}>{`${mutualFriends && mutualFriends.length && mutualFriends.length > 0 ? mutualFriends.length : 'No'} mutual friends`}</p>
+                    <p className={classes.MutualFriendCount}>{`${mutualFriends && mutualFriends.length && mutualFriends.length > 0 ? mutualFriends.length : 'No'} mutual friend${mutualFriends && mutualFriends.length && mutualFriends.length === 1 ? '': 's'}`}</p>
                 </div>
             </div>
             <div className={editButtonClasses.join(" ")}>{isFriend !== -1 ? 'Friend' : 'Add Friend'}</div>

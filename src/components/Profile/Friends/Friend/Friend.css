@@ -1,7 +1,7 @@
 .FriendContainer {
     width: 48%;
     height: 100px;
-    margin-bottom: 8px;
+    margin: 4px;
     border-radius: 6px;
     display: flex;
     justify-content: space-between;
@@ -18,7 +18,7 @@
 
 .IdContainer {
     display: flex;
-    width: 60%;
+    width: 80%;
     max-width: 300px;
     min-width: 120px;
     max-height: 80px;
