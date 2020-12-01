@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {connect} from 'react-redux';
 import classes from './Friends.css';
 import Searchbar from '../../Search/Searchbar';
@@ -17,7 +17,6 @@ const friends = (props) => {
 
     useEffect(() => {
         setSelectedFriends(exAllFriends);
-        console.log(props.hometown.name)
     }, [])
 
     const [filter, setFilter] = useState('ALL')
@@ -44,7 +43,7 @@ const friends = (props) => {
 
     const sampleFriends = [
         {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993')},
-        {name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990'),hometown: 'Chevy Chase'},
+        {name: 'Mary Smith',userId: 2, birthday: new Date('1-23-1990'),hometown: 'Chevy Chase'},
         {name: 'Jimmy John',userId: 3, profileImage: K, friends: [
             {name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')},
             {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993'), currentLocation: 'washington dc'}
@@ -53,12 +52,7 @@ const friends = (props) => {
         {name: 'Franklin Moore', userId: 4, profileImage: D, friends: [{name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993')}],birthday: new Date('7-10-1996'),  currentLocation: 'washington dc'}
     ]
 
-    const exAllFriends = sampleFriends.map(friend => (
-        <Friend
-            {...friend}
-            myFriends={sampleFriends}
-        />))
-
+    const exAllFriends = sampleFriends.map(friend => (<Friend{...friend} myFriends={sampleFriends}/>))
     const exBirthdays = sampleFriends.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
     const exCurrentCity = sampleFriends.filter(friend => friend.currentLocation === props.currentLocation).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
     const exHometown = sampleFriends.filter(friend => friend.hometown === props.hometown.name).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
@@ -110,6 +104,16 @@ const friends = (props) => {
             allButtonClasses.push(classes.ActiveFilter);
     }
 
+    const searchFriends = useCallback((searchedName, selectedFriends) => {
+        const filteredFriends = [...selectedFriends]
+            .filter(friend => {
+            const [firstName, lastName] = friend.props.name.split(' ')
+            return firstName.slice(0,searchedName.length).toLowerCase() === searchedName.toLowerCase() || lastName.slice(0,searchedName.length).toLowerCase() === searchedName.toLowerCase()
+        })
+        console.log(filteredFriends)
+        setSelectedFriends(filteredFriends);
+    }, [])
+
     return (
         <div className={classes.FriendsContainer}>
             <section className={classes.HeaderSection}>
@@ -123,7 +127,7 @@ const friends = (props) => {
                     <span>s</span>
                 </div>
                 <div className={classes.HeaderControlsContainer}>
-                    <Searchbar className={classes.SearchBar} iconClass={classes.SearchGlass} placeholder='Search friends'/>
+                    <Searchbar currentlySelected={selectedFriends} filterResults={searchFriends} className={classes.SearchBar} iconClass={classes.SearchGlass} placeholder='Search'/>
                     <div className={classes.TextButton}>
                         Friend Requests
                     </div>

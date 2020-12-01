@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, {useState} from 'react';
 import classes from './Friend.css';
 
 import Avatar from '../../../../assets/images/profile-placeholder-gender-neutral';
 
 const friend = (props) => {
+
 
     const isFriend = props.myFriends.findIndex(friend => friend.userId === props.userId)
     const editButtonClasses = [classes.EditButton];
@@ -17,6 +18,9 @@ const friend = (props) => {
         mutualFriends = props.myFriends.filter(myFriend => props.friends.map(theirFriend => theirFriend.userId).includes(myFriend.userId))
     }
 
+    let editDropdown;
+
+
     return (
         <div className={classes.FriendContainer}>
             <div className={classes.IdContainer}>
@@ -28,7 +32,7 @@ const friend = (props) => {
                     <p className={classes.MutualFriendCount}>{`${mutualFriends && mutualFriends.length && mutualFriends.length > 0 ? mutualFriends.length : 'No'} mutual friend${mutualFriends && mutualFriends.length && mutualFriends.length === 1 ? '': 's'}`}</p>
                 </div>
             </div>
-            <div className={editButtonClasses.join(" ")}>{isFriend !== -1 ? 'Friend' : 'Add Friend'}</div>
+            <div className={editButtonClasses.join(" ")}>{isFriend !== -1 ? 'Friends' : 'Add Friend'}</div>
         </div>
     );
 }
