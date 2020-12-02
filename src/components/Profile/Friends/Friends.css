@@ -41,7 +41,7 @@
     font-size: 20px;
 }
 
-@media(min-width: 797px) {
+@media(min-width: 808px) {
     .Title {
         flex-flow: row;
     }
@@ -103,6 +103,75 @@
     background-color: rgba(0,0,0,0.1);
 }
 
+.MoreButtonBlocker {
+    position: absolute;
+    bottom: -18px;
+    right: 10px;
+    height: 35px;
+    width: 40px;
+    border-radius: 5px;
+    background-color: transparent;
+    z-index: 3;
+    cursor: pointer;
+}
+
+.EditDropdownPositioner {
+    position: relative;
+}
+
+.EditDropdown {
+    position: absolute;
+    top: 19px;
+    right:  -15px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 320px;
+    z-index: 2;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 3px rgba(0,0,0,0.1);
+}
+
+.BaseArrow {
+    border-style: solid;
+    position: absolute;
+    border-color: transparent;
+    border-width: 8px 8px 0 8px;
+    bottom: 118px;
+    left: -10px;
+}
+
+.BaseArrow:after {
+    border-color:  white transparent;
+    border-style: solid;
+    border-width: 0 7px 7px 7px;
+    bottom: 1px;
+    content: "";
+    position: absolute;
+    right: -140px;
+}
+
+.DropdownButton {
+    height: 35px;
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 5px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.DropdownButton span {
+    margin-left: 8px;
+}
+
+.DropdownButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
 .FilterButtonsContainer {
     height: 55px;
     width: 95%;
@@ -113,7 +182,7 @@
 }
 
 .FilterButton {
-    height: 96%;
+    height: 93%;
     border-radius: 5px;
     color: rgba(0,0,0,0.7);
     font-weight: 900;
@@ -137,6 +206,44 @@
 
 .ActiveFilter:hover {
     background-color: white;
+}
+
+.MoreFilterBlocker {
+    height: 50px;
+    width: 50px;
+}
+
+.MoreFiltersDropdownPositioner {
+    position: relative;
+}
+
+.MoreFiltersDropdown {
+    position: absolute;
+    top: 1px;
+    right:  1px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+    z-index: 2;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 3px rgba(0,0,0,0.1);
+}
+
+.MoreFilterButton {
+    height: 35px;
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 5px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.MoreFilterButton span {
+    margin-left: 8px;
 }
 
 .SearchBar input {

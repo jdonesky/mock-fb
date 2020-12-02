@@ -12,16 +12,24 @@ import K from '../../../assets/images/Raster/kaleidoscope.jpg'
 import D from '../../../assets/images/Raster/d.png'
 
 import {checkBirthday} from "../../../shared/utility";
+import OutsideAlerter from "../../../hooks/outsideClickHandler";
 
 
 const friends = (props) => {
 
+    useEffect(() => {
+        console.log(width);
+        console.log(moreFilterButton)
+        console.log(moreFilters)
+    })
     useEffect(() => {
         setSelectedFriends(exAllFriends);
     }, [])
 
     const [filter, setFilter] = useState('ALL')
     const [selectedFriends, setSelectedFriends] = useState(null);
+    const [editing, setEditing] = useState(false);
+    const [moreFiltering, setMoreFiltering] = useState(false);
     const {width, height} = getWindowDimensions();
 
     const allButtonClasses = [classes.FilterButton];
@@ -29,6 +37,60 @@ const friends = (props) => {
     const currentCityButtonClasses = [classes.FilterButton];
     const hometownButtonClasses = [classes.FilterButton];
     const followingButtonClasses = [classes.FilterButton];
+    const moreFilterButtonClasses = [classes.FilterButton];
+
+    const openMoreFiltersDropdown = () => {
+        setMoreFiltering(true);
+    }
+    
+    const closeMoreFiltersDropdown = () => {
+        setMoreFiltering(false);
+    }
+    
+    let moreFiltersDropdown;
+    let moreFilters;
+    let moreFilterButton;
+    if ( width < 769 ) {
+        moreFilterButton = (
+            <div className={moreFilterButtonClasses.join(" ")} onClick={openMoreFiltersDropdown}>
+                More
+            </div>
+        )
+    }
+
+    if (moreFiltering) {
+        // if (props.following && props.following.length && width < 769 ) {
+        if (width < 769) {
+            moreFilters = [{text: 'Hometown', filter: 'HOMETOWN'}, {text: 'following', filter: 'FOLLOWING'}].map(filter => (<div className={classes.MoreFilterButton} onClick={() => toggleFilter(filter.filter)}><span>{filter.text}</span></div>) )
+        }
+
+        moreFiltersDropdown = (
+            <OutsideAlerter action={closeMoreFiltersDropdown}>
+                <div className={classes.MoreFiltersDropdownPositioner}>
+                    <div className={classes.MoreFilterBlocker} onClick={closeMoreFiltersDropdown}/>
+                    <div className={classes.MoreFiltersDropdown}>
+                        {moreFilters}
+                    </div>
+                </div>
+            </OutsideAlerter>
+        )
+    }
+
+    let hometownFilterButton
+    let followingFilterButton;
+    // if (props.following && props.following.length) {
+    if (width >= 769) {
+        hometownFilterButton = (
+            <div className={hometownButtonClasses.join(" ")} onClick={() => toggleFilter('HOMETOWN')}>
+                Hometown
+            </div>
+        );
+        followingFilterButton = (
+            <div className={followingButtonClasses.join(" ")} onClick={() => toggleFilter('FOLLOWING')}>
+                Following
+            </div>
+        )
+    }
 
     let allFriends;
     let birthdays;
@@ -119,6 +181,27 @@ const friends = (props) => {
         setSelectedFriends(filteredFriends);
     }, [])
 
+    const openEditDropdown = () => {
+        setEditing(true);
+    }
+
+    const closeEditDropdown = () => {
+        setEditing(false);
+    }
+
+    let editingDropdown;
+    if (editing) {
+        editingDropdown = (
+            <OutsideAlerter action={closeEditDropdown}>
+                <div className={classes.MoreButtonBlocker} onClick={closeEditDropdown}/>
+                <div className={classes.EditDropdown}>
+                    <div className={classes.BaseArrow}/>
+                    <div className={classes.DropdownButton}><span>Edit Privacy</span></div>
+                </div>
+            </OutsideAlerter>
+        )
+    }
+
     return (
         <div className={classes.FriendsContainer}>
             <section className={classes.HeaderSection}>
@@ -139,8 +222,11 @@ const friends = (props) => {
                     <div className={classes.TextButton}>
                         Find Friends
                     </div>
-                    <div className={classes.MoreOptionsButton}>
+                    <div className={classes.MoreOptionsButton} onClick={openEditDropdown}>
                         <Dots />
+                    </div>
+                    <div className={classes.EditDropdownPositioner}>
+                        {editingDropdown}
                     </div>
                 </div>
             </section>
@@ -154,12 +240,9 @@ const friends = (props) => {
                 <div className={currentCityButtonClasses.join(" ")} onClick={() => toggleFilter('CURRENT_CITY')}>
                     Current City
                 </div>
-                <div className={hometownButtonClasses.join(" ")} onClick={() => toggleFilter('HOMETOWN')}>
-                    Hometown
-                </div>
-                <div className={followingButtonClasses.join(" ")} onClick={() => toggleFilter('FOLLOWING')}>
-                    Following
-                </div>
+                {hometownFilterButton}
+                {followingFilterButton}
+                {moreFilterButton}
             </section>
             <section className={classes.FriendsSection}>
                 {selectedFriends || <InlineDots />}
