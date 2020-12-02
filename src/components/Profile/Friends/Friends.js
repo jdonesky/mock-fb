@@ -34,13 +34,18 @@ const friends = (props) => {
     let birthdays;
     let currentCity;
     let hometown;
-    let following;
     if (props.friends && props.friends.length) {
         allFriends = props.friends.map(friend => (<Friend {...friend} myFriends={props.friends}/>))
         birthdays = props.friends.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend {...friend} myFriends={props.friends}/>))
         currentCity = props.friends.filter(friend => friend.currentLocation === props.currentLocation).map(friend => (<Friend {...friend} myFriends={props.friends}/>))
         hometown = props.friends.filter(friend => friend.hometown === props.hometown).map(friend => (<Friend {...friend} myFriends={props.friends}/>))
     }
+
+    let following;
+    if (props.following && props.following.length) {
+        following = props.following.map(person => (<Friend {...person} myFriends={props.friends && props.friends.length ? props.friends : null}/>))
+    }
+
 
     const sampleFriends = [
         {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993')},
@@ -111,7 +116,6 @@ const friends = (props) => {
             const [firstName, lastName] = friend.props.name.split(' ')
             return firstName.slice(0,searchedName.length).toLowerCase() === searchedName.toLowerCase() || lastName.slice(0,searchedName.length).toLowerCase() === searchedName.toLowerCase()
         })
-        console.log(filteredFriends)
         setSelectedFriends(filteredFriends);
     }, [])
 
@@ -169,6 +173,7 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         friends: state.profile.friends,
+        following: state.profile.following,
         currentLocation: state.profile.currentLocation,
         hometown: state.profile.hometown,
     }

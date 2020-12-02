@@ -4,6 +4,9 @@ import classes from './Friend.css';
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 
 import Avatar from '../../../../assets/images/profile-placeholder-gender-neutral';
+import Favorite from '../../../../assets/images/UserActionIcons/favorite';
+import Unfollow from '../../../../assets/images/UserActionIcons/unfollow';
+import Unfriend from '../../../../assets/images/UserActionIcons/unfriend';
 
 const friend = (props) => {
 
@@ -33,16 +36,17 @@ const friend = (props) => {
     if (editing) {
         editDropdown = (
             <div className={classes.OptionsDropdown}>
+                <div className={classes.BaseArrow}/>
                 <div className={classes.DropdownOptionsButton}>
-                    <div className={classes.DropdownIcon}></div>
+                    <div className={classes.DropdownIcon}><Favorite /></div>
                     <span>Favorites</span>
                 </div>
                 <div className={classes.DropdownOptionsButton}>
-                    <div className={classes.DropdownIcon}></div>
+                    <div className={classes.DropdownIcon}><Unfollow /></div>
                     <span>Unfollow</span>
                 </div>
                 <div className={classes.DropdownOptionsButton}>
-                    <div className={classes.DropdownIcon}></div>
+                    <div className={classes.DropdownIcon}><Unfriend /></div>
                     <span>Unfriend</span>
                 </div>
             </div>
@@ -66,6 +70,7 @@ const friend = (props) => {
             </div>
             <OutsideAlerter action={closeDropdown}>
                 <div className={classes.OptionsDropdownPositioner}>
+                    {editing ? <div className={classes.EditButtonBlocker} onClick={closeDropdown}/> : null}
                     {editDropdown}
                 </div>
             </OutsideAlerter>
