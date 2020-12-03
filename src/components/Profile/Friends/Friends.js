@@ -2,29 +2,35 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {connect} from 'react-redux';
 import classes from './Friends.css';
+
+
 import Searchbar from '../../Search/Searchbar';
 import Friend from './Friend/Friend';
-import getWindowDimensions from "../../../hooks/getWindowDimensions";
-import Dots from '../../../assets/images/dots';
 import InlineDots from '../../../components/UI/Spinner/InlineDots';
+
+import Dots from '../../../assets/images/dots';
 
 import K from '../../../assets/images/Raster/kaleidoscope.jpg'
 import D from '../../../assets/images/Raster/d.png'
 
 import {checkBirthday} from "../../../shared/utility";
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
+import getWindowDimensions from "../../../hooks/getWindowDimensions";
 
 
 const friends = (props) => {
 
     useEffect(() => {
-        console.log(width);
-        console.log(moreFilterButton)
-        console.log(moreFilters)
-    })
-    useEffect(() => {
         setSelectedFriends(exAllFriends);
     }, [])
+
+    useEffect(() => {
+        if (width >= 769) {
+            if (setMoreFiltering) {
+                setMoreFiltering(false);
+            }
+        }
+    })
 
     const [filter, setFilter] = useState('ALL')
     const [selectedFriends, setSelectedFriends] = useState(null);
@@ -47,53 +53,34 @@ const friends = (props) => {
         setMoreFiltering(false);
     }
 
-    let moreFiltersDropdown;
-    let moreFilters;
-    if (moreFiltering) {
-        // if (props.following && props.following.length && width < 769 ) {
-        if (width < 769) {
-            moreFilters = [{text: 'Hometown', filter: 'HOMETOWN'}, {text: 'following', filter: 'FOLLOWING'}].map(filter => (<div className={classes.MoreFilterButton} onClick={() => toggleFilter(filter.filter)}><span>{filter.text}</span></div>) )
-        }
-        if (width < 573) {
-            moreFilters = [{text: 'Current City', filter: 'CURRENT_CITY'},{text: 'Hometown', filter: 'HOMETOWN'}, {text: 'following', filter: 'FOLLOWING'}].map(filter => (<div className={classes.MoreFilterButton} onClick={() => toggleFilter(filter.filter)}><span>{filter.text}</span></div>) )
-        }
+    let currentCityDropdownButtonClasses = [classes.MoreFilterButton]
+    let hometownDropdownButtonClasses = [classes.MoreFilterButton]
+    let followingDropdownButtonClasses = [classes.MoreFilterButton]
+    if (filter === 'CURRENT_CITY') {
+        currentCityDropdownButtonClasses.push(classes.ActiveMoreFilterButton)
+    }
+    if (filter === 'HOMETOWN') {
+        hometownDropdownButtonClasses.push(classes.ActiveMoreFilterButton)
+    }
+    if (filter === 'FOLLOWING') {
+        followingDropdownButtonClasses.push(classes.ActiveMoreFilterButton)
+    }
 
-        moreFiltersDropdown = (
+    const moreFiltersDropdown = (
+        <div style={{display: moreFiltering ? 'block' : 'none'}}>
             <OutsideAlerter action={closeMoreFiltersDropdown}>
                 <div className={classes.MoreFiltersDropdownPositioner}>
                     <div className={classes.MoreFilterBlocker} onClick={closeMoreFiltersDropdown}/>
                     <div className={classes.MoreFiltersDropdown}>
-                        {moreFilters}
+                        {width <= 573 ? <div className={currentCityDropdownButtonClasses.join(" ")} onClick={() => toggleFilter('CURRENT_CITY')}><span>Current City</span></div> : null}
+                        {width <= 769 ? <div className={hometownDropdownButtonClasses.join(" ")} onClick={() => toggleFilter('HOMETOWN')}><span>Hometown</span></div> : null}
+                        {width <= 769 ? <div className={followingDropdownButtonClasses.join(" ")} onClick={() => toggleFilter('FOLLOWING')}><span>Following</span></div> : null}
                     </div>
                 </div>
             </OutsideAlerter>
-        )
-    }
+        </div>
+    )
 
-    let moreFilterButton;
-    if ( width < 769 ) {
-        moreFilterButton = (
-                <div className={moreFilterButtonClasses.join(" ")} onClick={openMoreFiltersDropdown}>
-                    More
-                </div>
-        )
-    }
-
-    let hometownFilterButton
-    let followingFilterButton;
-    // if (props.following && props.following.length) {
-    if (width >= 769) {
-        hometownFilterButton = (
-            <div className={hometownButtonClasses.join(" ")} onClick={() => toggleFilter('HOMETOWN')}>
-                Hometown
-            </div>
-        );
-        followingFilterButton = (
-            <div className={followingButtonClasses.join(" ")} onClick={() => toggleFilter('FOLLOWING')}>
-                Following
-            </div>
-        )
-    }
 
     let allFriends;
     let birthdays;
@@ -111,7 +98,6 @@ const friends = (props) => {
         following = props.following.map(person => (<Friend {...person} myFriends={props.friends && props.friends.length ? props.friends : null}/>))
     }
 
-
     const sampleFriends = [
         {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993')},
         {name: 'Mary Smith',userId: 2, birthday: new Date('1-23-1990'),hometown: 'Chevy Chase'},
@@ -127,6 +113,7 @@ const friends = (props) => {
     const exBirthdays = sampleFriends.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
     const exCurrentCity = sampleFriends.filter(friend => friend.currentLocation === props.currentLocation).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
     const exHometown = sampleFriends.filter(friend => friend.hometown === props.hometown.name).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
+    const exFollowing = sampleFriends.filter(friend => friend.following).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
 
     const toggleFilter = (filter) => {
         setFilter(filter);
@@ -142,13 +129,23 @@ const friends = (props) => {
             case 'CURRENT_CITY':
                 // setSelectedFriends(currentCity);
                 setSelectedFriends(exCurrentCity);
+                if (moreFiltering) {
+                    setMoreFiltering(false);
+                }
                 break;
             case 'HOMETOWN':
                 // setSelectedFriends(hometown);
                 setSelectedFriends(exHometown);
+                if (moreFiltering) {
+                    setMoreFiltering(false);
+                }
                 break;
             case 'FOLLOWING':
                 // setSelectedFriends(following);
+                setSelectedFriends(exFollowing);
+                if (moreFiltering) {
+                    setMoreFiltering(false);
+                }
                  break;
             default:
                 setSelectedFriends(allFriends);
@@ -163,13 +160,25 @@ const friends = (props) => {
             birthdaysButtonClasses.push(classes.ActiveFilter);
             break;
         case 'CURRENT_CITY':
-            currentCityButtonClasses.push(classes.ActiveFilter);
+            if (width > 573) {
+                currentCityButtonClasses.push(classes.ActiveFilter);
+            } else {
+                moreFilterButtonClasses.push(classes.ActiveFilter);
+            }
             break;
         case 'HOMETOWN':
-            hometownButtonClasses.push(classes.ActiveFilter);
+            if (width > 769) {
+                hometownButtonClasses.push(classes.ActiveFilter);
+            } else {
+                moreFilterButtonClasses.push(classes.ActiveFilter);
+            }
             break;
         case 'FOLLOWING':
-            followingButtonClasses.push(classes.ActiveFilter);
+            if (width > 769) {
+                followingButtonClasses.push(classes.ActiveFilter);
+            } else {
+                moreFilterButtonClasses.push(classes.ActiveFilter);
+            }
             break;
         default:
             allButtonClasses.push(classes.ActiveFilter);
@@ -240,12 +249,18 @@ const friends = (props) => {
                 <div className={birthdaysButtonClasses.join(" ")} onClick={() => toggleFilter('BIRTHDAYS')}>
                     Birthdays
                 </div>
-                <div className={currentCityButtonClasses.join(" ")} onClick={() => toggleFilter('CURRENT_CITY')}>
+                <div className={currentCityButtonClasses.join(" ")} onClick={() => toggleFilter('CURRENT_CITY')} style={{display: width <= 573 ? 'none' : 'flex'}}>
                     Current City
                 </div>
-                {hometownFilterButton}
-                {followingFilterButton}
-                {moreFilterButton}
+                <div className={hometownButtonClasses.join(" ")} onClick={() => toggleFilter('HOMETOWN')} style={{display: width <= 769 ? 'none' : 'flex'}}>
+                    Hometown
+                </div>
+                <div className={followingButtonClasses.join(" ")} onClick={() => toggleFilter('FOLLOWING')} style={{display: width <= 769 ? 'none' : 'flex'}}>
+                    Following
+                </div>
+                <div className={moreFilterButtonClasses.join(" ")} onClick={openMoreFiltersDropdown} style={{display: width <= 769 ? 'flex' : 'none'}}>
+                    More
+                </div>
                 {moreFiltersDropdown}
             </section>
             <section className={classes.FriendsSection}>

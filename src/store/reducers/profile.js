@@ -46,6 +46,7 @@ const createProfileSuccess = (state,action) => {
     userId: action.userData.userId,
     firebaseKey: action.userData.userKey,
     postsKey: action.userData.postsKey,
+    publicProfileKey: action.userData.publicProfileKey,
     profileLoading: false
   }
 }
@@ -73,6 +74,7 @@ const fetchProfileSuccess = (state, action) => {
     firebaseKey: action.userData.key || null,
     postsKey: action.userData.postsKey || null,
     userId: action.userData.userId || null,
+    publicProfileKey: action.userData.publicProfileKey || null,
     profileLoading: false,
   };
 };
@@ -98,6 +100,7 @@ const updateProfileSuccess = (state,action) => {
     lifeEvents: action.userData.lifeEvents || null,
     posts: action.userData.posts || null,
     userId: action.userData.userId || null,
+    publicProfileKey: action.userData.publicProfileKey || null,
     contentEntryLoading: false,
   }
 }

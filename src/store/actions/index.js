@@ -24,7 +24,6 @@ export {
    editReplyAttempt,
    deleteReplyAttempt,
    addPostReactionAttempt,
-   editPostReactionAttempt,
 } from "./posts";
 
 export {

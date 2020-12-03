@@ -17,6 +17,7 @@ const updateProfileInit = () => {
   };
 };
 
+
 export const createProfileAttempt =  (token,newUserData) => {
     return dispatch => {
         dispatch(loadProfileInit());
@@ -46,6 +47,11 @@ export const createProfileAttempt =  (token,newUserData) => {
                 .then( response => {
                     userData = {userKey: response.data.name,...userData};
                     console.log('USER DATA WITH USER KEY ', userData)
+                    return axios.post(`/public-profiles.json?auth=${token}`, userData)
+                })
+                .then(response => {
+                    userData = {publicProfileKey: response.data.name,...userData}
+                    console.log('USER DATA WITH PUBLIC PROFILE KEY', userData)
                     dispatch(createProfileSuccess(userData));
                 })
                 .catch(error => {
@@ -60,22 +66,41 @@ export const createProfileAttempt =  (token,newUserData) => {
 //     return dispatch => {
 //         dispatch(loadProfileInit());
 //         let userData;
+//         let postsKey;
 //         KeyGenerator.getKey(token, (newKey) => {
-//             axios.post(`/posts.json?auth=${token}`,[{text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(new Date(), true)}`, date: new Date(), id: newKey}])
+//             const today = new Date();
+//             let yesterday = new Date();
+//             yesterday = new Date(yesterday.setDate(today.getDate() - 1));
+//             const basePost = {text: 'hold postsKey', date: yesterday, id: -1}
+//             axios.post(`/posts.json?auth=${token}`,[basePost, {text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(today, true)}`, date: today, id: newKey}])
 //                 .then(response => {
-//                     userData = {postsKey: response.data.name, ...newUserData}
+//                     postsKey = response.data.name;
+//                     console.log('POSTS KEY', postsKey)
+//                     return axios.get(`/posts/${postsKey}.json?auth=${token}`)
+//                 })
+//                 .then(response => {
+//                     const postsWithKeys = response.data.map(post => ({...post, postsKey: postsKey}))
+//                     console.log('POSTS WITH KEYS', postsWithKeys)
+//                     return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys]);
+//                 })
+//                 .then(response => {
+//                     userData = {postsKey: postsKey, ...newUserData}
+//                     console.log('USER DATA WITH POSTS KEY ', userData)
 //                     return axios.post(`/users.json?auth=${token}`, userData)
 //                 })
 //                 .then( response => {
 //                     userData = {userKey: response.data.name,...userData};
+//                     console.log('USER DATA WITH USER KEY ', userData)
 //                     dispatch(createProfileSuccess(userData));
 //                 })
 //                 .catch(error => {
+//                     console.log(error.message);
 //                     dispatch(updateProfileFail(error))
 //                 })
 //         })
 //     }
 // }
+
 
 const createProfileSuccess = (userData) => {
   return {
@@ -212,7 +237,6 @@ const updateProfileSuccess = (userData) => {
   };
 };
 
-// ------------------------
 
 const updateProfileFail = (error) => {
   return {
@@ -222,40 +246,6 @@ const updateProfileFail = (error) => {
 };
 
 
-// const statusUpdateInit = () => {
-//   return {
-//     type: actionTypes.STATUS_UPDATE_INIT,
-//   };
-// };
-//
-// const statusUpdateSuccess = (status) => {
-//   return {
-//     type: actionTypes.STATUS_UPDATE_SUCCESS,
-//     status: status,
-//   };
-// };
-//
-// const statusUpdateFail = (error) => {
-//   return {
-//     type: actionTypes.STATUS_UPDATE_FAIL,
-//     error: error,
-//   };
-// };
-//
-// export const statusUpdateAttempt = (authToken, statusInfo) => {
-//   return (dispatch) => {
-//     dispatch(statusUpdateInit());
-//     axios
-//       .post("/posts.json?auth=" + authToken, statusInfo)
-//       .then(() => {
-//         dispatch(statusUpdateSuccess(statusInfo.status));
-//       })
-//       .catch((error) => {
-//         dispatch(statusUpdateFail(error));
-//       });
-//   };
-// };
-
 export const clearProfile = () => {
   return {
     type: actionTypes.CLEAR_PROFILE,
@@ -263,44 +253,3 @@ export const clearProfile = () => {
 };
 
 
-// export const updateProfileAttempt = (userProfile, authToken) => {
-//   return (dispatch) => {
-//     dispatch(updateProfileInit());
-//     const postParams = `?auth=${authToken}`;
-//     const fetchFirebaseKeyParams =
-//       "?auth=" +
-//       authToken +
-//       '&orderBy="userId"&equalTo="' +
-//       userProfile.userId +
-//       '"';
-//     axios.get("/users.json" + fetchFirebaseKeyParams).then((response) => {
-//       const matchingKey = Object.keys(response.data).map((key) => {
-//         return key;
-//       });
-//       console.log(matchingKey)
-//       console.log(matchingKey[0]);
-//       if (matchingKey[0]) {
-//         const deleteParams = `/${matchingKey[0]}.json/?auth=${authToken}`;
-//         axios.delete("/users" + deleteParams).then((response) => {
-//           axios
-//             .post("/users.json" + postParams, userProfile)
-//             .then((response) => {
-//               dispatch(updateProfileSuccess(userProfile));
-//             })
-//             .catch((err) => {
-//               dispatch(updateProfileFail(err));
-//             });
-//         });
-//       } else {
-//         axios
-//           .post("/users.json" + postParams, userProfile)
-//           .then((response) => {
-//             dispatch(updateProfileSuccess(userProfile));
-//           })
-//           .catch((err) => {
-//             dispatch(updateProfileFail(err));
-//           });
-//       }
-//     });
-//   };
-// };

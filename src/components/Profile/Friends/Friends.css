@@ -175,6 +175,7 @@
 .FilterButtonsContainer {
     height: 55px;
     width: 95%;
+    min-width: 350px;
     margin: 0 auto;
     display: flex;
     justify-content: space-evenly;
@@ -197,6 +198,7 @@
     background-color: rgba(0,0,0,0.05);
 }
 
+
 .ActiveFilter {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
@@ -210,7 +212,13 @@
 
 .MoreFilterBlocker {
     height: 50px;
-    width: 50px;
+    width: 70px;
+    position: absolute;
+    bottom: -25px;
+    left: -80px;
+    border-radius: 5px;
+    background-color: transparent;
+    cursor:pointer;
 }
 
 .MoreFiltersDropdownPositioner {
@@ -219,13 +227,14 @@
 
 .MoreFiltersDropdown {
     position: absolute;
-    top: 40px;
+    top: 30px;
     right:  1px;
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
     width: 320px;
+    padding: 8px 0;
     z-index: 2;
     background-color: white;
     border-radius: 5px;
@@ -236,14 +245,23 @@
     height: 35px;
     width: 95%;
     display: flex;
+    margin: 2px 0;
     justify-content: flex-start;
     border-radius: 5px;
     align-items: center;
     cursor: pointer;
 }
 
+.MoreFilterButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
 .MoreFilterButton span {
     margin-left: 8px;
+}
+
+.ActiveMoreFilterButton {
+    background-color: rgba(0,0,0,0.05);
 }
 
 .SearchBar input {
@@ -256,6 +274,7 @@
 
 .FriendsSection {
     width: 95%;
+    min-width: 410px;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
