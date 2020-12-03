@@ -46,22 +46,16 @@ const friends = (props) => {
     const closeMoreFiltersDropdown = () => {
         setMoreFiltering(false);
     }
-    
+
     let moreFiltersDropdown;
     let moreFilters;
-    let moreFilterButton;
-    if ( width < 769 ) {
-        moreFilterButton = (
-            <div className={moreFilterButtonClasses.join(" ")} onClick={openMoreFiltersDropdown}>
-                More
-            </div>
-        )
-    }
-
     if (moreFiltering) {
         // if (props.following && props.following.length && width < 769 ) {
         if (width < 769) {
             moreFilters = [{text: 'Hometown', filter: 'HOMETOWN'}, {text: 'following', filter: 'FOLLOWING'}].map(filter => (<div className={classes.MoreFilterButton} onClick={() => toggleFilter(filter.filter)}><span>{filter.text}</span></div>) )
+        }
+        if (width < 573) {
+            moreFilters = [{text: 'Current City', filter: 'CURRENT_CITY'},{text: 'Hometown', filter: 'HOMETOWN'}, {text: 'following', filter: 'FOLLOWING'}].map(filter => (<div className={classes.MoreFilterButton} onClick={() => toggleFilter(filter.filter)}><span>{filter.text}</span></div>) )
         }
 
         moreFiltersDropdown = (
@@ -73,6 +67,15 @@ const friends = (props) => {
                     </div>
                 </div>
             </OutsideAlerter>
+        )
+    }
+
+    let moreFilterButton;
+    if ( width < 769 ) {
+        moreFilterButton = (
+                <div className={moreFilterButtonClasses.join(" ")} onClick={openMoreFiltersDropdown}>
+                    More
+                </div>
         )
     }
 
@@ -243,6 +246,7 @@ const friends = (props) => {
                 {hometownFilterButton}
                 {followingFilterButton}
                 {moreFilterButton}
+                {moreFiltersDropdown}
             </section>
             <section className={classes.FriendsSection}>
                 {selectedFriends || <InlineDots />}

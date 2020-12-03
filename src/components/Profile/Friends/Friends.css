@@ -219,7 +219,7 @@
 
 .MoreFiltersDropdown {
     position: absolute;
-    top: 1px;
+    top: 40px;
     right:  1px;
     display: flex;
     flex-flow: column;
