@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
 import {KeyGenerator} from "../../shared/utility";
 import {convertDatetime} from "../../shared/utility";
+import post from "../../components/Users/Post/Post";
 
 
 const loadProfileInit = () => {
@@ -17,12 +18,14 @@ const updateProfileInit = () => {
   };
 };
 
-
 export const createProfileAttempt =  (token,newUserData) => {
     return dispatch => {
         dispatch(loadProfileInit());
         let userData;
         let postsKey;
+        let userKey;
+        let publicProfileKey;
+        let postsWithKeys;
         KeyGenerator.getKey(token, (newKey) => {
             const today = new Date();
             let yesterday = new Date();
@@ -35,7 +38,7 @@ export const createProfileAttempt =  (token,newUserData) => {
                     return axios.get(`/posts/${postsKey}.json?auth=${token}`)
                 })
                 .then(response => {
-                    const postsWithKeys = response.data.map(post => ({...post, postsKey: postsKey}))
+                    postsWithKeys = response.data.map(post => ({...post, postsKey: postsKey}))
                     console.log('POSTS WITH KEYS', postsWithKeys)
                     return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys]);
                 })
@@ -44,13 +47,27 @@ export const createProfileAttempt =  (token,newUserData) => {
                     console.log('USER DATA WITH POSTS KEY ', userData)
                     return axios.post(`/users.json?auth=${token}`, userData)
                 })
+                .then(response => {
+                    userKey = response.data.name
+                    userData = {userKey: userKey,...userData};
+                    postsWithKeys = postsWithKeys.map(post => ({...post, userKey: userKey}))
+                    console.log('POSTS WITH USER AND POSTS KEYS', postsWithKeys)
+                    return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys])
+                })
                 .then( response => {
-                    userData = {userKey: response.data.name,...userData};
                     console.log('USER DATA WITH USER KEY ', userData)
                     return axios.post(`/public-profiles.json?auth=${token}`, userData)
                 })
                 .then(response => {
-                    userData = {publicProfileKey: response.data.name,...userData}
+                    publicProfileKey = response.data.name;
+                    userData = {publicProfileKey: publicProfileKey,...userData}
+                    return axios.put(`users/${userKey}.json?auth=${token}`, userData)
+                })
+                .then(response => {
+                    postsWithKeys = postsWithKeys.map(post => ({...post, publicProfileKey: publicProfileKey}))
+                    return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys])
+                })
+                .then(response => {
                     console.log('USER DATA WITH PUBLIC PROFILE KEY', userData)
                     dispatch(createProfileSuccess(userData));
                 })
@@ -61,6 +78,8 @@ export const createProfileAttempt =  (token,newUserData) => {
         })
     }
 }
+
+
 
 // export const createProfileAttempt =  (token,newUserData) => {
 //     return dispatch => {
@@ -91,6 +110,11 @@ export const createProfileAttempt =  (token,newUserData) => {
 //                 .then( response => {
 //                     userData = {userKey: response.data.name,...userData};
 //                     console.log('USER DATA WITH USER KEY ', userData)
+//                     return axios.post(`/public-profiles.json?auth=${token}`, userData)
+//                 })
+//                 .then(response => {
+//                     userData = {publicProfileKey: response.data.name,...userData}
+//                     console.log('USER DATA WITH PUBLIC PROFILE KEY', userData)
 //                     dispatch(createProfileSuccess(userData));
 //                 })
 //                 .catch(error => {

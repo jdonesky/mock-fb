@@ -171,6 +171,6 @@ export class KeyGenerator {
 export const checkBirthday = (date) => {
   let thisMonth = new Date().getMonth();
   const birthdayMonth = new Date(date).getMonth();
-  return thisMonth == birthdayMonth + 1;
+  return thisMonth === birthdayMonth + 1;
 }
 

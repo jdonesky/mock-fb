@@ -274,10 +274,10 @@ const friends = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
-        friends: state.profile.friends,
-        following: state.profile.following,
-        currentLocation: state.profile.currentLocation,
-        hometown: state.profile.hometown,
+        friends: state.profile.friends || [],
+        following: state.profile.following || [],
+        currentLocation: state.profile.currentLocation || '',
+        hometown: state.profile.hometown || {name: ''},
     }
 }
 

@@ -9,6 +9,7 @@ const initialState = {
   location: null,
   firebaseKey: null,
   postsKey: null,
+  publicProfileKey: null,
   userId: null,
   error: null,
   profileLoading: false,
