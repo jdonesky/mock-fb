@@ -147,6 +147,16 @@
     cursor: pointer;
 }
 
+.SignUpModal {
+    position: absolute;
+    top: 130px;
+    left: 20px;
+}
+
+.SignUpBackdrop {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 .Break {
     height: 1px;
     width: 80%;

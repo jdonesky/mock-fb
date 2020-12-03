@@ -1,9 +1,25 @@
-import React from "react";
+import React, {useEffect} from "react";
 import classes from "./Backdrop.css";
 
-const backdrop = (props) =>
-  props.show ? (
-    <div className={classes.Backdrop} onClick={props.close}></div>
-  ) : null;
+const backdrop = (props) => {
+  // useEffect(() => {
+  //   console.log(props.backdropClass)
+  // })
+  let backdropClasses = [classes.Backdrop]
+  if (props.backdropClass) {
+    backdropClasses.push(props.backdropClass)
+  }
+
+
+  let backdrop;
+  if (props.show) {
+    backdrop = <div className={backdropClasses.join(" ")} onClick={props.close}></div>
+  } else {
+    backdrop = null;
+  }
+
+  return backdrop;
+}
+
 
 export default backdrop;

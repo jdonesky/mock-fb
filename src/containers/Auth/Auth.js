@@ -3,12 +3,15 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { fieldBuilder, validityCheck } from "../../shared/utility";
 import Input from "../../components/UI/Input/Input";
+import SignUp from './SignUp';
 import Modal from "../../components/UI/Modal/Modal";
 import * as actions from "../../store/actions/index";
 import classes from "./Auth.css";
 
 
 const auth = props => {
+
+  const [signingUp, setSigningUp] = useState(false);
 
   const [formInputs, setFormInputs] = useState(
       {
@@ -60,7 +63,8 @@ const auth = props => {
   };
 
   const switchModeHandler = () => {
-    props.history.push('/sign-up')
+    // props.history.push('/sign-up')
+    setSigningUp(true);
   };
 
   const confirmErrorHandler = () => {
@@ -68,7 +72,6 @@ const auth = props => {
       props.onResetError();
     }
   };
-
 
   let formFields = Object.keys(formInputs).map((key) => {
     if (key === 'password') {
@@ -101,6 +104,15 @@ const auth = props => {
       />)
     }
   });
+
+  const cancelSignup = () => setSigningUp(false);
+
+  const signUpModal = (
+        <Modal show={signingUp} close={cancelSignup} className={classes.SignUpModal} backdropClass={classes.SignUpBackdrop}>
+          <SignUp />
+        </Modal>
+  )
+
 
   let authRedirect = props.isAuthenticated ? (
     <Redirect to="/user-profile" />
@@ -135,6 +147,7 @@ const auth = props => {
   return (
       <div className={classes.AuthPage}>
         {authRedirect}
+        {signUpModal}
         {errorModal}
         <div className={classes.AuthContainer}>
           <div className={classes.TextContainer}>

@@ -133,17 +133,13 @@ if (props.error) {
   );
 
   return (
-      <React.Fragment>
-          {authRedirect}
-          {errorModal}
-          <form className={classes.Form} onSubmit={(event) => createAccountHandler(event)}>
-              <h1>Sign Up</h1>
-              <p>It's quick and easy.</p>
-              <div className={classes.Break} style={{width: "100%"}}/>
-              {formFields}
-              <button className={classes.SignUpButton} type="submit">Sign Up</button>
-          </form>
-      </React.Fragment>
+      <form className={classes.Form} onSubmit={(event) => createAccountHandler(event)}>
+          <h1>Sign Up</h1>
+          <p>It's quick and easy.</p>
+          <div className={classes.Break} style={{width: "100%"}}/>
+          {formFields}
+          <button className={classes.SignUpButton} type="submit">Sign Up</button>
+      </form>
   );
 }
 
