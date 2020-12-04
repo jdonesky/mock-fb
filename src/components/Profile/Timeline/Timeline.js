@@ -12,15 +12,13 @@ import Posts from './Posts/Posts'
 const timeLine = () => {
 
     return (
-        <div className={classes.TimelineContainer}>
-            <div className={classes.Timeline}>
-                <Intro />
-                <Photos />
-                <Friends />
-                <LifeEvents />
-                <CreatePost />
-                <Posts />
-            </div>
+        <div className={classes.Timeline}>
+            <Intro />
+            <Photos />
+            <Friends />
+            <LifeEvents />
+            <CreatePost />
+            <Posts />
         </div>
     )
 }

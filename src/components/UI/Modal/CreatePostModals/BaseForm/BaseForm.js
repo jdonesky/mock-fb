@@ -23,7 +23,7 @@ import InlineDots from '../../../Spinner/InlineDots';
 
 const baseForm = (props) => {
 
-    const textRef = useRef();
+    const textRef = useRef(null);
 
     const postContext = useContext(PostContext);
     const backgroundContainer = useRef(null);

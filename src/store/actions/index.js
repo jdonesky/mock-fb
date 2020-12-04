@@ -14,6 +14,7 @@ export {
 
 export {
    fetchSelfPostsAttempt,
+   fetchOthersPostsAttempt,
    addPostAttempt,
    editPostAttempt,
    deletePostAttempt,

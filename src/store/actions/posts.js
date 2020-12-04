@@ -552,29 +552,39 @@ const fetchSelfPostsFail = (error) => {
     }
 }
 
-const fetchFriendsPostsInit = () => {
+
+const fetchOthersPostsInit = () => {
     return {
-        type: actionTypes.FETCH_FRIENDS_POSTS_INIT
+        type: actionTypes.FETCH_OTHERS_POSTS_INIT
     }
 }
 
 
-const fetchFriendsPostsAttempt = () => {
+export const fetchOthersPostsAttempt = (authToken) => {
     return dispatch => {
-        dispatch(fetchFriendsPostsInit())
+        dispatch(fetchOthersPostsInit())
+        axios.get(`/posts.json?auth=${authToken}`)
+            .then(response => {
+                const posts = response.data;
+                console.log(posts);
+                // dispatch(fetchOthersPostsSuccess(posts))
+            })
+            .catch(error => {
+                dispatch(fetchOthersPostsFail(error));
+            })
     }
 }
 
-const fetchFriendsPostsSuccess = (posts) => {
+const fetchOthersPostsSuccess = (posts) => {
     return {
-        type: actionTypes.FETCH_FRIENDS_POSTS_SUCCESS,
+        type: actionTypes.FETCH_OTHERS_POSTS_SUCCESS,
         posts: posts
     }
 }
 
-const fetchFriendsPostsFail = (error) => {
+const fetchOthersPostsFail = (error) => {
     return {
-        type: actionTypes.FETCH_FRIENDS_POSTS_FAIL,
+        type: actionTypes.FETCH_OTHERS_POSTS_FAIL,
         error: error
     }
 }

@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   posts: [],
+  othersPosts: [],
   loadingNewPost: false,
   editingPost: false,
   deletingPost: false,
@@ -14,7 +15,7 @@ const initialState = {
   editingReply: false,
   deletingReply: false,
   loadingSelfPosts: false,
-  loadingFriendPosts: false,
+  loadingOthersPosts: false,
   error: null,
 };
 
@@ -274,26 +275,26 @@ const fetchSelfPostsFail = (state,action) => {
     }
 }
 
-const fetchFriendsPostsInit = (state,action) => {
+const fetchOthersPostsInit = (state,action) => {
     return {
         ...state,
-        loadingFriendPosts: true
+        loadingOthersPosts: true
     }
 }
 
-const fetchFriendsPostsSuccess = (state,action) => {
+const fetchOthersPostsSuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
-        loadingFriendPosts: false
+        othersPosts: action.posts,
+        loadingOthersPosts: false
     }
 }
 
-const fetchFriendsPostsFail = (state,action) => {
+const fetchOthersPostsFail = (state,action) => {
     return {
         ...state,
         error: action.error,
-        loadingFriendPosts: false
+        loadingOthersPosts: false
     }
 }
 
@@ -303,6 +304,9 @@ const reducer = (state = initialState, action) => {
       case actionTypes.FETCH_SELF_POSTS_INIT: return fetchSelfPostsInit(state,action);
       case actionTypes.FETCH_SELF_POSTS_SUCCESS: return fetchSelfPostsSuccess(state,action);
       case actionTypes.FETCH_SELF_POSTS_FAIL: return fetchSelfPostsFail(state,action);
+      case actionTypes.FETCH_OTHERS_POSTS_INIT: return fetchOthersPostsInit(state,action);
+      case actionTypes.FETCH_OTHERS_POSTS_SUCCESS: return fetchOthersPostsSuccess(state,action);
+      case actionTypes.FETCH_OTHERS_POSTS_FAIL: return fetchOthersPostsFail(state,action);
       case actionTypes.ADD_POST_INIT: return addPostInit(state,action);
       case actionTypes.ADD_POST_SUCCESS: return addPostSuccess(state,action);
       case actionTypes.ADD_POST_FAIL: return addPostFail(state,action);

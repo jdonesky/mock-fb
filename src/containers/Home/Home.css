@@ -1,0 +1,19 @@
+
+
+.HomeContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.PostsSection {
+    position: relative;
+    top: 70px;
+    width: 80%;
+    max-width: 930px;
+    margin: 20px auto;
+    display: flex;
+    flex-flow: column;
+}

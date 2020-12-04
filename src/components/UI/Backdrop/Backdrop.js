@@ -2,9 +2,7 @@ import React, {useEffect} from "react";
 import classes from "./Backdrop.css";
 
 const backdrop = (props) => {
-  // useEffect(() => {
-  //   console.log(props.backdropClass)
-  // })
+
   let backdropClasses = [classes.Backdrop]
   if (props.backdropClass) {
     backdropClasses.push(props.backdropClass)

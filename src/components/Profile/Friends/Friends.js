@@ -30,7 +30,7 @@ const friends = (props) => {
                 setMoreFiltering(false);
             }
         }
-    })
+    });
 
     const [filter, setFilter] = useState('ALL')
     const [selectedFriends, setSelectedFriends] = useState(null);
@@ -80,7 +80,6 @@ const friends = (props) => {
             </OutsideAlerter>
         </div>
     )
-
 
     let allFriends;
     let birthdays;

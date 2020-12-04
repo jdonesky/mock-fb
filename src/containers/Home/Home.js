@@ -1,22 +1,43 @@
 
 import React, {useEffect} from 'react';
 import * as actions from '../../store/actions/index';
+import {connect} from 'react-redux';
+import classes from './Home.css';
 import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost';
-import CreateLifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal'
+import CreateLifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal';
+import StartCreating from "../../components/Profile/Timeline/Posts/Create/StartCreating";
 
 const home = (props) => {
 
     useEffect(() => {
-
+        props.onFetchOthersPosts(props.authToken);
     }, [])
 
+    let posts;
+    if (props.posts)
+
     return (
-        <React.Fragment>
+        <div className={classes.HomeContainer}>
             <CreatePostModal />
             <CreateLifeEventModal />
-            <div style={{position:'absolute'}}>PLACEHOLDER</div>
-        </React.Fragment>
+            <section className={classes.PostsSection}>
+                <StartCreating />
+            </section>
+        </div>
     )
 };
 
-export default home;
+const mapStateToProps = state => {
+    return {
+        authToken: state.auth.token,
+        othersPosts: state.posts.othersPosts
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchOthersPosts: (authToken) => dispatch(actions.fetchOthersPostsAttempt(authToken))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(home);
