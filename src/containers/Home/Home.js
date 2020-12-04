@@ -13,8 +13,14 @@ const home = (props) => {
         props.onFetchOthersPosts(props.authToken);
     }, [])
 
-    let posts;
-    if (props.posts)
+    useEffect(() => {
+        console.log('shallow keys ', props.othersPosts)
+    })
+
+
+
+    // let posts;
+    // if (props.posts)
 
     return (
         <div className={classes.HomeContainer}>

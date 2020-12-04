@@ -563,11 +563,28 @@ const fetchOthersPostsInit = () => {
 export const fetchOthersPostsAttempt = (authToken) => {
     return dispatch => {
         dispatch(fetchOthersPostsInit())
-        axios.get(`/posts.json?auth=${authToken}`)
+        axios.get(`/posts.json?auth=${authToken}&shallow=true`)
             .then(response => {
-                const posts = response.data;
-                console.log(posts);
-                // dispatch(fetchOthersPostsSuccess(posts))
+                const keys = Object.keys(response.data).sort();
+                const pageLength = 2;
+                const pageCount = keys.length / pageLength
+                let currentPage = 1;
+                const promises = [];
+                let nextKey;
+                const baseEndpoint = `/posts.json?auth=${authToken}`
+                let query;
+
+                for (let i = 0; i < pageCount; i++) {
+                    nextKey = keys[i * pageLength];
+                    console.log('key', nextKey);
+                    query =  axios.get(baseEndpoint + `&orderBy="id"&limitToFirst=${pageLength}&startAt=${nextKey}`);
+                    promises.push(query);
+                }
+
+                return axios.all(promises)
+            })
+            .then(response => {
+                console.log(response);
             })
             .catch(error => {
                 dispatch(fetchOthersPostsFail(error));

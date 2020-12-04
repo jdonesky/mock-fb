@@ -86,7 +86,6 @@ export const fetchProfileAttempt = (userId, token) => {
     axios
       .get("/users.json" + queryParams)
       .then((response) => {
-          console.log(response.data);
         const userData = Object.keys(response.data).map((key) => {
           return { key: key, ...response.data[key] };
         })[0]
