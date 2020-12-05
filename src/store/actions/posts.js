@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
-import axios from '../../axios/db-axios-instance'
+import axios from '../../axios/db-axios-instance';
+import Axios from 'axios';
 import {KeyGenerator} from "../../shared/utility";
 
 const addPostInit = () => {
@@ -563,28 +564,31 @@ const fetchOthersPostsInit = () => {
 export const fetchOthersPostsAttempt = (authToken) => {
     return dispatch => {
         dispatch(fetchOthersPostsInit())
+        let postsArray;
         axios.get(`/posts.json?auth=${authToken}&shallow=true`)
             .then(response => {
                 const keys = Object.keys(response.data).sort();
-                const pageLength = 2;
-                const pageCount = keys.length / pageLength
+                console.log('keys ', keys);
+                const pageLength = 3;
+                // const pageCount = keys.length / pageLength
                 let currentPage = 1;
                 const promises = [];
-                let nextKey;
-                const baseEndpoint = `/posts.json?auth=${authToken}`
                 let query;
 
-                for (let i = 0; i < pageCount; i++) {
-                    nextKey = keys[i * pageLength];
-                    console.log('key', nextKey);
-                    query =  axios.get(baseEndpoint + `&orderBy="id"&limitToFirst=${pageLength}&startAt=${nextKey}`);
+                for (let key of keys) {
+                    console.log('key', key);
+                    query = axios.get(`/posts/${key}.json?auth=${authToken}&orderBy="id"&startAt=0&limitToFirst=${pageLength}`)
                     promises.push(query);
                 }
-
-                return axios.all(promises)
+                console.log(promises);
+                return Promise.all(promises)
             })
-            .then(response => {
-                console.log(response);
+            .then(responses => {
+                const data = responses.map(response => response.data)
+                console.log(data);
+
+                // const data = posts.map(post => posts.data);
+                // console.log('postsArray', data)
             })
             .catch(error => {
                 dispatch(fetchOthersPostsFail(error));
