@@ -564,7 +564,6 @@ const fetchOthersPostsInit = () => {
 export const fetchOthersPostsAttempt = (authToken) => {
     return dispatch => {
         dispatch(fetchOthersPostsInit())
-        let postsArray;
         axios.get(`/posts.json?auth=${authToken}&shallow=true`)
             .then(response => {
                 const keys = Object.keys(response.data).sort();
@@ -585,6 +584,7 @@ export const fetchOthersPostsAttempt = (authToken) => {
             })
             .then(responses => {
                 const data = responses.map(response => response.data)
+
                 console.log(data);
 
                 // const data = posts.map(post => posts.data);

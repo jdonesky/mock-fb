@@ -3,9 +3,13 @@ import React, {useEffect} from 'react';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 import classes from './Home.css';
+
 import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost';
 import CreateLifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal';
 import StartCreating from "../../components/Profile/Timeline/Posts/Create/StartCreating";
+import Post from '../../components/Profile/Timeline/Posts/Post/Post';
+import InlineDots from '../../components/UI/Spinner/InlineDots';
+
 
 const home = (props) => {
 
@@ -15,12 +19,34 @@ const home = (props) => {
 
     useEffect(() => {
         console.log('shallow keys ', props.othersPosts)
+        console.log('loadingOthersPosts ', props.loadingOthersPosts)
     })
 
+    let posts;
+    if (props.loadingOthersPosts) {
+        posts = <InlineDots />
+    }
 
-
-    // let posts;
-    // if (props.posts)
+    if (props.othersPosts && props.othersPosts.length) {
+        posts = props.othersPosts.map(post => (
+            <Post
+                postsKey={post.postsKey}
+                userKey={post.userKey}
+                name={post.name}
+                postProfileImage={post.postProfileImage}
+                key={post.id}
+                id={post.id}
+                status={post.text}
+                background={post.background}
+                image={post.image}
+                date={post.date}
+                tagged={post.tagged}
+                location={post.location}
+                comments={post.comments}
+                reactions={post.reactions}
+            />
+        ))
+    }
 
     return (
         <div className={classes.HomeContainer}>
@@ -28,6 +54,7 @@ const home = (props) => {
             <CreateLifeEventModal />
             <section className={classes.PostsSection}>
                 <StartCreating />
+                {posts}
             </section>
         </div>
     )
@@ -36,7 +63,8 @@ const home = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
-        othersPosts: state.posts.othersPosts
+        othersPosts: state.posts.othersPosts,
+        loadingOthersPosts: state.posts.loadingOthersPosts
     }
 }
 
