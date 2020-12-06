@@ -15,6 +15,10 @@ const home = (props) => {
 
     useEffect(() => {
         props.onFetchOthersPosts(props.authToken);
+
+        // return () => {                   update pageCount to fetch next page, store page count in redux? pass back in callback to fetch action ?
+        //     props.clearOtherPostsPageCount
+        // }
     }, [])
 
     useEffect(() => {

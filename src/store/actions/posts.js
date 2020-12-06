@@ -561,34 +561,47 @@ const fetchOthersPostsInit = () => {
 }
 
 
-export const fetchOthersPostsAttempt = (authToken) => {
+export const fetchOthersPostsAttempt = (authToken, lastFetchedPage) => {
     return dispatch => {
         dispatch(fetchOthersPostsInit())
         axios.get(`/posts.json?auth=${authToken}&shallow=true`)
             .then(response => {
                 const keys = Object.keys(response.data).sort();
                 console.log('keys ', keys);
-                const pageLength = 3;
-                // const pageCount = keys.length / pageLength
-                let currentPage = 1;
+                const pageLength = 5;
+                const totalUsers = keys.length;
+                let totalPages;
+                if (totalUsers <= pageLength) {
+                    totalPages = 1;
+                } else {
+                    totalPages = Math.floor(totalUsers / pageLength);
+                    if (totalUsers % pageLength !== 0) {
+                        totalPages++;
+                    }
+                }
+                console.log(totalPages);
+
                 const promises = [];
                 let query;
 
-                for (let key of keys) {
+                for (let key of keys.slice(lastFetchedPage, pageLength)) {
                     console.log('key', key);
-                    query = axios.get(`/posts/${key}.json?auth=${authToken}&orderBy="id"&startAt=0&limitToFirst=${pageLength}`)
+                    query = axios.get(`/posts/${key}.json?auth=${authToken}&orderBy="id"&startAt=0&limitToLast=2`)
                     promises.push(query);
+                    totalPages--;
+                    lastFetchedPage += pageLength;
                 }
                 console.log(promises);
                 return Promise.all(promises)
             })
             .then(responses => {
-                const data = responses.map(response => response.data)
+                let data = responses.map(response => [...response.data]).flat().filter(item => item)
+                    .sort((a,b) => {
+                        return new Date(b.date) - new Date(a.date);
+                    });
 
                 console.log(data);
 
-                // const data = posts.map(post => posts.data);
-                // console.log('postsArray', data)
             })
             .catch(error => {
                 dispatch(fetchOthersPostsFail(error));
