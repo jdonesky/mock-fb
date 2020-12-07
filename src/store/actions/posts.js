@@ -571,6 +571,7 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
             .then(response => {
                 const keys = Object.keys(response.data).sort();
                 console.log('keys ', keys);
+
                 const pageLength = 2;
 
                 if (!lastFetchedPage) {
@@ -580,14 +581,21 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
                 const promises = [];
                 let query;
 
+                console.log('keys length', keys.length);
+                console.log('lastFetchedPage', lastFetchedPage);
+                console.log('sliced keys ', keys.slice(lastFetchedPage, lastFetchedPage + pageLength));
+
                 for (let key of keys.slice(lastFetchedPage, lastFetchedPage + pageLength)) {
                     console.log('key', key);
                     query = axios.get(`/posts/${key}.json?auth=${authToken}&orderBy="id"&startAt=0&limitToLast=2`)
                     promises.push(query);
                 }
 
-                if (lastFetchedPage += pageLength <= keys.length) {
-                    lastFetchedPage += pageLength;
+
+                if (lastFetchedPage + pageLength <= keys.length) {
+                    lastFetchedPage = lastFetchedPage + pageLength;
+                    console.log(lastFetchedPage);
+                    console.log('still page length left')
                 } else {
                     const remainder = keys.length - lastFetchedPage;
                     if (remainder) {

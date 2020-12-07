@@ -14,9 +14,27 @@ import useInfiniteScroll from "../../hooks/infiniteScroll";
 const home = (props) => {
 
     const [isBottom, setIsBottom] = useInfiniteScroll()
+
     const firstUpdate = useRef(true);
 
     useEffect(() => {
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+            return;
+        }
+        console.log('THIS SHOULD NOT FIRE ON FIRST RENDER')
+        console.log('NOW UPDATING ON SCROLL');
+        console.log('loadingOthersPosts ', props.loadingOthersPosts)
+        console.log('othersPosts', props.othersPosts)
+        console.log('lastFetchedPage', props.lastFetchedPage)
+        props.onFetchOthersPosts(props.authToken, props.lastFetchedPage, props.othersPosts)
+    }, [isBottom])
+
+    useEffect(() => {
+        console.log('THIS SHOULD FIRE ON FIRST RENDER')
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+        }
         console.log('lastFetchedPage on FIRST MOUNTING (should be 0)', props.lastFetchedPage)
         props.onFetchOthersPosts(props.authToken);
 
@@ -25,17 +43,6 @@ const home = (props) => {
         }
     }, [])
 
-    useEffect(() => {
-        if (firstUpdate.current) {
-            firstUpdate.current = false;
-            return;
-        }
-        console.log('NOW UPDATING ON SCROLL');
-        console.log('loadingOthersPosts ', props.loadingOthersPosts)
-        console.log('othersPosts', props.othersPosts)
-        console.log('lastFetchedPage', props.lastFetchedPage)
-        props.onFetchOthersPosts(props.authToken, props.lastFetchedPage, props.othersPosts)
-    }, [isBottom])
 
 
     let posts;
