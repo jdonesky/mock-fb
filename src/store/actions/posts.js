@@ -561,17 +561,17 @@ const fetchOthersPostsInit = () => {
 }
 
 
-export const fetchOthersPostsAttempt = (authToken, lastFetchedPage) => {
-    if (lastFetchedPage === 'last') {
-        return;
-    } else {
+export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) => {
     return dispatch => {
+        if (lastFetchedPage === 'last') {
+            return;
+        }
         dispatch(fetchOthersPostsInit())
         axios.get(`/posts.json?auth=${authToken}&shallow=true`)
             .then(response => {
                 const keys = Object.keys(response.data).sort();
                 console.log('keys ', keys);
-                const pageLength = 5;
+                const pageLength = 2;
 
                 if (!lastFetchedPage) {
                     lastFetchedPage = 0;
@@ -589,24 +589,38 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage) => {
                 if (lastFetchedPage += pageLength <= keys.length) {
                     lastFetchedPage += pageLength;
                 } else {
-                    // const remainder = keys.length - lastFetchedPage;
-                    // lastFetchedPage += remainder;
-                    lastFetchedPage = 'last';
+                    const remainder = keys.length - lastFetchedPage;
+                    if (remainder) {
+                        lastFetchedPage += remainder;
+                    } else {
+                        lastFetchedPage = 'last';
+                    }
                 }
+                console.log('lastFetchedPage after first fetch ', lastFetchedPage);
 
                 return Promise.all(promises)
             })
             .then(responses => {
-                const posts = responses.map(response => [...response.data]).flat().filter(item => item)
+                const oldPostIds = oldPosts && oldPosts.length ? oldPosts.map(post => post.id) : null;
+                console.log(oldPostIds)
+                let newPosts = responses.map(response => [...response.data]).flat().filter(item => item)
                     .sort((a,b) => {
                         return new Date(b.date) - new Date(a.date);
                     });
-                dispatch(fetchOthersPostsSuccess(posts,lastFetchedPage))
+                console.log(newPosts);
+                if (oldPostIds) {
+                    newPosts = newPosts.filter(post => !oldPostIds.includes(post.id))
+                    console.log('NEW POSTS FILTERED FOR OLD', newPosts);
+                    newPosts = oldPosts.concat(newPosts);
+                    console.log('NEW POSTS CONCATENATED TO OLD', newPosts);
+                }
+
+                dispatch(fetchOthersPostsSuccess(newPosts,lastFetchedPage))
             })
             .catch(error => {
                 dispatch(fetchOthersPostsFail(error));
             })
-    }}
+    }
 }
 
 const fetchOthersPostsSuccess = (posts, lastFetchedPage) => {
@@ -617,10 +631,16 @@ const fetchOthersPostsSuccess = (posts, lastFetchedPage) => {
     }
 }
 
+export const clearOthersPostsPageCount = () => {
+    return {
+        type: actionTypes.CLEAR_OTHERS_POSTS_PAGE_COUNT
+    }
+}
+
 const fetchOthersPostsFail = (error) => {
     return {
         type: actionTypes.FETCH_OTHERS_POSTS_FAIL,
-        error: error
+        error: error,
     }
 }
 

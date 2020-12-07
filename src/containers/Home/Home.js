@@ -1,5 +1,5 @@
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 import classes from './Home.css';
@@ -9,27 +9,33 @@ import CreateLifeEventModal from '../../components/UI/Modal/LifeEventModals/Life
 import StartCreating from "../../components/Profile/Timeline/Posts/Create/StartCreating";
 import Post from '../../components/Profile/Timeline/Posts/Post/Post';
 import InlineDots from '../../components/UI/Spinner/InlineDots';
-
+import useInfiniteScroll from "../../hooks/infiniteScroll";
 
 const home = (props) => {
 
+    const [isBottom, setIsBottom] = useInfiniteScroll()
+    const firstUpdate = useRef(true);
 
     useEffect(() => {
+        console.log('lastFetchedPage on FIRST MOUNTING (should be 0)', props.lastFetchedPage)
         props.onFetchOthersPosts(props.authToken);
 
-        // return () => {                   update pageCount to fetch next page, store page count in redux? pass back in callback to fetch action ?
-        //     props.clearOtherPostsPageCount
-        // }
+        return () => {
+            props.onClearOthersPostsPageCount()
+        }
     }, [])
 
-
-
     useEffect(() => {
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+            return;
+        }
+        console.log('NOW UPDATING ON SCROLL');
         console.log('loadingOthersPosts ', props.loadingOthersPosts)
         console.log('othersPosts', props.othersPosts)
         console.log('lastFetchedPage', props.lastFetchedPage)
-    })
-
+        props.onFetchOthersPosts(props.authToken, props.lastFetchedPage, props.othersPosts)
+    }, [isBottom])
 
 
     let posts;
@@ -81,7 +87,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOthersPosts: (authToken, lastFetchedPage) => dispatch(actions.fetchOthersPostsAttempt(authToken, lastFetchedPage))
+        onFetchOthersPosts: (authToken, lastFetchedPage, posts) => dispatch(actions.fetchOthersPostsAttempt(authToken, lastFetchedPage, posts)),
+        onClearOthersPostsPageCount: () => dispatch(actions.clearOthersPostsPageCount())
     }
 }
 

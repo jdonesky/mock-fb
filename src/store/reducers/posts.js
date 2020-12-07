@@ -287,8 +287,15 @@ const fetchOthersPostsSuccess = (state,action) => {
     return {
         ...state,
         othersPosts: action.posts,
-        loadingOthersPosts: false,
         lastFetchedPage: action.lastFetchedPage,
+        loadingOthersPosts: false,
+    }
+}
+
+const clearOthersPostPageCount = (state,action) => {
+    return {
+        ...state,
+        lastFetchedPage: 0
     }
 }
 
@@ -296,8 +303,8 @@ const fetchOthersPostsFail = (state,action) => {
     return {
         ...state,
         error: action.error,
-        loadingOthersPosts: false,
-        lastFetchedPage: 0
+        lastFetchedPage: 0,
+        loadingOthersPosts: false
     }
 }
 
@@ -309,6 +316,7 @@ const reducer = (state = initialState, action) => {
       case actionTypes.FETCH_SELF_POSTS_FAIL: return fetchSelfPostsFail(state,action);
       case actionTypes.FETCH_OTHERS_POSTS_INIT: return fetchOthersPostsInit(state,action);
       case actionTypes.FETCH_OTHERS_POSTS_SUCCESS: return fetchOthersPostsSuccess(state,action);
+      case actionTypes.CLEAR_OTHERS_POSTS_PAGE_COUNT: return clearOthersPostPageCount(state,action);
       case actionTypes.FETCH_OTHERS_POSTS_FAIL: return fetchOthersPostsFail(state,action);
       case actionTypes.ADD_POST_INIT: return addPostInit(state,action);
       case actionTypes.ADD_POST_SUCCESS: return addPostSuccess(state,action);
