@@ -16,6 +16,7 @@ const initialState = {
   deletingReply: false,
   loadingSelfPosts: false,
   loadingOthersPosts: false,
+  lastFetchedPage: 0,
   error: null,
 };
 
@@ -286,7 +287,8 @@ const fetchOthersPostsSuccess = (state,action) => {
     return {
         ...state,
         othersPosts: action.posts,
-        loadingOthersPosts: false
+        loadingOthersPosts: false,
+        lastFetchedPage: action.lastFetchedPage,
     }
 }
 
@@ -294,7 +296,8 @@ const fetchOthersPostsFail = (state,action) => {
     return {
         ...state,
         error: action.error,
-        loadingOthersPosts: false
+        loadingOthersPosts: false,
+        lastFetchedPage: 0
     }
 }
 

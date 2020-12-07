@@ -382,17 +382,24 @@ const post = (props) => {
         location = <span> in <b>{props.location}</b></span>
     }
 
+    let profileImage;
+    if (props.firebaseKey === props.userKey) {
+        profileImage = props.profileImage
+    } else if (props.postProfileImage) {
+        profileImage = props.postProfileImage
+    }
+
     return (
         <div className={classes.Container}>
             <section className={classes.Header}>
                 <div className={classes.HeaderInfo}>
                     <div className={classes.ProfileImageContainer}>
-                        <div className={classes.ProfileImage} style={{backgroundImage: props.postProfileImage ? `url(${props.postProfileImage})` : null}}>
-                            {props.postProfileImage ? null : <NoGenderPlaceholder />}
+                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}}>
+                            {profileImage ? null : <NoGenderPlaceholder />}
                         </div>
                     </div>
                     <div className={classes.IdContainer}>
-                        <div>{props.name && props.name}{taggedFriends}{location}</div>
+                        <div>{props.posterName && props.posterName}{taggedFriends}{location}</div>
                         <div className={classes.DateAndPrivacyContainer}>
                             <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date.toString()) + '          •' : '-- -- ---        •'}</span>
                             <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>
@@ -428,8 +435,8 @@ const post = (props) => {
             {commentsSection}
             <section className={classes.CommentBarSection}>
                 <div className={classes.CommenterProfileImageContainer}>
-                    <div className={classes.CommenterProfileImage} style={{backgroundImage: props.postProfileImage ? `url(${props.postProfileImage})` : null}}>
-                        {props.postProfileImage ? null : <NoGenderPlaceholder />}
+                    <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                        {props.profileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
                 <form onSubmit={saveComment} className={classes.CommentForm}>

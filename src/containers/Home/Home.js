@@ -13,6 +13,7 @@ import InlineDots from '../../components/UI/Spinner/InlineDots';
 
 const home = (props) => {
 
+
     useEffect(() => {
         props.onFetchOthersPosts(props.authToken);
 
@@ -21,10 +22,15 @@ const home = (props) => {
         // }
     }, [])
 
+
+
     useEffect(() => {
-        console.log('shallow keys ', props.othersPosts)
         console.log('loadingOthersPosts ', props.loadingOthersPosts)
+        console.log('othersPosts', props.othersPosts)
+        console.log('lastFetchedPage', props.lastFetchedPage)
     })
+
+
 
     let posts;
     if (props.loadingOthersPosts) {
@@ -36,7 +42,7 @@ const home = (props) => {
             <Post
                 postsKey={post.postsKey}
                 userKey={post.userKey}
-                name={post.name}
+                posterName={post.name}
                 postProfileImage={post.postProfileImage}
                 key={post.id}
                 id={post.id}
@@ -68,13 +74,14 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         othersPosts: state.posts.othersPosts,
-        loadingOthersPosts: state.posts.loadingOthersPosts
+        loadingOthersPosts: state.posts.loadingOthersPosts,
+        lastFetchedPage: state.posts.lastFetchedPage
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOthersPosts: (authToken) => dispatch(actions.fetchOthersPostsAttempt(authToken))
+        onFetchOthersPosts: (authToken, lastFetchedPage) => dispatch(actions.fetchOthersPostsAttempt(authToken, lastFetchedPage))
     }
 }
 

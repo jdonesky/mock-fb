@@ -562,6 +562,9 @@ const fetchOthersPostsInit = () => {
 
 
 export const fetchOthersPostsAttempt = (authToken, lastFetchedPage) => {
+    if (lastFetchedPage === 'last') {
+        return;
+    } else {
     return dispatch => {
         dispatch(fetchOthersPostsInit())
         axios.get(`/posts.json?auth=${authToken}&shallow=true`)
@@ -569,50 +572,48 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage) => {
                 const keys = Object.keys(response.data).sort();
                 console.log('keys ', keys);
                 const pageLength = 5;
-                const totalUsers = keys.length;
-                let totalPages;
-                if (totalUsers <= pageLength) {
-                    totalPages = 1;
-                } else {
-                    totalPages = Math.floor(totalUsers / pageLength);
-                    if (totalUsers % pageLength !== 0) {
-                        totalPages++;
-                    }
+
+                if (!lastFetchedPage) {
+                    lastFetchedPage = 0;
                 }
-                console.log(totalPages);
 
                 const promises = [];
                 let query;
 
-                for (let key of keys.slice(lastFetchedPage, pageLength)) {
+                for (let key of keys.slice(lastFetchedPage, lastFetchedPage + pageLength)) {
                     console.log('key', key);
                     query = axios.get(`/posts/${key}.json?auth=${authToken}&orderBy="id"&startAt=0&limitToLast=2`)
                     promises.push(query);
-                    totalPages--;
-                    lastFetchedPage += pageLength;
                 }
-                console.log(promises);
+
+                if (lastFetchedPage += pageLength <= keys.length) {
+                    lastFetchedPage += pageLength;
+                } else {
+                    // const remainder = keys.length - lastFetchedPage;
+                    // lastFetchedPage += remainder;
+                    lastFetchedPage = 'last';
+                }
+
                 return Promise.all(promises)
             })
             .then(responses => {
-                let data = responses.map(response => [...response.data]).flat().filter(item => item)
+                const posts = responses.map(response => [...response.data]).flat().filter(item => item)
                     .sort((a,b) => {
                         return new Date(b.date) - new Date(a.date);
                     });
-
-                console.log(data);
-
+                dispatch(fetchOthersPostsSuccess(posts,lastFetchedPage))
             })
             .catch(error => {
                 dispatch(fetchOthersPostsFail(error));
             })
-    }
+    }}
 }
 
-const fetchOthersPostsSuccess = (posts) => {
+const fetchOthersPostsSuccess = (posts, lastFetchedPage) => {
     return {
         type: actionTypes.FETCH_OTHERS_POSTS_SUCCESS,
-        posts: posts
+        posts: posts,
+        lastFetchedPage: lastFetchedPage
     }
 }
 

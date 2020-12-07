@@ -15,7 +15,7 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, load
         <Post
             postsKey={post.postsKey}
             userKey={post.userKey}
-            name={post.name}
+            posterName={post.name}
             postProfileImage={post.postProfileImage}
             key={post.id}
             id={post.id}

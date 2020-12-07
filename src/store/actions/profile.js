@@ -29,8 +29,8 @@ export const createProfileAttempt =  (token,newUserData) => {
             const today = new Date();
             let yesterday = new Date();
             yesterday = new Date(yesterday.setDate(today.getDate() - 1));
-            const basePost = {text: 'hold postsKey', date: yesterday, id: -1}
-            axios.post(`/posts.json?auth=${token}`,[basePost, {text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(today, true)}`, date: today, id: newKey}])
+            const basePost = {name: newUserData.firstName + ' ' + newUserData.lastName, text: 'hold postsKey', date: yesterday, id: -1}
+            axios.post(`/posts.json?auth=${token}`,[basePost, {name: newUserData.firstName + ' ' + newUserData.lastName,text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(today, true)}`, date: today, id: newKey}])
                 .then(response => {
                     postsKey = response.data.name;
                     return axios.get(`/posts/${postsKey}.json?auth=${token}`)
