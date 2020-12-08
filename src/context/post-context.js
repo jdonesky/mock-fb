@@ -176,6 +176,7 @@ const PostContextProvider = (props) => {
             name: props.name,
             userKey: props.firebaseKey,
             postsKey: props.postsKey,
+            profileImage: props.profileImage
         };
         props.onAddPost(props.authToken, props.postsKey, post);
         setText('');
@@ -220,6 +221,7 @@ const mapStateToProps = state => {
         firebaseKey: state.profile.firebaseKey,
         postsKey: state.profile.postsKey,
         name: state.profile.firstName + ' ' + state.profile.lastName,
+        profileImage: state.profile.profileImage
     };
 };
 

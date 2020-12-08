@@ -595,7 +595,7 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
                 if (lastFetchedPage + pageLength <= keys.length) {
                     lastFetchedPage = lastFetchedPage + pageLength;
                     console.log(lastFetchedPage);
-                    console.log('still page length left')
+                    console.log('still pages left')
                 } else {
                     const remainder = keys.length - lastFetchedPage;
                     if (remainder) {
@@ -604,7 +604,7 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
                         lastFetchedPage = 'last';
                     }
                 }
-                console.log('lastFetchedPage after first fetch ', lastFetchedPage);
+                console.log('lastFetchedPage after fetch ', lastFetchedPage);
 
                 return Promise.all(promises)
             })

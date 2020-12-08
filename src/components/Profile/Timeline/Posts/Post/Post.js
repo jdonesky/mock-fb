@@ -22,6 +22,11 @@ import Friends from "../../../../../assets/images/friends";
 import Delete from "../../../../../assets/images/delete";
 import Pen from "../../../../../assets/images/edit";
 
+import Bookmark from "../../../../../assets/images/UserActionIcons/bookmark";
+import Bell from "../../../../../assets/images/UserActionIcons/bell";
+import HideFile from "../../../../../assets/images/UserActionIcons/hideFile";
+import HideFiles from "../../../../../assets/images/UserActionIcons/hideFiles";
+
 import InlineDots from '../../../../UI/Spinner/InlineDots'
 
 import { PostContext } from "../../../../../context/post-context";
@@ -178,6 +183,7 @@ const post = (props) => {
         event.preventDefault();
         const comment = {
             postsKey: props.postsKey,
+            userKey: props.userKey,
             userId: props.userId,
             name: props.name,
             commentProfileImage: props.profileImage,
@@ -222,14 +228,56 @@ const post = (props) => {
             icon = <Globe fill="rgb(89, 89, 89)"/>
     }
 
-    const editDropDown = (
-        <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
-            <div className={classes.BaseArrow} />
-            <div className={classes.EditDropdownButton} onClick={toggleEditModal}><div className={classes.EditDropDownButtonIcon}><Pen /></div><span>Edit post</span></div>
-            <div className={classes.EditDropdownButton}><div className={classes.EditDropDownButtonIcon}><Lock /></div><span>Edit audience</span></div>
-            <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}><div className={classes.EditDropDownButtonIcon}><Delete /></div><span>Delete post</span></div>
-        </div>
-    )
+    let editDropDown;
+    if (props.firebaseKey === props.userKey) {
+        editDropDown = (
+            <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
+                <div className={classes.BaseArrow}/>
+                <div className={classes.EditDropdownButton} onClick={toggleEditModal}>
+                    <div className={classes.EditDropDownButtonIcon}><Pen/></div>
+                    <span>Edit post</span></div>
+                <div className={classes.EditDropdownButton}>
+                    <div className={classes.EditDropDownButtonIcon}><Lock/></div>
+                    <span>Edit audience</span></div>
+                <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}>
+                    <div className={classes.EditDropDownButtonIcon}><Delete/></div>
+                    <span>Delete post</span></div>
+            </div>
+        )
+    } else {
+        editDropDown = (
+            <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
+                <div className={classes.BaseArrow} />
+                <div className={classes.EditDropdownButton}>
+                    <div className={classes.EditDropDownButtonIcon}><Bookmark /></div>
+                    <div className={classes.EditDropdownTextContainer}>
+                        <span>Save Post</span>
+                        <span className={classes.EditDropdownSubCaption}>Add this to your saved items</span>
+                    </div>
+                </div>
+                <div className={classes.Break} style={{margin: '8px 0'}}/>
+                <div className={classes.EditDropdownButton}>
+                    <div className={classes.EditDropDownButtonIcon}><Bell /></div>
+                    <span>Turn on notifications for this post</span></div>
+                <div className={classes.Break} style={{margin: '8px 0'}}/>
+                <div className={classes.EditDropdownButton}>
+                    <div className={classes.EditDropDownButtonIcon}><HideFile /></div>
+                    <div className={classes.EditDropdownTextContainer}>
+                        <span>Hide post</span>
+                        <span className={classes.EditDropdownSubCaption}>You won't see this post anymore</span>
+                    </div>
+                </div>
+                <div className={classes.EditDropdownButton}>
+                    <div className={classes.EditDropDownButtonIcon}><HideFiles /></div>
+                    <div className={classes.EditDropdownTextContainer}>
+                        <span>{`Hide all from ${props.posterName}`}</span>
+                        <span className={classes.EditDropdownSubCaption}>You won't see posts from this account</span>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
 
     let editingDropdownButtonClasses = [classes.HeaderControlDropdown]
     if (editingDropdown) {
