@@ -23,6 +23,7 @@
     justify-content: flex-start;
     align-items: center;
     height: 100%;
+    width: 30%;
 }
 
 .ProfileImage {
@@ -43,4 +44,43 @@
 .UserInfoContainer {
     display: flex;
     flex-flow: column;
+    align-items: flex-start;
+    height: 100%;
+    width: 70%;
 }
+
+.UserName {
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.InfoEntry {
+    display: flex;
+    width: 90%;
+    justify-content: flex-start;
+}
+
+.InfoIcon {
+    height: 30px;
+    width: 30px;
+}
+
+.InfoIcon svg {
+    height: auto;
+    width: 90%;
+    position: relative;
+}
+
+
+.ControlsSection {
+    display: flex;
+    align-items: center;
+    width: 95%;
+    height: 20%;
+}
+
+.Control {
+    height: 35px;
+    
+}
+
