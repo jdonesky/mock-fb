@@ -110,9 +110,12 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
   return dispatch => {
     dispatch(updateProfileInit());
     let updatedUserProfile;
+    let publicProfileKey;
     const url = `/users/${firebaseKey}.json?auth=${authToken}`
     axios.get(url)
         .then(response => {
+          console.log('UPDATING PROFILE - response', response.data)
+          publicProfileKey = response.data.publicProfileKey;
           KeyGenerator.getKey(authToken, (newKey) => {
               switch (how) {
                   case "edit":

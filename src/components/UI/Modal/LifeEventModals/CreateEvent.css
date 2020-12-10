@@ -4,6 +4,10 @@
     overflow: auto;
 }
 
+.PageContent::-webkit-scrollbar {
+    display: none;
+}
+
 .Header {
     margin-left: 10px;
     position: relative;

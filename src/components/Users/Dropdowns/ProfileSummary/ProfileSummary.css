@@ -71,7 +71,6 @@
     position: relative;
 }
 
-
 .ControlsSection {
     display: flex;
     align-items: center;
@@ -79,8 +78,36 @@
     height: 20%;
 }
 
-.Control {
+.ControlButton {
     height: 35px;
-    
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
+.ControlButton:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.ButtonIcon {
+    height: 30px;
+    width: 30px;
+}
+
+.ButtonIcon svg {
+    height: auto;
+    width: 80%;
+    position: relative;
+}
+
+.AddFriendButton {
+    color: #155fe8;
+    background-color: rgba(77, 161, 250, 0.05);
+}
+
+.AddFriendButton:hover {
+    background-color: rgba(70, 146, 227, 0.05);
+}

@@ -6,10 +6,13 @@ import SuggestedLocation from './SuggestedLocation'
 
 const currentLocation = ({currLocation, hometown, pastLocations, update, close}) => {
 
-    const curLoc = {key: 'currLocation', name: currLocation.name}
-    const homeLoc = {key: 'hometown', name: hometown.name}
-    const pastLocs = pastLocations.map(loc => ({key: 'pastLocation', name: loc.name}))
-    const allSuggestions = [curLoc, homeLoc, ...pastLocs]
+    const curLoc = currLocation ? {key: 'currLocation', name: currLocation.name} : null;
+    const homeLoc = hometown ? {key: 'hometown', name: hometown.name} : null;
+    const pastLocs = pastLocations && pastLocations.length? pastLocations.map(loc => ({key: 'pastLocation', name: loc.name})) : null;
+    const allSuggestions = [curLoc, homeLoc]
+    if (pastLocs && pastLocs.length) {
+        pastLocs.forEach(loc => allSuggestions.push(loc));
+    }
 
     const [searchTerm, setSearchTerm] = useState('')
     const [suggestions, setSuggestions] = useState(allSuggestions)
