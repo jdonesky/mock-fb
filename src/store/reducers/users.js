@@ -1,47 +1,41 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  users: [],
-  usersLoading: false,
-  requestLoading: false,
+  singleProfile: null,
+  loadingSingleProfile: false,
+  manyProfiles: [],
+  loadingManyProfiles: false,
   error: null,
 };
 
-const fetchUsersInit = (state, action) => {
+const fetchPublicProfileInit = (state, action) => {
   return {
     ...state,
-    usersLoading: true,
+    loadingSingleProfile: true,
   };
 };
 
-const fetchUsersSuccess = (state, action) => {
-  const users = Object.keys(action.users).map((key) => {
-    return {
-      dbKey: key,
-      name: action.users[key].name,
-      profileImage: action.users[key].uploadedImage,
-    };
-  });
+const fetchPublicProfileSuccess = (state, action) => {
   return {
     ...state,
-    users: users,
-    usersLoading: false,
-  };
+    singleProfile: action.profile,
+    loadingSingleProfile: false
+  }
 };
 
-const fetchUsersFail = (state, action) => {
+const fetchPublicProfileFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    usersLoading: false,
+    loadingSingleProfile: false,
   };
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_USERS_INIT: return fetchUsersInit(state, action);
-    case actionTypes.FETCH_USERS_SUCCESS: return fetchUsersSuccess(state, action);
-    case actionTypes.FETCH_USERS_FAIL: return fetchUsersFail(state, action);
+    case actionTypes.FETCH_PUBLIC_PROFILE_INIT: return fetchPublicProfileInit(state, action);
+    case actionTypes.FETCH_PUBLIC_PROFILE_SUCCESS: return fetchPublicProfileSuccess(state, action);
+    case actionTypes.FETCH_PUBLIC_PROFILE_FAIL: return fetchPublicProfileFail(state, action);
     default:
       return state;
   }

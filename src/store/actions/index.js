@@ -29,7 +29,7 @@ export {
 } from "./posts";
 
 export {
-   fetchUsersAttempt
+   fetchPublicProfileAttempt
 } from "./users"
 
 export {
