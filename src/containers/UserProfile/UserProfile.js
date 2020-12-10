@@ -8,9 +8,9 @@ import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics';
 import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader';
 import NavigationBar from '../../components/Profile/NavigationBar/NavigationBar';
 import Timeline from '../../components/Profile/Timeline/Timeline';
-import DeleteModal from "../../components/UI/Modal/DeleteModal";
-import LifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal';
-import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost';
+// import DeleteModal from "../../components/UI/Modal/DeleteModal";
+// import LifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal';
+// import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost';
 
 import axios from '../../axios/db-axios-instance';
 import classes from "./UserProfile.css";
@@ -32,9 +32,9 @@ const userProfile = (props) => {
 
     let profile = (
         <React.Fragment>
-          <LifeEventModal />
-          <DeleteModal />
-          <CreatePostModal />
+          {/*<LifeEventModal />*/}
+          {/*<DeleteModal />*/}
+          {/*<CreatePostModal />*/}
           <div className={classes.UserProfile}>
             <ProfilePics />
             <ProfileHeader name={props.name} bio={props.bio} />

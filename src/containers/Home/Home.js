@@ -4,8 +4,6 @@ import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 import classes from './Home.css';
 
-import CreatePostModal from '../../components/UI/Modal/CreatePostModals/CreatePost';
-import CreateLifeEventModal from '../../components/UI/Modal/LifeEventModals/LifeEventModal';
 import StartCreating from "../../components/Profile/Timeline/Posts/Create/StartCreating";
 import Post from '../../components/Profile/Timeline/Posts/Post/Post';
 import InlineDots from '../../components/UI/Spinner/InlineDots';
@@ -65,8 +63,6 @@ const home = (props) => {
 
     return (
         <div className={classes.HomeContainer}>
-            <CreatePostModal />
-            <CreateLifeEventModal />
             <section className={classes.PostsSection}>
                 <StartCreating />
                 {posts}

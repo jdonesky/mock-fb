@@ -37,6 +37,17 @@ const AsyncLogout = React.lazy(() => {
     return import("./containers/Logout/Logout");
 });
 
+const AsyncDeleteModal = React.lazy(() => {
+    return import("./components/UI/Modal/DeleteModal")
+})
+
+const AsyncCreatePostModal = React.lazy(() => {
+    return import("./components/UI/Modal/CreatePostModals/CreatePost")
+})
+
+const AsyncCreateLifeEventModal = React.lazy(() => {
+    return import("./components/UI/Modal/LifeEventModals/LifeEventModal")
+})
 
 const app = (props) => {
 
@@ -78,6 +89,9 @@ const app = (props) => {
                 <DeleteContextProvider>
                     <Layout>
                         <Suspense fallback={<FoldingSquare />}>
+                            <AsyncDeleteModal />
+                            <AsyncCreatePostModal />
+                            <AsyncCreateLifeEventModal />
                             {routes}
                         </Suspense>
                     </Layout>

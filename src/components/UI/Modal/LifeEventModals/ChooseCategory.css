@@ -5,6 +5,10 @@
     overflow: auto;
 }
 
+.EventCategoryModal::-webkit-scrollbar {
+    display: none;
+}
+
 .MainImage {
     position: relative;
     height: 300px;
