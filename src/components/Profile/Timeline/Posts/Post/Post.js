@@ -8,6 +8,8 @@ import Comment from './Comment/Comment';
 import Reactions from './Reaction/Reactions';
 import GifSelector from './Dropdowns/Gifs/GifSelector';
 import EmojiSelector from './Dropdowns/Emojis/EmojiSelector'
+import EditOwnPostDropdown from './Dropdowns/EditPost/EditOwnPost';
+import EditOthersPostDropdown from './Dropdowns/EditPost/EditOthersPost';
 
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
 import Dots from '../../../../../assets/images/dots'
@@ -230,52 +232,9 @@ const post = (props) => {
 
     let editDropDown;
     if (props.firebaseKey === props.userKey) {
-        editDropDown = (
-            <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
-                <div className={classes.BaseArrow}/>
-                <div className={classes.EditDropdownButton} onClick={toggleEditModal}>
-                    <div className={classes.EditDropDownButtonIcon}><Pen/></div>
-                    <span>Edit post</span></div>
-                <div className={classes.EditDropdownButton}>
-                    <div className={classes.EditDropDownButtonIcon}><Lock/></div>
-                    <span>Edit audience</span></div>
-                <div className={classes.EditDropdownButton} onClick={toggleDeleteModal}>
-                    <div className={classes.EditDropDownButtonIcon}><Delete/></div>
-                    <span>Delete post</span></div>
-            </div>
-        )
+        editDropDown = <EditOwnPostDropdown editingDropdown={editingDropdown} toggleEditModal={toggleEditModal} toggleDeleteModal={toggleDeleteModal}/>
     } else {
-        editDropDown = (
-            <div className={classes.EditDropdownContainer} style={{display: editingDropdown ? 'flex' : 'none'}}>
-                <div className={classes.BaseArrow} />
-                <div className={classes.EditDropdownButton}>
-                    <div className={classes.EditDropDownButtonIcon}><Bookmark /></div>
-                    <div className={classes.EditDropdownTextContainer}>
-                        <span>Save Post</span>
-                        <span className={classes.EditDropdownSubCaption}>Add this to your saved items</span>
-                    </div>
-                </div>
-                <div className={classes.Break} style={{margin: '8px 0'}}/>
-                <div className={classes.EditDropdownButton}>
-                    <div className={classes.EditDropDownButtonIcon}><Bell /></div>
-                    <span>Turn on notifications for this post</span></div>
-                <div className={classes.Break} style={{margin: '8px 0'}}/>
-                <div className={classes.EditDropdownButton}>
-                    <div className={classes.EditDropDownButtonIcon}><HideFile /></div>
-                    <div className={classes.EditDropdownTextContainer}>
-                        <span>Hide post</span>
-                        <span className={classes.EditDropdownSubCaption}>You won't see this post anymore</span>
-                    </div>
-                </div>
-                <div className={classes.EditDropdownButton}>
-                    <div className={classes.EditDropDownButtonIcon}><HideFiles /></div>
-                    <div className={classes.EditDropdownTextContainer}>
-                        <span>{`Hide all from ${props.posterName}`}</span>
-                        <span className={classes.EditDropdownSubCaption}>You won't see posts from this account</span>
-                    </div>
-                </div>
-            </div>
-        )
+        editDropDown = <EditOthersPostDropdown editingDropdown={editingDropdown} posterName={props.posterName}/>
     }
 
 

@@ -23,9 +23,7 @@ const AsyncHome = React.lazy(() => {
 const AsyncUserProfile = React.lazy(() => {
     return import("./containers/UserProfile/UserProfile");
 });
-const AsyncPosts = React.lazy(() => {
-    return import("./containers/Posts/Posts");
-});
+
 const AsyncFriends = React.lazy(() => {
     return import("./containers/Friends/Friends");
 });

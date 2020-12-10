@@ -19,7 +19,6 @@ import Dots from "../../../../../assets/images/dots";
 import Button from '../../../Button/Button';
 import BackgroundSelectBar from './Background/BackgroundSelectBar';
 import InlineDots from '../../../Spinner/InlineDots';
-import post from "../../../../Users/Post/Post";
 
 
 const baseForm = (props) => {

@@ -1,0 +1,46 @@
+
+.DropdownContainer {
+    height: 150px;
+    width: 200px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 0 3px 7px rgba(0,0,0,0.3);
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+}
+
+.HeaderContainer {
+    height: 60%;
+    width: 95%;
+    display: flex;
+    align-items: flex-start;
+}
+
+.ProfileImageBlock {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+.ProfileImage {
+    height: 60px;
+    width: 60px;
+    border-radius: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+}
+
+.UserInfoContainer {
+    display: flex;
+    flex-flow: column;
+}
