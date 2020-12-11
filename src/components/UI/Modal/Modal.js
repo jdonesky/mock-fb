@@ -4,21 +4,21 @@ import Backdrop from "../Backdrop/Backdrop";
 
 const modal = (props) => {
 
-  const containerClasses = [classes.ModalContainer];;
+  const containerClasses = [classes.ModalContainer];
   if (props.addClass) {
       containerClasses.push(props.addClass);
   }
-
-  const modalClasses = [classes.Modal];
-  if (props.className) {
-      modalClasses.push(props.className)
-  }
+  //
+  // const modalClasses = [classes.Modal];
+  // if (props.className) {
+  //     modalClasses.push(props.className)
+  // }
 
   return (
     <React.Fragment>
       <div className={containerClasses.join(" ")}>
           <div
-            className={modalClasses.join(" ")}
+            className={classes.Modal}
             style={{
               transform: props.show ? "translateY(0)" : "translateY(-300vh)",
               opacity: props.show ? "1" : "0",

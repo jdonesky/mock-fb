@@ -148,9 +148,7 @@
 }
 
 .SignUpModal {
-    position: absolute;
-    top: 130px;
-    left: 20px;
+    top: 20%;
 }
 
 .SignUpBackdrop {

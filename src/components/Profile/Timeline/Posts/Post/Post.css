@@ -1,7 +1,7 @@
 
 
 .Container {
-    z-index: 5;
+    /*z-index: 5;*/
     width: 100%;
     max-width: 930px;
     margin: 0 0 15px;
@@ -22,7 +22,7 @@
 
 .HeaderInfo {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -53,10 +53,12 @@
 .IdContainer {
     display: flex;
     flex-flow: column;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: flex-start;
+    margin-left: 10px;
     height: 100%;
-    width: 80%;
+    min-width: 20%;
+    max-width: 80%;
     z-index: 9;
 }
 

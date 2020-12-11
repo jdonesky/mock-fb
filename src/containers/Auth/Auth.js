@@ -63,7 +63,6 @@ const auth = props => {
   };
 
   const switchModeHandler = () => {
-    // props.history.push('/sign-up')
     setSigningUp(true);
   };
 
@@ -108,7 +107,7 @@ const auth = props => {
   const cancelSignup = () => setSigningUp(false);
 
   const signUpModal = (
-        <Modal show={signingUp} close={cancelSignup} className={classes.SignUpModal} backdropClass={classes.SignUpBackdrop}>
+        <Modal show={signingUp} close={cancelSignup} addClass={classes.SignUpModal}>
           <SignUp />
         </Modal>
   )

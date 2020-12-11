@@ -92,6 +92,10 @@
     margin-left: 10px;
 }
 
+.MutualFriend:hover {
+    text-decoration: underline;
+}
+
 .InfoIcon {
     height: 30px;
     width: 30px;
@@ -182,3 +186,13 @@
     top: 9px;
     left: 7px;
 }
+
+.EditProfileIcon {
+    height: 25px;
+    width: 25px;
+}
+
+.EditProfileIcon svg {
+    left: 0
+}
+
