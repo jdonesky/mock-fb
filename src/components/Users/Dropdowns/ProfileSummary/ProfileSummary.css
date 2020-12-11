@@ -9,10 +9,10 @@
     width: 400px;
     border-radius: 8px;
     background-color: white;
-    box-shadow: 0 0 7px 7px rgba(0,0,0,0.05);
+    box-shadow: 0 0 4px 4px rgba(0,0,0,0.05);
     position: absolute;
     top: 20px;
-    left: -90px;
+    left: -85px;
     display: flex;
     flex-flow: column;
     z-index: 10;
@@ -63,7 +63,7 @@
 .UserInfoContainer {
     display: flex;
     flex-flow: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: flex-start;
     height: 100%;
     width: 70%;
@@ -101,7 +101,6 @@
     height: auto;
     width: 70%;
     position: relative;
-    top: 1px;
     left: 2px;
 }
 
@@ -109,9 +108,9 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 90%;
+    width: 92%;
     height: 25%;
-    margin: 0 auto;
+    margin: 0 auto 20px;
 }
 
 .ControlButton {
@@ -139,8 +138,8 @@
     height: auto;
     width: 65%;
     position: relative;
-    top: 1px;
-    left: 2px;
+    top: 5px;
+    left: 5px;
 }
 
 .ControlButtonText {
@@ -165,16 +164,21 @@
 
 .DotsIcon svg {
     width: 60%;
-    top: 5px;
-    left: 5px;
+    top: 6px;
+    left: 6px;
 }
 
 .AddFriendButton {
     color: #155fe8;
-    background-color: rgba(77, 161, 250, 0.1);
+    background-color: rgba(77, 161, 250, 0.14);
     margin-left: 0;
 }
 
 .AddFriendButton:hover {
-    background-color: rgba(70, 146, 227, 0.14);
+    background-color: rgba(70, 146, 227, 0.18);
+}
+
+.AddFriendIcon {
+    top: 9px;
+    left: 7px;
 }

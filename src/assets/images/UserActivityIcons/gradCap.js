@@ -1,12 +1,12 @@
 import React from 'react';
 
-const gradCap = () => (
+const gradCap = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
 
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+fill={props.fill ||"#000000"} stroke="none">
 <path d="M1301 4261 c-667 -236 -1225 -437 -1240 -448 -84 -62 -76 -192 15
 -245 16 -9 576 -211 1244 -448 1028 -366 1221 -431 1255 -427 44 5 2423 848
 2469 875 50 29 71 67 71 127 0 60 -21 98 -71 127 -16 9 -567 207 -1224 439

@@ -1,14 +1,12 @@
 import React from 'react';
 
-const isFriend = () => (
+const isFriend = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="608.000000pt" height="576.000000pt" viewBox="0 0 608.000000 576.000000"
  preserveAspectRatio="xMidYMid meet">
-<metadata>
-Created by potrace 1.16, written by Peter Selinger 2001-2019
-</metadata>
+
 <g transform="translate(0.000000,576.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+fill={props.fill || "#000000"} stroke="none">
 <path d="M2526 5594 c-103 -20 -191 -51 -296 -105 -389 -199 -621 -606 -596
 -1045 27 -480 357 -885 824 -1012 89 -24 113 -26 282 -26 167 0 194 3 281 26
 407 110 718 437 804 847 127 604 -271 1201 -878 1316 -98 19 -326 18 -421 -1z"/>

@@ -176,6 +176,7 @@ const PostContextProvider = (props) => {
             name: props.name,
             userKey: props.firebaseKey,
             postsKey: props.postsKey,
+            publicProfileKey: props.publicProfileKey,
             profileImage: props.profileImage
         };
         props.onAddPost(props.authToken, props.postsKey, post);
@@ -189,6 +190,7 @@ const PostContextProvider = (props) => {
     const saveEdits = () => {
         const post = {
             postsKey: postsKey,
+            publicProfileKey: props.publicProfileKey,
             text: text,
             image: image || null,
             background: background || null,
@@ -220,6 +222,7 @@ const mapStateToProps = state => {
         authToken: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
         postsKey: state.profile.postsKey,
+        publicProfileKey: state.profile.publicProfileKey,
         name: state.profile.firstName + ' ' + state.profile.lastName,
         profileImage: state.profile.profileImage
     };

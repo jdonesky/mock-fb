@@ -36,7 +36,7 @@ const AsyncLogout = React.lazy(() => {
 });
 
 const AsyncDeleteModal = React.lazy(() => {
-    return import("./components/UI/Modal/DeleteModal")
+    return import("./components/UI/Modal/DeleteModal/DeleteModal")
 })
 
 const AsyncCreatePostModal = React.lazy(() => {

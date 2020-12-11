@@ -1,12 +1,12 @@
 import React from 'react';
 
-const briefcase = (
+const briefcase = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
 
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+fill={props.fill || "#000000"} stroke="none">
 <path d="M1942 4799 c-254 -37 -478 -242 -537 -491 -8 -35 -15 -111 -15 -171
 l0 -108 148 3 147 3 5 110 c5 101 9 115 40 173 54 102 141 163 256 182 75 13
 1071 13 1145 1 117 -19 205 -82 259 -183 31 -58 35 -72 40 -173 l5 -110 148

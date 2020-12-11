@@ -59,31 +59,31 @@ const profileSummaryDropdown = (props) => {
         } else {
             if (props.profile.friends && props.profile.friends.length) {
                 firstInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1]}`
-                firstInfoIcon = <Link/>
+                firstInfoIcon = <Link fill='rgba(0,0,0,0.5)'/>
                 markFirst = 'FRIENDS'
             } else if (props.profile.currLocation) {
                 firstInfo = <span className={classes.InfoEntry}>{'Lives in '} <b>{props.profile.currLocation.name}</b></span>
-                firstInfoIcon = <Home/>
+                firstInfoIcon = <Home fill='rgba(0,0,0,0.5)'/>
                 markFirst = 'CURRLOCATION'
             } else if (props.profile.education && props.profile.education.length) {
                 firstInfo = <span className={classes.InfoEntry}>{`Studie${props.profile.education[0].graduated ? 'd' : 's'} at `}<b>{props.profile.education[0].school}</b></span>
-                firstInfoIcon = <GradCap/>
+                firstInfoIcon = <GradCap fill='rgba(0,0,0,0.5)'/>
                 markFirst = 'EDUCATION'
             } else if (props.profile.hometown) {
                 firstInfo = <span className={classes.InfoEntry}>{'From '} <b>{props.profile.hometown.name}</b></span>
-                firstInfoIcon = <Pin/>
+                firstInfoIcon = <Pin fill='rgba(0,0,0,0.5)'/>
                 markFirst = 'HOMETOWN'
             } else if (props.profile.occupations && props.profile.occupations.length) {
                 const sortedOccupations = props.profile.occupations && props.profile.occupations.sort((a, b) => (new Date(a.endYear) < new Date(b.endYear)) ? 1 : -1)
                 firstInfo =
                     <span className={classes.InfoEntry}>{`${sortedOccupations[0].currentEmployer ? '' : 'Former'}`}
                         <b>{sortedOccupations[0].position}</b> at <b>{sortedOccupations[0].company}</b></span>
-                firstInfoIcon = <BriefCase/>
+                firstInfoIcon = <BriefCase fill='rgba(0,0,0,0.5)'/>
                 markFirst = 'OCCUPATION'
             } else {
                 firstInfo = <span
                     className={classes.InfoEntry}>{`Was born ${convertDashedDatetime(props.profile.birthday)}`}</span>
-                firstInfoIcon = <Cake/>
+                firstInfoIcon = <Cake fill='rgba(0,0,0,0.5)'/>
             }
         }
     }
@@ -94,21 +94,21 @@ const profileSummaryDropdown = (props) => {
     if (props.profile) {
         if (props.profile.friends && props.profile.friends.length && markFirst !== 'FRIENDS') {
             secondInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1]}`
-            secondInfoIcon = <Link/>
+            secondInfoIcon = <Link fill='rgba(0,0,0,0.5)'/>
         } else if (props.profile.currLocation && markFirst !== 'CURRLOCATION') {
             secondInfo = <span className={classes.InfoEntry}>{'Lives in '} <b>{props.profile.currLocation.name}</b></span>
-            secondInfoIcon = <Home/>
+            secondInfoIcon = <Home fill='rgba(0,0,0,0.5)'/>
         } else if (props.profile.education && props.profile.education.length && markFirst !== 'EDUCATION') {
             secondInfo = <span className={classes.InfoEntry}>{`Studie${props.profile.education[0].graduated ? 'd' : 's'} at `}<b>{props.profile.education[0].school}</b></span>
-            secondInfoIcon = <GradCap/>
+            secondInfoIcon = <GradCap fill='rgba(0,0,0,0.5)'/>
         } else if (props.profile.hometown && markFirst !== 'HOMETOWN') {
             secondInfo = <span className={classes.InfoEntry}>{'From '} <b>{props.profile.hometown.name}</b></span>
-            secondInfoIcon = <Pin/>
+            secondInfoIcon = <Pin fill='rgba(0,0,0,0.5)'/>
         } else if (props.profile.occupations && props.profile.occupations.length && markFirst !== 'OCCUPATION') {
             const sortedOccupations = props.profile.occupations && props.profile.occupations.sort((a, b) => (new Date(a.endYear) < new Date(b.endYear)) ? 1 : -1)
             secondInfo = <span className={classes.InfoEntry}>{`${sortedOccupations[0].currentEmployer ? '' : 'Former'}`}
                 <b>{sortedOccupations[0].position}</b> at <b>{sortedOccupations[0].company}</b></span>
-            secondInfoIcon = <BriefCase/>
+            secondInfoIcon = <BriefCase fill='rgba(0,0,0,0.5)'/>
         } else {
             secondInfo = null;
             secondInfoIcon = null;
@@ -132,14 +132,14 @@ const profileSummaryDropdown = (props) => {
         }
         if (isFriend) {
             firstControl = <button className={[classes.ControlButton, classes.FirstControl].join(" ")}>
-                <div className={classes.MessageIcon}><FbMessage/></div>
+                <div className={classes.MessageIcon}><FbMessage /></div>
                 <span className={classes.ControlButtonText}>Message</span></button>
             secondControl = <button className={classes.ControlButton}>
-                <div className={classes.ButtonIcon}><IsFriend/></div>
+                <div className={classes.ButtonIcon}><IsFriend /></div>
             </button>
         } else {
             firstControl = <div className={[classes.ControlButton, classes.FirstControl, classes.AddFriendButton].join(" ")}>
-                <div className={classes.ButtonIcon}><AddFriend fill='#155fe8'/></div>
+                <div className={[classes.ButtonIcon, classes.AddFriendIcon].join(" ")}><AddFriend fill='#155fe8'/></div>
                 <span className={classes.ControlButtonText}>Add Friend</span></div>
             if (props.profile.AllowMessages === 'ALL') {
                 secondControl =

@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
-import Modal from "./Modal";
+import Modal from "../Modal";
 import classes from "./DeleteModal.css";
-import Close from "../../../assets/images/close";
-import sharedClasses from "../../Profile/ProfileAbout/AboutContent/EditContent/SharedEditFormUI.css";
-import Button from "../Button/Button";
-import {DeleteContext} from "../../../context/delete-context";
+import Close from "../../../../assets/images/close";
+import sharedClasses from "../../../Profile/ProfileAbout/AboutContent/EditContent/SharedEditFormUI.css";
+import Button from "../../Button/Button";
+import {DeleteContext} from "../../../../context/delete-context";
 
 const deleteModal = () => {
     const deleteContext = useContext(DeleteContext)

@@ -1,14 +1,14 @@
 
 import React from 'react';
 
-const link = () => (
+const link = (props) => (
 
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
 
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+fill={props.fill || "#000000"} stroke="none">
 <path d="M3741 5105 c-176 -28 -359 -103 -503 -205 -82 -59 -1027 -981 -1060
 -1035 -26 -42 -22 -72 11 -106 27 -26 36 -29 98 -29 146 0 328 -33 476 -86
 123 -44 87 -68 487 330 195 194 374 365 397 380 194 120 453 96 622 -58 179
