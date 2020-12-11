@@ -23,10 +23,12 @@ const profileSummaryDropdown = (props) => {
     const {onFetchPublicProfile, publicProfileKey, authToken} = props
 
     useEffect(() => {
+        console.log('publicProfileKey', publicProfileKey)
         onFetchPublicProfile(authToken, publicProfileKey)
     }, [onFetchPublicProfile, publicProfileKey, authToken])
 
     useEffect(() => {
+        console.log('publicProfileKey',publicProfileKey)
         console.log('PUBLIC PROFILE', props.profile)
     })
 
@@ -37,6 +39,7 @@ const profileSummaryDropdown = (props) => {
         }
     }
 
+    let markFirst;
     let firstInfo;
     let firstInfoIcon;
     if (props.profile) {
@@ -57,24 +60,26 @@ const profileSummaryDropdown = (props) => {
             if (props.profile.friends && props.profile.friends.length) {
                 firstInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1]}`
                 firstInfoIcon = <Link/>
+                markFirst = 'FRIENDS'
             } else if (props.profile.currLocation) {
-                firstInfo =
-                    <span className={classes.InfoEntry}>{'Lives in '} <b>{props.profile.currLocation.name}</b></span>
+                firstInfo = <span className={classes.InfoEntry}>{'Lives in '} <b>{props.profile.currLocation.name}</b></span>
                 firstInfoIcon = <Home/>
+                markFirst = 'CURRLOCATION'
             } else if (props.profile.education && props.profile.education.length) {
-                firstInfo = <span
-                    className={classes.InfoEntry}>{`Studie${props.profile.education[0].graduated ? 'd' : 's'} at `}
-                    <b>{props.profile.education[0].school}</b></span>
+                firstInfo = <span className={classes.InfoEntry}>{`Studie${props.profile.education[0].graduated ? 'd' : 's'} at `}<b>{props.profile.education[0].school}</b></span>
                 firstInfoIcon = <GradCap/>
+                markFirst = 'EDUCATION'
             } else if (props.profile.hometown) {
-                firstInfo = <span className={classes.InfoEntry}>{'Is from '} <b>{props.profile.hometown.name}</b></span>
+                firstInfo = <span className={classes.InfoEntry}>{'From '} <b>{props.profile.hometown.name}</b></span>
                 firstInfoIcon = <Pin/>
+                markFirst = 'HOMETOWN'
             } else if (props.profile.occupations && props.profile.occupations.length) {
                 const sortedOccupations = props.profile.occupations && props.profile.occupations.sort((a, b) => (new Date(a.endYear) < new Date(b.endYear)) ? 1 : -1)
                 firstInfo =
                     <span className={classes.InfoEntry}>{`${sortedOccupations[0].currentEmployer ? '' : 'Former'}`}
                         <b>{sortedOccupations[0].position}</b> at <b>{sortedOccupations[0].company}</b></span>
                 firstInfoIcon = <BriefCase/>
+                markFirst = 'OCCUPATION'
             } else {
                 firstInfo = <span
                     className={classes.InfoEntry}>{`Was born ${convertDashedDatetime(props.profile.birthday)}`}</span>
@@ -82,27 +87,24 @@ const profileSummaryDropdown = (props) => {
             }
         }
     }
-    const firstInfoEntry = <div className={classes.InfoEntryContainer}>{firstInfoIcon}{firstInfo}</div>
+    const firstInfoEntry = <div className={classes.InfoEntryContainer}><div className={classes.InfoIcon}>{firstInfoIcon}</div>{firstInfo}</div>
 
     let secondInfo;
     let secondInfoIcon;
     if (props.profile) {
-        if (props.profile.friends && props.profile.friends.length) {
+        if (props.profile.friends && props.profile.friends.length && markFirst !== 'FRIENDS') {
             secondInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1]}`
             secondInfoIcon = <Link/>
-        } else if (props.profile.currLocation) {
-            secondInfo =
-                <span className={classes.InfoEntry}>{'Lives in '} <b>{props.profile.currLocation.name}</b></span>
+        } else if (props.profile.currLocation && markFirst !== 'CURRLOCATION') {
+            secondInfo = <span className={classes.InfoEntry}>{'Lives in '} <b>{props.profile.currLocation.name}</b></span>
             secondInfoIcon = <Home/>
-        } else if (props.profile.education && props.profile.education.length) {
-            secondInfo =
-                <span className={classes.InfoEntry}>{`Studie${props.profile.education[0].graduated ? 'd' : 's'} at `}
-                    <b>{props.profile.education[0].school}</b></span>
+        } else if (props.profile.education && props.profile.education.length && markFirst !== 'EDUCATION') {
+            secondInfo = <span className={classes.InfoEntry}>{`Studie${props.profile.education[0].graduated ? 'd' : 's'} at `}<b>{props.profile.education[0].school}</b></span>
             secondInfoIcon = <GradCap/>
-        } else if (props.profile.hometown) {
-            secondInfo = <span className={classes.InfoEntry}>{'Is from '} <b>{props.profile.hometown.name}</b></span>
+        } else if (props.profile.hometown && markFirst !== 'HOMETOWN') {
+            secondInfo = <span className={classes.InfoEntry}>{'From '} <b>{props.profile.hometown.name}</b></span>
             secondInfoIcon = <Pin/>
-        } else if (props.profile.occupations && props.profile.occupations.length) {
+        } else if (props.profile.occupations && props.profile.occupations.length && markFirst !== 'OCCUPATION') {
             const sortedOccupations = props.profile.occupations && props.profile.occupations.sort((a, b) => (new Date(a.endYear) < new Date(b.endYear)) ? 1 : -1)
             secondInfo = <span className={classes.InfoEntry}>{`${sortedOccupations[0].currentEmployer ? '' : 'Former'}`}
                 <b>{sortedOccupations[0].position}</b> at <b>{sortedOccupations[0].company}</b></span>
@@ -117,7 +119,7 @@ const profileSummaryDropdown = (props) => {
     if (!secondInfo || !secondInfoIcon) {
         secondInfoEntry = null;
     } else {
-        secondInfoEntry = <div className={classes.InfoEntryContainer}>{secondInfoIcon}{secondInfo}</div>
+        secondInfoEntry = <div className={classes.InfoEntryContainer}><div className={classes.InfoIcon}>{secondInfoIcon}</div>{secondInfo}</div>
     }
 
 
@@ -129,26 +131,33 @@ const profileSummaryDropdown = (props) => {
             isFriend = props.myFriends.find(friend => friend.userId === props.profile.userId)
         }
         if (isFriend) {
-            firstControl = <button className={classes.ControlButton}>
+            firstControl = <button className={[classes.ControlButton, classes.FirstControl].join(" ")}>
                 <div className={classes.MessageIcon}><FbMessage/></div>
                 <span className={classes.ControlButtonText}>Message</span></button>
             secondControl = <button className={classes.ControlButton}>
                 <div className={classes.ButtonIcon}><IsFriend/></div>
             </button>
         } else {
-            firstControl = <button className={[classes.ControlButton, classes.AddFriendButton].join(" ")}>
-                <div className={classes.ButtonIcon}><AddFriend/></div>
-                <span className={classes.ControlButtonText}>Add Friend</span></button>
+            firstControl = <div className={[classes.ControlButton, classes.FirstControl, classes.AddFriendButton].join(" ")}>
+                <div className={classes.ButtonIcon}><AddFriend fill='#155fe8'/></div>
+                <span className={classes.ControlButtonText}>Add Friend</span></div>
             if (props.profile.AllowMessages === 'ALL') {
-                secondControl = <button className={classes.ControlButton}>
-                    <div className={classes.ButtonIcon}><FbMessage/></div>
-                </button>
+                secondControl =
+                    <div className={classes.ControlButton}>
+                        <div className={classes.ButtonIcon}><FbMessage/></div>
+                    </div>
             } else {
-                secondControl = <button className={classes.ControlButton}>
+                secondControl =
+                    <div className={classes.ControlButton}>
                     <div className={classes.ButtonIcon}><Follow/></div>
-                </button>
+                    </div>
             }
         }
+    }
+
+    let userName;
+    if (props.profile) {
+        userName = `${props.profile.firstName } ${props.profile.lastName}`
     }
 
     return (
@@ -159,17 +168,17 @@ const profileSummaryDropdown = (props) => {
                         <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})`: null}}>
                             {props.profileImage ? null : <Avatar />}
                         </div>
-                        <div className={classes.UserInfoContainer}>
-                            <div className={classes.UserName}>{props.name}</div>
-                            {firstInfoEntry}
-                            {secondInfoEntry}
-                        </div>
+                    </div>
+                    <div className={classes.UserInfoContainer}>
+                        <div className={classes.UserName}>{userName}</div>
+                        {firstInfoEntry}
+                        {secondInfoEntry}
                     </div>
                 </section>
                 <section className={classes.ControlsSection}>
                     {firstControl}
                     {secondControl}
-                    <button className={classes.ControlButton}><div className={classes.ButtonIcon}><Dots /></div></button>
+                    <div className={classes.ControlButton}><div className={[classes.ButtonIcon, classes.DotsIcon].join(" ")}><Dots /></div></div>
                 </section>
             </div>
         </div>

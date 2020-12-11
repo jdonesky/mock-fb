@@ -576,13 +576,13 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
 
                 if (!lastFetchedPage) {
                     lastFetchedPage = 0;
+                    console.log('NO LASTFETCHEDPAGE PASSED')
                 }
 
                 const promises = [];
                 let query;
 
                 console.log('keys length', keys.length);
-                console.log('lastFetchedPage', lastFetchedPage);
                 console.log('sliced keys ', keys.slice(lastFetchedPage, lastFetchedPage + pageLength));
 
                 for (let key of keys.slice(lastFetchedPage, lastFetchedPage + pageLength)) {
@@ -591,10 +591,12 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
                     promises.push(query);
                 }
 
+                console.log(promises);
+
 
                 if (lastFetchedPage + pageLength <= keys.length) {
                     lastFetchedPage = lastFetchedPage + pageLength;
-                    console.log(lastFetchedPage);
+                    console.log('lastfetchedPage after fetch ', lastFetchedPage);
                     console.log('still pages left')
                 } else {
                     const remainder = keys.length - lastFetchedPage;
@@ -610,12 +612,17 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
             })
             .then(responses => {
                 const oldPostIds = oldPosts && oldPosts.length ? oldPosts.map(post => post.id) : null;
-                console.log(oldPostIds)
-                let newPosts = responses.map(response => [...response.data]).flat().filter(item => item)
+
+                let newPosts = responses.map(response => {
+                    if (response.data && response.data.length) {
+                        return [...response.data]
+                    }}
+                )
+                    .flat().filter(item => item)
                     .sort((a,b) => {
                         return new Date(b.date) - new Date(a.date);
                     });
-                console.log(newPosts);
+                console.log('newPosts', newPosts);
                 if (oldPostIds) {
                     newPosts = newPosts.filter(post => !oldPostIds.includes(post.id))
                     console.log('NEW POSTS FILTERED FOR OLD', newPosts);

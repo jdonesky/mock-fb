@@ -434,7 +434,8 @@ const post = (props) => {
     }
 
     let profileSummary;
-    if (viewingSummary) {
+    // if (viewingSummary) {
+    if (true) {
         profileSummary = <ProfileSummary publicProfileKey={props.publicProfileKey} myFriends={props.friends} onMouseEnter={cancelCloseSummary} onMouseLeave={startClosingViewingSummary}/>
     }
 

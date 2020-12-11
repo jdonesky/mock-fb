@@ -1,12 +1,12 @@
 import React from 'react';
 
-const addFriend = () => (
+const addFriend = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="576.000000pt" height="595.000000pt" viewBox="0 0 576.000000 595.000000"
  preserveAspectRatio="xMidYMid meet">
 
 <g transform="translate(0.000000,595.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+fill={props.fill || "#000000"} stroke="none">
 <path d="M2360 5555 c-233 -48 -452 -188 -597 -379 -59 -79 -137 -239 -165
 -341 -18 -67 -22 -107 -22 -245 0 -141 3 -177 23 -250 46 -173 134 -324 260
 -451 127 -126 278 -214 451 -260 72 -20 110 -23 245 -23 191 -1 273 17 430 94
