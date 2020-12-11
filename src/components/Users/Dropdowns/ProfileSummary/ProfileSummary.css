@@ -1,4 +1,9 @@
 
+
+.Positioner {
+    position:relative;
+}
+
 .DropdownContainer {
     height: 150px;
     width: 200px;
@@ -54,10 +59,18 @@
     font-size: 16px;
 }
 
-.InfoEntry {
+.UserName:hover {
+    text-decoration: underline;
+}
+
+.InfoEntryContainer {
     display: flex;
     width: 90%;
     justify-content: flex-start;
+}
+
+.InfoEntry {
+    min-height: 30px;
 }
 
 .InfoIcon {
@@ -98,6 +111,21 @@
 }
 
 .ButtonIcon svg {
+    height: auto;
+    width: 80%;
+    position: relative;
+}
+
+.ControlButtonText {
+    font-weight: 900;
+}
+
+.MessageIcon {
+    height: 30px;
+    width: 30px;
+}
+
+.MessageIcon svg {
     height: auto;
     width: 80%;
     position: relative;

@@ -10,6 +10,7 @@ import GifSelector from './Dropdowns/Gifs/GifSelector';
 import EmojiSelector from './Dropdowns/Emojis/EmojiSelector'
 import EditOwnPostDropdown from './Dropdowns/EditPost/EditOwnPost';
 import EditOthersPostDropdown from './Dropdowns/EditPost/EditOthersPost';
+import ProfileSummary from '../../../../Users/Dropdowns/ProfileSummary/ProfileSummary';
 
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
 import Dots from '../../../../../assets/images/dots'
@@ -22,12 +23,6 @@ import Globe from "../../../../../assets/images/earth";
 import Lock from "../../../../../assets/images/padlock";
 import Friends from "../../../../../assets/images/friends";
 import Delete from "../../../../../assets/images/delete";
-import Pen from "../../../../../assets/images/edit";
-
-import Bookmark from "../../../../../assets/images/UserActionIcons/bookmark";
-import Bell from "../../../../../assets/images/UserActionIcons/bell";
-import HideFile from "../../../../../assets/images/UserActionIcons/hideFile";
-import HideFiles from "../../../../../assets/images/UserActionIcons/hideFiles";
 
 import InlineDots from '../../../../UI/Spinner/InlineDots'
 
@@ -46,6 +41,8 @@ const post = (props) => {
     const imageUploader = useRef(null);
     const commentInput = useRef(null);
 
+    const [viewingSummary, setViewingSummary] = useState(false);
+
     const [showComments, setShowComments] = useState(true);
     const [editingDropdown, setEditingDropdown] = useState(false);
 
@@ -56,38 +53,78 @@ const post = (props) => {
     const [showEmojiSelector, setShowEmojiSelector] = useState(null);
     const [showGifSelector, setShowGifSelector] = useState(false);
 
+    let summaryOpeningTimer;
+    const startViewingSummary = () => {
+        summaryOpeningTimer = setTimeout(() => {
+            setViewingSummary(true);
+        }, 500)
+    }
+
+    const cancelOpenSummary = () => {
+        clearTimeout(summaryOpeningTimer)
+    }
+
+    let summaryClosingTimer;
+    const startClosingViewingSummary = () => {
+        summaryClosingTimer = setTimeout(() => {
+            setViewingSummary(false)
+        }, 500)
+    }
+
+    const quickCloseSummary = () => {
+        setViewingSummary(false);
+    }
+
+    const cancelCloseSummary = () => {
+        clearTimeout(summaryClosingTimer);
+    }
+
+    const enterProfileImage = () => {
+        startViewingSummary();
+        if (summaryClosingTimer) {
+            cancelCloseSummary();
+        }
+    }
+
+    const leaveProfileImage = () => {
+        cancelOpenSummary()
+        if (viewingSummary) {
+            startClosingViewingSummary()
+        }
+    }
+
     const toggleComments = () => {
         setShowComments(prevState => {
             return !prevState;
         })
     }
 
-    let closingTimer;
-    const startCloseEmojiSelector = () => {
-        closingTimer = setTimeout(() => {
-            setShowEmojiSelector(false);
-        }, 700)
-    }
-
-    const cancelCloseEmojiSelector = () => {
-        clearTimeout(closingTimer);
-    }
-
-    let openingTimer;
+    let emojiOpeningTimer;
     const startOpeningEmojiSelector = () => {
-        openingTimer = setTimeout(() => {
+        emojiOpeningTimer = setTimeout(() => {
             setShowEmojiSelector(true);
         }, 500);
     }
 
     const cancelOpenEmojiSelector = () => {
-        clearTimeout(openingTimer)
+        clearTimeout(emojiOpeningTimer)
+    }
+
+    let emojiClosingTimer;
+    const startCloseEmojiSelector = () => {
+        emojiClosingTimer = setTimeout(() => {
+            setShowEmojiSelector(false);
+        }, 700)
+    }
+
+    const cancelCloseEmojiSelector = () => {
+        clearTimeout(emojiClosingTimer);
     }
 
     const enterLikeButton = () => {
         startOpeningEmojiSelector()
-        if (closingTimer) {
-            clearTimeout(closingTimer);
+        if (emojiClosingTimer) {
+            cancelCloseEmojiSelector()
         }
     }
 
@@ -396,14 +433,22 @@ const post = (props) => {
         profileImage = props.postProfileImage
     }
 
+    let profileSummary;
+    if (viewingSummary) {
+        profileSummary = <ProfileSummary publicProfileKey={props.publicProfileKey} myFriends={props.friends} onMouseEnter={cancelCloseSummary} onMouseLeave={startClosingViewingSummary}/>
+    }
+
     return (
         <div className={classes.Container}>
             <section className={classes.Header}>
                 <div className={classes.HeaderInfo}>
                     <div className={classes.ProfileImageContainer}>
-                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}}>
+                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}} onMouseEnter={enterProfileImage} onMouseLeave={leaveProfileImage}>
                             {profileImage ? null : <NoGenderPlaceholder />}
                         </div>
+                        <OutsideAlerter action={quickCloseSummary}>
+                            {profileSummary}
+                        </OutsideAlerter>
                     </div>
                     <div className={classes.IdContainer}>
                         <div>{props.posterName && props.posterName}{taggedFriends}{location}</div>
@@ -425,7 +470,7 @@ const post = (props) => {
             {!props.image && !props.background || props.comments || props.reactions ? <div className={classes.Break}/> : null}
             <section className={classes.ButtonsContainer}>
                 <OutsideAlerter action={quickCloseEmojiSelector}>
-                    <div className={classes.GifMenuPositioner} onMouseLeave={startCloseEmojiSelector} onMouseEnter={cancelCloseEmojiSelector}>
+                    <div className={classes.GifMenuPositioner} onMouseEnter={cancelCloseEmojiSelector} onMouseLeave={startCloseEmojiSelector}>
                         {emojiSelectMenu}
                     </div>
                 </OutsideAlerter>
@@ -487,6 +532,7 @@ const mapStateToProps = state => {
         userId: state.profile.userId,
         profileImage: state.profile.profileImage,
         name: state.profile.firstName + ' ' + state.profile.lastName,
+        friends: state.profile.friends,
         loadingNewComment: state.posts.loadingNewComment,
         addingPostReaction: state.posts.addingPostReaction,
         editingPostReaction: state.posts.editingPostReaction
