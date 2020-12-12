@@ -48,6 +48,9 @@ const profileSummaryDropdown = (props) => {
         }
     }, [onFetchPublicProfile, publicProfileKey, authToken])
 
+    useEffect(() => {
+
+    }, [])
 
     useEffect(() => {
         console.log('publicProfileKey',publicProfileKey)
@@ -309,7 +312,8 @@ const mapStateToProps = state => {
         authToken: state.auth.token,
         profile: state.users.singleProfile,
         firebaseKey: state.profile.firebaseKey,
-        myPublicProfileKey: state.profile.publicProfileKey
+        myPublicProfileKey: state.profile.publicProfileKey,
+        sentRequests: state.friends.sentRequests
     }
 }
 
