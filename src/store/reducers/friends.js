@@ -2,40 +2,66 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
   friends: [],
-  friendRequests: [],
-  loading: false,
+  sentRequests: [],
+  receivedRequests: [],
+  sendingFriendRequest: false,
+  cancelingFriendRequest: false,
   error: null
 };
 
-const fetchFriendsInit = (state,action) => {
+const sendFriendRequestInit = (state,action) => {
   return {
     ...state,
-    loading: true
+    sendingFriendRequest: true
   }
 }
 
-const fetchFriendsSuccess = (state,action) => {
+const sendFriendRequestSuccess = (state,action) => {
   return {
     ...state,
-    friends: action.friends,
-    loading: false
+    sendingFriendRequest: false
   }
 }
 
-const fetchFriendsFail = (state, action) => {
+const sendFriendRequestFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
+    sendingFriendRequest: false
+  }
+}
+
+const cancelFriendRequestInit = (state,action) => {
+  return {
+    ...state,
+    cancelingFriendRequest: true
+  }
+}
+
+const cancelFriendRequestSuccess = (state,action) => {
+  return {
+    ...state,
+    cancelingFriendRequest: false
+  }
+}
+
+const cancelFriendRequestFail = (state, action) => {
+  return {
+    ...state,
+    error: action.error,
+    cancelingFriendRequest: false
   }
 }
 
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_FRIENDS_INIT: return fetchFriendsInit(state,action);
-    case actionTypes.FETCH_FRIENDS_SUCCESS: return fetchFriendsSuccess(state,action);
-    case actionTypes.FETCH_FRIENDS_FAIL: return fetchFriendsFail(state,action);
+    case actionTypes.SEND_FRIEND_REQUEST_INIT: return sendFriendRequestInit(state,action);
+    case actionTypes.SEND_FRIEND_REQUEST_SUCCESS: return sendFriendRequestSuccess(state,action);
+    case actionTypes.SEND_FRIEND_REQUEST_FAIL: return sendFriendRequestFail(state,action);
+    case actionTypes.CANCEL_FRIEND_REQUEST_INIT: return cancelFriendRequestInit(state,action);
+    case actionTypes.CANCEL_FRIEND_REQUEST_SUCCESS: return cancelFriendRequestSuccess(state,action);
+    case actionTypes.CANCEL_FRIEND_REQUEST_FAIL: return cancelFriendRequestFail(state,action);
     default:
       return state;
   }

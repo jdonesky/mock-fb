@@ -98,6 +98,21 @@ export const reverseMapMonths = {
   '12': 'December'
 }
 
+export const reverseMapZeroMonths = {
+  '01' : 'January',
+  '02' : 'February',
+  '03' : 'March',
+  '04' : 'April',
+  '05' : 'May',
+  '06' : 'June',
+  '07' : 'July',
+  '08' : 'August',
+  '09' : 'September',
+  '10': 'October',
+  '11': 'November',
+  '12': 'December'
+}
+
 
 export const convertDate = (date) => {
   const year = date.split('-')[0]
@@ -133,7 +148,7 @@ export const convertDashedDatetime = (date) => {
 
   const rawDate = date.split("T")[0].split("-")
   let day = rawDate[2];
-  const month = reverseMapMonths[rawDate[1]];
+  const month = reverseMapMonths[rawDate[1]] || reverseMapZeroMonths[rawDate[1]];
   const year = rawDate[0];
   let formatted = `${month} ${day}, ${year}`
 

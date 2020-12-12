@@ -17,6 +17,7 @@ import BriefCase from '../../../../assets/images/UserActivityIcons/briefcase';
 import Cake from '../../../../assets/images/cake';
 import FbMessage from '../../../../assets/images/UserActionIcons/fb-message';
 import AddFriend from '../../../../assets/images/UserActionIcons/add-friend';
+import UnFriend from '../../../../assets/images/UserActionIcons/unfriend';
 import IsFriend from '../../../../assets/images/UserActivityIcons/isFriend';
 import Follow from '../../../../assets/images/UserActionIcons/follow';
 import Dots from '../../../../assets/images/dots';
@@ -34,15 +35,45 @@ const profileSummaryDropdown = (props) => {
     useEffect(() => {
         console.log('publicProfileKey', publicProfileKey)
         onFetchPublicProfile(authToken, publicProfileKey)
+        return () => {
+            console.log('clean up profile summary on dismount')
+            userName = null;
+            profileImage = null;
+            mutualFriends = null;
+            firstInfo = null;
+            firstInfoIcon = null;
+            secondInfo = null;
+            secondInfoIcon = null;
+            isFriend = null;
+        }
     }, [onFetchPublicProfile, publicProfileKey, authToken])
+
 
     useEffect(() => {
         console.log('publicProfileKey',publicProfileKey)
+        console.log('myPublicProfileKey', props.myPublicProfileKey)
         console.log('PUBLIC PROFILE', props.profile)
     })
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
     const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
+    const [friendRequestSent, setFriendRequestSent] = useState(false);
+    const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
+
+    const sendFriendRequest = () => {
+        props.onSendFriendRequest(authToken, props.myPublicProfileKey, publicProfileKey)
+        setFriendRequestSent(true)
+        if (friendRequestCanceled) {
+            setFriendRequestCanceled(false)
+        }
+    }
+
+    const cancelFriendRequest = () => {
+        props.onCancelFriendRequest(authToken, props.myPublicProfileKey, publicProfileKey)
+        setFriendRequestCanceled(true)
+        setFriendRequestSent(false)
+    }
+
     let mutualFriends;
     if (props.profile) {
         if (props.profile.friends && props.profile.friends.length && props.myFriends && props.myFriends.length) {
@@ -143,6 +174,23 @@ const profileSummaryDropdown = (props) => {
     let isFriendsOptions;
     if (viewingIsFriendsOptions) {
         isFriendsOptions = <IsFriendOptions />
+    };
+
+    let addFriendButtonText;
+    let addFriendButtonIcon;
+    let addFriendButtonClasses;
+    let addFriendButtonAction;
+    if (!friendRequestSent) {
+        addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
+        addFriendButtonText = 'Add Friend';
+        addFriendButtonIcon = <AddFriend fill='#155fe8'/>
+        addFriendButtonAction = sendFriendRequest;
+    }
+    if (friendRequestSent) {
+        addFriendButtonClasses = [classes.ControlButton, classes.FirstControl];
+        addFriendButtonText = 'Cancel';
+        addFriendButtonIcon = <UnFriend />
+        addFriendButtonAction = cancelFriendRequest;
     }
 
     let isFriend;
@@ -168,10 +216,12 @@ const profileSummaryDropdown = (props) => {
                 )
             } else {
                 firstControl =
-                    <div className={[classes.ControlButton, classes.FirstControl, classes.AddFriendButton].join(" ")}>
-                        <div className={[classes.ButtonIcon, classes.AddFriendIcon].join(" ")}><AddFriend
-                            fill='#155fe8'/></div>
-                        <span className={classes.ControlButtonText}>Add Friend</span></div>
+                    <div className={addFriendButtonClasses.join(" ")} onClick={addFriendButtonAction}>
+                        <div className={[classes.ButtonIcon, classes.AddFriendIcon].join(" ")}>
+                            {addFriendButtonIcon}
+                        </div>
+                        <span className={classes.ControlButtonText}>{addFriendButtonText}</span>
+                    </div>
                 if (props.profile.privacy.AllowMessages === 'ALL') {
                     secondControl =
                         <div className={classes.ControlButton}>
@@ -221,13 +271,18 @@ const profileSummaryDropdown = (props) => {
         userName = `${props.profile.firstName } ${props.profile.lastName}`
     }
 
+    let profileImage;
+    if (props.profile) {
+        profileImage = props.profile.profileImage
+    }
+
     return (
         <div className={classes.Positioner} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
             <div className={classes.DropdownContainer}>
                 <section className={classes.HeaderContainer}>
                     <div className={classes.ProfileImageBlock}>
-                        <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})`: null}}>
-                            {props.profileImage ? null : <Avatar />}
+                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}}>
+                            {profileImage ? null : <Avatar />}
                         </div>
                     </div>
                     <div className={classes.UserInfoContainer}>
@@ -253,14 +308,16 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         profile: state.users.singleProfile,
-        firebaseKey: state.profile.firebaseKey
+        firebaseKey: state.profile.firebaseKey,
+        myPublicProfileKey: state.profile.publicProfileKey
     }
 }
 
-
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPublicProfile: (authToken,publicProfileKey) => dispatch(actions.fetchPublicProfileAttempt(authToken,publicProfileKey))
+        onFetchPublicProfile: (authToken,publicProfileKey) => dispatch(actions.fetchPublicProfileAttempt(authToken,publicProfileKey)),
+        onSendFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.sendFriendRequestAttempt(authToken, senderKey, recipientKey)),
+        onCancelFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.cancelFriendRequestAttempt(authToken, senderKey, recipientKey))
     }
 }
 

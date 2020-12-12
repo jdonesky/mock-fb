@@ -1,54 +1,68 @@
 import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
 
-const fetchFriendsInit = () => {
+const sendFriendRequestInit = () => {
   return {
-    type: actionTypes.FETCH_FRIENDS_INIT,
+    type: actionTypes.SEND_FRIEND_REQUEST_INIT,
   };
 };
 
-const fetchFriendsSuccess = (friends) => {
+const sendFriendRequestSuccess = (friends) => {
   return {
-    type: actionTypes.FETCH_FRIENDS_SUCCESS,
-    friends: friends
+    type: actionTypes.SEND_FRIEND_REQUEST_SUCCESS,
   };
 };
 
-const fetchFriendsFail = (error) => {
+const sendFriendRequestFail = (error) => {
   return {
-    type: actionTypes.FETCH_FRIENDS_FAIL,
+    type: actionTypes.SEND_FRIEND_REQUEST_FAIL,
     error: error,
   };
 };
 
-export const fetchFriendsAttempt = (userId, authToken, cb) => {
+export const sendFriendRequestAttempt = (authToken, senderKey, recipientKey) => {
   return (dispatch) => {
-    dispatch(fetchFriendsInit());
-    const queryUrl = '/users.json?auth=' + authToken + '&orderBy="userId"&equalTo="' + userId + '"'
-    axios
-      .get(queryUrl)
-      .then((res) => {
-          const friendIds = Object.keys(res.data).map(key => {
-            return {friends: res.data[key].friends}
-          })[0].friends
-          const friendProfiles = []
-          friendIds.forEach(id => {
-              const queryFriend =  '/users.json?auth=' + authToken + '&orderBy="userId"&equalTo="' + id + '"'
-              axios.get(queryFriend)
-                  .then(res => {
-                      const profile = Object.keys(res.data).map(key => {
-                          return {fbKey: key, ...res.data[key]}
-                      })
-                      friendProfiles.push(profile)
-                  })
-                  .catch(err => console.log(err))
+      dispatch(sendFriendRequestInit());
+      const getSender = axios.get(`/public-profiles/${senderKey}.json?auth=${authToken}`);
+      const getRecipient = axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`);
+
+      return Promise.all([getSender, getRecipient])
+          .then(responses => {
+              console.log(responses)
           })
-          dispatch(fetchFriendsSuccess(friendProfiles))
-        })
-        // .then(result => {
-        //     cb(result)
-        // })
-        .catch((error) => dispatch(fetchFriendsFail(error)));
-  };
+  }
+}
+
+
+
+const cancelFriendRequestInit = () => {
+    return {
+        type: actionTypes.CANCEL_FRIEND_REQUEST_INIT,
+    };
 };
 
+const cancelFriendRequestSuccess = (friends) => {
+    return {
+        type: actionTypes.CANCEL_FRIEND_REQUEST_SUCCESS,
+    };
+};
+
+const cancelFriendRequestFail = (error) => {
+    return {
+        type: actionTypes.CANCEL_FRIEND_REQUEST_FAIL,
+        error: error,
+    };
+};
+
+export const cancelFriendRequestAttempt = (authToken, senderKey, recipientKey) => {
+    return (dispatch) => {
+        dispatch(cancelFriendRequestInit());
+        const getSender = axios.get(`/public-profiles/${senderKey}.json?auth=${authToken}`);
+        const getRecipient = axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`);
+
+        return Promise.all([getSender, getRecipient])
+            .then(responses => {
+                console.log(responses)
+            })
+    }
+}

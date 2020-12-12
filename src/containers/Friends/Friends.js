@@ -10,7 +10,7 @@ class Friends extends Component {
 
 
   componentDidMount() {
-    this.props.onFetchFriends(this.props.userId, this.props.authToken)
+    // this.props.onFetchFriends(this.props.userId, this.props.authToken)
   }
 
 
@@ -47,7 +47,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchFriends : (userId, authToken) => dispatch(actions.fetchFriendsAttempt(userId,authToken))
+    // onFetchFriends : (userId, authToken) => dispatch(actions.fetchFriendsAttempt(userId,authToken))
   }
 }
 

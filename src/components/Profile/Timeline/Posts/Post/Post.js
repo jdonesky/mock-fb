@@ -68,7 +68,7 @@ const post = (props) => {
     const startClosingViewingSummary = () => {
         summaryClosingTimer = setTimeout(() => {
             setViewingSummary(false)
-        }, 500)
+        }, 200)
     }
 
     const quickCloseSummary = () => {
