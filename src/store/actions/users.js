@@ -34,3 +34,41 @@ export const fetchPublicProfileAttempt = (authToken, publicProfileKey) => {
     })
   };
 };
+
+
+const fetchFullProfileInit = () => {
+  return {
+    type: actionTypes.FETCH_FULL_PROFILE_INIT
+  }
+}
+
+const fetchFullProfileSuccess = (profile) => {
+  return {
+    type: actionTypes.FETCH_FULL_PROFILE_SUCCESS,
+    profile: profile
+  }
+}
+
+const fetchFullProfileFail = (error) => {
+  return {
+    type: actionTypes.FETCH_FULL_PROFILE_FAIL,
+    error: error
+  }
+}
+
+export const fetchFullProfileAttempt = (userKey, authToken) => {
+  return dispatch => {
+    dispatch(fetchFullProfileInit());
+    axios.get(`/users/${userKey}.json?auth=${authToken}`)
+        .then(response => {
+          console.log(response.data);
+          dispatch(fetchFullProfileSuccess(response.data));
+        })
+        .catch(error => {
+          console.log(error);
+          dispatch(fetchFullProfileFail(error));
+        })
+  }
+}
+
+

@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { fieldBuilder, validityCheck } from "../../shared/utility";
 import Input from '../../components/UI/Input/Input'
 import classes from './Auth.css'
 import * as actions from '../../store/actions/index'
-import Modal from "../../components/UI/Modal/Modal";
 
 const signUp = props => {
 
@@ -88,10 +86,6 @@ const signUp = props => {
           )
   }
 
-  const confirmErrorHandler = () => {
-      props.onResetError();
-  }
-
   const formFields = Object.keys(formInputs).map(key => (
       <Input
           key={key}
@@ -105,32 +99,6 @@ const signUp = props => {
       />
       )
   )
-  const authRedirect = props.token !== null ? <Redirect to="/user-profile" /> : null
-
-let errorMessage;
-if (props.error) {
-    switch(props.error) {
-        case 'INVALID_EMAIL':
-            errorMessage = 'Please enter a valid email'
-            break
-        case 'INVALID_PASSWORD':
-            errorMessage = 'Please enter a valid password'
-            break;
-        case 'EMAIL_NOT_FOUND':
-            errorMessage = 'Please enter a valid email'
-            break;
-        case 'MISSING_PASSWORD':
-            errorMessage = 'Please enter your password'
-            break;
-        default:
-            errorMessage = 'Something went wrong'
-    }
-}
-  const errorModal = (
-        <Modal show={props.error} close={confirmErrorHandler} type="error">
-            {props.error ? <span>{errorMessage}</span>: null}
-        </Modal>
-  );
 
   return (
       <form className={classes.Form} onSubmit={(event) => createAccountHandler(event)}>

@@ -1,4 +1,4 @@
-import React, {useEffect, Suspense} from "react";
+import React, {useEffect, useState, Suspense} from "react";
 import {Switch, Route} from 'react-router';
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
@@ -8,7 +8,6 @@ import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics';
 import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader';
 import NavigationBar from '../../components/Profile/NavigationBar/NavigationBar';
 import Timeline from '../../components/Profile/Timeline/Timeline';
-
 
 import axios from '../../axios/db-axios-instance';
 import classes from "./UserProfile.css";
@@ -28,11 +27,13 @@ const Photos = React.lazy(() => {
 
 const userProfile = (props) => {
 
+    const [displayMyProfile, setDisplayMyProfile] = useState(props.history.location.pathname === '/my-profile')
+    useEffect(() => {
+        console.log(displayMyProfile)
+    }, [])
+
     let profile = (
         <React.Fragment>
-          {/*<LifeEventModal />*/}
-          {/*<DeleteModal />*/}
-          {/*<CreatePostModal />*/}
           <div className={classes.UserProfile}>
             <ProfilePics />
             <ProfileHeader name={props.name} bio={props.bio} />
@@ -43,22 +44,22 @@ const userProfile = (props) => {
               <div className={classes.ProfileContentBackdrop}>
                   <div className={classes.SwitchContent}>
                     <Switch>
-                      <Route exact path="/user-profile" render={(props) => (
+                      <Route exact path="/my-profile" render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                             <Timeline {...props}/>
                           </Suspense>
                       )}/>
-                      <Route path="/user-profile/about" render={(props) => (
+                      <Route path="/my-profile/about" render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                             <ProfileAbout {...props}/>
                           </Suspense>
                       )} />
-                      <Route path="/user-profile/friends" render={(props) => (
+                      <Route path="/my-profile/friends" render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                              <Friends {...props}/>
                           </Suspense>
                       )} />
-                      <Route path="/user-profile/photos" render={(props) => (
+                      <Route path="/my-profile/photos" render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                               <Photos {...props}/>
                           </Suspense>
@@ -93,7 +94,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
+    onFetchMyProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
+    onFetchOtherProfile: (userKey, authToken) => dispatch(actions.fetchFullProfileAttempt(userKey, authToken))
   };
 };
 

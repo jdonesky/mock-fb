@@ -49,19 +49,13 @@ const profileSummaryDropdown = (props) => {
     }, [onFetchPublicProfile, publicProfileKey, authToken])
 
     useEffect(() => {
-        console.log('FIRED RE-FETCH OF MY REQUESTS');
         props.onFetchMyFriendRequests(authToken,props.myPublicProfileKey);
     }, [friendRequestCanceled])
-
-    useEffect(() => {
-        console.log('request sent?', props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)
-    })
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
     const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
     const [friendRequestSent, setFriendRequestSent] = useState(false);
     const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
-
 
     const sendFriendRequest = () => {
         props.onSendFriendRequest(authToken, props.myPublicProfileKey, publicProfileKey)

@@ -71,6 +71,7 @@ const app = (props) => {
             <Switch>
                 <Route path="/authentication" component={AsyncAuth}/>
                 <Route path="/sign-up" component={AsyncSignUp}/>
+                <Route path="/my-profile" component={AsyncUserProfile} />
                 <Route path="/user-profile" component={AsyncUserProfile}/>
                 <Route path="/friends" component={AsyncFriends}/>
                 <Route path="/logout" component={AsyncLogout}/>
