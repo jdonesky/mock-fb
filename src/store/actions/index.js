@@ -33,6 +33,7 @@ export {
 } from "./users"
 
 export {
+   fetchFriendRequestsAttempt,
    sendFriendRequestAttempt,
    cancelFriendRequestAttempt
 } from "./friends"

@@ -30,10 +30,10 @@ import {convertDashedDatetime} from "../../../../shared/utility";
 
 const profileSummaryDropdown = (props) => {
 
-    const {onFetchPublicProfile, publicProfileKey, authToken} = props
+    const {onFetchMyFriendRequests, onFetchPublicProfile, publicProfileKey, authToken} = props
 
     useEffect(() => {
-        console.log('publicProfileKey', publicProfileKey)
+        onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
         onFetchPublicProfile(authToken, publicProfileKey)
         return () => {
             console.log('clean up profile summary on dismount')
@@ -49,13 +49,12 @@ const profileSummaryDropdown = (props) => {
     }, [onFetchPublicProfile, publicProfileKey, authToken])
 
     useEffect(() => {
-
-    }, [])
-
-    useEffect(() => {
         console.log('publicProfileKey',publicProfileKey)
         console.log('myPublicProfileKey', props.myPublicProfileKey)
-        console.log('PUBLIC PROFILE', props.profile)
+        if (props.mySentRequests) {
+            console.log(props.mySentRequests);
+            console.log('request sent ', props.mySentRequests.filter(req => req.publicProfileKey === publicProfileKey).length === 1)
+        }
     })
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
@@ -183,13 +182,14 @@ const profileSummaryDropdown = (props) => {
     let addFriendButtonIcon;
     let addFriendButtonClasses;
     let addFriendButtonAction;
+
     if (!friendRequestSent) {
         addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
         addFriendButtonText = 'Add Friend';
         addFriendButtonIcon = <AddFriend fill='#155fe8'/>
         addFriendButtonAction = sendFriendRequest;
     }
-    if (friendRequestSent) {
+    if (friendRequestSent || props.mySentRequests.filter(req => req.publicProfileKey === publicProfileKey).length === 1) {
         addFriendButtonClasses = [classes.ControlButton, classes.FirstControl];
         addFriendButtonText = 'Cancel';
         addFriendButtonIcon = <UnFriend />
@@ -313,7 +313,7 @@ const mapStateToProps = state => {
         profile: state.users.singleProfile,
         firebaseKey: state.profile.firebaseKey,
         myPublicProfileKey: state.profile.publicProfileKey,
-        sentRequests: state.friends.sentRequests
+        mySentRequests: state.friends.sentRequests
     }
 }
 
@@ -321,7 +321,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchPublicProfile: (authToken,publicProfileKey) => dispatch(actions.fetchPublicProfileAttempt(authToken,publicProfileKey)),
         onSendFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.sendFriendRequestAttempt(authToken, senderKey, recipientKey)),
-        onCancelFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.cancelFriendRequestAttempt(authToken, senderKey, recipientKey))
+        onCancelFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.cancelFriendRequestAttempt(authToken, senderKey, recipientKey)),
+        onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey))
     }
 }
 

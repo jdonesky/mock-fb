@@ -7,9 +7,10 @@ const sendFriendRequestInit = () => {
   };
 };
 
-const sendFriendRequestSuccess = (friends) => {
+const sendFriendRequestSuccess = (sentRequests) => {
   return {
     type: actionTypes.SEND_FRIEND_REQUEST_SUCCESS,
+    sentRequests: sentRequests
   };
 };
 
@@ -59,11 +60,27 @@ export const sendFriendRequestAttempt = (authToken, senderKey, recipientKey) => 
               }
               console.log('sender after', senderNewPublicProfile);
               console.log('recipient after', recipientNewPublicProfile);
+
+              const recordSent = axios.put(`/public-profiles/${senderKey}.json?auth=${authToken}`, senderNewPublicProfile)
+              const recordReceived = axios.put(`/public-profiles/${recipientKey}.json?auth=${authToken}`, recipientNewPublicProfile)
+
+              return Promise.all([recordSent, recordReceived])
+                  .then(responses => {
+                      console.log('SUCCESS - put responses ', responses)
+                      dispatch(sendFriendRequestSuccess(newSentRequests))
+                  })
+                  .catch(error => {
+                      console.log('FAIL - put error', error)
+                      dispatch(sendFriendRequestFail(error))
+                  })
           })
+          .catch(error => {
+              console.log('FAIL - get error', error)
+              dispatch(sendFriendRequestFail(error))
+          })
+
   }
 }
-
-
 
 const cancelFriendRequestInit = () => {
     return {
@@ -93,6 +110,42 @@ export const cancelFriendRequestAttempt = (authToken, senderKey, recipientKey) =
         return Promise.all([getSender, getRecipient])
             .then(responses => {
                 console.log(responses)
+            })
+    }
+}
+
+
+const fetchFriendRequestsInit = () => {
+    return {
+        type: actionTypes.FETCH_FRIEND_REQUESTS_INIT
+    }
+}
+
+const fetchFriendRequestsSuccess = (requests) => {
+    return {
+        type: actionTypes.FETCH_FRIEND_REQUESTS_SUCCESS,
+        requests: requests
+    }
+}
+
+const fetchFriendRequestsFail = (error) => {
+    return {
+        type: actionTypes.FETCH_FRIEND_REQUESTS_FAIL,
+        error: error
+    }
+}
+
+export const fetchFriendRequestsAttempt = (authToken, publicProfileKey) => {
+    return dispatch => {
+        dispatch(fetchFriendRequestsInit())
+        axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
+            .then(response => {
+                console.log('SUCCESS - get', response.data.friendRequests);
+                dispatch(fetchFriendRequestsSuccess(response.data.friendRequests))
+            })
+            .catch(error => {
+                console.log('FAIL - get', error)
+                dispatch(fetchFriendRequestsFail(error))
             })
     }
 }

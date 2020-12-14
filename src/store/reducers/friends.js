@@ -6,8 +6,33 @@ const initialState = {
   receivedRequests: [],
   sendingFriendRequest: false,
   cancelingFriendRequest: false,
+  loadingFriendRequests: false,
   error: null
 };
+
+const fetchFriendRequestsInit = (state,action) => {
+  return {
+    ...state,
+    loadingFriendRequests: true
+  }
+}
+
+const fetchFriendRequestsSuccess = (state,action) => {
+  return {
+    ...state,
+    sentRequests: action.requests.sent || null,
+    receivedRequests: action.requests.received || null,
+    loadingFriendRequests: false
+  }
+}
+
+const fetchFriendRequestsFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    loadingFriendRequests: false
+  }
+}
 
 const sendFriendRequestInit = (state,action) => {
   return {
@@ -56,6 +81,9 @@ const cancelFriendRequestFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.FETCH_FRIEND_REQUESTS_INIT: return fetchFriendRequestsInit(state,action);
+    case actionTypes.FETCH_FRIEND_REQUESTS_SUCCESS: return fetchFriendRequestsSuccess(state,action);
+    case actionTypes.FETCH_FRIEND_REQUESTS_FAIL: return fetchFriendRequestsFail(state,action);
     case actionTypes.SEND_FRIEND_REQUEST_INIT: return sendFriendRequestInit(state,action);
     case actionTypes.SEND_FRIEND_REQUEST_SUCCESS: return sendFriendRequestSuccess(state,action);
     case actionTypes.SEND_FRIEND_REQUEST_FAIL: return sendFriendRequestFail(state,action);
