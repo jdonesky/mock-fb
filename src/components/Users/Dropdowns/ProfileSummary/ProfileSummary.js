@@ -25,6 +25,7 @@ import Pen from '../../../../assets/images/edit';
 import Eye from '../../../../assets/images/eye';
 import BlockUser from '../../../../assets/images/UserActionIcons/block-user';
 import ActivityLog from '../../../../assets/images/UserActivityIcons/activity-log';
+import Spinner from '../../../../components/UI/Spinner/Spinner';
 
 import {convertDashedDatetime} from "../../../../shared/utility";
 
@@ -36,7 +37,6 @@ const profileSummaryDropdown = (props) => {
         onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
         onFetchPublicProfile(authToken, publicProfileKey)
         return () => {
-            console.log('clean up profile summary on dismount')
             userName = null;
             profileImage = null;
             mutualFriends = null;
@@ -49,18 +49,19 @@ const profileSummaryDropdown = (props) => {
     }, [onFetchPublicProfile, publicProfileKey, authToken])
 
     useEffect(() => {
-        console.log('publicProfileKey',publicProfileKey)
-        console.log('myPublicProfileKey', props.myPublicProfileKey)
-        if (props.mySentRequests) {
-            console.log(props.mySentRequests);
-            console.log('request sent ', props.mySentRequests.filter(req => req.publicProfileKey === publicProfileKey).length === 1)
-        }
+        console.log('FIRED RE-FETCH OF MY REQUESTS');
+        props.onFetchMyFriendRequests(authToken,props.myPublicProfileKey);
+    }, [friendRequestCanceled])
+
+    useEffect(() => {
+        console.log('request sent?', props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)
     })
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
     const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
     const [friendRequestSent, setFriendRequestSent] = useState(false);
     const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
+
 
     const sendFriendRequest = () => {
         props.onSendFriendRequest(authToken, props.myPublicProfileKey, publicProfileKey)
@@ -72,8 +73,9 @@ const profileSummaryDropdown = (props) => {
 
     const cancelFriendRequest = () => {
         props.onCancelFriendRequest(authToken, props.myPublicProfileKey, publicProfileKey)
-        setFriendRequestCanceled(true)
-        setFriendRequestSent(false)
+        setFriendRequestCanceled(true);
+        setFriendRequestSent(false);
+
     }
 
     let mutualFriends;
@@ -183,17 +185,22 @@ const profileSummaryDropdown = (props) => {
     let addFriendButtonClasses;
     let addFriendButtonAction;
 
-    if (!friendRequestSent) {
+    if (friendRequestSent || props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1) {
+        addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
+        addFriendButtonText = 'Cancel Request';
+        addFriendButtonIcon = <UnFriend fill='#155fe8' />
+        addFriendButtonAction = cancelFriendRequest;
+    }
+
+    if (!friendRequestSent && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) {
         addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
         addFriendButtonText = 'Add Friend';
         addFriendButtonIcon = <AddFriend fill='#155fe8'/>
         addFriendButtonAction = sendFriendRequest;
     }
-    if (friendRequestSent || props.mySentRequests.filter(req => req.publicProfileKey === publicProfileKey).length === 1) {
-        addFriendButtonClasses = [classes.ControlButton, classes.FirstControl];
-        addFriendButtonText = 'Cancel';
-        addFriendButtonIcon = <UnFriend />
-        addFriendButtonAction = cancelFriendRequest;
+
+    if (props.sendingRequest || props.cancelingRequest) {
+        addFriendButtonIcon = <Spinner bottom={'53px'} right={"3px"}/>
     }
 
     let isFriend;
@@ -313,7 +320,9 @@ const mapStateToProps = state => {
         profile: state.users.singleProfile,
         firebaseKey: state.profile.firebaseKey,
         myPublicProfileKey: state.profile.publicProfileKey,
-        mySentRequests: state.friends.sentRequests
+        mySentRequests: state.friends.sentRequests,
+        sendingRequest: state.friends.sendingFriendRequest,
+        cancelingRequest: state.friends.cancelingFriendRequest
     }
 }
 

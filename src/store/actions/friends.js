@@ -103,13 +103,46 @@ const cancelFriendRequestFail = (error) => {
 
 export const cancelFriendRequestAttempt = (authToken, senderKey, recipientKey) => {
     return (dispatch) => {
+        let senderNewPublicProfile;
+        let newSentRequests;
+        let recipientNewPublicProfile;
         dispatch(cancelFriendRequestInit());
         const getSender = axios.get(`/public-profiles/${senderKey}.json?auth=${authToken}`);
         const getRecipient = axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`);
 
         return Promise.all([getSender, getRecipient])
             .then(responses => {
-                console.log(responses)
+                senderNewPublicProfile = {...responses[0].data}
+                recipientNewPublicProfile = {...responses[1].data}
+
+                console.log('sent, before', senderNewPublicProfile.friendRequests.sent)
+                newSentRequests = senderNewPublicProfile.friendRequests.sent.filter(req => req.publicProfileKey !== recipientKey)
+                console.log('sent, after', newSentRequests)
+                senderNewPublicProfile.friendRequests.sent = newSentRequests
+                console.log('senderNewPublicProfile ', senderNewPublicProfile)
+
+                console.log('received, before', recipientNewPublicProfile.friendRequests.received)
+                const newReceivedRequests =  recipientNewPublicProfile.friendRequests.received.filter(req => req.publicProfileKey !== senderKey)
+                console.log('received after', newReceivedRequests)
+                recipientNewPublicProfile.friendRequests.received = newReceivedRequests
+                console.log('receiverNewPublicProfile', recipientNewPublicProfile)
+
+                const recordCancelSent = axios.put(`/public-profiles/${senderKey}.json?auth=${authToken}`, senderNewPublicProfile)
+                const recordCancelReceived = axios.put(`/public-profiles/${recipientKey}.json?auth=${authToken}`, recipientNewPublicProfile)
+
+                return Promise.all([recordCancelSent, recordCancelReceived])
+                    .then(responses => {
+                        console.log('SUCCESS - put', responses);
+                        dispatch(cancelFriendRequestSuccess(newSentRequests));
+                    })
+                    .catch(error => {
+                        console.log('FAIL - put', error);
+                        dispatch(cancelFriendRequestFail(error));
+                    })
+            })
+            .catch(error => {
+                console.log('FAIL - get', error);
+                dispatch(cancelFriendRequestFail(error));
             })
     }
 }
@@ -140,11 +173,9 @@ export const fetchFriendRequestsAttempt = (authToken, publicProfileKey) => {
         dispatch(fetchFriendRequestsInit())
         axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('SUCCESS - get', response.data.friendRequests);
                 dispatch(fetchFriendRequestsSuccess(response.data.friendRequests))
             })
             .catch(error => {
-                console.log('FAIL - get', error)
                 dispatch(fetchFriendRequestsFail(error))
             })
     }

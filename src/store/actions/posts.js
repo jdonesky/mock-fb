@@ -570,34 +570,23 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
         axios.get(`/posts.json?auth=${authToken}&shallow=true`)
             .then(response => {
                 const keys = Object.keys(response.data).sort();
-                console.log('keys ', keys);
-
                 const pageLength = 2;
 
                 if (!lastFetchedPage) {
                     lastFetchedPage = 0;
-                    console.log('NO LASTFETCHEDPAGE PASSED')
                 }
 
                 const promises = [];
                 let query;
 
-                console.log('keys length', keys.length);
-                console.log('sliced keys ', keys.slice(lastFetchedPage, lastFetchedPage + pageLength));
-
                 for (let key of keys.slice(lastFetchedPage, lastFetchedPage + pageLength)) {
-                    console.log('key', key);
                     query = axios.get(`/posts/${key}.json?auth=${authToken}&orderBy="id"&startAt=0&limitToLast=2`)
                     promises.push(query);
                 }
 
-                console.log(promises);
-
-
                 if (lastFetchedPage + pageLength <= keys.length) {
                     lastFetchedPage = lastFetchedPage + pageLength;
-                    console.log('lastfetchedPage after fetch ', lastFetchedPage);
-                    console.log('still pages left')
+
                 } else {
                     const remainder = keys.length - lastFetchedPage;
                     if (remainder) {
@@ -606,7 +595,6 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
                         lastFetchedPage = 'last';
                     }
                 }
-                console.log('lastFetchedPage after fetch ', lastFetchedPage);
 
                 return Promise.all(promises)
             })
@@ -622,12 +610,9 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
                     .sort((a,b) => {
                         return new Date(b.date) - new Date(a.date);
                     });
-                console.log('newPosts', newPosts);
                 if (oldPostIds) {
                     newPosts = newPosts.filter(post => !oldPostIds.includes(post.id))
-                    console.log('NEW POSTS FILTERED FOR OLD', newPosts);
                     newPosts = oldPosts.concat(newPosts);
-                    console.log('NEW POSTS CONCATENATED TO OLD', newPosts);
                 }
 
                 dispatch(fetchOthersPostsSuccess(newPosts,lastFetchedPage))
