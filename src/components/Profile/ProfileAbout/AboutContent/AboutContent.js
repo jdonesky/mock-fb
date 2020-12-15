@@ -34,7 +34,7 @@ const aboutContent = (props) => {
             content = <PlacesLived {...props}/>
             break;
         case 'contact-info':
-            content = <ContactBasicInfo {...props}s/>
+            content = <ContactBasicInfo {...props}/>
             break;
         case 'family-relationships':
             content = <FamilyAndRelationships {...props}/>

@@ -27,43 +27,42 @@ const Photos = React.lazy(() => {
 
 const userProfile = (props) => {
 
-    const [displayMyProfile, setDisplayMyProfile] = useState(props.history.location.pathname === '/my-profile')
+    const [displayProfile, setDisplayProfile] = useState(props.match.params.id)
 
     useEffect(() => {
-        console.log(displayMyProfile);
+        console.log(displayProfile);
     })
-
 
     let profile = (
         <React.Fragment>
           <div className={classes.UserProfile}>
-            <ProfilePics displayMyProfile={displayMyProfile}/>
-            <ProfileHeader displayMyProfile={displayMyProfile} name={props.name} bio={props.bio} />
+            <ProfilePics displayProfile={displayProfile}/>
+            <ProfileHeader displayProfile={displayProfile} name={props.name} bio={props.bio} />
           </div>
           <div className={classes.ScrollableContent}>
-              <NavigationBar displayMyProfile={displayMyProfile}/>
+              <NavigationBar displayProfile={displayProfile}/>
               <div className={classes.HeaderBreak}/>
               <div className={classes.ProfileContentBackdrop}>
                   <div className={classes.SwitchContent}>
                     <Switch>
-                      <Route exact path={`/user-profile`} render={(props) => (
+                      <Route exact path={`/user-profile/:id`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                            <Timeline displayMyProfile={displayMyProfile}/>
+                            <Timeline displayProfile={displayProfile}/>
                           </Suspense>
                       )}/>
-                      <Route path={`/user-profile/about`} render={(props) => (
+                      <Route path={`/user-profile/:id/about`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                            <ProfileAbout displayMyProfile={displayMyProfile}/>
+                            <ProfileAbout displayProfile={displayProfile}/>
                           </Suspense>
                       )} />
-                      <Route path={`/user-profile/friends`} render={(props) => (
+                      <Route path={`/user-profile/:id/friends`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                             <Friends {...props}/>
+                             <Friends displayProfile={displayProfile}/>
                           </Suspense>
                       )} />
-                      <Route path={`/user-profile/photos`} render={(props) => (
+                      <Route path={`/user-profile/:id/photos`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                              <Photos {...props}/>
+                              <Photos displayProfile={displayProfile}/>
                           </Suspense>
                       )} />
                     </Switch>

@@ -14,8 +14,8 @@ import RightArrow from '../../../../../assets/images/TopNavButtonIcons/right-arr
 const accountDropdown = (props) => {
 
     const navProfile = () => {
-        if (props.location.pathname !== '/user-profile') {
-            props.history.push('/user-profile')
+        if (props.location.pathname !== '/user-profile/me') {
+            props.history.push('/user-profile/me')
         }
         props.close();
     }
