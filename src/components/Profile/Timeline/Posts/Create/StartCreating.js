@@ -1,6 +1,6 @@
 
 
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import {connect} from 'react-redux';
 import classes from './StartCreating.css'
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
@@ -10,6 +10,10 @@ import { LifeEventContext } from "../../../../../context/life-event-context";
 import { PostContext } from "../../../../../context/post-context";
 
 const startPost = (props) => {
+
+    useEffect(() => {
+        console.log(props.displayMyProfile)
+    })
 
     const lifeEventContext = useContext(LifeEventContext);
     const postContext = useContext(PostContext)

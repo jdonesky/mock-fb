@@ -7,6 +7,7 @@ import classes from './Friends.css'
 
 const friends = (props) => {
 
+
     return (
         <div className={classes.Container}>
             <div className={classes.Header}>

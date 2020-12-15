@@ -9,7 +9,7 @@ import LifeEvents from "./LifeEvents/LifeEvents";
 import CreatePost from './Posts/Create/StartCreating';
 import Posts from './Posts/Posts'
 
-const timeLine = () => {
+const timeLine = (props) => {
 
     return (
         <div className={classes.Timeline}>
@@ -17,7 +17,7 @@ const timeLine = () => {
             <Photos />
             <Friends />
             <LifeEvents />
-            <CreatePost />
+            <CreatePost displayMyProfile={props.displayMyProfile}/>
             <Posts />
         </div>
     )

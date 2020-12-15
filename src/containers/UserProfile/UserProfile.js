@@ -28,40 +28,48 @@ const Photos = React.lazy(() => {
 const userProfile = (props) => {
 
     const [displayMyProfile, setDisplayMyProfile] = useState(props.history.location.pathname === '/my-profile')
+
     useEffect(() => {
-        console.log(displayMyProfile)
-    }, [])
+        console.log(displayMyProfile);
+    })
+
+    let displayProfile;
+    if (displayMyProfile) {
+        displayProfile = 'my-profile'
+    } else {
+        displayProfile = 'user-profile'
+    }
 
     let profile = (
         <React.Fragment>
           <div className={classes.UserProfile}>
-            <ProfilePics />
-            <ProfileHeader name={props.name} bio={props.bio} />
+            <ProfilePics displayMyProfile={displayMyProfile}/>
+            <ProfileHeader displayMyProfile={displayMyProfile} name={props.name} bio={props.bio} />
           </div>
           <div className={classes.ScrollableContent}>
-              <NavigationBar />
+              <NavigationBar displayMyProfile={displayMyProfile}/>
               <div className={classes.HeaderBreak}/>
               <div className={classes.ProfileContentBackdrop}>
                   <div className={classes.SwitchContent}>
                     <Switch>
-                      <Route exact path="/my-profile" render={(props) => (
+                      <Route exact path={`/${displayProfile}`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                            <Timeline {...props}/>
+                            <Timeline displayMyProfile={displayMyProfile}/>
                           </Suspense>
                       )}/>
-                      <Route path="/my-profile/about" render={(props) => (
+                      <Route path={`/${displayProfile}/about`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                            <ProfileAbout {...props}/>
+                            <ProfileAbout displayMyProfile={displayMyProfile}/>
                           </Suspense>
                       )} />
-                      <Route path="/my-profile/friends" render={(props) => (
+                      <Route path={`/${displayProfile}/friends`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                             <Friends {...props}/>
+                             <Friends displayMyProfile={displayMyProfile}/>
                           </Suspense>
                       )} />
-                      <Route path="/my-profile/photos" render={(props) => (
+                      <Route path={`/${displayProfile}/photos`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                              <Photos {...props}/>
+                              <Photos displayMyProfile={displayMyProfile}/>
                           </Suspense>
                       )} />
                     </Switch>
@@ -71,7 +79,7 @@ const userProfile = (props) => {
         </React.Fragment>
     )
 
-    if (props.profileLoading) {
+    if (props.loadingMyProfile || props.loadingOtherProfile) {
       profile = <SquareFold />
     }
 
@@ -85,10 +93,9 @@ const mapStateToProps = (state) => {
     authToken: state.auth.token,
     firebaseKey: state.profile.firebaseKey,
     name: state.profile.firstName + ' ' + state.profile.lastName,
-    birthday: state.profile.birthday,
-    location: state.profile.location,
     bio: state.profile.bio,
-    profileLoading: state.profile.profileLoading,
+    loadingMyProfile: state.profile.profileLoading,
+    loadingOtherProfile: state.users.loadingFullProfile
   };
 };
 
