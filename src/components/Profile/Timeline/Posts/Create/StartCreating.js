@@ -11,10 +11,6 @@ import { PostContext } from "../../../../../context/post-context";
 
 const startPost = (props) => {
 
-    useEffect(() => {
-        console.log(props.displayMyProfile)
-    })
-
     const lifeEventContext = useContext(LifeEventContext);
     const postContext = useContext(PostContext)
     const imageUploader = useRef(null);

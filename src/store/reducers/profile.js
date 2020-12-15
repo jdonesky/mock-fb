@@ -10,9 +10,11 @@ const initialState = {
   firebaseKey: null,
   postsKey: null,
   publicProfileKey: null,
+  publicProfile: null,
   userId: null,
   error: null,
   profileLoading: false,
+  publicProfileLoading: false,
   contentEntryLoading: false
 };
 
@@ -76,6 +78,7 @@ const fetchProfileSuccess = (state, action) => {
     postsKey: action.userData.postsKey || null,
     userId: action.userData.userId || null,
     publicProfileKey: action.userData.publicProfileKey || null,
+    publicProfile: action.userData.publicProfile || null,
     profileLoading: false,
   };
 };
@@ -102,7 +105,31 @@ const updateProfileSuccess = (state,action) => {
     posts: action.userData.posts || null,
     userId: action.userData.userId || null,
     publicProfileKey: action.userData.publicProfileKey || null,
+    publicProfile: action.userData.publicProfile || null,
     contentEntryLoading: false,
+  }
+}
+
+const fetchMyPublicProfileInit = (state,action) => {
+  return {
+    ...state,
+    publicProfileLoading: true
+  }
+}
+
+const fetchMyPublicProfileSuccess = (state,action) => {
+  return {
+    ...state,
+    publicProfile: action.profile,
+    publicProfileLoading: false
+  }
+}
+
+const fetchMyPublicProfileFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    publicProfileLoading: false
   }
 }
 
@@ -120,6 +147,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_PROFILE_SUCCESS: return fetchProfileSuccess(state, action);
     case actionTypes.UPDATE_PROFILE_SUCCESS: return updateProfileSuccess(state, action);
     case actionTypes.UPDATE_PROFILE_FAIL: return updateProfileFail(state,action);
+    case actionTypes.FETCH_MY_PUBLIC_PROFILE_INIT: return fetchMyPublicProfileInit(state,action);
+    case actionTypes.FETCH_MY_PUBLIC_PROFILE_SUCCESS: return fetchMyPublicProfileSuccess(state,action);
+    case actionTypes.FETCH_MY_PUBLIC_PROFILE_FAIL: return fetchMyPublicProfileFail(state,action);
     case actionTypes.CLEAR_PROFILE: return clearProfile(state,action);
     default:
       return state;

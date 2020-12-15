@@ -294,11 +294,46 @@ const updateProfileFail = (error) => {
   };
 };
 
+const fetchMyPublicProfileInit = () => {
+    return {
+        type: actionTypes.FETCH_MY_PUBLIC_PROFILE_INIT
+    }
+}
+
+const fetchMyPublicProfileSuccess = (profile) => {
+    return {
+        type: actionTypes.FETCH_MY_PUBLIC_PROFILE_SUCCESS,
+        profile: profile
+    }
+}
+
+const fetchMyPublicProfileFail = (error) => {
+    return {
+        type: actionTypes.FETCH_MY_PUBLIC_PROFILE_FAIL,
+        error: error
+    }
+}
+
+export const fetchMyPublicProfileAttempt = (authToken, publicProfileKey) => {
+    return dispatch => {
+        dispatch(fetchMyPublicProfileInit());
+        axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
+            .then(response => {
+                dispatch(fetchMyPublicProfileSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(fetchMyPublicProfileFail(error))
+            })
+    }
+}
+
 
 export const clearProfile = () => {
   return {
     type: actionTypes.CLEAR_PROFILE,
   };
 };
+
+
 
 

@@ -175,7 +175,6 @@
 .AddFriendButton {
     color: #155fe8;
     background-color: rgba(77, 161, 250, 0.14);
-    margin-left: 0;
 }
 
 .AddFriendButton:hover {

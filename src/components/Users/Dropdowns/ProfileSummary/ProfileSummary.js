@@ -59,7 +59,8 @@ const profileSummaryDropdown = (props) => {
     const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
 
     const goToFullProfile = () => {
-        if (publicProfileKey) {
+        if (props.profile) {
+            props.history.push(`/user-profile/${props.profile.userKey}`)
         }
     }
 

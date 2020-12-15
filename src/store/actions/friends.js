@@ -159,6 +159,7 @@ const fetchFriendRequestsFail = (error) => {
     }
 }
 
+
 export const fetchFriendRequestsAttempt = (authToken, publicProfileKey) => {
     return dispatch => {
         dispatch(fetchFriendRequestsInit())
@@ -168,6 +169,39 @@ export const fetchFriendRequestsAttempt = (authToken, publicProfileKey) => {
             })
             .catch(error => {
                 dispatch(fetchFriendRequestsFail(error))
+            })
+    }
+}
+
+const fetchFriendsInit = () => {
+    return {
+        type: actionTypes.FETCH_FRIENDS_INIT
+    }
+}
+
+const fetchFriendsSuccess = (requests) => {
+    return {
+        type: actionTypes.FETCH_FRIENDS_SUCCESS,
+        requests: requests
+    }
+}
+
+const fetchFriendsFail = (error) => {
+    return {
+        type: actionTypes.FETCH_FRIENDS_FAIL,
+        error: error
+    }
+}
+
+export const fetchFriendsAttempt = (authToken, publicProfileKey) => {
+    return dispatch => {
+        dispatch(fetchFriendRequestsInit())
+        axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
+            .then(response => {
+                dispatch(fetchFriendsSuccess(response.data.friends))
+            })
+            .catch(error => {
+                dispatch(fetchFriendsFail(error))
             })
     }
 }

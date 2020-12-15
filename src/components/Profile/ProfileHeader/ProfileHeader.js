@@ -31,11 +31,11 @@ const profileHeader = (props) => {
         bio = (
             <div className={bioClasses.BioContainer}>
                 <p className={classes.Bio}>{props.bio && props.bio}</p>
-                <p className={classes.EditBio} onClick={toggleBioForm}>Edit</p>
+                {props.displayProfile === 'me' ? <p className={classes.EditBio} onClick={toggleBioForm}>Edit</p> : null}
             </ div>
         )
     } else {
-        bio = <p className={classes.EditBio} onClick={toggleBioForm}>Add Bio</p>
+       bio = props.displayProfile === 'me' ? <p className={classes.EditBio} onClick={toggleBioForm}>Add Bio</p> : <div style={{backgroundColor: 'transparent', height: '20px', width: "100%"}}/>
     }
 
     if (props.contentLoading) {

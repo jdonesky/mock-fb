@@ -1,22 +1,33 @@
 import React, {useState, useEffect} from 'react';
-import {withRouter} from 'react-router'
-import {NavLink} from 'react-router-dom'
-import classes from './NavigationBar.css'
-import NavDropdown from '../ProfileHeader/NavigationDropdown/NavigationDropdown'
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
+import {NavLink} from 'react-router-dom';
+import classes from './NavigationBar.css';
+import NavDropdown from '../ProfileHeader/NavigationDropdown/NavigationDropdown';
 
-import SearchSvg from '../../../assets/images/search'
-import ViewSvg from '../../../assets/images/eye'
-import DownArrow from '../../../assets/images/down-arrow'
+import SearchSvg from '../../../assets/images/search';
+import ViewSvg from '../../../assets/images/eye';
+import Pen from '../../../assets/images/edit';
+import FbMessage from '../../../assets/images/UserActionIcons/fb-message';
+import ActivityLog from '../../../assets/images/UserActivityIcons/activity-log';
+import SearchGlass from '../../../assets/images/search';
+import Block from '../../../assets/images/UserActionIcons/block-user';
+import AddFriend from '../../../assets/images/UserActionIcons/add-friend';
+import DownArrow from '../../../assets/images/down-arrow';
+
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 
 const navigationBar = (props) => {
 
     useEffect(() => {
-        console.log('NAVIGATIONBAR - displayProfile: ', props.displayProfile)
+        console.log('navbar - My friends', props.myFriends)
     })
+
     const [showNavDropdown, setShowNavDropdown] = useState(false);
+    const [showMoreOptions, setShowMoreOptions] = useState(false);
     const {width, height} = getWindowDimensions()
+
 
     const toggleNavDropdown = () => {
         setShowNavDropdown(prevState => {
@@ -55,6 +66,53 @@ const navigationBar = (props) => {
             moreFill = true;
         }
     }
+
+    let isFriend;
+    if (props.display !== 'me') {
+        if (props.myFriends && props.theirFullProfile) {
+            isFriend = props.myFriends.findIndex(friend => friend.userKey === props.theirFullProfile.userKey)
+        }
+    }
+
+    let firstEditButton;
+    let secondEditButton;
+    let moreOptions;
+    if (props.displayProfile === 'me') {
+        firstEditButton =  <li className={classes.FirstControlButton}><div className={classes.EditProfileButtonIcon}><Pen /></div>Edit Profile</li>
+        secondEditButton = <li><ViewSvg /></li>
+        moreOptions = (
+                <div className={classes.MoreOptionsDropdownButton}><div className={classes.MoreOptionsIcon}><ActivityLog /></div>Activity Log</div>
+        )
+    } else {
+        if (isFriend ) {
+            firstEditButton = <li className={[classes.EditControl, classes.FirstControlButton].join(" ")}>
+                <div className={classes.MessageUserButtonIcon}><FbMessage/></div>
+                Message</li>
+        } else {
+            firstEditButton =  <li className={classes.AddFriendControlButton}>
+                <div className={classes.AddFriendButtonIcon}><AddFriend fill="#155fe8" /></div>
+                Add Friend
+            </li>
+
+        }
+        moreOptions = (
+            <React.Fragment>
+                <div className={classes.MoreOptionsDropdownButton}><div className={classes.MoreOptionsIcon}><SearchGlass /></div>Search Profile</div>
+                <div className={classes.MoreOptionsDropdownButton}><div className={classes.MoreOptionsIcon}><Block /></div>Block</div>
+            </React.Fragment>
+        )
+    }
+
+    let moreOptionsDropdown;
+    if (showMoreOptions) {
+        moreOptionsDropdown = (
+                <div className={classes.MoreOptionsDropdown} style={{padding: props.displayProfile === 'me' ? '2px 0' : null}}>
+                    <div className={classes.BaseArrow} style={{bottom: props.displayProfile === 'me' ? '53px' : null}}/>
+                    {moreOptions}
+                </div>
+        )
+    }
+
 
     return (
             <React.Fragment>
@@ -111,10 +169,13 @@ const navigationBar = (props) => {
                 </nav>
                 <nav>
                     <ul className={classes.EditControls}>
-                        <li className={classes.EditProfile}>Edit Profile</li>
-                        <li><ViewSvg /></li>
-                        <li><SearchSvg /></li>
-                        <li>...</li>
+                        {firstEditButton}
+                        {secondEditButton}
+                        <li className={classes.EditControl}><SearchSvg /></li>
+                        <OutsideAlerter action={() => setShowMoreOptions(false)}>
+                            <li className={classes.EditControl} onClick={() => setShowMoreOptions(prevState => {return !prevState})}>...</li>
+                            {moreOptionsDropdown}
+                        </OutsideAlerter>
                     </ul>
                 </nav>
             </section>
@@ -122,5 +183,13 @@ const navigationBar = (props) => {
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        myPublicProfile: state.profile.publicProfile,
+        theirFullProfile: state.users.fullProfile,
+        theirPublicProfile: state.users.singleProfile
+    }
+}
 
-export default withRouter(navigationBar);
+
+export default connect(mapStateToProps)(withRouter(navigationBar));

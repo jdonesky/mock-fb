@@ -8,6 +8,7 @@ export {
 export {
   createProfileAttempt,
   fetchProfileAttempt,
+  fetchMyPublicProfileAttempt,
   updateProfileAttempt,
   clearProfile
 } from "./profile";
@@ -30,10 +31,11 @@ export {
 
 export {
    fetchPublicProfileAttempt,
-   fetchFullProfileAttempt
+   fetchFullProfileAttempt,
 } from "./users"
 
 export {
+   fetchFriendsAttempt,
    fetchFriendRequestsAttempt,
    sendFriendRequestAttempt,
    cancelFriendRequestAttempt

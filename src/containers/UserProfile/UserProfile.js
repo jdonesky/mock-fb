@@ -28,16 +28,55 @@ const Photos = React.lazy(() => {
 const userProfile = (props) => {
 
     const [displayProfile, setDisplayProfile] = useState(props.match.params.id)
+    const {otherProfile, myPublicProfileKey} = props
 
     useEffect(() => {
-        console.log(displayProfile);
+        console.log('MY PUBLIC PROFILE', props.myPublicProfile )
     })
+
+    useEffect(() => {
+        if (displayProfile !== 'me') {
+            props.onFetchOtherProfile(displayProfile, props.authToken)
+        }
+    },[])
+
+    useEffect(() => {
+        if (otherProfile) {
+            props.onFetchOtherPublicProfile(props.authToken, otherProfile.publicProfileKey)
+        }
+    }, [otherProfile])
+
+    useEffect(() => {
+        if (props.myPublicProfileKey) {
+            props.onFetchMyPublicProfile(props.authToken, props.myPublicProfileKey);
+        }
+    }, [myPublicProfileKey])
+
+    useEffect(() => {
+       if (props.match.params.id === 'me') {
+           setDisplayProfile('me')
+       } else {
+           setDisplayProfile(props.match.params.id)
+       }
+    }, [props.match.params.id])
+
+    let name;
+    let bio;
+    if (displayProfile === 'me') {
+        name = props.name;
+        bio = props.bio;
+    } else {
+        if (props.otherProfile) {
+            name = props.otherProfile.firstName + ' ' + props.otherProfile.lastName
+            bio = props.otherProfile.bio
+        }
+    }
 
     let profile = (
         <React.Fragment>
           <div className={classes.UserProfile}>
             <ProfilePics displayProfile={displayProfile}/>
-            <ProfileHeader displayProfile={displayProfile} name={props.name} bio={props.bio} />
+            <ProfileHeader displayProfile={displayProfile} name={name} bio={bio} />
           </div>
           <div className={classes.ScrollableContent}>
               <NavigationBar displayProfile={displayProfile}/>
@@ -85,17 +124,21 @@ const mapStateToProps = (state) => {
     userId: state.auth.userId,
     authToken: state.auth.token,
     firebaseKey: state.profile.firebaseKey,
+    myPublicProfileKey: state.profile.publicProfileKey,
     name: state.profile.firstName + ' ' + state.profile.lastName,
     bio: state.profile.bio,
     loadingMyProfile: state.profile.profileLoading,
+    otherProfile: state.users.fullProfile,
+    myPublicProfile: state.profile.publicProfile,
     loadingOtherProfile: state.users.loadingFullProfile
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchMyProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
-    onFetchOtherProfile: (userKey, authToken) => dispatch(actions.fetchFullProfileAttempt(userKey, authToken))
+    onFetchMyPublicProfile: (authToken, publicProfileKey) => dispatch(actions.fetchMyPublicProfileAttempt(authToken, publicProfileKey)),
+    onFetchOtherProfile: (userKey, authToken) => dispatch(actions.fetchFullProfileAttempt(userKey, authToken)),
+    onFetchOtherPublicProfile: (authToken,publicProfileKey) => dispatch(actions.fetchPublicProfileAttempt(authToken,publicProfileKey))
   };
 };
 

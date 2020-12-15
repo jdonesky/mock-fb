@@ -24,7 +24,6 @@ const friend = (props) => {
     }
 
     const openDropdown = () => {
-        console.log('clicked!')
         setEditing(true);
     }
 

@@ -49,15 +49,21 @@ const AsyncCreateLifeEventModal = React.lazy(() => {
 
 const app = (props) => {
 
-    const {authToken, userId, onFetchProfile, onReloadApp} = props;
+    const {authToken, userId, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onReloadApp} = props;
 
     useEffect(() => {
         onReloadApp();
         if (authToken) {
-            onFetchProfile(userId, authToken);
+            onFetchMyProfile(userId, authToken);
         }
-    }, [authToken, userId, onFetchProfile, onReloadApp])
+    }, [authToken, userId, onFetchMyProfile, onReloadApp])
 
+    useEffect(() => {
+        if (myPublicProfileKey) {
+            console.log('ROOT FETCH PUBLIC PROFILE')
+            onFetchMyPublicProfile(authToken, myPublicProfileKey)
+        }
+    }, [myPublicProfileKey])
 
     let routes = (
         <Switch>
@@ -103,14 +109,16 @@ const app = (props) => {
 const mapStateToProps = (state) => {
     return {
         userId: state.auth.userId,
-        authToken: state.auth.token
+        authToken: state.auth.token,
+        myPublicProfileKey: state.profile.publicProfileKey
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onReloadApp: () => dispatch(actions.autoSignIn()),
-        onFetchProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
+        onFetchMyProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
+        onFetchMyPublicProfile: (authToken, publicProfileKey) => dispatch(actions.fetchMyPublicProfileAttempt(authToken, publicProfileKey))
     };
 };
 

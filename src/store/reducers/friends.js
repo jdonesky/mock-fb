@@ -10,6 +10,31 @@ const initialState = {
   error: null
 };
 
+const fetchFriendsInit = (state,action) => {
+  return {
+    ...state,
+    loadingFriends: true
+  }
+}
+
+const fetchFriendsSuccess = (state,action) => {
+  return {
+    ...state,
+    friends: action.friends,
+    loadingFriends: false
+  }
+}
+
+const fetchFriendsFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    loadingFriends: false
+  }
+}
+
+
+
 const fetchFriendRequestsInit = (state,action) => {
   return {
     ...state,
@@ -81,6 +106,9 @@ const cancelFriendRequestFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.FETCH_FRIENDS_INIT: return fetchFriendsInit(state,action);
+    case actionTypes.FETCH_FRIENDS_SUCCESS: return fetchFriendsSuccess(state,action);
+    case actionTypes.FETCH_FRIENDS_FAIL: return fetchFriendsFail(state,action);
     case actionTypes.FETCH_FRIEND_REQUESTS_INIT: return fetchFriendRequestsInit(state,action);
     case actionTypes.FETCH_FRIEND_REQUESTS_SUCCESS: return fetchFriendRequestsSuccess(state,action);
     case actionTypes.FETCH_FRIEND_REQUESTS_FAIL: return fetchFriendRequestsFail(state,action);

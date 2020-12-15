@@ -17,7 +17,7 @@ const timeLine = (props) => {
             <Photos />
             <Friends />
             <LifeEvents />
-            <CreatePost displayMyProfile={props.displayMyProfile}/>
+            <CreatePost displayProfile={props.displayProfile}/>
             <Posts />
         </div>
     )
