@@ -40,21 +40,21 @@ const navigationBar = (props) => {
     const moreTabClasses = [classes.MoreTab]
     let moreFill;
     if (width < 859) {
-        if (props.location.pathname === `/${displayProfile}/photos` ) {
+        if (props.location.pathname === `/user-profile/photos` ) {
             moreTabClasses.push(classes.ActiveMoreTab);
             moreFill = true;
         }
     }
 
     if (width < 777) {
-        if (props.location.pathname === `/${displayProfile}/friends` || props.location.pathname === `/${displayProfile}/photos`) {
+        if (props.location.pathname === `/user-profile/friends` || props.location.pathname === `/user-profile/photos`) {
             moreTabClasses.push(classes.ActiveMoreTab);
             moreFill = true
         }
     }
 
     if (width < 664) {
-        if ( props.location.pathname === `/${displayProfile}/about` || props.location.pathname === `/${displayProfile}/friends` || props.location.pathname === `/${displayProfile}/photos`) {
+        if ( props.location.pathname === '/user-profile/about' || props.location.pathname === '/user-profile/friends' || props.location.pathname === '/user-profile/photos') {
             moreTabClasses.push(classes.ActiveMoreTab);
             moreFill = true;
         }
@@ -69,28 +69,28 @@ const navigationBar = (props) => {
                         <div className={classes.TimelineTab}>
                             <NavLink
                                 exact
-                                to={`/${displayProfile}`}
+                                to="/user-profile"
                                 activeClassName={classes.active}
                             >Timeline
                             </NavLink>
                         </div>
                         <div className={classes.AboutTab}>
                             <NavLink
-                                to={`/${displayProfile}/about`}
+                                to="/user-profile/about"
                                 activeClassName={classes.active}
                             >About
                             </NavLink>
                         </div>
                         <div className={classes.FriendsTab}>
                             <NavLink
-                                to={`/${displayProfile}/friends`}
+                                to="/user-profile/friends"
                                 activeClassName={classes.active}
                             >Friends
                             </NavLink>
                         </div>
                         <div className={classes.PhotosTab}>
                             <NavLink
-                                to={`/${displayProfile}/photos`}
+                                to="/user-profile/photos"
                                 activeClassName={classes.active}
                             >Photos
                             </NavLink>

@@ -33,12 +33,6 @@ const userProfile = (props) => {
         console.log(displayMyProfile);
     })
 
-    let displayProfile;
-    if (displayMyProfile) {
-        displayProfile = 'my-profile'
-    } else {
-        displayProfile = 'user-profile'
-    }
 
     let profile = (
         <React.Fragment>
@@ -52,24 +46,24 @@ const userProfile = (props) => {
               <div className={classes.ProfileContentBackdrop}>
                   <div className={classes.SwitchContent}>
                     <Switch>
-                      <Route exact path={`/${displayProfile}`} render={(props) => (
+                      <Route exact path={`/user-profile`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                             <Timeline displayMyProfile={displayMyProfile}/>
                           </Suspense>
                       )}/>
-                      <Route path={`/${displayProfile}/about`} render={(props) => (
+                      <Route path={`/user-profile/about`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                             <ProfileAbout displayMyProfile={displayMyProfile}/>
                           </Suspense>
                       )} />
-                      <Route path={`/${displayProfile}/friends`} render={(props) => (
+                      <Route path={`/user-profile/friends`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                             <Friends displayMyProfile={displayMyProfile}/>
+                             <Friends {...props}/>
                           </Suspense>
                       )} />
-                      <Route path={`/${displayProfile}/photos`} render={(props) => (
+                      <Route path={`/user-profile/photos`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                              <Photos displayMyProfile={displayMyProfile}/>
+                              <Photos {...props}/>
                           </Suspense>
                       )} />
                     </Switch>

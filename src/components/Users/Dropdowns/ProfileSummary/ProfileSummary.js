@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import classes from './ProfileSummary.css';
 import dropdownClasses from './SummaryOptionMenus/Shared.css';
 import * as actions from '../../../../store/actions/index';
@@ -56,6 +57,11 @@ const profileSummaryDropdown = (props) => {
     const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
     const [friendRequestSent, setFriendRequestSent] = useState(false);
     const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
+
+    const goToFullProfile = () => {
+        if (publicProfileKey) {
+        }
+    }
 
     const sendFriendRequest = () => {
         props.onSendFriendRequest(authToken, props.myPublicProfileKey, publicProfileKey)
@@ -285,7 +291,7 @@ const profileSummaryDropdown = (props) => {
             <div className={classes.DropdownContainer}>
                 <section className={classes.HeaderContainer}>
                     <div className={classes.ProfileImageBlock}>
-                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}}>
+                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}} onClick={goToFullProfile}>
                             {profileImage ? null : <Avatar />}
                         </div>
                     </div>
@@ -330,4 +336,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(profileSummaryDropdown);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(profileSummaryDropdown));
