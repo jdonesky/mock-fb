@@ -5,24 +5,49 @@ import classes from './ProfilePics.css';
 import * as actions from '../../../store/actions/index'
 import CameraSvg from '../../../assets/images/camera';
 
-const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate, displayProfile}) => {
+const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate, displayProfile, otherUserProfile}) => {
     const profilePicUploader = useRef(null);
     const profilePicContainer = useRef(null);
     const coverPicUploader = useRef(null);
     const coverPicContainer = useRef(null);
 
+    // useEffect(() => {
+    //     console.log('displayProfile', displayProfile);
+    //     console.log('profilePic', profilePic);
+    //
+    // })
 
     useEffect(() => {
-        if (profilePic) {
-            profilePicContainer.current.style.backgroundImage = `url(${profilePic})`;
+        if (displayProfile === 'me') {
+            if (profilePic) {
+                profilePicContainer.current.style.backgroundImage = `url(${profilePic})`;
+            } else {
+                profilePicContainer.current.style.backgroundImage = null;
+            }
+        } else {
+            if (otherUserProfile && otherUserProfile.profileImage) {
+                profilePicContainer.current.style.backgroundImage = `url(${otherUserProfile.profileImage})`;
+            } else {
+                profilePicContainer.current.style.backgroundImage = null;
+            }
         }
-    }, [profilePic])
+    }, [profilePic, otherUserProfile, displayProfile])
 
     useEffect(() => {
-        if (coverPic) {
-            coverPicContainer.current.style.backgroundImage = `url(${coverPic})`;
+        if (displayProfile === 'me') {
+            if (coverPic) {
+                coverPicContainer.current.style.backgroundImage = `url(${coverPic})`;
+            } else {
+                coverPicContainer.current.style.backgroundImage = null;
+            }
+        } else {
+            if (otherUserProfile && otherUserProfile.coverImage) {
+                coverPicContainer.current.style.backgroundImage = `url(${otherUserProfile.coverImage})`;
+            } else {
+                coverPicContainer.current.style.backgroundImage = null;
+            }
         }
-    }, [coverPic])
+    }, [coverPic, otherUserProfile, displayProfile])
 
     const imageUploadHandler = (event, type) => {
         const [file] = event.target.files;
@@ -35,7 +60,6 @@ const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate,
                 } else {
                     coverPicContainer.current.style.backgroundImage = `url(${event.target.result})`;
                     onProfileUpdate(token,firebaseKey,"coverImage",event.target.result, 'edit')
-
                 }
             };
             reader.readAsDataURL(file);
@@ -111,8 +135,9 @@ const mapStateToProps = state => {
     return {
         token: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
-        myProfilePic: state.profile.profileImage,
-        myCoverPic: state.profile.coverImage,
+        publicProfileKey: state.profile.publicProfileKey,
+        profilePic: state.profile.profileImage,
+        coverPic: state.profile.coverImage,
         otherUserProfile: state.users.fullProfile
     }
 }

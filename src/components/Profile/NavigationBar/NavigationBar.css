@@ -236,7 +236,7 @@
 }
 
 .FirstControlButton {
-    width: 130px;
+    width: 120px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -252,6 +252,7 @@
     height: auto;
     width: 100%;
     position: relative;
+    left: 7px;
 }
 
 .MoreOptionsDropdown {

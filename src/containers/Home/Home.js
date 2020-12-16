@@ -47,7 +47,7 @@ const home = (props) => {
                 userKey={post.userKey}
                 publicProfileKey={post.publicProfileKey}
                 posterName={post.name}
-                postProfileImage={post.postProfileImage}
+                postProfileImage={post.profileImage}
                 key={post.id}
                 id={post.id}
                 status={post.text}

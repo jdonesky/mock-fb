@@ -40,17 +40,17 @@ const userProfile = (props) => {
         }
     },[])
 
+    // useEffect(() => {
+    //     if (props.myPublicProfileKey) {
+    //         props.onFetchMyPublicProfile(props.authToken, props.myPublicProfileKey);
+    //     }
+    // }, [myPublicProfileKey])
+
     useEffect(() => {
         if (otherProfile) {
             props.onFetchOtherPublicProfile(props.authToken, otherProfile.publicProfileKey)
         }
     }, [otherProfile])
-
-    useEffect(() => {
-        if (props.myPublicProfileKey) {
-            props.onFetchMyPublicProfile(props.authToken, props.myPublicProfileKey);
-        }
-    }, [myPublicProfileKey])
 
     useEffect(() => {
        if (props.match.params.id === 'me') {

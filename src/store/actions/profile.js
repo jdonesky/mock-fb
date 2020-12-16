@@ -105,18 +105,20 @@ const fetchProfileSuccess = (userData) => {
   };
 };
 
-
 export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload, how, id) => {
     return dispatch => {
         dispatch(updateProfileInit());
         let updatedUserProfile;
-        let publicProfileKey;
         let updatedPublicProfile;
+        let publicProfileKey;
+        let postsKey;
+        let updatePostsProfilePics;
         const url = `/users/${firebaseKey}.json?auth=${authToken}`
         axios.get(url)
             .then(response => {
                 console.log('UPDATING user PROFILE - ', response.data)
                 publicProfileKey = response.data.publicProfileKey;
+                postsKey = response.data.postsKey;
                 KeyGenerator.getKey(authToken, (newKey) => {
                     switch (how) {
                         case "edit":
@@ -142,6 +144,9 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                             } else if (fieldName === 'email' || fieldName === 'phone') {
                                 const updatedContacts = {...response.data['contacts'], [fieldName]: payload}
                                 updatedUserProfile = {...response.data, contacts: updatedContacts}
+                            } else if (fieldName === 'profileImage' || fieldName === 'coverImage' ) {
+                                updatePostsProfilePics = true;
+                                updatedUserProfile = {...response.data, [fieldName]: payload};
                             } else {
                                 updatedUserProfile = {...response.data, [fieldName]: payload};
                             }
@@ -266,7 +271,21 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                             return axios.put(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`, updatedPublicProfile)
                         })
                         .then(response => {
-                            console.log('SUCCESS WITH BOTH - ');
+                            if (updatePostsProfilePics) {
+                                console.log('UPDATING POSTS WITH NEW PROFILE PIC');
+                                return axios.get(`/posts/${postsKey}.json?auth=${authToken}`)
+                            } else {
+                                console.log('SUCCESS/DONT UPDATE POSTS');
+                                dispatch(updateProfileSuccess(updatedUserProfile));
+                            }
+                        })
+                        .then(response => {
+                            console.log('GET POSTS SUCCESS - ', response.data);
+                            const updatedPosts = response.data.map(post => ({...post, [fieldName]: payload}))
+                            return axios.put(`/posts/${postsKey}.json?auth=${authToken}`, updatedPosts)
+                        })
+                        .then(response => {
+                            console.log('SUCCESS/UPDATED POSTS WITH NEW PROFILE PIC');
                             dispatch(updateProfileSuccess(updatedUserProfile));
                         })
                         .catch(err => console.log(err))
@@ -278,6 +297,185 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
             })
     }
 }
+
+
+// export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload, how, id) => {
+//     return dispatch => {
+//         dispatch(updateProfileInit());
+//         let updatedUserProfile;
+//         let updatedPublicProfile;
+//         let publicProfileKey;
+//         let postsKey;
+//         let updatePostsProfilePic;
+//         const url = `/users/${firebaseKey}.json?auth=${authToken}`
+//         axios.get(url)
+//             .then(response => {
+//                 console.log('UPDATING user PROFILE - ', response.data)
+//                 publicProfileKey = response.data.publicProfileKey;
+//                 postsKey = response.data.postsKey;
+//                 KeyGenerator.getKey(authToken, (newKey) => {
+//                     switch (how) {
+//                         case "edit":
+//                             if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations' || fieldName === 'posts') {
+//                                 if (response.data[fieldName]) {
+//                                     const updatedArray = [...response.data[fieldName]];
+//                                     const itemIndex = updatedArray.findIndex(item => item.id === id);
+//                                     updatedArray[itemIndex] = {...payload, id: newKey};
+//                                     updatedUserProfile = {...response.data, [fieldName]: updatedArray};
+//                                 } else {
+//                                     if (typeof (payload) === 'object') {
+//                                         updatedUserProfile = {
+//                                             ...response.data,
+//                                             [fieldName]: [{...payload, id: newKey}]
+//                                         }
+//                                     } else {
+//                                         updatedUserProfile = {
+//                                             ...response.data,
+//                                             [fieldName]: [{payload, id: newKey}]
+//                                         }
+//                                     }
+//                                 }
+//                             } else if (fieldName === 'email' || fieldName === 'phone') {
+//                                 const updatedContacts = {...response.data['contacts'], [fieldName]: payload}
+//                                 updatedUserProfile = {...response.data, contacts: updatedContacts}
+//                             } else if (fieldName === 'profileImage' || fieldName === 'coverImage' ) {
+//                                 updatePostsProfilePic = true;
+//                             } else {
+//                                 updatedUserProfile = {...response.data, [fieldName]: payload};
+//                             }
+//                             break;
+//                         case "add":
+//                             if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations' || fieldName === 'lifeEvents' || fieldName === 'posts') {
+//                                 if (response.data[fieldName]) {
+//                                     updatedUserProfile = {
+//                                         ...response.data,
+//                                         [fieldName]: [...response.data[fieldName], {...payload, id: newKey}]
+//                                     }
+//                                 } else {
+//                                     updatedUserProfile = {
+//                                         ...response.data,
+//                                         [fieldName]: [{...payload, id: newKey}]
+//                                     }
+//                                 }
+//                             } else if (fieldName === 'email' || fieldName === 'phone') {
+//                                 const updatedContacts = {...response.data['contacts'], [fieldName]: payload}
+//                                 updatedUserProfile = {...response.data, contacts: updatedContacts}
+//                             } else {
+//                                 updatedUserProfile = {...response.data, [fieldName]: payload};
+//                             }
+//                             break;
+//                         case "delete":
+//                             if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
+//                                 if (!response.data[fieldName]) {
+//                                     return;
+//                                 } else {
+//                                     const updatedArray = [...response.data[fieldName]];
+//                                     const deleteIndex = updatedArray.findIndex(item => item.id === id);
+//                                     updatedArray.splice(deleteIndex, 1);
+//                                     updatedUserProfile = {...response.data, [fieldName]: updatedArray}
+//                                 }
+//                             } else if (fieldName === 'email' || fieldName === 'phone') {
+//                                 const updatedContacts = {...response.data['contacts'], [fieldName] : null}
+//                                 updatedUserProfile = {...response.data, contacts: updatedContacts}
+//                             } else {
+//                                 console.log('deleting single entry field')
+//                                 updatedUserProfile = {...response.data, [fieldName]: null}
+//                             }
+//                             break;
+//                         default:
+//                             throw new Error("Shouldn't be here!")
+//                     }
+//                     axios.put(url, updatedUserProfile)
+//                         .then(response => {
+//                             console.log('PUT REQ RESPONSE', response)
+//                             return axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
+//                         })
+//                         .then(response => {
+//                             console.log('updating PUBLIC profile', response.data);
+//                             switch (how) {
+//                                 case "edit":
+//                                     if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations' || fieldName === 'posts') {
+//                                         if (response.data[fieldName]) {
+//                                             const updatedArray = [...response.data[fieldName]];
+//                                             const itemIndex = updatedArray.findIndex(item => item.id === id);
+//                                             updatedArray[itemIndex] = {...payload, id: newKey};
+//                                             updatedPublicProfile = {...response.data, [fieldName]: updatedArray};
+//                                         } else {
+//                                             if (typeof (payload) === 'object') {
+//                                                 updatedPublicProfile = {
+//                                                     ...response.data,
+//                                                     [fieldName]: [{...payload, id: newKey}]
+//                                                 }
+//                                             } else {
+//                                                 updatedPublicProfile = {
+//                                                     ...response.data,
+//                                                     [fieldName]: [{payload, id: newKey}]
+//                                                 }
+//                                             }
+//                                         }
+//                                     } else if (fieldName === 'email' || fieldName === 'phone') {
+//                                         const updatedContacts = {...response.data['contacts'], [fieldName]: payload}
+//                                         updatedPublicProfile = {...response.data, contacts: updatedContacts}
+//                                     } else {
+//                                         updatedPublicProfile = {...response.data, [fieldName]: payload};
+//                                     }
+//                                     break;
+//                                 case "add":
+//                                     if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations' || fieldName === 'lifeEvents' || fieldName === 'posts') {
+//                                         if (response.data[fieldName]) {
+//                                             updatedPublicProfile = {
+//                                                 ...response.data,
+//                                                 [fieldName]: [...response.data[fieldName], {...payload, id: newKey}]
+//                                             }
+//                                         } else {
+//                                             updatedPublicProfile = {
+//                                                 ...response.data,
+//                                                 [fieldName]: [{...payload, id: newKey}]
+//                                             }
+//                                         }
+//                                     } else if (fieldName === 'email' || fieldName === 'phone') {
+//                                         const updatedContacts = {...response.data['contacts'], [fieldName]: payload}
+//                                         updatedPublicProfile = {...response.data, contacts: updatedContacts}
+//                                     } else {
+//                                         updatedPublicProfile = {...response.data, [fieldName]: payload};
+//                                     }
+//                                     break;
+//                                 case "delete":
+//                                     if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations') {
+//                                         if (!response.data[fieldName]) {
+//                                             return;
+//                                         } else {
+//                                             const updatedArray = [...response.data[fieldName]];
+//                                             const deleteIndex = updatedArray.findIndex(item => item.id === id);
+//                                             updatedArray.splice(deleteIndex, 1);
+//                                             updatedPublicProfile = {...response.data, [fieldName]: updatedArray}
+//                                         }
+//                                     } else if (fieldName === 'email' || fieldName === 'phone') {
+//                                         const updatedContacts = {...response.data['contacts'], [fieldName] : null}
+//                                         updatedPublicProfile = {...response.data, contacts: updatedContacts}
+//                                     } else {
+//                                         console.log('deleting single entry field')
+//                                         updatedPublicProfile = {...response.data, [fieldName]: null}
+//                                     }
+//                                     break;
+//                                 default:
+//                                     throw new Error("Shouldn't be here!")
+//                             }
+//                             return axios.put(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`, updatedPublicProfile)
+//                         })
+//                         .then(response => {
+//                             console.log('SUCCESS WITH BOTH - ');
+//                             dispatch(updateProfileSuccess(updatedUserProfile));
+//                         })
+//                         .catch(err => console.log(err))
+//                 })
+//             })
+//             .catch(error => {
+//                 console.log(error)
+//                 dispatch(updateProfileFail(error));
+//             })
+//     }
+// }
 
 const updateProfileSuccess = (userData) => {
   return {

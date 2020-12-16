@@ -60,7 +60,11 @@ const profileSummaryDropdown = (props) => {
 
     const goToFullProfile = () => {
         if (props.profile) {
-            props.history.push(`/user-profile/${props.profile.userKey}`)
+            if (props.profile.userKey === props.firebaseKey) {
+                props.history.push(`/user-profile/me`)
+            } else {
+                props.history.push(`/user-profile/${props.profile.userKey}`)
+            }
         }
     }
 

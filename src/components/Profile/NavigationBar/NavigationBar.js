@@ -22,9 +22,9 @@ import getWindowDimensions from "../../../hooks/getWindowDimensions";
 
 const navigationBar = (props) => {
 
-    useEffect(() => {
-        console.log('navbar - My friends', props.myFriends)
-    })
+    // useEffect(() => {
+    //     console.log('navbar - My friends', props.myFriends)
+    // })
 
     const [showNavDropdown, setShowNavDropdown] = useState(false);
     const [showMoreOptions, setShowMoreOptions] = useState(false);
@@ -81,7 +81,7 @@ const navigationBar = (props) => {
     let thirdEditButton;
     let moreOptions;
     if (props.displayProfile === 'me') {
-        firstEditButton =  <li className={classes.FirstControlButton}><div className={classes.EditProfileButtonIcon}><Pen /></div>Edit Profile</li>
+        firstEditButton =  <li className={[classes.EditControl, classes.FirstControlButton].join(" ")}><div className={classes.EditProfileButtonIcon}><Pen /></div>Edit Profile</li>
         secondEditButton = <li className={classes.EditControl}><div className={classes.EditControlIcon}><Eye /></div></li>
         thirdEditButton =  <li className={classes.EditControl}><div className={classes.EditControlIcon}><Search /></div></li>
         moreOptions = (
