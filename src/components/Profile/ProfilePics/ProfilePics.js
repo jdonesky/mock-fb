@@ -5,12 +5,12 @@ import classes from './ProfilePics.css';
 import * as actions from '../../../store/actions/index'
 import CameraSvg from '../../../assets/images/camera';
 
-
-const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onProfileUpdate}) => {
+const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate, displayProfile}) => {
     const profilePicUploader = useRef(null);
     const profilePicContainer = useRef(null);
     const coverPicUploader = useRef(null);
     const coverPicContainer = useRef(null);
+
 
     useEffect(() => {
         if (profilePic) {
@@ -41,6 +41,29 @@ const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onPro
             reader.readAsDataURL(file);
         }
     };
+
+    let profilePicUploadButton;
+    let coverPicUploadButton;
+    if (displayProfile === 'me') {
+        profilePicUploadButton = (
+            <div className={classes.ProfileUploadButton}onClick={() => profilePicUploader.current.click()}>
+                <div className={classes.CameraIcon}>
+                    <CameraSvg />
+                </div>
+            </div>
+        )
+
+        coverPicUploadButton = (
+            <div className={classes.CoverPicUploadButton} onClick={() => coverPicUploader.current.click()}>
+                <div className={[classes.CameraIcon, classes.CoverPicIcon].join(" ")}>
+                    <CameraSvg />
+                </div>
+                <p>Add Cover Photo</p>
+            </div>
+        )
+    }
+
+
 
     return (
         <React.Fragment>
@@ -73,35 +96,24 @@ const profilePics = React.memo(({token, firebaseKey, profilePic, coverPic, onPro
                         display: "none"
                     }}
                 />
-                <div className={classes.ProfileUploadButton}
-                    onClick={() => profilePicUploader.current.click()}>
-                    <div className={classes.CameraIcon}>
-                        <CameraSvg />
-                    </div>
-                </div>
+                {profilePicUploadButton}
             </div>
-            <div
-                className={classes.CoverPicUploadButton}
-                onClick={() => coverPicUploader.current.click()}
-            >
-                <div className={[classes.CameraIcon, classes.CoverPicIcon].join(" ")}>
-                    <CameraSvg />
-                </div>
-                <p>Add Cover Photo</p>
-            </div>
+            {coverPicUploadButton}
         </form>
         </React.Fragment>
     )
-}, (prevProps, nextProps) => {
-    return prevProps.profilePic === nextProps.profilePic || prevProps.coverPic === nextProps.coverPic
-})
+}
+// , (prevProps, nextProps) => {
+//     return prevProps.profilePic === nextProps.profilePic || prevProps.coverPic === nextProps.coverPic
+// })
 
 const mapStateToProps = state => {
     return {
         token: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
-        profilePic: state.profile.profileImage,
-        coverPic: state.profile.coverImage,
+        myProfilePic: state.profile.profileImage,
+        myCoverPic: state.profile.coverImage,
+        otherUserProfile: state.users.fullProfile
     }
 }
 

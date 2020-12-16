@@ -45,7 +45,7 @@ const profileHeader = (props) => {
     return (
         <div className={classes.HeaderContainer}>
             <section className={classes.Intro}>
-                <h1>{props.name || 'Your Name'}</h1>
+                <h1 style={{marginTop: props.displayProfile !== 'me' ? '90px' : null}}>{props.name || ''}</h1>
                 {bio}
             </section>
         </div>

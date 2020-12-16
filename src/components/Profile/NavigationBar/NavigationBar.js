@@ -3,16 +3,18 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {NavLink} from 'react-router-dom';
 import classes from './NavigationBar.css';
-import NavDropdown from '../ProfileHeader/NavigationDropdown/NavigationDropdown';
+import NavDropdown from './NavigationDropdown/NavigationDropdown';
 
-import SearchSvg from '../../../assets/images/search';
-import ViewSvg from '../../../assets/images/eye';
+import Eye from '../../../assets/images/eye';
 import Pen from '../../../assets/images/edit';
 import FbMessage from '../../../assets/images/UserActionIcons/fb-message';
+import Search from '../../../assets/images/search';
 import ActivityLog from '../../../assets/images/UserActivityIcons/activity-log';
 import SearchGlass from '../../../assets/images/search';
 import Block from '../../../assets/images/UserActionIcons/block-user';
 import AddFriend from '../../../assets/images/UserActionIcons/add-friend';
+import Follow from '../../../assets/images/UserActionIcons/follow';
+import Dots from '../../../assets/images/dots';
 import DownArrow from '../../../assets/images/down-arrow';
 
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
@@ -41,7 +43,7 @@ const navigationBar = (props) => {
 
     let navDropdown;
     if (showNavDropdown) {
-        navDropdown = <NavDropdown />
+        navDropdown = <NavDropdown displayProfile={props.displayProfile} />
     }
 
     const moreTabClasses = [classes.MoreTab]
@@ -76,10 +78,12 @@ const navigationBar = (props) => {
 
     let firstEditButton;
     let secondEditButton;
+    let thirdEditButton;
     let moreOptions;
     if (props.displayProfile === 'me') {
         firstEditButton =  <li className={classes.FirstControlButton}><div className={classes.EditProfileButtonIcon}><Pen /></div>Edit Profile</li>
-        secondEditButton = <li><ViewSvg /></li>
+        secondEditButton = <li className={classes.EditControl}><div className={classes.EditControlIcon}><Eye /></div></li>
+        thirdEditButton =  <li className={classes.EditControl}><div className={classes.EditControlIcon}><Search /></div></li>
         moreOptions = (
                 <div className={classes.MoreOptionsDropdownButton}><div className={classes.MoreOptionsIcon}><ActivityLog /></div>Activity Log</div>
         )
@@ -93,8 +97,24 @@ const navigationBar = (props) => {
                 <div className={classes.AddFriendButtonIcon}><AddFriend fill="#155fe8" /></div>
                 Add Friend
             </li>
-
+            if (props.theirPublicProfile) {
+                if (props.theirPublicProfile.privacy.AllowMessages === 'ALL') {
+                    secondEditButton = <li className={classes.EditControl}>
+                        <div className={classes.EditControlIcon}><FbMessage /></div>
+                    </li>
+                    if (props.theirPublicProfile.privacy.AllowFollowers) {
+                        thirdEditButton = <li className={classes.EditControl}>
+                            <div className={classes.EditControlIcon}><Follow /></div>
+                        </li>
+                    }
+                } else {
+                    secondEditButton = <li className={classes.EditControl}>
+                        <div className={classes.EditControlIcon}><Follow /></div>
+                    </li>
+                }
+            }
         }
+
         moreOptions = (
             <React.Fragment>
                 <div className={classes.MoreOptionsDropdownButton}><div className={classes.MoreOptionsIcon}><SearchGlass /></div>Search Profile</div>
@@ -171,9 +191,9 @@ const navigationBar = (props) => {
                     <ul className={classes.EditControls}>
                         {firstEditButton}
                         {secondEditButton}
-                        <li className={classes.EditControl}><SearchSvg /></li>
+                        {thirdEditButton}
                         <OutsideAlerter action={() => setShowMoreOptions(false)}>
-                            <li className={classes.EditControl} onClick={() => setShowMoreOptions(prevState => {return !prevState})}>...</li>
+                            <li className={classes.EditControl} style={{backgroundColor: showMoreOptions ? 'rgba(0,0,0,0.15)': null}}onClick={() => setShowMoreOptions(prevState => {return !prevState})}><div className={[classes.EditControlIcon, classes.DotsIcon].join(" ")}><Dots /></div></li>
                             {moreOptionsDropdown}
                         </OutsideAlerter>
                     </ul>
