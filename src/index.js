@@ -13,11 +13,13 @@ import profileReducer from "./store/reducers/profile";
 import postsReducer from "./store/reducers/posts";
 import usersReducer from "./store/reducers/users";
 import friendsReducer from "./store/reducers/friends";
+import photosReducer from "./store/reducers/photos";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   profile: profileReducer,
   posts: postsReducer,
+  photos: photosReducer,
   users: usersReducer,
   friends: friendsReducer,
 });

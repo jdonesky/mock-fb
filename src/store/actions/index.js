@@ -30,6 +30,11 @@ export {
 } from "./posts";
 
 export {
+   fetchByMePhotosAttempt,
+   fetchTaggedMePhotosAttempt
+} from "./photos"
+
+export {
    fetchPublicProfileAttempt,
    fetchFullProfileAttempt,
 } from "./users"
