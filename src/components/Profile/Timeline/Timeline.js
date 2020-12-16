@@ -13,11 +13,11 @@ const timeLine = (props) => {
 
     return (
         <div className={classes.Timeline}>
-            <Intro />
+            <Intro displayProfile={props.displayProfile} />
             <Photos />
             <Friends />
             <LifeEvents />
-            <CreatePost displayProfile={props.displayProfile}/>
+            <CreatePost displayProfile={props.displayProfile} />
             <Posts />
         </div>
     )

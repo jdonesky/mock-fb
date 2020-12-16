@@ -18,7 +18,7 @@ const navDropdown = (props) => {
     const timeline = (
         <div className={classes.DropdownItemContainer} onClick={() => onClickTab("/user-profile")}>
             <div className={classes.DropdownItem}>
-                Timeline
+                {props.displayProfile === 'me' ? 'Timeline' : 'Posts'}
             </div>
             {props.location.pathname === `/user-profile/${props.displayProfile}` ? activeCheck : null}
         </div>

@@ -271,13 +271,15 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                             return axios.put(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`, updatedPublicProfile)
                         })
                         .then(response => {
+                            dispatch(updateProfileSuccess(updatedUserProfile));
                             if (updatePostsProfilePics) {
                                 console.log('UPDATING POSTS WITH NEW PROFILE PIC');
                                 return axios.get(`/posts/${postsKey}.json?auth=${authToken}`)
-                            } else {
-                                console.log('SUCCESS/DONT UPDATE POSTS');
-                                dispatch(updateProfileSuccess(updatedUserProfile));
                             }
+                            // else {
+                            //     console.log('SUCCESS/DONT UPDATE POSTS');
+                            //     dispatch(updateProfileSuccess(updatedUserProfile));
+                            // }
                         })
                         .then(response => {
                             console.log('GET POSTS SUCCESS - ', response.data);
@@ -286,7 +288,7 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                         })
                         .then(response => {
                             console.log('SUCCESS/UPDATED POSTS WITH NEW PROFILE PIC');
-                            dispatch(updateProfileSuccess(updatedUserProfile));
+                            // dispatch(updateProfileSuccess(updatedUserProfile));
                         })
                         .catch(err => console.log(err))
                 })

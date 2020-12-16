@@ -145,7 +145,7 @@ const navigationBar = (props) => {
                                 exact
                                 to={`/user-profile/${props.displayProfile}`}
                                 activeClassName={classes.active}
-                            >Timeline
+                            >{props.displayProfile === 'me' ? 'Timeline' : 'Posts'}
                             </NavLink>
                         </div>
                         <div className={classes.AboutTab}>
