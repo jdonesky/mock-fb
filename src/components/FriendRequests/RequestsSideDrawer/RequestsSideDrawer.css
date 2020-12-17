@@ -64,7 +64,7 @@
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 5px;
 }
 
@@ -74,6 +74,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-left: 7px;
 }
 
 .RequestsCount {
@@ -90,7 +91,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 200;
     color: #155fe8;
     cursor: pointer;
@@ -101,4 +102,33 @@
 }
 
 
+.ViewSent {
+    margin-left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #216afc;
+    font-weight: 100;
+    font-size: 13px;
+    font-family: "Lucida Grande";
+    cursor: pointer;
+}
+
+.Paths {
+    position: relative;
+    top: 3px;
+    right: 77px;
+    color: rgba(0,0,0,0.3);
+    font-weight: 100;
+    font-size: 13px;
+    font-family: "Lucida Grande";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Path:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
 

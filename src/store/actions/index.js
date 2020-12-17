@@ -36,6 +36,7 @@ export {
 
 export {
    fetchPublicProfileAttempt,
+   fetchManyPublicProfilesAttempt,
    fetchFullProfileAttempt,
 } from "./users"
 

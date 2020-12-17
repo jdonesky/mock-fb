@@ -43,5 +43,58 @@
     width: 100%;
 }
 
+.InfoAndControlsContainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
 
+.Name {
+    font-weight: 900;
+    font-family: "Lucida Grande";
+    font-size: 16px;
+}
 
+.MutualFriends {
+    font-weight: 100;
+    font-family: "Lucida Grande";
+    font-size: 13px;
+    color: rgba(0,0,0,0.11);
+    cursor: pointer;
+}
+
+.ControlsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    width: 200px;
+}
+
+.Control {
+    height: 100%;
+    width: 45%;
+    border-radius: 6px;
+    background-color: rgba(0,0,0,0.05);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-family: "Lucida Grande";
+    font-size: 16px;
+}
+
+.Control:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.ConfirmControl {
+    background-color: #155fe8;
+    color: white;
+}
+
+.ConfirmControl:hover {
+    background-color: #1258db;
+}
