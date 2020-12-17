@@ -190,14 +190,14 @@ const profileSummaryDropdown = (props) => {
     let addFriendButtonClasses;
     let addFriendButtonAction;
 
-    if (friendRequestSent || props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1) {
+    if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)) {
         addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
         addFriendButtonText = 'Cancel Request';
         addFriendButtonIcon = <UnFriend fill='#155fe8' />
         addFriendButtonAction = cancelFriendRequest;
     }
 
-    if (!friendRequestSent && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) {
+    if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1)) {
         addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
         addFriendButtonText = 'Add Friend';
         addFriendButtonIcon = <AddFriend fill='#155fe8'/>

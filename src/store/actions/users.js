@@ -104,10 +104,12 @@ export const fetchManyPublicProfilesAttempt = (authToken, publicProfileKeys= [])
     return Promise.all(queries)
         .then(responses => {
           console.log('SUCCESS - fetched many profiles');
-          let profiles = [];
-          for (let response of responses) {
-            profiles.push(response.data);
-          }
+          const profiles = responses.map(response => {
+            if (response.data) {
+              return response.data
+            }
+          })
+
           console.log('PROFILES', profiles);
           dispatch(fetchManyPublicProfilesSuccess(profiles));
         })
