@@ -114,8 +114,7 @@ const auth = props => {
 
 
   let authRedirect = props.isAuthenticated ? (
-    // <Redirect to="/user-profile" />
-      <Redirect to="/my-profile" />
+      <Redirect to="/user-profile/me" />
   ) : null;
 
   let errorMessage;

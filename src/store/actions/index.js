@@ -43,5 +43,7 @@ export {
    fetchFriendsAttempt,
    fetchFriendRequestsAttempt,
    sendFriendRequestAttempt,
-   cancelFriendRequestAttempt
+   cancelFriendRequestAttempt,
+   acceptFriendRequestAttempt,
+   denyFriendRequestAttempt
 } from "./friends"

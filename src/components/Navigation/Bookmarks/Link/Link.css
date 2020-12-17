@@ -1,0 +1,30 @@
+
+
+.Container {
+    height: 55px;
+    width: 97%;
+    margin-bottom: 3px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.Container:hover {
+    background-color: rgba(0,0,0,0.06);
+}
+
+.IconContainer {
+    margin: 0 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Text {
+    font-weight: 900;
+    font-size: 15px;
+}
+

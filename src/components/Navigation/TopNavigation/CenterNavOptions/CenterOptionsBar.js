@@ -22,8 +22,8 @@ const centerOptions = (props) => {
     }
 
     const navFullMenu = () => {
-        if (props.location.pathname !== '/hub') {
-            props.history.push('/hub')
+        if (props.location.pathname !== '/bookmarks') {
+            props.history.push('/bookmarks')
         }
     }
 
@@ -49,7 +49,7 @@ const centerOptions = (props) => {
 
     const moreButtonClass = [classes.MoreButton];
     const moreContainerClass = [classes.Button];
-    if (props.location.pathname === '/hub') {
+    if (props.location.pathname === '/bookmarks') {
         moreButtonClass.push(classes.MoreTabActive);
         moreContainerClass.push(classes.ButtonActive);
     }

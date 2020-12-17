@@ -1,0 +1,64 @@
+
+
+.Container {
+    height: 100%;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: transparent;
+    position: absolute;
+}
+
+.AvatarCircle {
+    height: 30px;
+    width: 30px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 100%;
+    border: 0.5px solid rgba(0,0,0,0.11);
+    overflow: hidden;
+}
+
+.AvatarCircle svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: 4px;
+}
+
+.IconContainer {
+    height: 30px;
+    width: 30px;
+}
+
+.IconContainer svg {
+    height: auto;
+    width: 100%;
+}
+
+.GroupCircle {
+    background-color: #3990fa;
+}
+
+.GroupCircle svg {
+    width: 80%;
+    top: 4px;
+    left: 3px;
+}
+
+.EventContainer {
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.02);
+    border-radius: 3px;
+    overflow:hidden;
+}
+
+.Bookmark svg {
+    width: 95%;
+    top: 3px;
+}
+
+.Flag svg {
+    left: 5px;
+}

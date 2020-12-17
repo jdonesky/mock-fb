@@ -6,14 +6,17 @@ const initialState = {
   receivedRequests: [],
   sendingFriendRequest: false,
   cancelingFriendRequest: false,
-  loadingFriendRequests: false,
+  acceptingFriendRequest: false,
+  denyingFriendRequest: false,
+  fetchingFriendRequests: false,
+  fetchingFriends: false,
   error: null
 };
 
 const fetchFriendsInit = (state,action) => {
   return {
     ...state,
-    loadingFriends: true
+    fetchingFriends: true
   }
 }
 
@@ -21,7 +24,7 @@ const fetchFriendsSuccess = (state,action) => {
   return {
     ...state,
     friends: action.friends,
-    loadingFriends: false
+    fetchingFriends: false
   }
 }
 
@@ -29,16 +32,14 @@ const fetchFriendsFail = (state,action) => {
   return {
     ...state,
     error: action.error,
-    loadingFriends: false
+    fetchingFriends: false
   }
 }
-
-
 
 const fetchFriendRequestsInit = (state,action) => {
   return {
     ...state,
-    loadingFriendRequests: true
+    fetchingFriendRequests: true
   }
 }
 
@@ -47,7 +48,7 @@ const fetchFriendRequestsSuccess = (state,action) => {
     ...state,
     sentRequests: action.requests.sent || null,
     receivedRequests: action.requests.received || null,
-    loadingFriendRequests: false
+    fetchingFriendRequests: false
   }
 }
 
@@ -55,7 +56,7 @@ const fetchFriendRequestsFail = (state,action) => {
   return {
     ...state,
     error: action.error,
-    loadingFriendRequests: false
+    fetchingFriendRequests: false
   }
 }
 
@@ -103,6 +104,55 @@ const cancelFriendRequestFail = (state, action) => {
   }
 }
 
+const acceptFriendRequestInit = (state,action) => {
+  return {
+    ...state,
+    acceptingFriendRequest: true
+  }
+}
+
+const acceptFriendRequestSuccess = (state,action) => {
+  return {
+    ...state,
+    receivedRequests: action.receivedRequests,
+    friends: action.friends,
+    acceptingFriendRequest: false
+  }
+}
+
+const acceptFriendRequestFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    acceptingFriendRequest: false
+  }
+}
+
+
+const denyFriendRequestInit = (state,action) => {
+  return {
+    ...state,
+    denyingFriendRequest: true
+  }
+}
+
+const denyFriendRequestSuccess = (state,action) => {
+  return {
+    ...state,
+    receivedRequests: action.receivedRequests,
+    denyingFriendRequest: false
+  }
+}
+
+const denyFriendRequestFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    denyingFriendRequest: false
+  }
+}
+
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -118,6 +168,12 @@ const reducer = (state = initialState, action) => {
     case actionTypes.CANCEL_FRIEND_REQUEST_INIT: return cancelFriendRequestInit(state,action);
     case actionTypes.CANCEL_FRIEND_REQUEST_SUCCESS: return cancelFriendRequestSuccess(state,action);
     case actionTypes.CANCEL_FRIEND_REQUEST_FAIL: return cancelFriendRequestFail(state,action);
+    case actionTypes.ACCEPT_FRIEND_REQUEST_INIT: return acceptFriendRequestInit(state,action);
+    case actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS: return acceptFriendRequestSuccess(state,action);
+    case actionTypes.ACCEPT_FRIEND_REQUEST_FAIL: return acceptFriendRequestFail(state,action);
+    case actionTypes.DENY_FRIEND_REQUEST_INIT: return denyFriendRequestInit(state,action);
+    case actionTypes.DENY_FRIEND_REQUEST_SUCCESS: return denyFriendRequestSuccess(state,action);
+    case actionTypes.DENY_FRIEND_REQUEST_FAIL: return denyFriendRequestFail(state,action);
     default:
       return state;
   }

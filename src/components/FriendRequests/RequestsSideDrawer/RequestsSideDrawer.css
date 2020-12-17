@@ -1,0 +1,104 @@
+
+.SideDrawerContainer {
+    height: 100%;
+    width: 355px;
+    overflow: auto;
+    position: fixed;
+    top: 63px;
+    left: 0;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 0 4px 4px rgba(0,0,0,0.05);
+}
+
+.SideDrawerContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.Header {
+    height: 50px;
+    width: 340px;
+    position: fixed;
+    top: 68px;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+}
+
+.HeaderTitle {
+    margin-left: 20px;
+    font-weight: 900;
+    font-family: "Lucida Grande"
+}
+
+.SettingsIconContainer {
+    height: 35px;
+    width: 35px;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.SettingsIconContainer svg {
+    height: auto;
+    width: 60%;
+    position: relative;
+    top: 7px;
+    left: 7px;
+}
+
+.Break {
+    margin-top: 56px;
+    width: 91%;
+    height: 1px;
+    background-color: rgba(0,0,0,0.09);
+}
+
+.ReceivedRequestsContainer {
+    width: 96%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.RequestsHeader {
+    height: 30px;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.RequestsCount {
+    font-weight: 900;
+    font-size: 16px;
+    font-family: "Lucida Grande";
+    margin-left: 5px;
+}
+
+.SeeAllButton {
+    height: 35px;
+    width: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 200;
+    color: #155fe8;
+    cursor: pointer;
+}
+
+.SeeAllButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+
+

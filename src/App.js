@@ -20,6 +20,11 @@ const AsyncSignUp = React.lazy(() => {
 const AsyncHome = React.lazy(() => {
     return import("./containers/Home/Home");
 })
+
+const AsyncBookmarks = React.lazy(() => {
+    return import("./components/Navigation/Bookmarks/Bookmarks");
+})
+
 const AsyncUserProfile = React.lazy(() => {
     return import("./containers/UserProfile/UserProfile");
 });
@@ -81,6 +86,7 @@ const app = (props) => {
                 <Route path="/friends" component={AsyncFriends}/>
                 <Route path="/logout" component={AsyncLogout}/>
                 <Route path="/search-users" component={AsyncSearch}/>
+                <Route path="/bookmarks" component={AsyncBookmarks}/>
                 <Route path="/home" component={AsyncHome}/>
                 <Route component={AsyncHome}/>
             </Switch>

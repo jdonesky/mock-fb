@@ -1,0 +1,47 @@
+
+.Container {
+    min-height: 50px;
+    width: 100%;
+    border-radius: 7px;
+    display: flex;
+}
+
+.Container:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.ActiveProfileReview {
+    background-color: rgba(204, 225, 255,0.04);
+}
+
+.ProfileImageBlock {
+    height: 100%;
+    width: 40px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ProfileImage {
+    height: 35px;
+    width: 35px;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.05);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.ProfileImage {
+    background-color: rgba(0,0,0,0.01);
+    filter: saturate(3);
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 100%;
+}
+
+
+

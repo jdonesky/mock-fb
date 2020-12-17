@@ -36,16 +36,20 @@ export const sendFriendRequestAttempt = (authToken, senderKey, recipientKey) => 
               recipientNewPublicProfile = {...responses[1].data}
               console.log('sender', responses[0].data);
               console.log('recipient', responses[1].data);
+
+              const sentRequest = {name: recipientNewPublicProfile.firstName + ' ' + recipientNewPublicProfile.lastName, publicProfileKey: recipientKey, userKey: recipientNewPublicProfile.userKey, date: new Date()};
               if (senderNewPublicProfile.friendRequests && senderNewPublicProfile.friendRequests.sent && senderNewPublicProfile.friendRequests.sent.length) {
-                  newSentRequests = [...senderNewPublicProfile.friendRequests.sent, {name: recipientNewPublicProfile.firstName + ' ' + recipientNewPublicProfile.lastName, publicProfileKey: recipientKey, userKey: recipientNewPublicProfile.userKey }]
+                  newSentRequests = [...senderNewPublicProfile.friendRequests.sent, sentRequest]
               } else {
-                  newSentRequests = [{name: recipientNewPublicProfile.firstName + ' ' + recipientNewPublicProfile.lastName, publicProfileKey: recipientKey, userKey: recipientNewPublicProfile.userKey}]
+                  newSentRequests = [sentRequest]
               }
+
               let newReceivedRequests;
+              const receivedRequest = {name: senderNewPublicProfile.firstName + ' ' + senderNewPublicProfile.lastName, publicProfileKey: senderKey, userKey: senderNewPublicProfile.userKey, date: new Date() }
               if (recipientNewPublicProfile.friendRequests && senderNewPublicProfile.friendRequests.received && senderNewPublicProfile.friendRequests.received.length) {
-                  newReceivedRequests = [...recipientNewPublicProfile.friendRequests.received, {name: senderNewPublicProfile.firstName + ' ' + senderNewPublicProfile.lastName, publicProfileKey: senderKey, userKey: senderNewPublicProfile.userKey }]
+                  newReceivedRequests = [...recipientNewPublicProfile.friendRequests.received, receivedRequest]
               } else {
-                  newReceivedRequests = [{name: senderNewPublicProfile.firstName + ' ' + senderNewPublicProfile.lastName, publicProfileKey: senderKey, userKey: senderNewPublicProfile.userKey }]
+                  newReceivedRequests = [receivedRequest]
               }
 
               if (senderNewPublicProfile.friendRequests && senderNewPublicProfile.friendRequests.received && senderNewPublicProfile.friendRequests.received.length) {
@@ -138,6 +142,169 @@ export const cancelFriendRequestAttempt = (authToken, senderKey, recipientKey) =
     }
 }
 
+const acceptFriendRequestInit = () => {
+    return {
+        type: actionTypes.ACCEPT_FRIEND_REQUEST_INIT
+    }
+}
+
+const acceptFriendRequestSuccess = (newReceivedRequests, newFriends) => {
+    return {
+        type: actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS,
+        receivedRequests: newReceivedRequests,
+        friends: newFriends
+    }
+}
+
+const acceptFriendRequestFail = (error) => {
+    return {
+        type: actionTypes.ACCEPT_FRIEND_REQUEST_FAIL,
+        error: error
+    }
+}
+
+export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey) => {
+    return dispatch => {
+        let senderNewPublicProfile;
+        let newReceivedRequests;
+        let newFriends;
+        let recipientNewPublicProfile;
+        dispatch(acceptFriendRequestInit());
+        const getSender = axios.get(`/public-profiles/${senderKey}.json?auth=${authToken}`);
+        const getRecipient = axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`);
+
+        return Promise.all([getSender, getRecipient])
+            .then(responses => {
+                senderNewPublicProfile = {...responses[0].data}
+                recipientNewPublicProfile = {...responses[1].data}
+                console.log('sender', responses[0].data);
+                console.log('recipient', responses[1].data);
+
+                const sendersNewFriend = {...senderNewPublicProfile.friendRequests.sent.find(req => req.userKey === recipientNewPublicProfile.userKey), profileImage: recipientNewPublicProfile.profileImage}
+                console.log('sendersNewFriend', sendersNewFriend);
+                let sendersNewFriends;
+                if (senderNewPublicProfile.friends && senderNewPublicProfile.friends.length) {
+                    sendersNewFriends = [...senderNewPublicProfile.friends, sendersNewFriend]
+                } else {
+                    sendersNewFriends = [sendersNewFriend]
+                }
+                senderNewPublicProfile.friends = sendersNewFriends
+
+                const recipientsNewFriend = {...recipientNewPublicProfile.friendRequests.received.find(req => req.userKey === senderNewPublicProfile.userKey), profileImage: senderNewPublicProfile.profileImage }
+                console.log('recipient/MYNewFriend', recipientsNewFriend)
+                if (recipientNewPublicProfile.friends && recipientNewPublicProfile.friends.length) {
+                    newFriends = [...recipientNewPublicProfile.friends, recipientsNewFriend];
+                } else {
+                    newFriends = [recipientsNewFriend];
+                }
+
+                const newSentRequests = senderNewPublicProfile.friendRequests.sent.filter(req => req.userKey !== recipientNewPublicProfile.userKey)
+                newReceivedRequests = recipientNewPublicProfile.friendRequests.received.filter(req => req.userKey !== senderNewPublicProfile.userKey)
+
+                if (senderNewPublicProfile.friendRequests && senderNewPublicProfile.friendRequests.received && senderNewPublicProfile.friendRequests.received.length) {
+                    senderNewPublicProfile.friendRequests = {sent: newSentRequests, received: [...senderNewPublicProfile.friendRequests.received]}
+                } else {
+                    senderNewPublicProfile.friendRequests = {sent: newSentRequests, received: []}
+                }
+                if (recipientNewPublicProfile.friendRequests && recipientNewPublicProfile.friendRequests.sent && recipientNewPublicProfile.friendRequests.sent.length) {
+                    recipientNewPublicProfile.friendRequests = {received: newReceivedRequests, sent: [...recipientNewPublicProfile.friendRequests.sent]}
+                } else {
+                    recipientNewPublicProfile.friendRequests = {received: newReceivedRequests, sent: []}
+                }
+                console.log('sender after', senderNewPublicProfile);
+                console.log('recipient after', recipientNewPublicProfile);
+
+                const recordSent = axios.put(`/public-profiles/${senderKey}.json?auth=${authToken}`, senderNewPublicProfile)
+                const recordReceived = axios.put(`/public-profiles/${recipientKey}.json?auth=${authToken}`, recipientNewPublicProfile)
+
+                return Promise.all([recordSent, recordReceived])
+                    .then(responses => {
+                        console.log('SUCCESS - put responses ', responses)
+                        dispatch(acceptFriendRequestSuccess(newReceivedRequests, newFriends))
+                    })
+                    .catch(error => {
+                        console.log('FAIL - put error', error)
+                        dispatch(acceptFriendRequestFail(error))
+                    })
+            })
+            .catch(error => {
+                console.log('FAIL - get error', error)
+                dispatch(acceptFriendRequestFail(error))
+            })
+    }
+}
+
+const denyFriendRequestInit = () => {
+    return {
+        type: actionTypes.DENY_FRIEND_REQUEST_INIT
+    }
+}
+
+const denyFriendRequestSuccess = (newReceivedRequests) => {
+    return {
+        type: actionTypes.DENY_FRIEND_REQUEST_SUCCESS,
+        requests: newReceivedRequests
+    }
+}
+
+const denyFriendRequestFail = (error) => {
+    return {
+        type: actionTypes.DENY_FRIEND_REQUEST_FAIL,
+        error: error
+    }
+}
+
+export const denyFriendRequestAttempt = (authToken, senderKey, recipientKey) => {
+    return dispatch => {
+        let senderNewPublicProfile;
+        let recipientNewPublicProfile;
+        let newReceivedRequests;
+        dispatch(denyFriendRequestInit());
+        const getSender = axios.get(`/public-profiles/${senderKey}.json?auth=${authToken}`);
+        const getRecipient = axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`);
+
+        return Promise.all([getSender, getRecipient])
+            .then(responses => {
+                senderNewPublicProfile = {...responses[0].data}
+                recipientNewPublicProfile = {...responses[1].data}
+                console.log('sender', responses[0].data);
+                console.log('recipient', responses[1].data);
+
+                const newSentRequests = senderNewPublicProfile.friendRequests.sent.filter(req => req.userKey !== recipientNewPublicProfile.userKey)
+                newReceivedRequests = recipientNewPublicProfile.friendRequests.received.filter(req => req.userKey !== senderNewPublicProfile.userKey)
+
+                if (senderNewPublicProfile.friendRequests && senderNewPublicProfile.friendRequests.received && senderNewPublicProfile.friendRequests.received.length) {
+                    senderNewPublicProfile.friendRequests = {sent: newSentRequests, received: [...senderNewPublicProfile.friendRequests.received]}
+                } else {
+                    senderNewPublicProfile.friendRequests = {sent: newSentRequests, received: []}
+                }
+                if (recipientNewPublicProfile.friendRequests && recipientNewPublicProfile.friendRequests.sent && recipientNewPublicProfile.friendRequests.sent.length) {
+                    recipientNewPublicProfile.friendRequests = {received: newReceivedRequests, sent: [...recipientNewPublicProfile.friendRequests.sent]}
+                } else {
+                    recipientNewPublicProfile.friendRequests = {received: newReceivedRequests, sent: []}
+                }
+                console.log('sender after', senderNewPublicProfile);
+                console.log('recipient after', recipientNewPublicProfile);
+
+                const recordSent = axios.put(`/public-profiles/${senderKey}.json?auth=${authToken}`, senderNewPublicProfile)
+                const recordReceived = axios.put(`/public-profiles/${recipientKey}.json?auth=${authToken}`, recipientNewPublicProfile)
+
+                return Promise.all([recordSent, recordReceived])
+                    .then(responses => {
+                        console.log('SUCCESS - put responses ', responses)
+                        dispatch(denyFriendRequestSuccess(newReceivedRequests))
+                    })
+                    .catch(error => {
+                        console.log('FAIL - put error', error)
+                        dispatch(denyFriendRequestFail(error))
+                    })
+            })
+            .catch(error => {
+                console.log('FAIL - get error', error)
+                dispatch(denyFriendRequestFail(error))
+            })
+    }
+}
 
 const fetchFriendRequestsInit = () => {
     return {
@@ -195,9 +362,10 @@ const fetchFriendsFail = (error) => {
 
 export const fetchFriendsAttempt = (authToken, publicProfileKey) => {
     return dispatch => {
-        dispatch(fetchFriendRequestsInit())
+        dispatch(fetchFriendsInit())
         axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
             .then(response => {
+                console.log('SUCCESS - ', response.data.friends)
                 dispatch(fetchFriendsSuccess(response.data.friends))
             })
             .catch(error => {
@@ -205,3 +373,4 @@ export const fetchFriendsAttempt = (authToken, publicProfileKey) => {
             })
     }
 }
+
