@@ -27,6 +27,15 @@ const startPost = (props) => {
         postContext.toggleModal()
     }
 
+    let placeholder;
+    if (!props.displayProfile || props.displayProfile === 'me') {
+        placeholder = 'Whats on your mind?'
+    } else if (props.displayProfile && props.displayProfile !== 'me') {
+        if (props.otherProfile) {
+            placeholder = `Say something to ${props.otherProfile.firstName}...`
+        }
+    }
+
     return (
         <div className={classes.Container}>
             <section className={classes.Header}>
@@ -36,7 +45,7 @@ const startPost = (props) => {
                     </div>
                 </div>
                 <div className={classes.QueryBar} onClick={postContext.toggleModal}>
-                    <span>What's on your mind?</span>
+                    <span>{placeholder}</span>
                 </div>
             </section>
             <div className={classes.Break}/>
@@ -66,7 +75,8 @@ const startPost = (props) => {
 
 const mapStateToProps = state => {
     return {
-        profileImage: state.profile.profileImage
+        profileImage: state.profile.profileImage,
+        otherProfile: state.users.fullProfile
     }
 }
 

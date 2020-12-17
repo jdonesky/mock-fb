@@ -9,13 +9,18 @@ import classes from './LifeEvents.css'
 
 const lifeEvents = (props) => {
 
-
     let sortedEvents;
-    if (props.lifeEvents) {
-        sortedEvents = props.lifeEvents && props.lifeEvents.map(ev => ({...ev, date: new Date(`${ev.year} ${ev.month} ${ev.day}`)})).sort((a,b) => a.date < b.date ? 1: -1)
+    if (props.displayProfile === 'me') {
+        if (props.lifeEvents) {
+            sortedEvents = props.lifeEvents.map(ev => ({...ev, date: new Date(`${ev.year} ${ev.month} ${ev.day}`)})).sort((a,b) => a.date < b.date ? 1: -1)
+        }
+    }  else {
+        if (props.otherProfile) {
+            if (props.otherProfile.lifeEvents) {
+                sortedEvents = props.otherProfile.lifeEvents.map(ev => ({...ev, date: new Date(`${ev.year} ${ev.month} ${ev.day}`)})).sort((a,b) => a.date < b.date ? 1: -1)
+            }
+        }
     }
-
-
 
     const first = sortedEvents && sortedEvents[0] && [sortedEvents[0]].map(ev => {
         return (
@@ -61,7 +66,8 @@ const lifeEvents = (props) => {
 
 const mapStateToProps = state => {
     return {
-        lifeEvents: state.profile.lifeEvents
+        lifeEvents: state.profile.lifeEvents,
+        otherProfile: state.users.fullProfile
     }
 }
 
