@@ -4,6 +4,7 @@
     width: 100%;
     border-radius: 7px;
     display: flex;
+    cursor: pointer;
 }
 
 .Container:hover {
@@ -78,7 +79,7 @@
 
 .Control {
     height: 100%;
-    width: 48%;
+    width: 48.5%;
     border-radius: 6px;
     background-color: rgba(0,0,0,0.1);
     cursor: pointer;
@@ -91,15 +92,49 @@
 }
 
 .Control:hover {
-    background-color: rgba(0,0,0,0.12);
+    background-color: rgba(0,0,0,0.13);
 }
 
 .ConfirmControl {
-    background-color: #155fe8;
+    background-color: #0a74ff;
     color: white;
 }
 
 .ConfirmControl:hover {
-    background-color: #1258db;
+    background-color: #096aeb;
 }
 
+.ActionContainer {
+    height: 30%;
+    width: 255px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ActionMessage {
+    height: 25px;
+    color: rgba(0,0,0,0.5);
+    font-size: 13px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.EditButton {
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+}
+
+.EditButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.EditButton svg {
+    height: auto;
+    width: 65%;
+    position: relative;
+    top: 5px;
+    left: 5px;
+}

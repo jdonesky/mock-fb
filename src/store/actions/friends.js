@@ -367,6 +367,8 @@ export const fetchFriendsAttempt = (authToken, publicProfileKey) => {
         dispatch(fetchFriendsInit())
         axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
             .then(response => {
+                console.log('FETCHED PUBLIC PROFILE', response.data)
+                console.log('FETCHED PROFILE FRIENDS', response.data.friends)
                 dispatch(fetchFriendsSuccess(response.data.friends))
             })
             .catch(error => {

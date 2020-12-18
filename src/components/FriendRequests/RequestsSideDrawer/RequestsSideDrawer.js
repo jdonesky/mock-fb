@@ -15,8 +15,17 @@ const requestsSideDrawer = props => {
 
     useEffect(() => {
         onFetchMyFriendRequests(authToken, myPublicProfileKey);
-        onFetchMyFriends(authToken, myPublicProfileKey);
-    }, [myFriends, onFetchMyFriendRequests, onFetchMyFriends, authToken, myPublicProfileKey])
+    }, [onFetchMyFriendRequests, authToken, myPublicProfileKey])
+
+    useEffect(() => {
+        if (myPublicProfileKey) {
+            onFetchMyFriends(authToken, myPublicProfileKey);
+        }
+    }, [])
+
+    useEffect(() => {
+        console.log('myFriends', myFriends)
+    })
 
     useEffect(() => {
         let combinedKeys = []
@@ -54,21 +63,22 @@ const requestsSideDrawer = props => {
     let receivedRequestsList;
     if (receivedRequests && receivedRequests.length) {
         if (props.manyProfiles && props.manyProfiles.length) {
-            console.log('manyProfiles - ', manyProfiles)
-            console.log('receivedRequests - ', receivedRequests)
             receivedRequestsList = receivedRequests.map( req => {
                 const profile = props.manyProfiles.find(profile => profile.userKey === req.userKey)
                 let profileImage;
+                let mutualFriends;
                 if (profile) {
                     profileImage = profile.profileImage;
-                }
-                if (profileImage) {
-                    return {...req, profileImage: profileImage}
-                } else {
-                    return req;
+                    if (profile.friends && myFriends) {
+                        mutualFriends = profile.friends.map(theirFriend => myFriends.map(myFriend => myFriend.userKey).includes(theirFriend.userKey))
+                        console.log('mutualFriends', mutualFriends)
+                    }
                 }
 
+                return {...req, profileImage: profileImage, mutualFriends: mutualFriends}
+
             })
+            console.log('receivedRequestList', receivedRequestsList)
             receivedRequestsList = receivedRequestsList.map( req => (
                 <Request
                     key={req.userKey}
@@ -76,6 +86,9 @@ const requestsSideDrawer = props => {
                     name={req.name}
                     mutualFriends={req.mutualFriends}
                     userKey={req.userKey}
+                    publicProfileKey={req.publicProfileKey}
+                    acceptReq={acceptRequest}
+                    denyReq={denyRequest}
                 />
             ))
         }
@@ -146,7 +159,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
-        onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
+        onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken, publicProfileKey)),
         onFetchManyProfiles: (authToken, publicProfileKeys) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, publicProfileKeys)),
         onAcceptRequest: (authToken, senderKey, recipientKey) => dispatch(actions.acceptFriendRequestAttempt(authToken, senderKey, recipientKey)),
         onDenyRequest: (authToken, senderKey, recipientKey) => dispatch(actions.denyFriendRequestAttempt(authToken, senderKey, recipientKey)),
