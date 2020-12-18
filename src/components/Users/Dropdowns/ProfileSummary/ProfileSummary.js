@@ -358,7 +358,7 @@ const profileSummaryDropdown = (props) => {
     )
 
     if (props.fetchingPublicProfile) {
-        summary = <InlineDots className={classes.LoadingDots}/>
+        summary = <InlineDots top="35%"/>
     }
 
     return (

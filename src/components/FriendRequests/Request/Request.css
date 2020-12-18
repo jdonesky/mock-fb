@@ -1,6 +1,6 @@
 
 .Container {
-    min-height: 50px;
+    min-height: 100px;
     width: 100%;
     border-radius: 7px;
     display: flex;
@@ -21,20 +21,22 @@
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
+    margin: 10px 0 0 15px;
 }
 
 .ProfileImage {
-    height: 35px;
-    width: 35px;
+    height: 55px;
+    width: 55px;
     border-radius: 100%;
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0,0,0,0.1);
     background-position: center;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .ProfileImage {
-    background-color: rgba(0,0,0,0.01);
+    background-color: rgba(0,0,0,0.14);
     filter: saturate(3);
 }
 
@@ -48,12 +50,14 @@
     flex-flow: column;
     justify-content: flex-start;
     align-items: flex-start;
+    margin: 10px 0 0 20px;
 }
 
 .Name {
-    font-weight: 900;
+    font-weight: 700;
     font-family: "Lucida Grande";
-    font-size: 16px;
+    font-size: 15px;
+    margin-bottom: 15px;
 }
 
 .MutualFriends {
@@ -68,26 +72,26 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
-    width: 200px;
+    height: 37px;
+    width: 255px;
 }
 
 .Control {
     height: 100%;
-    width: 45%;
+    width: 48%;
     border-radius: 6px;
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0,0,0,0.1);
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 900;
+    font-weight: 500;
     font-family: "Lucida Grande";
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .Control:hover {
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.12);
 }
 
 .ConfirmControl {
@@ -98,3 +102,4 @@
 .ConfirmControl:hover {
     background-color: #1258db;
 }
+

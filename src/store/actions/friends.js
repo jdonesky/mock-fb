@@ -46,7 +46,7 @@ export const sendFriendRequestAttempt = (authToken, senderKey, recipientKey) => 
 
               let newReceivedRequests;
               const receivedRequest = {name: senderNewPublicProfile.firstName + ' ' + senderNewPublicProfile.lastName, publicProfileKey: senderKey, userKey: senderNewPublicProfile.userKey, date: new Date() }
-              if (recipientNewPublicProfile.friendRequests && senderNewPublicProfile.friendRequests.received && senderNewPublicProfile.friendRequests.received.length) {
+              if (recipientNewPublicProfile.friendRequests && recipientNewPublicProfile.friendRequests.received && recipientNewPublicProfile.friendRequests.received.length) {
                   newReceivedRequests = [...recipientNewPublicProfile.friendRequests.received, receivedRequest]
               } else {
                   newReceivedRequests = [receivedRequest]

@@ -11,6 +11,7 @@ import Gear from '../../../assets/images/TopNavButtonIcons/gear';
 const requestsSideDrawer = props => {
 
     const {myFriends, onFetchMyFriendRequests, onFetchMyFriends, onFetchManyProfiles, authToken, myPublicProfileKey, receivedRequests, sentRequests, manyProfiles} = props
+    const [seeingAll, setSeeingAll] = useState(true);
 
     useEffect(() => {
         onFetchMyFriendRequests(authToken, myPublicProfileKey);
@@ -29,19 +30,18 @@ const requestsSideDrawer = props => {
                 combinedKeys.push(req.publicProfileKey)
             })
         }
-        // console.log('keys to fetch', combinedKeys);
         if (combinedKeys && combinedKeys.length) {
             onFetchManyProfiles(authToken, combinedKeys)
         }
     }, [receivedRequests, sentRequests, onFetchManyProfiles, authToken])
 
-    // useEffect(() => {
-    //     console.log('My sent requests', sentRequests);
-    //     console.log('My received requests', receivedRequests);
-    //     console.log('ManyProfiles ', props.manyProfiles)
-    // })
+    const acceptRequest = (senderKey) => {
+        props.onAcceptFriendRequest(authToken, senderKey, myPublicProfileKey)
+    }
 
-    const [seeingAll, setSeeingAll] = useState(true);
+    const denyRequest = (senderKey) => {
+        props.onDenyFriendRequest(authToken, senderKey, myPublicProfileKey)
+    }
 
     let requestsCount = props.receivedRequests && props.receivedRequests.length ? props.receivedRequests.length : 0
     let paths;
@@ -54,26 +54,28 @@ const requestsSideDrawer = props => {
     let receivedRequestsList;
     if (receivedRequests && receivedRequests.length) {
         if (props.manyProfiles && props.manyProfiles.length) {
+            console.log('manyProfiles - ', manyProfiles)
+            console.log('receivedRequests - ', receivedRequests)
             receivedRequestsList = receivedRequests.map( req => {
-                const profile = props.manyProfiles.find(profile => profile.publicProfileKey === req.publicProfileKey)
+                const profile = props.manyProfiles.find(profile => profile.userKey === req.userKey)
                 let profileImage;
                 if (profile) {
                     profileImage = profile.profileImage;
                 }
-                console.log(profileImage)
                 if (profileImage) {
                     return {...req, profileImage: profileImage}
                 } else {
                     return req;
                 }
-            })
 
-            receivedRequestsList = props.receivedRequests.map( req => (
+            })
+            receivedRequestsList = receivedRequestsList.map( req => (
                 <Request
+                    key={req.userKey}
                     profileImage={req.profileImage}
                     name={req.name}
                     mutualFriends={req.mutualFriends}
-
+                    userKey={req.userKey}
                 />
             ))
         }
@@ -98,7 +100,11 @@ const requestsSideDrawer = props => {
 
                 sentRequestsList = props.sentRequests.map( req => (
                     <Request
-
+                        key={req.userKey}
+                        profileImage={req.profileImage}
+                        name={req.name}
+                        mutualFriends={req.mutualFriends}
+                        userKey={req.userKey}
                     />
                 ))
             }
@@ -119,9 +125,8 @@ const requestsSideDrawer = props => {
                     <div className={classes.SeeAllButton} onClick={() => setSeeingAll(true)}>See All</div>
                 </div>
                 {viewSentButton}
-
+                {receivedRequestsList}
             </section>
-
 
         </div>
     )
@@ -142,7 +147,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
         onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
-        onFetchManyProfiles: (authToken, publicProfileKeys) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, publicProfileKeys))
+        onFetchManyProfiles: (authToken, publicProfileKeys) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, publicProfileKeys)),
+        onAcceptRequest: (authToken, senderKey, recipientKey) => dispatch(actions.acceptFriendRequestAttempt(authToken, senderKey, recipientKey)),
+        onDenyRequest: (authToken, senderKey, recipientKey) => dispatch(actions.denyFriendRequestAttempt(authToken, senderKey, recipientKey)),
     }
 }
 
