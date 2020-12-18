@@ -34,6 +34,11 @@ const profileSummaryDropdown = (props) => {
 
     const {onFetchMyFriendRequests, onFetchPublicProfile, publicProfileKey, authToken} = props
 
+    const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
+    const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
+    const [friendRequestSent, setFriendRequestSent] = useState(false);
+    const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
+
     useEffect(() => {
         onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
         onFetchPublicProfile(authToken, publicProfileKey)
@@ -49,14 +54,16 @@ const profileSummaryDropdown = (props) => {
         }
     }, [onFetchPublicProfile, publicProfileKey, authToken])
 
+
     useEffect(() => {
         props.onFetchMyFriendRequests(authToken,props.myPublicProfileKey);
     }, [friendRequestCanceled])
 
-    const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
-    const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
-    const [friendRequestSent, setFriendRequestSent] = useState(false);
-    const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
+    useEffect(() => {
+        console.log('this profile ', props.profile);
+        console.log('my sent requests' , props.mySentRequests)
+        console.log('my received requests' , props.myReceivedRequests)
+    })
 
     const goToFullProfile = () => {
         if (props.profile) {
@@ -187,22 +194,43 @@ const profileSummaryDropdown = (props) => {
 
     let addFriendButtonText;
     let addFriendButtonIcon;
-    let addFriendButtonClasses;
+    let addFriendButtonClasses = [];
     let addFriendButtonAction;
 
-    if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)) {
-        addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
-        addFriendButtonText = 'Cancel Request';
-        addFriendButtonIcon = <UnFriend fill='#155fe8' />
-        addFriendButtonAction = cancelFriendRequest;
+    // if (props.profile) {
+    //     if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)) {
+    //         addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
+    //         addFriendButtonText = 'Cancel Request';
+    //         addFriendButtonIcon = <UnFriend fill='#155fe8'/>
+    //         addFriendButtonAction = cancelFriendRequest;
+    //     }
+    //
+    //     if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) || friendRequestCanceled) {
+    //         addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
+    //         addFriendButtonText = 'Add Friend';
+    //         addFriendButtonIcon = <AddFriend fill='#155fe8'/>
+    //         addFriendButtonAction = sendFriendRequest;
+    //     }
+    // }
+
+    if (props.profile) {
+        if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)) {
+            console.log('REQUEST SENT')
+            addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
+            addFriendButtonText = 'Cancel Request';
+            addFriendButtonIcon = <UnFriend fill='#155fe8'/>
+            addFriendButtonAction = cancelFriendRequest;
+        }
+
+        if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) || friendRequestCanceled) {
+            console.log('NO REQUEST SENT OR REQUEST CANCELED')
+            addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
+            addFriendButtonText = 'Add Friend';
+            addFriendButtonIcon = <AddFriend fill='#155fe8'/>
+            addFriendButtonAction = sendFriendRequest;
+        }
     }
 
-    if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1)) {
-        addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
-        addFriendButtonText = 'Add Friend';
-        addFriendButtonIcon = <AddFriend fill='#155fe8'/>
-        addFriendButtonAction = sendFriendRequest;
-    }
 
     if (props.sendingRequest || props.cancelingRequest) {
         addFriendButtonIcon = <Spinner bottom={'53px'} right={"3px"}/>
@@ -326,8 +354,10 @@ const mapStateToProps = state => {
         firebaseKey: state.profile.firebaseKey,
         myPublicProfileKey: state.profile.publicProfileKey,
         mySentRequests: state.friends.sentRequests,
+        myReceivedRequests: state.friends.receivedRequests,
         sendingRequest: state.friends.sendingFriendRequest,
-        cancelingRequest: state.friends.cancelingFriendRequest
+        cancelingRequest: state.friends.cancelingFriendRequest,
+        myFriends: state.friends.friends
     }
 }
 

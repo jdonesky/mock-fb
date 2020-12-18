@@ -46,8 +46,8 @@ const fetchFriendRequestsInit = (state,action) => {
 const fetchFriendRequestsSuccess = (state,action) => {
   return {
     ...state,
-    sentRequests: action.requests.sent || null,
-    receivedRequests: action.requests.received || null,
+    sentRequests: action.requests.sent || [],
+    receivedRequests: action.requests.received || [],
     fetchingFriendRequests: false
   }
 }
@@ -92,6 +92,7 @@ const cancelFriendRequestInit = (state,action) => {
 const cancelFriendRequestSuccess = (state,action) => {
   return {
     ...state,
+    sentRequests: action.sentRequests,
     cancelingFriendRequest: false
   }
 }

@@ -26,7 +26,6 @@ export const fetchPublicProfileAttempt = (authToken, publicProfileKey) => {
     dispatch(fetchPublicProfileInit());
     axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
     .then(response => {
-        console.log(response.data)
         dispatch(fetchPublicProfileSuccess(response.data))
     })
     .catch(error => {

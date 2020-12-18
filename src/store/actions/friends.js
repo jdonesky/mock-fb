@@ -92,9 +92,10 @@ const cancelFriendRequestInit = () => {
     };
 };
 
-const cancelFriendRequestSuccess = (friends) => {
+const cancelFriendRequestSuccess = (newSentRequests) => {
     return {
         type: actionTypes.CANCEL_FRIEND_REQUEST_SUCCESS,
+        sentRequests: newSentRequests
     };
 };
 
@@ -326,12 +327,12 @@ const fetchFriendRequestsFail = (error) => {
     }
 }
 
-
 export const fetchFriendRequestsAttempt = (authToken, publicProfileKey) => {
     return dispatch => {
         dispatch(fetchFriendRequestsInit())
         axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
             .then(response => {
+                console.log('friend requests', response.data.friendRequests)
                 dispatch(fetchFriendRequestsSuccess(response.data.friendRequests))
             })
             .catch(error => {
