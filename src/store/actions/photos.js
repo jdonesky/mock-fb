@@ -51,3 +51,8 @@ export const fetchTaggedMePhotosAttempt = (authToken, photosKey) => {
     }
 }
 
+export const clearPhotos = () => {
+    return {
+        type: actionTypes.CLEAR_PHOTOS
+    }
+}

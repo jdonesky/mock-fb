@@ -375,3 +375,8 @@ export const fetchFriendsAttempt = (authToken, publicProfileKey) => {
     }
 }
 
+export const clearFriends = () => {
+    return {
+        type: actionTypes.CLEAR_FRIENDS
+    }
+}

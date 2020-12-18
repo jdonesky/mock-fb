@@ -308,6 +308,12 @@ const fetchOthersPostsFail = (state,action) => {
     }
 }
 
+const clearPosts = (state,action) => {
+    return {
+        ...initialState
+    }
+}
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -348,6 +354,7 @@ const reducer = (state = initialState, action) => {
       case actionTypes.DELETE_REPLY_INIT: return deleteReplyInit(state,action);
       case actionTypes.DELETE_REPLY_SUCCESS: return deleteReplySuccess(state,action);
       case actionTypes.DELETE_REPLY_FAIL: return deleteReplyFail(state,action);
+      case actionTypes.CLEAR_POSTS: return clearPosts(state,action);
     default:
         return state
   }

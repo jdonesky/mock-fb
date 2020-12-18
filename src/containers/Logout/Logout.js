@@ -6,7 +6,11 @@ import * as actions from "../../store/actions/index";
 const Logout = (props) => {
   useEffect(() => {
     props.onLogout();
-    props.onClearProfileFromStore();
+    props.onClearProfile();
+    props.onClearUsers();
+    props.onClearPhotos();
+    props.onClearPosts();
+    props.onClearFriends();
   }, [])
 
   return <Redirect to="/authentication" />;
@@ -16,7 +20,11 @@ const Logout = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogout: () => dispatch(actions.authLogout()),
-    onClearProfileFromStore: () => dispatch(actions.clearProfile())
+    onClearProfile: () => dispatch(actions.clearProfile()),
+    onClearUsers: () => dispatch(actions.clearUsers()),
+    onClearPhotos: () => dispatch(actions.clearPhotos()),
+    onClearPosts: () => dispatch(actions.clearPosts()),
+    onClearFriends: () => dispatch(actions.clearFriends()),
   };
 };
 

@@ -645,4 +645,8 @@ const fetchOthersPostsFail = (error) => {
 }
 
 
-
+export const clearPosts = () => {
+    return {
+        type: actionTypes.CLEAR_POSTS
+    }
+}

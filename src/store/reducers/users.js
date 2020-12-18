@@ -78,6 +78,12 @@ const fetchFullProfileFail = (state,action) => {
   }
 }
 
+const clearUsers = (state,action) => {
+  return {
+    ...initialState
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_PUBLIC_PROFILE_INIT: return fetchPublicProfileInit(state, action);
@@ -89,6 +95,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_FULL_PROFILE_INIT: return fetchFullProfileInit(state, action);
     case actionTypes.FETCH_FULL_PROFILE_SUCCESS: return fetchFullProfileSuccess(state, action);
     case actionTypes.FETCH_FULL_PROFILE_FAIL: return fetchFullProfileFail(state, action);
+    case actionTypes.CLEAR_USERS: return clearUsers(state,action);
     default:
       return state;
   }

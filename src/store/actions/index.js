@@ -27,17 +27,20 @@ export {
    editReplyAttempt,
    deleteReplyAttempt,
    addPostReactionAttempt,
+   clearPosts
 } from "./posts";
 
 export {
    fetchByMePhotosAttempt,
-   fetchTaggedMePhotosAttempt
+   fetchTaggedMePhotosAttempt,
+   clearPhotos
 } from "./photos"
 
 export {
    fetchPublicProfileAttempt,
    fetchManyPublicProfilesAttempt,
    fetchFullProfileAttempt,
+   clearUsers
 } from "./users"
 
 export {
@@ -46,5 +49,6 @@ export {
    sendFriendRequestAttempt,
    cancelFriendRequestAttempt,
    acceptFriendRequestAttempt,
-   denyFriendRequestAttempt
+   denyFriendRequestAttempt,
+   clearFriends
 } from "./friends"

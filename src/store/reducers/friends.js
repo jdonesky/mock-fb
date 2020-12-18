@@ -153,6 +153,11 @@ const denyFriendRequestFail = (state,action) => {
   }
 }
 
+const clearFriends = (state,action) => {
+  return {
+    ...initialState
+  }
+}
 
 
 const reducer = (state = initialState, action) => {
@@ -175,6 +180,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.DENY_FRIEND_REQUEST_INIT: return denyFriendRequestInit(state,action);
     case actionTypes.DENY_FRIEND_REQUEST_SUCCESS: return denyFriendRequestSuccess(state,action);
     case actionTypes.DENY_FRIEND_REQUEST_FAIL: return denyFriendRequestFail(state,action);
+    case actionTypes.CLEAR_FRIENDS: return clearFriends(state,action);
     default:
       return state;
   }
