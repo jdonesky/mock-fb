@@ -348,10 +348,10 @@ const fetchFriendsInit = () => {
     }
 }
 
-const fetchFriendsSuccess = (requests) => {
+const fetchFriendsSuccess = (friends) => {
     return {
         type: actionTypes.FETCH_FRIENDS_SUCCESS,
-        requests: requests
+        friends: friends
     }
 }
 

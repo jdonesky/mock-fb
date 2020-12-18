@@ -5,7 +5,7 @@
 
 .Container {
     width: 400px;
-    height: 52px;
+    height: 121px;
     position: absolute;
     display: flex;
     flex-flow: column;

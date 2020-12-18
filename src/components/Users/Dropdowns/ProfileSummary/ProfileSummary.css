@@ -156,14 +156,16 @@
 }
 
 .MessageIcon {
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
 }
 
 .MessageIcon svg {
     height: auto;
-    width: 80%;
+    width: 100%;
     position: relative;
+    top: 1px;
+    right: 6px;
 }
 
 .DotsIcon svg {

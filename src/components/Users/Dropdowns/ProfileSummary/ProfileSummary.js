@@ -65,7 +65,12 @@ const profileSummaryDropdown = (props) => {
     }, [friendRequestCanceled])
 
     useEffect(() => {
-        console.log(acceptedRequest);
+        props.onFetchMyFriends(authToken, props.myPublicProfileKey)
+    }, [acceptedRequest])
+
+    useEffect(() => {
+        console.log('myFriends', props.myFriends)
+        console.log('isFriend?', isFriend);
     })
 
 
@@ -97,7 +102,8 @@ const profileSummaryDropdown = (props) => {
     if (props.profile) {
         if (props.profile.friends && props.profile.friends.length) {
             if (props.myFriends && props.myFriends.length) {
-                mutualFriends = props.myFriends.filter(myFriend => props.friends.map(theirFriend => theirFriend.userKey).includes(myFriend.userKey))
+                mutualFriends = props.myFriends.filter(myFriend => props.profile.friends.map(theirFriend => theirFriend.userKey).includes(myFriend.userKey))
+                console.log('mutualFriends', mutualFriends);
             }
         }
     }
@@ -106,20 +112,22 @@ const profileSummaryDropdown = (props) => {
     let firstInfoIcon;
     let markFirst;
     if (props.profile) {
-            if (mutualFriends) {
-                if (mutualFriends.length === 1) {
-                    firstInfo = <span className={classes.InfoEntry}>{"1 mutual friend:"} <b
-                        className={classes.MutualFriend}>{mutualFriends[0].name}</b></span>
-                } else if (mutualFriends.length === 2) {
-                    firstInfo = <span className={classes.InfoEntry}>{"2 mutual friends, including"} <b
-                        className={classes.MutualFriend}>{mutualFriends[0].name}</b></span>
-                } else {
-                    firstInfo =
-                        <span className={classes.InfoEntry}>{`${mutualFriends.length} mutual friends, including`} <b
-                            className={classes.MutualFriend}>{mutualFriends[0].name}</b> and <b
-                            className={classes.MutualFriend}>{mutualFriends[1].name}</b></span>
+            if (mutualFriends && mutualFriends.length > 0) {
+                if (props.profile.userKey !== props.firebaseKey) {
+                    if (mutualFriends.length === 1) {
+                        firstInfo = <span className={classes.InfoEntry}>{"1 mutual friend:"} <b
+                            className={classes.MutualFriend}>{mutualFriends[0].name}</b></span>
+                    } else if (mutualFriends.length === 2) {
+                        firstInfo = <span className={classes.InfoEntry}>{"2 mutual friends, including"} <b
+                            className={classes.MutualFriend}>{mutualFriends[0].name}</b></span>
+                    } else {
+                        firstInfo =
+                            <span className={classes.InfoEntry}>{`${mutualFriends.length} mutual friends, including`} <b
+                                className={classes.MutualFriend}>{mutualFriends[0].name}</b> and <b
+                                className={classes.MutualFriend}>{mutualFriends[1].name}</b></span>
+                    }
+                    firstInfoIcon = <Friends/>
                 }
-                firstInfoIcon = <Friends/>
             } else {
                 if (props.profile.friends && props.profile.friends.length) {
                     firstInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1].name}`
@@ -160,7 +168,7 @@ const profileSummaryDropdown = (props) => {
     let secondInfoIcon;
     if (props.profile) {
             if (props.profile.friends && props.profile.friends.length && markFirst !== 'FRIENDS') {
-                secondInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1]}`
+                secondInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1].name}`
                 secondInfoIcon = <Link fill='rgba(0,0,0,0.5)'/>
             } else if (props.profile.currLocation && markFirst !== 'CURRLOCATION') {
                 secondInfo =
@@ -242,10 +250,9 @@ const profileSummaryDropdown = (props) => {
     if (props.profile) {
         if (props.profile.userKey !== props.firebaseKey) {
             if (props.myFriends && props.myFriends.length) {
-                isFriend = props.myFriends.find(friend => friend.userId === props.profile.userId)
+                isFriend = props.myFriends.find(friend => friend.userKey === props.profile.userKey)
             }
             if (isFriend || acceptedRequest) {
-                console.log('ACCEPTED REQUEST BLOCK ENTERED')
                 firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")}>
                     <div className={classes.MessageIcon}><FbMessage/></div>
                     <span className={classes.ControlButtonText}>Message</span></div>
@@ -383,7 +390,8 @@ const mapDispatchToProps = dispatch => {
         onFetchPublicProfile: (authToken,publicProfileKey) => dispatch(actions.fetchPublicProfileAttempt(authToken,publicProfileKey)),
         onSendFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.sendFriendRequestAttempt(authToken, senderKey, recipientKey)),
         onCancelFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.cancelFriendRequestAttempt(authToken, senderKey, recipientKey)),
-        onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey))
+        onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
+        onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken,publicProfileKey))
     }
 }
 
