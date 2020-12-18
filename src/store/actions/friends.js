@@ -70,7 +70,7 @@ export const sendFriendRequestAttempt = (authToken, senderKey, recipientKey) => 
 
               return Promise.all([recordSent, recordReceived])
                   .then(responses => {
-                      console.log('SUCCESS - put responses ', responses)
+                      console.log('SUCCESS - REQUEST SENT')
                       dispatch(sendFriendRequestSuccess(newSentRequests))
                   })
                   .catch(error => {
@@ -167,9 +167,9 @@ const acceptFriendRequestFail = (error) => {
 export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey) => {
     return dispatch => {
         let senderNewPublicProfile;
+        let recipientNewPublicProfile;
         let newReceivedRequests;
         let newFriends;
-        let recipientNewPublicProfile;
         dispatch(acceptFriendRequestInit());
         const getSender = axios.get(`/public-profiles/${senderKey}.json?auth=${authToken}`);
         const getRecipient = axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`);
@@ -190,6 +190,7 @@ export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey) =
                     sendersNewFriends = [sendersNewFriend]
                 }
                 senderNewPublicProfile.friends = sendersNewFriends
+                console.log('senderNewPublicProfile with new friend', senderNewPublicProfile)
 
                 const recipientsNewFriend = {...recipientNewPublicProfile.friendRequests.received.find(req => req.userKey === senderNewPublicProfile.userKey), profileImage: senderNewPublicProfile.profileImage }
                 console.log('recipient/MYNewFriend', recipientsNewFriend)
@@ -198,6 +199,7 @@ export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey) =
                 } else {
                     newFriends = [recipientsNewFriend];
                 }
+                recipientNewPublicProfile.friends = newFriends;
 
                 const newSentRequests = senderNewPublicProfile.friendRequests.sent.filter(req => req.userKey !== recipientNewPublicProfile.userKey)
                 newReceivedRequests = recipientNewPublicProfile.friendRequests.received.filter(req => req.userKey !== senderNewPublicProfile.userKey)
@@ -220,7 +222,7 @@ export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey) =
 
                 return Promise.all([recordSent, recordReceived])
                     .then(responses => {
-                        console.log('SUCCESS - put responses ', responses)
+                        console.log('SUCCESS - ACCEPTED REQUEST')
                         dispatch(acceptFriendRequestSuccess(newReceivedRequests, newFriends))
                     })
                     .catch(error => {
@@ -263,7 +265,7 @@ export const denyFriendRequestAttempt = (authToken, senderKey, recipientKey) => 
         dispatch(denyFriendRequestInit());
         const getSender = axios.get(`/public-profiles/${senderKey}.json?auth=${authToken}`);
         const getRecipient = axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`);
-
+        console.log('DENYING REQUEST')
         return Promise.all([getSender, getRecipient])
             .then(responses => {
                 senderNewPublicProfile = {...responses[0].data}
@@ -292,7 +294,7 @@ export const denyFriendRequestAttempt = (authToken, senderKey, recipientKey) => 
 
                 return Promise.all([recordSent, recordReceived])
                     .then(responses => {
-                        console.log('SUCCESS - put responses ', responses)
+                        console.log('SUCCESS - DENIED REQUEST')
                         dispatch(denyFriendRequestSuccess(newReceivedRequests))
                     })
                     .catch(error => {
@@ -332,7 +334,6 @@ export const fetchFriendRequestsAttempt = (authToken, publicProfileKey) => {
         dispatch(fetchFriendRequestsInit())
         axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('friend requests', response.data.friendRequests)
                 dispatch(fetchFriendRequestsSuccess(response.data.friendRequests))
             })
             .catch(error => {
@@ -366,7 +367,6 @@ export const fetchFriendsAttempt = (authToken, publicProfileKey) => {
         dispatch(fetchFriendsInit())
         axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('SUCCESS - ', response.data.friends)
                 dispatch(fetchFriendsSuccess(response.data.friends))
             })
             .catch(error => {

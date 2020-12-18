@@ -6,6 +6,7 @@ import dropdownClasses from './SummaryOptionMenus/Shared.css';
 import * as actions from '../../../../store/actions/index';
 
 import IsFriendOptions from './SummaryOptionMenus/IsFriendDropdown';
+import RespondRequestDropdown from '../RespondRequest/RespondRequest';
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 
 import Avatar from '../../../../assets/images/profile-placeholder-gender-neutral';
@@ -28,7 +29,7 @@ import Eye from '../../../../assets/images/eye';
 import BlockUser from '../../../../assets/images/UserActionIcons/blockUser';
 import ActivityLog from '../../../../assets/images/UserActivityIcons/activityLog';
 import Spinner from '../../../../components/UI/Spinner/Spinner';
-
+import InlineDots from '../../../../components/UI/Spinner/InlineDots';
 import {convertDashedDatetime} from "../../../../shared/utility";
 
 const profileSummaryDropdown = (props) => {
@@ -40,6 +41,8 @@ const profileSummaryDropdown = (props) => {
     const [friendRequestSent, setFriendRequestSent] = useState(false);
     const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
     const [respondingRequest, setRespondingRequest] = useState(false);
+    const [acceptedRequest, setAcceptedRequest] = useState(false);
+    const [deniedRequest, setDeniedRequest] = useState(false);
 
     useEffect(() => {
         onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
@@ -62,10 +65,9 @@ const profileSummaryDropdown = (props) => {
     }, [friendRequestCanceled])
 
     useEffect(() => {
-        console.log('this profile ', props.profile);
-        console.log('my sent requests' , props.mySentRequests)
-        console.log('my received requests' , props.myReceivedRequests)
+        console.log(acceptedRequest);
     })
+
 
     const goToFullProfile = () => {
         if (props.profile) {
@@ -89,13 +91,14 @@ const profileSummaryDropdown = (props) => {
         props.onCancelFriendRequest(authToken, props.myPublicProfileKey, publicProfileKey)
         setFriendRequestCanceled(true);
         setFriendRequestSent(false);
-
     }
 
     let mutualFriends;
     if (props.profile) {
-        if (props.profile.friends && props.profile.friends.length && props.myFriends && props.myFriends.length) {
-            mutualFriends = props.myFriends.filter(myFriend => props.friends.map(theirFriend => theirFriend.userId).includes(myFriend.userId))
+        if (props.profile.friends && props.profile.friends.length) {
+            if (props.myFriends && props.myFriends.length) {
+                mutualFriends = props.myFriends.filter(myFriend => props.friends.map(theirFriend => theirFriend.userKey).includes(myFriend.userKey))
+            }
         }
     }
 
@@ -106,20 +109,20 @@ const profileSummaryDropdown = (props) => {
             if (mutualFriends) {
                 if (mutualFriends.length === 1) {
                     firstInfo = <span className={classes.InfoEntry}>{"1 mutual friend:"} <b
-                        className={classes.MutualFriend}>{mutualFriends[0]}</b></span>
+                        className={classes.MutualFriend}>{mutualFriends[0].name}</b></span>
                 } else if (mutualFriends.length === 2) {
                     firstInfo = <span className={classes.InfoEntry}>{"2 mutual friends, including"} <b
-                        className={classes.MutualFriend}>{mutualFriends[0]}</b></span>
+                        className={classes.MutualFriend}>{mutualFriends[0].name}</b></span>
                 } else {
                     firstInfo =
                         <span className={classes.InfoEntry}>{`${mutualFriends.length} mutual friends, including`} <b
-                            className={classes.MutualFriend}>{mutualFriends[0]}</b> and <b
-                            className={classes.MutualFriend}>{mutualFriends[1]}</b></span>
+                            className={classes.MutualFriend}>{mutualFriends[0].name}</b> and <b
+                            className={classes.MutualFriend}>{mutualFriends[1].name}</b></span>
                 }
                 firstInfoIcon = <Friends/>
             } else {
                 if (props.profile.friends && props.profile.friends.length) {
-                    firstInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1]}`
+                    firstInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1].name}`
                     firstInfoIcon = <Link fill='rgba(0,0,0,0.5)'/>
                     markFirst = 'FRIENDS'
                 } else if (props.profile.currLocation) {
@@ -202,14 +205,12 @@ const profileSummaryDropdown = (props) => {
 
     if (props.profile) {
         if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)) {
-            console.log('REQUEST SENT')
             addFriendButtonText = 'Cancel Request';
             addFriendButtonIcon = <UnFriend fill='#155fe8'/>
             addFriendButtonAction = cancelFriendRequest;
         }
 
-        if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) || friendRequestCanceled) {
-            console.log('NO REQUEST SENT OR REQUEST CANCELED')
+        if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) || friendRequestCanceled || deniedRequest) {
             addFriendButtonText = 'Add Friend';
             addFriendButtonIcon = <AddFriend fill='#155fe8'/>
             addFriendButtonAction = sendFriendRequest;
@@ -218,12 +219,21 @@ const profileSummaryDropdown = (props) => {
         if (props.myReceivedRequests && props.myReceivedRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1) {
             addFriendButtonText = 'Respond'
             addFriendButtonIcon = <RespondRequest fill='#155fe8' />
-            addFriendButtonAction = () => setRespondingRequest(prevState => {return !prevState})
+            addFriendButtonAction = () => setRespondingRequest(true)
         }
     }
 
     if (props.sendingRequest || props.cancelingRequest) {
         addFriendButtonIcon = <Spinner bottom={'53px'} right={"3px"}/>
+    }
+
+    let respondRequestDropdown;
+    if (respondingRequest && addFriendButtonText === 'Respond') {
+        respondRequestDropdown = (
+            <OutsideAlerter action={() => setRespondingRequest(false)}>
+                <RespondRequestDropdown senderKey={publicProfileKey} recipientKey={props.myPublicProfileKey} accept={setAcceptedRequest} deny={setDeniedRequest} close={() => setRespondingRequest(false)}/>
+            </OutsideAlerter>
+        )
     }
 
     let isFriend;
@@ -234,7 +244,8 @@ const profileSummaryDropdown = (props) => {
             if (props.myFriends && props.myFriends.length) {
                 isFriend = props.myFriends.find(friend => friend.userId === props.profile.userId)
             }
-            if (isFriend) {
+            if (isFriend || acceptedRequest) {
+                console.log('ACCEPTED REQUEST BLOCK ENTERED')
                 firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")}>
                     <div className={classes.MessageIcon}><FbMessage/></div>
                     <span className={classes.ControlButtonText}>Message</span></div>
@@ -248,13 +259,18 @@ const profileSummaryDropdown = (props) => {
                     </OutsideAlerter>
                 )
             } else {
-                firstControl =
-                    <div className={addFriendButtonClasses.join(" ")} onClick={addFriendButtonAction}>
-                        <div className={[classes.ButtonIcon, classes.AddFriendIcon].join(" ")}>
-                            {addFriendButtonIcon}
+                firstControl = (
+                    <React.Fragment>
+                        <div className={addFriendButtonClasses.join(" ")} onClick={addFriendButtonAction}>
+                            <div className={[classes.ButtonIcon, classes.AddFriendIcon].join(" ")}>
+                                {addFriendButtonIcon}
+                            </div>
+                            <span className={classes.ControlButtonText}>{addFriendButtonText}</span>
                         </div>
-                        <span className={classes.ControlButtonText}>{addFriendButtonText}</span>
-                    </div>
+                        {respondRequestDropdown}
+                    </React.Fragment>
+                )
+
                 if (props.profile.privacy.AllowMessages === 'ALL') {
                     secondControl =
                         <div className={classes.ControlButton}>
@@ -309,38 +325,49 @@ const profileSummaryDropdown = (props) => {
         profileImage = props.profile.profileImage
     }
 
+    let summary = (
+        <React.Fragment>
+            <section className={classes.HeaderContainer}>
+                <div className={classes.ProfileImageBlock}>
+                    <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}} onClick={goToFullProfile}>
+                        {profileImage ? null : <Avatar />}
+                    </div>
+                </div>
+                <div className={classes.UserInfoContainer}>
+                    <div className={classes.UserName}>{userName}</div>
+                    {firstInfoEntry}
+                    {secondInfoEntry}
+                </div>
+            </section>
+            <section className={classes.ControlsSection}>
+                {firstControl}
+                {secondControl}
+                <OutsideAlerter action={() => setViewingMoreOptions(false)}>
+                    <div className={classes.ControlButton} onClick={() => setViewingMoreOptions(true)}><div className={[classes.ButtonIcon, classes.DotsIcon].join(" ")}><Dots /></div></div>
+                    {moreOptions}
+                </OutsideAlerter>
+            </section>
+        </React.Fragment>
+    )
+
+    if (props.fetchingPublicProfile) {
+        summary = <InlineDots className={classes.LoadingDots}/>
+    }
+
     return (
         <div className={classes.Positioner} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
-            <div className={classes.DropdownContainer}>
-                <section className={classes.HeaderContainer}>
-                    <div className={classes.ProfileImageBlock}>
-                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}} onClick={goToFullProfile}>
-                            {profileImage ? null : <Avatar />}
-                        </div>
-                    </div>
-                    <div className={classes.UserInfoContainer}>
-                        <div className={classes.UserName}>{userName}</div>
-                        {firstInfoEntry}
-                        {secondInfoEntry}
-                    </div>
-                </section>
-                <section className={classes.ControlsSection}>
-                    {firstControl}
-                    {secondControl}
-                    <OutsideAlerter action={() => setViewingMoreOptions(false)}>
-                        <div className={classes.ControlButton} onClick={() => setViewingMoreOptions(true)}><div className={[classes.ButtonIcon, classes.DotsIcon].join(" ")}><Dots /></div></div>
-                        {moreOptions}
-                    </OutsideAlerter>
-                </section>
-            </div>
+        <div className={classes.DropdownContainer}>
+            {summary}
         </div>
-    );
+    </div>
+    )
 }
 
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         profile: state.users.singleProfile,
+        fetchingPublicProfile: state.users.loadingSingleProfile,
         firebaseKey: state.profile.firebaseKey,
         myPublicProfileKey: state.profile.publicProfileKey,
         mySentRequests: state.friends.sentRequests,

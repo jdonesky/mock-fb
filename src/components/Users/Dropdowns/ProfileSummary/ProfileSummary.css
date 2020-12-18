@@ -195,3 +195,7 @@
     left: 0
 }
 
+.LoadingDots {
+    position: relative;
+    top: 35%;
+}
