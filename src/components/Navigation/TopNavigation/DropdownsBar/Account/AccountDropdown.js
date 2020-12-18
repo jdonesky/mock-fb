@@ -7,9 +7,9 @@ import Avatar from '../../../../../assets/images/profile-placeholder-gender-neut
 
 import Feedback from '../../../../../assets/images/TopNavButtonIcons/feedback';
 import Gear from '../../../../../assets/images/TopNavButtonIcons/gear';
-import CrescentMoon from '../../../../../assets/images/TopNavButtonIcons/crescent-moon';
+import CrescentMoon from '../../../../../assets/images/TopNavButtonIcons/crescentMoon';
 import Logout from '../../../../../assets/images/TopNavButtonIcons/logout';
-import RightArrow from '../../../../../assets/images/TopNavButtonIcons/right-arrow';
+import RightArrow from '../../../../../assets/images/TopNavButtonIcons/rightArrow';
 
 const accountDropdown = (props) => {
 

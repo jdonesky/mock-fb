@@ -3,8 +3,8 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import classes from './CenterOptionsBar.css';
 
-import HouseContour from '../../../../assets/images/TopNavButtonIcons/home-contour';
-import HouseFilled from '../../../../assets/images/TopNavButtonIcons/home-filled';
+import HouseContour from '../../../../assets/images/TopNavButtonIcons/homeContour';
+import HouseFilled from '../../../../assets/images/TopNavButtonIcons/homeFilled';
 import GroupFilled from '../../../../assets/images/TopNavButtonIcons/groupFill';
 
 const centerOptions = (props) => {

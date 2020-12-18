@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux'
 import Searchbar from "../../../../Search/Searchbar";
 import classes from './SearchDropdown.css'
-import BackArrow from '../../../../../assets/images/TopNavButtonIcons/back-arrow';
+import BackArrow from '../../../../../assets/images/TopNavButtonIcons/backArrow';
 
 const searchDropdown = ({searchHistory, close}) => {
 

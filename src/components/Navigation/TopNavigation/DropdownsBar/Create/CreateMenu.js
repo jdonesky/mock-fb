@@ -6,11 +6,11 @@ import {PostContext} from "../../../../../context/post-context";
 import {LifeEventContext} from "../../../../../context/life-event-context";
 import classes from './CreateMenu.css';
 
-import Paper from '../../../../../assets/images/TopNavButtonIcons/paper-pen';
-import Book from '../../../../../assets/images/TopNavButtonIcons/open-book';
+import Paper from '../../../../../assets/images/TopNavButtonIcons/paperPen';
+import Book from '../../../../../assets/images/TopNavButtonIcons/openBook';
 import Star from '../../../../../assets/images/TopNavButtonIcons/star';
 import Flag from '../../../../../assets/images/TopNavButtonIcons/flag';
-import Group from '../../../../../assets/images/TopNavButtonIcons/user-group';
+import Group from '../../../../../assets/images/TopNavButtonIcons/userGroup';
 import Calendar from '../../../../../assets/images/TopNavButtonIcons/calendar';
 
 const createMenu = (props) => {

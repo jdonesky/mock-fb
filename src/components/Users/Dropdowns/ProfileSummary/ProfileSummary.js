@@ -16,16 +16,17 @@ import Pin from '../../../../assets/images/UserActivityIcons/pin';
 import GradCap from '../../../../assets/images/UserActivityIcons/gradCap';
 import BriefCase from '../../../../assets/images/UserActivityIcons/briefcase';
 import Cake from '../../../../assets/images/cake';
-import FbMessage from '../../../../assets/images/UserActionIcons/fb-message';
-import AddFriend from '../../../../assets/images/UserActionIcons/add-friend';
+import FbMessage from '../../../../assets/images/UserActionIcons/fbMessage';
+import AddFriend from '../../../../assets/images/UserActionIcons/addFriend';
+import RespondRequest from '../../../../assets/images/UserActionIcons/respondRequest';
 import UnFriend from '../../../../assets/images/UserActionIcons/unfriend';
 import IsFriend from '../../../../assets/images/UserActivityIcons/isFriend';
 import Follow from '../../../../assets/images/UserActionIcons/follow';
 import Dots from '../../../../assets/images/dots';
 import Pen from '../../../../assets/images/edit';
 import Eye from '../../../../assets/images/eye';
-import BlockUser from '../../../../assets/images/UserActionIcons/block-user';
-import ActivityLog from '../../../../assets/images/UserActivityIcons/activity-log';
+import BlockUser from '../../../../assets/images/UserActionIcons/blockUser';
+import ActivityLog from '../../../../assets/images/UserActivityIcons/activityLog';
 import Spinner from '../../../../components/UI/Spinner/Spinner';
 
 import {convertDashedDatetime} from "../../../../shared/utility";
@@ -38,6 +39,7 @@ const profileSummaryDropdown = (props) => {
     const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
     const [friendRequestSent, setFriendRequestSent] = useState(false);
     const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
+    const [respondingRequest, setRespondingRequest] = useState(false);
 
     useEffect(() => {
         onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
@@ -194,29 +196,13 @@ const profileSummaryDropdown = (props) => {
 
     let addFriendButtonText;
     let addFriendButtonIcon;
-    let addFriendButtonClasses = [];
+    let addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
     let addFriendButtonAction;
 
-    // if (props.profile) {
-    //     if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)) {
-    //         addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
-    //         addFriendButtonText = 'Cancel Request';
-    //         addFriendButtonIcon = <UnFriend fill='#155fe8'/>
-    //         addFriendButtonAction = cancelFriendRequest;
-    //     }
-    //
-    //     if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) || friendRequestCanceled) {
-    //         addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
-    //         addFriendButtonText = 'Add Friend';
-    //         addFriendButtonIcon = <AddFriend fill='#155fe8'/>
-    //         addFriendButtonAction = sendFriendRequest;
-    //     }
-    // }
 
     if (props.profile) {
         if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)) {
             console.log('REQUEST SENT')
-            addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
             addFriendButtonText = 'Cancel Request';
             addFriendButtonIcon = <UnFriend fill='#155fe8'/>
             addFriendButtonAction = cancelFriendRequest;
@@ -224,13 +210,17 @@ const profileSummaryDropdown = (props) => {
 
         if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) || friendRequestCanceled) {
             console.log('NO REQUEST SENT OR REQUEST CANCELED')
-            addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
             addFriendButtonText = 'Add Friend';
             addFriendButtonIcon = <AddFriend fill='#155fe8'/>
             addFriendButtonAction = sendFriendRequest;
         }
-    }
 
+        if (props.myReceivedRequests && props.myReceivedRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1) {
+            addFriendButtonText = 'Respond'
+            addFriendButtonIcon = <RespondRequest fill='#155fe8' />
+            addFriendButtonAction = () => setRespondingRequest(prevState => {return !prevState})
+        }
+    }
 
     if (props.sendingRequest || props.cancelingRequest) {
         addFriendButtonIcon = <Spinner bottom={'53px'} right={"3px"}/>

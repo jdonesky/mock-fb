@@ -8,7 +8,7 @@ import AccountDropdown from "./Account/AccountDropdown";
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 import Plus from '../../../../assets/images/TopNavButtonIcons/plus';
 import Bell from '../../../../assets/images/TopNavButtonIcons/bell';
-import Down from '../../../../assets/images/TopNavButtonIcons/caret-down';
+import Down from '../../../../assets/images/TopNavButtonIcons/caretDown';
 
 const dropdownsBar = (props) => {
 

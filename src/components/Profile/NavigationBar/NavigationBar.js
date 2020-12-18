@@ -7,12 +7,12 @@ import NavDropdown from './NavigationDropdown/NavigationDropdown';
 
 import Eye from '../../../assets/images/eye';
 import Pen from '../../../assets/images/edit';
-import FbMessage from '../../../assets/images/UserActionIcons/fb-message';
+import FbMessage from '../../../assets/images/UserActionIcons/fbMessage';
 import Search from '../../../assets/images/search';
-import ActivityLog from '../../../assets/images/UserActivityIcons/activity-log';
+import ActivityLog from '../../../assets/images/UserActivityIcons/activityLog';
 import SearchGlass from '../../../assets/images/search';
-import Block from '../../../assets/images/UserActionIcons/block-user';
-import AddFriend from '../../../assets/images/UserActionIcons/add-friend';
+import Block from '../../../assets/images/UserActionIcons/blockUser';
+import AddFriend from '../../../assets/images/UserActionIcons/addFriend';
 import Follow from '../../../assets/images/UserActionIcons/follow';
 import Dots from '../../../assets/images/dots';
 import DownArrow from '../../../assets/images/down-arrow';
