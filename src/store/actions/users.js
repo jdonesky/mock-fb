@@ -98,22 +98,16 @@ export const fetchManyPublicProfilesAttempt = (authToken, publicProfileKeys= [])
     publicProfileKeys.forEach(key => {
       queries.push(axios.get(`/public-profiles/${key}.json?auth=${authToken}`))
     })
-    console.log('PROMISES', queries);
-
     return Promise.all(queries)
         .then(responses => {
-          console.log('SUCCESS - fetched many profiles');
           const profiles = responses.map(response => {
             if (response.data) {
               return response.data
             }
           })
-
-          console.log('PROFILES', profiles);
           dispatch(fetchManyPublicProfilesSuccess(profiles));
         })
         .catch(error => {
-          console.log('FAIL - error', error);
           dispatch(fetchManyPublicProfilesFail(error));
         })
   }

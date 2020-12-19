@@ -5,17 +5,14 @@ import classes from './RequestsSideDrawer.css';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
 import Request from '../Request/Request';
-
+import InlineDots from '../../../components/UI/Spinner/InlineDots';
 import Gear from '../../../assets/images/TopNavButtonIcons/gear';
+
 
 const requestsSideDrawer = props => {
 
-    const {myFriends, onFetchMyFriendRequests, onFetchMyFriends, onFetchManyProfiles, authToken, myPublicProfileKey, receivedRequests, sentRequests, manyProfiles} = props
+    const {myFriends, onFetchMyFriends, onFetchManyProfiles, authToken, myPublicProfileKey, manyProfiles, friendRequests} = props
     const [seeingAll, setSeeingAll] = useState(true);
-
-    useEffect(() => {
-        onFetchMyFriendRequests(authToken, myPublicProfileKey);
-    }, [onFetchMyFriendRequests, authToken, myPublicProfileKey])
 
     useEffect(() => {
         if (myPublicProfileKey) {
@@ -24,25 +21,21 @@ const requestsSideDrawer = props => {
     }, [])
 
     useEffect(() => {
-        console.log('myFriends', myFriends)
-    })
-
-    useEffect(() => {
         let combinedKeys = []
-        if (receivedRequests && receivedRequests.length) {
-            receivedRequests.forEach(req => {
+        if (friendRequests && friendRequests.received) {
+            friendRequests.received.forEach(req => {
                 combinedKeys.push(req.publicProfileKey)
             })
         }
-        if (sentRequests && sentRequests.length) {
-            sentRequests.forEach(req => {
+        if (friendRequests && friendRequests.sent) {
+            friendRequests.sent.forEach(req => {
                 combinedKeys.push(req.publicProfileKey)
             })
         }
         if (combinedKeys && combinedKeys.length) {
             onFetchManyProfiles(authToken, combinedKeys)
         }
-    }, [receivedRequests, sentRequests, onFetchManyProfiles, authToken])
+    }, [friendRequests, onFetchManyProfiles, authToken])
 
     const acceptRequest = (senderKey) => {
         props.onAcceptRequest(authToken, senderKey, myPublicProfileKey)
@@ -52,7 +45,8 @@ const requestsSideDrawer = props => {
         props.onDenyRequest(authToken, senderKey, myPublicProfileKey)
     }
 
-    let requestsCount = props.receivedRequests && props.receivedRequests.length ? props.receivedRequests.length : 0
+    let requestsCount = friendRequests && friendRequests.received ? friendRequests.received.length : 0
+
     let paths;
     let viewSentButton;
     if (seeingAll) {
@@ -61,9 +55,9 @@ const requestsSideDrawer = props => {
     }
 
     let receivedRequestsList;
-    if (receivedRequests && receivedRequests.length) {
+    if (friendRequests && friendRequests.received) {
         if (props.manyProfiles && props.manyProfiles.length) {
-            receivedRequestsList = receivedRequests.map( req => {
+            receivedRequestsList = friendRequests.received.map( req => {
                 const profile = props.manyProfiles.find(profile => profile.userKey === req.userKey)
                 let profileImage;
                 let mutualFriends;
@@ -71,14 +65,11 @@ const requestsSideDrawer = props => {
                     profileImage = profile.profileImage;
                     if (profile.friends && myFriends) {
                         mutualFriends = profile.friends.filter(theirFriend => myFriends.map(myFriend => myFriend.userKey).includes(theirFriend.userKey))
-                        console.log('mutualFriends', mutualFriends)
                     }
                 }
-                console.log('req', {...req, profileImage: profileImage, mutualFriends: mutualFriends})
                 return {...req, profileImage: profileImage, mutualFriends: mutualFriends}
 
             })
-            console.log('receivedRequestList', receivedRequestsList)
             receivedRequestsList = receivedRequestsList.map( req => (
                 <Request
                     key={req.userKey}
@@ -96,9 +87,9 @@ const requestsSideDrawer = props => {
 
     let sentRequestsList;
     if (seeingAll) {
-        if (sentRequests && sentRequests.length) {
+        if (friendRequests && friendRequests.sent) {
             if (props.manyProfiles && props.manyProfiles.length) {
-                sentRequestsList = sentRequests.map( req => {
+                sentRequestsList = friendRequests.sent.map( req => {
                     const profile = manyProfiles.find(profile => profile.userKey === req.userKey)
                     let profileImage;
                     let mutualFriends;
@@ -108,11 +99,10 @@ const requestsSideDrawer = props => {
                             mutualFriends = profile.friends.find(theirFriend => myFriends.map(myFriend => myFriend.userKey).includes(theirFriend.userKey))
                         }
                     }
-                    console.log('req', {...req, profileImage: profileImage, mutualFriends: mutualFriends})
                     return {...req, profileImage: profileImage, mutualFriends: mutualFriends}
                 })
 
-                sentRequestsList = props.sentRequests.map( req => (
+                sentRequestsList = sentRequestsList.map( req => (
                     <Request
                         key={req.userKey}
                         profileImage={req.profileImage}
@@ -125,6 +115,21 @@ const requestsSideDrawer = props => {
         }
     }
 
+    let requestsBody = (
+        <React.Fragment>
+            <div className={classes.RequestsHeader}>
+                <span className={classes.RequestsCount}>{`${requestsCount} Friend Requests`}</span>
+                <div className={classes.SeeAllButton} onClick={() => setSeeingAll(true)}>See All</div>
+            </div>
+            {viewSentButton}
+            {receivedRequestsList}
+        </React.Fragment>
+    )
+
+    if (props.fetchingPublicProfile) {
+        requestsBody = <InlineDots />
+    }
+
     return (
         <div className={classes.SideDrawerContainer}>
             {paths}
@@ -134,14 +139,8 @@ const requestsSideDrawer = props => {
             </section>
             <div className={classes.Break}/>
             <section className={classes.ReceivedRequestsContainer}>
-                <div className={classes.RequestsHeader}>
-                    <span className={classes.RequestsCount}>{`${requestsCount} Friend Requests`}</span>
-                    <div className={classes.SeeAllButton} onClick={() => setSeeingAll(true)}>See All</div>
-                </div>
-                {viewSentButton}
-                {receivedRequestsList}
+                {requestsBody}
             </section>
-
         </div>
     )
 }
@@ -150,8 +149,8 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         myPublicProfileKey: state.profile.publicProfileKey,
-        receivedRequests: state.friends.receivedRequests,
-        sentRequests: state.friends.sentRequests,
+        fetchingPublicProfile: state.profile.publicProfileLoading,
+        fetchingFriends: state.friends.fetchingFriends,
         myFriends: state.profile.publicProfile && state.profile.publicProfile.friends ? state.profile.publicProfile.friends : [],
         manyProfiles: state.users.manyProfiles
     }
@@ -159,7 +158,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
         onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken, publicProfileKey)),
         onFetchManyProfiles: (authToken, publicProfileKeys) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, publicProfileKeys)),
         onAcceptRequest: (authToken, senderKey, recipientKey) => dispatch(actions.acceptFriendRequestAttempt(authToken, senderKey, recipientKey)),
