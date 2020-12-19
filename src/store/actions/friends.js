@@ -164,7 +164,7 @@ const acceptFriendRequestFail = (error) => {
     }
 }
 
-export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey) => {
+export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey, cb) => {
     return dispatch => {
         let senderNewPublicProfile;
         let recipientNewPublicProfile;
@@ -224,6 +224,10 @@ export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey) =
                     .then(responses => {
                         console.log('SUCCESS - ACCEPTED REQUEST')
                         dispatch(acceptFriendRequestSuccess(newReceivedRequests, newFriends))
+                        if (cb) {
+                            console.log('now executing callback')
+                            cb();
+                        }
                     })
                     .catch(error => {
                         console.log('FAIL - put error', error)
@@ -367,8 +371,6 @@ export const fetchFriendsAttempt = (authToken, publicProfileKey) => {
         dispatch(fetchFriendsInit())
         axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('FETCHED PUBLIC PROFILE', response.data)
-                console.log('FETCHED PROFILE FRIENDS', response.data.friends)
                 dispatch(fetchFriendsSuccess(response.data.friends))
             })
             .catch(error => {

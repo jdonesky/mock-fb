@@ -34,7 +34,12 @@ const request = props => {
         </React.Fragment>
     )
 
-    if (requestAccepted) {
+    let isFriend = false;
+    if (props.myNewFriends) {
+        isFriend = props.myNewFriends.map(friend => friend.userKey).includes(props.userKey)
+    }
+
+    if (requestAccepted || isFriend) {
         requestBody = (
             <div className={classes.ActionContainer}>
                 <div className={classes.ActionMessage}>Request accepted</div>

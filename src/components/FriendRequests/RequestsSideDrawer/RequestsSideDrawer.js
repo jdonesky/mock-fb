@@ -1,6 +1,6 @@
 
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import classes from './RequestsSideDrawer.css';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
@@ -14,11 +14,22 @@ const requestsSideDrawer = props => {
     const {myFriends, onFetchMyFriends, onFetchManyProfiles, authToken, myPublicProfileKey, manyProfiles, friendRequests} = props
     const [seeingAll, setSeeingAll] = useState(true);
 
+    let friendsRef = useRef(null);
+
     useEffect(() => {
         if (myPublicProfileKey) {
             onFetchMyFriends(authToken, myPublicProfileKey);
         }
+        if (props.myPublicProfile) {
+            friendsRef.current = props.myPublicProfile.friends
+        }
     }, [])
+
+    useEffect(() => {
+        if (props.newFriends) {
+            friendsRef.current = props.newFriends
+        }
+    })
 
     useEffect(() => {
         let combinedKeys = []
@@ -38,7 +49,9 @@ const requestsSideDrawer = props => {
     }, [friendRequests, onFetchManyProfiles, authToken])
 
     const acceptRequest = (senderKey) => {
-        props.onAcceptRequest(authToken, senderKey, myPublicProfileKey)
+        props.onAcceptRequest(authToken, senderKey, myPublicProfileKey, () => {
+            props.onFetchMyFriends(authToken, myPublicProfileKey);
+        })
     }
 
     const denyRequest = (senderKey) => {
@@ -80,6 +93,8 @@ const requestsSideDrawer = props => {
                     publicProfileKey={req.publicProfileKey}
                     acceptReq={acceptRequest}
                     denyReq={denyRequest}
+                    myFriends={myFriends}
+                    myNewFriends={friendsRef.current}
                 />
             ))
         }
@@ -96,7 +111,7 @@ const requestsSideDrawer = props => {
                     if(profile) {
                         profileImage = profile.profileImage
                         if (profile.friends && myFriends) {
-                            mutualFriends = profile.friends.find(theirFriend => myFriends.map(myFriend => myFriend.userKey).includes(theirFriend.userKey))
+                            mutualFriends = profile.friends.filter(theirFriend => myFriends.map(myFriend => myFriend.userKey).includes(theirFriend.userKey))
                         }
                     }
                     return {...req, profileImage: profileImage, mutualFriends: mutualFriends}
@@ -109,6 +124,10 @@ const requestsSideDrawer = props => {
                         name={req.name}
                         mutualFriends={req.mutualFriends}
                         userKey={req.userKey}
+                        publicProfileKey={req.publicProfileKey}
+                        acceptReq={acceptRequest}
+                        denyReq={denyRequest}
+                        myFriends={friendsRef}
                     />
                 ))
             }
@@ -149,9 +168,11 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         myPublicProfileKey: state.profile.publicProfileKey,
+        myPublicProfile: state.profile.publicProfile,
         fetchingPublicProfile: state.profile.publicProfileLoading,
         fetchingFriends: state.friends.fetchingFriends,
         myFriends: state.profile.publicProfile && state.profile.publicProfile.friends ? state.profile.publicProfile.friends : [],
+        newFriends: state.friends.friends,
         manyProfiles: state.users.manyProfiles
     }
 }
@@ -160,7 +181,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken, publicProfileKey)),
         onFetchManyProfiles: (authToken, publicProfileKeys) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, publicProfileKeys)),
-        onAcceptRequest: (authToken, senderKey, recipientKey) => dispatch(actions.acceptFriendRequestAttempt(authToken, senderKey, recipientKey)),
+        onAcceptRequest: (authToken, senderKey, recipientKey, cb) => dispatch(actions.acceptFriendRequestAttempt(authToken, senderKey, recipientKey, cb)),
         onDenyRequest: (authToken, senderKey, recipientKey) => dispatch(actions.denyFriendRequestAttempt(authToken, senderKey, recipientKey)),
     }
 }
