@@ -2,4 +2,14 @@
 .FriendsPage {
     height: 100%;
     width: 100%;
+    position: absolute;
+}
+
+.ProfileDisplayContainer {
+    height: 100%;
+    position: absolute;
+    top: 63px;
+    left: 355px;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 9;
 }
