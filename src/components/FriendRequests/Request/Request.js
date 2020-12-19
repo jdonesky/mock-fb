@@ -11,33 +11,33 @@ const request = props => {
     const [requestDenied, setRequestDenied] = useState(false);
 
     const confirm = () => {
-        // props.acceptReq(props.publicProfileKey);
+        props.acceptReq(props.publicProfileKey);
         setRequestAccepted(true);
     }
 
     const deny = () => {
-        // props.denyReq(props.publicProfileKey);
+        props.denyReq(props.publicProfileKey);
         setRequestDenied(true);
     }
 
     let requestBody = (
-        <div className={classes.ControlsContainer}>
-            <div className={[classes.Control, classes.ConfirmControl].join(" ")} onClick={confirm}>
-                Confirm
+        <React.Fragment>
+            {props.mutualFriends ? <div className={classes.MutualFriends}>{`${props.mutualFriends.length} mutual friend${props.mutualFriends.length === 1 ? '' : 's'}`}</div> : null}
+            <div className={classes.ControlsContainer} style={{flex: props.mutualFriends ? null : '1'}}>
+                <div className={[classes.Control, classes.ConfirmControl].join(" ")} onClick={confirm}>
+                    Confirm
+                </div>
+                <div className={classes.Control} onClick={deny}>
+                    Delete
+                </div>
             </div>
-            <div className={classes.Control} onClick={deny}>
-                Delete
-            </div>
-        </div>
+        </React.Fragment>
     )
 
     if (requestAccepted) {
         requestBody = (
             <div className={classes.ActionContainer}>
                 <div className={classes.ActionMessage}>Request accepted</div>
-                <div className={classes.EditButton}>
-                    <Dots />
-                </div>
             </div>
         )
     }
@@ -53,7 +53,7 @@ const request = props => {
     }
 
     return (
-        <div className={classes.Container}>
+        <div className={classes.Container} style={{ minHeight: props.mutualFriends ? null : '95px'}}>
             <div className={classes.ProfileImageBlock}>
                 <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
                     {props.profileImage ? null : <Avatar fill="white"/>}

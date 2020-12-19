@@ -45,11 +45,11 @@ const requestsSideDrawer = props => {
     }, [receivedRequests, sentRequests, onFetchManyProfiles, authToken])
 
     const acceptRequest = (senderKey) => {
-        props.onAcceptFriendRequest(authToken, senderKey, myPublicProfileKey)
+        props.onAcceptRequest(authToken, senderKey, myPublicProfileKey)
     }
 
     const denyRequest = (senderKey) => {
-        props.onDenyFriendRequest(authToken, senderKey, myPublicProfileKey)
+        props.onDenyRequest(authToken, senderKey, myPublicProfileKey)
     }
 
     let requestsCount = props.receivedRequests && props.receivedRequests.length ? props.receivedRequests.length : 0
@@ -70,11 +70,11 @@ const requestsSideDrawer = props => {
                 if (profile) {
                     profileImage = profile.profileImage;
                     if (profile.friends && myFriends) {
-                        mutualFriends = profile.friends.map(theirFriend => myFriends.map(myFriend => myFriend.userKey).includes(theirFriend.userKey))
+                        mutualFriends = profile.friends.filter(theirFriend => myFriends.map(myFriend => myFriend.userKey).includes(theirFriend.userKey))
                         console.log('mutualFriends', mutualFriends)
                     }
                 }
-
+                console.log('req', {...req, profileImage: profileImage, mutualFriends: mutualFriends})
                 return {...req, profileImage: profileImage, mutualFriends: mutualFriends}
 
             })
@@ -101,14 +101,15 @@ const requestsSideDrawer = props => {
                 sentRequestsList = sentRequests.map( req => {
                     const profile = manyProfiles.find(profile => profile.userKey === req.userKey)
                     let profileImage;
+                    let mutualFriends;
                     if(profile) {
                         profileImage = profile.profileImage
+                        if (profile.friends && myFriends) {
+                            mutualFriends = profile.friends.find(theirFriend => myFriends.map(myFriend => myFriend.userKey).includes(theirFriend.userKey))
+                        }
                     }
-                    if (profileImage) {
-                        return {...req, profileImage: profileImage}
-                    } else {
-                        return req
-                    }
+                    console.log('req', {...req, profileImage: profileImage, mutualFriends: mutualFriends})
+                    return {...req, profileImage: profileImage, mutualFriends: mutualFriends}
                 })
 
                 sentRequestsList = props.sentRequests.map( req => (
@@ -151,7 +152,7 @@ const mapStateToProps = state => {
         myPublicProfileKey: state.profile.publicProfileKey,
         receivedRequests: state.friends.receivedRequests,
         sentRequests: state.friends.sentRequests,
-        myFriends: state.friends.friends,
+        myFriends: state.profile.publicProfile && state.profile.publicProfile.friends ? state.profile.publicProfile.friends : [],
         manyProfiles: state.users.manyProfiles
     }
 }
