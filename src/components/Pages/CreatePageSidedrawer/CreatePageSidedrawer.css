@@ -1,0 +1,20 @@
+
+
+.InfoIconContainer {
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.InfoIconContainer:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.InfoIconContainer svg {
+    height: auto;
+    width: 65%;
+    position: relative;
+    left: 5px;
+    top: 6px;
+}

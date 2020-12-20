@@ -1,7 +1,7 @@
 
 
 import React, {useEffect, useState, useRef} from 'react';
-import classes from './RequestsSideDrawer.css';
+import classes from '../../UI/TOCsidedrawer/TOCsidedrawer.css';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
@@ -157,7 +157,9 @@ const requestsSideDrawer = props => {
 
     return (
         <div className={classes.SideDrawerContainer}>
-            {paths}
+            <div className={classes.PathsContainer}>
+                {paths}
+            </div>
             <section className={classes.Header} style={{top: seeingAll ? '85px' : null, height: seeingAll ? "40px" : null}}>
                 <h1 className={classes.HeaderTitle}>Friends</h1>
                 <div className={classes.SettingsIconContainer}><Gear /></div>

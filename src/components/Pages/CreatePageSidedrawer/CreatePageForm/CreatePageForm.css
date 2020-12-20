@@ -1,0 +1,46 @@
+
+.FormContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.Form {
+    width: 93%;
+    margin: 0px 10px;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
+.Caption {
+    margin: 0 0 20px 8px;
+    font-size: 12px;
+    font-family: "Lucida Grande";
+    font-weight: 500;
+    color: rgba(0,0,0,0.7);
+}
+
+.DescriptionInput::placeholder {
+    font-family: "Lucida Grande";
+    font-size: 15px;
+}
+
+.ControlsContainer {
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    border: none;
+    box-shadow: 0 -3px 3px 3px rgba(0,0,0,0.2);
+}
+
+@media (min-width: 665px) {
+    .ControlsContainer {
+        width: 355px;
+    }
+}
+

@@ -20,9 +20,9 @@ const friends = props => {
     }
 
     return (
-      <div className={classes.FriendsPage} style={{height: height, width: width}}>
+      <div className={classes.FriendsPage}>
         <RequestsSideDrawer friendRequests={myFriendRequests} />
-        <div className={classes.ProfileDisplayContainer} style={{height: `${height}px`, width: `${width - 355}px`}}>
+        <div className={classes.ProfileDisplayContainer} style={{width: `${width - 355}px`}}>
             <Route path="/friends/:id" component={AsyncUserProfile}/>
         </div>
       </div>

@@ -1,0 +1,163 @@
+
+.SideDrawerContainer {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    position: fixed;
+    top: 63px;
+    left: 0;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 0 4px 4px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+
+.SideDrawerContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.Header {
+    height: 50px;
+    width: 95%;
+    position: fixed;
+    top: 85px;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+}
+
+@media (min-width: 665px) {
+    .SideDrawerContainer {
+        width: 355px
+    }
+
+    .Header {
+        width: 340px;
+    }
+
+    .PathsContainer {
+        width: 340px;
+    }
+}
+
+.HeaderTitle {
+    margin-left: 20px;
+    font-weight: 900;
+    font-family: "Lucida Grande"
+}
+
+.SettingsIconContainer {
+    height: 35px;
+    width: 35px;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.SettingsIconContainer svg {
+    height: auto;
+    width: 60%;
+    position: relative;
+    top: 7px;
+    left: 7px;
+}
+
+.Break {
+    margin-top: 56px;
+    width: 91%;
+    height: 1px;
+    background-color: rgba(0,0,0,0.09);
+}
+
+.ReceivedRequestsContainer {
+    width: 96%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 5px;
+}
+
+.RequestsHeader {
+    height: 30px;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 7px;
+}
+
+.RequestsCount {
+    font-weight: 900;
+    font-size: 16px;
+    font-family: "Lucida Grande";
+    margin-left: 5px;
+}
+
+.SeeAllButton {
+    height: 35px;
+    width: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 200;
+    color: #155fe8;
+    cursor: pointer;
+}
+
+.SeeAllButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+
+.ViewSent {
+    margin-left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #216afc;
+    font-weight: 100;
+    font-size: 13px;
+    font-family: "Lucida Grande";
+    cursor: pointer;
+}
+
+.PathsContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.Paths {
+    position: relative;
+    top: 4px;
+    left: 5px;
+    color: rgba(0,0,0,0.3);
+    font-weight: 100;
+    font-size: 13px;
+    font-family: "Lucida Grande";
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.Path {
+    margin: 0 3px;
+    display: inline-block;
+}
+
+.Path:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
