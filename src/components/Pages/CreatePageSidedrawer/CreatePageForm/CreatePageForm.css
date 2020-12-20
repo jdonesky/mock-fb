@@ -2,6 +2,7 @@
 .FormContainer {
     width: 100%;
     display: flex;
+    flex-flow: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
@@ -35,7 +36,8 @@
     left: 0;
     display: flex;
     border: none;
-    box-shadow: 0 -3px 3px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 -3px 5px 2px rgba(0,0,0,0.06);
+    margin: 60px auto 0;
 }
 
 @media (min-width: 665px) {

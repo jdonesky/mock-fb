@@ -63,10 +63,10 @@ const createPageForm = props => {
                 {categoryInput}
                 <span className={classes.Caption}>Choose a category that describes what type of business, organization or topic the Page represents. You can add up to 3.</span>
                 {descriptionInput}
-                <section className={classes.ControlsContainer}>
-                    <span className={classes.Caption}>You can add images, contact info and other details after you create the Page.</span>
+            </section>
+            <section className={classes.ControlsContainer}>
+                <span className={classes.Caption}>You can add images, contact info and other details after you create the Page.</span>
 
-                </section>
             </section>
         </section>
     )
