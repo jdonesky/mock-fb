@@ -2,6 +2,7 @@
 
 import React, {useEffect, useState, useRef} from 'react';
 import classes from './RequestsSideDrawer.css';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
 import Request from '../Request/Request';
@@ -47,6 +48,10 @@ const requestsSideDrawer = props => {
             onFetchManyProfiles(authToken, combinedKeys)
         }
     }, [friendRequests, onFetchManyProfiles, authToken])
+
+    const display = (userKey) => {
+        props.history.push(`/friends/${userKey}`)
+    }
 
     const acceptRequest = (senderKey) => {
         props.onAcceptRequest(authToken, senderKey, myPublicProfileKey, () => {
@@ -95,6 +100,7 @@ const requestsSideDrawer = props => {
                     denyReq={denyRequest}
                     myFriends={myFriends}
                     myNewFriends={friendsRef.current}
+                    display={display}
                 />
             ))
         }
@@ -186,4 +192,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requestsSideDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(requestsSideDrawer));

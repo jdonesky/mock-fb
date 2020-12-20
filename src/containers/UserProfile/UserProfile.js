@@ -1,3 +1,4 @@
+
 import React, {useEffect, useState, Suspense} from "react";
 import {Switch, Route} from 'react-router';
 import { connect } from "react-redux";
@@ -28,9 +29,11 @@ const Photos = React.lazy(() => {
 const userProfile = (props) => {
 
     const [displayProfile, setDisplayProfile] = useState(props.match.params.id)
+    const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[1])
     const {otherProfile, myPublicProfileKey} = props
 
     useEffect(() => {
+        console.log('path root', pathRoot)
         console.log('MY PUBLIC PROFILE', props.myPublicProfile )
     })
 
@@ -39,12 +42,6 @@ const userProfile = (props) => {
             props.onFetchOtherProfile(displayProfile, props.authToken)
         }
     },[])
-
-    // useEffect(() => {
-    //     if (props.myPublicProfileKey) {
-    //         props.onFetchMyPublicProfile(props.authToken, props.myPublicProfileKey);
-    //     }
-    // }, [myPublicProfileKey])
 
     useEffect(() => {
         if (otherProfile) {
@@ -79,29 +76,29 @@ const userProfile = (props) => {
             <ProfileHeader displayProfile={displayProfile} name={name} bio={bio} />
           </div>
           <div className={classes.ScrollableContent}>
-              <NavigationBar displayProfile={displayProfile}/>
+              <NavigationBar pathRoot={pathRoot} displayProfile={displayProfile}/>
               <div className={classes.HeaderBreak}/>
               <div className={classes.ProfileContentBackdrop}>
                   <div className={classes.SwitchContent}>
                     <Switch>
-                      <Route exact path={`/user-profile/:id`} render={(props) => (
+                      <Route exact path={`/${pathRoot}/:id`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                            <Timeline displayProfile={displayProfile}/>
+                            <Timeline pathRoot={pathRoot} displayProfile={displayProfile} />
                           </Suspense>
                       )}/>
-                      <Route path={`/user-profile/:id/about`} render={(props) => (
+                      <Route path={`/${pathRoot}/:id/about`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                            <ProfileAbout displayProfile={displayProfile}/>
+                            <ProfileAbout pathRoot={pathRoot} displayProfile={displayProfile}/>
                           </Suspense>
                       )} />
-                      <Route path={`/user-profile/:id/friends`} render={(props) => (
+                      <Route path={`/${pathRoot}/:id/friends`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                             <Friends displayProfile={displayProfile}/>
+                             <Friends pathRoot={pathRoot} displayProfile={displayProfile}/>
                           </Suspense>
                       )} />
-                      <Route path={`/user-profile/:id/photos`} render={(props) => (
+                      <Route path={`/${pathRoot}/:id/photos`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
-                              <Photos displayProfile={displayProfile}/>
+                              <Photos pathRoot={pathRoot} displayProfile={displayProfile}/>
                           </Suspense>
                       )} />
                     </Switch>

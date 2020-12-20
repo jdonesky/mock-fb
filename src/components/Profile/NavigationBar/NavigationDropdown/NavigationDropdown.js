@@ -20,7 +20,7 @@ const navDropdown = (props) => {
             <div className={classes.DropdownItem}>
                 {props.displayProfile === 'me' ? 'Timeline' : 'Posts'}
             </div>
-            {props.location.pathname === `/user-profile/${props.displayProfile}` ? activeCheck : null}
+            {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}` ? activeCheck : null}
         </div>
     )
     const about = (
@@ -28,7 +28,7 @@ const navDropdown = (props) => {
             <div className={classes.DropdownItem}>
                 About
             </div>
-            {props.location.pathname === `/user-profile/${props.displayProfile}/about` ? activeCheck : null}
+            {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/about` ? activeCheck : null}
         </div>
     )
     const friends = (
@@ -36,7 +36,7 @@ const navDropdown = (props) => {
             <div className={classes.DropdownItem}>
                 Friends
             </div>
-            {props.location.pathname === `/user-profile/${props.displayProfile}/friends` ? activeCheck : null}
+            {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/friends` ? activeCheck : null}
         </div>
     )
     const photos = (
@@ -44,7 +44,7 @@ const navDropdown = (props) => {
             <div className={classes.DropdownItem}>
                 Photos
             </div>
-            {props.location.pathname === `/user-profile/${props.displayProfile}/photos` ? activeCheck : null}
+            {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/photos` ? activeCheck : null}
         </div>
     )
 
@@ -77,61 +77,61 @@ const navDropdown = (props) => {
                 <div className={classes.DropdownItem}>
                     Story Archive
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/story-archive` ? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/story-archive` ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer} onClick={() => onClickTab(`/user-profile/${props.displayProfile}/check-ins`)}>
                 <div className={classes.DropdownItem}>
                     Check-Ins
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/check-ins` ? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/check-ins` ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}  onClick={() => onClickTab(`/user-profile/${props.displayProfile}/sports`)}>
                 <div className={classes.DropdownItem}>
                     Sports
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/sports` ? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/sports` ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}  onClick={() => onClickTab(`/user-profile/${props.displayProfile}/music`)}>
                 <div className={classes.DropdownItem}>
                     Music
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/music` ? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/music` ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}  onClick={() => onClickTab(`/user-profile/${props.displayProfile}/movies`)}>
                 <div className={classes.DropdownItem}>
                     Movies
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/movies`? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/movies`? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer} onClick={() => onClickTab(`/user-profile/${props.displayProfile}/tv-shows`)}>
                 <div className={classes.DropdownItem}>
                     TV Shows
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/tv-shows` ? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/tv-shows` ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer} onClick={() => onClickTab(`/user-profile/${props.displayProfile}/books`)}>
                 <div className={classes.DropdownItem}>
                     Books
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/books` ? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/books` ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer} onClick={() => onClickTab(`/user-profile/${props.displayProfile}/events`)}>
                 <div className={classes.DropdownItem}>
                     Events
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/events` ? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/events` ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer} onClick={() => onClickTab(`/user-profile/${props.displayProfile}/reviews`)}>
                 <div className={classes.DropdownItem}>
                     Reviews
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/reviews` ? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/reviews` ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer} onClick={() => onClickTab(`/user-profile/${props.displayProfile}/groups`)}>
                 <div className={classes.DropdownItem}>
                     Groups
                 </div>
-                {props.location.pathname === `/user-profile/${props.displayProfile}/groups` ? activeCheck : null}
+                {props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/groups` ? activeCheck : null}
             </div>
             <div className={classes.DropdownItemContainer}>
                 <div className={classes.DropdownItem}>

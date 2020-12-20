@@ -73,7 +73,6 @@ const profileSummaryDropdown = (props) => {
         console.log('isFriend?', isFriend);
     })
 
-
     const goToFullProfile = () => {
         if (props.profile) {
             if (props.profile.userKey === props.firebaseKey) {

@@ -58,7 +58,7 @@ const request = props => {
     }
 
     return (
-        <div className={classes.Container} style={{ minHeight: props.mutualFriends ? null : '95px'}}>
+        <div className={classes.Container} style={{ minHeight: props.mutualFriends ? null : '95px'}} onClick={() => props.display(props.userKey)}>
             <div className={classes.ProfileImageBlock}>
                 <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
                     {props.profileImage ? null : <Avatar fill="white"/>}
