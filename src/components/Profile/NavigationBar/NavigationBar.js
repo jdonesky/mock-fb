@@ -26,6 +26,9 @@ const navigationBar = (props) => {
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const {width, height} = getWindowDimensions()
 
+    useEffect(() => {
+        console.log('pathRoot', props.pathRoot)
+    })
 
     const toggleNavDropdown = () => {
         setShowNavDropdown(prevState => {
@@ -44,7 +47,7 @@ const navigationBar = (props) => {
 
     const moreTabClasses = [classes.MoreTab]
     let moreFill;
-    if (width < 859) {
+    if (width < 859 && props.location.pathname === `/user-profile/${props.displayProfile}/photos` || width < 1160 && props.location.pathname === `/friends/${props.displayProfile}/photos`) {
         if (props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/photos` ) {
             moreTabClasses.push(classes.ActiveMoreTab);
             moreFill = true;
@@ -52,14 +55,33 @@ const navigationBar = (props) => {
     }
 
     if (width < 777) {
-        if (props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/friends` || props.location.pathname === `/user-profile/${props.displayProfile}/photos`) {
+        if (props.location.pathname === `/user-profile/${props.displayProfile}/friends` || props.location.pathname === `/user-profile/${props.displayProfile}/photos`) {
+            moreTabClasses.push(classes.ActiveMoreTab);
+            moreFill = true
+        }
+    }
+    if (width < 1035) {
+        if (props.location.pathname === `/friends/${props.displayProfile}/friends` || props.location.pathname === `/friends/${props.displayProfile}/photos`) {
             moreTabClasses.push(classes.ActiveMoreTab);
             moreFill = true
         }
     }
 
     if (width < 664) {
-        if ( props.location.pathname === `/${props.pathRoot}/${props.displayProfile}/about` || props.location.pathname === `/user-profile/${props.displayProfile}/friends` || props.location.pathname === `/user-profile/${props.displayProfile}/photos`) {
+        if ( props.location.pathname === `/user-profile/${props.displayProfile}/about` || props.location.pathname === `/user-profile/${props.displayProfile}/friends` || props.location.pathname === `/user-profile/${props.displayProfile}/photos`) {
+            moreTabClasses.push(classes.ActiveMoreTab);
+            moreFill = true;
+        }
+    }
+    if (width < 940) {
+        if (props.location.pathname === `/friends/${props.displayProfile}/about` || props.location.pathname === `/friends/${props.displayProfile}/friends` || props.location.pathname === `/friends/${props.displayProfile}/photos`) {
+            moreTabClasses.push(classes.ActiveMoreTab);
+            moreFill = true;
+        }
+    }
+
+    if (width < 840) {
+        if (props.location.pathname === `/friends/${props.displayProfile}`) {
             moreTabClasses.push(classes.ActiveMoreTab);
             moreFill = true;
         }
@@ -136,35 +158,35 @@ const navigationBar = (props) => {
             <section className={classes.NavigationBar}>
                 <nav>
                     <ul className={classes.TabControls}>
-                        <div className={classes.TimelineTab}>
+                        {  props.pathRoot === 'friends' && width >= 840  || props.pathRoot === 'user-profile' && width >= 588 ? <div className={classes.TimelineTab}>
                             <NavLink
                                 exact
                                 to={`/${props.pathRoot}/${props.displayProfile}`}
                                 activeClassName={classes.active}
                             >{props.displayProfile === 'me' ? 'Timeline' : 'Posts'}
                             </NavLink>
-                        </div>
-                        <div className={classes.AboutTab}>
+                        </div> : null }
+                        {  props.pathRoot === 'friends' && width >= 940 || props.pathRoot === 'user-profile' && width >= 664 ? <div className={classes.AboutTab}>
                             <NavLink
                                 to={`/${props.pathRoot}/${props.displayProfile}/about`}
                                 activeClassName={classes.active}
                             >About
                             </NavLink>
-                        </div>
-                        <div className={classes.FriendsTab}>
+                        </div> : null }
+                        {  props.pathRoot === 'friends' && width >= 1035 || props.pathRoot === 'user-profile' && width >= 777 ? <div className={classes.FriendsTab}>
                             <NavLink
                                 to={`/${props.pathRoot}/${props.displayProfile}/friends`}
                                 activeClassName={classes.active}
                             >Friends
                             </NavLink>
-                        </div>
-                        <div className={classes.PhotosTab}>
+                        </div> : null }
+                        {  props.pathRoot === 'friends' && width >= 1160 || props.pathRoot === 'user-profile' && width >=  859 ? <div className={classes.PhotosTab}>
                             <NavLink
                                 to={`/${props.pathRoot}/${props.displayProfile}/photos`}
                                 activeClassName={classes.active}
                             >Photos
                             </NavLink>
-                        </div>
+                        </div> : null }
                         <div className={moreTabClasses.join(" ")} onClick={toggleNavDropdown}>
                             <div
                             >More

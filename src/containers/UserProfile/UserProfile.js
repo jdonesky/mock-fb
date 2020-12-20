@@ -13,6 +13,7 @@ import Timeline from '../../components/Profile/Timeline/Timeline';
 import axios from '../../axios/db-axios-instance';
 import classes from "./UserProfile.css";
 import SquareFold from "../../components/UI/Spinner/SquareFold";
+import getWindowDimensions from "../../hooks/getWindowDimensions";
 
 const ProfileAbout = React.lazy(() => {
   return import('../../components/Profile/ProfileAbout/ProfileAbout');
@@ -32,9 +33,12 @@ const userProfile = (props) => {
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[1])
     const {otherProfile, myPublicProfileKey} = props
 
+    const {width, height} = getWindowDimensions();
+
     useEffect(() => {
         console.log('path root', pathRoot)
         console.log('MY PUBLIC PROFILE', props.myPublicProfile )
+        console.log('width', width)
     })
 
     useEffect(() => {
