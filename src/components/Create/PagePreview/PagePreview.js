@@ -15,6 +15,9 @@ import SearchGlass from '../../../assets/images/search';
 import Dots from '../../../assets/images/dots';
 import DownArrow from '../../../assets/images/down-arrow';
 import Info from '../../../assets/images/MiscIcons/info';
+import Polaroid from '../../../assets/images/polaroid';
+import TagPerson from '../../../assets/images/UserActionIcons/tagPerson';
+import Pin from "../../../assets/images/Pin";
 
 const pagePreview = props => {
 
@@ -64,7 +67,26 @@ const pagePreview = props => {
         )
         create = (
             <div className={classes.PageStartPostContainer}>
-
+                <div className={classes.PageStartPostHeader}>
+                    <div className={classes.StartPostProfileCircle}><Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/></div>
+                    <div className={classes.PageCreatePostButton}>
+                        Create Post
+                    </div>
+                </div>
+                <div className={classes.SharedAddMediaButtons}>
+                    <div className={classes.SharedAddMediaButton}>
+                        <div className={classes.AddMediaIcon}><Polaroid fill="#08bf02" /></div>
+                        <div className={classes.AddMediaText}>Add Photo</div>
+                    </div>
+                    <div className={classes.SharedAddMediaButton}>
+                        <div className={[classes.AddMediaIcon, classes.TagMediaIcon].join(" ")}><TagPerson fill="#386be0"/></div>
+                        <div className={classes.AddMediaText}>Tag People</div>
+                    </div>
+                    <div className={classes.SharedAddMediaButton}>
+                        <div className={[classes.AddMediaIcon, classes.PinMediaIcon].join(" ")}><Pin fill="#e32727"/></div>
+                        <div className={classes.AddMediaText}>Check in</div>
+                    </div>
+                </div>
             </div>
         )
     } else if (props.preview === 'GROUP') {

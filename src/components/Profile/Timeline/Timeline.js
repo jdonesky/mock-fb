@@ -29,12 +29,12 @@ const timeLine = (props) => {
 
     return (
         <div className={classes.Timeline}>
-            <Intro displayProfile={props.displayProfile} />
+            <Intro displayProfile={props.displayProfile}/>
             <Photos displayProfile={props.displayProfile}/>
             <Friends displayProfile={props.displayProfile}/>
             <LifeEvents displayProfile={props.displayProfile}/>
             {createPost}
-            <Posts displayProfile={props.displayProfile} />
+            <Posts displayProfile={props.displayProfile}/>
         </div>
     )
 }
