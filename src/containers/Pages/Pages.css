@@ -5,3 +5,10 @@
     position: absolute;
 }
 
+.PreviewPanel {
+    position: absolute;
+    left: 355px;
+    height: 100%;
+    z-index: 1;
+}
+

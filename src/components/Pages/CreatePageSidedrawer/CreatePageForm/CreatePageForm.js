@@ -2,20 +2,32 @@
 
 import React, {useState, useEffect} from 'react';
 import classes from './CreatePageForm.css';
-
 import Input from '../../../UI/Input/Input';
-import {fieldBuilder} from "../../../../shared/utility";
-
 
 const createPageForm = props => {
+
+    useEffect(() => {
+        console.log(formValid)
+    })
 
     const [pageName, setPageName] = useState('');
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
+    const [formValid, setFormValid] = useState(false);
 
-    useEffect(() => {
-        console.log(pageName)
-    })
+    const validateForm = () => {
+        setFormValid(pageName !== '' && category !== '');
+    }
+
+    const updateName = (event) => {
+        setPageName(event.target.value);
+        validateForm();
+    }
+
+    const updateCategory = (event) => {
+        setCategory(event.target.value);
+        validateForm();
+    }
 
     const nameInput = (
         <Input
@@ -26,7 +38,7 @@ const createPageForm = props => {
             validation={{required: true}}
             valid={false}
             touched={false}
-            changed={(event) => setPageName(event.target.value)}
+            changed={(event) => updateName(event)}
         />
     )
 
@@ -39,7 +51,7 @@ const createPageForm = props => {
             validation={{required: true}}
             valid={false}
             touched={false}
-            changed={(event) => setCategory(event.target.value)}
+            changed={(event) => updateCategory(event)}
         />
     )
 
@@ -53,6 +65,10 @@ const createPageForm = props => {
         />
     )
 
+    let createButtonClasses = [classes.CreateButton];
+    if (!formValid) {
+        createButtonClasses.push(classes.CreateDisabled);
+    }
 
     return (
         <section className={classes.FormContainer}>
@@ -63,10 +79,12 @@ const createPageForm = props => {
                 {categoryInput}
                 <span className={classes.Caption}>Choose a category that describes what type of business, organization or topic the Page represents. You can add up to 3.</span>
                 {descriptionInput}
+                <span className={classes.Caption}>Write about what your business does, the services you provide, or the purpose of the Page.</span>
+                <span className={classes.Caption}>Character Limit: 255</span>
             </section>
             <section className={classes.ControlsContainer}>
                 <span className={classes.Caption}>You can add images, contact info and other details after you create the Page.</span>
-
+                <div className={createButtonClasses.join(" ")}>Create Page</div>
             </section>
         </section>
     )

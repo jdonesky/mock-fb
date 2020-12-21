@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import classes from './CurrentLocation.css'
 import {connect} from 'react-redux'
 import Search from '../../../../../Search/Searchbar'
@@ -6,10 +6,31 @@ import SuggestedLocation from './SuggestedLocation'
 
 const currentLocation = ({currLocation, hometown, pastLocations, update, close}) => {
 
-    const curLoc = currLocation ? {key: 'currLocation', name: currLocation.name} : null;
-    const homeLoc = hometown ? {key: 'hometown', name: hometown.name} : null;
-    const pastLocs = pastLocations && pastLocations.length? pastLocations.map(loc => ({key: 'pastLocation', name: loc.name})) : null;
-    const allSuggestions = [curLoc, homeLoc]
+    useEffect(() => {
+        console.log('all suggestions', suggestions);
+    })
+
+    let curLoc;
+    if (currLocation) {
+        curLoc = {key: 'currLocation', name: currLocation.name}
+    }
+    let homeLoc;
+    if (hometown) {
+        homeLoc = {key: 'hometown', name: hometown.name};
+    }
+    let pastLocs;
+    if (pastLocations && pastLocations.length) {
+        pastLocs = pastLocations.map(loc => ({key: 'pastLocation', name: loc.name}))
+    }
+
+    let allSuggestions;
+    if (curLoc) {
+        allSuggestions.push(curLoc)
+    }
+    if (homeLoc) {
+        allSuggestions.push(homeLoc)
+    }
+
     if (pastLocs && pastLocs.length) {
         pastLocs.forEach(loc => allSuggestions.push(loc));
     }
@@ -33,10 +54,12 @@ const currentLocation = ({currLocation, hometown, pastLocations, update, close})
         setSuggestions(filtered.length ? filtered : '')
     }, [])
 
-
-    const suggestLocations = suggestions && suggestions.length && suggestions.map(loc => (
-        <SuggestedLocation type={loc.key} text={loc.name} clicked={() => updateInput(loc.name)}/>
-    ))
+    let suggestLocations;
+    if (suggestions && suggestions.length) {
+        suggestLocations = suggestions.map(loc => (
+            <SuggestedLocation type={loc.key} text={loc.name} clicked={() => updateInput(loc.name)}/>
+        ))
+    }
 
     return (
         <div className={classes.Container}>

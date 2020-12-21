@@ -16,6 +16,12 @@
     align-items: flex-start;
 }
 
+.FormTitle {
+    margin: 20px 0 10px 5px;
+    text-align: left;
+    font-size: 17px;
+}
+
 .Caption {
     margin: 0 0 20px 8px;
     font-size: 12px;
@@ -31,18 +37,49 @@
 
 .ControlsContainer {
     width: 100%;
-    position: sticky;
+    position: fixed;
     bottom: 0;
     left: 0;
     display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    align-items: center;
     border: none;
     box-shadow: 0 -3px 5px 2px rgba(0,0,0,0.06);
-    margin: 60px auto 0;
+    margin: 0 auto;
+    padding: 15px 8px 15px;
+    background-color: white;
 }
 
-@media (min-width: 665px) {
+@media (min-width: 900px) {
     .ControlsContainer {
         width: 355px;
     }
 }
 
+.CreateButton {
+    height: 40px;
+    width: 95%;
+    font-weight: 900;
+    display: flex;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    background-color: #0a74ff;
+    color: white;
+    cursor: pointer;
+}
+
+.CreateButton:hover {
+    background-color: #096aeb;
+}
+
+.CreateDisabled {
+    background-color: rgba(0,0,0,0.1);
+    color: rgba(0,0,0,0.2);
+}
+
+.CreateDisabled:hover {
+    background-color: rgba(0,0,0,0.1);
+}

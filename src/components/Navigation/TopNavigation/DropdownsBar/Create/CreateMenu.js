@@ -1,6 +1,5 @@
 
 import React, {useContext} from 'react';
-import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {PostContext} from "../../../../../context/post-context";
 import {LifeEventContext} from "../../../../../context/life-event-context";
@@ -26,6 +25,10 @@ const createMenu = (props) => {
     const openLifeEventModal = () => {
         lifeEventContext.toggleModal();
         props.close();
+    }
+
+    const startCreatePage = () => {
+        props.history.push('/pages/create');
     }
 
     return (
@@ -67,7 +70,7 @@ const createMenu = (props) => {
                 <div className={[classes.Icon, classes.Flag].join(" ")}>
                     <Flag />
                 </div>
-                <div className={classes.NameTagContainer}>
+                <div className={classes.NameTagContainer} onClick={startCreatePage}>
                     <div className={classes.MainText}>Page</div>
                     <div className={classes.SmallText}>Connect and share with customers or fans</div>
                 </div>
@@ -94,10 +97,4 @@ const createMenu = (props) => {
     );
 }
 
-const mapStateToProps = state => {
-    return {
-
-    }
-}
-
-export default connect(mapStateToProps)(withRouter(createMenu));
+export default withRouter(createMenu);
