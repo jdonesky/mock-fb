@@ -1,0 +1,48 @@
+
+
+.PreviewContainer {
+    height: 86%;
+    width: 87%;
+    box-shadow: 0 0 3px 3px rgba(0,0,0,0.1);
+    background-color: white;
+    border-radius: 8px;
+    margin: 40px auto 30px;
+}
+
+.Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.DesktopIcon {
+    height: 10px;
+    width: 10px;
+
+}
+
+.DesktopIcon svg {
+    height: auto;
+    width: 3%;
+    position: absolute;
+}
+
+.PageDisplay {
+    overflow: auto;
+    height: 580px;
+    width: 95%;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+.CoverImage {
+    height: 30%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+

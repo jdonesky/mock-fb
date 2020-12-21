@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react';
 import classes from './Pages.css'
 
 import CreatePageSidedrawer from '../../components/Pages/CreatePageSidedrawer/CreatePageSidedrawer';
-import PagePreview from '../../components/Pages/PagePreview/PagePreview';
+import PagePreview from '../../components/Create/PagePreview/PagePreview';
 import getWindowDimensions from "../../hooks/getWindowDimensions";
 
 const pages = props => {
