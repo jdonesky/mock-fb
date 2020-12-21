@@ -31,6 +31,10 @@ export {
 } from "./posts";
 
 export {
+   createPageAttempt
+} from "./pages";
+
+export {
    fetchByMePhotosAttempt,
    fetchTaggedMePhotosAttempt,
    clearPhotos

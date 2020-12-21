@@ -1,12 +1,13 @@
 
 
-import React from 'react';
+import React, {useContext} from 'react';
 import classes from './PagePreview.css';
 
 import Desktop from '../../../assets/images/MiscIcons/desktop';
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 import CreatePageCover from '../../../assets/images/Raster/createPagePreview.png';
 import CreateGroupCover from '../../../assets/images/Raster/createGroupPreview.png';
+import {PageContext} from "../../../context/page-context";
 
 import Flag from '../../../assets/images/BookmarkIcons/flag';
 import Like from '../../../assets/images/like';
@@ -21,7 +22,8 @@ import Pin from "../../../assets/images/Pin";
 
 const pagePreview = props => {
 
-    const {width, height} = getWindowDimensions()
+    const pageContext = useContext(PageContext);
+    const {width, height} = getWindowDimensions();
 
     let header;
     let navTabs;
@@ -37,8 +39,8 @@ const pagePreview = props => {
                         <div className={classes.PageProfileCircle}><Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/></div>
                     </div>
                     <div className={classes.PageNameAndCategory}>
-                        <div className={classes.PageName}>Page Name</div>
-                        <div className={classes.PageCategory}>Category</div>
+                        <div className={classes.PageName}>{pageContext.pageName || 'Page Name'}</div>
+                        <div className={classes.PageCategory}>{pageContext.category || 'Category'}</div>
                     </div>
                 </div>
             </div>
@@ -62,7 +64,7 @@ const pagePreview = props => {
         about = (
             <div className={classes.AboutContainer}>
                 <div className={classes.AboutHeader}>About</div>
-                <div className={classes.AboutDescription}><div className={classes.AboutInfoIcon}><Info fill="rgba(0,0,0,0.5)"/></div>Description</div>
+                <div className={classes.AboutDescription}><div className={classes.AboutInfoIcon}><Info fill="rgba(0,0,0,0.5)"/></div>{pageContext.description || 'Description'}</div>
             </div>
         )
         create = (

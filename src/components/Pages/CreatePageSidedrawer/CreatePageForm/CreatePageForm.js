@@ -1,45 +1,28 @@
 
 
-import React, {useState} from 'react';
+import React, {useEffect, useContext} from 'react';
 import classes from './CreatePageForm.css';
 import Input from '../../../UI/Input/Input';
 
+import {PageContext} from "../../../../context/page-context";
+
 const createPageForm = props => {
 
-    const [pageName, setPageName] = useState('');
-    const [category, setCategory] = useState('');
-    const [description, setDescription] = useState('');
-    const [formValid, setFormValid] = useState(false);
-
-    const validateForm = () => {
-        setFormValid(pageName !== '' && category !== '' && description.length <= 255);
-    }
-
-    const updateName = (event) => {
-        setPageName(event.target.value);
-        validateForm();
-    }
-
-    const updateCategory = (event) => {
-        setCategory(event.target.value);
-        validateForm();
-    }
-
-    const updateDescription = (event) => {
-        setDescription(event.target.value);
-        validateForm();
-    }
+    useEffect(() => {
+        console.log(pageContext.pageName)
+    })
+    const pageContext = useContext(PageContext);
 
     const nameInput = (
         <Input
             elementType="input"
             type="text"
             placeholder="Page name (required)"
-            value={pageName}
+            value={pageContext.pageName}
             validation={{required: true}}
             valid={false}
             touched={false}
-            changed={(event) => updateName(event)}
+            changed={(event) => pageContext.updateName(event)}
         />
     )
 
@@ -48,11 +31,11 @@ const createPageForm = props => {
             elementType="input"
             type="text"
             placeholder="Category (required)"
-            value={category}
+            value={pageContext.category}
             validation={{required: true}}
             valid={false}
             touched={false}
-            changed={(event) => updateCategory(event)}
+            changed={(event) => pageContext.updateCategory(event)}
         />
     )
 
@@ -60,14 +43,14 @@ const createPageForm = props => {
         <Input
             elementType="textarea"
             placeholder="Description"
-            value={description}
-            changed={(event) => updateDescription(event)}
+            value={pageContext.description}
+            changed={(event) => pageContext.updateDescription(event)}
             className={classes.DescriptionInput}
         />
     )
 
     let createButtonClasses = [classes.CreateButton];
-    if (!formValid) {
+    if (!pageContext.formValid) {
         createButtonClasses.push(classes.CreateDisabled);
     }
 
@@ -78,7 +61,7 @@ const createPageForm = props => {
                 {nameInput}
                 <span className={classes.Caption}>Use the name of your business, brand or organization, or a name that explains what the Page is about.</span>
                 {categoryInput}
-                <span className={classes.Caption}>Choose a category that describes what type of business, organization or topic the Page represents. You can add up to 3.</span>
+                <span className={classes.Caption}>Choose a category that describes what type of business, organization or topic the Page represents</span>
                 {descriptionInput}
                 <span className={classes.Caption}>Write about what your business does, the services you provide, or the purpose of the Page.</span>
                 <span className={classes.Caption}>Character Limit: 255</span>

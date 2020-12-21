@@ -8,6 +8,7 @@ import * as actions from "./store/actions/index";
 import DeleteContextProvider from "./context/delete-context";
 import LifeEventContextProvider from "./context/life-event-context";
 import PostContextProvider from "./context/post-context";
+import PageContextProvider from "./context/page-context";
 
 
 const AsyncAuth = React.lazy(() => {
@@ -100,20 +101,22 @@ const app = (props) => {
     }
 
     return (
-        <PostContextProvider>
-            <LifeEventContextProvider>
-                <DeleteContextProvider>
-                    <Layout>
-                        <Suspense fallback={<FoldingSquare />}>
-                            <AsyncDeleteModal />
-                            <AsyncCreatePostModal />
-                            <AsyncCreateLifeEventModal />
-                            {routes}
-                        </Suspense>
-                    </Layout>
-                </DeleteContextProvider>
-            </LifeEventContextProvider>
-        </PostContextProvider>
+        <PageContextProvider>
+            <PostContextProvider>
+                <LifeEventContextProvider>
+                    <DeleteContextProvider>
+                        <Layout>
+                            <Suspense fallback={<FoldingSquare />}>
+                                <AsyncDeleteModal />
+                                <AsyncCreatePostModal />
+                                <AsyncCreateLifeEventModal />
+                                {routes}
+                            </Suspense>
+                        </Layout>
+                    </DeleteContextProvider>
+                </LifeEventContextProvider>
+            </PostContextProvider>
+        </PageContextProvider>
     );
 
 }

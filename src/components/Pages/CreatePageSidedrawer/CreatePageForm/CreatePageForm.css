@@ -35,6 +35,11 @@
     font-size: 15px;
 }
 
+.DescriptionInput {
+    font-family: "Lucida Grande";
+    font-size: 15px;
+}
+
 .ControlsContainer {
     width: 100%;
     position: fixed;
