@@ -4,9 +4,6 @@ import Gear from "../../../assets/images/TopNavButtonIcons/gear";
 
 const tocSidedrawer = props => {
 
-    useEffect(() => {
-        console.log(props.paths);
-    })
     return (
         <div className={classes.SideDrawerContainer}>
             <div className={classes.PathsContainer}>

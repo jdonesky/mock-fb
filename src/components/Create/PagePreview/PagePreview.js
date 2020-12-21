@@ -19,10 +19,14 @@ const pagePreview = props => {
     if (props.preview === 'PAGE') {
         header = (
             <div className={classes.PageHeaderPositioner}>
-                <div className={classes.CoverImage} style={{backgroundImage: `url(${CreatePageCover})`, height: `${width * 0.23}px`}} />
+                <div className={classes.CoverImage} style={{backgroundImage: props.coverImage ? `url(${props.coverImage})` : `url(${CreatePageCover})`, height: `${width * 0.23}px`}} />
                 <div className={classes.PageProfileHeader}>
                     <div className={classes.PageProfileCircleOutline}>
-                        <div className={classes.PageProfileCircle}><Flag first="rgba(0,0,0,0.1)" second="rgba(0,0,0,0.15)"/></div>
+                        <div className={classes.PageProfileCircle}><Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/></div>
+                    </div>
+                    <div className={classes.PageNameAndCategory}>
+                        <div className={classes.PageName}>Page Name</div>
+                        <div className={classes.PageCategory}>Category</div>
                     </div>
                 </div>
             </div>
@@ -40,13 +44,17 @@ const pagePreview = props => {
                 </div>
             </div>
             <div className={classes.PageDisplay}>
-                <div className={classes.PageHeaderPositioner}>
-                    <div className={classes.CoverImage} style={{backgroundImage: props.coverImage ? `url(${props.coverImage})` : `url(${CreatePageCover})`, height: `${width * 0.23}px`}} />
-                        <div className={classes.PageProfileHeader}>
-                            <div className={classes.PageProfileCircleOutline}>
-                                <div className={classes.PageProfileCircle}><Flag fill='rgba(0,0,0,0.4)'/></div>
-                            </div>
-                        </div>
+                {header}
+                <div className={classes.SharedHeaderElements}>
+                    <div className={classes.SharedBreak}/>
+                    <div className={classes.SharedNavBar}>
+
+                    </div>
+                    <div className={classes.SharedCliff}></div>
+                </div>
+                <div className={classes.SharedContentBackdrop}/>
+                <div className={classes.SharedContentFlexContainer}>
+
                 </div>
             </div>
         </div>

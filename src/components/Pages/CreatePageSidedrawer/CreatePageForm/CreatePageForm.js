@@ -1,14 +1,10 @@
 
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import classes from './CreatePageForm.css';
 import Input from '../../../UI/Input/Input';
 
 const createPageForm = props => {
-
-    useEffect(() => {
-        console.log(formValid)
-    })
 
     const [pageName, setPageName] = useState('');
     const [category, setCategory] = useState('');
@@ -16,7 +12,7 @@ const createPageForm = props => {
     const [formValid, setFormValid] = useState(false);
 
     const validateForm = () => {
-        setFormValid(pageName !== '' && category !== '');
+        setFormValid(pageName !== '' && category !== '' && description.length <= 255);
     }
 
     const updateName = (event) => {
@@ -26,6 +22,11 @@ const createPageForm = props => {
 
     const updateCategory = (event) => {
         setCategory(event.target.value);
+        validateForm();
+    }
+
+    const updateDescription = (event) => {
+        setDescription(event.target.value);
         validateForm();
     }
 
@@ -60,7 +61,7 @@ const createPageForm = props => {
             elementType="textarea"
             placeholder="Description"
             value={description}
-            changed={(event) => setDescription(event.target.value)}
+            changed={(event) => updateDescription(event)}
             className={classes.DescriptionInput}
         />
     )
