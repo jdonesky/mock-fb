@@ -7,15 +7,24 @@ import Desktop from '../../../assets/images/MiscIcons/desktop';
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 import CreatePageCover from '../../../assets/images/Raster/createPagePreview.png';
 import CreateGroupCover from '../../../assets/images/Raster/createGroupPreview.png';
+
 import Flag from '../../../assets/images/BookmarkIcons/flag';
-
-
+import Like from '../../../assets/images/like';
+import FbMessage from '../../../assets/images/UserActionIcons/fbMessage';
+import SearchGlass from '../../../assets/images/search';
+import Dots from '../../../assets/images/dots';
+import DownArrow from '../../../assets/images/down-arrow';
+import Info from '../../../assets/images/MiscIcons/info';
 
 const pagePreview = props => {
 
     const {width, height} = getWindowDimensions()
 
     let header;
+    let navTabs;
+    let navButtons;
+    let about;
+    let create;
     if (props.preview === 'PAGE') {
         header = (
             <div className={classes.PageHeaderPositioner}>
@@ -29,6 +38,33 @@ const pagePreview = props => {
                         <div className={classes.PageCategory}>Category</div>
                     </div>
                 </div>
+            </div>
+        )
+        navTabs = (
+            <React.Fragment>
+                <div className={[classes.NavTab, classes.PageHome].join(" ")}>Home</div>
+                <div className={[classes.NavTab, classes.PageAbout].join(" ")}>About</div>
+                <div className={[classes.NavTab, classes.PagePhotos].join(" ")}>Photos</div>
+                <div className={classes.NavTab}>More<div className={classes.MoreArrow}><DownArrow fill="rgba(0,0,0,0.5)" /></div></div>
+            </React.Fragment>
+        )
+        navButtons = (
+            <React.Fragment>
+                <div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><Like /></div><div className={classes.NavButtonText}>Like</div></div>
+                <div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><FbMessage /></div><div className={classes.NavButtonText}>Message</div></div>
+                <div className={classes.NavButton}><div className={classes.NavButtonIcon}><SearchGlass /></div></div>
+                <div className={classes.NavButton}><div className={classes.NavButtonIcon}><Dots /></div></div>
+            </React.Fragment>
+        )
+        about = (
+            <div className={classes.AboutContainer}>
+                <div className={classes.AboutHeader}>About</div>
+                <div className={classes.AboutDescription}><div className={classes.AboutInfoIcon}><Info fill="rgba(0,0,0,0.5)"/></div>Description</div>
+            </div>
+        )
+        create = (
+            <div className={classes.PageStartPostContainer}>
+
             </div>
         )
     } else if (props.preview === 'GROUP') {
@@ -48,13 +84,21 @@ const pagePreview = props => {
                 <div className={classes.SharedHeaderElements}>
                     <div className={classes.SharedBreak}/>
                     <div className={classes.SharedNavBar}>
-
+                        <div className={classes.SharedNavTabs}>
+                            {navTabs}
+                        </div>
+                        <div className={classes.SharedNavButtons}>
+                            {navButtons}
+                        </div>
                     </div>
                     <div className={classes.SharedCliff}></div>
                 </div>
-                <div className={classes.SharedContentBackdrop}/>
-                <div className={classes.SharedContentFlexContainer}>
-
+                <div className={classes.FlexContentPositioner}>
+                    <div className={classes.SharedContentBackdrop}/>
+                    <div className={classes.SharedContentFlexContainer}>
+                        {about}
+                        {create}
+                    </div>
                 </div>
             </div>
         </div>

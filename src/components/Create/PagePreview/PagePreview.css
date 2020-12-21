@@ -1,7 +1,7 @@
 
 
 .PreviewContainer {
-    height: 86%;
+    height: 90%;
     width: 87%;
     box-shadow: 0 0 4px 4px rgba(0,0,0,0.08);
     background-color: white;
@@ -132,12 +132,115 @@
 }
 
 .SharedNavBar {
-    width: 100%;
+    width: 95%;
     height: 60px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 2;
+}
+
+.SharedNavTabs {
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.NavTab {
+    height: 100%;
+    min-width: 85px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Lucida Grande";
+    font-size: 16px;
+    font-weight: 900;
+    color: rgba(0,0,0,0.5);
+}
+
+
+.PageHome {
+    display: none;
+}
+
+@media (min-width: 1030px) {
+    .PageHome {
+        display: flex;
+    }
+}
+
+.PageAbout {
+    display: none;
+}
+
+@media (min-width: 1140px) {
+    .PageAbout {
+        display: flex;
+    }
+}
+
+.PagePhotos {
+    display: none;
+}
+
+@media (min-width: 1235px) {
+    .PagePhotos {
+        display: flex;
+    }
+}
+
+.MoreArrow {
+    height: 10px;
+    width: 10px;
+    margin-left: 8px;
+}
+
+.MoreArrow svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    bottom: 4px;
+}
+
+
+.SharedNavButtons {
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.NavButton {
+    height: 60%;
+    min-width: 50px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.05);
+    margin-left: 5px;
+}
+
+.BigButton {
+    min-width: 120px;
+}
+
+.NavButtonText {
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.NavButtonIcon {
+    height: 18px;
+    width: 18px;
+}
+
+.NavButtonIcon svg {
+    height: auto;
+    width: 100%;
 }
 
 .SharedCliff {
@@ -145,6 +248,10 @@
     height: 0;
     box-shadow: 0 1px 1px 1px rgba(0,0,0, 0.15);
     z-index: 2;
+}
+
+.FlexContentPositioner {
+    position: relative;
 }
 
 .SharedContentBackdrop {
@@ -157,20 +264,113 @@
 }
 
 .SharedContentFlexContainer {
-    position: relative;
+    position: absolute;
     top: 140px;
-    height: 100%;
-    width: 100%;
+    left: 25px;
+    width: 95%;
+    height: 230px;
     display: flex;
+    justify-content: space-between;
     flex-flow: column;
-    justify-content: center;
     align-items: center;
+    margin: 15px auto;
 }
 
-@media (min-width: 655px) {
+@media (min-width: 1360px) {
     .SharedContentFlexContainer {
         flex-flow: row;
+        height: 100px;
+        align-items: flex-start;
+    }
 
+    .AboutContainer {
+        margin-right: 20px;
+        width: 350px;
+    }
+
+    .PageStartPostContainer {
+        width: 460px;
     }
 }
 
+.AboutContainer {
+    width: 500px;
+    height: 100px;
+    z-index: 5;
+    background: white;
+    display: flex;
+    flex-flow: column;
+    border-radius: 6px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+.AboutHeader {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 900;
+    font-family: "Lucida Grande";
+    width: 93%;
+    margin: 16px auto 0;
+}
+
+.AboutDescription {
+    width: 93%;
+    margin: 15px auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.AboutInfoIcon {
+    height: 24px;
+    width: 24px;
+    margin-right: 15px;
+}
+
+.AboutInfoIcon svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: 1px;
+}
+
+.PageStartPostContainer {
+    width: 500px;
+    height: 115px;
+    z-index: 5;
+    background: white;
+    display: flex;
+    flex-flow: column;
+    border-radius: 6px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+.PageStartPostHeader {
+    display: flex;
+    height: 50%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.StartPostProfileCircle {
+    height: 30px;
+    width: 30px;
+    background-color: #f5f5f5;
+    border: .5px solid rgba(0,0,0,0.06);
+}
+
+.StartPostProfileCircle svg {
+    height: auto;
+    width: 70%;
+    position: relative;
+}
+
+.PageCreatePostButton {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.05);
+}
