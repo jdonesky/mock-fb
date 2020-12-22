@@ -1,13 +1,13 @@
 
 import React from 'react';
 
-const likeSvg = () => (
+const likeSvg = (props) => (
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
      width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
      preserveAspectRatio="xMidYMid meet">
 
     <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-    fill="#000000" stroke="none">
+    fill={props.fill || "#000000"} stroke="none">
     <path d="M2650 5005 c-100 -18 -256 -97 -287 -144 -23 -34 -23 -36 -23 -409
     l0 -375 -307 -665 c-168 -365 -312 -666 -320 -669 -11 -4 -13 -205 -13 -1153
     l0 -1149 78 -29 c98 -38 165 -57 271 -76 72 -14 225 -16 1161 -16 1047 0 1080

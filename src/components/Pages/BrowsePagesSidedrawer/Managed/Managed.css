@@ -1,0 +1,25 @@
+
+.ManagedContainer {
+    height: 100%;
+    width: 95%;
+    margin: 40px auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: auto;
+}
+
+.ManagedContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.Header {
+    height: 60px;
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "Lucida Grande";
+    font-weight: 900;
+    font-size: 22px;
+}

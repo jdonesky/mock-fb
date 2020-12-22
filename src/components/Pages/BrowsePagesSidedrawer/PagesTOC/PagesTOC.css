@@ -1,0 +1,234 @@
+
+.TocContainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.MyPagesSection {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 98%;
+}
+
+.ToggleBar {
+    height: 60px;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px;
+    background-color: rgba(77, 161, 250, 0.18);
+    cursor: pointer;
+}
+
+.ToggleBarLeftBlock {
+    height: 100%;
+    width: 60%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ToggleBarIcon {
+    height: 40px;
+    width: 40px;
+    background-color: #0a70ff;
+    border-radius: 100%;
+    margin: 0 20px 0 10px;
+}
+
+.ToggleBarIcon svg {
+    height: auto;
+    width: 68%;
+    position: relative;
+    left: 8px;
+    top: 7px;
+}
+
+.ToggleBarText {
+    font-family: "Lucida Grande";
+    font-size: 19px;
+    font-weight: 510;
+}
+
+.ToggleBarButton {
+    height: 34px;
+    width: 34px;
+    border-radius: 100%;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.ToggleBarButton svg {
+    height: auto;
+    width: 45%;
+    position: relative;
+    top: 8px;
+    left: 9px;
+}
+
+.ToggleBarButton:hover {
+    background: rgba(0,0,0,0.07);
+}
+
+.OwnedPageButton {
+    height: 55px;
+    width: 94%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.OwnedPageButton:hover {
+    background-color: #f0eded;
+}
+
+.OwnedPageIcon {
+    height: 24px;
+    width: 24px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0 15px;
+}
+
+.OwnedPageIcon svg {
+    height: auto;
+    width: 65%;
+    position: relative;
+    top: 3px;
+    left: 5px;
+}
+
+.OwnedPageText {
+    font-family: "Lucida Grande";
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.CreateNewPageButton {
+    height: 35px;
+    width: 93%;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    background-color: rgba(77, 161, 250, 0.18);
+    color: #0B86DE;
+    cursor:pointer;
+}
+
+.CreateNewPageButton:hover {
+    background-color: rgba(77, 161, 250, 0.22);
+}
+
+.CreateNewPageIcon {
+    height: 13px;
+    width: 13px;
+}
+
+.CreateNewPageIcon svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    right: 9px;
+    bottom: 4px;
+}
+
+.CreateNewPageText {
+    font-family: "Lucida Grande";
+    font-weight: 600;
+    font-size: 15px;
+    color:  #0B86DE;
+}
+
+.SectionBreak {
+    width: 93%;
+    height: 1px;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.NavButtons {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.NavButton {
+    height: 55px;
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 7px;
+    cursor: pointer
+}
+
+.NavButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.ActiveNavButton {
+    background-color: rgba(77, 161, 250, 0.18);
+}
+
+.ActiveNavButton:hover {
+    background-color: rgba(77, 161, 250, 0.18);
+}
+
+.NavButtonIcon {
+    height: 35px;
+    width: 35px;
+    background-color: rgba(0,0,0,0.07);
+    border-radius: 100%;
+    margin: 0 12px;
+}
+
+.NavButtonIcon svg {
+    height: auto;
+    width: 60%;
+    position: relative;
+}
+
+.ActiveNavIcon {
+    background-color: #155fe8;
+}
+
+.DiscoverIcon svg {
+    width: 95%;
+    top: 2px;
+    left: 1px;
+}
+
+.LikeIcon svg {
+    width: 57%;
+    left: 8px;
+    top: 6px;
+}
+
+.InvitesIcon svg {
+    width: 70%;
+    top: 4px;
+    left: 6px;
+}
+
+.NavButtonText {
+    font-family: "Lucida Grande";
+    font-weight: 510;
+    font-size: 16px;
+}
+

@@ -1,0 +1,89 @@
+
+.EntryContainer {
+    height: 130px;
+    width: 90%;
+    border-radius: 7px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fcfcfc;
+    margin-bottom: 8px;
+}
+
+.LeftBlock {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.ProfileImageBlock {
+    height: 100%;
+    width: 110px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ProfileImage {
+    height: 60px;
+    width: 60px;
+    border-radius: 100%;
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.05);
+    background-position: center;
+    background-size: cover;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.ProfileImage:hover {
+    background-color: rgba(0,0,0,0.1);
+    filter: brightness(50%);
+}
+
+.ProfileImage:active {
+    box-shadow: 0 0 2px 3px rgba(0,0,0,0.06);
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 70%;
+    position: relative;
+    top: 10px;
+    left: 12px;
+}
+
+.GeneralInfoBlock {
+    height: 100%;
+    width: 200px;
+    display: flex;
+    flex-flow: column;
+
+}
+
+.Name {
+    font-family: "Lucida Grande";
+    font-weight: 900;
+    font-size: 20px;
+    height: 40%;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.CategoryAndStatsBlock {
+    height: 40%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.StatsBlock {
+    display: flex;
+    align-items: center;
+}
