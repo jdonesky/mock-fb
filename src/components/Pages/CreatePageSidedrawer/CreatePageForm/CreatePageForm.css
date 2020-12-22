@@ -1,19 +1,24 @@
 
 .FormContainer {
     width: 100%;
+    height: 100%;
+    box-sizing: border-box;
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .Form {
     width: 93%;
+    box-sizing: border-box;
+    padding-bottom: 215px;
     margin: 0px 10px;
     display: flex;
     flex-flow: column;
     align-items: flex-start;
+    overflow: auto;
 }
 
 .FormTitle {
@@ -30,12 +35,13 @@
     color: rgba(0,0,0,0.7);
 }
 
-.DescriptionInput::placeholder {
+.DescriptionInput {
     font-family: "Lucida Grande";
     font-size: 15px;
+    min-height: 110px;
 }
 
-.DescriptionInput {
+.DescriptionInput::placeholder {
     font-family: "Lucida Grande";
     font-size: 15px;
 }
@@ -87,4 +93,112 @@
 
 .CreateDisabled:hover {
     background-color: rgba(0,0,0,0.1);
+}
+
+.ImageSection {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
+.ImageSectionHeader {
+    font-family: 'Lucida Grande';
+    font-weight: 800;
+    font-size: 17px;
+    margin: 0 0 20px 3px;
+}
+
+.ImageContainerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 99%;
+}
+
+.ImageTypeCaption {
+    font-family: "Lucida Grande";
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.6);
+    margin: 20px 0 10px;
+}
+
+.Optional {
+    font-weight: 100;
+}
+
+.InfoIcon {
+    height: 18px;
+    width: 18px;
+    position: relative;
+    top: 6px;
+    right: 5px;
+}
+
+.InfoIcon svg {
+    height: auto;
+    width: 100%;
+}
+
+.ImageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    width: 98%;
+    border-radius: 6px;
+    border: 1px solid #b8b5b5;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.ImageContainer:hover {
+    border: 1px solid #878787;
+}
+
+.ImageUploadButton {
+    height: 30px;
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    background-color: rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.ImageUploadButton:hover {
+    background-color: rgba(0,0,0,0.15);
+}
+
+.ImageUploadIcon {
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+    position:relative;
+    top: 2px;
+}
+
+.ImageUploadIcon svg {
+    height: auto;
+    width: 100%;
+}
+
+.ImageUploadText {
+    line-height: 30px;
+}
+
+.ImageSelected {
+    border: 1px solid #0B86DE;
+}
+
+.ImageContainerCaption {
+    margin: 0;
+    font-family: "Lucida Grande";
+    width: 99%;
+    font-weight: 100;
+    font-size: 12px;
+    color: rgba(0,0,0,0.5);
 }

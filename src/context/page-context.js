@@ -15,6 +15,8 @@ export const PageContext = React.createContext({
     updateCategory: () => {},
     updateDescription: () => {},
     startCreatePage: () => {},
+    setProfileImage: () => {},
+    setCoverImage: () => {},
     finishCreatePage: () => {}
 })
 
@@ -25,6 +27,9 @@ const PageContextProvider = (props) => {
     const [description, setDescription] = useState('');
     const [formValid, setFormValid] = useState(false);
     const [startedPage, setStartedPage] = useState(false);
+    const [profileImage, setProfileImage] = useState(null);
+    const [coverImage, setCoverImage] = useState(null);
+
 
     const validateForm = () => {
         setFormValid(pageName !== '' && category !== '' && description.length <= 255);
@@ -59,11 +64,12 @@ const PageContextProvider = (props) => {
     }
 
     const finishCreatePage = () => {
-        alert('IM NOT FINISHED')
+        console.log('PAGE in progress - ', props.pageInProgress)
+
     }
 
     return (
-        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage}}>
+        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, setProfileImage: setProfileImage, setCoverImage: setCoverImage, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage}}>
             {props.children}
         </PageContext.Provider>
     )
@@ -74,7 +80,8 @@ const mapStateToProps = state => {
         authToken: state.auth.token,
         publicProfileKey: state.profile.publicProfileKey,
         userKey: state.profile.firebaseKey,
-        name: state.profile.firstName + ' ' + state.profile.lastName
+        name: state.profile.firstName + ' ' + state.profile.lastName,
+        pageInProgress: state.pages.pageInProgress
     }
 }
 

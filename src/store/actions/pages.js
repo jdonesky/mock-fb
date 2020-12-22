@@ -36,7 +36,7 @@ export const startCreatePageAttempt = (authToken, page) => {
         dispatch(createPageInit());
         KeyGenerator.getKey(authToken, (newKey) => {
             let newPage = {...page, id: newKey}
-            axios.put(`/pages.json?auth=${authToken}`, newPage)
+            axios.post(`/pages.json?auth=${authToken}`, newPage)
                 .then(response => {
                     console.log('SUCCESS - put new page: ', response.data.name);
                     newPage = {...newPage, dbKey: response.data.name}
