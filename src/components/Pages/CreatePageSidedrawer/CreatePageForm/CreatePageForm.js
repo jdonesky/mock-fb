@@ -9,8 +9,10 @@ import {PageContext} from "../../../../context/page-context";
 const createPageForm = props => {
 
     useEffect(() => {
-        console.log(pageContext.pageName)
+        console.log(pageContext.pageName);
+        console.log('startedPage? ', pageContext.startedPage);
     })
+
     const pageContext = useContext(PageContext);
 
     const nameInput = (
@@ -54,6 +56,15 @@ const createPageForm = props => {
         createButtonClasses.push(classes.CreateDisabled);
     }
 
+    let createButtonAction;
+    if (pageContext.startedPage) {
+        createButtonAction = pageContext.finishCreatePage;
+    } else {
+        if (pageContext.formValid) {
+            createButtonAction = pageContext.startCreatePage;
+        }
+    }
+
     return (
         <section className={classes.FormContainer}>
             <section className={classes.Form}>
@@ -68,7 +79,7 @@ const createPageForm = props => {
             </section>
             <section className={classes.ControlsContainer}>
                 <span className={classes.Caption}>You can add images, contact info and other details after you create the Page.</span>
-                <div className={createButtonClasses.join(" ")}>Create Page</div>
+                <div className={createButtonClasses.join(" ")} onClick={createButtonAction}>Create Page</div>
             </section>
         </section>
     )

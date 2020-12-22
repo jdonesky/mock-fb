@@ -1,6 +1,7 @@
 
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
+import * as actions from '../store/actions/index';
 
 export const PageContext = React.createContext({
     pageName: '',
@@ -9,9 +10,12 @@ export const PageContext = React.createContext({
     profileImage: null,
     coverImage: null,
     formValid: false,
+    startedPage: false,
     updateName: () => {},
     updateCategory: () => {},
     updateDescription: () => {},
+    startCreatePage: () => {},
+    finishCreatePage: () => {}
 })
 
 const PageContextProvider = (props) => {
@@ -20,6 +24,7 @@ const PageContextProvider = (props) => {
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [formValid, setFormValid] = useState(false);
+    const [startedPage, setStartedPage] = useState(false);
 
     const validateForm = () => {
         setFormValid(pageName !== '' && category !== '' && description.length <= 255);
@@ -40,7 +45,7 @@ const PageContextProvider = (props) => {
         validateForm();
     }
 
-    const createInitialPage = () => {
+    const startCreatePage = () => {
         const baseInfo = {
             name: pageName,
             category: category,
@@ -48,14 +53,17 @@ const PageContextProvider = (props) => {
             adminName: props.name,
             adminUserKey: props.userKey,
             adminPublicProfileKey: props.publicProfileKey
-
         }
+        props.onStartCreatePage(props.authToken, baseInfo)
+        setStartedPage(true);
+    }
 
-
+    const finishCreatePage = () => {
+        alert('IM NOT FINISHED')
     }
 
     return (
-        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription}}>
+        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage}}>
             {props.children}
         </PageContext.Provider>
     )
@@ -70,4 +78,11 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(PageContextProvider);
+const mapDispatchToProps = dispatch => {
+    return {
+        onStartCreatePage: (authToken, page) => dispatch(actions.startCreatePageAttempt(authToken, page)),
+        onFinishCreatePage: (authToken, page) => dispatch(actions.finishCreatePageAttempt(authToken, page))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageContextProvider);

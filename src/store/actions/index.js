@@ -31,7 +31,8 @@ export {
 } from "./posts";
 
 export {
-   createPageAttempt
+   startCreatePageAttempt,
+   finishCreatePageAttempt
 } from "./pages";
 
 export {

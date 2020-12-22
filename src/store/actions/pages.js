@@ -9,10 +9,18 @@ const createPageInit = () => {
     }
 }
 
-const createPageSuccess = (pages) => {
+const startCreatePageSuccess = (page) => {
     return {
-        type: actionTypes.CREATE_PAGE_SUCCESS,
-        pages: pages
+        type: actionTypes.START_CREATE_PAGE_SUCCESS,
+        page: page
+    }
+}
+
+
+const finishCreatePageSuccess = (page) => {
+    return {
+        type: actionTypes.FINISH_CREATE_PAGE_SUCCESS,
+        page: page
     }
 }
 
@@ -23,11 +31,27 @@ const createPageFail = (error) => {
     }
 }
 
-export const createPageAttempt = (authToken, page) => {
+export const startCreatePageAttempt = (authToken, page) => {
     return dispatch => {
         dispatch(createPageInit());
         KeyGenerator.getKey(authToken, (newKey) => {
-
+            let newPage = {...page, id: newKey}
+            axios.put(`/pages.json?auth=${authToken}`, newPage)
+                .then(response => {
+                    console.log('SUCCESS - put new page: ', response.data.name);
+                    newPage = {...newPage, dbKey: response.data.name}
+                    dispatch(startCreatePageSuccess(newPage))
+                })
+                .catch(error => {
+                    console.log(error)
+                    dispatch(createPageFail(error))
+                })
         })
+    }
+}
+
+export const finishCreatePageAttempt = (authToken, page) => {
+    return dispatch => {
+        dispatch(createPageInit())
     }
 }

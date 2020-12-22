@@ -11,6 +11,7 @@ import registerServiceWorker from "./registerServiceWorker";
 import authReducer from "./store/reducers/auth";
 import profileReducer from "./store/reducers/profile";
 import postsReducer from "./store/reducers/posts";
+import pagesReducer from "./store/reducers/pages";
 import usersReducer from "./store/reducers/users";
 import friendsReducer from "./store/reducers/friends";
 import photosReducer from "./store/reducers/photos";
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   profile: profileReducer,
   posts: postsReducer,
+  pages: pagesReducer,
   photos: photosReducer,
   users: usersReducer,
   friends: friendsReducer,
