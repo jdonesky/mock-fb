@@ -6,8 +6,8 @@ const initialState = {
     myPages: [],
     othersPages: [],
     creatingNewPage: false,
-    loadingMyPages: false,
-    loadingOthersPages: false,
+    fetchingMyPages: false,
+    fetchingOthersPages: false,
     error: null
 }
 
@@ -42,12 +42,38 @@ const createPageFail = (state,action) => {
     }
 }
 
+const fetchMyPagesInit = (state,action) => {
+    return {
+        ...state,
+        fetchingMyPages: true
+    }
+}
+
+const fetchMyPagesSuccess = (state,action) => {
+    return {
+        ...state,
+        myPages: action.pages,
+        fetchingMyPages: false
+    }
+}
+
+const fetchMyPagesFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        fetchingMyPages: false
+    }
+}
+
 const reducer = (state=initialState, action) => {
     switch(action.type) {
         case actionTypes.CREATE_PAGE_INIT: return createPageInit(state,action);
         case actionTypes.START_CREATE_PAGE_SUCCESS: return startCreatePageSuccess(state,action);
         case actionTypes.FINISH_CREATE_PAGE_SUCCESS: return finishCreatePageSuccess(state,action);
         case actionTypes.CREATE_PAGE_FAIL: return createPageFail(state,action);
+        case actionTypes.FETCH_MY_PAGES_INIT: return fetchMyPagesInit(state,action);
+        case actionTypes.FETCH_MY_PAGES_SUCCESS: return fetchMyPagesSuccess(state,action);
+        case actionTypes.FETCH_MY_PAGES_FAIL: return fetchMyPagesFail(state,action);
         default:
             return state
     }

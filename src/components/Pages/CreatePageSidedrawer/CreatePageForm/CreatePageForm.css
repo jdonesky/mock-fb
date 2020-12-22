@@ -35,6 +35,12 @@
     color: rgba(0,0,0,0.7);
 }
 
+.RequiredInput {
+    font-family: "Lucida Grande";
+    font-size: 15px;
+    min-height: 30px;
+}
+
 .DescriptionInput {
     font-family: "Lucida Grande";
     font-size: 15px;
@@ -106,7 +112,7 @@
     font-family: 'Lucida Grande';
     font-weight: 800;
     font-size: 17px;
-    margin: 0 0 20px 3px;
+    margin: 10px 0 5px 3px;
 }
 
 .ImageContainerHeader {
@@ -142,10 +148,11 @@
 }
 
 .ImageContainer {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 150px;
+    height: 175px;
     width: 98%;
     border-radius: 6px;
     border: 1px solid #b8b5b5;
@@ -192,6 +199,25 @@
 
 .ImageSelected {
     border: 1px solid #0B86DE;
+}
+
+.RemoveImageButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 33px;
+    width: 33px;
+    border-radius: 100%;
+    background-color: #e3e3e3;
+    cursor: pointer;
+}
+
+.RemoveImageButton svg {
+    height: auto;
+    width: 60%;
+    position: relative;
+    top: 6px;
+    left: 6px;
 }
 
 .ImageContainerCaption {

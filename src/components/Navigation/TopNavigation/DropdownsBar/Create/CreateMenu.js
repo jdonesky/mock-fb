@@ -29,6 +29,7 @@ const createMenu = (props) => {
 
     const startCreatePage = () => {
         props.history.push('/pages/create');
+        props.close();
     }
 
     return (

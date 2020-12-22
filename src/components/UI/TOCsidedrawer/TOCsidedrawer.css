@@ -155,6 +155,15 @@
     display: inline-block;
 }
 
+.PathCurrent {
+    margin: 0 3px;
+    display: inline-block;
+    cursor: default;
+}
+.PathCurrent:hover {
+    text-decoration: none;
+}
+
 .Path:hover {
     cursor: pointer;
     text-decoration: underline;

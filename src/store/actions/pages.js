@@ -38,7 +38,7 @@ export const startCreatePageAttempt = (authToken, page) => {
             let newPage = {...page, id: newKey}
             axios.post(`/pages.json?auth=${authToken}`, newPage)
                 .then(response => {
-                    console.log('SUCCESS - put new page: ', response.data.name);
+                    console.log('SUCCESS - posted new page: ', response.data.name);
                     newPage = {...newPage, dbKey: response.data.name}
                     dispatch(startCreatePageSuccess(newPage))
                 })
@@ -53,5 +53,53 @@ export const startCreatePageAttempt = (authToken, page) => {
 export const finishCreatePageAttempt = (authToken, page) => {
     return dispatch => {
         dispatch(createPageInit())
+        console.log('page: ', page);
+        const pageKey = page.dbKey
+        console.log(pageKey);
+        if (pageKey) {
+            axios.put(`pages/${pageKey}.json?auth=${authToken}`, page)
+                .then(response => {
+                    dispatch(finishCreatePageSuccess())
+                })
+                .catch(error => {
+                    dispatch(createPageFail(error));
+                })
+        }
+    }
+}
+
+
+const fetchMyPagesInit = () => {
+    return {
+        type: actionTypes.FETCH_MY_PAGES_INIT
+    }
+}
+
+const fetchMyPagesSuccess = (pages) => {
+    return {
+        type: actionTypes.FETCH_MY_PAGES_SUCCESS,
+        pages: pages
+    }
+}
+
+const fetchMyPagesFail = (error) => {
+    return {
+        type: actionTypes.FETCH_MY_PAGES_FAIL,
+        error: error
+    }
+}
+
+export const fetchMyPagesAttempt = (authToken, userKey) => {
+    return dispatch => {
+        dispatch(fetchMyPagesInit());
+        console.log('userKey', userKey);
+        axios.get(`pages.json?auth=${authToken}&orderBy="adminUserKey"&equalTo="${userKey}"`)
+            .then(response => {
+                console.log('SUCCESS - fetched my pages', response.data);
+                dispatch(fetchMyPagesSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(fetchMyPagesFail(error));
+            })
     }
 }

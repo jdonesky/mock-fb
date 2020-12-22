@@ -1,26 +1,70 @@
 
 
-import React, {useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
+import {Prompt} from 'react-router';
 import classes from './CreatePageForm.css';
 import Input from '../../../UI/Input/Input';
 
 import Info from '../../../../assets/images/MiscIcons/info';
 import Photo from '../../../../assets/images/MiscIcons/landscapePhoto';
+import Trash from '../../../../assets/images/delete';
 
 import {PageContext} from "../../../../context/page-context";
 
 const createPageForm = props => {
-
-    useEffect(() => {
-        console.log(pageContext.pageName);
-        console.log('startedPage? ', pageContext.startedPage);
-    })
 
     const pageContext = useContext(PageContext);
     const profilePicUploader = useRef(null);
     const profilePicContainer = useRef(null);
     const coverPicUploader = useRef(null);
     const coverPicContainer = useRef(null);
+    const [profileImageRemoved, setProfileImageRemoved] = useState(false);
+    const [coverImageRemoved, setCoverImageRemoved] = useState(false);
+    const [shouldBlockNavigation, setShouldBlockNavigation] = useState(false);
+
+    const {pageName, category, description, profileImage, coverImage, formValid} = pageContext
+
+    useEffect(() => {
+        if (shouldBlockNavigation) {
+            window.onbeforeunload = () => {
+                return true;
+            }
+        } else {
+            window.onbeforeunload = null;
+        }
+
+    }, [shouldBlockNavigation])
+
+    useEffect(() => {
+        return () => {
+            window.onbeforeunload = null;
+            pageContext.clearAllInputs()
+        }
+    }, [])
+
+    useEffect(() => {
+        if (formValid) {
+            setShouldBlockNavigation(true);
+        } else {
+            setShouldBlockNavigation(false);
+        }
+    }, [formValid])
+
+    useEffect(() => {
+        if (profileImage) {
+            profilePicContainer.current.style.backgroundImage = `url(${profileImage})`
+        } else if (!profileImage && profileImageRemoved) {
+            profilePicContainer.current.style.backgroundImage = null;
+        }
+    }, [profileImage])
+
+    useEffect(() => {
+        if (coverImage) {
+            coverPicContainer.current.style.backgroundImage = `url(${coverImage})`
+        } else if (!coverImage && coverImageRemoved) {
+            coverPicContainer.current.style.backgroundImage = null;
+        }
+    }, [coverImage])
 
     const imageUploadHandler = (event, type) => {
         const [file] = event.target.files;
@@ -30,25 +74,39 @@ const createPageForm = props => {
                 if (type === 'PROFILE') {
                     profilePicContainer.current.style.backgroundImage = `url(${event.target.result})`;
                     pageContext.setProfileImage(event.target.result);
+                    setProfileImageRemoved(false);
                 } else {
                     coverPicContainer.current.style.backgroundImage = `url(${event.target.result})`;
                     pageContext.setCoverImage(event.target.result);
+                    setCoverImageRemoved(false);
                 }
             };
             reader.readAsDataURL(file);
         }
     };
 
+    const removeProfileImage = () => {
+        pageContext.setProfileImage(null)
+        setProfileImageRemoved(true);
+    }
+
+    const removeCoverImage = () => {
+        pageContext.setCoverImage(null)
+        setCoverImageRemoved(true);
+    }
+
+
     const nameInput = (
         <Input
             elementType="input"
             type="text"
             placeholder="Page name (required)"
-            value={pageContext.pageName}
+            value={pageName}
             validation={{required: true}}
             valid={false}
             touched={false}
             changed={(event) => pageContext.updateName(event)}
+            className={classes.RequiredInput}
         />
     )
 
@@ -57,11 +115,12 @@ const createPageForm = props => {
             elementType="input"
             type="text"
             placeholder="Category (required)"
-            value={pageContext.category}
+            value={category}
             validation={{required: true}}
             valid={false}
             touched={false}
             changed={(event) => pageContext.updateCategory(event)}
+            className={classes.RequiredInput}
         />
     )
 
@@ -69,10 +128,22 @@ const createPageForm = props => {
         <Input
             elementType="textarea"
             placeholder="Description"
-            value={pageContext.description}
+            value={description}
             changed={(event) => pageContext.updateDescription(event)}
             className={classes.DescriptionInput}
         />
+    )
+
+    const removeProfileImageButton = (
+        <div className={classes.RemoveImageButton} onClick={removeProfileImage}>
+            <Trash />
+        </div>
+    )
+
+    const removeCoverImageButton = (
+        <div className={classes.RemoveImageButton} onClick={removeCoverImage}>
+            <Trash />
+        </div>
     )
 
     let sidedrawerTitle = 'Page Information'
@@ -80,15 +151,14 @@ const createPageForm = props => {
     let coverImageContainer;
     let imageSection;
     let createButtonText = 'Create Page'
-    // if (pageContext.startedPage) {
-    if (true) {
+    if (pageContext.startedPage) {
         sidedrawerTitle = 'Set Up Your Page'
         profileImageContainer = (
             <div ref={profilePicContainer} className={classes.ImageContainer}>
-                <div className={classes.ImageUploadButton}>
+                {profileImage ? removeProfileImageButton : <div className={classes.ImageUploadButton}  onClick={() => profilePicUploader.current.click()}>
                     <div className={classes.ImageUploadIcon}><Photo /></div>
                     <span className={classes.ImageUploadText}>Add Profile Picture</span>
-                </div>
+                </div>}
                 <input
                     ref={profilePicUploader}
                     type="file"
@@ -101,10 +171,10 @@ const createPageForm = props => {
         )
         coverImageContainer = (
             <div ref={coverPicContainer} className={classes.ImageContainer}>
-                <div className={classes.ImageUploadButton}>
+                {coverImage ? removeCoverImageButton : <div className={classes.ImageUploadButton} onClick={() => coverPicUploader.current.click()}>
                     <div className={classes.ImageUploadIcon}><Photo /></div>
                     <span className={classes.ImageUploadText}>Add Cover Photo</span>
-                </div>
+                </div>}
                 <input
                     ref={coverPicUploader}
                     type="file"
@@ -151,23 +221,29 @@ const createPageForm = props => {
     }
 
     return (
-        <section className={classes.FormContainer}>
-            <section className={classes.Form}>
-                <h1 className={classes.FormTitle}>{sidedrawerTitle}</h1>
-                {nameInput}
-                <span className={classes.Caption}>Use the name of your business, brand or organization, or a name that explains what the Page is about.</span>
-                {categoryInput}
-                <span className={classes.Caption}>Choose a category that describes what type of business, organization or topic the Page represents</span>
-                {descriptionInput}
-                <span className={classes.Caption}>Write about what your business does, the services you provide, or the purpose of the Page.</span>
-                <span className={classes.Caption}>Character Limit: 255</span>
-                {imageSection}
+        <React.Fragment>
+            <Prompt
+                when={shouldBlockNavigation}
+                message={'You have unsaved changes. Are you sure you want to leave?'}
+            />
+            <section className={classes.FormContainer}>
+                <section className={classes.Form}>
+                    <h1 className={classes.FormTitle}>{sidedrawerTitle}</h1>
+                    {nameInput}
+                    <span className={classes.Caption}>Use the name of your business, brand or organization, or a name that explains what the Page is about.</span>
+                    {categoryInput}
+                    <span className={classes.Caption}>Choose a category that describes what type of business, organization or topic the Page represents</span>
+                    {descriptionInput}
+                    <span className={classes.Caption}>Write about what your business does, the services you provide, or the purpose of the Page.</span>
+                    <span className={classes.Caption}>Character Limit: 255</span>
+                    {imageSection}
+                </section>
+                <section className={classes.ControlsContainer}>
+                    <span className={classes.Caption}>You can add images, contact info and other details after you create the Page.</span>
+                    <div className={createButtonClasses.join(" ")} onClick={createButtonAction}>{createButtonText}</div>
+                </section>
             </section>
-            <section className={classes.ControlsContainer}>
-                <span className={classes.Caption}>You can add images, contact info and other details after you create the Page.</span>
-                <div className={createButtonClasses.join(" ")} onClick={createButtonAction}>{createButtonText}</div>
-            </section>
-        </section>
+        </React.Fragment>
     )
 };
 

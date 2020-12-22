@@ -7,10 +7,11 @@ import CreatePageForm from './CreatePageForm/CreatePageForm'
 
 import Info from "../../../assets/images/MiscIcons/info";
 
+
 const createPageSidedrawer = () => {
 
     const paths = (
-        <div className={TOCclasses.Paths} style={{right: '96px'}}><div className={TOCclasses.Path}>Pages</div><span> &rsaquo;</span><div className={TOCclasses.Path}>Create Page</div></div>
+        <div className={TOCclasses.Paths} style={{right: '96px'}}><div className={TOCclasses.Path}>Pages</div><span> &rsaquo;</span><div className={TOCclasses.PathCurrent}>Create Page</div></div>
     )
     const headerButton = (
         <div className={classes.InfoIconContainer}><Info fill="rgba(0,0,0,0.6)"/></div>

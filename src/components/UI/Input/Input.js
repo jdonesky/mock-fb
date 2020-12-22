@@ -22,7 +22,7 @@ const input = (props) => {
           placeholder={props.placeholder}
           onChange={props.changed}
           className={inputClasses.join(" ")}
-          autocomplete={props.autocomplete}
+          autoComplete={props.autocomplete}
         />
       );
       break;

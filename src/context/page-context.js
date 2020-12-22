@@ -5,7 +5,7 @@ import * as actions from '../store/actions/index';
 
 export const PageContext = React.createContext({
     pageName: '',
-    categories: [],
+    category: '',
     description: '',
     profileImage: null,
     coverImage: null,
@@ -14,6 +14,7 @@ export const PageContext = React.createContext({
     updateName: () => {},
     updateCategory: () => {},
     updateDescription: () => {},
+    clearAllInputs: () => {},
     startCreatePage: () => {},
     setProfileImage: () => {},
     setCoverImage: () => {},
@@ -50,6 +51,15 @@ const PageContextProvider = (props) => {
         validateForm();
     }
 
+    const clearAllInputs = () => {
+        setPageName('');
+        setCategory('');
+        setDescription('');
+        setProfileImage(null);
+        setCoverImage(null);
+        setFormValid(false);
+    }
+
     const startCreatePage = () => {
         const baseInfo = {
             name: pageName,
@@ -64,12 +74,24 @@ const PageContextProvider = (props) => {
     }
 
     const finishCreatePage = () => {
-        console.log('PAGE in progress - ', props.pageInProgress)
-
+        const finishedPage = {
+            name: pageName,
+            category: category,
+            description: description,
+            profileImage: profileImage,
+            coverImage: coverImage,
+            adminName: props.name,
+            adminUserKey: props.userKey,
+            adminPublicProfileKey: props.publicProfileKey,
+            dbKey: props.pageInProgress.dbKey
+        }
+        props.onFinishCreatePage(props.authToken, finishedPage)
+        setStartedPage(false);
+        clearAllInputs();
     }
 
     return (
-        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, setProfileImage: setProfileImage, setCoverImage: setCoverImage, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage}}>
+        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, profileImage: profileImage, coverImage: coverImage, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage}}>
             {props.children}
         </PageContext.Provider>
     )

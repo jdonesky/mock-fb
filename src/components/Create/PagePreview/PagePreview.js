@@ -1,6 +1,6 @@
 
 
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import classes from './PagePreview.css';
 
 import Desktop from '../../../assets/images/MiscIcons/desktop';
@@ -23,7 +23,28 @@ import Pin from "../../../assets/images/Pin";
 const pagePreview = props => {
 
     const pageContext = useContext(PageContext);
+    const profileImageContainer = useRef(null);
+    const coverImageContainer = useRef(null);
     const {width, height} = getWindowDimensions();
+
+    const {profileImage, coverImage} = pageContext;
+
+    useEffect(() => {
+        if (profileImage) {
+            profileImageContainer.current.style.backgroundImage = `url(${profileImage})`
+        } else {
+            profileImageContainer.current.style.backgroundImage = null
+        }
+    }, [profileImage])
+
+    useEffect(() => {
+
+        if (coverImage) {
+            coverImageContainer.current.style.backgroundImage = `url(${coverImage})`
+        } else {
+            coverImageContainer.current.style.backgroundImage = `url(${CreatePageCover})`
+        }
+    }, [coverImage])
 
     let header;
     let navTabs;
@@ -33,10 +54,12 @@ const pagePreview = props => {
     if (props.preview === 'PAGE') {
         header = (
             <div className={classes.PageHeaderPositioner}>
-                <div className={classes.CoverImage} style={{backgroundImage: props.coverImage ? `url(${props.coverImage})` : `url(${CreatePageCover})`, height: `${width * 0.23}px`}} />
+                <div ref={coverImageContainer} className={classes.CoverImage} style={{backgroundImage: pageContext.coverImage ? `url(${pageContext.coverImage})` : `url(${CreatePageCover})`, filter: pageContext.coverImage ? null : 'grayscale(100%)', height: `${width * 0.23}px`, }} />
                 <div className={classes.PageProfileHeader}>
                     <div className={classes.PageProfileCircleOutline}>
-                        <div className={classes.PageProfileCircle}><Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/></div>
+                        <div ref={profileImageContainer} className={classes.PageProfileCircle}>
+                            {pageContext.profileImage ? null : <Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/>}
+                        </div>
                     </div>
                     <div className={classes.PageNameAndCategory}>
                         <div className={classes.PageName}>{pageContext.pageName || 'Page Name'}</div>

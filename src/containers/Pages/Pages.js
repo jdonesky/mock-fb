@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './Pages.css'
 
+import BrowsePagesSidedrawer from '../../components/Pages/BrowsePagesSidedrawer/BrowsePagesSidedrawer';
 import CreatePageSidedrawer from '../../components/Pages/CreatePageSidedrawer/CreatePageSidedrawer';
 import PagePreview from '../../components/Create/PagePreview/PagePreview';
 import getWindowDimensions from "../../hooks/getWindowDimensions";
@@ -12,7 +13,7 @@ const pages = props => {
     let sidedrawer;
     let displayPanelContents;
     if (props.history.location.pathname === '/pages') {
-        sidedrawer = null;
+        sidedrawer = <BrowsePagesSidedrawer />;
     } else if (props.history.location.pathname === '/pages/create') {
         sidedrawer = <CreatePageSidedrawer />
         displayPanelContents = <PagePreview preview="PAGE"/>
