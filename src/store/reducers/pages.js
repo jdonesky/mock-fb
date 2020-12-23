@@ -65,6 +65,13 @@ const fetchMyPagesFail = (state,action) => {
     }
 }
 
+const clearPageInProgress = (state,action) => {
+    return {
+        ...state,
+        pageInProgress: null,
+    }
+}
+
 const reducer = (state=initialState, action) => {
     switch(action.type) {
         case actionTypes.CREATE_PAGE_INIT: return createPageInit(state,action);
@@ -74,6 +81,7 @@ const reducer = (state=initialState, action) => {
         case actionTypes.FETCH_MY_PAGES_INIT: return fetchMyPagesInit(state,action);
         case actionTypes.FETCH_MY_PAGES_SUCCESS: return fetchMyPagesSuccess(state,action);
         case actionTypes.FETCH_MY_PAGES_FAIL: return fetchMyPagesFail(state,action);
+        case actionTypes.CLEAR_PAGE_IN_PROGRESS: return clearPageInProgress(state,action);
         default:
             return state
     }

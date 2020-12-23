@@ -1,9 +1,11 @@
 
 
 import React, {useState, useEffect, useContext, useRef} from 'react';
+import {connect} from 'react-redux';
 import {Prompt} from 'react-router';
 import classes from './CreatePageForm.css';
 import Input from '../../../UI/Input/Input';
+import Spinner from '../../../UI/Spinner/Spinner';
 
 import Info from '../../../../assets/images/MiscIcons/info';
 import Photo from '../../../../assets/images/MiscIcons/landscapePhoto';
@@ -240,11 +242,17 @@ const createPageForm = props => {
                 </section>
                 <section className={classes.ControlsContainer}>
                     <span className={classes.Caption}>You can add images, contact info and other details after you create the Page.</span>
-                    <div className={createButtonClasses.join(" ")} onClick={createButtonAction}>{createButtonText}</div>
+                    <div className={createButtonClasses.join(" ")} onClick={createButtonAction}>{props.creatingNewPage ? <Spinner /> : createButtonText}</div>
                 </section>
             </section>
         </React.Fragment>
     )
 };
 
-export default createPageForm;
+const mapStateToProps = state => {
+    return {
+      creatingNewPage: state.pages.creatingNewPage
+    }
+}
+
+export default connect(mapStateToProps)(createPageForm);

@@ -38,8 +38,10 @@ export const startCreatePageAttempt = (authToken, page) => {
             let newPage = {...page, id: newKey}
             axios.post(`/pages.json?auth=${authToken}`, newPage)
                 .then(response => {
-                    console.log('SUCCESS - posted new page: ', response.data.name);
                     newPage = {...newPage, dbKey: response.data.name}
+                    return axios.put(`/pages/${response.data.name}.json?auth=${authToken}`, newPage)
+                })
+                .then(response => {
                     dispatch(startCreatePageSuccess(newPage))
                 })
                 .catch(error => {
@@ -50,16 +52,16 @@ export const startCreatePageAttempt = (authToken, page) => {
     }
 }
 
-export const finishCreatePageAttempt = (authToken, page) => {
+export const finishCreatePageAttempt = (authToken, page, cb) => {
     return dispatch => {
         dispatch(createPageInit())
-        console.log('page: ', page);
         const pageKey = page.dbKey
         console.log(pageKey);
         if (pageKey) {
             axios.put(`pages/${pageKey}.json?auth=${authToken}`, page)
                 .then(response => {
                     dispatch(finishCreatePageSuccess())
+                    cb();
                 })
                 .catch(error => {
                     dispatch(createPageFail(error));
@@ -103,3 +105,16 @@ export const fetchMyPagesAttempt = (authToken, userKey) => {
             })
     }
 }
+
+// export const fetchOtherPageAttempt = () => {
+//     return dispatch => {
+//         dispatch(fetch)
+//     }
+// }
+
+export const clearPageInProgress = () => {
+    return {
+        type: actionTypes.CLEAR_PAGE_IN_PROGRESS
+    }
+}
+

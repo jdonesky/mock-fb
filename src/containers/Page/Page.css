@@ -1,0 +1,38 @@
+.WhiteBackFill {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+}
+
+.PageHeader {
+    max-width: 955px;
+    margin: 0 auto;
+    z-index: 2;
+    background-color: white;
+}
+
+.FlexContentPositioner {
+    position: relative;
+}
+
+.SharedContentBackdrop {
+    position:relative;
+    top: 140px;
+    height: 1000px;
+    width: 100%;
+    background-color: rgba(0,0,0,0.05);
+    z-index: 1;
+}
+
+.SharedContentFlexContainer {
+    position: absolute;
+    top: 140px;
+    left: 25px;
+    width: 95%;
+    height: 230px;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column;
+    align-items: center;
+    margin: 0 auto;
+}

@@ -1,5 +1,6 @@
 
 import React, {useState} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import * as actions from '../store/actions/index';
 
@@ -11,6 +12,8 @@ export const PageContext = React.createContext({
     coverImage: null,
     formValid: false,
     startedPage: false,
+    managing: null,
+    viewing: null,
     updateName: () => {},
     updateCategory: () => {},
     updateDescription: () => {},
@@ -18,7 +21,8 @@ export const PageContext = React.createContext({
     startCreatePage: () => {},
     setProfileImage: () => {},
     setCoverImage: () => {},
-    finishCreatePage: () => {}
+    finishCreatePage: () => {},
+    passData: () => {}
 })
 
 const PageContextProvider = (props) => {
@@ -31,6 +35,8 @@ const PageContextProvider = (props) => {
     const [profileImage, setProfileImage] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
 
+    const [currentlyManaging, setCurrentlyManaging] = useState(null);
+    const [currentlyViewing, setCurrentlyViewing] = useState(null);
 
     const validateForm = () => {
         setFormValid(pageName !== '' && category !== '' && description.length <= 255);
@@ -58,6 +64,7 @@ const PageContextProvider = (props) => {
         setProfileImage(null);
         setCoverImage(null);
         setFormValid(false);
+        props.onClearPageInProgress();
     }
 
     const startCreatePage = () => {
@@ -83,15 +90,31 @@ const PageContextProvider = (props) => {
             adminName: props.name,
             adminUserKey: props.userKey,
             adminPublicProfileKey: props.publicProfileKey,
-            dbKey: props.pageInProgress.dbKey
+            dbKey: props.pageInProgress.dbKey,
+            id: props.pageInProgress.id,
         }
-        props.onFinishCreatePage(props.authToken, finishedPage)
-        setStartedPage(false);
-        clearAllInputs();
+        props.onFinishCreatePage(props.authToken, finishedPage, () => {
+            props.history.push(`/pages/${finishedPage.dbKey}`)
+            setStartedPage(false);
+            clearAllInputs();
+        })
     }
 
+     const passData = (type, data) => {
+        switch (type) {
+            case 'MANAGE':
+                setCurrentlyManaging(data);
+                break;
+            case 'VIEW':
+                setCurrentlyViewing(data);
+                break;
+            default:
+                return;
+        }
+     }
+
     return (
-        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, profileImage: profileImage, coverImage: coverImage, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage}}>
+        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, profileImage: profileImage, coverImage: coverImage, managing: currentlyManaging, viewing: currentlyViewing, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage, passData: passData}}>
             {props.children}
         </PageContext.Provider>
     )
@@ -110,8 +133,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onStartCreatePage: (authToken, page) => dispatch(actions.startCreatePageAttempt(authToken, page)),
-        onFinishCreatePage: (authToken, page) => dispatch(actions.finishCreatePageAttempt(authToken, page))
+        onFinishCreatePage: (authToken, page, cb) => dispatch(actions.finishCreatePageAttempt(authToken, page, cb)),
+        onClearPageInProgress: () => dispatch(actions.clearPageInProgress())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageContextProvider);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PageContextProvider));

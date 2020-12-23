@@ -1,10 +1,9 @@
 
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect,useContext} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './PagesTOC.css';
 import * as actions from '../../../../store/actions/index';
-
 
 import DownArrow from '../../../../assets/images/down-arrow';
 import Plus from '../../../../assets/images/plus';
@@ -17,7 +16,6 @@ import SecondFlag from '../../../../assets/images/TopNavButtonIcons/flag';
 const pagesTOC = props => {
 
     const {authToken, userKey, onFetchMyPages, myPages} = props
-
     const [activePage, setActivePage] = useState(null);
     const [showOwnedPages, setShowOwnedPages] = useState(true);
 
@@ -29,15 +27,18 @@ const pagesTOC = props => {
 
     useEffect(() => {
         console.log('MY PAGES - ', myPages)
-        console.log('SHOW MY PAGES ? ', showOwnedPages)
     })
+
+    const manageOwnedPage = (key) => {
+        props.history.push(`/pages/manage/${key}`)
+    }
 
     let ownedPages;
     if (myPages && Object.keys(myPages).length) {
         if (showOwnedPages) {
             ownedPages = Object.keys(myPages).map(key =>
                 <div key={key} className={classes.OwnedPageButton}
-                     onClick={() => alert(`pass this info to side panel - ${myPages[key].dbKey}`)}>
+                     onClick={() => manageOwnedPage(key)}>
                     <div className={classes.OwnedPageIcon}
                          style={{backgroundImage: myPages[key].profileImage ? `url(${myPages[key].profileImage})` : null}}>
                         {myPages[key].profileImage ? null : <Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/>}

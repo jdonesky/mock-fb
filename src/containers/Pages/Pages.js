@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import classes from './Pages.css'
-import {Route} from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 
 import BrowsePagesSidedrawer from '../../components/Pages/BrowsePagesSidedrawer/BrowsePagesSidedrawer';
 import ManagePageSidedrawer from '../../components/Pages/ManagePageSidedrawer/ManagePageSidedrawer';
@@ -13,6 +13,19 @@ const AsyncPage = React.lazy(() => {
     return import('../Page/Page')
 })
 
+const AsyncBrowsePagesSidedrawer = React.lazy(() => {
+    return import('../../components/Pages/BrowsePagesSidedrawer/BrowsePagesSidedrawer');
+})
+
+const AsyncManagePagesSidedrawer = React.lazy(() => {
+    return import('../../components/Pages/ManagePageSidedrawer/ManagePageSidedrawer');
+})
+
+const AsyncCreatePageSidedrawer = React.lazy(() => {
+    return import('../../components/Pages/CreatePageSidedrawer/CreatePageSidedrawer');
+})
+
+
 const pages = props => {
 
     useEffect(() => {
@@ -21,24 +34,24 @@ const pages = props => {
 
     const { width, height } = getWindowDimensions();
 
-    let sidedrawer;
     let displayPanelContents;
     if (props.history.location.pathname === '/pages') {
-        sidedrawer = <BrowsePagesSidedrawer />;
         displayPanelContents = <Managed />;
     } else if (props.history.location.pathname === '/pages/create') {
-        sidedrawer = <CreatePageSidedrawer />
         displayPanelContents = <PagePreview preview="PAGE"/>
     } else if (props.history.location.pathname === `/pages/${props.history.location.pathname.split('/')[2]}`) {
-        sidedrawer = <ManagePageSidedrawer />
     }
 
     return (
         <div className={classes.FullPage}>
-            {sidedrawer}
+            <Switch>
+                <Route path='/pages/manage' component={AsyncManagePagesSidedrawer}/>
+                <Route path='/pages/create' exact component={AsyncCreatePageSidedrawer}/>
+                <Route path='/pages' exact component={AsyncBrowsePagesSidedrawer}/>
+            </Switch>
             <div className={classes.PreviewPanel}  style={{width: `${width - 355}px`}}>
                 {displayPanelContents}
-                <Route path='/pages/:id' component={AsyncPage} />
+                <Route path='/pages/:hub/:id' component={AsyncPage}/>
             </div>
         </div>
     )
