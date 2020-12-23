@@ -106,6 +106,10 @@ const requestsSideDrawer = props => {
         }
     }
 
+    if (props.fetchingFriendRequests) {
+        receivedRequestsList = <InlineDots />
+    }
+
     let sentRequestsList;
     if (seeingAll) {
         if (friendRequests && friendRequests.sent) {

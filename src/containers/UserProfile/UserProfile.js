@@ -45,13 +45,13 @@ const userProfile = (props) => {
         if (displayProfile !== 'me') {
             props.onFetchOtherProfile(displayProfile, props.authToken)
         }
-    },[])
+    },[displayProfile])
 
     useEffect(() => {
         if (otherProfile) {
             props.onFetchOtherPublicProfile(props.authToken, otherProfile.publicProfileKey)
         }
-    }, [otherProfile])
+    }, [otherProfile, displayProfile])
 
     useEffect(() => {
        if (props.match.params.id === 'me') {

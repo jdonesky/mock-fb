@@ -1,9 +1,13 @@
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './PageEntry.css';
+
 import Flag from "../../../../../assets/images/BookmarkIcons/flag";
 import Earth from "../../../../../assets/images/earth";
+import Messages from "../../../../../assets/images/MiscIcons/messages";
+
 const pageEntry = (props) => {
+
     return (
         <div className={classes.EntryContainer}>
             <div className={classes.LeftBlock}>
@@ -17,17 +21,22 @@ const pageEntry = (props) => {
                     <div className={classes.CategoryAndStatsBlock}>
                         <div className={classes.Category}>{props.category}</div>
                         <div className={classes.StatsBlock}>
-                            <div className={classes.Stat}>{`${props.likes && props.likes.length ?  props.likes.length : '0'} likes`}</div>
-                            <div className={classes.Stat}>{`${props.follows && props.follows.length ?  props.follows.length : '0'} follows`}</div>
+                            <div className={classes.Stat}>{`· ${props.likes && props.likes.length ?  props.likes.length : '0'} likes`}</div>
+                            <div className={classes.Stat}>{`· ${props.follows && props.follows.length ?  props.follows.length : '0'} follows`}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div className={classes.NotesBlock}>
-                <div className={classes.Note}><div className={classes.EarthIcon}><Earth /></div></div>
-                <div className={classes.Note}><div className={classes.MessagesIcon}></div></div>
+                <div className={classes.Note}>
+                    <div className={[classes.NoteIcon, classes.EarthIcon].join(" ")}><Earth /></div>
+                    <div className={classes.NoteText}>Notifications</div>
+                </div>
+                <div className={classes.Note}>
+                    <div className={classes.NoteIcon}><Messages /></div>
+                    <div className={classes.NoteText}>Messages</div>
+                </div>
             </div>
-
         </div>
     )
 }

@@ -1,7 +1,7 @@
 
 .EntryContainer {
     height: 130px;
-    width: 90%;
+    width: 96%;
     border-radius: 7px;
     box-shadow: 0 1px 1px 1px rgba(0,0,0,0.12);
     display: flex;
@@ -40,7 +40,7 @@
 
 .ProfileImage:hover {
     background-color: rgba(0,0,0,0.1);
-    filter: brightness(50%);
+    filter: brightness(90%);
 }
 
 .ProfileImage:active {
@@ -57,7 +57,7 @@
 
 .GeneralInfoBlock {
     height: 100%;
-    width: 200px;
+    min-width: 220px;
     display: flex;
     flex-flow: column;
 
@@ -73,6 +73,7 @@
     flex-flow: column;
     justify-content: flex-end;
     align-items: flex-start;
+    cursor: pointer;
 }
 
 .CategoryAndStatsBlock {
@@ -83,7 +84,73 @@
     align-items: center;
 }
 
+.Category {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "Lucida Grande";
+    font-weight: 100;
+    font-size: 16px;
+}
+
 .StatsBlock {
     display: flex;
     align-items: center;
 }
+
+.Stat {
+    font-family: "Lucida Grande";
+    font-weight: 100;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.NotesBlock {
+    min-width: 220px;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+@media (min-width: 1000px) {
+    .NotesBlock {
+        flex-flow: row;
+        align-items: flex-start;
+    }
+}
+
+.Note {
+    min-width: 130px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 10px;
+}
+
+.NoteIcon {
+    height: 18px;
+    width: 18px;
+}
+
+.NoteIcon svg {
+    height: auto;
+    width: 100%;
+}
+
+.EarthIcon svg {
+    width: 90%;
+}
+
+
+.NoteText {
+    font-family: "Lucida Grande";
+    font-weight: 100;
+    font-size: 14px;
+    color: rgba(0,0,0,0.6);
+    margin-left: 5px;
+}
+
+
+

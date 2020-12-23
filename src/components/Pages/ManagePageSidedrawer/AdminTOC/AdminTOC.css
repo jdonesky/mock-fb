@@ -1,0 +1,71 @@
+
+.TocContainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.ProfilesDropdownBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    width: 90%;
+    cursor: pointer;
+}
+
+.ProfilesDropdownBarLeftBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.DownArrow {
+    height: 15px;
+    width: 15px;
+}
+
+.DownArrow svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+}
+
+.ProfileImage {
+    height: 45px;
+    width: 45px;
+    border-radius: 100%;
+    border: 1px solid rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.1);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.ProfileImage:hover {
+    background-color: rgba(0,0,0,0.14);
+    filter: saturate(3);
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 100%;
+}
+
+.Name {
+    font-family: "Lucida Grande";
+    font-weight: 500;
+    font-size: 17px;
+}
+
+.Break {
+
+}
+
+
+

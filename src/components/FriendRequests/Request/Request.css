@@ -36,7 +36,7 @@
     cursor: pointer;
 }
 
-.ProfileImage {
+.ProfileImage:hover {
     background-color: rgba(0,0,0,0.14);
     filter: saturate(3);
 }
