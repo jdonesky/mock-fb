@@ -33,7 +33,8 @@ export {
 export {
    startCreatePageAttempt,
    finishCreatePageAttempt,
-   fetchMyPagesAttempt,
+   fetchOwnedPagesAttempt,
+   fetchOwnedPageAttempt,
    clearPageInProgress
 } from "./pages";
 

@@ -12,8 +12,6 @@ export const PageContext = React.createContext({
     coverImage: null,
     formValid: false,
     startedPage: false,
-    managing: null,
-    viewing: null,
     updateName: () => {},
     updateCategory: () => {},
     updateDescription: () => {},
@@ -35,8 +33,6 @@ const PageContextProvider = (props) => {
     const [profileImage, setProfileImage] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
 
-    const [currentlyManaging, setCurrentlyManaging] = useState(null);
-    const [currentlyViewing, setCurrentlyViewing] = useState(null);
 
     const validateForm = () => {
         setFormValid(pageName !== '' && category !== '' && description.length <= 255);
@@ -100,21 +96,8 @@ const PageContextProvider = (props) => {
         })
     }
 
-     const passData = (type, data) => {
-        switch (type) {
-            case 'MANAGE':
-                setCurrentlyManaging(data);
-                break;
-            case 'VIEW':
-                setCurrentlyViewing(data);
-                break;
-            default:
-                return;
-        }
-     }
-
     return (
-        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, profileImage: profileImage, coverImage: coverImage, managing: currentlyManaging, viewing: currentlyViewing, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage, passData: passData}}>
+        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, profileImage: profileImage, coverImage: coverImage, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage}}>
             {props.children}
         </PageContext.Provider>
     )

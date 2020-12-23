@@ -23,7 +23,7 @@ const header = (props) => {
                     </div>
                 </div>
                 <div className={classes.PageNameAndCategory}>
-                    <div className={classes.PageName}>{props.pageName || 'Page Name'}</div>
+                    <div className={classes.PageName}>{props.name || 'Page Name'}</div>
                     <div className={classes.PageCategory}>{props.category || 'Category'}</div>
                 </div>
             </div>

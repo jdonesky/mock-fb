@@ -15,15 +15,15 @@ import SecondFlag from '../../../../assets/images/TopNavButtonIcons/flag';
 
 const pagesTOC = props => {
 
-    const {authToken, userKey, onFetchMyPages, myPages} = props
+    const {authToken, userKey, onFetchOwnedPages, myPages} = props
     const [activePage, setActivePage] = useState(null);
     const [showOwnedPages, setShowOwnedPages] = useState(true);
 
 
     useEffect(() => {
         console.log('FIRED FETCH MY PAGES ON MOUNT');
-        onFetchMyPages(authToken, userKey)
-    }, [authToken, userKey, onFetchMyPages])
+        onFetchOwnedPages(authToken, userKey)
+    }, [authToken, userKey, onFetchOwnedPages])
 
     useEffect(() => {
         console.log('MY PAGES - ', myPages)
@@ -135,7 +135,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchMyPages: (authToken, userKey) => dispatch(actions.fetchMyPagesAttempt(authToken, userKey))
+        onFetchOwnedPages: (authToken, userKey) => dispatch(actions.fetchOwnedPagesAttempt(authToken, userKey))
     }
 }
 

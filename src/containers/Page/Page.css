@@ -13,11 +13,11 @@
 
 .FlexContentPositioner {
     position: relative;
+    top: 140px;
 }
 
 .SharedContentBackdrop {
     position:relative;
-    top: 140px;
     height: 1000px;
     width: 100%;
     background-color: rgba(0,0,0,0.05);
@@ -26,7 +26,6 @@
 
 .SharedContentFlexContainer {
     position: absolute;
-    top: 140px;
     left: 25px;
     width: 95%;
     height: 230px;

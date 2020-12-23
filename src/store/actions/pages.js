@@ -71,46 +71,76 @@ export const finishCreatePageAttempt = (authToken, page, cb) => {
 }
 
 
-const fetchMyPagesInit = () => {
+const fetchOwnedPagesInit = () => {
     return {
-        type: actionTypes.FETCH_MY_PAGES_INIT
+        type: actionTypes.FETCH_OWNED_PAGES_INIT
     }
 }
 
-const fetchMyPagesSuccess = (pages) => {
+const fetchOwnedPagesSuccess = (pages) => {
     return {
-        type: actionTypes.FETCH_MY_PAGES_SUCCESS,
+        type: actionTypes.FETCH_OWNED_PAGES_SUCCESS,
         pages: pages
     }
 }
 
-const fetchMyPagesFail = (error) => {
+const fetchOwnedPagesFail = (error) => {
     return {
-        type: actionTypes.FETCH_MY_PAGES_FAIL,
+        type: actionTypes.FETCH_OWNED_PAGES_FAIL,
         error: error
     }
 }
 
-export const fetchMyPagesAttempt = (authToken, userKey) => {
+export const fetchOwnedPagesAttempt = (authToken, userKey) => {
     return dispatch => {
-        dispatch(fetchMyPagesInit());
+        dispatch(fetchOwnedPagesInit());
         console.log('userKey', userKey);
         axios.get(`pages.json?auth=${authToken}&orderBy="adminUserKey"&equalTo="${userKey}"`)
             .then(response => {
                 console.log('SUCCESS - fetched my pages', response.data);
-                dispatch(fetchMyPagesSuccess(response.data));
+                dispatch(fetchOwnedPagesSuccess(response.data));
             })
             .catch(error => {
-                dispatch(fetchMyPagesFail(error));
+                dispatch(fetchOwnedPagesFail(error));
             })
     }
 }
 
-// export const fetchOtherPageAttempt = () => {
-//     return dispatch => {
-//         dispatch(fetch)
-//     }
-// }
+const fetchOwnedPageInit = () => {
+    return {
+        type: actionTypes.FETCH_OWNED_PAGE_INIT
+    }
+}
+
+const fetchOwnedPageSuccess = (page) => {
+    return {
+        type: actionTypes.FETCH_OWNED_PAGE_SUCCESS,
+        page: page
+    }
+}
+
+
+const fetchOwnedPageFail = (error) => {
+    return {
+        type: actionTypes.FETCH_OWNED_PAGE_FAIL,
+        error: error
+    }
+}
+
+export const fetchOwnedPageAttempt = (authToken, pageKey) => {
+    return dispatch => {
+        dispatch(fetchOwnedPageInit())
+        axios.get(`/pages/${pageKey}.json?auth=${authToken}`)
+            .then(response => {
+                console.log('SUCCESS - fetched owned page ');
+                dispatch(fetchOwnedPageSuccess(response.data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(fetchOwnedPageFail(error));
+            })
+    }
+}
 
 export const clearPageInProgress = () => {
     return {

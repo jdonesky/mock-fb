@@ -18,53 +18,50 @@ import getWindowDimensions from "../../hooks/getWindowDimensions";
 const page = (props) => {
 
     const [displayPage, setDisplayPage] = useState(props.match.params.id)
-    const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[1])
+    const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[2])
     const {otherProfile, myPublicProfileKey} = props
 
     const {width, height} = getWindowDimensions();
 
     useEffect(() => {
         console.log('path root', pathRoot)
-        console.log('MY PUBLIC PROFILE', props.myPublicProfile )
-        console.log('width', width)
+        console.log('display page / page key ', displayPage)
+        console.log('MY Page', props.ownedPage )
     })
 
-    // useEffect(() => {
-    //     if (displayPage) {
-    //
-    //     }
-    // },[displayPage])
-    //
+    useEffect(() => {
+        if (displayPage) {
+            if (pathRoot === 'manage') {
+                props.onFetchOwnedPage(props.authToken, displayPage)
+            }
+        }
+    },[displayPage])
+
     // useEffect(() => {
     //     if (otherProfile) {
     //         props.onFetchOtherPublicProfile(props.authToken, otherProfile.publicProfileKey)
     //     }
     // }, [otherProfile, displayPage])
 
-    // useEffect(() => {
-    //     if (props.match.params.id === 'me') {
-    //         setDisplayPage('me')
-    //     } else {
-    //         setDisplayPage(props.match.params.id)
-    //     }
-    // }, [props.match.params.id])
 
-    // let name;
-    // let bio;
-    // if (displayPage === 'me') {
-    //     name = props.name;
-    //     bio = props.bio;
-    // } else {
-    //     if (props.otherProfile) {
-    //         name = props.otherProfile.firstName + ' ' + props.otherProfile.lastName
-    //         bio = props.otherProfile.bio
-    //     }
-    // }
+    let name;
+    let category;
+    if (pathRoot === 'manage') {
+        if (props.ownedPage) {
+            name = props.ownedPage.name;
+            category = props.ownedPage.category;
+        }
+    } else {
+        if (props.othersPage) {
+            name = props.othersPage.name
+            category = props.otherProfile.name
+        }
+    }
 
-    let profile = (
+    let page = (
             <div className={classes.WhiteBackFill}>
-                <Header displayPage={displayPage} />
-                <NavigationBar admin />
+                <Header displayPage={displayPage} name={name} category={category} />
+                <NavigationBar auth={pathRoot} />
                 <div className={classes.FlexContentPositioner}>
                     <div className={classes.SharedContentBackdrop}/>
                     <div className={classes.SharedContentFlexContainer}>
@@ -74,23 +71,27 @@ const page = (props) => {
             </div>
     )
 
-    if (props.loadingMyProfile || props.loadingOtherProfile) {
-        profile = <SquareFold />
+    if (pathRoot === 'manage' && props.fetchingOwnedPage) {
+        page = <SquareFold />
+    } else if (pathRoot === 'discover' && props.fetchingOthersPage ) {
+        page = <SquareFold />
     }
 
-    return profile;
+    return page;
 }
 
 
 const mapStateToProps = (state) => {
     return {
-
+        authToken: state.auth.token,
+        ownedPage: state.pages.ownedPage,
+        othersPage: state.pages.othersPage,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        onFetchOwnedPage: (authToken, pageKey) => dispatch(actions.fetchOwnedPageAttempt(authToken, pageKey))
     };
 };
 

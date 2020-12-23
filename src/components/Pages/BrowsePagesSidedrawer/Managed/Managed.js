@@ -13,6 +13,7 @@ const managed = props => {
         managedPages = Object.keys(props.myPages).map(key => (
             <PageEntry
                 key={key}
+                dbKey={key}
                 profileImage={props.myPages[key].profileImage}
                 name={props.myPages[key].name}
                 category={props.myPages[key].category}
@@ -24,7 +25,7 @@ const managed = props => {
         ))
     }
 
-    if (props.fetchingMyPages) {
+    if (props.fetchingOwnedPages) {
         managedPages = <FoldingSquare />
     }
 
@@ -39,7 +40,7 @@ const managed = props => {
 const mapStateToProps = state => {
     return {
         myPages: state.pages.myPages,
-        fetchingMyPages: state.pages.fetchingMyPages
+        fetchingOwnedPages: state.pages.fetchingOwnedPages
     }
 }
 
