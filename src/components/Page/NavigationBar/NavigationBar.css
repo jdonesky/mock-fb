@@ -30,6 +30,8 @@
 }
 
 .NavTab {
+    position: relative;
+    top: 3px;
     height: 85%;
     min-width: 85px;
     display: flex;
@@ -56,7 +58,7 @@
 }
 
 .PageHome {
-    display: none;
+    display: flex;
 }
 
 @media (min-width: 1030px) {
@@ -66,7 +68,7 @@
 }
 
 .PageAbout {
-    display: none;
+    display: flex;
 }
 
 @media (min-width: 1140px) {
@@ -76,7 +78,7 @@
 }
 
 .PagePhotos {
-    display: none;
+    display: flex;
 }
 
 @media (min-width: 1235px) {

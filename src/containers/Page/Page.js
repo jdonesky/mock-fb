@@ -60,8 +60,8 @@ const page = (props) => {
 
     let page = (
             <div className={classes.WhiteBackFill}>
-                <Header displayPage={displayPage} name={name} category={category} />
-                <NavigationBar auth={pathRoot} />
+                <Header pathRoot={pathRoot} displayPage={displayPage} name={name} category={category} />
+                <NavigationBar pathRoot={pathRoot} displayPage={displayPage}/>
                 <div className={classes.FlexContentPositioner}>
                     <div className={classes.SharedContentBackdrop}/>
                     <div className={classes.SharedContentFlexContainer}>
