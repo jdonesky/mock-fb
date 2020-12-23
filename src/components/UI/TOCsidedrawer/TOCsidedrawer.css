@@ -1,4 +1,19 @@
 
+.FixedWidthSideDrawer {
+    height: 100%;
+    width: 355px;
+    overflow: auto;
+    position: fixed;
+    top: 63px;
+    left: 0;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 0 4px 4px rgba(0,0,0,0.05);
+    z-index: 10;
+}
 
 .SideDrawerContainer {
     height: 100%;
@@ -18,6 +33,19 @@
 
 .SideDrawerContainer::-webkit-scrollbar {
     display: none;
+}
+
+
+.FixedWidthHeader {
+    height: 50px;
+    width: 340px;
+    position: fixed;
+    top: 85px;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
 }
 
 .Header {
@@ -128,6 +156,14 @@
     font-size: 13px;
     font-family: "Lucida Grande";
     cursor: pointer;
+}
+
+.FixedWidthPathsContainer {
+    width: 340px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 20px;
 }
 
 .PathsContainer {

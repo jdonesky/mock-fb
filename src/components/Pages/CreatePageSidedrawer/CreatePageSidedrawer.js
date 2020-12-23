@@ -22,7 +22,7 @@ const createPageSidedrawer = () => {
             paths={paths}
             title="Create a page"
             headerButton={headerButton}
-            snappable
+            adjustWidth
         >
             <CreatePageForm />
         </TOCsidedrawer>

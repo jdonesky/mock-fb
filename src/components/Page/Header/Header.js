@@ -13,13 +13,22 @@ const header = (props) => {
     const profileImageContainer = useRef(null);
     const coverImageContainer = useRef(null);
 
+    let coverImage;
+    let profileImage;
+    if (props.pathRoot === 'manage') {
+        if (props.ownedPage) {
+            coverImage = props.ownedPage.coverImage
+            profileImage = props.ownedPage.profileImage
+        }
+    }
+
     return (
         <div className={classes.PageHeaderPositioner}>
-            <div ref={coverImageContainer} className={classes.CoverImage} style={{backgroundImage: props.coverImage ? `url(${props.coverImage})` : `url(${CreatePageCover})`, height: `${width * 0.23}px`, }} />
+            <div ref={coverImageContainer} className={classes.CoverImage} style={{backgroundImage: coverImage ? `url(${coverImage})` : `url(${CreatePageCover})`, height: `${width * 0.23}px`, }} />
             <div className={classes.PageProfileHeader}>
                 <div className={classes.PageProfileCircleOutline}>
-                    <div ref={profileImageContainer} className={classes.PageProfileCircle}>
-                        {props.profileImage ? null : <Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/>}
+                    <div ref={profileImageContainer} className={classes.PageProfileCircle} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}}>
+                        {profileImage ? null : <Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/>}
                     </div>
                 </div>
                 <div className={classes.PageNameAndCategory}>
@@ -33,7 +42,8 @@ const header = (props) => {
 
 const mapStateToProps = state => {
     return {
-
+        ownedPage: state.pages.ownedPage,
+        othersPage: state.pages.othersPage
     }
 }
 

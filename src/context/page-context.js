@@ -20,7 +20,6 @@ export const PageContext = React.createContext({
     setProfileImage: () => {},
     setCoverImage: () => {},
     finishCreatePage: () => {},
-    passData: () => {}
 })
 
 const PageContextProvider = (props) => {
@@ -32,7 +31,6 @@ const PageContextProvider = (props) => {
     const [startedPage, setStartedPage] = useState(false);
     const [profileImage, setProfileImage] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
-
 
     const validateForm = () => {
         setFormValid(pageName !== '' && category !== '' && description.length <= 255);
@@ -95,6 +93,7 @@ const PageContextProvider = (props) => {
             clearAllInputs();
         })
     }
+
 
     return (
         <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, profileImage: profileImage, coverImage: coverImage, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage}}>

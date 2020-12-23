@@ -23,11 +23,11 @@ const page = (props) => {
 
     const {width, height} = getWindowDimensions();
 
-    useEffect(() => {
-        console.log('path root', pathRoot)
-        console.log('display page / page key ', displayPage)
-        console.log('MY Page', props.ownedPage )
-    })
+    // useEffect(() => {
+    //     console.log('path root', pathRoot)
+    //     console.log('display page / page key ', displayPage)
+    //     console.log('MY Page', props.ownedPage )
+    // })
 
     useEffect(() => {
         if (displayPage) {

@@ -47,6 +47,9 @@ const pages = props => {
             <Switch>
                 <Route path='/pages/manage' component={AsyncManagePagesSidedrawer}/>
                 <Route path='/pages/create' exact component={AsyncCreatePageSidedrawer}/>
+                <Route path='/pages/discover' component={AsyncBrowsePagesSidedrawer} />
+                <Route path='/pages/liked' component={AsyncBrowsePagesSidedrawer} />
+                <Route path='/pages/invites' component={AsyncBrowsePagesSidedrawer} />
                 <Route path='/pages' exact component={AsyncBrowsePagesSidedrawer}/>
             </Switch>
             <div className={classes.PreviewPanel}  style={{width: `${width - 355}px`}}>

@@ -3,12 +3,25 @@ import classes from "./TOCsidedrawer.css";
 
 const tocSidedrawer = props => {
 
+    let containerClass;
+    let headerClass;
+    let pathsClass;
+    if (props.adjustWidth === true) {
+        containerClass = classes.SideDrawerContainer;
+        headerClass = classes.Header;
+        pathsClass = classes.PathsContainer;
+    } else {
+        containerClass = classes.FixedWidthSideDrawer;
+        headerClass = classes.FixedWidthHeader;
+        pathsClass = classes.FixedWidthPathsContainer;
+    }
+
     return (
-        <div className={classes.SideDrawerContainer}>
-            {props.path ? <div className={classes.PathsContainer}>
+        <div className={containerClass}>
+            {props.path ? <div className={pathsClass}>
                 {props.paths}
             </div> : null}
-            <section className={classes.Header}  style={{top: props.paths? null : '65px'}}>
+            <section className={headerClass}  style={{top: props.paths? null : '65px'}}>
                 <h1 className={classes.HeaderTitle}>{props.title}</h1>
                 {props.headerButton}
             </section>

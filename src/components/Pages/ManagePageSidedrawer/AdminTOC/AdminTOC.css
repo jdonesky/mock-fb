@@ -63,6 +63,20 @@
     font-size: 17px;
 }
 
+.OwnedPagesDropdownPositioner {
+    position: relative;
+}
+
+.BarBlocker {
+    position: absolute;
+    bottom: 2px;
+    left: -170px;
+    width: 340px;
+    height: 60px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 6px;
+}
+
 .Break {
 
 }

@@ -160,11 +160,11 @@ const requestsSideDrawer = props => {
     }
 
     return (
-        <div className={classes.SideDrawerContainer}>
-            <div className={classes.PathsContainer}>
+        <div className={classes.FixedWidthSideDrawer}>
+            <div className={classes.FixedWidthPathsContainer}>
                 {paths}
             </div>
-            <section className={classes.Header} style={{top: seeingAll ? '85px' : null, height: seeingAll ? "40px" : null}}>
+            <section className={classes.FixedWidthHeader} style={{top: seeingAll ? '85px' : null, height: seeingAll ? "40px" : null}}>
                 <h1 className={classes.HeaderTitle}>Friends</h1>
                 <div className={classes.SettingsIconContainer}><Gear /></div>
             </section>

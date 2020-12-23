@@ -29,21 +29,30 @@ const navigationBar = props => {
     if (props.history.location.pathname === `/pages/${pathRoot}/${displayPage}/photos`) {
         photosClasses.push(classes.ActiveNavTab)
     }
-    if (props.history.location.pathname === `/pages/${pathRoot}/${displayPage}/`) {
-        aboutClasses.push(classes.ActiveNavTab)
+
+    let arrowFill = "rgba(0,0,0,0.5)";
+    if ( width < 955 && props.history.location.pathname === `/pages/${pathRoot}/${displayPage}/photos`) {
+        moreClasses.push(classes.ActiveNavTab)
+        arrowFill = "#1665f7"
+    }
+
+    if ( width < 905 && props.history.location.pathname === `/pages/${pathRoot}/${displayPage}/about`) {
+        moreClasses.push(classes.ActiveNavTab)
+        arrowFill = "#1665f7"
     }
 
 
-
-
-
+    if ( width < 840 && props.history.location.pathname === `/pages/${pathRoot}/${displayPage}`) {
+        moreClasses.push(classes.ActiveNavTab)
+        arrowFill = "#1665f7"
+    }
 
     const navTabs = (
             <React.Fragment>
-                <div className={homeClasses.join(" ")}>Home</div>
-                <div className={aboutClasses.join(" ")}>About</div>
-                <div className={photosClasses.join(" ")}>Photos</div>
-                <div className={moreClasses.join(" ")}>More<div className={classes.MoreArrow}><DownArrow fill="rgba(0,0,0,0.5)" /></div></div>
+                { width >= 840 ? <div className={homeClasses.join(" ")} onClick={() => props.history.push(`/pages/${pathRoot}/${displayPage}`)}>Home</div> : null }
+                { width >= 905 ? <div className={aboutClasses.join(" ")} onClick={() => props.history.push(`/pages/${pathRoot}/${displayPage}/about`)}>About</div> : null}
+                {width >= 955 ? <div className={photosClasses.join(" ")} onClick={() => props.history.push(`/pages/${pathRoot}/${displayPage}/photos`)}>Photos</div> : null}
+                <div className={moreClasses.join(" ")} >More<div className={classes.MoreArrow}><DownArrow fill={arrowFill} /></div></div>
             </React.Fragment>
         )
 

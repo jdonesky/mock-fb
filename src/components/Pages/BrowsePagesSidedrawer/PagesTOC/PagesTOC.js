@@ -1,5 +1,5 @@
 
-import React, {useState,useEffect,useContext} from 'react';
+import React, {useState,useEffect } from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './PagesTOC.css';
@@ -19,7 +19,6 @@ const pagesTOC = props => {
     const [activePage, setActivePage] = useState(null);
     const [showOwnedPages, setShowOwnedPages] = useState(true);
 
-
     useEffect(() => {
         console.log('FIRED FETCH MY PAGES ON MOUNT');
         onFetchOwnedPages(authToken, userKey)
@@ -30,6 +29,7 @@ const pagesTOC = props => {
     })
 
     const manageOwnedPage = (key) => {
+        props.onFetchOwnedPage(props.authToken, key);
         props.history.push(`/pages/manage/${key}`)
     }
 
@@ -135,7 +135,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOwnedPages: (authToken, userKey) => dispatch(actions.fetchOwnedPagesAttempt(authToken, userKey))
+        onFetchOwnedPages: (authToken, userKey) => dispatch(actions.fetchOwnedPagesAttempt(authToken, userKey)),
+        onFetchOwnedPage: (authToken, pageKey) => dispatch(actions.fetchOwnedPageAttempt(authToken, pageKey))
     }
 }
 
