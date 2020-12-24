@@ -1,19 +1,30 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './AdminTOC.css';
+import * as actions from '../../../../store/actions/index';
 import OwnedPagesDropdown from "./Dropdowns/OwnedPagesDropdown";
 import DownArrow from '../../../../assets/images/down-arrow';
 import Flag from "../../../../assets/images/BookmarkIcons/flag";
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 
+
 const adminTOC = props => {
 
-    const {ownedPage} = props
+    const {myPages, ownedPage, userKey, authToken} = props
+
+    useEffect(() => {
+        if (userKey) {
+            props.onFetchOwnedPages(authToken, userKey);
+        }
+    }, [authToken, userKey])
+
+    useEffect(() => {
+        console.log('myPages', myPages);
+    })
+
     const [viewOwnedPages, setViewOwnedPages] = useState(false)
-
-
 
     let ownedPagesDropdown;
     if (viewOwnedPages) {
@@ -21,7 +32,7 @@ const adminTOC = props => {
             <div className={classes.OwnedPagesDropdownPositioner}>
                 <OutsideAlerter action={() => setViewOwnedPages(false)}>
                     <div className={classes.BarBlocker} onClick={() => setViewOwnedPages(false)}/>
-                    <OwnedPagesDropdown close={() => setViewOwnedPages(false)}/>
+                    <OwnedPagesDropdown close={() => setViewOwnedPages(false)} />
                 </OutsideAlerter>
             </div>
     }
@@ -44,9 +55,17 @@ const adminTOC = props => {
 
 const mapStateToProps = state => {
     return {
+        authToken: state.auth.token,
+        userKey: state.profile.firebaseKey,
         myPages: state.pages.myPages,
         ownedPage: state.pages.ownedPage,
     }
 }
 
-export default connect(mapStateToProps)(withRouter(adminTOC));
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchOwnedPages: (authToken,userKey) => dispatch(actions.fetchOwnedPagesAttempt(authToken, userKey))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(adminTOC));

@@ -54,7 +54,10 @@
 
 .ProfileImage svg {
     height: auto;
-    width: 100%;
+    width: 75%;
+    position: relative;
+    top: 5px;
+    left: 9px;
 }
 
 .Name {
