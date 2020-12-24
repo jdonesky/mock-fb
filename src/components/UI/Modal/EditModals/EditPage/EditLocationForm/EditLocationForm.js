@@ -5,6 +5,7 @@ import classes from './EditLocationForm.css';
 import sharedClasses from '../Shared.css';
 import {PageContext} from "../../../../../../context/page-context";
 import Input from '../../../../Input/Input';
+import Map from '../../../../../Map/Map';
 
 import LocationArrow from '../../../../../../assets/images/MiscIcons/locationArrow';
 
@@ -55,7 +56,6 @@ const editLocationForm = props => {
             placeholder='City'
             value={city}
             onChange={(event) => updateField(event,'CITY')}
-            className={classes.CityOrZip}
             width="46%"
         />
     )
@@ -69,7 +69,6 @@ const editLocationForm = props => {
             onChange={(event) => updateField(event,'ZIP')}
             inputMode="numeric"
             pattern="[0-9]*"
-            className={classes.CityOrZip}
             width="46%"
         />
     )
@@ -94,8 +93,8 @@ const editLocationForm = props => {
                     {zipInput}
                 </div>
             </section>
-            <section className={classes.Map}>
-
+            <section className={classes.MapContainer}>
+                <Map />
             </section>
         </section>
     )
