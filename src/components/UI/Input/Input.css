@@ -9,6 +9,11 @@
   margin: 5px auto;
 }
 
+.InputElement:invalid {
+  border: 1px solid #a51515;
+  border-radius: 5px;
+}
+
 .TextArea {
   resize: none;
   height: 100px;

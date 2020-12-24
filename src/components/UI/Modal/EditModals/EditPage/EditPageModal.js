@@ -4,17 +4,18 @@ import classes from '../Shared.css';
 import Modal from '../../Modal';
 import {PageContext} from "../../../../../context/page-context";
 import getWindowDimensions from "../../../../../hooks/getWindowDimensions";
-
+import LocationForm from "./EditLocationForm/EditLocationForm";
 
 import Close from '../../../../../assets/images/close'
 
 const editPageModal = props => {
     const {width, height} = getWindowDimensions()
     const pageContext = useContext(PageContext);
+
     let modalContent;
     switch (pageContext.modalContent) {
         case 'LOCATION':
-            // modalContent = <BaseForm />
+            modalContent = <LocationForm />
             break;
         case 'DESCRIPTION':
             // modalContent = <ChooseBackground />
@@ -40,9 +41,9 @@ const editPageModal = props => {
             <section className={classes.ContentContainer} style={{width: `${width *.6}px`}}>
                 <section className={classes.Header}>
                     <div className={classes.TitleBlock}>
-                        <div className={classes.Title}>Edit Info</div>
+                        <div className={classes.Title}>Edit Page Info</div>
                     </div>
-                    <div className={classes.ExitModalButton} onClick={() => pageContext.setShowModal(false)}><Close /></div>
+                    <div className={classes.ExitModalButton} onClick={() => pageContext.setShowModal(false)}><Close fill="rgba(0,0,0,.5)"/></div>
                 </section>
                 <div className={classes.Break}/>
                 {modalContent}

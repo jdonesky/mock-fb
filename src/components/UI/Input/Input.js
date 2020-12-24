@@ -23,6 +23,9 @@ const input = (props) => {
           onChange={props.changed}
           className={inputClasses.join(" ")}
           autoComplete={props.autocomplete}
+          pattern={props.pattern}
+          style={{width: props.width || null}}
+          inputMode={props.inputMode}
         />
       );
       break;

@@ -1,0 +1,21 @@
+
+.Form {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.CityAndZip {
+    width: 99%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*.CityOrZip {*/
+/*    max-width: 258px;*/
+/*    margin: 2px;*/
+/*}*/
+

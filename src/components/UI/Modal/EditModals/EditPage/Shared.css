@@ -19,20 +19,27 @@
 .CategoryIcon {
     height: 40px;
     width: 40px;
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0,0,0,0.08);
     border-radius: 100%;
-    margin-right: 10px
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .CategoryIcon svg {
     height: auto;
-    width: 70%;
+    width: 80%;
     position: relative;
+    top: 2px;
+    right: 1px;
+
 }
 
 .HeaderCaptionBlock {
     height: 45px;
     display: flex;
+    flex-flow: column;
     justify-content: center;
     align-items: flex-start;
 }
@@ -49,4 +56,6 @@
     font-weight: 900;
     font-size: 20px;
 }
+
+
 
