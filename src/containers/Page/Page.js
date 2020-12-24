@@ -8,6 +8,7 @@ import * as actions from "../../store/actions/index";
 import withErrorHandler from "../../hoc/withErrorHandler";
 import Header from '../../components/Page/Header/Header';
 import NavigationBar from '../../components/Page/NavigationBar/NavigationBar';
+import Home from '../../components/Page/Home/Home';
 
 import axios from '../../axios/db-axios-instance';
 import classes from "./Page.css";
@@ -19,15 +20,9 @@ const page = (props) => {
 
     const [displayPage, setDisplayPage] = useState(props.match.params.id)
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[2])
-    const {otherProfile, myPublicProfileKey} = props
 
     const {width, height} = getWindowDimensions();
 
-    // useEffect(() => {
-    //     console.log('path root', pathRoot)
-    //     console.log('display page / page key ', displayPage)
-    //     console.log('MY Page', props.ownedPage )
-    // })
 
     useEffect(() => {
         if (displayPage) {
@@ -36,13 +31,6 @@ const page = (props) => {
             }
         }
     },[displayPage])
-
-    // useEffect(() => {
-    //     if (otherProfile) {
-    //         props.onFetchOtherPublicProfile(props.authToken, otherProfile.publicProfileKey)
-    //     }
-    // }, [otherProfile, displayPage])
-
 
     let name;
     let category;
@@ -61,11 +49,15 @@ const page = (props) => {
     let page = (
             <div className={classes.WhiteBackFill}>
                 <Header pathRoot={pathRoot} displayPage={displayPage} name={name} category={category} />
-                <NavigationBar pathRoot={pathRoot} displayPage={displayPage}/>
+                <NavigationBar />
+                <div className={classes.SharedCliff} />
                 <div className={classes.FlexContentPositioner}>
-                    <div className={classes.SharedContentBackdrop}/>
-                    <div className={classes.SharedContentFlexContainer}>
-
+                    <div className={classes.SharedContentBackdrop}>
+                        <div className={classes.SharedContentFlexContainer}>
+                            <Switch>
+                                <Route exact path={`/pages/${pathRoot}/${displayPage}`} component={Home} />
+                            </Switch>
+                        </div>
                     </div>
                 </div>
             </div>

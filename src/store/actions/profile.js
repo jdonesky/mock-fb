@@ -340,7 +340,7 @@ export const fetchMyPublicProfileAttempt = (authToken, publicProfileKey) => {
         dispatch(fetchMyPublicProfileInit());
         axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('my - public - profile - fetched - SUCCESS : ', response)
+                // console.log('my - public - profile - fetched - SUCCESS : ', response)
                 dispatch(fetchMyPublicProfileSuccess(response.data))
             })
             .catch(error => {

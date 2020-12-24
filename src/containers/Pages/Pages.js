@@ -28,10 +28,6 @@ const AsyncCreatePageSidedrawer = React.lazy(() => {
 
 const pages = props => {
 
-    useEffect(() => {
-        console.log('url - ', props.history.location.pathname.split('/')[2])
-    })
-
     const { width, height } = getWindowDimensions();
 
     let displayPanelContents;

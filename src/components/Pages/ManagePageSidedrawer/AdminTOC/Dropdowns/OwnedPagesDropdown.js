@@ -1,24 +1,25 @@
 
 import React, {useState,useEffect} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './OwnedPagesDropdown.css';
 import * as actions from '../../../../../store/actions/index';
+
+import InlineDots from '../../../../UI/Spinner/InlineDots';
 import Flag from "../../../../../assets/images/BookmarkIcons/flag";
 import Check from '../../../../../assets/images/check';
 
 const ownedPagesDropdown = props => {
 
-    const {myPages, ownedPage} = props
+    const {fetchingOwnedPages, myPages, ownedPage} = props
     const [pages, setPages] = useState(null);
 
     const managePage = (key) => {
         props.onFetchOwnedPage(props.authToken, key)
+        props.history.push(`/pages/manage/${key}`)
         props.close();
     }
 
-    useEffect(() => {
-        console.log(pages);
-    })
     useEffect(() => {
         if (myPages) {
             setPages(Object.keys(myPages).map(key => ({...myPages[key]})))
@@ -29,6 +30,7 @@ const ownedPagesDropdown = props => {
     if (pages)  {
         ownedPages = Object.keys(myPages).map(key => {
             return ( <div
+                    key={key}
                     className={classes.OwnPageButton}
                     onClick={() => managePage(key)}
                     style={{justifyContent: ownedPage && ownedPage.dbKey === key ? 'space-between' : null}}
@@ -47,6 +49,10 @@ const ownedPagesDropdown = props => {
         })
     }
 
+    if (fetchingOwnedPages) {
+        ownedPages = <InlineDots />
+    }
+
     return (
         <div className={classes.DropdownContainer}>
             {ownedPages}
@@ -59,6 +65,7 @@ const mapStateToProps = state => {
         authToken: state.auth.token,
         myPages: state.pages.myPages,
         ownedPage: state.pages.ownedPage,
+        fetchingOwnedPages: state.pages.fetchingOwnedPages
     }
 }
 
@@ -68,4 +75,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ownedPagesDropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ownedPagesDropdown));

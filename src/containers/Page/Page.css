@@ -17,21 +17,33 @@
 }
 
 .SharedContentBackdrop {
-    position:relative;
-    height: 1000px;
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    min-height: 600px;
     width: 100%;
     background-color: rgba(0,0,0,0.05);
     z-index: 1;
 }
 
 .SharedContentFlexContainer {
-    position: absolute;
-    left: 25px;
-    width: 95%;
-    height: 230px;
+    width: 100%;
+    height: 100%;
+    min-height: 600px;
     display: flex;
     justify-content: space-between;
     flex-flow: column;
     align-items: center;
     margin: 0 auto;
+    background-color: transparent;
+}
+
+.SharedCliff {
+    width: 100%;
+    height: 0;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0, 0.15);
+    z-index: 2;
+    position: relative;
+    top: 140px;
 }

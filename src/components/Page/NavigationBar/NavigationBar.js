@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {withRouter} from 'react-router';
 import classes from './NavigationBar.css';
 import DownArrow from "../../../assets/images/down-arrow";
@@ -12,7 +12,16 @@ import getWindowDimensions from "../../../hooks/getWindowDimensions";
 const navigationBar = props => {
 
     const { width, height } = getWindowDimensions()
-    const {pathRoot, displayPage} = props
+    const [displayPage, setDisplayPage] = useState(props.match.params.id)
+    const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[2])
+
+    useEffect(() => {
+        if (pathRoot === 'manage') {
+            if (displayPage !== props.history.location.pathname.split('/')[3]) {
+                setDisplayPage(props.history.location.pathname.split('/')[3])
+            }
+        }
+     })
 
     const homeClasses = [classes.NavTab, classes.PageHome];
     const aboutClasses = [classes.NavTab, classes.PageAbout];
@@ -57,7 +66,7 @@ const navigationBar = props => {
         )
 
     let navButtons;
-    if (props.pathRoot === 'discover') {
+    if (pathRoot === 'discover') {
         navButtons = (
             <React.Fragment>
                 <div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><Like /></div><div className={classes.NavButtonText}>Like</div></div>
@@ -66,7 +75,7 @@ const navigationBar = props => {
                 <div className={classes.NavButton}><div className={classes.NavButtonIcon}><Dots /></div></div>
             </React.Fragment>
         )
-    } else if (props.pathRoot === 'manage') {
+    } else if (pathRoot === 'manage') {
         navButtons = (
             <React.Fragment>
                 <div className={[classes.NavButton, classes.BigButton].join(" ")} style={{minWidth: '150px'}}><div className={classes.NavButtonIcon}><Eye /></div><div className={classes.NavButtonText}>View as Visitor</div></div>
@@ -87,7 +96,7 @@ const navigationBar = props => {
                     {navButtons}
                 </div>
             </div>
-            <div className={classes.SharedCliff}></div>
+            {/*<div className={classes.SharedCliff}></div>*/}
         </div>
     )
 }

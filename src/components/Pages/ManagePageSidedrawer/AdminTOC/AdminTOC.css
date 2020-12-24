@@ -6,6 +6,7 @@
     align-items: center;
     height: 100%;
     width: 100%;
+    margin-top: 15px;
 }
 
 .ProfilesDropdownBar {
@@ -76,12 +77,16 @@
     left: -170px;
     width: 340px;
     height: 60px;
-    background-color: rgba(0,0,0,0.1);
+    background-color: transparent;
     border-radius: 6px;
+    cursor: pointer;
 }
 
 .Break {
-
+    height: 1px;
+    width: 93%;
+    background-color: rgba(0,0,0,0.12);
+    margin: 10px auto;
 }
 
 

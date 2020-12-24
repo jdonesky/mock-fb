@@ -2,7 +2,9 @@
     position: relative;
     top: 140px;
     width: 100%;
+    max-width: 930px;
     background-color: white;
+    margin: 0 auto;
 }
 
 .SharedBreak {

@@ -1,0 +1,56 @@
+
+.TabContainer {
+    height: 55px;
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.TabContainer:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.ActiveTab {
+   background-color: rgba(77, 161, 250, 0.18);
+}
+
+.ActiveTab:hover {
+    background-color: rgba(77, 161, 250, 0.22);
+}
+
+.LeftBlock {
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.IconContainer {
+    height: 45px;
+    width: 45px;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.05);
+    margin: 0 10px;
+}
+
+.ActiveIcon {
+    background-color: #0a70ff;
+}
+
+.IconContainer svg {
+    height: auto;
+    width: 60%;
+    position: relative;
+    top: 8px;
+    left: 9px;
+}
+
+.Name {
+    font-family: "Lucida Grande";
+    font-weight: 510;
+    font-size: 17px;
+}
+

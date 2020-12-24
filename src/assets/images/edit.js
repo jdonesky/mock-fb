@@ -1,12 +1,12 @@
 
 import React from 'react';
 
-const editSvg = () => (
+const editSvg = (props) => (
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
      width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
      preserveAspectRatio="xMidYMid meet">
     <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-    fill="#000000" stroke="none">
+    fill={props.fill || "#000000"} stroke="none">
     <path d="M3930 5111 c-14 -4 -41 -16 -60 -26 -37 -19 -380 -352 -380 -370 0
     -13 1212 -1225 1225 -1225 20 0 353 345 376 390 21 39 24 59 24 145 0 91 -3
     105 -28 151 -39 70 -853 883 -917 915 -34 17 -66 23 -130 26 -47 1 -96 -1

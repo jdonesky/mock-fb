@@ -94,10 +94,8 @@ const fetchOwnedPagesFail = (error) => {
 export const fetchOwnedPagesAttempt = (authToken, userKey) => {
     return dispatch => {
         dispatch(fetchOwnedPagesInit());
-        console.log('userKey', userKey);
         axios.get(`pages.json?auth=${authToken}&orderBy="adminUserKey"&equalTo="${userKey}"`)
             .then(response => {
-                console.log('SUCCESS - fetched my pages', response.data);
                 dispatch(fetchOwnedPagesSuccess(response.data));
             })
             .catch(error => {
@@ -132,7 +130,6 @@ export const fetchOwnedPageAttempt = (authToken, pageKey) => {
         dispatch(fetchOwnedPageInit())
         axios.get(`/pages/${pageKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('SUCCESS - fetched owned page ');
                 dispatch(fetchOwnedPageSuccess(response.data));
             })
             .catch(error => {
