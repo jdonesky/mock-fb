@@ -2,7 +2,7 @@
 .AboutContainer {
     position: absolute;
     z-index: 5;
-    height: 200px;
+    height: 400px;
     width: 100%;
     max-width: 930px;
     border-radius: 10px;
@@ -27,6 +27,7 @@
 
 .EditButtonsContainer {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
@@ -39,6 +40,49 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin: 5px;
+}
+
+.EditButtonLeftBlock {
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.EditIcon {
+    height: 20px;
+    width: 20px;
+    margin: 0 10px;
+}
+
+.EditIcon svg {
+    height: auto;
+    width: 100%;
+}
+
+.EditText {
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    font-size: 14px;
+    color: #0a70ff;
+    cursor: pointer;
+}
+
+.EditText:hover {
+    text-decoration: underline;
+}
+
+.PenIcon {
+    height: 18px;
+    width: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.PenIcon svg {
+    height: auto;
+    width: 100%;
 }
 
 

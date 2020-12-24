@@ -1,0 +1,67 @@
+
+.ModalAddClass {
+    top: 25%;
+}
+
+.ContentContainer {
+    height: 100%;
+    min-width: 500px;
+    max-width: 930px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.Header {
+    height: 65px;
+    width: 100%;
+    min-width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.TitleBlock {
+    height: 100%;
+    width: 59%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.Title {
+    font-family: "Lucida Grande";
+    font-weight: 900;
+    font-size: 22px;
+}
+
+.ExitModalButton {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.05);
+    margin-left: auto;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.ExitModalButton:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.ExitModalButton svg {
+    height: auto;
+    width: 50%;
+    position:relative;
+    top: 9px;
+}
+
+.Break {
+    height: 1px;
+    width: 100%;
+    background-color: rgba(0,0,0,0.1);
+}
+
+
+

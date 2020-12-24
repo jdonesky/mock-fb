@@ -3,8 +3,8 @@
 import React, {useEffect} from 'react';
 import classes from './Home.css';
 import {connect} from 'react-redux';
-import Invite from './InviteLikes/InviteLikes';
 import About from './About/About';
+import Invite from './InviteLikes/InviteLikes';
 import CreatePost from './CreatePost/CreatePost'
 
 const home = (props) => {

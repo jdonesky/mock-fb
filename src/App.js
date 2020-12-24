@@ -58,6 +58,10 @@ const AsyncCreateLifeEventModal = React.lazy(() => {
     return import("./components/UI/Modal/LifeEventModals/LifeEventModal")
 })
 
+const AsyncEditPageModal = React.lazy(() => {
+    return import("./components/UI/Modal/EditModals/EditPage/EditPageModal");
+})
+
 const app = (props) => {
 
     const {authToken, userId, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onReloadApp} = props;
@@ -110,6 +114,7 @@ const app = (props) => {
                                 <AsyncDeleteModal />
                                 <AsyncCreatePostModal />
                                 <AsyncCreateLifeEventModal />
+                                <AsyncEditPageModal />
                                 {routes}
                             </Suspense>
                         </Layout>

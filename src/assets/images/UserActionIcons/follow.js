@@ -1,12 +1,12 @@
 import React from 'react';
 
-const follow = () => (
+const follow = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="615.000000pt" height="573.000000pt" viewBox="0 0 615.000000 573.000000"
  preserveAspectRatio="xMidYMid meet">
 
 <g transform="translate(0.000000,573.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+fill={props.fill || "#000000"} stroke="none">
 <path d="M2226 5269 c-457 -67 -842 -408 -961 -850 -111 -416 3 -848 305
 -1149 180 -181 406 -293 660 -331 114 -16 341 -6 446 20 394 98 712 388 837
 764 62 184 79 418 43 600 -110 566 -596 963 -1169 956 -56 -1 -129 -5 -161

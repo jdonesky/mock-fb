@@ -1,0 +1,52 @@
+
+.FormContainer {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.Header {
+    height: 75px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.CategoryIcon {
+    height: 40px;
+    width: 40px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 100%;
+    margin-right: 10px
+}
+
+.CategoryIcon svg {
+    height: auto;
+    width: 70%;
+    position: relative;
+}
+
+.HeaderCaptionBlock {
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.EditingCaption {
+    font-family: "Lucida Grande";
+    font-weight: 100;
+    font-size: 12px;
+    color: rgba(0,0,0,0.4);
+}
+
+.CaptionQuestion {
+    font-family: "Lucida Grande";
+    font-weight: 900;
+    font-size: 20px;
+}
+

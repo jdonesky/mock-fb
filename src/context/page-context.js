@@ -20,9 +20,15 @@ export const PageContext = React.createContext({
     setProfileImage: () => {},
     setCoverImage: () => {},
     finishCreatePage: () => {},
+    showEditModal: false,
+    setShowEditModal: () => {}
 })
 
 const PageContextProvider = (props) => {
+
+    const [showModal, setShowModal] = useState(true);
+    const [modalContent, setModalContent] = useState(null);
+
 
     const [pageName, setPageName] = useState('');
     const [category, setCategory] = useState('');
@@ -31,6 +37,8 @@ const PageContextProvider = (props) => {
     const [startedPage, setStartedPage] = useState(false);
     const [profileImage, setProfileImage] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
+
+
 
     const validateForm = () => {
         setFormValid(pageName !== '' && category !== '' && description.length <= 255);
@@ -94,9 +102,24 @@ const PageContextProvider = (props) => {
         })
     }
 
+    const passData = (type, payload) => {
+        switch (type) {
+            case 'name':
+                setPageName(payload)
+        }
+    }
+
 
     return (
-        <PageContext.Provider value={{pageName: pageName, category: category, description: description, formValid: formValid, startedPage: startedPage, profileImage: profileImage, coverImage: coverImage, updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription, setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs, startCreatePage: startCreatePage, finishCreatePage: finishCreatePage}}>
+        <PageContext.Provider
+            value={{
+                pageName: pageName, category: category, description: description,
+                formValid: formValid, startedPage: startedPage, profileImage: profileImage, coverImage: coverImage,
+                updateName: updateName, updateCategory: updateCategory, updateDescription: updateDescription,
+                setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs,
+                startCreatePage: startCreatePage, finishCreatePage: finishCreatePage,
+                showModal: showModal,setShowModal: setShowModal, modalContent: modalContent,
+                setModalContent: setModalContent }}>
             {props.children}
         </PageContext.Provider>
     )

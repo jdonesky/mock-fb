@@ -1,12 +1,12 @@
 import React from 'react';
 
-const fbMessage = () => (
+const fbMessage = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
 
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+fill={props.fill || "#000000"} stroke="none">
 <path d="M2370 5113 c-632 -45 -1183 -276 -1605 -672 -375 -353 -624 -795
 -720 -1280 -121 -613 5 -1156 388 -1664 94 -124 321 -366 421 -447 l55 -45 1
 -443 c0 -502 -1 -493 75 -537 23 -14 56 -25 73 -25 51 0 254 114 552 308 79
