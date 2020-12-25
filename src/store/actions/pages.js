@@ -139,6 +139,42 @@ export const fetchOwnedPageAttempt = (authToken, pageKey) => {
     }
 }
 
+const editPageAboutInit = () => {
+    return {
+        type: actionTypes.EDIT_PAGE_ABOUT_INIT
+    }
+}
+
+const editPageAboutSuccess = (page) => {
+    return {
+        type: actionTypes.EDIT_PAGE_ABOUT_SUCCESS,
+        page: page
+    }
+}
+
+const editPageAboutFail = (error) => {
+    return {
+        type: actionTypes.EDIT_PAGE_ABOUT_FAIL,
+        error: error
+    }
+}
+
+export const editPageAboutAttempt = (authToken, newPage) => {
+    return dispatch => {
+        dispatch(editPageAboutInit())
+        axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
+            .then(response => {
+                console.log('SUCCESS - put new page');
+                dispatch(editPageAboutSuccess(newPage));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(editPageAboutFail(error));
+            })
+    }
+}
+
+
 export const clearPageInProgress = () => {
     return {
         type: actionTypes.CLEAR_PAGE_IN_PROGRESS

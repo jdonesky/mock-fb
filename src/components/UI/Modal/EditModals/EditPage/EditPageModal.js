@@ -5,6 +5,7 @@ import Modal from '../../Modal';
 import {PageContext} from "../../../../../context/page-context";
 import getWindowDimensions from "../../../../../hooks/getWindowDimensions";
 import LocationForm from "./EditLocationForm/EditLocationForm";
+import DescriptionForm from "./EditDescriptionForm/EditDescriptionForm";
 
 import Close from '../../../../../assets/images/close'
 
@@ -18,7 +19,7 @@ const editPageModal = props => {
             modalContent = <LocationForm />
             break;
         case 'DESCRIPTION':
-            // modalContent = <ChooseBackground />
+            modalContent = <DescriptionForm />
             break;
         case 'WEBSITE':
             // modalContent = <TagFriends />

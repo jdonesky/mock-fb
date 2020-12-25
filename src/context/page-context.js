@@ -21,14 +21,15 @@ export const PageContext = React.createContext({
     setCoverImage: () => {},
     finishCreatePage: () => {},
     showEditModal: false,
-    startEditing: () => {}
+    startEditing: () => {},
+    saveEdits: () => {}
 })
 
 const PageContextProvider = (props) => {
 
     const {ownedPage, authToken} = props
     const [showModal, setShowModal] = useState(true);
-    const [modalContent, setModalContent] = useState('LOCATION');
+    const [modalContent, setModalContent] = useState('DESCRIPTION');
 
     const [pageName, setPageName] = useState('');
     const [category, setCategory] = useState('');
@@ -37,10 +38,10 @@ const PageContextProvider = (props) => {
     const [startedPage, setStartedPage] = useState(false);
     const [profileImage, setProfileImage] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
-    const [location, setLocation] = useState(null);
-    const [website, setWebsite] = useState(null);
-    const [phone, setPhone] = useState(null);
-    const [email, setEmail] = useState(null);
+    // const [location, setLocation] = useState(null);
+    // const [website, setWebsite] = useState(null);
+    // const [phone, setPhone] = useState(null);
+    // const [email, setEmail] = useState(null);
 
     const startEditing = (form) => {
         if (!ownedPage) {
@@ -112,13 +113,12 @@ const PageContextProvider = (props) => {
         })
     }
 
-    const passData = (type, payload) => {
-        switch (type) {
-            case 'name':
-                setPageName(payload)
+    const saveAboutEdits = (field, payload) => {
+        if (ownedPage) {
+            const newPage = {...ownedPage, [field]: payload}
+            props.onEditPageAbout(props.authToken, newPage)
         }
     }
-
 
     return (
         <PageContext.Provider
@@ -129,7 +129,7 @@ const PageContextProvider = (props) => {
                 setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs,
                 startCreatePage: startCreatePage, finishCreatePage: finishCreatePage,
                 showModal: showModal,setShowModal: setShowModal, startEditing: startEditing, modalContent: modalContent,
-                setModalContent: setModalContent }}>
+                setModalContent: setModalContent, saveEdits: saveAboutEdits }}>
             {props.children}
         </PageContext.Provider>
     )
@@ -151,7 +151,8 @@ const mapDispatchToProps = dispatch => {
         onStartCreatePage: (authToken, page) => dispatch(actions.startCreatePageAttempt(authToken, page)),
         onFinishCreatePage: (authToken, page, cb) => dispatch(actions.finishCreatePageAttempt(authToken, page, cb)),
         onClearPageInProgress: () => dispatch(actions.clearPageInProgress()),
-        onFetchOwnedPage: (authToken, pageKey) => dispatch(actions.fetchOwnedPageAttempt(authToken, pageKey))
+        onFetchOwnedPage: (authToken, pageKey) => dispatch(actions.fetchOwnedPageAttempt(authToken, pageKey)),
+        onEditPageAbout: (authToken, newPage) => dispatch(actions.editPageAboutAttempt(authToken, newPage))
     }
 }
 

@@ -1,5 +1,5 @@
 
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
 import classes from './EditLocationForm.css';
 import sharedClasses from '../Shared.css';
@@ -12,17 +12,35 @@ import LocationArrow from '../../../../../../assets/images/MiscIcons/locationArr
 const editLocationForm = props => {
 
     const pageContext = useContext(PageContext);
-    const [address, setAddress] = useState(ownedPage && ownedPage.location ? ownedPage.location.address : null);
-    const [city, setCity] = useState(ownedPage && ownedPage.location ? ownedPage.location.city : null);
-    const [zip, setZip] = useState(ownedPage && ownedPage.location ? ownedPage.location.zip : null);
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [zip, setZip] = useState('');
+    const [formValid, setFormValid] = useState(false);
 
     const {ownedPage} = props
+
+    useEffect(() => {
+        if (ownedPage) {
+            setAddress(ownedPage.location.address);
+            setCity(ownedPage.location.city);
+            setZip(ownedPage.location.zip);
+        }
+    }, [ownedPage])
 
     let pageName;
     if (ownedPage) {
         pageName = ownedPage.name + "'s"
     } else {
         pageName = 'your'
+    }
+
+    const validate = () => {
+        setFormValid(address !== '' && city !== '' && zip !== '');
+    }
+
+    const saveEdits = () => {
+        const newLocation = {address: address, city: city, zip: zip}
+        pageContext.saveEdits('location', newLocation)
     }
 
     const updateField = (event, field) => {
@@ -36,7 +54,10 @@ const editLocationForm = props => {
             case 'ZIP':
                 setZip(event.target.value);
                 break;
+            default:
+                return;
         }
+        validate();
     }
 
     const addressInput = (
@@ -45,7 +66,7 @@ const editLocationForm = props => {
             type='text'
             placeholder='Address'
             value={address}
-            onChange={(event) => updateField(event,'ADDRESS')}
+            changed={(event) => updateField(event,'ADDRESS')}
         />
     )
 
@@ -55,7 +76,7 @@ const editLocationForm = props => {
             type='text'
             placeholder='City'
             value={city}
-            onChange={(event) => updateField(event,'CITY')}
+            changed={(event) => updateField(event,'CITY')}
             width="46%"
         />
     )
@@ -66,14 +87,17 @@ const editLocationForm = props => {
             type='text'
             placeholder='Zip code'
             value={zip}
-            onChange={(event) => updateField(event,'ZIP')}
+            changed={(event) => updateField(event,'ZIP')}
             inputMode="numeric"
             pattern="[0-9]*"
             width="46%"
         />
     )
 
-
+    const saveButtonClasses = [classes.SaveEditsButton]
+    if (!formValid) {
+        saveButtonClasses.push(classes.SaveDisabled);
+    }
 
     return (
         <section className={sharedClasses.FormContainer}>
@@ -96,6 +120,9 @@ const editLocationForm = props => {
             <section className={classes.MapContainer}>
                 <Map />
             </section>
+            <div className={saveButtonClasses.join(" ")} onClick={formValid ? saveEdits : null }>
+                Save Location
+            </div>
         </section>
     )
 }

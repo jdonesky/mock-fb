@@ -14,6 +14,7 @@ import FbMessage from '../../../../assets/images/UserActionIcons/fbMessage';
 import Email from '../../../../assets/images/email';
 import AddCategory from '../../../../assets/images/UserActionIcons/addCategory';
 
+
 const about = props => {
 
     const pageContext = useContext(PageContext);
@@ -22,7 +23,7 @@ const about = props => {
     let editButtons;
     if (ownedPage) {
         editButtons = [
-            {text: ownedPage.location || 'Enter location', action: () => pageContext.startEditing('LOCATION'), filled: ownedPage.location, icon: <Pin fill="rgba(0,0,0,0.45)"/>},
+            {text: ownedPage.location && `${ownedPage.location.address}, ${ownedPage.location.city} ` || 'Enter location', action: () => pageContext.startEditing('LOCATION'), filled: ownedPage.location, icon: <Pin fill="rgba(0,0,0,0.45)"/>},
             {text: ownedPage.description ||'Enter description', action: () => {}, filled: ownedPage.description, icon: <Info fill="rgba(0,0,0,0.45)"/>},
             {text: `${ownedPage.follows && ownedPage.follows.length ? ownedPage.follows.length : '0'} people follow this`, action: () => {}, filled: false, icon: <Follow fill="rgba(0,0,0,0.45)"/>},
             {text: ownedPage.website ||'Enter website', action: () => {}, filled: ownedPage.website, icon: <Web fill="rgba(0,0,0,0.45)"/>},
@@ -42,10 +43,7 @@ const about = props => {
                     {obj.filled ? <div className={classes.PenIcon}><Edit fill="#0a70ff"/></div> : null}
                 </div>
             ))
-
     }
-
-
 
     return (
         <div className={classes.AboutContainer}>
