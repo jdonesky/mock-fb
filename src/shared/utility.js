@@ -51,6 +51,11 @@ export const validityCheck = (value, rules) => {
     isValid = pattern.test(value) && isValid
   }
 
+  if (rules.isTel) {
+    const pattern = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
+    isValid = pattern.test(value) && isValid
+  }
+
   return isValid
 }
 

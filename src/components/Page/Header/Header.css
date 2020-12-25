@@ -12,6 +12,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 8px;
+    position: relative;
 }
 
 .PageProfileHeader {
@@ -47,6 +48,7 @@
     border-radius: 100%;
     border: .5px solid rgba(0,0,0,0.06);
     z-index:2;
+    position: relative;
 }
 
 .PageProfileCircle svg {
@@ -81,3 +83,60 @@
     color: rgba(0,0,0,0.5);
     margin-bottom: 20px;
 }
+
+.CoverUploadButton {
+    height: 40px;
+    width: 75px;
+    max-width: 75px;
+    border-radius: 8px;
+    background-color: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2px;
+    position: absolute;
+    right: 40px;
+    bottom: 20px;
+    z-index: 5;
+    cursor: pointer;
+}
+
+.CoverUploadIcon {
+    height: 20px;
+    width: 20px;
+    position: relative;
+    top: 2px;
+    margin-right: 2px;
+}
+
+.CoverUploadIcon svg {
+    height: auto;
+    width: 100%;
+}
+
+.CoverUploadText {
+    font-family: "Lucida Grande";
+    font-weight: 500;
+    font-size: 16px;
+    margin-left: 2px
+}
+
+.ProfileUploadButton {
+    height: 40px;
+    width: 40px;
+    background-color: #e8e8e8;
+    border-radius: 100%;
+    cursor:pointer;
+    position: absolute;
+    bottom: 1px;
+    right: 2px;
+}
+
+.ProfileUploadButton svg {
+    height: auto;
+    width: 75%;
+    position: relative;
+    top: 7px;
+    left: 5px;
+}
+

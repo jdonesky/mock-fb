@@ -8,6 +8,7 @@ import Web from '../../../../../../assets/images/MiscIcons/web';
 import Input from "../../../../Input/Input";
 import Spinner from '../../../../Spinner/Spinner';
 
+import {validityCheck} from "../../../../../../shared/utility";
 import {PageContext} from "../../../../../../context/page-context";
 
 const editEmailForm = (props) => {
@@ -24,7 +25,7 @@ const editEmailForm = (props) => {
     }, [ownedPage])
 
     const validate = () => {
-        setFormValid(email !== ownedPage.email);
+        setFormValid(email !== ownedPage.email && validityCheck(email, {required: true, isEmail:true}));
     }
 
     let pageName;
@@ -45,7 +46,9 @@ const editEmailForm = (props) => {
             type="text"
             value={email}
             placeholder="Email"
+            validation={{required: true, isEmail: true}}
             changed={(event) => updateEmail(event)}
+            valid={formValid}
         />
     )
 

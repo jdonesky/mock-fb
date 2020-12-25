@@ -3,7 +3,7 @@ import React, {useEffect, useRef} from 'react';
 import { connect } from 'react-redux';
 import classes from './ProfilePics.css';
 import * as actions from '../../../store/actions/index'
-import CameraSvg from '../../../assets/images/camera';
+import CameraSvg from '../../../assets/images/MiscIcons/camera';
 
 const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate, displayProfile, otherUserProfile}) => {
     const profilePicUploader = useRef(null);
@@ -11,11 +11,6 @@ const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate,
     const coverPicUploader = useRef(null);
     const coverPicContainer = useRef(null);
 
-    // useEffect(() => {
-    //     console.log('displayProfile', displayProfile);
-    //     console.log('profilePic', profilePic);
-    //
-    // })
 
     useEffect(() => {
         if (displayProfile === 'me') {

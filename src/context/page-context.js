@@ -116,7 +116,10 @@ const PageContextProvider = (props) => {
     const saveAboutEdits = (field, payload) => {
         if (ownedPage) {
             const newPage = {...ownedPage, [field]: payload}
-            props.onEditPageAbout(props.authToken, newPage, () => setShowModal(false))
+            props.onEditPageAbout(props.authToken, newPage)
+            setTimeout(() => {
+                setShowModal(false);
+            }, 1000)
         }
     }
 

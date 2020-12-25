@@ -2,29 +2,27 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {connect} from 'react-redux';
 import sharedClasses from '../Shared.css';
-import classes from './EditPhoneForm.css';
 import Web from '../../../../../../assets/images/MiscIcons/web';
 import Input from "../../../../Input/Input";
 import Spinner from '../../../../Spinner/Spinner';
 
 import {PageContext} from "../../../../../../context/page-context";
-import {validityCheck} from "../../../../../../shared/utility";
 
-const editPhoneForm = (props) => {
+const editCategoryForm = (props) => {
 
     const pageContext = useContext(PageContext)
     const {ownedPage} = props
-    const [phone, setPhone] = useState('');
+    const [category, setCategory] = useState('');
     const [formValid, setFormValid] = useState(false);
 
     useEffect(() => {
         if (ownedPage) {
-            setPhone(ownedPage.phone);
+            setCategory(ownedPage.category);
         }
     }, [ownedPage])
 
     const validate = () => {
-        setFormValid(phone !== ownedPage.phone && validityCheck(phone,{required: true, isTel: true}));
+        setFormValid(category !== ownedPage.category);
     }
 
     let pageName;
@@ -34,18 +32,18 @@ const editPhoneForm = (props) => {
         pageName = 'your'
     }
 
-    const updateWebsite = (event) => {
-        setPhone(event.target.value);
+    const updateCategory = (event) => {
+        setCategory(event.target.value);
         validate();
     }
 
-    const phoneInput = (
+    const categoryInput = (
         <Input
             elementType="input"
-            value={phone}
-            placeholder="Phone number"
-            changed={(event) => updateWebsite(event)}
-            valid={formValid}
+            type="text"
+            value={category}
+            placeholder="Category"
+            changed={(event) => updateCategory(event)}
         />
     )
 
@@ -55,7 +53,8 @@ const editPhoneForm = (props) => {
     }
 
     const saveEdits = () => {
-        pageContext.saveAboutEdits('phone', phone);
+        const newCategory= category;
+        pageContext.saveAboutEdits('category', newCategory);
     }
 
     return (
@@ -65,15 +64,15 @@ const editPhoneForm = (props) => {
                 <div className={sharedClasses.HeaderCaptionBlock}>
                     <div className={sharedClasses.EditingCaption}>Editing...</div>
                     <div className={sharedClasses.CaptionQuestion}>
-                        {`What is ${pageName} phone number?`}
+                        {`What is ${pageName} category?`}
                     </div>
                 </div>
             </section>
             <section className={sharedClasses.Form}>
-                {phoneInput}
+                {categoryInput}
             </section>
             <div className={saveButtonClasses.join(" ")} onClick={formValid ? saveEdits : null}>
-                {props.editingPageAbout ? <Spinner /> : 'Save Phone Number'}
+                {props.editingPageAbout ? <Spinner /> : 'Save Category'}
             </div>
         </section>
     )
@@ -87,4 +86,4 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps)(editPhoneForm);
+export default connect(mapStateToProps)(editCategoryForm);

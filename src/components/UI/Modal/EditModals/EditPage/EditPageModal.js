@@ -9,7 +9,7 @@ import DescriptionForm from "./EditDescriptionForm/EditDescriptionForm";
 import WebsiteForm from './EditWebsiteForm/EditWebsiteForm';
 import PhoneForm from './EditPhoneForm/EditPhoneForm';
 import EmailForm from './EditEmailForm/EditEmailForm';
-
+import CategoryForm from './EditCategoryForm/EditCategoryForm';
 import Close from '../../../../../assets/images/close'
 
 const editPageModal = props => {
@@ -40,7 +40,8 @@ const editPageModal = props => {
             modalContainer = classes.SingleEntryModal;
             break;
         case 'CATEGORY':
-            // modalContent = <Location />
+            modalContent = <CategoryForm />
+            modalContainer = classes.SingleEntryModal;
             break;
         default:
             modalContent = null;

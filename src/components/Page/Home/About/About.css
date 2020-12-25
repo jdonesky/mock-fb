@@ -86,3 +86,26 @@
 }
 
 
+.FollowClass {
+    font-family: "Lucida Grande";
+    font-weight: 500;
+    font-size: 14px;
+    cursor: default;
+    color: rgba(0,0,0,0.8);
+}
+
+.FollowClass:hover {
+    text-decoration: none;
+}
+
+.MessageClass {
+    font-weight: 300;
+}
+
+.CategoryClass {
+    font-weight: 300;
+}
+
+.CategoryClass:hover {
+    text-decoration-color: rgba(0,0,0,0.5);
+}

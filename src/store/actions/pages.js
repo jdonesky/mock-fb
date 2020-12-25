@@ -159,14 +159,13 @@ const editPageAboutFail = (error) => {
     }
 }
 
-export const editPageAboutAttempt = (authToken, newPage, cb) => {
+export const editPageAboutAttempt = (authToken, newPage) => {
     return dispatch => {
         dispatch(editPageAboutInit())
         axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
             .then(response => {
                 console.log('SUCCESS - put new page');
                 dispatch(editPageAboutSuccess(newPage));
-                cb();
             })
             .catch(error => {
                 console.log(error);
