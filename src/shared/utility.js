@@ -198,7 +198,6 @@ export const geocode = (address, cb) => {
           cb('SUCCESS', response.data.results[0])
         })
         .catch(error => {
-          console.log(error);
           cb('FAIL', error)
         })
   }

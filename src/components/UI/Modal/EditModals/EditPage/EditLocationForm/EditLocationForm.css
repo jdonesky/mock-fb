@@ -59,8 +59,13 @@
 .SaveDisabled {
     background-color: rgba(0,0,0,0.07);
     color: rgba(0,0,0,0.4);
-    /*cursor: default;*/
+    cursor: default;
 }
+.SaveDisabled:hover {
+    background-color: rgba(0,0,0,0.07);
+    color: rgba(0,0,0,0.4);
+}
+
 
 .SuggestionContainer {
     border-radius: 6px;
@@ -92,5 +97,17 @@
 }
 
 .Suggestion:hover {
+    text-decoration: underline;
+}
+
+.TryAgain {
+    font-family: "Lucida Grande";
+    font-size: 13px;
+    color: rgba(0,0,0,0.4);
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.TryAgain:hover {
     text-decoration: underline;
 }

@@ -24,14 +24,16 @@ const editLocationForm = props => {
     const [storedCoordinates, setStoredCoordinates] = useState(null);
     const [coordinates, setCoordinates] = useState(null);
     const [error, setError] = useState(null);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     const {ownedPage} = props
 
     useEffect(() => {
-        if (ownedPage) {
+        if (ownedPage && ownedPage.location) {
             setAddress(ownedPage.location.address);
             setCity(ownedPage.location.city);
             setZip(ownedPage.location.zip);
+            setCoordinates(ownedPage.location.coordinates);
         }
     }, [ownedPage])
 
@@ -45,6 +47,7 @@ const editLocationForm = props => {
         console.log(suggestedAddress);
         console.log(storedCoordinates)
         console.log(coordinates);
+        console.log('Error', error);
     })
 
     const takeSuggestion = () => {
@@ -56,6 +59,20 @@ const editLocationForm = props => {
     const clearSuggestion = () => {
         setShowSuggestedAddress(false);
         setStoredCoordinates(null);
+    }
+
+    const tryAgain = () => {
+        setShowErrorMessage(false);
+        setError(null);
+        setAddress('');
+        setCity('');
+        setZip('');
+        setCoordinates(null);
+    }
+
+    const dismissError = () => {
+        setShowErrorMessage(false);
+        setError(null);
     }
 
     let pageName;
@@ -75,7 +92,8 @@ const editLocationForm = props => {
                         setShowSuggestedAddress(true);
                         break;
                     case 'FAIL':
-                        setError(payload)
+                        setError(payload);
+                        setShowErrorMessage(true);
                         break;
                     default:
                         return;
@@ -88,10 +106,6 @@ const editLocationForm = props => {
         setFormValid(address !== '' && city !== '' && zip !== '');
     }
 
-    const saveEdits = () => {
-        const newLocation = {address: address, city: city, zip: zip}
-        pageContext.saveEdits('location', newLocation)
-    }
 
     const updateField = (event, field) => {
         switch (field) {
@@ -161,6 +175,24 @@ const editLocationForm = props => {
         )
     }
 
+    let errorMessage;
+    if (showErrorMessage) {
+        errorMessage = (
+            <OutsideAlerter action={tryAgain}>
+                <div className={classes.SuggestionContainer}>
+                    <div className={classes.SuggestionCaption}>Sorry, we don't recognize that address</div>
+                    <div className={classes.Suggestion} onClick={dismissError}>{`Use ${address} anyway?`}</div>
+                    <div className={classes.TryAgain} onClick={tryAgain}>...or try again</div>
+                </div>
+            </OutsideAlerter>
+        )
+    }
+
+    const saveEdits = () => {
+        const newLocation = {address: address, city: city, zip: zip, coordinates: coordinates}
+        console.log('new location - saving ', newLocation )
+        pageContext.saveEdits('location', newLocation)
+    }
 
     return (
         <section className={sharedClasses.FormContainer}>
@@ -174,6 +206,7 @@ const editLocationForm = props => {
                 </div>
             </section>
             <section className={classes.Form}>
+                {errorMessage}
                 {suggestion}
                 {addressInput}
                 <div className={classes.CityAndZip}>
