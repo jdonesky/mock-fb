@@ -12,6 +12,7 @@ const initialState = {
     fetchingOwnedPage: false,
     fetchingOthersPages: false,
     fetchingOthersPage: false,
+    editingPageAbout: false,
     error: null
 }
 
@@ -92,6 +93,30 @@ const fetchOwnedPageFail = (state,action) => {
     }
 }
 
+const editPageAboutInit = (state,action) => {
+    return {
+        ...state,
+        editingPageAbout: true
+    }
+}
+
+
+const editPageAboutSuccess = (state,action) => {
+    return {
+        ...state,
+        ownedPage: action.page,
+        editingPageAbout: false
+    }
+}
+
+const editPageAboutFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        editingPageAbout: false
+    }
+}
+
 
 const clearPageInProgress = (state,action) => {
     return {
@@ -112,6 +137,9 @@ const reducer = (state=initialState, action) => {
         case actionTypes.FETCH_OWNED_PAGE_INIT: return fetchOwnedPageInit(state,action);
         case actionTypes.FETCH_OWNED_PAGE_SUCCESS: return fetchOwnedPageSuccess(state,action);
         case actionTypes.FETCH_OWNED_PAGE_FAIL: return fetchOwnedPageFail(state,action);
+        case actionTypes.EDIT_PAGE_ABOUT_INIT: return editPageAboutInit(state,action);
+        case actionTypes.EDIT_PAGE_ABOUT_SUCCESS: return editPageAboutSuccess(state,action);
+        case actionTypes.EDIT_PAGE_ABOUT_FAIL: return editPageAboutFail(state,action);
         case actionTypes.CLEAR_PAGE_IN_PROGRESS: return clearPageInProgress(state,action);
         default:
             return state

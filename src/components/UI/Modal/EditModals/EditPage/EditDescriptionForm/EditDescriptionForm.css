@@ -1,2 +1,20 @@
 
 
+.DescriptionBox {
+    height: 100px;
+    width: 95.5%;
+    font-family: "Lucida Grande";
+    font-size: 16px;
+    font-weight: 100;
+    margin: 0 auto;
+}
+
+.DescriptionBox::placeholder {
+    font-family: "Lucida Grande";
+    font-size: 16px;
+    font-weight: 100;
+}
+
+.Save {
+    margin-top: 10px;
+}

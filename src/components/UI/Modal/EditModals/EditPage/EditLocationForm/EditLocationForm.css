@@ -1,13 +1,4 @@
 
-.Form {
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
 .CityAndZip {
     width: 99%;
     display: flex;
@@ -32,40 +23,6 @@
     justify-content: flex-start;
     align-items: center;
 }
-
-.DisableLocationDot {
-    height: 30px;
-    width: 30px;
-}
-
-.SaveEditsButton {
-    height: 40px;
-    width: 98%;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #0a70ff;
-    margin-bottom: 20px;
-    color: white;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.SaveEditsButton:hover {
-    background-color: #0a67f2;
-}
-
-.SaveDisabled {
-    background-color: rgba(0,0,0,0.07);
-    color: rgba(0,0,0,0.4);
-    cursor: default;
-}
-.SaveDisabled:hover {
-    background-color: rgba(0,0,0,0.07);
-    color: rgba(0,0,0,0.4);
-}
-
 
 .SuggestionContainer {
     border-radius: 6px;

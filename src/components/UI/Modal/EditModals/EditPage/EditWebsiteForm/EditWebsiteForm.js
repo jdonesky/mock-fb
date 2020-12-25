@@ -2,30 +2,29 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {connect} from 'react-redux';
 import sharedClasses from '../Shared.css';
-import classes from './EditDescriptionForm.css';
-import Info from "../../../../../../assets/images/MiscIcons/info";
+import classes from './EditWebsiteForm.css';
+import Web from '../../../../../../assets/images/MiscIcons/web';
 import Input from "../../../../Input/Input";
 import Spinner from '../../../../Spinner/Spinner';
 
 import {PageContext} from "../../../../../../context/page-context";
 
-const editDescriptionForm = (props) => {
+const editWebsiteForm = (props) => {
 
     const pageContext = useContext(PageContext)
     const {ownedPage} = props
-    const [description, setDescription] = useState('');
+    const [website, setWebsite] = useState('');
     const [formValid, setFormValid] = useState(false);
 
     useEffect(() => {
         if (ownedPage) {
-            setDescription(ownedPage.description);
+            setWebsite(ownedPage.website);
         }
     }, [ownedPage])
 
     const validate = () => {
-        setFormValid(description !== ownedPage.description);
+        setFormValid(website !== ownedPage.website);
     }
-
 
     let pageName;
     if (ownedPage) {
@@ -34,18 +33,18 @@ const editDescriptionForm = (props) => {
         pageName = 'your'
     }
 
-    const updateDescription = (event) => {
-        setDescription(event.target.value);
+    const updateWebsite = (event) => {
+        setWebsite(event.target.value);
         validate();
     }
 
-    const descriptionInput = (
+    const websiteInput = (
         <Input
-            elementType="textarea"
-            value={description}
-            placeholder="Description"
-            changed={(event) => updateDescription(event)}
-            className={classes.DescriptionBox}
+            elementType="input"
+            type="text"
+            value={website}
+            placeholder="Website"
+            changed={(event) => updateWebsite(event)}
         />
     )
 
@@ -55,26 +54,26 @@ const editDescriptionForm = (props) => {
     }
 
     const saveEdits = () => {
-        const newDescription = description;
-        pageContext.saveAboutEdits('description', newDescription);
+        const newWebsite = website;
+        pageContext.saveAboutEdits('website', newWebsite);
     }
 
     return (
         <section className={sharedClasses.FormContainer}>
             <section className={sharedClasses.Header}>
-                <div className={sharedClasses.CategoryIcon}><Info /></div>
+                <div className={sharedClasses.CategoryIcon}><Web /></div>
                 <div className={sharedClasses.HeaderCaptionBlock}>
                     <div className={sharedClasses.EditingCaption}>Editing...</div>
                     <div className={sharedClasses.CaptionQuestion}>
-                        {`What is ${pageName} description?`}
+                        {`What is ${pageName} website?`}
                     </div>
                 </div>
             </section>
             <section className={sharedClasses.Form}>
-                {descriptionInput}
+                {websiteInput}
             </section>
             <div className={saveButtonClasses.join(" ")} onClick={formValid ? saveEdits : null}>
-                {props.editingPageAbout ? <Spinner /> : 'Save Description'}
+                {props.editingPageAbout ? <Spinner /> : 'Save Website'}
             </div>
         </section>
     )
@@ -88,4 +87,4 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps)(editDescriptionForm);
+export default connect(mapStateToProps)(editWebsiteForm);

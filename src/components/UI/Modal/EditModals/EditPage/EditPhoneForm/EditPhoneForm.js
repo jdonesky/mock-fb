@@ -2,30 +2,29 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {connect} from 'react-redux';
 import sharedClasses from '../Shared.css';
-import classes from './EditDescriptionForm.css';
-import Info from "../../../../../../assets/images/MiscIcons/info";
+import classes from './EditPhoneForm.css';
+import Web from '../../../../../../assets/images/MiscIcons/web';
 import Input from "../../../../Input/Input";
 import Spinner from '../../../../Spinner/Spinner';
 
 import {PageContext} from "../../../../../../context/page-context";
 
-const editDescriptionForm = (props) => {
+const editPhoneForm = (props) => {
 
     const pageContext = useContext(PageContext)
     const {ownedPage} = props
-    const [description, setDescription] = useState('');
+    const [phone, setPhone] = useState('');
     const [formValid, setFormValid] = useState(false);
 
     useEffect(() => {
         if (ownedPage) {
-            setDescription(ownedPage.description);
+            setPhone(ownedPage.phone);
         }
     }, [ownedPage])
 
     const validate = () => {
-        setFormValid(description !== ownedPage.description);
+        setFormValid(phone !== ownedPage.phone);
     }
-
 
     let pageName;
     if (ownedPage) {
@@ -34,18 +33,19 @@ const editDescriptionForm = (props) => {
         pageName = 'your'
     }
 
-    const updateDescription = (event) => {
-        setDescription(event.target.value);
+    const updateWebsite = (event) => {
+        setPhone(event.target.value);
         validate();
     }
 
-    const descriptionInput = (
+    const phoneInput = (
         <Input
-            elementType="textarea"
-            value={description}
-            placeholder="Description"
-            changed={(event) => updateDescription(event)}
-            className={classes.DescriptionBox}
+            elementType="input"
+            type="text"
+            value={phone}
+            placeholder="Phone number"
+            changed={(event) => updateWebsite(event)}
+            pattern="[0-9]*"
         />
     )
 
@@ -55,26 +55,25 @@ const editDescriptionForm = (props) => {
     }
 
     const saveEdits = () => {
-        const newDescription = description;
-        pageContext.saveAboutEdits('description', newDescription);
+        pageContext.saveAboutEdits('phone', phone);
     }
 
     return (
         <section className={sharedClasses.FormContainer}>
             <section className={sharedClasses.Header}>
-                <div className={sharedClasses.CategoryIcon}><Info /></div>
+                <div className={sharedClasses.CategoryIcon}><Web /></div>
                 <div className={sharedClasses.HeaderCaptionBlock}>
                     <div className={sharedClasses.EditingCaption}>Editing...</div>
                     <div className={sharedClasses.CaptionQuestion}>
-                        {`What is ${pageName} description?`}
+                        {`What is ${pageName} phone number?`}
                     </div>
                 </div>
             </section>
             <section className={sharedClasses.Form}>
-                {descriptionInput}
+                {phoneInput}
             </section>
             <div className={saveButtonClasses.join(" ")} onClick={formValid ? saveEdits : null}>
-                {props.editingPageAbout ? <Spinner /> : 'Save Description'}
+                {props.editingPageAbout ? <Spinner /> : 'Save Phone Number'}
             </div>
         </section>
     )
@@ -88,4 +87,4 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps)(editDescriptionForm);
+export default connect(mapStateToProps)(editPhoneForm);

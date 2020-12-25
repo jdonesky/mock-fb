@@ -9,6 +9,7 @@ import Map from '../../../../../Map/Map';
 import {geocode} from "../../../../../../shared/utility";
 
 import LocationArrow from '../../../../../../assets/images/MiscIcons/locationArrow';
+import Spinner from '../../../../Spinner/Spinner';
 import OutsideAlerter from "../../../../../../hooks/outsideClickHandler";
 
 const editLocationForm = props => {
@@ -43,15 +44,9 @@ const editLocationForm = props => {
         }
     }, [formValid])
 
-    useEffect(() => {
-        console.log(suggestedAddress);
-        console.log(storedCoordinates)
-        console.log(coordinates);
-        console.log('Error', error);
-    })
-
     const takeSuggestion = () => {
         setShowSuggestedAddress(false);
+        setAddress(suggestedAddress);
         setCoordinates(storedCoordinates);
         setStoredCoordinates(null);
     }
@@ -158,9 +153,9 @@ const editLocationForm = props => {
         />
     )
 
-    const saveButtonClasses = [classes.SaveEditsButton]
+    const saveButtonClasses = [sharedClasses.SaveEditsButton]
     if (!formValid) {
-        saveButtonClasses.push(classes.SaveDisabled);
+        saveButtonClasses.push(sharedClasses.SaveDisabled);
     }
 
     let suggestion;
@@ -190,8 +185,7 @@ const editLocationForm = props => {
 
     const saveEdits = () => {
         const newLocation = {address: address, city: city, zip: zip, coordinates: coordinates}
-        console.log('new location - saving ', newLocation )
-        pageContext.saveEdits('location', newLocation)
+        pageContext.saveAboutEdits('location', newLocation)
     }
 
     return (
@@ -205,7 +199,7 @@ const editLocationForm = props => {
                     </div>
                 </div>
             </section>
-            <section className={classes.Form}>
+            <section className={sharedClasses.Form}>
                 {errorMessage}
                 {suggestion}
                 {addressInput}
@@ -218,7 +212,7 @@ const editLocationForm = props => {
                 <Map userLocation={coordinates}/>
             </section>
             <div className={saveButtonClasses.join(" ")} onClick={formValid ? saveEdits : null }>
-                Save Location
+                {props.editingPageAbout ? <Spinner /> : 'Save Location'}
             </div>
         </section>
     )
@@ -226,7 +220,8 @@ const editLocationForm = props => {
 
 const mapStateToProps = state => {
     return {
-        ownedPage: state.pages.ownedPage
+        ownedPage: state.pages.ownedPage,
+        editingPageAbout: state.pages.editingPageAbout
     }
 }
 

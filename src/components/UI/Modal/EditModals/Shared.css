@@ -1,7 +1,12 @@
 
-.ModalAddClass {
+.LocationModal {
     top: 2%;
 }
+
+.SingleEntryModal {
+    top: 25%;
+}
+
 
 .ContentContainer {
     height: 100%;

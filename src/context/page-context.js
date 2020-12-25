@@ -28,8 +28,8 @@ export const PageContext = React.createContext({
 const PageContextProvider = (props) => {
 
     const {ownedPage, authToken} = props
-    const [showModal, setShowModal] = useState(true);
-    const [modalContent, setModalContent] = useState('LOCATION');
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState(null);
 
     const [pageName, setPageName] = useState('');
     const [category, setCategory] = useState('');
@@ -116,7 +116,7 @@ const PageContextProvider = (props) => {
     const saveAboutEdits = (field, payload) => {
         if (ownedPage) {
             const newPage = {...ownedPage, [field]: payload}
-            props.onEditPageAbout(props.authToken, newPage)
+            props.onEditPageAbout(props.authToken, newPage, () => setShowModal(false))
         }
     }
 
@@ -129,7 +129,7 @@ const PageContextProvider = (props) => {
                 setProfileImage: setProfileImage, setCoverImage: setCoverImage, clearAllInputs: clearAllInputs,
                 startCreatePage: startCreatePage, finishCreatePage: finishCreatePage,
                 showModal: showModal,setShowModal: setShowModal, startEditing: startEditing, modalContent: modalContent,
-                setModalContent: setModalContent, saveEdits: saveAboutEdits }}>
+                setModalContent: setModalContent, saveAboutEdits: saveAboutEdits }}>
             {props.children}
         </PageContext.Provider>
     )

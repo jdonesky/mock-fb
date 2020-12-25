@@ -6,6 +6,9 @@ import {PageContext} from "../../../../../context/page-context";
 import getWindowDimensions from "../../../../../hooks/getWindowDimensions";
 import LocationForm from "./EditLocationForm/EditLocationForm";
 import DescriptionForm from "./EditDescriptionForm/EditDescriptionForm";
+import WebsiteForm from './EditWebsiteForm/EditWebsiteForm';
+import PhoneForm from './EditPhoneForm/EditPhoneForm';
+import EmailForm from './EditEmailForm/EditEmailForm';
 
 import Close from '../../../../../assets/images/close'
 
@@ -14,21 +17,27 @@ const editPageModal = props => {
     const pageContext = useContext(PageContext);
 
     let modalContent;
+    let modalContainer;
     switch (pageContext.modalContent) {
         case 'LOCATION':
             modalContent = <LocationForm />
+            modalContainer = classes.LocationModal;
             break;
         case 'DESCRIPTION':
             modalContent = <DescriptionForm />
+            modalContainer = classes.SingleEntryModal;
             break;
         case 'WEBSITE':
-            // modalContent = <TagFriends />
+            modalContent = <WebsiteForm />
+            modalContainer = classes.SingleEntryModal;
             break;
         case 'PHONE':
-            // modalContent = <Location />
+            modalContent = <PhoneForm />
+            modalContainer = classes.SingleEntryModal;
             break;
         case 'EMAIL':
-            // modalContent = <Location />
+            modalContent = <EmailForm />
+            modalContainer = classes.SingleEntryModal;
             break;
         case 'CATEGORY':
             // modalContent = <Location />
@@ -38,7 +47,7 @@ const editPageModal = props => {
     }
 
     return (
-        <Modal show={pageContext.showModal ? pageContext.showModal : undefined} close={() => pageContext.setShowModal(false)} addClass={classes.ModalAddClass}>
+        <Modal show={pageContext.showModal ? pageContext.showModal : undefined} close={() => pageContext.setShowModal(false)} addClass={modalContainer}>
             <section className={classes.ContentContainer} style={{width: `${width *.6}px`}}>
                 <section className={classes.Header}>
                     <div className={classes.TitleBlock}>
