@@ -6,8 +6,10 @@ import sharedClasses from '../Shared.css';
 import {PageContext} from "../../../../../../context/page-context";
 import Input from '../../../../Input/Input';
 import Map from '../../../../../Map/Map';
+import {geocode} from "../../../../../../shared/utility";
 
 import LocationArrow from '../../../../../../assets/images/MiscIcons/locationArrow';
+import OutsideAlerter from "../../../../../../hooks/outsideClickHandler";
 
 const editLocationForm = props => {
 
@@ -16,6 +18,12 @@ const editLocationForm = props => {
     const [city, setCity] = useState('');
     const [zip, setZip] = useState('');
     const [formValid, setFormValid] = useState(false);
+
+    const [suggestedAddress, setSuggestedAddress] = useState(null);
+    const [showSuggestedAddress, setShowSuggestedAddress] = useState(false);
+    const [storedCoordinates, setStoredCoordinates] = useState(null);
+    const [coordinates, setCoordinates] = useState(null);
+    const [error, setError] = useState(null);
 
     const {ownedPage} = props
 
@@ -27,11 +35,53 @@ const editLocationForm = props => {
         }
     }, [ownedPage])
 
+    useEffect(() => {
+        if (formValid) {
+            fetchCoordinates()
+        }
+    }, [formValid])
+
+    useEffect(() => {
+        console.log(suggestedAddress);
+        console.log(storedCoordinates)
+        console.log(coordinates);
+    })
+
+    const takeSuggestion = () => {
+        setShowSuggestedAddress(false);
+        setCoordinates(storedCoordinates);
+        setStoredCoordinates(null);
+    }
+
+    const clearSuggestion = () => {
+        setShowSuggestedAddress(false);
+        setStoredCoordinates(null);
+    }
+
     let pageName;
     if (ownedPage) {
         pageName = ownedPage.name + "'s"
     } else {
         pageName = 'your'
+    }
+
+    const fetchCoordinates = () => {
+        setTimeout(() => {
+            geocode(`${address} ${city} ${zip}`, (type, payload) => {
+                switch (type) {
+                    case 'SUCCESS':
+                        setSuggestedAddress(payload.formatted_address);
+                        setStoredCoordinates(payload.geometry.location);
+                        setShowSuggestedAddress(true);
+                        break;
+                    case 'FAIL':
+                        setError(payload)
+                        break;
+                    default:
+                        return;
+                }
+            })
+        }, 1500)
     }
 
     const validate = () => {
@@ -99,6 +149,19 @@ const editLocationForm = props => {
         saveButtonClasses.push(classes.SaveDisabled);
     }
 
+    let suggestion;
+    if (showSuggestedAddress) {
+        suggestion = (
+            <OutsideAlerter action={clearSuggestion}>
+                <div className={classes.SuggestionContainer}>
+                    <div className={classes.SuggestionCaption}>Did you mean...</div>
+                    <div className={classes.Suggestion} onClick={takeSuggestion}>{`${suggestedAddress}?`}</div>
+                </div>
+            </OutsideAlerter>
+        )
+    }
+
+
     return (
         <section className={sharedClasses.FormContainer}>
             <section className={sharedClasses.Header}>
@@ -111,6 +174,7 @@ const editLocationForm = props => {
                 </div>
             </section>
             <section className={classes.Form}>
+                {suggestion}
                 {addressInput}
                 <div className={classes.CityAndZip}>
                     {cityInput}
@@ -118,7 +182,7 @@ const editLocationForm = props => {
                 </div>
             </section>
             <section className={classes.MapContainer}>
-                <Map />
+                <Map userLocation={coordinates}/>
             </section>
             <div className={saveButtonClasses.join(" ")} onClick={formValid ? saveEdits : null }>
                 Save Location

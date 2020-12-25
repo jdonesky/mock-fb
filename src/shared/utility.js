@@ -1,4 +1,5 @@
 import axios from '../axios/db-axios-instance'
+import Axios from 'axios';
 
 export const fieldBuilder = (
   elType,
@@ -189,3 +190,16 @@ export const checkBirthday = (date) => {
   return thisMonth === birthdayMonth + 1;
 }
 
+export const geocode = (address, cb) => {
+  if (address) {
+    Axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyD4T1w5B2QyiyC4gFZ_f1dmvZ8_ghJkX0E`)
+        .then(response => {
+          console.log('GEOCODED RESPONSE', response.data.results[0]);
+          cb('SUCCESS', response.data.results[0])
+        })
+        .catch(error => {
+          console.log(error);
+          cb('FAIL', error)
+        })
+  }
+}

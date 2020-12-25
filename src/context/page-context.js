@@ -29,7 +29,7 @@ const PageContextProvider = (props) => {
 
     const {ownedPage, authToken} = props
     const [showModal, setShowModal] = useState(true);
-    const [modalContent, setModalContent] = useState('DESCRIPTION');
+    const [modalContent, setModalContent] = useState('LOCATION');
 
     const [pageName, setPageName] = useState('');
     const [category, setCategory] = useState('');

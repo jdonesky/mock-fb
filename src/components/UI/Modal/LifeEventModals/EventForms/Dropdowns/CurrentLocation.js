@@ -50,12 +50,15 @@ const currentLocation = ({currLocation, hometown, pastLocations, update, close})
 
     const filterTerms = useCallback((term) => {
         setSearchTerm(term)
-        const filtered = allSuggestions.filter(suggestion => suggestion.name.slice(0,term.length).toLowerCase() === term.toLowerCase())
-        setSuggestions(filtered.length ? filtered : '')
+        let filtered;
+        if (allSuggestions && allSuggestions.length) {
+            filtered = allSuggestions.filter(suggestion => suggestion.name.slice(0,term.length).toLowerCase() === term.toLowerCase())
+        }
+        setSuggestions(filtered && filtered.length ? filtered : term)
     }, [])
 
     let suggestLocations;
-    if (suggestions && suggestions.length) {
+    if (suggestions && typeof(suggestions) ==='object') {
         suggestLocations = suggestions.map(loc => (
             <SuggestedLocation type={loc.key} text={loc.name} clicked={() => updateInput(loc.name)}/>
         ))

@@ -1,19 +1,42 @@
 
-import React from 'react';
-import { Map, GoogleApiWrapper} from "google-maps-react";
+import React, {useState, useEffect, useRef} from 'react';
+import { Map, GoogleApiWrapper, Marker} from "google-maps-react";
 
 
 const mapContainer = props => {
+
+    const [pin, setPin] = useState(null)
+    const [center, setCenter] = useState({
+        lat: 37.4846,
+        lng: -122.1495
+    })
+    const map = useRef(null);
+
+    const {userLocation} = props
+
+    useEffect(() => {
+        console.log('iN mAP comPONEnent', userLocation)
+        console.log('MAP ref center', map.current.defaultCenter)
+    })
+
+    useEffect(() => {
+        if (userLocation) {
+            setPin(userLocation)
+            setCenter(userLocation)
+        }
+    }, [userLocation])
+
+
     return (
         <Map
         google={props.google}
-        zoom={14}
+        ref={map}
+        zoom={props.zoom}
         style={{height: '51.5%', width: '87.3%', borderRadius: '8px'}}
-        initialCenter={{
-            lat: 37.4846,
-            lng: -122.1495
-        }}
-        />
+        center={center}
+        >
+            {pin ? <Marker position={{lat: pin.lat, lng: pin.lng}}/> : null}
+        </Map>
     )
 }
 
