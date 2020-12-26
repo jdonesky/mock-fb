@@ -174,6 +174,71 @@ export const editPageAboutAttempt = (authToken, newPage) => {
     }
 }
 
+const editPageCoverInit = () => {
+    return {
+        type: actionTypes.EDIT_PAGE_COVER_INIT
+    }
+}
+
+const editPageCoverSuccess = (page) => {
+    return {
+        type: actionTypes.EDIT_PAGE_COVER_SUCCESS,
+        page: page
+    }
+}
+
+const editPageCoverFail = (error) => {
+    return {
+        type: actionTypes.EDIT_PAGE_COVER_FAIL,
+        error: error
+    }
+}
+
+const editPageProfilePicInit = () => {
+    return {
+        type: actionTypes.EDIT_PAGE_PROFILE_PIC_INIT
+    }
+}
+
+const editPageProfilePicSuccess = (page) => {
+    return {
+        type: actionTypes.EDIT_PAGE_PROFILE_PIC_SUCCESS,
+        page: page
+    }
+}
+
+const editPageProfilePicFail = (error) => {
+    return {
+        type: actionTypes.EDIT_PAGE_PROFILE_PIC_FAIL,
+        error: error
+    }
+}
+
+export const editPageImageAttempt = (authToken, field, newPage) => {
+    return dispatch => {
+        let init;
+        let success;
+        let fail;
+        if (field === 'profileImage') {
+            init = editPageProfilePicInit;
+            success = editPageProfilePicSuccess
+            fail = editPageProfilePicFail
+        } else {
+            init = editPageCoverInit
+            success = editPageCoverSuccess
+            fail = editPageCoverFail
+        }
+        dispatch(init());
+        axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
+            .then(response => {
+                console.log(`SUCCESS - put new ${field}`)
+                dispatch(success(newPage));
+            })
+            .catch(error => {
+                dispatch(fail(error));
+            })
+    }
+}
 
 export const clearPageInProgress = () => {
     return {

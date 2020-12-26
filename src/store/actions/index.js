@@ -36,6 +36,7 @@ export {
    fetchOwnedPagesAttempt,
    fetchOwnedPageAttempt,
    editPageAboutAttempt,
+   editPageImageAttempt,
    clearPageInProgress
 } from "./pages";
 

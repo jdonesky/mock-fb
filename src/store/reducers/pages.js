@@ -13,6 +13,8 @@ const initialState = {
     fetchingOthersPages: false,
     fetchingOthersPage: false,
     editingPageAbout: false,
+    editingProfileImage: false,
+    editingCoverImage: false,
     error: null
 }
 
@@ -117,6 +119,51 @@ const editPageAboutFail = (state,action) => {
     }
 }
 
+const editProfileImageInit = (state,action) => {
+    return {
+        ...state,
+        editingProfileImage: true
+    }
+}
+
+const editProfileImageSuccess = (state,action) => {
+    return {
+        ...state,
+        ownedPage: action.page,
+        editingProfileImage: false
+    }
+}
+
+const editProfileImageFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        editingProfileImage: false
+    }
+}
+
+const editCoverImageInit = (state,action) => {
+    return {
+        ...state,
+        editingCoverImage: true
+    }
+}
+
+const editCoverImageSuccess = (state,action) => {
+    return {
+        ...state,
+        ownedPage: action.page,
+        editingCoverImage: false
+    }
+}
+
+const editCoverImageFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        editingCoverImage: false
+    }
+}
 
 const clearPageInProgress = (state,action) => {
     return {
@@ -140,6 +187,12 @@ const reducer = (state=initialState, action) => {
         case actionTypes.EDIT_PAGE_ABOUT_INIT: return editPageAboutInit(state,action);
         case actionTypes.EDIT_PAGE_ABOUT_SUCCESS: return editPageAboutSuccess(state,action);
         case actionTypes.EDIT_PAGE_ABOUT_FAIL: return editPageAboutFail(state,action);
+        case actionTypes.EDIT_PAGE_PROFILE_PIC_INIT: return editProfileImageInit(state,action);
+        case actionTypes.EDIT_PAGE_PROFILE_PIC_SUCCESS: return editProfileImageSuccess(state,action);
+        case actionTypes.EDIT_PAGE_PROFILE_PIC_FAIL: return editProfileImageFail(state,action);
+        case actionTypes.EDIT_PAGE_COVER_INIT: return editCoverImageInit(state,action);
+        case actionTypes.EDIT_PAGE_COVER_SUCCESS: return editCoverImageSuccess(state,action);
+        case actionTypes.EDIT_PAGE_COVER_FAIL: return editCoverImageFail(state,action);
         case actionTypes.CLEAR_PAGE_IN_PROGRESS: return clearPageInProgress(state,action);
         default:
             return state
