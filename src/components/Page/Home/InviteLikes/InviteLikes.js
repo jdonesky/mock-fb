@@ -1,6 +1,6 @@
 
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {connect} from 'react-redux';
 import classes from './InviteLikes.css';
 import sharedClasses from '../Shared.css';
@@ -17,10 +17,6 @@ const inviteLikes = props => {
     const [sentRequests, setSentRequests] = useState([])
 
     useEffect(() => {
-        console.log(sentRequests)
-    })
-
-    useEffect(() => {
         if (publicProfile) {
             setSuggestions(publicProfile.friends)
         }
@@ -33,6 +29,13 @@ const inviteLikes = props => {
             }
         }
     }, [ownedPage])
+
+    const filterSearch = useCallback((term) => {
+        if (publicProfile && publicProfile.friends) {
+            const matches = [...publicProfile.friends.filter(friend => friend.name.split(' ')[0].slice(0, term.length) === term || friend.name.split(' ')[1].slice(0, term.length) === term || friend.name.split(' ')[0].slice(0, 2) === term.slice(0,2))]
+            setSuggestions(matches)
+        }
+    }, [publicProfile])
 
     const requestLike = (request) => {
         let pageRequests;
@@ -58,8 +61,7 @@ const inviteLikes = props => {
     if (suggestions) {
         friends = (
             <div className={classes.FriendsContainer}>
-                {suggestions.map(friend => {
-
+                {suggestions.slice(0,5).map(friend => {
                     let requestSent;
                     const inviteButtonClasses = [classes.InviteButton]
                     if (sentRequests && sentRequests.includes(friend.publicProfileKey)) {
@@ -72,7 +74,7 @@ const inviteLikes = props => {
                             <div className={classes.FriendInfoBlock}>
                                 <div className={classes.FriendProfileImageCircle}
                                      style={{backgroundImage: friend.profileImage ? `url(${friend.profileImage})` : null}}>
-                                    {friend.profileImage ? null : <Avatar/>}
+                                    {friend.profileImage ? null : <Avatar fill="white"/>}
                                 </div>
                                 <div className={classes.FriendName}>{friend.name}</div>
                             </div>
@@ -89,15 +91,17 @@ const inviteLikes = props => {
 
     return (
         <div className={sharedClasses.Container}>
-            <div className={sharedClasses.Header}>Invite Friend to Like Your Page</div>
+            <div className={sharedClasses.Header}>Invite Friends to Like Your Page</div>
             <div className={classes.HeaderCaption}>More people might see your posts in News Feed if your friends like your Page and share posts </div>
             <Searchbar
                 className={classes.Searchbar}
                 iconClass={classes.SearchGlass}
                 inputClass={classes.SearchInput}
                 placeholder="Search for friends to invite"
+                filterResults={filterSearch}
             />
             {friends}
+            <div className={classes.SeeAll}>See All Friends</div>
         </div>
     );
 }
@@ -106,7 +110,7 @@ const mapStateToProps = (state) => {
     return {
         authToken: state.auth.token,
         publicProfile: state.profile.publicProfile,
-        ownedPage: state.pages.ownedPage
+        ownedPage: state.pages.ownedPage,
     }
 }
 

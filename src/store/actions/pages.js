@@ -1,6 +1,6 @@
 
 import * as actionTypes from "./actionTypes";
-import {KeyGenerator} from "../../shared/utility";
+import {convertDatetime, KeyGenerator} from "../../shared/utility";
 import axios from "../../axios/db-axios-instance";
 import {sendFriendRequestAttempt} from "./friends";
 
@@ -32,15 +32,37 @@ const createPageFail = (error) => {
     }
 }
 
+
 export const startCreatePageAttempt = (authToken, page) => {
     return dispatch => {
+        let postsKey;
+        let pageKey;
+        let postsWithKeys;
         dispatch(createPageInit());
         KeyGenerator.getKey(authToken, (newKey) => {
             let newPage = {...page, id: newKey}
-            axios.post(`/pages.json?auth=${authToken}`, newPage)
+            const today = new Date();
+            let yesterday = new Date();
+            yesterday = new Date(yesterday.setDate(today.getDate() - 1));
+            const posts = [{userType: 'PAGE', name: newPage.name, text: 'hold postsKey', date: yesterday, id: -1},{userType: 'PAGE', name: newPage.name,text: `${newPage.name} was created ${convertDatetime(today, true)}`, date: today, id: newKey}]
+            axios.post(`/posts.json?auth=${authToken}`,posts)
                 .then(response => {
-                    newPage = {...newPage, dbKey: response.data.name}
+                    postsKey = response.data.name;
+                    postsWithKeys = posts.map(post => ({...post, postsKey: postsKey}))
+                    return axios.put(`/posts/${postsKey}.json?auth=${authToken}`, [...postsWithKeys])
+                })
+                .then(response => {
+                    newPage = {...newPage, postsKey: postsKey}
+                    return axios.post(`/pages.json?auth=${authToken}`, newPage)
+                })
+                .then(response => {
+                    pageKey = response.data.name;
+                    newPage = {...newPage, dbKey: pageKey}
                     return axios.put(`/pages/${response.data.name}.json?auth=${authToken}`, newPage)
+                })
+                .then(response => {
+                    postsWithKeys = postsWithKeys.map(post => ({...post, userKey: pageKey}))
+                    return axios.put(`/posts/${postsKey}.json?auth=${authToken}`, [...postsWithKeys])
                 })
                 .then(response => {
                     dispatch(startCreatePageSuccess(newPage))
@@ -52,6 +74,7 @@ export const startCreatePageAttempt = (authToken, page) => {
         })
     }
 }
+
 
 export const finishCreatePageAttempt = (authToken, page, cb) => {
     return dispatch => {

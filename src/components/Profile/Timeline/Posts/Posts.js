@@ -1,19 +1,27 @@
 
 import React, {useEffect} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import Post from './Post/Post';
 import InlineDots from '../../../UI/Spinner/InlineDots';
 import * as actions from '../../../../store/actions/index';
 
-const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, loadingSelfPosts, displayProfile, otherProfile}) => {
+const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, loadingSelfPosts, displayProfile, otherProfile, type, pathRoot}) => {
+
 
     useEffect(() => {
         let key;
-        if (displayProfile === 'me') {
-            key = postsKey
-        } else {
-            if (otherProfile) {
-                key = otherProfile.postsKey
+        if (type=== 'USER') {
+            if (displayProfile === 'me') {
+                key = postsKey
+            } else {
+                if (otherProfile) {
+                    key = otherProfile.postsKey
+                }
+            }
+        } else if (type === 'PAGE') {
+            if (pathRoot === 'manage') {
+
             }
         }
         onFetchSelfPosts(authToken, key)

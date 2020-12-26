@@ -38,10 +38,7 @@ const PageContextProvider = (props) => {
     const [startedPage, setStartedPage] = useState(false);
     const [profileImage, setProfileImage] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
-    // const [location, setLocation] = useState(null);
-    // const [website, setWebsite] = useState(null);
-    // const [phone, setPhone] = useState(null);
-    // const [email, setEmail] = useState(null);
+
 
     const startEditing = (form) => {
         if (!ownedPage) {
@@ -104,12 +101,15 @@ const PageContextProvider = (props) => {
             adminUserKey: props.userKey,
             adminPublicProfileKey: props.publicProfileKey,
             dbKey: props.pageInProgress.dbKey,
+            postsKey: props.pageInProgress.postsKey,
             id: props.pageInProgress.id,
         }
         props.onFinishCreatePage(props.authToken, finishedPage, () => {
-            props.history.push(`/pages/${finishedPage.dbKey}`)
-            setStartedPage(false);
-            clearAllInputs();
+            if (!props.creatingNewPage) {
+                clearAllInputs();
+                props.history.push(`/pages/manage/${finishedPage.dbKey}`)
+                setStartedPage(false);
+            }
         })
     }
 
@@ -145,7 +145,8 @@ const mapStateToProps = state => {
         userKey: state.profile.firebaseKey,
         name: state.profile.firstName + ' ' + state.profile.lastName,
         pageInProgress: state.pages.pageInProgress,
-        ownedPage: state.pages.ownedPage
+        ownedPage: state.pages.ownedPage,
+        creatingNewPage: state.pages.creatingNewPage
     }
 }
 

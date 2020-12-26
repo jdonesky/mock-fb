@@ -34,20 +34,20 @@ const about = props => {
             {text: ownedPage.category, action: () => pageContext.startEditing('CATEGORY'), filled: true, icon: <AddCategory fill="rgba(0,0,0,0.45)"/>, categoryText: true}
         ]
             .map((obj,i) => (
-                <div key={i} className={classes.EditButton} onClick={obj.action} style={{justifyContent: obj.filled ? 'space-between' : null}}>
+                <div key={i} className={classes.EditButton} style={{justifyContent: obj.filled ? 'space-between' : null}}>
                     <div className={classes.EditButtonLeftBlock}>
                         <div className={classes.EditIcon}>
                             {obj.icon}
                         </div>
-                        <div className={[classes.EditText, obj.followText ? classes.FollowClass : null, obj.messageText ? classes.MessageClass : null, obj.categoryText ? classes.CategoryClass : null].join(" ")}>{obj.text}</div>
+                        <div className={[classes.EditText, obj.followText ? classes.FollowClass : null, obj.messageText ? classes.MessageClass : null, obj.categoryText ? classes.CategoryClass : null].join(" ")} onClick={obj.action}>{obj.text}</div>
                     </div>
-                    {obj.filled ? <div className={classes.PenIcon}><Edit fill="#0a70ff"/></div> : null}
+                    {obj.filled ? <div className={classes.PenIcon} onClick={obj.action}><Edit fill="#0a70ff"/></div> : null}
                 </div>
             ))
     }
 
     return (
-        <div className={sharedClasses.Container}>
+        <div className={sharedClasses.Container} style={{height: "400px"}}>
             <div className={sharedClasses.Header}>About</div>
             <section className={classes.EditButtonsContainer}>
                 {editButtons}

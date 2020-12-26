@@ -12,6 +12,7 @@ const searchBar = ({filterResults, className, iconClass, inputClass, placeholder
         userInputRef.current.focus();
     }, [])
 
+
     useEffect(() => {
         const timer = setTimeout(() => {
             if (searchTerm.length) {

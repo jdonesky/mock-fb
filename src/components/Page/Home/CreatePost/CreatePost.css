@@ -1,0 +1,107 @@
+
+.TopBlock {
+    height: 60px;
+    width: 93%;
+    margin: 5px auto 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ProfileImage {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    border-radius: 100%;
+    border: 1px solid rgba(0,0,0,0.5);
+    background-position: center;
+    background-size: cover;
+    background-color: rgba(0,0,0,0.05);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: 5px;
+}
+
+.ProfileImage:hover {
+    background-color: rgba(0,0,0,0.1);
+    filter: saturate(1.5);
+}
+
+.ProfileImage:active {
+    box-shadow: 0 0 1px 2px rgba(0,0,0,.2);
+}
+
+.CreatePostButton {
+    flex: 1;
+    display: flex;
+    border-radius: 6px;
+    font-family: "Lucida Grande";
+    font-weight: 900;
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color: rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.CreatePostButton:hover {
+    background-color: rgba(0,0,0,0.15);
+}
+
+
+.BottomBlock {
+    height:60px;
+    width: 93%;
+    margin: 0 auto 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.MediaButton {
+    width: 49%;
+    min-width: 150px;
+    height: 75%;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.MediaButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.MediaIcon {
+    height: 22px;
+    width: 22px;
+    margin-right: 10px;
+}
+
+.MessageIcon {
+    height: 19px;
+    width: 19px;
+}
+
+.MediaIcon svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+}
+
+.MediaText {
+    font-family: "Lucida Grande";
+    font-weight: 700;
+    font-size: 15px;
+}
+
+
+

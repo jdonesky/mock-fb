@@ -23,6 +23,7 @@ const createPageForm = props => {
     const [profileImageRemoved, setProfileImageRemoved] = useState(false);
     const [coverImageRemoved, setCoverImageRemoved] = useState(false);
     const [shouldBlockNavigation, setShouldBlockNavigation] = useState(false);
+    const [allowNav, setAllowNav] = useState(false);
 
     const {pageName, category, description, profileImage, coverImage, formValid} = pageContext
 
@@ -207,6 +208,10 @@ const createPageForm = props => {
         createButtonText = "Save"
     }
 
+    const finishCreatingPage = () => {
+        setAllowNav(true);
+        pageContext.finishCreatePage()
+    }
 
     let createButtonClasses = [classes.CreateButton];
     if (!pageContext.formValid) {
@@ -215,7 +220,7 @@ const createPageForm = props => {
 
     let createButtonAction;
     if (pageContext.startedPage) {
-        createButtonAction = pageContext.finishCreatePage;
+        createButtonAction = finishCreatingPage;
     } else {
         if (pageContext.formValid) {
             createButtonAction = pageContext.startCreatePage;
@@ -224,10 +229,10 @@ const createPageForm = props => {
 
     return (
         <React.Fragment>
-            <Prompt
+            {allowNav ? null : <Prompt
                 when={shouldBlockNavigation}
                 message={'You have unsaved changes. Are you sure you want to leave?'}
-            />
+            /> }
             <section className={classes.FormContainer}>
                 <section className={classes.Form}>
                     <h1 className={classes.FormTitle}>{sidedrawerTitle}</h1>

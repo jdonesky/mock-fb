@@ -2,7 +2,6 @@
 .Container {
     position: relative;
     z-index: 5;
-    height: 400px;
     width: 100%;
     max-width: 930px;
     border-radius: 10px;

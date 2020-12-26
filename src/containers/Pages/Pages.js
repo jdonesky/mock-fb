@@ -2,9 +2,6 @@ import React, {useEffect} from 'react';
 import classes from './Pages.css'
 import {Route, Switch} from 'react-router-dom'
 
-import BrowsePagesSidedrawer from '../../components/Pages/BrowsePagesSidedrawer/BrowsePagesSidedrawer';
-import ManagePageSidedrawer from '../../components/Pages/ManagePageSidedrawer/ManagePageSidedrawer';
-import CreatePageSidedrawer from '../../components/Pages/CreatePageSidedrawer/CreatePageSidedrawer';
 import Managed from '../../components/Pages/BrowsePagesSidedrawer/Managed/Managed';
 import PagePreview from '../../components/Create/PagePreview/PagePreview';
 import getWindowDimensions from "../../hooks/getWindowDimensions";

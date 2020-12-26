@@ -13,6 +13,7 @@ const home = (props) => {
         <div className={classes.Home}>
             <About />
             <InviteLikes />
+            <CreatePost />
         </div>
     )
 }

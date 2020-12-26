@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import axios from '../../axios/db-axios-instance';
-import Axios from 'axios';
 import {KeyGenerator} from "../../shared/utility";
 
 const addPostInit = () => {

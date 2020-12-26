@@ -9,9 +9,9 @@
 }
 
 .Searchbar {
-    margin: 20px auto;
+    margin: 20px auto 10px;
     height: 40px;
-    width: 92%;
+    width: 93%;
     align-items: center;
 }
 
@@ -73,12 +73,14 @@
     background-size: cover;
     border: 1px solid #e0e0e0;
     margin-right: 10px;
+    overflow: hidden;
 }
 
 .FriendProfileImageCircle svg {
     height: auto;
-    width: 80%;
+    width: 100%;
     position: relative;
+    top: 5px;
 }
 
 .FriendName {
@@ -114,4 +116,22 @@
 
 .InviteDisabled:hover {
     background-color: rgba(0,0,0,0.1);
+}
+
+.SeeAll {
+    height: 43px;
+    width: 93%;
+    border-radius: 6px;
+    background-color: rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-family: "Lucida Grande";
+    font-weight: 500;
+    margin: 5px auto 20px;
+}
+
+.SeeAll:hover {
+    background-color: rgba(0,0,0,0.15);
 }

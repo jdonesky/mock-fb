@@ -1,6 +1,6 @@
 
 
-import React, {useEffect, useState, Suspense} from "react";
+import React, {useEffect, useState} from "react";
 import {Switch, Route} from 'react-router';
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
@@ -13,16 +13,12 @@ import Home from '../../components/Page/Home/Home';
 import axios from '../../axios/db-axios-instance';
 import classes from "./Page.css";
 import SquareFold from "../../components/UI/Spinner/SquareFold";
-import getWindowDimensions from "../../hooks/getWindowDimensions";
 
 
 const page = (props) => {
 
     const [displayPage, setDisplayPage] = useState(props.match.params.id)
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[2])
-
-    const {width, height} = getWindowDimensions();
-
 
     useEffect(() => {
         if (displayPage) {
@@ -31,6 +27,12 @@ const page = (props) => {
             }
         }
     },[displayPage])
+
+    useEffect(() => {
+        if (props.match.params.id !== displayPage) {
+            setDisplayPage(props.match.params.id);
+        }
+    })
 
     let name;
     let category;
