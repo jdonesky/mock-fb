@@ -1,0 +1,27 @@
+
+.Container {
+    position: relative;
+    z-index: 5;
+    height: 400px;
+    width: 100%;
+    max-width: 930px;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-content: center;
+    overflow: auto;
+    background-color: white;
+    margin-bottom: 15px;
+}
+
+.Header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "Lucida Grande";
+    font-weight: 900;
+    font-size: 20px;
+    margin: 20px 0 20px 20px;
+}

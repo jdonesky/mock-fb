@@ -2,6 +2,7 @@
 import * as actionTypes from "./actionTypes";
 import {KeyGenerator} from "../../shared/utility";
 import axios from "../../axios/db-axios-instance";
+import {sendFriendRequestAttempt} from "./friends";
 
 const createPageInit = () => {
     return {
@@ -238,6 +239,69 @@ export const editPageImageAttempt = (authToken, field, newPage) => {
                 dispatch(fail(error));
             })
     }
+}
+
+const requestPageLikeInit = () => {
+    return {
+        type: actionTypes.REQUEST_PAGE_LIKE_INIT
+    }
+}
+
+const requestPageLikeSuccess = (page) => {
+    return {
+        type: actionTypes.REQUEST_PAGE_LIKE_SUCCESS,
+        page: page
+    }
+}
+
+const requestPageLikeFail = (error) => {
+    return {
+        type: actionTypes.REQUEST_PAGE_LIKE_FAIL,
+        error: error
+    }
+}
+
+export const requestPageLikeAttempt = ( authToken, newPage, recipientKey ) => {
+    const newLikeRequest = {type: 'PAGE', dbKey: newPage.dbKey, name: newPage.name, category: newPage.category, profileImage: newPage.profileImage, sender: newPage.adminName, senderPublicKey: newPage.adminPublicProfileKey, senderUserKey: newPage.adminUserKey }
+    return dispatch => {
+        dispatch(requestPageLikeInit());
+        axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`)
+            .then(response => {
+                console.log('SUCCESS - get recipient profile -', response.data);
+
+                const newPublicProfile = {...response.data};
+                let newLikeRequests
+                let newReceivedRequests;
+                if (newPublicProfile.likeRequests) {
+                    newLikeRequests = {...newPublicProfile.likeRequests}
+                    if (newLikeRequests.received) {
+                        newReceivedRequests = [...newLikeRequests.received, newLikeRequest]
+                    } else {
+                        newReceivedRequests = [newLikeRequest]
+                    }
+                    newLikeRequests.received = newReceivedRequests;
+                    newPublicProfile.likeRequests = newLikeRequests;
+                } else {
+                    newPublicProfile.likeRequests = {received: [newLikeRequest]}
+                }
+
+                return axios.put(`/public-profiles/${recipientKey}.json?auth=${authToken}`, newPublicProfile)
+            })
+            .then(response => {
+                console.log('SUCCESS - put new recipient profile - ');
+
+                return axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
+            })
+            .then(response => {
+                console.log('SUCCESS - put new Page - ');
+                dispatch(requestPageLikeSuccess(newPage))
+            })
+            .catch(error => {
+                console.log('FAIL - somewhere - ', error);
+                dispatch(requestPageLikeFail(error))
+            })
+    }
+
 }
 
 export const clearPageInProgress = () => {

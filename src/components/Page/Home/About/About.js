@@ -2,6 +2,7 @@
 import React, {useContext} from 'react';
 import {connect} from 'react-redux';
 import classes from './About.css';
+import sharedClasses from '../Shared.css';
 import {PageContext} from "../../../../context/page-context";
 
 import Edit from '../../../../assets/images/edit';
@@ -46,8 +47,8 @@ const about = props => {
     }
 
     return (
-        <div className={classes.AboutContainer}>
-            <div className={classes.Header}>About</div>
+        <div className={sharedClasses.Container}>
+            <div className={sharedClasses.Header}>About</div>
             <section className={classes.EditButtonsContainer}>
                 {editButtons}
             </section>

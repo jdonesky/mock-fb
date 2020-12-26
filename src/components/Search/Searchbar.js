@@ -3,7 +3,7 @@ import React, {useState, useEffect,useRef} from 'react'
 import classes from './Searchbar.css'
 import Search from '../../assets/images/search'
 
-const searchBar = ({filterResults, className, iconClass, placeholder, currentlySelected}) => {
+const searchBar = ({filterResults, className, iconClass, inputClass, placeholder, currentlySelected}) => {
 
     const [searchTerm, setSearchTerm] =  useState('')
     const userInputRef = useRef()
@@ -27,11 +27,15 @@ const searchBar = ({filterResults, className, iconClass, placeholder, currentlyS
 
     const containerClasses = [classes.Container]
     const iconClasses = [classes.SearchIcon]
+    const inputClasses = [classes.Input]
     if (className) {
         containerClasses.push(className);
     }
     if (iconClass) {
         iconClasses.push(iconClass)
+    }
+    if (inputClass) {
+        inputClasses.push(inputClass)
     }
 
     return (
@@ -42,7 +46,7 @@ const searchBar = ({filterResults, className, iconClass, placeholder, currentlyS
                 value={searchTerm}
                 placeholder={placeholder}
                 onChange={(event) => setSearchTerm(event.target.value)}
-                className={classes.Input}
+                className={inputClasses.join(" ")}
             />
         </div>
     )

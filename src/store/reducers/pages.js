@@ -15,6 +15,7 @@ const initialState = {
     editingPageAbout: false,
     editingProfileImage: false,
     editingCoverImage: false,
+    requestingPageLike: false,
     error: null
 }
 
@@ -165,6 +166,28 @@ const editCoverImageFail = (state,action) => {
     }
 }
 
+const requestPageLikeInit = (state,action) => {
+    return {
+        ...state,
+        requestingPageLike: true
+    }
+}
+
+const requestPageLikeSuccess = (state,action) => {
+    return {
+        ...state,
+        ownedPage: action.page,
+        requestingPageLike: false
+    }
+}
+
+const requestPageLikeFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        requestingPageLike: false
+    }
+}
 const clearPageInProgress = (state,action) => {
     return {
         ...state,
@@ -193,6 +216,9 @@ const reducer = (state=initialState, action) => {
         case actionTypes.EDIT_PAGE_COVER_INIT: return editCoverImageInit(state,action);
         case actionTypes.EDIT_PAGE_COVER_SUCCESS: return editCoverImageSuccess(state,action);
         case actionTypes.EDIT_PAGE_COVER_FAIL: return editCoverImageFail(state,action);
+        case actionTypes.REQUEST_PAGE_LIKE_INIT: return requestPageLikeInit(state,action);
+        case actionTypes.REQUEST_PAGE_LIKE_SUCCESS: return requestPageLikeSuccess(state,action);
+        case actionTypes.REQUEST_PAGE_LIKE_FAIL: return requestPageLikeFail(state,action);
         case actionTypes.CLEAR_PAGE_IN_PROGRESS: return clearPageInProgress(state,action);
         default:
             return state

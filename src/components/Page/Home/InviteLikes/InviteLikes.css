@@ -1,0 +1,117 @@
+
+.HeaderCaption {
+    font-family: "Lucida Grande";
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(0,0,0,0.5);
+    width: 93%;
+    margin: 0 0 0 20px;
+}
+
+.Searchbar {
+    margin: 20px auto;
+    height: 40px;
+    width: 92%;
+    align-items: center;
+}
+
+.SearchInput {
+    font-size: 20px;
+    height: 100%;
+}
+
+.SearchInput::placeholder {
+    font-family: "Lucida Grande";
+    font-size: 15px;
+    font-weight: 100;
+}
+
+.SearchGlass {
+    height: 35px;
+    width: 35px;
+    margin-right: 15px;
+    position: relative;
+    bottom: 4px;
+}
+
+.SearchGlass svg {
+    height: auto;
+    width: 80%;
+}
+
+.FriendsContainer {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.Friend {
+    height: 50px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0;
+    cursor: pointer;
+}
+
+.FriendInfoBlock {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.FriendProfileImageCircle {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    background-position: center;
+    background-size: cover;
+    border: 1px solid #e0e0e0;
+    margin-right: 10px;
+}
+
+.FriendProfileImageCircle svg {
+    height: auto;
+    width: 80%;
+    position: relative;
+}
+
+.FriendName {
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    font-size: 16px;
+}
+
+.InviteButton {
+    height: 80%;
+    width: 65px;
+    border-radius: 6px;
+    background-color: #0a70ff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.InviteButton:hover {
+    background-color: #0a6bf2;
+}
+
+.InviteDisabled {
+    cursor: not-allowed;
+    background-color: rgba(0,0,0,0.1);
+    color: rgba(0,0,0,0.3);
+}
+
+.InviteDisabled:hover {
+    background-color: rgba(0,0,0,0.1);
+}
