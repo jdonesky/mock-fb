@@ -34,7 +34,7 @@ const timeLine = (props) => {
             <Friends displayProfile={props.displayProfile}/>
             <LifeEvents displayProfile={props.displayProfile}/>
             {createPost}
-            <Posts displayProfile={props.displayProfile} type="USER"/>
+            <Posts displayProfile={props.displayProfile} userType="USER"/>
         </div>
     )
 }

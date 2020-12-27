@@ -4,8 +4,9 @@ import React, {useEffect} from 'react';
 import classes from './Home.css';
 import {connect} from 'react-redux';
 import About from './About/About';
-import CreatePost from './CreatePost/CreatePost'
 import InviteLikes from "./InviteLikes/InviteLikes";
+import CreatePost from './CreatePost/CreatePost';
+import Posts from '../../Profile/Timeline/Posts/Posts';
 
 const home = (props) => {
 
@@ -14,6 +15,7 @@ const home = (props) => {
             <About />
             <InviteLikes />
             <CreatePost />
+            <Posts userType="PAGE"/>
         </div>
     )
 }

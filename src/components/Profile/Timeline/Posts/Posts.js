@@ -1,17 +1,25 @@
 
-import React, {useEffect} from 'react';
+import React, {useState,useEffect} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import Post from './Post/Post';
 import InlineDots from '../../../UI/Spinner/InlineDots';
 import * as actions from '../../../../store/actions/index';
 
-const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, loadingSelfPosts, displayProfile, otherProfile, type, pathRoot}) => {
+const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, loadingSelfPosts, displayProfile, otherProfile, ownedPage, userType, history}) => {
 
+    const [pathRoot, setPathRoot] = useState(history.location.pathname.split('/')[2])
+    const [profileImage,setProfileImage] = useState(null);
+
+    useEffect(() => {
+      if (pathRoot !== history.location.pathname.split('/')[2]) {
+          setPathRoot(history.location.pathname.split('/')[2]);
+      }
+    })
 
     useEffect(() => {
         let key;
-        if (type=== 'USER') {
+        if (userType === 'USER') {
             if (displayProfile === 'me') {
                 key = postsKey
             } else {
@@ -19,21 +27,25 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, load
                     key = otherProfile.postsKey
                 }
             }
-        } else if (type === 'PAGE') {
+        } else if (userType === 'PAGE') {
             if (pathRoot === 'manage') {
-
+                if (ownedPage) {
+                    key = ownedPage.postsKey
+                    setProfileImage(ownedPage.profileImage);
+                }
             }
         }
         onFetchSelfPosts(authToken, key)
-    }, [onFetchSelfPosts, authToken, postsKey, displayProfile])
+    }, [onFetchSelfPosts, authToken, postsKey, displayProfile, userType, ownedPage])
 
     const posted = posts && posts.length && posts.length > 1 ? posts.slice(1).map(post => (
         <Post
+            userType={post.userType}
             postsKey={post.postsKey}
             userKey={post.userKey}
             publicProfileKey={post.publicProfileKey}
             posterName={post.name}
-            postProfileImage={post.profileImage}
+            postProfileImage={post.profileImage || profileImage}
             key={post.id}
             id={post.id}
             status={post.text}
@@ -67,7 +79,8 @@ const mapStateToProps = state => {
         posts: state.posts.posts,
         deletingPost: state.posts.deletingPost,
         loadingSelfPosts: state.posts.loadingSelfPosts,
-        otherProfile: state.users.fullProfile
+        otherProfile: state.users.fullProfile,
+        ownedPage: state.pages.ownedPage
     }
 }
 
@@ -77,4 +90,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(posts);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(posts));

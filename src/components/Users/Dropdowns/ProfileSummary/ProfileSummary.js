@@ -34,7 +34,7 @@ import {convertDashedDatetime} from "../../../../shared/utility";
 
 const profileSummaryDropdown = (props) => {
 
-    const {onFetchMyFriendRequests, onFetchPublicProfile, publicProfileKey, authToken} = props
+    const {onFetchMyFriendRequests, onFetchPublicProfile, publicProfileKey, authToken, userType, ownedPage} = props
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
     const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
@@ -45,8 +45,14 @@ const profileSummaryDropdown = (props) => {
     const [deniedRequest, setDeniedRequest] = useState(false);
 
     useEffect(() => {
-        onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
-        onFetchPublicProfile(authToken, publicProfileKey)
+        if (!userType) {
+            onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
+            onFetchPublicProfile(authToken, publicProfileKey)
+        } else if (userType === 'PAGE') {
+            if (ownedPage) {
+
+            }
+        }
         return () => {
             userName = null;
             profileImage = null;
@@ -57,7 +63,7 @@ const profileSummaryDropdown = (props) => {
             secondInfoIcon = null;
             isFriend = null;
         }
-    }, [onFetchPublicProfile, publicProfileKey, authToken])
+    }, [onFetchPublicProfile, publicProfileKey, authToken, ownedPage])
 
 
     useEffect(() => {
@@ -380,7 +386,8 @@ const mapStateToProps = state => {
         myReceivedRequests: state.friends.receivedRequests,
         sendingRequest: state.friends.sendingFriendRequest,
         cancelingRequest: state.friends.cancelingFriendRequest,
-        myFriends: state.friends.friends
+        myFriends: state.friends.friends,
+        ownedPage: state.pages.ownedPage
     }
 }
 
