@@ -22,6 +22,7 @@ const home = (props) => {
         props.onFetchOthersPosts(props.authToken, props.lastFetchedPage, props.othersPosts)
     }, [isBottom])
 
+
     useEffect(() => {
         if (firstUpdate.current) {
             firstUpdate.current = false;
@@ -35,14 +36,16 @@ const home = (props) => {
 
 
 
-    let posts;
-    if (props.loadingOthersPosts) {
-        posts = <InlineDots />
+    let bottomLoadingIndicator
+    if (isBottom && props.loadingOthersPosts) {
+        bottomLoadingIndicator = <div className={classes.BottomLoader}><InlineDots /></div>
     }
 
+    let posts;
     if (props.othersPosts && props.othersPosts.length) {
         posts = props.othersPosts.map(post => (
             <Post
+                userType={post.userType}
                 postsKey={post.postsKey}
                 userKey={post.userKey}
                 publicProfileKey={post.publicProfileKey}
@@ -68,6 +71,7 @@ const home = (props) => {
                 <StartCreating />
                 {posts}
             </section>
+            {bottomLoadingIndicator}
         </div>
     )
 };

@@ -2,7 +2,6 @@
 import * as actionTypes from "./actionTypes";
 import {convertDatetime, KeyGenerator} from "../../shared/utility";
 import axios from "../../axios/db-axios-instance";
-import {sendFriendRequestAttempt} from "./friends";
 
 const createPageInit = () => {
     return {
@@ -162,6 +161,44 @@ export const fetchOwnedPageAttempt = (authToken, pageKey) => {
             })
     }
 }
+
+const fetchPageSummaryInit = () => {
+    return {
+        type: actionTypes.FETCH_PAGE_SUMMARY_INIT
+    }
+}
+
+const fetchPageSummarySuccess = (page) => {
+    return {
+        type: actionTypes.FETCH_PAGE_SUMMARY_SUCCESS,
+        page: page
+    }
+}
+
+const fetchPageSummaryFail = (error) => {
+    return {
+        type: actionTypes.FETCH_PAGE_SUMMARY_FAIL,
+        error: error
+    }
+}
+
+export const fetchPageSummaryAttempt = (authToken, pageKey) => {
+    return dispatch => {
+        console.log(pageKey);
+        dispatch(fetchPageSummaryInit());
+        axios.get(`/pages/${pageKey}.json?auth=${authToken}`)
+            .then(response => {
+                console.log('SUCCESS - got summary');
+                console.log(response.data)
+                dispatch(fetchPageSummarySuccess(response.data))
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(fetchPageSummaryFail(error))
+            })
+    }
+}
+
 
 const editPageAboutInit = () => {
     return {

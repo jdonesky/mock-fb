@@ -7,11 +7,13 @@ const initialState = {
     myPages: [],
     otherPage: null,
     othersPages: [],
+    pageSummary: null,
     creatingNewPage: false,
     fetchingOwnedPages: false,
     fetchingOwnedPage: false,
     fetchingOthersPages: false,
     fetchingOthersPage: false,
+    fetchingPageSummary: false,
     editingPageAbout: false,
     editingProfileImage: false,
     editingCoverImage: false,
@@ -93,6 +95,29 @@ const fetchOwnedPageFail = (state,action) => {
         ...state,
         error: action.error,
         fetchingOwnedPage: false
+    }
+}
+
+const fetchPageSummaryInit = (state,action) => {
+    return {
+        ...state,
+        fetchingPageSummary: true
+    }
+}
+
+const fetchPageSummarySuccess = (state,action) => {
+    return {
+        ...state,
+        pageSummary: action.page,
+        fetchingPageSummary: false
+    }
+}
+
+const fetchPageSummaryFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        fetchingPageSummary: false
     }
 }
 
@@ -207,6 +232,9 @@ const reducer = (state=initialState, action) => {
         case actionTypes.FETCH_OWNED_PAGE_INIT: return fetchOwnedPageInit(state,action);
         case actionTypes.FETCH_OWNED_PAGE_SUCCESS: return fetchOwnedPageSuccess(state,action);
         case actionTypes.FETCH_OWNED_PAGE_FAIL: return fetchOwnedPageFail(state,action);
+        case actionTypes.FETCH_PAGE_SUMMARY_INIT: return fetchPageSummaryInit(state,action);
+        case actionTypes.FETCH_PAGE_SUMMARY_SUCCESS: return fetchPageSummarySuccess(state,action);
+        case actionTypes.FETCH_PAGE_SUMMARY_FAIL: return fetchPageSummaryFail(state,action);
         case actionTypes.EDIT_PAGE_ABOUT_INIT: return editPageAboutInit(state,action);
         case actionTypes.EDIT_PAGE_ABOUT_SUCCESS: return editPageAboutSuccess(state,action);
         case actionTypes.EDIT_PAGE_ABOUT_FAIL: return editPageAboutFail(state,action);

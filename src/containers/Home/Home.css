@@ -17,3 +17,12 @@
     display: flex;
     flex-flow: column;
 }
+
+.BottomLoader {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto;
+}

@@ -35,6 +35,7 @@ export {
    finishCreatePageAttempt,
    fetchOwnedPagesAttempt,
    fetchOwnedPageAttempt,
+   fetchPageSummaryAttempt,
    editPageAboutAttempt,
    editPageImageAttempt,
    requestPageLikeAttempt,

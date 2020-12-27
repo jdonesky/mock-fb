@@ -34,7 +34,7 @@ import {convertDashedDatetime} from "../../../../shared/utility";
 
 const profileSummaryDropdown = (props) => {
 
-    const {onFetchMyFriendRequests, onFetchPublicProfile, publicProfileKey, authToken, userType, ownedPage} = props
+    const {onFetchMyFriendRequests, onFetchPublicProfile, onFetchPageSummary, publicProfileKey, authToken, userType, pageSummary, userKey} = props
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
     const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
@@ -44,13 +44,20 @@ const profileSummaryDropdown = (props) => {
     const [acceptedRequest, setAcceptedRequest] = useState(false);
     const [deniedRequest, setDeniedRequest] = useState(false);
 
+
+    useEffect(() => {
+        console.log(userKey)
+        console.log(pageSummary);
+
+    })
+
     useEffect(() => {
         if (!userType) {
             onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
             onFetchPublicProfile(authToken, publicProfileKey)
         } else if (userType === 'PAGE') {
-            if (ownedPage) {
-
+            if (userKey) {
+                onFetchPageSummary(authToken, userKey)
             }
         }
         return () => {
@@ -63,8 +70,7 @@ const profileSummaryDropdown = (props) => {
             secondInfoIcon = null;
             isFriend = null;
         }
-    }, [onFetchPublicProfile, publicProfileKey, authToken, ownedPage])
-
+    }, [onFetchPublicProfile, publicProfileKey, authToken, userType, userKey])
 
     useEffect(() => {
         props.onFetchMyFriendRequests(authToken,props.myPublicProfileKey);
@@ -73,11 +79,6 @@ const profileSummaryDropdown = (props) => {
     useEffect(() => {
         props.onFetchMyFriends(authToken, props.myPublicProfileKey)
     }, [acceptedRequest])
-
-    useEffect(() => {
-        console.log('myFriends', props.myFriends)
-        console.log('isFriend?', isFriend);
-    })
 
     const goToFullProfile = () => {
         if (props.profile) {
@@ -104,11 +105,13 @@ const profileSummaryDropdown = (props) => {
     }
 
     let mutualFriends;
-    if (props.profile) {
-        if (props.profile.friends && props.profile.friends.length) {
-            if (props.myFriends && props.myFriends.length) {
-                mutualFriends = props.myFriends.filter(myFriend => props.profile.friends.map(theirFriend => theirFriend.userKey).includes(myFriend.userKey))
-                console.log('mutualFriends', mutualFriends);
+    if (!userType) {
+        if (props.profile) {
+            if (props.profile.friends && props.profile.friends.length) {
+                if (props.myFriends && props.myFriends.length) {
+                    mutualFriends = props.myFriends.filter(myFriend => props.profile.friends.map(theirFriend => theirFriend.userKey).includes(myFriend.userKey))
+                    console.log('mutualFriends', mutualFriends);
+                }
             }
         }
     }
@@ -116,7 +119,8 @@ const profileSummaryDropdown = (props) => {
     let firstInfo;
     let firstInfoIcon;
     let markFirst;
-    if (props.profile) {
+    if (!userType) {
+        if (props.profile) {
             if (mutualFriends && mutualFriends.length > 0) {
                 if (props.profile.userKey !== props.firebaseKey) {
                     if (mutualFriends.length === 1) {
@@ -166,12 +170,19 @@ const profileSummaryDropdown = (props) => {
                     firstInfoIcon = <Cake fill='rgba(0,0,0,0.5)'/>
                 }
             }
+        }
+    } else if (userType === 'PAGE') {
+        if (pageSummary) {
+            firstInfo = <span className={classes.PageCategory}>{pageSummary.category}</span>
+        }
     }
+
     const firstInfoEntry = <div className={classes.InfoEntryContainer}><div className={classes.InfoIcon}>{firstInfoIcon}</div>{firstInfo}</div>
 
     let secondInfo;
     let secondInfoIcon;
-    if (props.profile) {
+    if (!userType) {
+        if (props.profile) {
             if (props.profile.friends && props.profile.friends.length && markFirst !== 'FRIENDS') {
                 secondInfo = `Became friends with ${props.profile.friends[props.profile.friends.length - 1].name}`
                 secondInfoIcon = <Link fill='rgba(0,0,0,0.5)'/>
@@ -196,6 +207,7 @@ const profileSummaryDropdown = (props) => {
                 secondInfo = null;
                 secondInfoIcon = null;
             }
+        }
     }
 
     let secondInfoEntry;
@@ -214,25 +226,25 @@ const profileSummaryDropdown = (props) => {
     let addFriendButtonIcon;
     let addFriendButtonClasses = [classes.ControlButton, classes.FirstControl, classes.AddFriendButton];
     let addFriendButtonAction;
+    if (!userType) {
+        if (props.profile) {
+            if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)) {
+                addFriendButtonText = 'Cancel Request';
+                addFriendButtonIcon = <UnFriend fill='#155fe8'/>
+                addFriendButtonAction = cancelFriendRequest;
+            }
 
+            if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) || friendRequestCanceled || deniedRequest) {
+                addFriendButtonText = 'Add Friend';
+                addFriendButtonIcon = <AddFriend fill='#155fe8'/>
+                addFriendButtonAction = sendFriendRequest;
+            }
 
-    if (props.profile) {
-        if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1)) {
-            addFriendButtonText = 'Cancel Request';
-            addFriendButtonIcon = <UnFriend fill='#155fe8'/>
-            addFriendButtonAction = cancelFriendRequest;
-        }
-
-        if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === publicProfileKey) === -1) || friendRequestCanceled || deniedRequest) {
-            addFriendButtonText = 'Add Friend';
-            addFriendButtonIcon = <AddFriend fill='#155fe8'/>
-            addFriendButtonAction = sendFriendRequest;
-        }
-
-        if (props.myReceivedRequests && props.myReceivedRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1) {
-            addFriendButtonText = 'Respond'
-            addFriendButtonIcon = <RespondRequest fill='#155fe8' />
-            addFriendButtonAction = () => setRespondingRequest(true)
+            if (props.myReceivedRequests && props.myReceivedRequests.findIndex(req => req.publicProfileKey === publicProfileKey) !== -1) {
+                addFriendButtonText = 'Respond'
+                addFriendButtonIcon = <RespondRequest fill='#155fe8'/>
+                addFriendButtonAction = () => setRespondingRequest(true)
+            }
         }
     }
 
@@ -252,52 +264,58 @@ const profileSummaryDropdown = (props) => {
     let isFriend;
     let firstControl;
     let secondControl;
-    if (props.profile) {
-        if (props.profile.userKey !== props.firebaseKey) {
-            if (props.myFriends && props.myFriends.length) {
-                isFriend = props.myFriends.find(friend => friend.userKey === props.profile.userKey)
-            }
-            if (isFriend || acceptedRequest) {
-                firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")}>
-                    <div className={classes.MessageIcon}><FbMessage/></div>
-                    <span className={classes.ControlButtonText}>Message</span></div>
-                secondControl = (
-                    <OutsideAlerter action={() => setViewingIsFriendsOptions(false)}>
-                        <div className={classes.ControlButton}>
-                            <div className={classes.ButtonIcon} onClick={() => setViewingIsFriendsOptions(true)}>
-                                <IsFriend/></div>
-                        </div>
-                        {isFriendsOptions}
-                    </OutsideAlerter>
-                )
-            } else {
-                firstControl = (
-                    <React.Fragment>
-                        <div className={addFriendButtonClasses.join(" ")} onClick={addFriendButtonAction}>
-                            <div className={[classes.ButtonIcon, classes.AddFriendIcon].join(" ")}>
-                                {addFriendButtonIcon}
-                            </div>
-                            <span className={classes.ControlButtonText}>{addFriendButtonText}</span>
-                        </div>
-                        {respondRequestDropdown}
-                    </React.Fragment>
-                )
-
-                if (props.profile.privacy.AllowMessages === 'ALL') {
-                    secondControl =
-                        <div className={classes.ControlButton}>
-                            <div className={classes.ButtonIcon}><FbMessage/></div>
-                        </div>
-                } else {
-                    secondControl =
-                        <div className={classes.ControlButton}>
-                            <div className={classes.ButtonIcon}><Follow/></div>
-                        </div>
+    if (!userType) {
+        if (props.profile) {
+            if (props.profile.userKey !== props.firebaseKey) {
+                if (props.myFriends && props.myFriends.length) {
+                    isFriend = props.myFriends.find(friend => friend.userKey === props.profile.userKey)
                 }
+                if (isFriend || acceptedRequest) {
+                    firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")}>
+                        <div className={classes.MessageIcon}><FbMessage/></div>
+                        <span className={classes.ControlButtonText}>Message</span></div>
+                    secondControl = (
+                        <OutsideAlerter action={() => setViewingIsFriendsOptions(false)}>
+                            <div className={classes.ControlButton}>
+                                <div className={classes.ButtonIcon} onClick={() => setViewingIsFriendsOptions(true)}>
+                                    <IsFriend/></div>
+                            </div>
+                            {isFriendsOptions}
+                        </OutsideAlerter>
+                    )
+                } else {
+                    firstControl = (
+                        <React.Fragment>
+                            <div className={addFriendButtonClasses.join(" ")} onClick={addFriendButtonAction}>
+                                <div className={[classes.ButtonIcon, classes.AddFriendIcon].join(" ")}>
+                                    {addFriendButtonIcon}
+                                </div>
+                                <span className={classes.ControlButtonText}>{addFriendButtonText}</span>
+                            </div>
+                            {respondRequestDropdown}
+                        </React.Fragment>
+                    )
+
+                    if (props.profile.privacy.AllowMessages === 'ALL') {
+                        secondControl =
+                            <div className={classes.ControlButton}>
+                                <div className={classes.ButtonIcon}><FbMessage/></div>
+                            </div>
+                    } else {
+                        secondControl =
+                            <div className={classes.ControlButton}>
+                                <div className={classes.ButtonIcon}><Follow/></div>
+                            </div>
+                    }
+                }
+            } else {
+                firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")}>
+                    <div className={[classes.ButtonIcon, classes.EditProfileIcon].join(" ")}><Pen/></div>
+                    <span className={classes.ControlButtonText}>Edit Profile</span></div>
+                secondControl = <div className={classes.ControlButton}>
+                    <div className={classes.ButtonIcon}><Eye/></div>
+                </div>
             }
-        } else {
-            firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")}><div className={[classes.ButtonIcon, classes.EditProfileIcon].join(" ")}><Pen /></div><span className={classes.ControlButtonText}>Edit Profile</span></div>
-            secondControl =  <div className={classes.ControlButton}><div className={classes.ButtonIcon}><Eye /></div></div>
         }
     }
 
@@ -305,36 +323,44 @@ const profileSummaryDropdown = (props) => {
     let moreOptionsText;
     let moreOptionsIcon;
     let moreOptionsAction;
-    if (props.profile) {
-        if (props.firebaseKey === props.profile.userKey) {
-            moreOptionsText = 'Activity Log'
-            moreOptionsIcon = <ActivityLog />
-            // moreOptionsAction =
-        } else {
-            moreOptionsText = 'Block'
-            moreOptionsIcon =  <BlockUser />
-            // moreOptionsAction =
-        }
-        if (viewingMoreOptions) {
-            moreOptions = (
-                <div className={dropdownClasses.Container}>
-                    <div className={dropdownClasses.Option} onClick={moreOptionsAction}>
-                        <div className={dropdownClasses.OptionIcon}>{moreOptionsIcon}</div>
-                        <span className={dropdownClasses.OptionText}>{moreOptionsText}</span>
+    if (!userType) {
+        if (props.profile) {
+            if (props.firebaseKey === props.profile.userKey) {
+                moreOptionsText = 'Activity Log'
+                moreOptionsIcon = <ActivityLog/>
+                // moreOptionsAction =
+            } else {
+                moreOptionsText = 'Block'
+                moreOptionsIcon = <BlockUser/>
+                // moreOptionsAction =
+            }
+            if (viewingMoreOptions) {
+                moreOptions = (
+                    <div className={dropdownClasses.Container}>
+                        <div className={dropdownClasses.Option} onClick={moreOptionsAction}>
+                            <div className={dropdownClasses.OptionIcon}>{moreOptionsIcon}</div>
+                            <span className={dropdownClasses.OptionText}>{moreOptionsText}</span>
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            }
         }
     }
 
     let userName;
-    if (props.profile) {
-        userName = `${props.profile.firstName } ${props.profile.lastName}`
-    }
-
     let profileImage;
-    if (props.profile) {
-        profileImage = props.profile.profileImage
+    if (!userType) {
+        if (props.profile) {
+            userName = `${props.profile.firstName} ${props.profile.lastName}`
+            profileImage = props.profile.profileImage
+        }
+    } else if (userType === 'PAGE') {
+        console.log('IN PAGE BLOCK')
+        if (pageSummary) {
+            console.log('IN PAGE SUMMARY BLOCK')
+            userName = pageSummary.name
+            profileImage = pageSummary.profileImage
+        }
     }
 
     let summary = (
@@ -362,7 +388,7 @@ const profileSummaryDropdown = (props) => {
         </React.Fragment>
     )
 
-    if (props.fetchingPublicProfile) {
+    if (props.fetchingPublicProfile || props.fetchingPageSummary) {
         summary = <InlineDots top="35%"/>
     }
 
@@ -380,6 +406,8 @@ const mapStateToProps = state => {
         authToken: state.auth.token,
         profile: state.users.singleProfile,
         fetchingPublicProfile: state.users.loadingSingleProfile,
+        pageSummary: state.pages.pageSummary,
+        fetchingPageSummary: state.pages.fetchingPageSummary,
         firebaseKey: state.profile.firebaseKey,
         myPublicProfileKey: state.profile.publicProfileKey,
         mySentRequests: state.friends.sentRequests,
@@ -397,7 +425,8 @@ const mapDispatchToProps = dispatch => {
         onSendFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.sendFriendRequestAttempt(authToken, senderKey, recipientKey)),
         onCancelFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.cancelFriendRequestAttempt(authToken, senderKey, recipientKey)),
         onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
-        onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken,publicProfileKey))
+        onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken,publicProfileKey)),
+        onFetchPageSummary: (authToken, pageKey) => dispatch(actions.fetchPageSummaryAttempt(authToken, pageKey))
     }
 }
 
