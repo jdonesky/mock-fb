@@ -17,6 +17,7 @@ const initialState = {
   loadingSelfPosts: false,
   loadingOthersPosts: false,
   lastFetchedPage: 0,
+  scrollEnd: false,
   error: null,
 };
 
@@ -308,6 +309,21 @@ const fetchOthersPostsFail = (state,action) => {
     }
 }
 
+const markScrollEnd = (state,action) => {
+    return {
+        ...state,
+        scrollEnd: true
+    }
+}
+
+const clearScrollEnd = (state,action) => {
+    return {
+        ...state,
+        scrollEnd: false
+    }
+}
+
+
 const clearPosts = (state,action) => {
     return {
         ...initialState
@@ -354,6 +370,8 @@ const reducer = (state = initialState, action) => {
       case actionTypes.DELETE_REPLY_INIT: return deleteReplyInit(state,action);
       case actionTypes.DELETE_REPLY_SUCCESS: return deleteReplySuccess(state,action);
       case actionTypes.DELETE_REPLY_FAIL: return deleteReplyFail(state,action);
+      case actionTypes.MARK_SCROLL_END: return markScrollEnd(state,action);
+      case actionTypes.CLEAR_SCROLL_END: return clearScrollEnd(state,action);
       case actionTypes.CLEAR_POSTS: return clearPosts(state,action);
     default:
         return state

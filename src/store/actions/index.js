@@ -10,6 +10,7 @@ export {
   fetchProfileAttempt,
   fetchMyPublicProfileAttempt,
   updateProfileAttempt,
+  likePageSuccessFeedback,
   clearProfile
 } from "./profile";
 
@@ -27,6 +28,8 @@ export {
    editReplyAttempt,
    deleteReplyAttempt,
    addPostReactionAttempt,
+   markScrollEnd,
+   clearScrollEnd,
    clearPosts
 } from "./posts";
 
@@ -39,6 +42,8 @@ export {
    editPageAboutAttempt,
    editPageImageAttempt,
    requestPageLikeAttempt,
+   likePageAttempt,
+   clearPageSummary,
    clearPageInProgress
 } from "./pages";
 
@@ -52,6 +57,7 @@ export {
    fetchPublicProfileAttempt,
    fetchManyPublicProfilesAttempt,
    fetchFullProfileAttempt,
+   clearPublicProfile,
    clearUsers
 } from "./users"
 

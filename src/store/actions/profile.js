@@ -340,12 +340,18 @@ export const fetchMyPublicProfileAttempt = (authToken, publicProfileKey) => {
         dispatch(fetchMyPublicProfileInit());
         axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
             .then(response => {
-                // console.log('my - public - profile - fetched - SUCCESS : ', response)
                 dispatch(fetchMyPublicProfileSuccess(response.data))
             })
             .catch(error => {
                 dispatch(fetchMyPublicProfileFail(error))
             })
+    }
+}
+
+export const likePageSuccessFeedback = (newPublicProfile) => {
+    return {
+        type: actionTypes.LIKE_PAGE_SUCCESS_FEEDBACK,
+        publicProfile: newPublicProfile
     }
 }
 

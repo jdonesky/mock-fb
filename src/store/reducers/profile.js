@@ -133,6 +133,13 @@ const fetchMyPublicProfileFail = (state,action) => {
   }
 }
 
+const likePageSuccessFeedback = (state,action) => {
+  return {
+    ...state,
+    publicProfile: action.publicProfile
+  }
+}
+
 const clearProfile = (state,action) => {
   return {
     ...initialState
@@ -150,6 +157,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_MY_PUBLIC_PROFILE_INIT: return fetchMyPublicProfileInit(state,action);
     case actionTypes.FETCH_MY_PUBLIC_PROFILE_SUCCESS: return fetchMyPublicProfileSuccess(state,action);
     case actionTypes.FETCH_MY_PUBLIC_PROFILE_FAIL: return fetchMyPublicProfileFail(state,action);
+    case actionTypes.LIKE_PAGE_SUCCESS_FEEDBACK: return likePageSuccessFeedback(state,action);
     case actionTypes.CLEAR_PROFILE: return clearProfile(state,action);
     default:
       return state;

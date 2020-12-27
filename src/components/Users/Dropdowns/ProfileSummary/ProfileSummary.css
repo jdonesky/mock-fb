@@ -5,7 +5,7 @@
 }
 
 .DropdownContainer {
-    height: 200px;
+    min-height: 150px;
     width: 400px;
     border-radius: 8px;
     background-color: white;
@@ -63,11 +63,18 @@
 .UserInfoContainer {
     display: flex;
     flex-flow: column;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: flex-start;
     height: 100%;
     width: 70%;
     margin-left: 10px;
+}
+
+.NameContainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .UserName {
@@ -81,15 +88,29 @@
 }
 
 .InfoEntryContainer {
+    margin-top: 10px;
     display: flex;
     width: 90%;
     justify-content: flex-start;
     align-items: center;
 }
 
+.SecondInfoEntry {
+    margin-top: 4px;
+}
+
 .InfoEntry {
     min-height: 30px;
     margin-left: 10px;
+}
+
+.ClickableEntry {
+    color: #0a70ff;
+    cursor: pointer;
+}
+
+.ClickableEntry:hover {
+    text-decoration:underline ;
 }
 
 .MutualFriend:hover {
@@ -114,7 +135,7 @@
     align-items: center;
     width: 92%;
     height: 25%;
-    margin: 0 auto 20px;
+    margin: 10px auto 20px;
 }
 
 .ControlButton {
@@ -188,6 +209,11 @@
     left: 7px;
 }
 
+.LikeIcon {
+    top: 0;
+}
+
+
 .EditProfileIcon {
     height: 25px;
     width: 25px;
@@ -202,11 +228,23 @@
     top: 35%;
 }
 
+.PageDescriptionBlock {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
 .PageCategory {
     font-weight: 100;
-    font-size: 15px;
+    font-size: 14px;
     color: rgba(0,0,0,0.4);
-    position: relative;
-    bottom: 30px;
-    right: 30px;
+}
+
+.PageDescription {
+    margin-top: 10px;
+    font-weight: 100;
+    font-size: 16px;
+    color: rgba(0,0,0,0.4);
 }

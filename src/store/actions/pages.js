@@ -1,5 +1,6 @@
 
 import * as actionTypes from "./actionTypes";
+import * as actions from './index';
 import {convertDatetime, KeyGenerator} from "../../shared/utility";
 import axios from "../../axios/db-axios-instance";
 
@@ -30,7 +31,6 @@ const createPageFail = (error) => {
         error: error
     }
 }
-
 
 export const startCreatePageAttempt = (authToken, page) => {
     return dispatch => {
@@ -362,6 +362,52 @@ export const requestPageLikeAttempt = ( authToken, newPage, recipientKey ) => {
             })
     }
 
+}
+
+const likePageInit = () => {
+    return {
+        type: actionTypes.LIKE_PAGE_INIT
+    }
+}
+
+const likePageSuccess = (likedPages) => {
+    return {
+        type: actionTypes.LIKE_PAGE_SUCCESS,
+        likedPages: likedPages
+    }
+}
+
+const likePageFail = (error) => {
+    return {
+        type: actionTypes.LIKE_PAGE_FAIL,
+        error: error
+    }
+}
+
+export const likePageAttempt = (authToken, newPage, newProfile) => {
+    return dispatch => {
+        dispatch(likePageInit());
+        axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
+            .then(response => {
+                console.log('success - put new page');
+                return axios.put(`/public-profiles/${newProfile.publicProfileKey}.json?auth=${authToken}`, newProfile)
+            })
+            .then(response => {
+                console.log('success - put new profile');
+                dispatch(likePageSuccess());
+                dispatch(actions.likePageSuccessFeedback(newProfile))
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(likePageFail(error));
+            })
+    }
+}
+
+export const clearPageSummary = () => {
+    return {
+        type: actionTypes.CLEAR_PAGE_SUMMARY
+    }
 }
 
 export const clearPageInProgress = () => {

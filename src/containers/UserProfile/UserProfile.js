@@ -36,12 +36,6 @@ const userProfile = (props) => {
     const {width, height} = getWindowDimensions();
 
     useEffect(() => {
-        console.log('path root', pathRoot)
-        console.log('MY PUBLIC PROFILE', props.myPublicProfile )
-        console.log('width', width)
-    })
-
-    useEffect(() => {
         if (displayProfile !== 'me') {
             props.onFetchOtherProfile(displayProfile, props.authToken)
         }

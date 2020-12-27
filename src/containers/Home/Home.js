@@ -8,6 +8,7 @@ import StartCreating from "../../components/Profile/Timeline/Posts/Create/StartC
 import Post from '../../components/Profile/Timeline/Posts/Post/Post';
 import InlineDots from '../../components/UI/Spinner/InlineDots';
 import useInfiniteScroll from "../../hooks/infiniteScroll";
+import {clearScrollEnd} from "../../store/actions/index";
 
 const home = (props) => {
 
@@ -31,13 +32,13 @@ const home = (props) => {
 
         return () => {
             props.onClearOthersPostsPageCount()
+            props.onClearScrollEnd()
         }
     }, [])
 
 
-
     let bottomLoadingIndicator
-    if (isBottom && props.loadingOthersPosts) {
+    if (isBottom && !props.scrollEnd) {
         bottomLoadingIndicator = <div className={classes.BottomLoader}><InlineDots /></div>
     }
 
@@ -81,14 +82,16 @@ const mapStateToProps = state => {
         authToken: state.auth.token,
         othersPosts: state.posts.othersPosts,
         loadingOthersPosts: state.posts.loadingOthersPosts,
-        lastFetchedPage: state.posts.lastFetchedPage
+        lastFetchedPage: state.posts.lastFetchedPage,
+        scrollEnd: state.posts.scrollEnd
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchOthersPosts: (authToken, lastFetchedPage, posts) => dispatch(actions.fetchOthersPostsAttempt(authToken, lastFetchedPage, posts)),
-        onClearOthersPostsPageCount: () => dispatch(actions.clearOthersPostsPageCount())
+        onClearOthersPostsPageCount: () => dispatch(actions.clearOthersPostsPageCount()),
+        onClearScrollEnd: () => dispatch(clearScrollEnd())
     }
 }
 

@@ -18,6 +18,7 @@ const initialState = {
     editingProfileImage: false,
     editingCoverImage: false,
     requestingPageLike: false,
+    likingPage: false,
     error: null
 }
 
@@ -213,6 +214,36 @@ const requestPageLikeFail = (state,action) => {
         requestingPageLike: false
     }
 }
+
+const likePageInit = (state,action) => {
+    return {
+        ...state,
+        likingPage: true
+    }
+}
+
+const likePageSuccess = (state,action) => {
+    return {
+        ...state,
+        likingPage: false
+    }
+}
+
+const likePageFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        likingPage: false
+    }
+}
+
+const clearPageSummary = (state,action) => {
+    return {
+        ...state,
+        pageSummary: null
+    }
+}
+
 const clearPageInProgress = (state,action) => {
     return {
         ...state,
@@ -247,6 +278,10 @@ const reducer = (state=initialState, action) => {
         case actionTypes.REQUEST_PAGE_LIKE_INIT: return requestPageLikeInit(state,action);
         case actionTypes.REQUEST_PAGE_LIKE_SUCCESS: return requestPageLikeSuccess(state,action);
         case actionTypes.REQUEST_PAGE_LIKE_FAIL: return requestPageLikeFail(state,action);
+        case actionTypes.LIKE_PAGE_INIT: return likePageInit(state,action);
+        case actionTypes.LIKE_PAGE_SUCCESS: return likePageSuccess(state,action);
+        case actionTypes.LIKE_PAGE_FAIL: return likePageFail(state,action);
+        case actionTypes.CLEAR_PAGE_SUMMARY: return clearPageSummary(state,action);
         case actionTypes.CLEAR_PAGE_IN_PROGRESS: return clearPageInProgress(state,action);
         default:
             return state

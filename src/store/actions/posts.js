@@ -563,7 +563,7 @@ const fetchOthersPostsInit = () => {
 export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) => {
     return dispatch => {
         if (lastFetchedPage === 'last') {
-            return;
+            dispatch(markScrollEnd())
         }
         dispatch(fetchOthersPostsInit())
         axios.get(`/posts.json?auth=${authToken}&shallow=true`)
@@ -585,7 +585,6 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
 
                 if (lastFetchedPage + pageLength <= keys.length) {
                     lastFetchedPage = lastFetchedPage + pageLength;
-
                 } else {
                     const remainder = keys.length - lastFetchedPage;
                     if (remainder) {
@@ -627,6 +626,18 @@ const fetchOthersPostsSuccess = (posts, lastFetchedPage) => {
         type: actionTypes.FETCH_OTHERS_POSTS_SUCCESS,
         posts: posts,
         lastFetchedPage: lastFetchedPage
+    }
+}
+
+export const markScrollEnd = () => {
+    return {
+        type: actionTypes.MARK_SCROLL_END
+    }
+}
+
+export const clearScrollEnd = () => {
+    return {
+        type: actionTypes.CLEAR_SCROLL_END
     }
 }
 

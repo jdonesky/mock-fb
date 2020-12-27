@@ -38,6 +38,10 @@ const AsyncPages = React.lazy(() => {
     return import("./containers/Pages/Pages");
 })
 
+const AsyncPage = React.lazy(() => {
+    return import("./containers/Page/Page");
+})
+
 const AsyncSearch = React.lazy(() => {
     return import ("./containers/Search/Search");
 })
@@ -95,6 +99,7 @@ const app = (props) => {
                 <Route path="/user-profile/:id" component={AsyncUserProfile} />
                 <Route path="/friends" component={AsyncFriends}/>
                 <Route path="/pages" component={AsyncPages} />
+                <Route path="/page/:id" component={AsyncPage} />
                 <Route path="/logout" component={AsyncLogout}/>
                 <Route path="/search-users" component={AsyncSearch}/>
                 <Route path="/bookmarks" component={AsyncBookmarks}/>
