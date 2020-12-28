@@ -492,8 +492,13 @@ const profileSummaryDropdown = (props) => {
         }
     }
 
-    let summary = (
-        <React.Fragment>
+
+    let summary;
+
+    if (props.fetchingPublicProfile || props.fetchingPageSummary) {
+        summary = <InlineDots top="35%"/>
+    } else {
+        summary = <React.Fragment>
             <section className={classes.HeaderContainer}>
                 <div className={classes.ProfileImageBlock}>
                     <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}} onClick={goToFullProfile}>
@@ -518,10 +523,6 @@ const profileSummaryDropdown = (props) => {
                 </OutsideAlerter>
             </section>
         </React.Fragment>
-    )
-
-    if (props.fetchingPublicProfile || props.fetchingPageSummary) {
-        summary = <InlineDots top="35%"/>
     }
 
     return (

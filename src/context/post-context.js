@@ -49,11 +49,6 @@ const PostContextProvider = (props) => {
     const [page, setPage] = useState(null);
 
     useEffect(() => {
-        console.log('pagePosting', pagePosting)
-        console.log('page', page);
-    })
-
-    useEffect(() => {
         if (editingPost) {
             validateEdits();
         } else {

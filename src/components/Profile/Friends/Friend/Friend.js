@@ -57,11 +57,11 @@ const friend = (props) => {
         <React.Fragment>
             <div className={classes.FriendContainer}>
                 <div className={classes.IdContainer}>
-                    <div className={classes.ProfileImage} style={{backgroundImage: props.this.profileImage ? `url(${props.this.profileImage})` : null}}>
+                    <div className={classes.ProfileImage} style={{backgroundImage: props.this.profileImage ? `url(${props.this.profileImage})` : null}} onClick={() => props.navTo(props.this.userKey)}>
                         {props.this.profileImage ? null : <Avatar />}
                     </div>
                     <div className={classes.NameTag}>
-                        <h3 className={classes.Name}>{props.this.firstName + ' ' + props.this.lastName}</h3>
+                        <h3 className={classes.Name} onClick={() => props.navTo(props.this.userKey)}>{props.this.firstName + ' ' + props.this.lastName}</h3>
                         <p className={classes.MutualFriendCount}>{`${mutualFriends && mutualFriends.length && mutualFriends.length > 0 ? mutualFriends.length : 'No'} mutual friend${mutualFriends && mutualFriends.length && mutualFriends.length === 1 ? '': 's'}`}</p>
                     </div>
                 </div>

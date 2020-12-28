@@ -87,6 +87,7 @@ const friends = (props) => {
                     key={profile.userKey}
                     myFriends={loadedProfiles}
                     this={profile}
+                    navTo={goToFullProfile}
                 />
             )))
         }
@@ -94,6 +95,7 @@ const friends = (props) => {
 
     useEffect(() => {
         return () => {
+            console.log('CLEANED UP FRIENDS COMPONENT')
             setLoadedFriends(null);
             setLoadedProfiles(null);
             setSelectedFriends(null);
@@ -121,6 +123,10 @@ const friends = (props) => {
     
     const closeMoreFiltersDropdown = () => {
         setMoreFiltering(false);
+    }
+
+    const goToFullProfile = (userKey) => {
+        props.history.push(`/user-profile/${userKey}`)
     }
 
     let currentCityDropdownButtonClasses = [classes.MoreFilterButton]
@@ -157,10 +163,10 @@ const friends = (props) => {
     let currentCityMatches;
     let hometownMatches;
     if (loadedProfiles) {
-        allFriends = loadedProfiles.map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend}/>))
-        birthdayMatches = loadedProfiles.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend}/>))
-        currentCityMatches = loadedProfiles.filter(friend => friend.currentLocation === myCurrentLocation).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend}/>))
-        hometownMatches = loadedProfiles.filter(friend => friend.hometown === myHometown).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend}/>))
+        allFriends = loadedProfiles.map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend} navTo={goToFullProfile}/>))
+        birthdayMatches = loadedProfiles.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend} navTo={goToFullProfile}/>))
+        currentCityMatches = loadedProfiles.filter(friend => friend.currentLocation === myCurrentLocation).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend} navTo={goToFullProfile}/>))
+        hometownMatches = loadedProfiles.filter(friend => friend.hometown === myHometown).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend} navTo={goToFullProfile}/>))
     }
 
 
@@ -281,8 +287,17 @@ const friends = (props) => {
                <div className={classes.EditDropdownPositioner}>
                    {editingDropdown}
                </div>
-           </React.Fragment>)
+           </React.Fragment>
+       )
     }
+
+    let selected;
+    if (!loadedProfiles || props.fetchingManyProfiles || props.fetchingOtherPublicProfile) {
+        selected = <InlineDots />
+    } else {
+        selected = selectedFriends
+    }
+
 
     return (
         <div className={classes.FriendsContainer}>
@@ -328,7 +343,7 @@ const friends = (props) => {
                 {moreFiltersDropdown}
             </section>
             <section className={classes.FriendsSection}>
-                {selectedFriends || <InlineDots />}
+                {selected}
             </section>
         </div>
     )
@@ -341,7 +356,9 @@ const mapStateToProps = state => {
         myPublicProfile: state.profile.publicProfile,
         otherProfile: state.users.otherUserProfile,
         otherPublicProfile: state.users.singleProfile,
+        fetchingOtherPublicProfile: state.users.loadingSingleProfile,
         manyProfiles: state.users.manyProfiles,
+        fetchingManyProfiles: state.users.fetchingManyProfiles,
         following: state.profile.following || [],
         currentLocation: state.profile.currentLocation || '',
         hometown: state.profile.hometown || {name: ''},
