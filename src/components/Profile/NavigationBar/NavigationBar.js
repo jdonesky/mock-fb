@@ -27,7 +27,7 @@ const navigationBar = (props) => {
     const {width, height} = getWindowDimensions()
 
     useEffect(() => {
-        console.log('pathRoot', props.pathRoot)
+        console.log('userProfile nav - pathRoot', props.pathRoot)
     })
 
     const toggleNavDropdown = () => {

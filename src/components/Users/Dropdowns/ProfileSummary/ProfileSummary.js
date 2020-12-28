@@ -93,7 +93,7 @@ const profileSummaryDropdown = (props) => {
             }
         } else if (userType === 'PAGE') {
                 if (pageSummary) {
-                    props.history.push(`/page/${pageSummary.dbKey}`)
+                    props.history.push(`/page/view/${pageSummary.dbKey}`)
                 }
             }
         }

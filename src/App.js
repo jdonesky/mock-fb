@@ -99,7 +99,7 @@ const app = (props) => {
                 <Route path="/user-profile/:id" component={AsyncUserProfile} />
                 <Route path="/friends" component={AsyncFriends}/>
                 <Route path="/pages" component={AsyncPages} />
-                <Route path="/page/:id" component={AsyncPage} />
+                <Route path="/page/view/:id" component={AsyncPage} />
                 <Route path="/logout" component={AsyncLogout}/>
                 <Route path="/search-users" component={AsyncSearch}/>
                 <Route path="/bookmarks" component={AsyncBookmarks}/>

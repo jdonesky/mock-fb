@@ -9,6 +9,7 @@ import Dots from "../../../assets/images/dots";
 import Eye from "../../../assets/images/eye";
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 
+
 const navigationBar = props => {
 
     const { width, height } = getWindowDimensions()
@@ -16,7 +17,11 @@ const navigationBar = props => {
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[2])
 
     useEffect(() => {
-        if (pathRoot === 'manage') {
+        console.log('page nav - pathRoot', pathRoot)
+    })
+
+    useEffect(() => {
+        if (pathRoot === 'manage' || pathRoot === 'view') {
             if (displayPage !== props.history.location.pathname.split('/')[3]) {
                 setDisplayPage(props.history.location.pathname.split('/')[3])
             }
@@ -49,7 +54,6 @@ const navigationBar = props => {
         moreClasses.push(classes.ActiveNavTab)
         arrowFill = "#1665f7"
     }
-
 
     if ( width < 840 && props.history.location.pathname === `/pages/${pathRoot}/${displayPage}`) {
         moreClasses.push(classes.ActiveNavTab)
