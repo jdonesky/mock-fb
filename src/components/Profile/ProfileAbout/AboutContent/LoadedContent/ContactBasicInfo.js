@@ -1,13 +1,39 @@
 
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux'
 import ContentEntry from "../SharedContent/ContentEntry";
 import AddContentButton from '../SharedContent/AddContentButton'
 import sharedClasses from './SharedLoadedContentUI.css'
 import {convertDate} from "../../../../../shared/utility";
 
-const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orientation,gender}) => {
+const contactAndBasicInfo = (props) => {
+
+    const [displayProfile, setDisplayProfile] = useState(props.match.params.id);
+
+    useEffect(() => {
+        if (displayProfile !== props.match.params.id) {
+            setDisplayProfile(props.match.params.id);
+        }
+    })
+
+    const {myContacts, myBirthday, myGender, otherProfile} = props
+
+    let contacts;
+    let birthday;
+    let gender;
+    if (displayProfile === 'me') {
+        contacts = myContacts
+        birthday = myBirthday;
+        gender = myGender;
+    } else if (displayProfile !== 'me') {
+        if (otherProfile) {
+            contacts = otherProfile.contacts;
+            birthday = otherProfile.birthday;
+            gender = otherProfile.gender;
+        }
+    }
 
     const emailEntry = contacts && contacts.email ? (
         <ContentEntry
@@ -15,8 +41,9 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
             mainText={`${contacts.email}`}
             sharedWith={contacts.email.privacy || 'public'}
             content={contacts}
+            displayProfile={displayProfile}
         />
-    ) : <AddContentButton category="email"/>
+    ) : displayProfile === 'me' ? <AddContentButton category="email"/> : <span className={sharedClasses.Placeholder}>No email to show</span>
 
     const phoneEntry = contacts && contacts.phone ? (
         <ContentEntry
@@ -24,8 +51,9 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
             mainText={ contacts && contacts.phone && contacts.phone}
             sharedWith={contacts ? contacts.phone.privacy : "public"}
             content={contacts}
+            displayProfile={displayProfile}
         />
-    ) : <AddContentButton category="phone" />
+    ) : displayProfile === 'me' ? <AddContentButton category="phone" /> : <span className={sharedClasses.Placeholder}>No phone number to show</span>
 
     const convertedBDay = birthday && convertDate(birthday);
 
@@ -36,6 +64,7 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
             subText='Birth Date'
             sharedWith={birthday ? birthday.privacy : "public"}
             content={birthday}
+            displayProfile={displayProfile}
         />
     )
 
@@ -47,8 +76,9 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
             sharedWith={gender ? gender.privacy : "public"}
             extra={gender && gender}
             content={gender}
+            displayProfile={displayProfile}
         />
-    ) : <AddContentButton category="gender" />
+    ) : displayProfile === 'me' ? <AddContentButton category="gender" /> : <span className={sharedClasses.Placeholder}>No gender to show</span>
 
     return (
         <React.Fragment>
@@ -68,14 +98,15 @@ const contactAndBasicInfo = ({contacts,birthday,language,religion,politics,orien
 
 const mapStateToProps = state => {
     return {
-        contacts: state.profile.contacts,
+        myContacts: state.profile.contacts,
         birthday: state.profile.birthday,
         language: state.profile.language,
         religion: state.profile.religion,
         politics: state.profile.politics,
         gender: state.profile.gender,
-        orientation: state.profile.orientation
+        orientation: state.profile.orientation,
+        otherProfile: state.users.otherProfile
     }
 }
 
-export default connect(mapStateToProps)(contactAndBasicInfo);
+export default connect(mapStateToProps)(withRouter(contactAndBasicInfo));

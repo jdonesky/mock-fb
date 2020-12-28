@@ -21,3 +21,7 @@
     width: 90%;
     height: auto;
 }
+
+.Placeholder {
+    color: rgba(0,0,0,0.5);
+}
