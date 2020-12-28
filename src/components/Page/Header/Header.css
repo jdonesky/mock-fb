@@ -21,9 +21,15 @@
     align-items: flex-end;
     position: absolute;
     bottom: -120px;
-    left: 15%;
+    left: 5%;
     max-width: 930px;
     margin: 0 auto;
+}
+
+@media (min-width: 1200px) {
+    .PageProfileHeader {
+        left: 15%;
+    }
 }
 
 .PageProfileCircleOutline {

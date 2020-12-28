@@ -22,7 +22,7 @@ const searchDropdown = ({searchHistory, close}) => {
                 <div className={classes.BackButton} onClick={close}>
                     <BackArrow fill="rgba(0,0,0,0.7)" />
                 </div>
-                <Searchbar className={classes.SearchBar} iconClass={classes.SearchGlass} placeholder="Search dumb facebook" />
+                <Searchbar className={classes.SearchBar} iconClass={classes.SearchGlass} placeholder="Search dumb facebook" focusOnMount/>
             </section>
             <section className={classes.RecentSearchSection}>
                 {recentSearches}

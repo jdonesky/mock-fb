@@ -384,13 +384,13 @@ const likePageFail = (error) => {
     }
 }
 
-export const likePageAttempt = (authToken, newPage, newProfile) => {
+export const likePageAttempt = (authToken, newPage, newProfile, profileKey) => {
     return dispatch => {
         dispatch(likePageInit());
         axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
             .then(response => {
                 console.log('success - put new page');
-                return axios.put(`/public-profiles/${newProfile.publicProfileKey}.json?auth=${authToken}`, newProfile)
+                return axios.put(`/public-profiles/${profileKey}.json?auth=${authToken}`, newProfile)
             })
             .then(response => {
                 console.log('success - put new profile');

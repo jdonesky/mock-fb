@@ -1,5 +1,6 @@
 
 import React, {useState, useEffect} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux'
 import * as actions from "../store/actions";
 
@@ -12,8 +13,11 @@ export const PostContext = React.createContext({
     showModal: false,
     modalContent: null,
     allowPost: false,
+    pagePosting: false,
+    page: null,
     passData: () => {},
     toggleModal: () => {},
+    openPageCreateModal: () => {},
     cancelModal: () => {},
     toggleModalContent: () => {},
     toggleEditingPost: () => {},
@@ -41,6 +45,14 @@ const PostContextProvider = (props) => {
     const [editingPost, setEditingPost] = useState(false);
     const [initialValues, setInitialValues] = useState({});
 
+    const [pagePosting, setPagePosting] = useState(false);
+    const [page, setPage] = useState(null);
+
+    useEffect(() => {
+        console.log('pagePosting', pagePosting)
+        console.log('page', page);
+    })
+
     useEffect(() => {
         if (editingPost) {
             validateEdits();
@@ -48,6 +60,12 @@ const PostContextProvider = (props) => {
             validatePost();
         }
     }, [text,image,background,tagged,location])
+
+    const openPageCreateModal = (page) => {
+        setPagePosting(true)
+        setPage(page);
+        setShowModal(true);
+    }
 
     const toggleModal = () => {
         setShowModal((prevState) => {
@@ -68,6 +86,7 @@ const PostContextProvider = (props) => {
         setPostsKey(null);
         setUserKey(null);
         setPostId(null);
+        setPage(null);
         setPostProfileImage(null);
         setInitialValues({});
         setEditingPost(false);
@@ -166,6 +185,22 @@ const PostContextProvider = (props) => {
     };
 
     const savePost = () => {
+
+        let name;
+        let postKey;
+        let userKey;
+        let publicKey
+        if (pagePosting && page) {
+            name = page.name
+            postKey = page.postsKey
+            userKey = page.dbKey
+        } else {
+            name = props.name;
+            postKey = props.postsKey;
+            userKey = props.firebaseKey;
+            publicKey = props.publicProfileKey;
+        }
+
         const post = {
             text: text,
             image: image || null,
@@ -173,13 +208,17 @@ const PostContextProvider = (props) => {
             tagged: tagged,
             location: location,
             date: new Date(),
-            name: props.name,
-            userKey: props.firebaseKey,
-            postsKey: props.postsKey,
-            publicProfileKey: props.publicProfileKey,
+            name: name,
+            userKey: userKey,
+            postsKey: postKey,
             profileImage: props.profileImage
         };
-        props.onAddPost(props.authToken, props.postsKey, post);
+
+        if (publicKey) {
+            post.publicProfileKey = publicKey
+        }
+
+        props.onAddPost(props.authToken, postKey, post);
         setText('');
         setImage(null);
         setBackground(null);
@@ -188,6 +227,7 @@ const PostContextProvider = (props) => {
     };
 
     const saveEdits = () => {
+
         const post = {
             postsKey: postsKey,
             publicProfileKey: props.publicProfileKey,
@@ -202,6 +242,7 @@ const PostContextProvider = (props) => {
             userKey: props.firebaseKey,
             postProfileImage: postProfileImage
         }
+
         props.onEditPost(props.authToken, postsKey, postId, post);
         setText('');
         setImage(null);
@@ -211,7 +252,7 @@ const PostContextProvider = (props) => {
     }
 
     return (
-        <PostContext.Provider value={{savePost: savePost, saveEdits: saveEdits, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, toggleEditingPost: toggleEditingPost, recordInitialValues: recordInitialValues, initialValues: initialValues, editingPost: editingPost, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost}}>
+        <PostContext.Provider value={{savePost: savePost, saveEdits: saveEdits, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, toggleEditingPost: toggleEditingPost, recordInitialValues: recordInitialValues, initialValues: initialValues, editingPost: editingPost, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost, openPageCreateModal: openPageCreateModal, pagePosting: pagePosting, page: page}}>
             {props.children}
         </PostContext.Provider>
     );
@@ -224,7 +265,9 @@ const mapStateToProps = state => {
         postsKey: state.profile.postsKey,
         publicProfileKey: state.profile.publicProfileKey,
         name: state.profile.firstName + ' ' + state.profile.lastName,
-        profileImage: state.profile.profileImage
+        profileImage: state.profile.profileImage,
+        ownedPage: state.pages.ownedPage,
+        otherProfile: state.users.otherProfile
     };
 };
 
@@ -235,4 +278,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(PostContextProvider);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(PostContextProvider));

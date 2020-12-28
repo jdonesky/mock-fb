@@ -3,13 +3,15 @@ import React, {useState, useEffect,useRef} from 'react'
 import classes from './Searchbar.css'
 import Search from '../../assets/images/search'
 
-const searchBar = ({filterResults, className, iconClass, inputClass, placeholder, currentlySelected}) => {
+const searchBar = ({filterResults, className, iconClass, inputClass, placeholder, currentlySelected, focusOnMount}) => {
 
     const [searchTerm, setSearchTerm] =  useState('')
     const userInputRef = useRef()
 
     useEffect(() => {
-        userInputRef.current.focus();
+        if (focusOnMount) {
+            userInputRef.current.focus();
+        }
     }, [])
 
 

@@ -143,6 +143,16 @@ const baseForm = (props) => {
         );
     }
 
+    let profileImage;
+    let name;
+    if (postContext.pagePosting && postContext.page) {
+        profileImage = postContext.page.profileImage;
+        name = postContext.page.name;
+    } else {
+        profileImage = props.profileImage;
+        name = props.name;
+    }
+
     return (
         <div className={classes.PageContent}>
             {postingOverlay}
@@ -157,12 +167,12 @@ const baseForm = (props) => {
             <div className={classes.Break}/>
             <section className={classes.NameSection}>
                 <div className={classes.ProfileImageContainer}>
-                    <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                        {props.profileImage ? null : <NoGenderPlaceholder />}
+                    <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}}>
+                        {profileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
                 <div className={classes.IdContainer}>
-                    <div className={classes.NameTags}>{props.name && props.name}{postContext.tagged.length ? ` is with ${tags}` : null}</div>
+                    <div className={classes.NameTags}>{name && name}{postContext.tagged.length ? ` is with ${tags}` : null}</div>
                     <PrivacyButton className={classes.PrivacyButton} privacy="public" />
                 </div>
             </section>

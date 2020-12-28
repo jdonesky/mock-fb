@@ -71,6 +71,10 @@ const profileSummaryDropdown = (props) => {
     }, [onFetchPublicProfile, publicProfileKey, authToken, userType, userKey, onClearPublicProfile, onClearPageSummary])
 
     useEffect(() => {
+        props.onFetchMyPublicProfile(authToken, props.myPublicProfileKey)
+    }, [likedPage])
+
+    useEffect(() => {
         props.onFetchMyFriendRequests(authToken,props.myPublicProfileKey);
     }, [friendRequestCanceled])
 
@@ -79,18 +83,21 @@ const profileSummaryDropdown = (props) => {
     }, [acceptedRequest])
 
     const goToFullProfile = () => {
-        if (props.profile) {
-            if (props.profile.userKey === props.firebaseKey) {
-                props.history.push(`/user-profile/me`)
-            } else {
-                props.history.push(`/user-profile/${props.profile.userKey}`)
+        if (!userType) {
+            if (props.profile) {
+                if (props.profile.userKey === props.firebaseKey) {
+                    props.history.push(`/user-profile/me`)
+                } else {
+                    props.history.push(`/user-profile/${props.profile.userKey}`)
+                }
             }
-        } else if (pageSummary) {
-            if (pageSummary.dbKey) {
-                props.history.push(`/page/${pageSummary.dbKey}`)
+        } else if (userType === 'PAGE') {
+                if (pageSummary) {
+                    props.history.push(`/page/${pageSummary.dbKey}`)
+                }
             }
         }
-    }
+
 
     const sendFriendRequest = () => {
         props.onSendFriendRequest(authToken, props.myPublicProfileKey, publicProfileKey)
@@ -121,7 +128,7 @@ const profileSummaryDropdown = (props) => {
 
         if (pageSummary && myPublicProfile) {
 
-            newReceivedLike = {name: myPublicProfile.name, profileImage: myPublicProfile.profileImage, publicProfileKey: myPublicProfile.publicProfileKey, userKey: myPublicProfile.userKey}
+            newReceivedLike = {name: myPublicProfile.firstName + ' ' + myPublicProfile.lastName, profileImage: myPublicProfile.profileImage, publicProfileKey: props.myPublicProfileKey, userKey: myPublicProfile.userKey}
             newPageSummary = {...pageSummary}
             newSentLike = {name: pageSummary.name, profileImage: pageSummary.profileImage, dbKey: pageSummary.dbKey}
             newProfile = {...myPublicProfile}
@@ -138,7 +145,7 @@ const profileSummaryDropdown = (props) => {
                 newPageLikes = {received: [newReceivedLike]}
             }
             newPageSummary.likes = newPageLikes
-
+            console.log('newPageSummary with likes ', newPageSummary);
             if (newProfile.likes) {
                 newProfileLikes = {...newProfile.likes}
                 if (newProfileLikes.pages) {
@@ -151,10 +158,14 @@ const profileSummaryDropdown = (props) => {
                 newProfileLikes = {pages: [newSentLike]}
             }
             newProfile.likes = newProfileLikes
-
-            props.onLikePage(authToken, newPageSummary, newProfile)
-
+            console.log('newProfile with sent likes', newProfile)
+            props.onLikePage(authToken, newPageSummary, newProfile, props.myPublicProfileKey);
+            setLikedPage(true);
         }
+    }
+
+    const cancelLike = () => {
+        setLikedPage(false);
     }
 
     let mutualFriends;
@@ -163,7 +174,6 @@ const profileSummaryDropdown = (props) => {
             if (props.profile.friends && props.profile.friends.length) {
                 if (props.myFriends && props.myFriends.length) {
                     mutualFriends = props.myFriends.filter(myFriend => props.profile.friends.map(theirFriend => theirFriend.userKey).includes(myFriend.userKey))
-                    console.log('mutualFriends', mutualFriends);
                 }
             }
         }
@@ -263,7 +273,6 @@ const profileSummaryDropdown = (props) => {
         firstInfoEntry = <div className={classes.InfoEntryContainer}><div className={classes.InfoIcon}>{firstInfoIcon}</div>{firstInfo}</div>
     }
 
-
     let secondInfo;
     let secondInfoIcon;
     if (!userType) {
@@ -342,18 +351,24 @@ const profileSummaryDropdown = (props) => {
     }
 
     let liked;
+    let likeIconFill;
     let likeButtonText;
     let likeButtonAction;
+    let likeButtonClasses = [classes.ControlButton, classes.FirstControl]
     if (userType === 'PAGE') {
-        if (myPublicProfile) {
-            if (myPublicProfile.likes && myPublicProfile.likes.pages) {
+        if (myPublicProfile && pageSummary) {
+            if (myPublicProfile.likes && myPublicProfile.likes.pages ) {
                 liked = myPublicProfile.likes.pages.find(like => like.dbKey === pageSummary.dbKey)
             }
         }
         if (liked || likedPage) {
-            likeButtonText = 'Liked'
+            likeButtonText = 'Liked';
+            likeButtonAction = cancelLike;
+            likeButtonClasses.push(classes.AddFriendButton);
+            likeIconFill = "#155fe8"
         } else {
-            likeButtonText = 'Like'
+            likeButtonText = 'Like';
+            likeButtonAction = likePage;
         }
     }
 
@@ -428,15 +443,10 @@ const profileSummaryDropdown = (props) => {
         }
     } else if (userType === 'PAGE') {
         if (pageSummary && myPublicProfile) {
-            if (liked || likedPage) {
-                firstControl = <div className={[classes.ControlButton, classes.FirstControl, classes.AddFriendButton].join(" ")}>
-                    <div className={[classes.ButtonIcon, classes.LikeIcon].join(" ")}><Like fill='#155fe8'/></div>
-                    <span className={classes.ControlButtonText}>{likeButtonText}</span></div>
-            } else {
-                firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")}>
-                    <div className={[classes.ButtonIcon, classes.LikeIcon].join(" ")}><Like /></div>
-                    <span className={classes.ControlButtonText}>{likeButtonText}</span></div>
-            }
+            firstControl = <div className={likeButtonClasses.join(" ")} onClick={likeButtonAction}>
+                <div className={[classes.ButtonIcon, classes.LikeIcon].join(" ")}><Like fill={likeIconFill} /></div>
+                <span className={classes.ControlButtonText}>{likeButtonText}</span></div>
+                secondControl = <div className={classes.ControlButton}><div className={classes.ButtonIcon}><FbMessage/></div></div>
         }
     }
 
@@ -457,7 +467,7 @@ const profileSummaryDropdown = (props) => {
             }
             if (viewingMoreOptions) {
                 moreOptions = (
-                    <div className={dropdownClasses.Container}>
+                    <div className={dropdownClasses.Container} style={{height: "50px"}}>
                         <div className={dropdownClasses.Option} onClick={moreOptionsAction}>
                             <div className={dropdownClasses.OptionIcon}>{moreOptionsIcon}</div>
                             <span className={dropdownClasses.OptionText}>{moreOptionsText}</span>
@@ -476,9 +486,7 @@ const profileSummaryDropdown = (props) => {
             profileImage = props.profile.profileImage
         }
     } else if (userType === 'PAGE') {
-        console.log('IN PAGE BLOCK')
         if (pageSummary) {
-            console.log('IN PAGE SUMMARY BLOCK')
             userName = pageSummary.name
             profileImage = pageSummary.profileImage
         }
@@ -547,9 +555,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchPublicProfile: (authToken,publicProfileKey) => dispatch(actions.fetchPublicProfileAttempt(authToken,publicProfileKey)),
+        onFetchMyPublicProfile: (authToken, publicProfileKey) => dispatch(actions.fetchMyPublicProfileAttempt(authToken, publicProfileKey)),
         onSendFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.sendFriendRequestAttempt(authToken, senderKey, recipientKey)),
         onCancelFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.cancelFriendRequestAttempt(authToken, senderKey, recipientKey)),
-        onLikePage: (authToken, newPage, newProfile) => dispatch(actions.likePageAttempt(authToken, newPage, newProfile)),
+        onLikePage: (authToken, newPage, newProfile, profileKey) => dispatch(actions.likePageAttempt(authToken, newPage, newProfile, profileKey)),
         onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
         onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken,publicProfileKey)),
         onFetchPageSummary: (authToken, pageKey) => dispatch(actions.fetchPageSummaryAttempt(authToken, pageKey)),
