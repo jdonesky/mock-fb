@@ -17,12 +17,12 @@
 
 .HeaderSection {
     height: 180px;
+    min-width: 430px;
     width: 97%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    overflow: auto;
 }
 
 .HeaderSection::-webkit-scrollbar {
@@ -40,6 +40,14 @@
 .Title span {
     font-weight: bolder;
     font-size: 20px;
+}
+
+.OtherUserTitle {
+    flex-flow: row;
+}
+
+.OtherUserHeader {
+    height: 70px;
 }
 
 @media(min-width: 808px) {
@@ -62,7 +70,11 @@
     align-items: center;
     height: 100%;
     width: 550px;
-    min-width: 550px;
+    min-width: 290px;
+}
+
+.SearchBar {
+    min-width: 30px;
 }
 
 .TextButton {

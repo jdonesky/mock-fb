@@ -45,7 +45,7 @@ const searchBar = (props) => {
     }
 
     return (
-        <div className={containerClasses.join(" ")}>
+        <div className={containerClasses.join(" ")} style={props.style ? {...props.style} : null}>
             <div className={iconClasses.join(" ")}><Search fill="#8c8c8c"/></div>
             <input
                 ref={userInputRef}

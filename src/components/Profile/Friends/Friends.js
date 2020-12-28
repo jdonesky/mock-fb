@@ -60,7 +60,7 @@ const friends = (props) => {
                 if (otherPublicProfile.currLocation) {
                     setMyCurrentLocation(otherPublicProfile.currLocation.name);
                 }
-                if (myPublicProfile.hometown) {
+                if (otherPublicProfile.hometown) {
                     setMyHometown(otherPublicProfile.hometown.name);
                 }
             }
@@ -96,6 +96,7 @@ const friends = (props) => {
         return () => {
             setLoadedFriends(null);
             setLoadedProfiles(null);
+            setSelectedFriends(null);
         }
     },[])
 
@@ -264,10 +265,29 @@ const friends = (props) => {
         )
     }
 
+    let personalControls;
+    if (displayProfile === 'me') {
+       personalControls = (
+           <React.Fragment>
+               <div className={classes.TextButton} onClick={() => props.history.push('/friends')}>
+                   Friend Requests
+               </div>
+               <div className={classes.TextButton} onClick={() => props.history.push('/friends')}>
+                   Find Friends
+               </div>
+               <div className={classes.MoreOptionsButton} onClick={openEditDropdown}>
+                   <Dots />
+               </div>
+               <div className={classes.EditDropdownPositioner}>
+                   {editingDropdown}
+               </div>
+           </React.Fragment>)
+    }
+
     return (
         <div className={classes.FriendsContainer}>
-            <section className={classes.HeaderSection}>
-                <div className={classes.Title}>
+            <section className={[classes.HeaderSection, displayProfile === 'me' ? null : classes.OtherUserHeader].join(" ")}>
+                <div className={[classes.Title, displayProfile === 'me' ? null : classes.OtherUserTitle].join(" ")}>
                     <span>F</span>
                     <span>r</span>
                     <span>i</span>
@@ -282,19 +302,8 @@ const friends = (props) => {
                         'BIRTHDAYS': birthdayMatches,
                         'CURRENT_CITY': currentCityMatches,
                         'HOMETOWN': hometownMatches,
-                    }} />
-                    <div className={classes.TextButton}>
-                        Friend Requests
-                    </div>
-                    <div className={classes.TextButton}>
-                        Find Friends
-                    </div>
-                    <div className={classes.MoreOptionsButton} onClick={openEditDropdown}>
-                        <Dots />
-                    </div>
-                    <div className={classes.EditDropdownPositioner}>
-                        {editingDropdown}
-                    </div>
+                    }} style={{marginLeft: displayProfile === 'me' ? null : "auto"}} />
+                    {personalControls}
                 </div>
             </section>
             <section className={classes.FilterButtonsContainer}>
