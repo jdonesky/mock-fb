@@ -75,78 +75,78 @@ const contentEntry = props => {
     let fieldName;
     switch (props.category) {
         case 'work':
-            categoryIcon = <BriefCase />
+            categoryIcon = <BriefCase fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'workplace'
             fieldName = 'occupations'
             editForm = <EditWorkForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'education':
-            categoryIcon = <GraduationCap />
+            categoryIcon = <GraduationCap fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'school'
             fieldName = 'education'
             editForm = <EditSchoolForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'currLocation':
-            categoryIcon = <House />
+            categoryIcon = <House fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'current location'
             fieldName = 'currLocation'
             editForm = <EditLocationForm locType="current" cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'pastLocation':
-            categoryIcon = <Move />
+            categoryIcon = <Move fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'past location'
             fieldName = 'pastLocations'
             editForm = <EditLocationForm locType="pastLocation" cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'fromLocation':
-            categoryIcon = <Pin />
+            categoryIcon = <Pin fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'hometown'
             fieldName = 'hometown'
             editForm = <EditLocationForm locType="origin" cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'relationship':
-            categoryIcon = <Heart />
+            categoryIcon = <Heart fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'relationship status'
             fieldName = 'relationships'
             editForm = <EditRelationshipForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'family':
-            categoryIcon = <Avatar />
+            categoryIcon = <Avatar fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'family member'
             fieldName = 'family'
             editForm = <EditFamilyForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'contact':
-            categoryIcon = <Phone />
+            categoryIcon = <Phone fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'contact information'
             fieldName = 'contacts'
             editForm = <EditContactForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'phone':
-            categoryIcon = <Phone />
+            categoryIcon = <Phone fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'phone number'
             fieldName = 'phone'
             editForm = <EditPhoneForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'email':
-            categoryIcon = <Email />
+            categoryIcon = <Email fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'email'
             fieldName = 'email'
             editForm = <EditEmailForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'birthday':
-            categoryIcon = <Cake />
+            categoryIcon = <Cake fill="rgba(0,0,0,0.6)"/>
             dropdownCaption = 'birthday'
             fieldName = 'birthday'
             editForm = <EditBirthdayForm cancel={toggleEditing} save={saveEdits}/>
             break;
         case 'gender':
             if (props.extra === 'Male') {
-                categoryIcon = <Male />
+                categoryIcon = <Male fill="rgba(0,0,0,0.6)"/>
             } else if (props.extra === 'Female') {
-                categoryIcon = <Female />
+                categoryIcon = <Female fill="rgba(0,0,0,0.6)"/>
             } else {
-                categoryIcon = <Like />
+                categoryIcon = <Like fill="rgba(0,0,0,0.6)"/>
             }
             dropdownCaption = 'gender'
             fieldName = 'gender'
@@ -162,16 +162,16 @@ const contentEntry = props => {
     let shareIcon;
     switch (props.sharedWith) {
         case 'public':
-            shareIcon =  <Earth />
+            shareIcon =  <Earth fill="rgba(0,0,0,.6)"/>
             break;
         case 'private':
-            shareIcon = <Padlock />
+            shareIcon = <Padlock fill="rgba(0,0,0,.6)" />
             break;
         case 'friends':
-            shareIcon = <Friends />
+            shareIcon = <Friends fill="rgba(0,0,0,.6)"/>
             break;
         default:
-            shareIcon = <Earth />
+            shareIcon = <Earth fill="rgba(0,0,0,.6)"/>
     }
 
     const toggleDeleteModal = () => {
@@ -187,18 +187,18 @@ const contentEntry = props => {
                 <div className={[classes.Icon, classes.Share].join(" ")}>
                     {shareIcon}
                 </div>
-                <div className={[classes.Icon,classes.Edit].join(" ")} onClick={toggleEditDropdown} /* onBlur={toggleEditDropdown} onFocus={toggleEditDropdown} tabIndex="0" */ style={{background: showEditDropdown && "rgba(0,0,0,0.1)", borderRadius: "100px"}}>
-                    {showEditDropdown ? <Close className={classes.CancelSvg}/> : <Edit /> }
+                <div className={[classes.Icon,classes.Edit].join(" ")} onClick={toggleEditDropdown} style={{background: showEditDropdown && "rgba(0,0,0,0.1)", borderRadius: "100px"}}>
+                    {showEditDropdown ? <Close className={classes.CancelSvg}/> : <Edit fill="rgba(0,0,0,0.6)"/> }
                 </div>
                 { showEditDropdown &&
                 <OutsideAlerter action={toggleEditDropdown}>
                     <div className={editDropdownClasses.join(' ')}>
                         <div className={classes.UpArrow} style={{bottom: !props.content && '42px'}}/>
                         <div className={classes.MenuItem} onClick={toggleEditing}>
-                            <div className={classes.DropdownIcon}><Edit/></div>
+                            <div className={classes.DropdownIcon}><Edit fill= "rgba(0,0,0,0.6)"/></div>
                             <span className={classes.DropdownText}>{`Edit ${dropdownCaption}`}</span></div>
                         {props.content && <div className={classes.MenuItem} onClick={toggleDeleteModal}>
-                            <div className={classes.DropdownIcon}><Delete/></div>
+                            <div className={classes.DropdownIcon}><Delete fill="rgba(0,0,0,0.6)"/></div>
                             <span className={classes.DropdownText}>{`Delete ${dropdownCaption}`}</span>
                         </div>
                         }

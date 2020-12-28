@@ -32,12 +32,6 @@ const friends = (props) => {
     const {myPublicProfile, otherPublicProfile, manyProfiles} = props
 
     useEffect(() => {
-        console.log('FRIENDS COMPONENT')
-        console.log('loadedProfiles ', loadedProfiles);
-        console.log('currentlySelected', selectedFriends)
-    })
-
-    useEffect(() => {
         if (pathRoot !== props.history.location.pathname.split('/')[1] || displayProfile !== props.match.params.id) {
             setPathRoot(props.history.location.pathname.split('/')[1]);
             setDisplayProfile(displayProfile !== props.match.params.id);
@@ -95,7 +89,6 @@ const friends = (props) => {
 
     useEffect(() => {
         return () => {
-            console.log('CLEANED UP FRIENDS COMPONENT')
             setLoadedFriends(null);
             setLoadedProfiles(null);
             setSelectedFriends(null);
@@ -291,13 +284,6 @@ const friends = (props) => {
        )
     }
 
-    let selected;
-    if (!loadedProfiles || props.fetchingManyProfiles || props.fetchingOtherPublicProfile) {
-        selected = <InlineDots />
-    } else {
-        selected = selectedFriends
-    }
-
 
     return (
         <div className={classes.FriendsContainer}>
@@ -343,7 +329,7 @@ const friends = (props) => {
                 {moreFiltersDropdown}
             </section>
             <section className={classes.FriendsSection}>
-                {selected}
+                {selectedFriends || <InlineDots />}
             </section>
         </div>
     )
@@ -356,7 +342,6 @@ const mapStateToProps = state => {
         myPublicProfile: state.profile.publicProfile,
         otherProfile: state.users.otherUserProfile,
         otherPublicProfile: state.users.singleProfile,
-        fetchingOtherPublicProfile: state.users.loadingSingleProfile,
         manyProfiles: state.users.manyProfiles,
         fetchingManyProfiles: state.users.fetchingManyProfiles,
         following: state.profile.following || [],

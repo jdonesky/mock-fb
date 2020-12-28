@@ -1,13 +1,13 @@
 
 import React from 'react';
 
-const deleteSvg = () => (
+const deleteSvg = (props) => (
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
  preserveAspectRatio="xMidYMid meet">
 
 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
+   fill={props.fill || "#000000"} stroke="none">
 <path d="M2014 5108 c-59 -19 -127 -80 -159 -143 -28 -54 -30 -68 -33 -182
 l-4 -123 161 0 161 0 0 75 0 75 420 0 420 0 0 -75 0 -75 160 0 160 0 0 113 c0
 77 -5 128 -16 160 -19 57 -83 131 -138 160 -41 22 -45 22 -571 24 -339 1 -541

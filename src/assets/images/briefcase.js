@@ -1,13 +1,13 @@
 
 import React from 'react'
 
-const briefCaseSvg = () => (
+const briefCaseSvg = (props) => (
        <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
             width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
             preserveAspectRatio="xMidYMid meet">
 
         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           fill="#000000" stroke="none">
+           fill={props.fill || "#000000"} stroke="none">
          <path d="M1840 5104 c-45 -20 -87 -59 -111 -106 -18 -34 -19 -62 -19 -382 l0
       -345 -778 -3 -779 -3 -48 -30 c-36 -22 -57 -45 -77 -84 l-28 -53 0 -462 c0
       -298 4 -475 11 -500 25 -92 6 -81 994 -531 l910 -413 5 112 c5 102 8 117 33

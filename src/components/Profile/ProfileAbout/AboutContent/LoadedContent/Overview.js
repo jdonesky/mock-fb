@@ -4,6 +4,7 @@ import React, {useState, useEffect} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import ContentEntry from "../SharedContent/ContentEntry";
+import sharedClasses from './SharedLoadedContentUI.css';
 
 const overview = props => {
 
@@ -56,12 +57,12 @@ const overview = props => {
       contactSubPlaceholder = "Phone, Email, IG, Twitter"
 
   } else {
-      occupationPlaceholder = 'No workplaces to show'
-      educationPlaceholder = 'No schools to show'
-      currentLocationPlaceholder = 'No current location to show'
-      hometownPlaceholder = 'No hometown to show'
-      relationshipPlaceholder = 'No relationships to show'
-      contactsPlaceholder = 'No contacts to show'
+      occupationPlaceholder = <span className={sharedClasses.Placeholder}>No workplaces to show</span>
+      educationPlaceholder = <span className={sharedClasses.Placeholder}>No schools to show</span>
+      currentLocationPlaceholder = <span className={sharedClasses.Placeholder}>No current location to show</span>
+      hometownPlaceholder = <span className={sharedClasses.Placeholder}>No hometown to show</span>
+      relationshipPlaceholder = <span className={sharedClasses.Placeholder}>No relationships to show</span>
+      contactsPlaceholder = <span className={sharedClasses.Placeholder}>No contacts to show</span>
       if (otherProfile) {
           if (otherProfile.occupations && otherProfile.occupations.length) {
               currentOccupation = otherProfile.occupations.find(job => job.currentEmployer)
@@ -140,7 +141,7 @@ const mapStateToProps = state => {
         hometown: state.profile.hometown,
         relationships: state.profile.relationships,
         contacts: state.profile.contacts,
-        otherProfile: state.users.otherProfile,
+        otherProfile: state.users.fullProfile,
     }
 }
 

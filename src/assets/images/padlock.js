@@ -1,13 +1,13 @@
 
 import React from 'react';
 
-const padLockSvg = () => (
+const padLockSvg = (props) => (
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
      width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
      preserveAspectRatio="xMidYMid meet">
 
     <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-    fill="#000000" stroke="none">
+    fill={props.fill || "#000000"} stroke="none">
     <path d="M2380 5110 c-615 -68 -1128 -490 -1329 -1095 -63 -191 -81 -347 -81
     -712 l0 -253 -72 0 c-157 0 -269 -106 -298 -281 -6 -42 -10 -482 -10 -1249 0
     -1291 -1 -1266 57 -1371 15 -28 45 -66 66 -85 81 -69 -52 -64 1847 -64 1899 0

@@ -1,5 +1,6 @@
 
-import React, {Suspense} from 'react';
+import React, {useState, useEffect, Suspense} from 'react';
+import {withRouter} from 'react-router';
 import { connect } from 'react-redux'
 import {NavLink} from 'react-router-dom';
 import {Route} from 'react-router';
@@ -11,7 +12,22 @@ const AboutContent = React.lazy(() => {
     return import('./AboutContent/AboutContent')
 })
 
+
 const profileAbout = props => {
+
+    const [displayProfile, setDisplayProfile] = useState(props.match.params.id);
+
+    useEffect(() => {
+        if (displayProfile !== props.match.params.id) {
+            setDisplayProfile(displayProfile);
+        }
+    })
+
+    let lifeEventTab;
+    if (displayProfile === 'me') {
+        lifeEventTab = <NavLink to={`/user-profile/${props.displayProfile}/about/life-events`} activeClassName={classes.active}>Life Events</NavLink>
+    }
+
     return (
             <div className={classes.AboutContainer}>
                 <section className={classes.IndexContainer}>
@@ -22,7 +38,7 @@ const profileAbout = props => {
                         <NavLink to={`/user-profile/${props.displayProfile}/about/places-lived`} activeClassName={classes.active}>Places Lived</NavLink>
                         <NavLink to={`/user-profile/${props.displayProfile}/about/contact-info`} activeClassName={classes.active}>Contact and Basic Info</NavLink>
                         <NavLink to={`/user-profile/${props.displayProfile}/about/family-relationships`} activeClassName={classes.active}>Family and Relationships</NavLink>
-                        <NavLink to={`/user-profile/${props.displayProfile}/about/life-events`} activeClassName={classes.active}>Life Events</NavLink>
+                        {lifeEventTab}
                     </ul>
                 </section>
                 <section className={classes.LoadedContent}>
@@ -41,4 +57,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(profileAbout);
+export default connect(mapStateToProps)(withRouter(profileAbout));

@@ -1,12 +1,29 @@
 
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux'
 import ContentEntry from "../SharedContent/ContentEntry";
 import AddContentButton from '../SharedContent/AddContentButton'
 import sharedClasses from './SharedLoadedContentUI.css'
 
-const familyAndRelationships = ({family, relationships}) => {
+const familyAndRelationships = (props) => {
+
+    const [displayProfile, setDisplayProfile] = useState(props.match.params.id);
+    const {myFamily, myRelationships} = props;
+
+    useEffect(() => {
+        if (displayProfile !== props.match.params.id) {
+            setDisplayProfile(props.match.params.id);
+        }
+    })
+
+    let relationships;
+    let family;
+    if (displayProfile === 'me') {
+        relationships = myRelationships;
+        family = myFamily;
+    }
 
     const relationshipEntry = relationships ?
         (
@@ -16,8 +33,9 @@ const familyAndRelationships = ({family, relationships}) => {
             subText={relationships[0].partner ? relationships[0].partner : ''}
             sharedWith={relationships[0].privacy || 'public'}
             content={relationships}
+            displayProfile={displayProfile}
         />
-    ) : <AddContentButton category="relationship"/>
+    ) : displayProfile === 'me' ? <AddContentButton category="relationship"/> : <span className={sharedClasses.Placeholder}>No relationships to show</span>
 
     const familyEntries = family && family.map((member, i) => (
         <ContentEntry
@@ -27,8 +45,16 @@ const familyAndRelationships = ({family, relationships}) => {
             subText={member && member.relationship}
             sharedWith={member ? member.privacy : "public"}
             content={family}
+            displayProfile={displayProfile}
         />
     ))
+
+    let addFamilyButton;
+    if (displayProfile === 'me') {
+        addFamilyButton = <AddContentButton category="family" />
+    } else {
+        addFamilyButton = <span className={sharedClasses.Placeholder}>No family to show</span>
+    }
 
     return (
         <React.Fragment>
@@ -37,8 +63,8 @@ const familyAndRelationships = ({family, relationships}) => {
                 { relationshipEntry && relationshipEntry }
             </section>
             <section className={sharedClasses.SubCategory}>
-                <h3>Hometown</h3>
-                <AddContentButton category="family" />
+                <h3>Family</h3>
+                {addFamilyButton}
                 {familyEntries && familyEntries}
             </section>
         </React.Fragment>
@@ -47,9 +73,10 @@ const familyAndRelationships = ({family, relationships}) => {
 
 const mapStateToProps = state => {
     return {
-        relationships: state.profile.relationships,
-        family: state.profile.family,
+        myRelationships: state.profile.relationships,
+        myFamily: state.profile.family,
+        otherProfile: state.users.fullProfile
     }
 }
 
-export default connect(mapStateToProps)(familyAndRelationships);
+export default connect(mapStateToProps)(withRouter(familyAndRelationships));

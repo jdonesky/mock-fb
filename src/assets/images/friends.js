@@ -1,14 +1,14 @@
 
 import React from 'react';
 
-const friendsSvg = () => (
+const friendsSvg = (props) => (
 
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
      width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
      preserveAspectRatio="xMidYMid meet">
 
     <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-    fill="#000000" stroke="none">
+       fill={props.fill || "#000000"}  stroke="none">
     <path d="M1127 4700 c-334 -61 -585 -283 -684 -607 -23 -78 -26 -104 -26 -233
     0 -129 3 -155 26 -233 89 -291 293 -495 584 -584 78 -23 104 -26 233 -26 129
     0 155 3 233 26 291 89 495 293 584 584 23 78 26 104 26 233 0 129 -3 155 -26

@@ -18,6 +18,12 @@ const contactAndBasicInfo = (props) => {
         }
     })
 
+    useEffect(() => {
+        console.log('otherProfile', otherProfile)
+        console.log(birthday);
+        // console.log(convertDate(birthday))
+    })
+
     const {myContacts, myBirthday, myGender, otherProfile} = props
 
     let contacts;
@@ -53,11 +59,11 @@ const contactAndBasicInfo = (props) => {
             content={contacts}
             displayProfile={displayProfile}
         />
-    ) : displayProfile === 'me' ? <AddContentButton category="phone" /> : <span className={sharedClasses.Placeholder}>No phone number to show</span>
+    ) : displayProfile === 'me' ? <AddContentButton category="phone" /> : <div className={sharedClasses.Placeholder}>No phone number to show</div>
 
     const convertedBDay = birthday && convertDate(birthday);
 
-    const birthDayEntry = (
+    const birthDayEntry = birthday && (
         <ContentEntry
             category="birthday"
             mainText={ birthday && `${convertedBDay[0]} ${convertedBDay[1]}, ${convertedBDay[2]}`}
@@ -99,13 +105,13 @@ const contactAndBasicInfo = (props) => {
 const mapStateToProps = state => {
     return {
         myContacts: state.profile.contacts,
-        birthday: state.profile.birthday,
+        myBirthday: state.profile.birthday,
         language: state.profile.language,
         religion: state.profile.religion,
         politics: state.profile.politics,
-        gender: state.profile.gender,
+        myGender: state.profile.gender,
         orientation: state.profile.orientation,
-        otherProfile: state.users.otherProfile
+        otherProfile: state.users.fullProfile
     }
 }
 

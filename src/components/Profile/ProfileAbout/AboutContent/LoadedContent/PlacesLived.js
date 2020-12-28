@@ -103,7 +103,7 @@ const mapStateToProps = state => {
         currLocation: state.profile.currLocation,
         pastLocations: state.profile.pastLocations,
         hometown: state.profile.hometown,
-        otherProfile: state.users.otherProfile
+        otherProfile: state.users.fullProfile
     }
 }
 

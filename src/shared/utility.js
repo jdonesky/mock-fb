@@ -122,7 +122,7 @@ export const reverseMapZeroMonths = {
 
 export const convertDate = (date) => {
   const year = date.split('-')[0]
-  const month = [date.split('-')[1]].map(month => monthMap[month]);
+  const month = reverseMapZeroMonths[date.split('-')[1]];
   const day = date.split('-')[2]
   return [month, day, year]
 }
