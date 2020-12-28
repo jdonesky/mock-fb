@@ -33,7 +33,7 @@
     margin-right: 10px;
     border-radius: 8px;
     border: .5px solid lightgrey;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     cursor: pointer;
     overflow: hidden;

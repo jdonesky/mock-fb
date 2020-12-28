@@ -3,7 +3,10 @@ import React, {useState, useEffect,useRef} from 'react'
 import classes from './Searchbar.css'
 import Search from '../../assets/images/search'
 
-const searchBar = ({filterResults, className, iconClass, inputClass, placeholder, currentlySelected, focusOnMount}) => {
+const searchBar = (props) => {
+
+
+    const {filterResults, className, iconClass, inputClass, placeholder, currentlySelected, focusOnMount} = props
 
     const [searchTerm, setSearchTerm] =  useState('')
     const userInputRef = useRef()
@@ -19,7 +22,7 @@ const searchBar = ({filterResults, className, iconClass, inputClass, placeholder
         const timer = setTimeout(() => {
             if (searchTerm.length) {
                 if (searchTerm === userInputRef.current.value) {
-                    filterResults(searchTerm, currentlySelected)
+                    filterResults(searchTerm, currentlySelected, props.baseResults)
                 }
             }
         },500)

@@ -70,7 +70,7 @@ const navigationBar = props => {
         )
 
     let navButtons;
-    if (pathRoot === 'discover') {
+    if (pathRoot === 'discover' || pathRoot === 'view') {
         navButtons = (
             <React.Fragment>
                 <div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><Like /></div><div className={classes.NavButtonText}>Like</div></div>
@@ -100,7 +100,6 @@ const navigationBar = props => {
                     {navButtons}
                 </div>
             </div>
-            {/*<div className={classes.SharedCliff}></div>*/}
         </div>
     )
 }

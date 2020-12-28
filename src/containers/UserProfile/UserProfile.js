@@ -42,7 +42,7 @@ const userProfile = (props) => {
     },[displayProfile])
 
     useEffect(() => {
-        if (otherProfile) {
+        if (otherProfile && displayProfile !== 'me') {
             props.onFetchOtherPublicProfile(props.authToken, otherProfile.publicProfileKey)
         }
     }, [otherProfile, displayProfile])

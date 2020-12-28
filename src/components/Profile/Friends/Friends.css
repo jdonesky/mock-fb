@@ -1,8 +1,8 @@
 .FriendsContainer {
     position: relative;
     top: 20px;
-    z-index: 5;
     width: 100%;
+    min-width: 430px;
     max-width: 930px;
     margin: 20px auto;
     border: none;
@@ -12,12 +12,8 @@
     flex-flow: column;
     justify-content: center;
     background: white;
-    overflow: auto;
 }
 
-.FriendsContainer::-webkit-scrollbar {
-    display: none;
-}
 
 .HeaderSection {
     height: 180px;
@@ -26,6 +22,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow: auto;
+}
+
+.HeaderSection::-webkit-scrollbar {
+    display: none;
 }
 
 .Title {

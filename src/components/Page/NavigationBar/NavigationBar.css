@@ -22,6 +22,8 @@
     justify-content: space-between;
     align-items: center;
     z-index: 5;
+    position: sticky;
+    top: 57px;
 }
 
 .SharedNavTabs {
@@ -120,6 +122,10 @@
     background-color: rgba(0,0,0,0.05);
     margin-left: 5px;
     cursor: pointer;
+}
+
+.NavButton:hover {
+    background-color: rgba(0,0,0,0.1);
 }
 
 .BigButton {

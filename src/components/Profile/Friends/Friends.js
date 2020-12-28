@@ -1,17 +1,14 @@
 
 import React, {useState, useEffect, useCallback} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './Friends.css';
-
+import * as actions from '../../../store/actions/index';
 
 import Searchbar from '../../Search/Searchbar';
 import Friend from './Friend/Friend';
 import InlineDots from '../../../components/UI/Spinner/InlineDots';
-
 import Dots from '../../../assets/images/dots';
-
-import K from '../../../assets/images/Raster/kaleidoscope.jpg'
-import D from '../../../assets/images/Raster/d.png'
 
 import {checkBirthday} from "../../../shared/utility";
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
@@ -20,9 +17,87 @@ import getWindowDimensions from "../../../hooks/getWindowDimensions";
 
 const friends = (props) => {
 
+    const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split('/')[1])
+    const [displayProfile, setDisplayProfile] = useState(props.match.params.id);
+    const [filter, setFilter] = useState('ALL')
+    const [myCurrentLocation, setMyCurrentLocation] = useState(null);
+    const [myHometown, setMyHometown] = useState(null);
+    const [loadedFriends, setLoadedFriends] = useState(null);
+    const [loadedProfiles, setLoadedProfiles] = useState(null);
+    const [selectedFriends, setSelectedFriends] = useState(null);
+    const [editing, setEditing] = useState(false);
+    const [moreFiltering, setMoreFiltering] = useState(false);
+    const {width, height} = getWindowDimensions();
+
+    const {myPublicProfile, otherPublicProfile, manyProfiles} = props
+
     useEffect(() => {
-        setSelectedFriends(exAllFriends);
-    }, [])
+        console.log('FRIENDS COMPONENT')
+        console.log('loadedProfiles ', loadedProfiles);
+        console.log('currentlySelected', selectedFriends)
+    })
+
+    useEffect(() => {
+        if (pathRoot !== props.history.location.pathname.split('/')[1] || displayProfile !== props.match.params.id) {
+            setPathRoot(props.history.location.pathname.split('/')[1]);
+            setDisplayProfile(displayProfile !== props.match.params.id);
+        }
+    })
+
+    useEffect(() => {
+        if (pathRoot === 'user-profile' && displayProfile === 'me') {
+            if (myPublicProfile) {
+                setLoadedFriends(myPublicProfile.friends);
+                if (myPublicProfile.currLocation) {
+                    setMyCurrentLocation(myPublicProfile.currLocation.name);
+                }
+                if (myPublicProfile.hometown)
+                setMyHometown(myPublicProfile.hometown.name);
+            }
+        } else if (pathRoot === 'user-profile' || pathRoot === 'friends' && displayProfile !== 'me') {
+            if (otherPublicProfile) {
+                setLoadedFriends(otherPublicProfile.friends);
+                if (otherPublicProfile.currLocation) {
+                    setMyCurrentLocation(otherPublicProfile.currLocation.name);
+                }
+                if (myPublicProfile.hometown) {
+                    setMyHometown(otherPublicProfile.hometown.name);
+                }
+            }
+        }
+    }, [myPublicProfile, otherPublicProfile])
+
+    useEffect(() => {
+        if (loadedFriends) {
+            const keys = loadedFriends.map(friend => friend.publicProfileKey);
+            props.onFetchManyProfiles(props.authToken, keys)
+        }
+    }, [loadedFriends])
+
+    useEffect(() => {
+        if (manyProfiles) {
+            setLoadedProfiles(manyProfiles)
+        }
+    }, [manyProfiles])
+
+    useEffect(() => {
+        if (loadedProfiles && loadedProfiles.length)  {
+            setSelectedFriends(loadedProfiles.map(profile => (
+                <Friend
+                    key={profile.userKey}
+                    myFriends={loadedProfiles}
+                    this={profile}
+                />
+            )))
+        }
+    }, [loadedProfiles])
+
+    useEffect(() => {
+        return () => {
+            setLoadedFriends(null);
+            setLoadedProfiles(null);
+        }
+    },[])
 
     useEffect(() => {
         if (width >= 769) {
@@ -31,12 +106,6 @@ const friends = (props) => {
             }
         }
     });
-
-    const [filter, setFilter] = useState('ALL')
-    const [selectedFriends, setSelectedFriends] = useState(null);
-    const [editing, setEditing] = useState(false);
-    const [moreFiltering, setMoreFiltering] = useState(false);
-    const {width, height} = getWindowDimensions();
 
     const allButtonClasses = [classes.FilterButton];
     const birthdaysButtonClasses = [classes.FilterButton];
@@ -81,67 +150,42 @@ const friends = (props) => {
         </div>
     )
 
+
     let allFriends;
-    let birthdays;
-    let currentCity;
-    let hometown;
-    if (props.friends && props.friends.length) {
-        allFriends = props.friends.map(friend => (<Friend {...friend} myFriends={props.friends}/>))
-        birthdays = props.friends.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend {...friend} myFriends={props.friends}/>))
-        currentCity = props.friends.filter(friend => friend.currentLocation === props.currentLocation).map(friend => (<Friend {...friend} myFriends={props.friends}/>))
-        hometown = props.friends.filter(friend => friend.hometown === props.hometown).map(friend => (<Friend {...friend} myFriends={props.friends}/>))
+    let birthdayMatches
+    let currentCityMatches;
+    let hometownMatches;
+    if (loadedProfiles) {
+        allFriends = loadedProfiles.map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend}/>))
+        birthdayMatches = loadedProfiles.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend}/>))
+        currentCityMatches = loadedProfiles.filter(friend => friend.currentLocation === myCurrentLocation).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend}/>))
+        hometownMatches = loadedProfiles.filter(friend => friend.hometown === myHometown).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend}/>))
     }
 
-    let following;
-    if (props.following && props.following.length) {
-        following = props.following.map(person => (<Friend {...person} myFriends={props.friends && props.friends.length ? props.friends : null}/>))
-    }
-
-    const sampleFriends = [
-        {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993')},
-        {name: 'Mary Smith',userId: 2, birthday: new Date('1-23-1990'),hometown: 'Chevy Chase'},
-        {name: 'Jimmy John',userId: 3, profileImage: K, friends: [
-            {name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')},
-            {name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993'), currentLocation: 'washington dc'}
-            ]
-        },
-        {name: 'Franklin Moore', userId: 4, profileImage: D, friends: [{name: 'John Doe', userId: 1, profileImage: K, friends: [{name: 'Mary Smith',userId: 2, profileImage: D, birthday: new Date('1-23-1990')}], birthday: new Date('11-16-1993')}],birthday: new Date('7-10-1996'),  currentLocation: 'washington dc'}
-    ]
-
-    const exAllFriends = sampleFriends.map(friend => (<Friend{...friend} myFriends={sampleFriends}/>))
-    const exBirthdays = sampleFriends.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
-    const exCurrentCity = sampleFriends.filter(friend => friend.currentLocation === props.currentLocation).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
-    const exHometown = sampleFriends.filter(friend => friend.hometown === props.hometown.name).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
-    const exFollowing = sampleFriends.filter(friend => friend.following).map(friend => (<Friend {...friend} myFriends={sampleFriends}/>))
 
     const toggleFilter = (filter) => {
         setFilter(filter);
         switch (filter) {
             case 'ALL':
-                // setSelectedFriends(allFriends);
-                setSelectedFriends(exAllFriends);
+                setSelectedFriends(allFriends);
                 break;
             case 'BIRTHDAYS':
-                // setSelectedFriends(birthdays);
-                setSelectedFriends(exBirthdays);
+                setSelectedFriends(birthdayMatches);
                 break;
             case 'CURRENT_CITY':
-                // setSelectedFriends(currentCity);
-                setSelectedFriends(exCurrentCity);
+                setSelectedFriends(currentCityMatches);
                 if (moreFiltering) {
                     setMoreFiltering(false);
                 }
                 break;
             case 'HOMETOWN':
-                // setSelectedFriends(hometown);
-                setSelectedFriends(exHometown);
+                setSelectedFriends(hometownMatches);
                 if (moreFiltering) {
                     setMoreFiltering(false);
                 }
                 break;
             case 'FOLLOWING':
                 // setSelectedFriends(following);
-                setSelectedFriends(exFollowing);
                 if (moreFiltering) {
                     setMoreFiltering(false);
                 }
@@ -183,13 +227,20 @@ const friends = (props) => {
             allButtonClasses.push(classes.ActiveFilter);
     }
 
-    const searchFriends = useCallback((searchedName, selectedFriends) => {
-        const filteredFriends = [...selectedFriends]
-            .filter(friend => {
-            const [firstName, lastName] = friend.props.name.split(' ')
-            return firstName.slice(0,searchedName.length).toLowerCase() === searchedName.toLowerCase() || lastName.slice(0,searchedName.length).toLowerCase() === searchedName.toLowerCase()
-        })
-        setSelectedFriends(filteredFriends);
+    const searchFriends = useCallback((searchedName, filter, baseResults) => {
+        const selected = baseResults[filter]
+        let filteredFriends;
+        console.log('selected', selected)
+        if (selected && selected.length) {
+            filteredFriends = [...selected]
+                .filter(friend => {
+                    return friend.props.this.firstName.slice(0,searchedName.length).toLowerCase() === searchedName.toLowerCase() || friend.props.this.lastName.slice(0,searchedName.length).toLowerCase() === searchedName.toLowerCase()
+                })
+            setSelectedFriends(filteredFriends);
+        } else {
+            return;
+        }
+
     }, [])
 
     const openEditDropdown = () => {
@@ -226,7 +277,12 @@ const friends = (props) => {
                     <span>s</span>
                 </div>
                 <div className={classes.HeaderControlsContainer}>
-                    <Searchbar currentlySelected={selectedFriends} filterResults={searchFriends} className={classes.SearchBar} iconClass={classes.SearchGlass} placeholder='Search'/>
+                    <Searchbar currentlySelected={filter} filterResults={searchFriends} className={classes.SearchBar} iconClass={classes.SearchGlass} placeholder='Search' baseResults={{
+                        'ALL': allFriends,
+                        'BIRTHDAYS': birthdayMatches,
+                        'CURRENT_CITY': currentCityMatches,
+                        'HOMETOWN': hometownMatches,
+                    }} />
                     <div className={classes.TextButton}>
                         Friend Requests
                     </div>
@@ -273,12 +329,21 @@ const friends = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
-        friends: state.profile.friends || [],
+        myPublicProfile: state.profile.publicProfile,
+        otherProfile: state.users.otherUserProfile,
+        otherPublicProfile: state.users.singleProfile,
+        manyProfiles: state.users.manyProfiles,
         following: state.profile.following || [],
         currentLocation: state.profile.currentLocation || '',
         hometown: state.profile.hometown || {name: ''},
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchManyProfiles: (authToken, keys) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, keys))
+    }
+}
 
-export default connect(mapStateToProps)(friends);
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(friends));
