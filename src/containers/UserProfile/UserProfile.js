@@ -48,12 +48,10 @@ const userProfile = (props) => {
     }, [otherProfile, displayProfile])
 
     useEffect(() => {
-       if (props.match.params.id === 'me') {
-           setDisplayProfile('me')
-       } else {
+       if (displayProfile !== props.match.params.id) {
            setDisplayProfile(props.match.params.id)
        }
-    }, [props.match.params.id])
+    })
 
     let name;
     let bio;

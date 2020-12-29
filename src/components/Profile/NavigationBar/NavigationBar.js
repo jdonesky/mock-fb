@@ -16,6 +16,7 @@ import AddFriend from '../../../assets/images/UserActionIcons/addFriend';
 import Follow from '../../../assets/images/UserActionIcons/follow';
 import Dots from '../../../assets/images/dots';
 import DownArrow from '../../../assets/images/down-arrow';
+import InlineDots from '../../UI/Spinner/InlineDots';
 
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
@@ -24,11 +25,19 @@ const navigationBar = (props) => {
 
     const [showNavDropdown, setShowNavDropdown] = useState(false);
     const [showMoreOptions, setShowMoreOptions] = useState(false);
+    const [isFriend, setIsFriend] = useState(null);
     const {width, height} = getWindowDimensions()
+    const { myPublicProfile, otherProfile, otherPublicProfile } = props
 
     useEffect(() => {
-        console.log('userProfile nav - pathRoot', props.pathRoot)
-    })
+        if (props.displayProfile !== 'me') {
+            if (myPublicProfile && otherProfile) {
+                if (myPublicProfile.friends) {
+                    setIsFriend(myPublicProfile.friends.find(friend => friend.userKey === otherProfile.userKey))
+                }
+            }
+        }
+    }, [myPublicProfile,otherProfile])
 
     const toggleNavDropdown = () => {
         setShowNavDropdown(prevState => {
@@ -87,12 +96,6 @@ const navigationBar = (props) => {
         }
     }
 
-    let isFriend;
-    if (props.display !== 'me') {
-        if (props.myFriends && props.theirFullProfile) {
-            isFriend = props.myFriends.findIndex(friend => friend.userKey === props.theirFullProfile.userKey)
-        }
-    }
 
     let firstEditButton;
     let secondEditButton;
@@ -106,30 +109,32 @@ const navigationBar = (props) => {
                 <div className={classes.MoreOptionsDropdownButton}><div className={classes.MoreOptionsIcon}><ActivityLog /></div>Activity Log</div>
         )
     } else {
-        if (isFriend ) {
-            firstEditButton = <li className={[classes.EditControl, classes.FirstControlButton].join(" ")}>
-                <div className={classes.MessageUserButtonIcon}><FbMessage/></div>
-                Message</li>
-        } else {
-            firstEditButton =  <li className={classes.AddFriendControlButton}>
-                <div className={classes.AddFriendButtonIcon}><AddFriend fill="#155fe8" /></div>
-                Add Friend
-            </li>
-            if (props.theirPublicProfile) {
-                if (props.theirPublicProfile.privacy.AllowMessages === 'ALL') {
+        if (myPublicProfile && otherProfile && otherPublicProfile) {
+            if (isFriend) {
+                firstEditButton = <li className={[classes.EditControl, classes.FirstControlButton].join(" ")}>
+                    <div className={classes.MessageUserButtonIcon}><FbMessage/></div>
+                    Message</li>
+            } else {
+                firstEditButton = <li className={classes.AddFriendControlButton}>
+                    <div className={classes.AddFriendButtonIcon}><AddFriend fill="#155fe8"/></div>
+                    Add Friend
+                </li>
+
+                if (otherPublicProfile.privacy.AllowMessages === 'ALL') {
                     secondEditButton = <li className={classes.EditControl}>
-                        <div className={classes.EditControlIcon}><FbMessage /></div>
+                        <div className={classes.EditControlIcon}><FbMessage/></div>
                     </li>
-                    if (props.theirPublicProfile.privacy.AllowFollowers) {
+                    if (otherPublicProfile.privacy.AllowFollowers) {
                         thirdEditButton = <li className={classes.EditControl}>
-                            <div className={classes.EditControlIcon}><Follow /></div>
+                            <div className={classes.EditControlIcon}><Follow/></div>
                         </li>
                     }
                 } else {
                     secondEditButton = <li className={classes.EditControl}>
-                        <div className={classes.EditControlIcon}><Follow /></div>
+                        <div className={classes.EditControlIcon}><Follow/></div>
                     </li>
                 }
+
             }
         }
 
@@ -151,6 +156,23 @@ const navigationBar = (props) => {
         )
     }
 
+    let editControls;
+    if (myPublicProfile && otherPublicProfile && otherProfile) {
+        editControls = (
+            <ul className={classes.EditControls}>
+                {firstEditButton}
+                {secondEditButton}
+                {thirdEditButton}
+                <OutsideAlerter action={() => setShowMoreOptions(false)}>
+                    <li className={classes.EditControl} style={{backgroundColor: showMoreOptions ? 'rgba(0,0,0,0.15)': null}}onClick={() => setShowMoreOptions(prevState => {return !prevState})}><div className={[classes.EditControlIcon, classes.DotsIcon].join(" ")}><Dots /></div></li>
+                    {moreOptionsDropdown}
+                </OutsideAlerter>
+            </ul>
+        )
+    }
+    if (props.fetchingMyPublicProfile || props.fetchingOtherPublicProfile || props.fetchingOtherProfile) {
+        editControls = <InlineDots />
+    }
 
     return (
             <React.Fragment>
@@ -206,15 +228,7 @@ const navigationBar = (props) => {
                     </ul>
                 </nav>
                 <nav>
-                    <ul className={classes.EditControls}>
-                        {firstEditButton}
-                        {secondEditButton}
-                        {thirdEditButton}
-                        <OutsideAlerter action={() => setShowMoreOptions(false)}>
-                            <li className={classes.EditControl} style={{backgroundColor: showMoreOptions ? 'rgba(0,0,0,0.15)': null}}onClick={() => setShowMoreOptions(prevState => {return !prevState})}><div className={[classes.EditControlIcon, classes.DotsIcon].join(" ")}><Dots /></div></li>
-                            {moreOptionsDropdown}
-                        </OutsideAlerter>
-                    </ul>
+                    {editControls}
                 </nav>
             </section>
             </React.Fragment>
@@ -224,8 +238,11 @@ const navigationBar = (props) => {
 const mapStateToProps = state => {
     return {
         myPublicProfile: state.profile.publicProfile,
-        theirFullProfile: state.users.fullProfile,
-        theirPublicProfile: state.users.singleProfile
+        otherProfile: state.users.fullProfile,
+        otherPublicProfile: state.users.singleProfile,
+        fetchingMyPublicProfile: state.profile.publicProfileLoading,
+        fetchingOtherProfile: state.users.loadingFullProfile,
+        fetchingOtherPublicProfile: state.users.loadingSingleProfile
     }
 }
 
