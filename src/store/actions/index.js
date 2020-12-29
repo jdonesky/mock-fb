@@ -51,7 +51,7 @@ export {
    fetchByMePhotosAttempt,
    fetchTaggedMePhotosAttempt,
    clearPhotos
-} from "./photos"
+} from "./photos";
 
 export {
    fetchPublicProfileAttempt,
@@ -59,7 +59,7 @@ export {
    fetchFullProfileAttempt,
    clearPublicProfile,
    clearUsers
-} from "./users"
+} from "./users";
 
 export {
    fetchFriendsAttempt,
@@ -69,4 +69,9 @@ export {
    acceptFriendRequestAttempt,
    denyFriendRequestAttempt,
    clearFriends
-} from "./friends"
+} from "./friends";
+
+export {
+   startNewChatAttempt,
+   restartOldChatAttempt,
+} from "./messenger";

@@ -15,6 +15,7 @@ import pagesReducer from "./store/reducers/pages";
 import usersReducer from "./store/reducers/users";
 import friendsReducer from "./store/reducers/friends";
 import photosReducer from "./store/reducers/photos";
+import messengerReducer from "./store/reducers/messenger";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   photos: photosReducer,
   users: usersReducer,
   friends: friendsReducer,
+  messenger: messengerReducer
 });
 
 const composeEnhancers =

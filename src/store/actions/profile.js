@@ -58,6 +58,9 @@ export const createProfileAttempt =  (token,newUserData) => {
                     return axios.put(`users/${userKey}.json?auth=${token}`, userData)
                 })
                 .then(response => {
+                    return axios.put(`/public-profiles/${publicProfileKey}.json?auth=${token}`, {...userData, publicProfileKey: publicProfileKey, privacy: {AllowMessages: 'FRIENDS'}})
+                })
+                .then(response => {
                     postsWithKeys = postsWithKeys.map(post => ({...post, publicProfileKey: publicProfileKey}))
                     return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys])
                 })

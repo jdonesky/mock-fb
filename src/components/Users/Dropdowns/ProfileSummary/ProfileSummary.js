@@ -391,6 +391,8 @@ const profileSummaryDropdown = (props) => {
             if (props.profile.userKey !== props.firebaseKey) {
                 if (props.myFriends && props.myFriends.length) {
                     isFriend = props.myFriends.find(friend => friend.userKey === props.profile.userKey) || null;
+                } else {
+                    isFriend = null;
                 }
                 if (isFriend || acceptedRequest) {
                     firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")} onClick={messengerContext.openMessenger}>
@@ -490,10 +492,9 @@ const profileSummaryDropdown = (props) => {
         }
     }
 
-
     let controlsSection;
     if (props.profile) {
-        if (props.profile.userKey !== props.firebaseKey) {
+        if (!userType && props.profile.userKey !== props.firebaseKey) {
             if (isFriend !== null && typeof(isFriend) !== 'object') {
                 controlsSection = <InlineDots />
             } else {
@@ -518,6 +519,22 @@ const profileSummaryDropdown = (props) => {
                         {secondControl}
                         <OutsideAlerter action={() => setViewingMoreOptions(false)}>
                             <div className={classes.ControlButton} onClick={() => setViewingMoreOptions(true)}><div className={[classes.ButtonIcon, classes.DotsIcon].join(" ")}><Dots /></div></div>
+                            {moreOptions}
+                        </OutsideAlerter>
+                    </section>
+                )
+        }
+    } else if (userType === 'PAGE') {
+        if (pageSummary && myPublicProfile) {
+            controlsSection =
+                (
+                    <section className={classes.ControlsSection}>
+                        {firstControl}
+                        {secondControl}
+                        <OutsideAlerter action={() => setViewingMoreOptions(false)}>
+                            <div className={classes.ControlButton} onClick={() => setViewingMoreOptions(true)}>
+                                <div className={[classes.ButtonIcon, classes.DotsIcon].join(" ")}><Dots/></div>
+                            </div>
                             {moreOptions}
                         </OutsideAlerter>
                     </section>

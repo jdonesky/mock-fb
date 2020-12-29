@@ -15,9 +15,6 @@ const messenger = (props) => {
     const messageBar = useRef(null);
     const [focusing, setFocusing] = useState(false);
 
-    useEffect(() => {
-        console.log('in messenger, showMessenger? ', messengerContext.showMessenger)
-    })
 
     useEffect(() => {
         messageBar.current.focus();
