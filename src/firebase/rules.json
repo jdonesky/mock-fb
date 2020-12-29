@@ -1,30 +1,30 @@
-[
-  {
-    "rules": {
-      "users": {
-        ".read": "auth != null",
-        ".write": "auth != null",
-        ".indexOn": ["firstName", "userId"]
-      },
-      "posts": {
-        ".read" : "true",
-        ".write": "auth != null",
-        ".indexOn": ["userId"]
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      ".indexOn": ["firstName", "userId"]
+    },
+    "public-profiles" : {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      ".indexOn": ["postsKey", "userKey"]
+    },
+    "posts": {
+      ".read" : "true",
+      ".write": "auth != null",
+      "$post_id": {
+        ".indexOn" : "id"
       }
-    }
-  },
-  {
-    "rules": {
-      "users": {
-        ".read": "auth != null",
-        ".write": "auth != null",
-        ".indexOn": ["firstName", "userId"]
-      },
-      "posts": {
-        ".read" : "true",
-        ".write": "auth != null",
-        ".indexOn": ["userId"]
-      }
+    },
+    "pages": {
+      ".read" : "true",
+      ".write": "auth !== null",
+      ".indexOn": ["adminUserKey", "category"]
+    },
+    "key" : {
+      ".read" : "true",
+      ".write" : "auth != null"
     }
   }
-]
+}
