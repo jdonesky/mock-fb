@@ -157,7 +157,7 @@ const navigationBar = (props) => {
     }
 
     let editControls;
-    if (myPublicProfile && otherPublicProfile && otherProfile) {
+    if (props.displayProfile === 'me') {
         editControls = (
             <ul className={classes.EditControls}>
                 {firstEditButton}
@@ -169,6 +169,26 @@ const navigationBar = (props) => {
                 </OutsideAlerter>
             </ul>
         )
+    } else if (props.displayProfile !== 'me') {
+        if (myPublicProfile && otherPublicProfile && otherProfile) {
+            editControls = (
+                <ul className={classes.EditControls}>
+                    {firstEditButton}
+                    {secondEditButton}
+                    {thirdEditButton}
+                    <OutsideAlerter action={() => setShowMoreOptions(false)}>
+                        <li className={classes.EditControl}
+                            style={{backgroundColor: showMoreOptions ? 'rgba(0,0,0,0.15)' : null}}
+                            onClick={() => setShowMoreOptions(prevState => {
+                                return !prevState
+                            })}>
+                            <div className={[classes.EditControlIcon, classes.DotsIcon].join(" ")}><Dots/></div>
+                        </li>
+                        {moreOptionsDropdown}
+                    </OutsideAlerter>
+                </ul>
+            )
+        }
     }
     if (props.fetchingMyPublicProfile || props.fetchingOtherPublicProfile || props.fetchingOtherProfile) {
         editControls = <InlineDots />

@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect, useContext} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import classes from './ProfileSummary.css';
@@ -34,10 +34,12 @@ import Email from '../../../../assets/images/email';
 import Spinner from '../../../../components/UI/Spinner/Spinner';
 import InlineDots from '../../../../components/UI/Spinner/InlineDots';
 import {convertDashedDatetime} from "../../../../shared/utility";
+import {MessengerContext} from "../../../../context/messenger-context";
 
 const profileSummaryDropdown = (props) => {
 
     const {onFetchMyFriendRequests, onFetchPublicProfile, onFetchPageSummary, publicProfileKey, myPublicProfile, authToken, userType, pageSummary, userKey, onClearPublicProfile, onClearPageSummary} = props
+    const messengerContext = useContext(MessengerContext);
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
     const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
@@ -47,10 +49,6 @@ const profileSummaryDropdown = (props) => {
     const [acceptedRequest, setAcceptedRequest] = useState(false);
     const [deniedRequest, setDeniedRequest] = useState(false);
     const [likedPage, setLikedPage] = useState(false);
-
-    useEffect(() => {
-        console.log('MY PUBLIC PROFILE = IN profileSummary ', props.myPublicProfile)
-    })
 
     useEffect(() => {
         if (!userType) {
@@ -392,10 +390,10 @@ const profileSummaryDropdown = (props) => {
         if (props.profile) {
             if (props.profile.userKey !== props.firebaseKey) {
                 if (props.myFriends && props.myFriends.length) {
-                    isFriend = props.myFriends.find(friend => friend.userKey === props.profile.userKey)
+                    isFriend = props.myFriends.find(friend => friend.userKey === props.profile.userKey) || null;
                 }
                 if (isFriend || acceptedRequest) {
-                    firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")}>
+                    firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")} onClick={messengerContext.openMessenger}>
                         <div className={classes.MessageIcon}><FbMessage/></div>
                         <span className={classes.ControlButtonText}>Message</span></div>
                     secondControl = (
@@ -493,6 +491,40 @@ const profileSummaryDropdown = (props) => {
     }
 
 
+    let controlsSection;
+    if (props.profile) {
+        if (props.profile.userKey !== props.firebaseKey) {
+            if (isFriend !== null && typeof(isFriend) !== 'object') {
+                controlsSection = <InlineDots />
+            } else {
+                controlsSection =
+                    (
+                        <section className={classes.ControlsSection}>
+                            {firstControl}
+                            {secondControl}
+                            <OutsideAlerter action={() => setViewingMoreOptions(false)}>
+                                <div className={classes.ControlButton} onClick={() => setViewingMoreOptions(true)}><div className={[classes.ButtonIcon, classes.DotsIcon].join(" ")}><Dots /></div></div>
+                                {moreOptions}
+                            </OutsideAlerter>
+                        </section>
+                    )
+
+            }
+        } else if (props.profile.userKey === props.firebaseKey) {
+            controlsSection =
+                (
+                    <section className={classes.ControlsSection}>
+                        {firstControl}
+                        {secondControl}
+                        <OutsideAlerter action={() => setViewingMoreOptions(false)}>
+                            <div className={classes.ControlButton} onClick={() => setViewingMoreOptions(true)}><div className={[classes.ButtonIcon, classes.DotsIcon].join(" ")}><Dots /></div></div>
+                            {moreOptions}
+                        </OutsideAlerter>
+                    </section>
+                )
+        }
+    }
+
     let summary;
 
     if (props.fetchingPublicProfile || props.fetchingPageSummary) {
@@ -514,14 +546,7 @@ const profileSummaryDropdown = (props) => {
                     {secondInfoEntry}
                 </div>
             </section>
-            <section className={classes.ControlsSection}>
-                {firstControl}
-                {secondControl}
-                <OutsideAlerter action={() => setViewingMoreOptions(false)}>
-                    <div className={classes.ControlButton} onClick={() => setViewingMoreOptions(true)}><div className={[classes.ButtonIcon, classes.DotsIcon].join(" ")}><Dots /></div></div>
-                    {moreOptions}
-                </OutsideAlerter>
-            </section>
+            {controlsSection}
         </React.Fragment>
     }
 

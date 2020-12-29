@@ -1,0 +1,160 @@
+
+
+.Container {
+    position: fixed;
+    height: 430px;
+    width: 340px;
+    bottom: -150vh;
+    right: 70px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 4px 5px rgba(0,0,0,0.05);
+    transition: bottom 0.3s ease-out;
+    z-index: 1000;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ShowMessenger {
+    bottom: 0;
+}
+
+.Header {
+    width: 340px;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 4px -4px rgba(0,0,0,0.5);
+}
+
+.IdBlock {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 45px;
+    width: 150px;
+}
+
+.ControlsBlock {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 45px;
+    width: 150px;
+    margin-right: 10px;
+}
+
+.Control{
+    height: 25px;
+    width: 25px;
+    border-radius: 100%;
+    cursor: pointer;
+    margin-left: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Control:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.Control svg {
+    height: auto;
+    width: 90%;
+    position: relative;
+}
+
+.Close svg {
+    left: 1px;
+}
+
+.Minimize svg {
+    width: 76%;
+    bottom: 1px;
+}
+
+.Footer {
+    height: 45px;
+    width: 340px;
+    position: fixed;
+    right: 67px;
+    bottom: -150vh;
+    display: flex;
+    align-items: center;
+}
+
+.ShowMessageBar {
+    bottom: 8px;
+}
+
+.AddMediaButton {
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px 0 3px;
+}
+
+.AddMediaButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.AddMediaButton svg {
+    height: auto;
+    width: 90%;
+}
+
+.MessageBarContainer {
+    height: 45px;
+    width: 250px;
+    border-radius: 50px;
+    border: none;
+    background-color: rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+}
+
+.MessageBar {
+    height: 40px;
+    font-family: "Lucida Grande";
+    font-weight: 400;
+    font-size: 15px;
+    color: rgba(0,0,0,0.2);
+    border: none;
+    background-color: transparent;
+    margin-left: 10px;
+}
+
+.MessageBar::placeholder {
+    color: rgba(0,0,0,0.4);
+}
+
+.LikeButton {
+    height: 40px;
+    width: 40px;
+    margin: 0 5px 0 2px;
+    cursor: pointer;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.LikeButton:hover {
+    background-color:rgba(0,0,0,0.05);
+}
+
+.LikeButton svg {
+    height: auto;
+    width: 50%;
+    position: relative;
+    bottom: 1px;
+    left: 1px;
+}

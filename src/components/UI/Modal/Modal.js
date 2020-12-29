@@ -8,11 +8,7 @@ const modal = (props) => {
   if (props.addClass) {
       containerClasses.push(props.addClass);
   }
-  //
-  // const modalClasses = [classes.Modal];
-  // if (props.className) {
-  //     modalClasses.push(props.className)
-  // }
+
 
   return (
     <React.Fragment>

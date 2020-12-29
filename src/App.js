@@ -9,7 +9,7 @@ import DeleteContextProvider from "./context/delete-context";
 import LifeEventContextProvider from "./context/life-event-context";
 import PostContextProvider from "./context/post-context";
 import PageContextProvider from "./context/page-context";
-
+import MessengerProvider from "./context/messenger-context";
 
 const AsyncAuth = React.lazy(() => {
     return import("./containers/Auth/Auth");
@@ -66,6 +66,10 @@ const AsyncEditPageModal = React.lazy(() => {
     return import("./components/UI/Modal/EditModals/EditPage/EditPageModal");
 })
 
+const AsyncMessengerModal = React.lazy(() => {
+    return import("./components/Messenger/Messenger");
+})
+
 const app = (props) => {
 
     const {authToken, userId, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onReloadApp} = props;
@@ -110,23 +114,26 @@ const app = (props) => {
     }
 
     return (
-        <PageContextProvider>
-            <PostContextProvider>
-                <LifeEventContextProvider>
-                    <DeleteContextProvider>
-                        <Layout>
-                            <Suspense fallback={<FoldingSquare />}>
-                                <AsyncDeleteModal />
-                                <AsyncCreatePostModal />
-                                <AsyncCreateLifeEventModal />
-                                <AsyncEditPageModal />
-                                {routes}
-                            </Suspense>
-                        </Layout>
-                    </DeleteContextProvider>
-                </LifeEventContextProvider>
-            </PostContextProvider>
-        </PageContextProvider>
+        <MessengerProvider>
+            <PageContextProvider>
+                <PostContextProvider>
+                    <LifeEventContextProvider>
+                        <DeleteContextProvider>
+                            <Layout>
+                                <Suspense fallback={<FoldingSquare />}>
+                                    <AsyncDeleteModal />
+                                    <AsyncCreatePostModal />
+                                    <AsyncCreateLifeEventModal />
+                                    <AsyncEditPageModal />
+                                    <AsyncMessengerModal />
+                                    {routes}
+                                </Suspense>
+                            </Layout>
+                        </DeleteContextProvider>
+                    </LifeEventContextProvider>
+                </PostContextProvider>
+            </PageContextProvider>
+        </MessengerProvider>
     );
 
 }
