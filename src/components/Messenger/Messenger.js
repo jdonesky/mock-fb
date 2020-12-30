@@ -17,7 +17,7 @@ const messenger = (props) => {
 
     const messengerContext = useContext(MessengerContext);
     const messageBar = useRef(null);
-    const [focusing, setFocusing] = useState(false);
+    const [focusing, setFocusing] = useState(true);
 
     const [theirProfile, setTheirProfile] = useState(null);
     const {activeChat} = props

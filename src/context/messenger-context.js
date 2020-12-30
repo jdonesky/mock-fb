@@ -10,18 +10,15 @@ export const MessengerContext = React.createContext({
     startChat: () => {},
     closeChat: () => {},
     pauseChat: () => {},
+    retrieveChat: () => {},
     activeConversation: null,
     waitingConversations: null,
 })
 
 const messengerContextProvider = props => {
 
-    const {myPublicProfile, activeChat} = props
+    const {authToken, myPublicProfile, activeChat} = props
     const [showMessenger, setShowMessenger] = useState(false);
-
-    useEffect(() => {
-        console.log(activeChat)
-    })
 
     const openMessenger = () => {
         setShowMessenger(true);
@@ -37,12 +34,17 @@ const messengerContextProvider = props => {
             existingChat = myPublicProfile.chats[otherPartyProfile.userKey]
             if (existingChat) {
                 console.log('restarting...')
-                props.onRestartChat(props.authToken, existingChat);
+                props.onRestartChat(authToken, existingChat);
             }
         } else {
             console.log('starting new...')
-            props.onStartNewChat(props.authToken, props.myPublicProfile, otherPartyProfile)
+            props.onStartNewChat(authToken, props.myPublicProfile, otherPartyProfile)
         }
+        openMessenger();
+    }
+
+    const retrieveChat = (chatKey) => {
+        props.onRestartChat(authToken, chatKey)
         openMessenger();
     }
 
@@ -58,7 +60,7 @@ const messengerContextProvider = props => {
     }
 
     return (
-        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, closeMessenger: closeMessenger, startChat: startChat}}>
+        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, closeMessenger: closeMessenger, startChat: startChat, retrieveChat: retrieveChat}}>
             {props.children}
         </MessengerContext.Provider>
     )

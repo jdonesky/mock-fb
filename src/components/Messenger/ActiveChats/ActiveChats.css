@@ -16,10 +16,16 @@
 .ActiveChatTab {
     height: 50px;
     width: 50px;
+    background-color: rgba(0,0,0,0.1);
     background-position: center;
     background-size: cover;
     border-radius: 100%;
     cursor: pointer;
+}
+
+.ActiveChatTab:hover {
+    background-color: rgba(0,0,0,0.15);
+    filter: saturate(2);
 }
 
 .ActiveChatTab svg {

@@ -14,7 +14,9 @@ const activeChats = props => {
    const { storedActiveChat, authToken } = props;
 
    useEffect(() => {
-      props.onFetchActiveChat(authToken)
+      if (authToken) {
+         props.onFetchActiveChat(authToken)
+      }
    }, [authToken])
 
    useEffect(() => {
@@ -23,12 +25,18 @@ const activeChats = props => {
       }
    }, [storedActiveChat])
 
+   const restartChat = () => {
+      if (!messengerContext.showMessenger) {
+         messengerContext.retrieveChat(storedActiveChat.key)
+      }
+   }
+
    let activeChatTab;
    let theirProfile;
    if (storedActiveChat) {
       theirProfile = storedActiveChat.parties.find(party => party.userKey !== props.firebaseKey)
       activeChatTab = (
-          <div className={classes.ActiveChatTab} style={{backgroundImage: theirProfile.profileImage ? `url(${theirProfile.profileImage})` : null}}>
+          <div className={classes.ActiveChatTab} style={{backgroundImage: theirProfile.profileImage ? `url(${theirProfile.profileImage})` : null}} onClick={restartChat}>
              {theirProfile.profileImage ? null : props.fetchingActiveChat ? <Spinner /> : <Avatar fill="white" />}
           </div>
       )
