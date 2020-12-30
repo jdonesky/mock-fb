@@ -170,6 +170,29 @@ export const convertDashedDatetime = (date) => {
 }
 
 
+export const convertMessageDatetime = (date) => {
+  console.log('INPUT', date)
+  const rawDate = date.split("T")[0].split("-")
+  const rawTime = date.split("T")[1]
+  console.log('RAW DATE', rawDate)
+  console.log('RAW TIME ', rawTime)
+  let day = rawDate[2];
+  console.log('DAY', day)
+  const month = reverseMapMonths[rawDate[1]] || reverseMapZeroMonths[rawDate[1]];
+  console.log('MONTH', month)
+  const year = rawDate[0];
+  console.log('YEAR', year)
+  let formatted = `${month} ${day}, ${year}`
+
+  const checkDate = new Date(date);
+  const today = new Date();
+  if (checkDate.getDate() === today.getDate() &&
+      checkDate.getMonth() === today.getMonth() &&
+      checkDate.getFullYear() === today.getFullYear()) {
+    formatted = 'today'
+  }
+
+}
 
 
 export class KeyGenerator {

@@ -4,6 +4,7 @@ import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './Messenger.css';
 import {MessengerContext} from "../../context/messenger-context";
+import {convertMessageDatetime} from "../../shared/utility";
 
 import Close from '../../assets/images/MessengerIcons/close';
 import Minimize from '../../assets/images/MessengerIcons/minimize';
@@ -12,6 +13,8 @@ import Photo from '../../assets/images/polaroid';
 import Gif from '../../assets/images/MessengerIcons/gif';
 import Like from '../../assets/images/like';
 import Spinner from '../UI/Spinner/Spinner';
+import Label from '../UI/Label/Label';
+
 
 const messenger = (props) => {
 
@@ -21,6 +24,13 @@ const messenger = (props) => {
 
     const [theirProfile, setTheirProfile] = useState(null);
     const {activeChat} = props
+
+    useEffect(() => {
+        if (activeChat) {
+            console.log('activeChat date ', activeChat.startDate)
+            convertMessageDatetime(activeChat.startDate)
+        }
+    }, [activeChat])
 
     useEffect(() => {
         messageBar.current.focus();
@@ -53,6 +63,7 @@ const messenger = (props) => {
     if (theirProfile) {
         theirProfileImage = theirProfile.profileImage
         theirName = theirProfile.name
+
     }
 
     return (
@@ -67,8 +78,22 @@ const messenger = (props) => {
                     <div className={classes.HeaderName}>{theirName}</div>
                 </div>
                 <div className={classes.ControlsBlock}>
-                    <div className={[classes.Control, classes.Minimize].join(" ")}><Minimize fill={iconsFill}/></div>
-                    <div className={[classes.Control, classes.Close].join(" ")} onClick={() => messengerContext.closeMessenger()}><Close fill={iconsFill}/></div>
+                    <Label label="Minimize chat" bottom='40px' left="-35px" width="100px">
+                        <div className={[classes.Control, classes.Minimize].join(" ")}><Minimize fill={iconsFill}/></div>
+                    </Label>
+                    <Label label="Close chat" bottom='40px' left="-20px"  width="70px">
+                        <div className={[classes.Control, classes.Close].join(" ")} onClick={() => messengerContext.closeMessenger()}><Close fill={iconsFill}/></div>
+                    </Label>
+                </div>
+            </section>
+            <section className={classes.ConversationContainer}>
+                <div className={classes.ConversationStarter}>
+                    <div className={classes.ConversationStarterProfilePic} style={{backgroundImage: theirProfileImage ? `url(${theirProfileImage})`: null}} onClick={goToTheirProfile}>
+                        {theirProfileImage ? null : props.startingChat || props.restartingChat ? <Spinner /> : <Avatar fill="white" />}
+                    </div>
+                    <div className={classes.ConversationStarterName}>{theirProfile && theirProfile.name}</div>
+                    <div className={classes.ConversationStarterDate}></div>
+
                 </div>
             </section>
             <section className={[classes.Footer,messengerContext.showMessenger ?  classes.ShowMessageBar : null].join(" ")}>

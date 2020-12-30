@@ -38,7 +38,7 @@ const activeChats = props => {
    if (storedActiveChat) {
       theirProfile = storedActiveChat.parties.find(party => party.userKey !== props.firebaseKey)
       activeChatTab = (
-          <Label label={theirProfile.name}>
+          <Label label={theirProfile.name} bottom='55px'>
              <div className={classes.ActiveChatTab} style={{backgroundImage: theirProfile.profileImage ? `url(${theirProfile.profileImage})` : null}} onClick={restartChat}>
                {theirProfile.profileImage ? null : props.fetchingActiveChat ? <Spinner /> : <Avatar fill="white" />}
              </div>

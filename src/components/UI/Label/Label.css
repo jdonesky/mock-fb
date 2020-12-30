@@ -5,9 +5,8 @@
 
 .Container {
     position: absolute;
-    bottom: 55px;
-    min-height: 35px;
-    min-width: 35px;
+    min-height: 20px;
+    min-width: 20px;
     border-radius: 5px;
     box-sizing: border-box;
     padding: 3px;
@@ -16,7 +15,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     font-family: "Lucida Grande";
     font-weight: 500;
-    font-size: 14px
+    font-size: 10px;
 }

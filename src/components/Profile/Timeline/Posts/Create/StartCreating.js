@@ -1,6 +1,7 @@
 
 
 import React, { useContext, useRef, useEffect } from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './StartCreating.css'
 import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
@@ -27,6 +28,12 @@ const startPost = (props) => {
         postContext.toggleModal()
     }
 
+    const navToProfile = () => {
+        if (props.history.location.pathname !== '/user-profile/me') {
+            props.history.push('/user-profile/me')
+        }
+    }
+
     let placeholder;
     if (!props.displayProfile || props.displayProfile === 'me') {
         placeholder = 'Whats on your mind?'
@@ -36,11 +43,12 @@ const startPost = (props) => {
         }
     }
 
+
     return (
         <div className={classes.Container}>
             <section className={classes.Header}>
                 <div className={classes.ProfileImageContainer}>
-                    <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                    <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}} onClick={navToProfile}>
                         {props.profileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
@@ -80,4 +88,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(startPost);
+export default connect(mapStateToProps)(withRouter(startPost));

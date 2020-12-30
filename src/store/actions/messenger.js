@@ -29,10 +29,11 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile) => {
         let theirNewProfile;
         const newChat = {
             parties: [
-                {name: myProfile.firstName + ' ' + myProfile.lastName, profileImage: myProfile.profileImage, userKey:myProfile.userKey},
-                {name: theirProfile.firstName + ' ' + theirProfile.lastName, profileImage: theirProfile.profileImage, userKey: theirProfile.userKey}
+                    {name: myProfile.firstName + ' ' + myProfile.lastName, profileImage: myProfile.profileImage, userKey:myProfile.userKey},
+                    {name: theirProfile.firstName + ' ' + theirProfile.lastName, profileImage: theirProfile.profileImage, userKey: theirProfile.userKey}
                 ],
-            messages: []
+            messages: [],
+            startDate: new Date()
         }
         console.log('new Chat ', newChat)
         dispatch(startNewChatInit())
