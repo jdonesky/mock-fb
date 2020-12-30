@@ -40,7 +40,6 @@ const messenger = (props) => {
         }
     }
 
-
     let iconsFill;
     if (focusing) {
         iconsFill = "#3078fc"

@@ -1,0 +1,30 @@
+
+.Container {
+    width: 50px;
+    height: 150px;
+    position: fixed;
+    bottom: 8px;
+    right: 8px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: transparent;
+    z-index: 1000;
+}
+
+.ActiveChatTab {
+    height: 50px;
+    width: 50px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.ActiveChatTab svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: 4px;
+}

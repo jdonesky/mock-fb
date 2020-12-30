@@ -10,6 +10,7 @@ import LifeEventContextProvider from "./context/life-event-context";
 import PostContextProvider from "./context/post-context";
 import PageContextProvider from "./context/page-context";
 import MessengerProvider from "./context/messenger-context";
+import ActiveChatTab from './components/Messenger/ActiveChats/ActiveChats';
 
 const AsyncAuth = React.lazy(() => {
     return import("./containers/Auth/Auth");
@@ -126,6 +127,7 @@ const app = (props) => {
                                     <AsyncCreateLifeEventModal />
                                     <AsyncEditPageModal />
                                     <AsyncMessengerModal />
+                                    <ActiveChatTab />
                                     {routes}
                                 </Suspense>
                             </Layout>

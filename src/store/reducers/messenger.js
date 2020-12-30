@@ -69,7 +69,7 @@ const fetchActiveChatSuccess = (state,action) => {
     return {
         ...state,
         activeChat: action.chat,
-        fetchingActiveSuccess: false
+        fetchingActiveChat: false
     }
 }
 
@@ -77,7 +77,7 @@ const fetchActiveChatFail = (state,action) => {
     return {
         ...state,
         error: action.error,
-        fetchingActiveSuccess: false,
+        fetchingActiveChat: false,
         noActiveChat: true
     }
 }
