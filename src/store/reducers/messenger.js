@@ -3,10 +3,12 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     activeChat: null,
+    chatRecord: null,
     startingChat: false,
     restartingChat: false,
     fetchingActiveChat: false,
     clearingActiveChat: false,
+    fetchingChatRecord: false,
     error: null,
     noActiveChat: false,
 }
@@ -108,7 +110,32 @@ const clearActiveChatFail = (state,action) => {
     }
 }
 
-const reducer = (state=initialState,action) => {
+const fetchChatRecordInit = (state,action) => {
+    return {
+        ...state,
+        fetchingChatRecord: true
+    }
+}
+
+const fetchChatRecordSuccess = (state,action) => {
+    return {
+        ...state,
+        chatRecord: action.chat,
+        fetchingChatRecord: false
+    }
+}
+
+const fetchChatRecordFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        fetchingChatRecord: false
+    }
+}
+
+
+
+const reducer = (state= initialState,action) => {
     switch(action.type) {
         case actionTypes.START_NEW_CHAT_INIT: return startNewChatInit(state,action);
         case actionTypes.START_NEW_CHAT_SUCCESS: return startNewChatSuccess(state,action);
@@ -122,6 +149,9 @@ const reducer = (state=initialState,action) => {
         case actionTypes.CLEAR_ACTIVE_CHAT_INIT: return clearActiveChatInit(state,action);
         case actionTypes.CLEAR_ACTIVE_CHAT_SUCCESS: return clearActiveChatSuccess(state,action);
         case actionTypes.CLEAR_ACTIVE_CHAT_FAIL: return clearActiveChatFail(state,action);
+        case actionTypes.FETCH_CHAT_RECORD_INIT: return fetchChatRecordInit(state,action);
+        case actionTypes.FETCH_CHAT_RECORD_SUCCESS: return fetchChatRecordSuccess(state,action);
+        case actionTypes.FETCH_CHAT_RECORD_FAIL: return fetchChatRecordFail(state,action);
         default: return state;
     }
 }

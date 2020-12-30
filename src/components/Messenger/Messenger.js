@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import classes from './Messenger.css';
 import {MessengerContext} from "../../context/messenger-context";
 import {convertMessageDatetime} from "../../shared/utility";
+import * as actions from '../../store/actions/index';
 
 import Close from '../../assets/images/MessengerIcons/close';
 import Minimize from '../../assets/images/MessengerIcons/minimize';
@@ -12,8 +13,11 @@ import Avatar from '../../assets/images/BookmarkIcons/user';
 import Photo from '../../assets/images/polaroid';
 import Gif from '../../assets/images/MessengerIcons/gif';
 import Like from '../../assets/images/like';
+
 import Spinner from '../UI/Spinner/Spinner';
 import Label from '../UI/Label/Label';
+import InlineDots from '../UI/Spinner/InlineDots';
+import Message from './Message/Message'
 
 
 const messenger = (props) => {
@@ -21,16 +25,9 @@ const messenger = (props) => {
     const messengerContext = useContext(MessengerContext);
     const messageBar = useRef(null);
     const [focusing, setFocusing] = useState(true);
-
     const [theirProfile, setTheirProfile] = useState(null);
-    const {activeChat} = props
-
-    useEffect(() => {
-        if (activeChat) {
-            // convertMessageDatetime(activeChat.startDate)
-            convertMessageDatetime(new Date("2020-12-30T12:00:00Z"))
-        }
-    }, [activeChat])
+    // const [chatRecord, setChatRecord] = useState(null);
+    const {activeChat, chatRecord} = props
 
     useEffect(() => {
         messageBar.current.focus();
@@ -39,8 +36,15 @@ const messenger = (props) => {
     useEffect(() => {
         if (activeChat) {
             setTheirProfile(activeChat.parties.find(party => party.userKey !== props.firebaseKey))
+            props.onFetchChatRecord(props.authToken, activeChat.key)
         }
     }, [activeChat])
+
+    useEffect(() => {
+        if (chatRecord) {
+            console.log(chatRecord);
+        }
+    }, [chatRecord])
 
     const goToTheirProfile = () => {
         if (theirProfile) {
@@ -59,12 +63,24 @@ const messenger = (props) => {
 
     let theirProfileImage;
     let theirName;
-
     if (theirProfile) {
         theirProfileImage = theirProfile.profileImage
         theirName = theirProfile.name
 
     }
+
+    let messages;
+    if (props.fetchingChatRecord) {
+        messages = <InlineDots />
+    } else {
+        if (chatRecord && chatRecord.messages) {
+            messages = chatRecord.messages.map(msg => (
+                <Message />
+            ))
+        }
+    }
+
+
 
     return (
         <div
@@ -93,8 +109,9 @@ const messenger = (props) => {
                     </div>
                     <div className={classes.ConversationStarterName}>{theirProfile && theirProfile.name}</div>
                     <div className={classes.ConversationStarterDate}>{activeChat ? convertMessageDatetime(activeChat.startDate) : ''}</div>
-                    <div className={classes.ConversationStarterCaption}>You are now connected on dumb messenger</div>
+                    <div className={classes.ConversationStarterCaption}>{activeChat ? 'You are now connected on dumb messenger' : ' '}</div>
                 </div>
+                {messages}
             </section>
             <section className={[classes.Footer,messengerContext.showMessenger ?  classes.ShowMessageBar : null].join(" ")}>
                 <div className={classes.AddMediaButton}><Photo fill={iconsFill}/></div>
@@ -110,11 +127,20 @@ const messenger = (props) => {
 
 const mapStateToProps = state => {
     return {
+        authToken: state.auth.token,
         startingChat: state.messenger.startingChat,
         restartingChat: state.messenger.restartingChat,
+        fetchingChatRecord: state.messenger.fetchingChatRecord,
         activeChat: state.messenger.activeChat,
+        chatRecord: state.messenger.chatRecord,
         firebaseKey: state.profile.firebaseKey,
     }
 }
 
-export default connect(mapStateToProps)(withRouter(messenger));
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchChatRecord: (authToken, chatKey) => dispatch(actions.fetchChatRecordAttempt(authToken, chatKey))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(messenger));

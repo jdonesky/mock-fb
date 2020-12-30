@@ -125,6 +125,7 @@
     width: 340px;
     background-color: #fff;
     display:flex;
+    flex-flow: column;
     justify-content: flex-start;
     overflow: auto;
 }

@@ -113,7 +113,7 @@ export const restartOldChatAttempt = (authToken, chatKey) => {
         axios.get(`/chats/${chatKey}.json?auth=${authToken}`)
             .then(response => {
                 console.log('SUCCESS - got previous chat', response.data);
-                console.log(chatKey)
+                console.log('fetch without messages field? ')
                 return axios.put(`/activeChat.json?auth=${authToken}`, response.data)
             })
             .then(response => {
@@ -239,6 +239,41 @@ export const clearActiveChatAttempt = (authToken) => {
             .catch(error => {
                 console.log('FAIL - ')
                 dispatch(clearActiveChatFail(error))
+            })
+    }
+}
+
+const fetchChatRecordInit = () => {
+    return {
+        type: actionTypes.FETCH_CHAT_RECORD_INIT
+    }
+}
+
+const fetchChatRecordSuccess = (chat) => {
+    return {
+        type: actionTypes.FETCH_CHAT_RECORD_SUCCESS,
+        chat: chat
+    }
+}
+
+const fetchChatRecordFail = (error) => {
+    return {
+        type: actionTypes.FETCH_CHAT_RECORD_FAIL,
+        error: error
+    }
+}
+
+export const fetchChatRecordAttempt = (authToken, chatKey) => {
+    return dispatch => {
+        console.log('fetching chatRecord')
+        dispatch(fetchChatRecordInit())
+        axios.get(`/chats/${chatKey}.json?auth=${authToken}`)
+            .then(response => {
+                console.log('success - fetched chatRecord')
+                dispatch(fetchChatRecordSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(fetchChatRecordFail(error))
             })
     }
 }

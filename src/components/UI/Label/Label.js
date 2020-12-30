@@ -9,7 +9,9 @@ const label = props => {
 
     useEffect(() => {
         return () => {
-            showTimer = null;
+            if (showTimer) {
+                showTimer = null;
+            }
         }
     }, [])
 
@@ -46,7 +48,7 @@ const label = props => {
     return (
         <div className={classes.Positioner}>
             {label}
-            <div onMouseEnter={startShowing} onMouseOut={cancelShow}>
+            <div onMouseEnter={startShowing} onMouseLeave={cancelShow}>
                 {props.children}
             </div>
         </div>
