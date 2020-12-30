@@ -32,6 +32,20 @@ const userProfile = (props) => {
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[1])
     const {otherProfile, myPublicProfileKey} = props
 
+    useEffect(() => {
+        if (displayProfile !== 'me') {
+            if (displayProfile === props.firebaseKey) {
+                props.history.replace('/user-profile/me')
+            }
+        }
+    })
+
+    useEffect(() => {
+        if (displayProfile !== props.match.params.id) {
+            setDisplayProfile(props.match.params.id)
+        }
+    })
+
 
     useEffect(() => {
         if (displayProfile !== 'me') {
@@ -44,12 +58,6 @@ const userProfile = (props) => {
             props.onFetchOtherPublicProfile(props.authToken, otherProfile.publicProfileKey)
         }
     }, [otherProfile, displayProfile])
-
-    useEffect(() => {
-       if (displayProfile !== props.match.params.id) {
-           setDisplayProfile(props.match.params.id)
-       }
-    })
 
     let name;
     let bio;

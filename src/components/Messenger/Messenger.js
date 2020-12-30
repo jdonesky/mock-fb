@@ -27,8 +27,8 @@ const messenger = (props) => {
 
     useEffect(() => {
         if (activeChat) {
-            console.log('activeChat date ', activeChat.startDate)
-            convertMessageDatetime(activeChat.startDate)
+            // convertMessageDatetime(activeChat.startDate)
+            convertMessageDatetime(new Date("2020-12-30T12:00:00Z"))
         }
     }, [activeChat])
 
@@ -92,8 +92,8 @@ const messenger = (props) => {
                         {theirProfileImage ? null : props.startingChat || props.restartingChat ? <Spinner /> : <Avatar fill="white" />}
                     </div>
                     <div className={classes.ConversationStarterName}>{theirProfile && theirProfile.name}</div>
-                    <div className={classes.ConversationStarterDate}></div>
-
+                    <div className={classes.ConversationStarterDate}>{activeChat ? convertMessageDatetime(activeChat.startDate) : ''}</div>
+                    <div className={classes.ConversationStarterCaption}>You are now connected on dumb messenger</div>
                 </div>
             </section>
             <section className={[classes.Footer,messengerContext.showMessenger ?  classes.ShowMessageBar : null].join(" ")}>

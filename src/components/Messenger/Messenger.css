@@ -135,7 +135,7 @@
 
 .ConversationStarter {
     height: 150px;
-    width: 200px;
+    width: 250px;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
@@ -184,6 +184,7 @@
     font-weight: 600;
     font-size: 11px;
     color: rgba(0,0,0,0.5);
+    margin-top: 8px;
 }
 
 .ConversationStarterCaption {
@@ -191,6 +192,7 @@
     font-weight: 100;
     font-size: 11px;
     color: rgba(0,0,0,0.5);
+    margin-top: 8px;
 }
 
 .Footer {

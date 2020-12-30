@@ -171,26 +171,36 @@ export const convertDashedDatetime = (date) => {
 
 
 export const convertMessageDatetime = (date) => {
-  console.log('INPUT', date)
-  const rawDate = date.split("T")[0].split("-")
-  const rawTime = date.split("T")[1]
-  console.log('RAW DATE', rawDate)
-  console.log('RAW TIME ', rawTime)
-  let day = rawDate[2];
-  console.log('DAY', day)
-  const month = reverseMapMonths[rawDate[1]] || reverseMapZeroMonths[rawDate[1]];
-  console.log('MONTH', month)
-  const year = rawDate[0];
-  console.log('YEAR', year)
-  let formatted = `${month} ${day}, ${year}`
+  let formatted = new Date(date).toDateString()
+  let hours = new Date(date).getHours()
+  let minutes = new Date(date).getMinutes()
+  if (minutes < 10) {
+    minutes = `0${minutes}`
+  }
+  let morningOrAfter;
+  if (hours > 12) {
+    hours -= 12;
+    morningOrAfter = 'pm';
+  } else {
+    morningOrAfter = 'am';
+  }
 
+ let final;
   const checkDate = new Date(date);
   const today = new Date();
   if (checkDate.getDate() === today.getDate() &&
       checkDate.getMonth() === today.getMonth() &&
       checkDate.getFullYear() === today.getFullYear()) {
-    formatted = 'today'
+    final = `${hours}:${minutes} ${morningOrAfter}`
+  } else {
+     if ( checkDate.getFullYear() === today.getFullYear()) {
+        final = formatted.split(' ')[0] + ', ' + formatted.split(' ')[1] + ' ' + formatted.split(' ')[3]
+        final = final + ', ' + `${hours}:${minutes} ${morningOrAfter}`;
+     } else {
+       final = formatted
+     }
   }
+  return final;
 
 }
 
