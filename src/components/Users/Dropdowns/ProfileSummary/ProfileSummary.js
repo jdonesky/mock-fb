@@ -96,6 +96,11 @@ const profileSummaryDropdown = (props) => {
             }
         }
 
+    const startChat = () => {
+        if (props.profile) {
+            messengerContext.startChat(props.profile)
+        }
+    }
 
     const sendFriendRequest = () => {
         props.onSendFriendRequest(authToken, props.myPublicProfileKey, publicProfileKey)
@@ -395,7 +400,7 @@ const profileSummaryDropdown = (props) => {
                     isFriend = null;
                 }
                 if (isFriend || acceptedRequest) {
-                    firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")} onClick={messengerContext.openMessenger}>
+                    firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")} onClick={startChat}>
                         <div className={classes.MessageIcon}><FbMessage/></div>
                         <span className={classes.ControlButtonText}>Message</span></div>
                     secondControl = (
@@ -422,7 +427,7 @@ const profileSummaryDropdown = (props) => {
 
                     if (props.profile.privacy.AllowMessages === 'ALL') {
                         secondControl =
-                            <div className={classes.ControlButton}>
+                            <div className={classes.ControlButton} onClick={startChat}>
                                 <div className={classes.ButtonIcon}><FbMessage/></div>
                             </div>
                     } else {

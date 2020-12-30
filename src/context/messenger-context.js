@@ -16,10 +16,12 @@ export const MessengerContext = React.createContext({
 
 const messengerContextProvider = props => {
 
-    const {myPublicProfile} = props
-    const [showMessenger, setShowMessenger] = useState(true);
-    const [activeConversation, setActiveConversation] = useState(null);
-    const [waitingConversations, setWaitingConversations] = useState(null)
+    const {myPublicProfile, activeChat} = props
+    const [showMessenger, setShowMessenger] = useState(false);
+
+    useEffect(() => {
+        console.log(activeChat)
+    })
 
     const openMessenger = () => {
         setShowMessenger(true);
@@ -32,20 +34,31 @@ const messengerContextProvider = props => {
     const startChat = (otherPartyProfile) => {
         let existingChat;
         if (myPublicProfile && myPublicProfile.chats) {
-            existingChat = myPublicProfile.chats.find(chat => chat.userKey === otherPartyProfile.userKey)
+            existingChat = myPublicProfile.chats[otherPartyProfile.userKey]
             if (existingChat) {
-                props.onRestartChat(props.authToken, existingChat.chatKey);
-            } else {
-                props.onStartNewChat(props.authToken, props.myPublicProfile, otherPartyProfile)
+                console.log('restarting...')
+                props.onRestartChat(props.authToken, existingChat);
             }
+        } else {
+            console.log('starting new...')
+            props.onStartNewChat(props.authToken, props.myPublicProfile, otherPartyProfile)
         }
-
-
         openMessenger();
     }
 
+    const sendMessage = (payload) => {
+        if (props.activeChat) {
+            const message = {
+                userKey: myPublicProfile.userKey,
+                message: payload,
+                date: new Date()
+            }
+            props.onSendMessage(props.authToken, props.activeChat.key, message)
+        }
+    }
+
     return (
-        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, closeMessenger: closeMessenger}}>
+        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, closeMessenger: closeMessenger, startChat: startChat}}>
             {props.children}
         </MessengerContext.Provider>
     )
@@ -55,14 +68,18 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         myPublicProfile: state.profile.publicProfile,
-        otherProfile: state.users.fullProfile
+        otherProfile: state.users.fullProfile,
+        activeChat: state.messenger.activeChat
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onRestartChat: (authToken, chatKey) => dispatch(actions.restartOldChatAttempt(authToken, chatKey)),
-        onStartNewChat: (authToken, myProfile, theirProfile) => actions.startNewChatAttempt(authToken, myProfile, theirProfile)
+        onStartNewChat: (authToken, myProfile, theirProfile) => dispatch(actions.startNewChatAttempt(authToken, myProfile, theirProfile)),
+        onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message)),
+        onFetchActiveChat: (authToken) => dispatch(actions.fetchActiveChatAttempt(authToken)),
+        onClearActiveChat: (authToken) => dispatch(actions.clearActiveChatAttempt(authToken)),
     }
 }
 

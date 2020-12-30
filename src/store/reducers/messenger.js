@@ -5,7 +5,10 @@ const initialState = {
     activeChat: null,
     startingChat: false,
     restartingChat: false,
+    fetchingActiveChat: false,
+    clearingActiveChat: false,
     error: null,
+    noActiveChat: false,
 }
 
 const startNewChatInit = (state,action) => {
@@ -54,6 +57,57 @@ const restartOldChatFail = (state, action) => {
     }
 }
 
+const fetchActiveChatInit = (state,action) => {
+    return {
+        ...state,
+        fetchingActiveChat: true,
+        noActiveChat: false
+    }
+}
+
+const fetchActiveChatSuccess = (state,action) => {
+    return {
+        ...state,
+        activeChat: action.chat,
+        fetchingActiveSuccess: false
+    }
+}
+
+const fetchActiveChatFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        fetchingActiveSuccess: false,
+        noActiveChat: true
+    }
+}
+
+const clearActiveChatInit = (state,action) => {
+    return {
+        ...state,
+        clearingActiveChat: true,
+        noActiveChat: false
+    }
+}
+
+const clearActiveChatSuccess = (state,action) => {
+    return {
+        ...state,
+        activeChat: action.chat,
+        clearingActiveSuccess: false,
+        noActiveChat: true
+    }
+}
+
+const clearActiveChatFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        clearingActiveSuccess: false,
+        noActiveChat: true
+    }
+}
+
 const reducer = (state=initialState,action) => {
     switch(action.type) {
         case actionTypes.START_NEW_CHAT_INIT: return startNewChatInit(state,action);
@@ -62,6 +116,12 @@ const reducer = (state=initialState,action) => {
         case actionTypes.RESTART_OLD_CHAT_INIT: return restartOldChatInit(state,action);
         case actionTypes.RESTART_OLD_CHAT_SUCCESS: return restartOldChatSuccess(state,action);
         case actionTypes.RESTART_OLD_CHAT_FAIL: return restartOldChatFail(state,action);
+        case actionTypes.FETCH_ACTIVE_CHAT_INIT: return fetchActiveChatInit(state,action);
+        case actionTypes.FETCH_ACTIVE_CHAT_SUCCESS: return fetchActiveChatSuccess(state,action);
+        case actionTypes.FETCH_ACTIVE_CHAT_FAIL: return fetchActiveChatFail(state,action);
+        case actionTypes.CLEAR_ACTIVE_CHAT_INIT: return clearActiveChatInit(state,action);
+        case actionTypes.CLEAR_ACTIVE_CHAT_SUCCESS: return clearActiveChatSuccess(state,action);
+        case actionTypes.CLEAR_ACTIVE_CHAT_FAIL: return clearActiveChatFail(state,action);
         default: return state;
     }
 }

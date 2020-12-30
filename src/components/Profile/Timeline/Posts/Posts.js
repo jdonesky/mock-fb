@@ -6,7 +6,7 @@ import Post from './Post/Post';
 import InlineDots from '../../../UI/Spinner/InlineDots';
 import * as actions from '../../../../store/actions/index';
 
-const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, loadingSelfPosts, displayProfile, otherProfile, ownedPage, userType, history}) => {
+const posts = ({posts, authToken, postsKey, firebaseKey, onFetchSelfPosts, deletingPost, loadingSelfPosts, displayProfile, otherProfile, ownedPage, userType, history}) => {
 
     const [pathRoot, setPathRoot] = useState(history.location.pathname.split('/')[2])
     const [profileImage,setProfileImage] = useState(null);
@@ -38,6 +38,15 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, load
         onFetchSelfPosts(authToken, key)
     }, [onFetchSelfPosts, authToken, postsKey, displayProfile, userType, ownedPage])
 
+    const navToFullProfile = (userKey) => {
+        if (userKey === firebaseKey) {
+            history.push(`/user-profile/me`)
+        } else {
+            history.push(`/user-profile/${userKey}`)
+        }
+
+    }
+
     const posted = posts && posts.length && posts.length > 1 ? posts.slice(1).map(post => (
         <Post
             userType={post.userType}
@@ -56,6 +65,7 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, load
             location={post.location}
             comments={post.comments}
             reactions={post.reactions}
+            navToFullProfile={navToFullProfile}
         />
     )) : null
 
@@ -76,6 +86,7 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         postsKey: state.profile.postsKey,
+        firebaseKey: state.profile.firebaseKey,
         posts: state.posts.posts,
         deletingPost: state.posts.deletingPost,
         loadingSelfPosts: state.posts.loadingSelfPosts,

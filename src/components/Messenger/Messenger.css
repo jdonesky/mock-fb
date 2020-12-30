@@ -22,8 +22,8 @@
 }
 
 .Header {
-    width: 340px;
     height: 45px;
+    width: 340px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,7 +35,47 @@
     justify-content: flex-start;
     align-items: center;
     height: 45px;
-    width: 150px;
+    width: 80%;
+}
+
+.HeaderProfileImage {
+    height: 35px;
+    width: 35px;
+    background-color: rgba(0,0,0,0.05);
+    background-position: center;
+    background-size: cover;
+    border-radius: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.HeaderProfileImage:hover {
+    background-color: rgba(0,0,0,.1);
+    filter:saturate(2);
+}
+
+.HeaderProfileImage:active {
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.3);
+}
+
+.HeaderProfileImage svg {
+    height: auto;
+    width: 100%;
+    top: 5px;
+}
+
+.HeaderName {
+    height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "Lucida Grande";
+    font-weight: 500;
+    font-size: 15px;
+    margin-left: 10px;
 }
 
 .ControlsBlock {

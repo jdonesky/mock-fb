@@ -74,4 +74,7 @@ export {
 export {
    startNewChatAttempt,
    restartOldChatAttempt,
+   sendMessageAttempt,
+   fetchActiveChatAttempt,
+   clearActiveChatAttempt
 } from "./messenger";

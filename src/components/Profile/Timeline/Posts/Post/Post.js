@@ -443,7 +443,7 @@ const post = (props) => {
             <section className={classes.Header}>
                 <div className={classes.HeaderInfo}>
                     <div className={classes.ProfileImageContainer}>
-                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}} onMouseEnter={enterProfileImage} onMouseLeave={leaveProfileImage}>
+                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}} onMouseEnter={enterProfileImage} onMouseLeave={leaveProfileImage} onClick={() => props.navToFullProfile(props.userKey)}>
                             {profileImage ? null : <NoGenderPlaceholder />}
                         </div>
                         <OutsideAlerter action={quickCloseSummary}>
