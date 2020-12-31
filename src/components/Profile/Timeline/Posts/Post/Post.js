@@ -53,6 +53,17 @@ const post = (props) => {
     const [showEmojiSelector, setShowEmojiSelector] = useState(null);
     const [showGifSelector, setShowGifSelector] = useState(false);
 
+    useEffect(() => {
+        return () => {
+            if (summaryOpeningTimer) {
+                summaryOpeningTimer = null;
+            }
+            if (summaryClosingTimer) {
+                summaryClosingTimer = null;
+            }
+        }
+    }, [])
+
     let summaryOpeningTimer;
     const startViewingSummary = () => {
         summaryOpeningTimer = setTimeout(() => {

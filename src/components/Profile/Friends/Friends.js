@@ -32,6 +32,10 @@ const friends = (props) => {
     const {myPublicProfile, otherPublicProfile, manyProfiles} = props
 
     useEffect(() => {
+        console.log(selectedFriends)
+    })
+
+    useEffect(() => {
         if (pathRoot !== props.history.location.pathname.split('/')[1] || displayProfile !== props.match.params.id) {
             setPathRoot(props.history.location.pathname.split('/')[1]);
             setDisplayProfile(displayProfile !== props.match.params.id);
@@ -285,6 +289,18 @@ const friends = (props) => {
     }
 
 
+    let selected;
+    if (props.fetchingOtherProfile || props.fetchingOtherPublicProfile || props.fetchingManyProfiles) {
+        selected = <InlineDots />
+    }
+    if (selectedFriends) {
+        if (selectedFriends.length === 0) {
+            selected = <div>You have no dumb friends</div>
+        } else {
+            selected = selectedFriends
+        }
+    }
+
     return (
         <div className={classes.FriendsContainer}>
             <section className={[classes.HeaderSection, displayProfile === 'me' ? null : classes.OtherUserHeader].join(" ")}>
@@ -329,7 +345,7 @@ const friends = (props) => {
                 {moreFiltersDropdown}
             </section>
             <section className={classes.FriendsSection}>
-                {selectedFriends || <InlineDots />}
+                {selected}
             </section>
         </div>
     )
@@ -343,6 +359,8 @@ const mapStateToProps = state => {
         otherProfile: state.users.otherUserProfile,
         otherPublicProfile: state.users.singleProfile,
         manyProfiles: state.users.manyProfiles,
+        fetchingOtherProfile: state.users.loadingFullProfile,
+        fetchingOtherPublicProfile: state.users.loadingSingleProfile,
         fetchingManyProfiles: state.users.fetchingManyProfiles,
         following: state.profile.following || [],
         currentLocation: state.profile.currentLocation || '',

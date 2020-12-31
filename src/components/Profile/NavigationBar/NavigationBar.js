@@ -17,16 +17,27 @@ import AddFriend from '../../../assets/images/UserActionIcons/addFriend';
 import Follow from '../../../assets/images/UserActionIcons/follow';
 import Dots from '../../../assets/images/dots';
 import DownArrow from '../../../assets/images/down-arrow';
+import UnFriend from "../../../assets/images/UserActionIcons/unfriend";
+import RespondRequest from "../../../assets/images/UserActionIcons/respondRequest";
 import InlineDots from '../../UI/Spinner/InlineDots';
 
+import RespondDropdown from '../../Users/Dropdowns/RespondRequest/RespondRequest';
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
+import * as actions from "../../../store/actions";
+
 
 const navigationBar = (props) => {
 
     const [showNavDropdown, setShowNavDropdown] = useState(false);
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const [isFriend, setIsFriend] = useState(null);
+    const [friendRequestSent, setFriendRequestSent] = useState(false);
+    const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
+    const [respondingRequest, setRespondingRequest] = useState(false);
+    const [acceptedRequest, setAcceptedRequest] = useState(false);
+    const [deniedRequest, setDeniedRequest] = useState(false);
+
     const {width, height} = getWindowDimensions()
     const { myPublicProfile, otherProfile, otherPublicProfile } = props
     const messengerContext = useContext(MessengerContext)
@@ -40,6 +51,35 @@ const navigationBar = (props) => {
             }
         }
     }, [myPublicProfile,otherProfile])
+
+    useEffect(() => {
+        props.onFetchMyFriendRequests(props.authToken,props.myPublicProfileKey);
+    }, [friendRequestCanceled])
+
+    useEffect(() => {
+        props.onFetchMyFriends(props.authToken, props.myPublicProfileKey)
+    }, [acceptedRequest])
+
+    const sendFriendRequest = () => {
+        console.log('CLICKED')
+        if (otherProfile && props.myPublicProfileKey) {
+            console.log('in execution block')
+            props.onSendFriendRequest(props.authToken, props.myPublicProfileKey, otherProfile.publicProfileKey)
+            setFriendRequestSent(true)
+            if (friendRequestCanceled) {
+                setFriendRequestCanceled(false)
+            }
+        }
+    }
+
+    const cancelFriendRequest = () => {
+        if (otherProfile && props.myPublicProfileKey) {
+            props.onCancelFriendRequest(props.authToken, props.myPublicProfileKey, otherProfile.publicProfileKey)
+            setFriendRequestCanceled(true);
+            setFriendRequestSent(false);
+        }
+    }
+
 
     const toggleNavDropdown = () => {
         setShowNavDropdown(prevState => {
@@ -104,6 +144,28 @@ const navigationBar = (props) => {
         }
     }
 
+    let addFriendButtonText;
+    let addFriendButtonIcon;
+    let addFriendButtonAction;
+    if (otherProfile) {
+        if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) !== -1)) {
+            addFriendButtonText = 'Cancel Request';
+            addFriendButtonIcon = <UnFriend fill='#155fe8'/>
+            addFriendButtonAction = cancelFriendRequest;
+        }
+
+        if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) === -1) || friendRequestCanceled || deniedRequest) {
+            addFriendButtonText = 'Add Friend';
+            addFriendButtonIcon = <AddFriend fill='#155fe8'/>
+            addFriendButtonAction = sendFriendRequest;
+        }
+
+        if (props.myReceivedRequests && props.myReceivedRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) !== -1) {
+            addFriendButtonText = 'Respond'
+            addFriendButtonIcon = <RespondRequest fill='#155fe8'/>
+            addFriendButtonAction = () => setRespondingRequest(true)
+        }
+    }
 
     let firstEditButton;
     let secondEditButton;
@@ -123,9 +185,9 @@ const navigationBar = (props) => {
                     <div className={classes.MessageUserButtonIcon}><FbMessage/></div>
                     Message</li>
             } else {
-                firstEditButton = <li className={classes.AddFriendControlButton}>
-                    <div className={classes.AddFriendButtonIcon}><AddFriend fill="#155fe8"/></div>
-                    Add Friend
+                firstEditButton = <li className={classes.AddFriendControlButton} onClick={addFriendButtonAction}>
+                    <div className={classes.AddFriendButtonIcon}>{addFriendButtonIcon}</div>
+                    {addFriendButtonText}
                 </li>
 
                 if (otherPublicProfile.privacy.AllowMessages === 'ALL') {
@@ -198,6 +260,7 @@ const navigationBar = (props) => {
             )
         }
     }
+
     if (props.fetchingMyPublicProfile || props.fetchingOtherPublicProfile || props.fetchingOtherProfile) {
         editControls = <InlineDots />
     }
@@ -265,14 +328,27 @@ const navigationBar = (props) => {
 
 const mapStateToProps = state => {
     return {
+        authToken: state.auth.token,
         myPublicProfile: state.profile.publicProfile,
+        myPublicProfileKey: state.profile.publicProfileKey,
         otherProfile: state.users.fullProfile,
         otherPublicProfile: state.users.singleProfile,
         fetchingMyPublicProfile: state.profile.publicProfileLoading,
         fetchingOtherProfile: state.users.loadingFullProfile,
-        fetchingOtherPublicProfile: state.users.loadingSingleProfile
+        fetchingOtherPublicProfile: state.users.loadingSingleProfile,
+        mySentRequests: state.friends.sentRequests,
+        myReceivedRequests: state.friends.receivedRequests,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSendFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.sendFriendRequestAttempt(authToken, senderKey, recipientKey)),
+        onCancelFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.cancelFriendRequestAttempt(authToken, senderKey, recipientKey)),
+        onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
+        onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken,publicProfileKey)),
     }
 }
 
 
-export default connect(mapStateToProps)(withRouter(navigationBar));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(navigationBar));
