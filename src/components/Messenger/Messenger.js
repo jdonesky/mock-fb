@@ -27,12 +27,26 @@ const messenger = (props) => {
     const messageBar = useRef(null);
     const [focusing, setFocusing] = useState(true);
     const [theirProfile, setTheirProfile] = useState(null);
+    const [conversation, setConversation] = useState(null);
     const {activeChat, chatRecord} = props
 
     const [textMessage,setTextMessage] = useState('')
     const [photo, setPhoto] = useState(null);
     const [gif, setGif] = useState(null);
 
+    useEffect(() => {
+        console.log('conversation', conversation);
+        console.log('chat-record', chatRecord)
+    })
+
+    useEffect(() => {
+        if (conversation && chatRecord && chatRecord.messages) {
+            if (conversation.length !== chatRecord.messages.length) {
+                props.onFetchChatRecord(props.authToken, activeChat && activeChat.key)
+            }
+        }
+
+    }, [conversation, chatRecord])
 
     useEffect(() => {
         messageBar.current.focus();
@@ -47,7 +61,7 @@ const messenger = (props) => {
 
     useEffect(() => {
         if (chatRecord) {
-            console.log(chatRecord);
+            setConversation(chatRecord.messages)
         }
     }, [chatRecord])
 
@@ -72,10 +86,13 @@ const messenger = (props) => {
         }
         if (activeChat) {
             props.onSendMessage(props.authToken, activeChat.key, message)
-            setTextMessage('');
-            setPhoto(null);
-            setGif(null);
         }
+        setConversation(prevState => {
+            return [...prevState, {...message, pending: props.sendingMessage? true : false}]
+        })
+        setTextMessage('');
+        setPhoto(null);
+        setGif(null);
     }
 
     let iconsFill;
@@ -96,14 +113,16 @@ const messenger = (props) => {
     if (props.fetchingChatRecord) {
         messages = <InlineDots />
     }
-    if (chatRecord && chatRecord.messages) {
-        messages = chatRecord.messages.map(msg => (
+    if (conversation) {
+        messages = conversation.map(msg => (
             <Message
                 key={msg.id}
                 userKey={msg.userKey}
+                myKey={props.firebaseKey}
                 type={msg.type}
                 content={msg.content}
                 date={msg.date}
+                pending={msg.pending}
             />
         ))
     }
@@ -176,6 +195,7 @@ const mapStateToProps = state => {
         startingChat: state.messenger.startingChat,
         restartingChat: state.messenger.restartingChat,
         fetchingChatRecord: state.messenger.fetchingChatRecord,
+        sendingMessage: state.messenger.sendingMessage,
         activeChat: state.messenger.activeChat,
         chatRecord: state.messenger.chatRecord,
         firebaseKey: state.profile.firebaseKey,

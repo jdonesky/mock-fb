@@ -9,6 +9,7 @@ const initialState = {
     fetchingActiveChat: false,
     clearingActiveChat: false,
     fetchingChatRecord: false,
+    sendingMessage: false,
     error: null,
     noActiveChat: false,
 }
@@ -133,7 +134,28 @@ const fetchChatRecordFail = (state,action) => {
     }
 }
 
+const sendMessageInit = (state,action) => {
+    return {
+        ...state,
+        sendingMessage: true
+    }
+}
 
+const sendMessageSuccess = (state,action) => {
+    return {
+        ...state,
+        // chatRecord: action.chat,
+        sendingMessage: false
+    }
+}
+
+const sendMessageFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        sendingMessage: false
+    }
+}
 
 const reducer = (state= initialState,action) => {
     switch(action.type) {
@@ -152,6 +174,10 @@ const reducer = (state= initialState,action) => {
         case actionTypes.FETCH_CHAT_RECORD_INIT: return fetchChatRecordInit(state,action);
         case actionTypes.FETCH_CHAT_RECORD_SUCCESS: return fetchChatRecordSuccess(state,action);
         case actionTypes.FETCH_CHAT_RECORD_FAIL: return fetchChatRecordFail(state,action);
+        case actionTypes.SEND_MESSAGE_INIT: return sendMessageInit(state,action);
+        case actionTypes.SEND_MESSAGE_SUCCESS: return sendMessageSuccess(state,action);
+        case actionTypes.SEND_MESSAGE_FAIL: return sendMessageFail(state,action);
+
         default: return state;
     }
 }

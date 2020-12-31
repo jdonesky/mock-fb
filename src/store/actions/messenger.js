@@ -159,7 +159,7 @@ export const sendMessageAttempt = (authToken, chatKey, message) => {
                     console.log('SUCCESS - got chat');
                     newChat = {...response.data}
                     let newMessages;
-                    if (newChat.messages && newChat.message.length) {
+                    if (newChat.messages && newChat.messages.length) {
                         newMessages = [...newChat.messages, newMessage]
                     } else {
                         newMessages = [newMessage]
@@ -169,7 +169,7 @@ export const sendMessageAttempt = (authToken, chatKey, message) => {
                 })
                 .then(response => {
                     console.log('SUCCESS - put new chat with message')
-                    dispatch(sendMessageSuccess(newChat));
+                    dispatch(sendMessageSuccess());
                 })
                 .catch(error => {
                     console.log(error);
