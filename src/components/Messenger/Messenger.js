@@ -90,24 +90,22 @@ const messenger = (props) => {
     if (theirProfile) {
         theirProfileImage = theirProfile.profileImage
         theirName = theirProfile.name
-
     }
 
     let messages;
     if (props.fetchingChatRecord) {
         messages = <InlineDots />
-    } else {
-        if (chatRecord && chatRecord.messages) {
-            messages = chatRecord.messages.map(msg => (
-                <Message
-                  key={msg.id}
-                  userKey={msg.userKey}
-                  type={msg.type}
-                  contents={msg.contents}
-                  date={msg.date}
-                />
-            ))
-        }
+    }
+    if (chatRecord && chatRecord.messages) {
+        messages = chatRecord.messages.map(msg => (
+            <Message
+                key={msg.id}
+                userKey={msg.userKey}
+                type={msg.type}
+                content={msg.content}
+                date={msg.date}
+            />
+        ))
     }
 
     let rightButton;

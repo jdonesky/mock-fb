@@ -2,11 +2,13 @@
 
 .Container {
     width: 340px;
+    min-height: 50px;
     display: flex;
     align-items: center;
 }
 
-.Message {
+.Text {
+    min-height: 40px;
     border-radius: 25px;
     display: flex;
     justify-content: center;
@@ -14,3 +16,4 @@
     box-sizing: border-box;
     padding: 5px;
 }
+

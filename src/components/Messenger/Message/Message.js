@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import classes from './Message.css';
 
 const message = props => {
 
-    const {userKey, myKey, type, payload} = props
+    const {userKey, myKey, type, content} = props
+
+    useEffect(() => {
+        console.log(props)
+    })
 
     let alignment;
     if (userKey !== myKey) {
@@ -13,16 +17,16 @@ const message = props => {
     }
 
     let message;
-    let messageType;
+
     switch (type) {
         case 'text':
-            message = <div className={classes.Text}>{payload}</div>
+            message = <div className={classes.Text}>{content}</div>
             break;
         case 'photo':
-            message = <div className={classes.Photo} style={{backgroundImage: `url${payload}`}} />
+            message = <div className={classes.Photo} style={{backgroundImage: `url${content}`}} />
             break;
         case 'gif':
-            message = <div className={classes.Gif} style={{backgroundImage: `url${payload}`}} />
+            message = <div className={classes.Gif} style={{backgroundImage: `url${content}`}} />
             break;
     }
 
@@ -30,8 +34,7 @@ const message = props => {
 
     return (
         <div className={classes.Container} style={{justifyContent: alignment}} >
-
-
+            {message}
         </div>
     )
 }
