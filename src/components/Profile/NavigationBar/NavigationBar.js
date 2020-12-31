@@ -20,11 +20,12 @@ import DownArrow from '../../../assets/images/down-arrow';
 import UnFriend from "../../../assets/images/UserActionIcons/unfriend";
 import RespondRequest from "../../../assets/images/UserActionIcons/respondRequest";
 import InlineDots from '../../UI/Spinner/InlineDots';
+import RespondRequestDropdown from "../../Users/Dropdowns/RespondRequest/RespondRequest";
 
-import RespondDropdown from '../../Users/Dropdowns/RespondRequest/RespondRequest';
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 import * as actions from "../../../store/actions";
+import Spinner from "../../UI/Spinner/Spinner";
 
 
 const navigationBar = (props) => {
@@ -61,9 +62,7 @@ const navigationBar = (props) => {
     }, [acceptedRequest])
 
     const sendFriendRequest = () => {
-        console.log('CLICKED')
         if (otherProfile && props.myPublicProfileKey) {
-            console.log('in execution block')
             props.onSendFriendRequest(props.authToken, props.myPublicProfileKey, otherProfile.publicProfileKey)
             setFriendRequestSent(true)
             if (friendRequestCanceled) {
@@ -79,7 +78,6 @@ const navigationBar = (props) => {
             setFriendRequestSent(false);
         }
     }
-
 
     const toggleNavDropdown = () => {
         setShowNavDropdown(prevState => {
@@ -167,6 +165,23 @@ const navigationBar = (props) => {
         }
     }
 
+    let respondRequestDropdown;
+    if (respondingRequest && addFriendButtonText === 'Respond') {
+        if (otherProfile) {
+            respondRequestDropdown = (
+                <OutsideAlerter action={() => setRespondingRequest(false)}>
+                    <RespondRequestDropdown senderKey={otherProfile.publicProfileKey} recipientKey={props.myPublicProfileKey}
+                                            accept={setAcceptedRequest} deny={setDeniedRequest}
+                                            close={() => setRespondingRequest(false)}/>
+                </OutsideAlerter>
+            )
+        }
+    }
+
+    if (props.sendingRequest || props.cancelingRequest) {
+        addFriendButtonIcon = <Spinner bottom={'60px'} right={"3px"}/>
+    }
+
     let firstEditButton;
     let secondEditButton;
     let thirdEditButton;
@@ -185,10 +200,15 @@ const navigationBar = (props) => {
                     <div className={classes.MessageUserButtonIcon}><FbMessage/></div>
                     Message</li>
             } else {
-                firstEditButton = <li className={classes.AddFriendControlButton} onClick={addFriendButtonAction}>
-                    <div className={classes.AddFriendButtonIcon}>{addFriendButtonIcon}</div>
-                    {addFriendButtonText}
-                </li>
+                firstEditButton = (
+                    <React.Fragment>
+                        <li className={classes.AddFriendControlButton} onClick={addFriendButtonAction}>
+                            <div className={classes.AddFriendButtonIcon}>{addFriendButtonIcon}</div>
+                        {addFriendButtonText}
+                        </li>
+                        {respondRequestDropdown}
+                    </React.Fragment>
+                        )
 
                 if (otherPublicProfile.privacy.AllowMessages === 'ALL') {
                     secondEditButton = <li className={classes.EditControl}>
@@ -338,6 +358,8 @@ const mapStateToProps = state => {
         fetchingOtherPublicProfile: state.users.loadingSingleProfile,
         mySentRequests: state.friends.sentRequests,
         myReceivedRequests: state.friends.receivedRequests,
+        sendingRequest: state.friends.sendingFriendRequest,
+        cancelingRequest: state.friends.cancelingFriendRequest,
     }
 }
 
