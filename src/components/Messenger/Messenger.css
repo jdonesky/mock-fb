@@ -35,7 +35,8 @@
     justify-content: flex-start;
     align-items: center;
     height: 45px;
-    width: 80%;
+    width: 50%;
+    min-width: 50%;
 }
 
 .HeaderProfileImage {
@@ -84,7 +85,8 @@
     justify-content: flex-end;
     align-items: center;
     height: 45px;
-    width: 150px;
+    width: 100px;
+    min-width: 100px;
     margin-right: 10px;
 }
 
@@ -121,7 +123,7 @@
 .ConversationContainer {
     position:relative;
     top: 2px;
-    height: 330px;
+    height: 320px;
     width: 340px;
     background-color: #fff;
     display:flex;
@@ -197,13 +199,14 @@
 }
 
 .Footer {
-    height: 45px;
-    width: 340px;
+    height: 55px;
+    width: 335px;
     position: fixed;
-    right: 67px;
+    right: 70px;
     bottom: -150vh;
     display: flex;
     align-items: center;
+    background-color: #fff;
 }
 
 .ShowMessageBar {

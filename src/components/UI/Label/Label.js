@@ -18,7 +18,7 @@ const label = props => {
     const startShowing = () => {
         showTimer = setTimeout(() => {
                 setShow(true);
-            }, 300)
+            }, 250)
     }
 
     const hide = () => {
@@ -26,7 +26,9 @@ const label = props => {
     }
 
     const cancelShow = () => {
-        showTimer = null;
+        if (showTimer) {
+            showTimer = null;
+        }
         hide();
     }
 
@@ -48,7 +50,7 @@ const label = props => {
     return (
         <div className={classes.Positioner}>
             {label}
-            <div onMouseEnter={startShowing} onMouseLeave={cancelShow}>
+            <div onMouseEnter={startShowing} onMouseOut={cancelShow}>
                 {props.children}
             </div>
         </div>

@@ -8,9 +8,26 @@
     margin: 2px auto;
 }
 
+.ProfileImage {
+    height: 25px;
+    width: 25px;
+    border-radius: 100%;
+    background-position: center;
+    background-size: cover;
+    margin-right: 8px;
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: 4px;
+}
+
 .Text {
     height: 100%;
     min-height: 40px;
+    max-width: 200px;
     border-radius: 30px;
     display: flex;
     justify-content: center;
@@ -21,4 +38,6 @@
     font-weight: 500;
     font-size: 14px;
 }
+
+
 

@@ -19,6 +19,7 @@ import Spinner from '../UI/Spinner/Spinner';
 import Label from '../UI/Label/Label';
 import InlineDots from '../UI/Spinner/InlineDots';
 import Message from './Message/Message'
+import AutoScroll from './AutoScroll';
 
 
 const messenger = (props) => {
@@ -34,10 +35,10 @@ const messenger = (props) => {
     const [photo, setPhoto] = useState(null);
     const [gif, setGif] = useState(null);
 
-    useEffect(() => {
-        console.log('conversation', conversation);
-        console.log('chat-record', chatRecord)
-    })
+    // useEffect(() => {
+    //     console.log('conversation', conversation);
+    //     console.log('chat-record', chatRecord)
+    // })
 
     useEffect(() => {
         if (conversation && chatRecord && chatRecord.messages) {
@@ -88,7 +89,7 @@ const messenger = (props) => {
             props.onSendMessage(props.authToken, activeChat.key, message)
         }
         setConversation(prevState => {
-            return [...prevState, {...message, pending: props.sendingMessage? true : false}]
+            return [...prevState, {...message, pending: true}]
         })
         setTextMessage('');
         setPhoto(null);
@@ -119,6 +120,7 @@ const messenger = (props) => {
                 key={msg.id}
                 userKey={msg.userKey}
                 myKey={props.firebaseKey}
+                theirProfileImage={theirProfileImage}
                 type={msg.type}
                 content={msg.content}
                 date={msg.date}
@@ -146,6 +148,11 @@ const messenger = (props) => {
         messageBarMarginLeft = "10px"
     }
 
+    let fetchingIndicator;
+    if (props.fetchingChatRecord) {
+        fetchingIndicator = <InlineDots />
+    }
+
 
     return (
         <div
@@ -158,6 +165,7 @@ const messenger = (props) => {
                     </div>
                     <div className={classes.HeaderName}>{theirName}</div>
                 </div>
+                {fetchingIndicator}
                 <div className={classes.ControlsBlock}>
                     <Label label="Minimize chat" bottom='40px' left="-35px" width="90px">
                         <div className={[classes.Control, classes.Minimize].join(" ")}><Minimize fill={iconsFill}/></div>
@@ -177,11 +185,12 @@ const messenger = (props) => {
                     <div className={classes.ConversationStarterCaption}>{activeChat ? 'You are now connected on dumb messenger' : ' '}</div>
                 </div>
                 {messages}
+                <AutoScroll />
             </section>
             <section className={[classes.Footer,messengerContext.showMessenger ?  classes.ShowMessageBar : null].join(" ")}>
                 {leftButtons}
                 <div className={classes.MessageBarContainer} style={{width: messageBarLength, marginLeft: messageBarMarginLeft || null }}>
-                    <input className={classes.MessageBar} placeholder="Aa" ref={messageBar} onChange={(event) => updateText(event)} onFocus={() => setFocusing(true)} onBlur={() => setFocusing(false)}/>
+                    <input className={classes.MessageBar} value={textMessage} placeholder="Aa" ref={messageBar} onChange={(event) => updateText(event)} onFocus={() => setFocusing(true)} onBlur={() => setFocusing(false)}/>
                 </div>
                 {rightButton}
             </section>

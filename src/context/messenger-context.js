@@ -33,11 +33,9 @@ const messengerContextProvider = props => {
         if (myPublicProfile && myPublicProfile.chats) {
             existingChat = myPublicProfile.chats[otherPartyProfile.userKey]
             if (existingChat) {
-                console.log('restarting...')
                 props.onRestartChat(authToken, existingChat);
             }
         } else {
-            console.log('starting new...')
             props.onStartNewChat(authToken, props.myPublicProfile, otherPartyProfile)
         }
         openMessenger();

@@ -154,30 +154,25 @@ export const sendMessageAttempt = (authToken, chatKey, message) => {
         dispatch(sendMessageInit());
         KeyGenerator.getKey(authToken, (newKey) => {
             const newMessage = {...message, id: newKey}
-            axios.get(`/chats/${chatKey}.json?auth=${authToken}`)
+            axios.get(`/chats/${chatKey}/messages.json?auth=${authToken}`)
                 .then(response => {
-                    console.log('SUCCESS - got chat');
-                    newChat = {...response.data}
-                    let newMessages;
-                    if (newChat.messages && newChat.messages.length) {
-                        newMessages = [...newChat.messages, newMessage]
+                    if (response.data && response.data.length) {
+                        newChat = [...response.data, newMessage]
                     } else {
-                        newMessages = [newMessage]
+                        newChat = [newMessage]
                     }
-                    newChat.messages = newMessages
-                    return axios.put(`/chats/${chatKey}.json?auth=${authToken}`, newChat)
+                    return axios.put(`/chats/${chatKey}/messages.json?auth=${authToken}`, newChat)
                 })
                 .then(response => {
-                    console.log('SUCCESS - put new chat with message')
-                    dispatch(sendMessageSuccess());
+                    dispatch(sendMessageSuccess(newChat))
                 })
                 .catch(error => {
-                    console.log(error);
                     dispatch(sendMessageFail(error));
                 })
         })
     }
 }
+
 
 const fetchActiveChatInit = () => {
     return {
