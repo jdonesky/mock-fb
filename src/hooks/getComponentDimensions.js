@@ -6,10 +6,10 @@ export const useComponentDimensions = (myRef) => {
 
     useEffect(() => {
         if (myRef.current) {
-            setWidth(myRef.current.offsetWidth || 0)
-            setHeight(myRef.current.offsetWidth || 0)
+            setWidth(myRef.current.offsetWidth)
+            setHeight(myRef.current.offsetHeight)
         }
-    }, [myRef.current])
+    })
 
     return {width, height}
 }

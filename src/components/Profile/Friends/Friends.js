@@ -155,8 +155,8 @@ const friends = (props) => {
     let birthdayMatches
     let currentCityMatches;
     let hometownMatches;
-    if (loadedProfiles) {
-        allFriends = loadedProfiles.map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend} navTo={goToFullProfile}/>))
+    if (loadedProfiles && loadedProfiles.length) {
+        allFriends = loadedProfiles.map(friend => (<Friend key={friend.userKey && friend.userKey} myFriends={loadedProfiles} this={friend} navTo={goToFullProfile}/>))
         birthdayMatches = loadedProfiles.filter(friend => checkBirthday(friend.birthday)).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend} navTo={goToFullProfile}/>))
         currentCityMatches = loadedProfiles.filter(friend => friend.currentLocation === myCurrentLocation).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend} navTo={goToFullProfile}/>))
         hometownMatches = loadedProfiles.filter(friend => friend.hometown === myHometown).map(friend => (<Friend key={friend.userKey} myFriends={loadedProfiles} this={friend} navTo={goToFullProfile}/>))

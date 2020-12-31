@@ -9,16 +9,12 @@ const message = props => {
 
     const messageRef = useRef(null);
     const {userKey, myKey, theirProfileImage, type, content, date, pending} = props
-    const {messageWidth, messageHeight} = useComponentDimensions(messageRef)
+    const {width, height} = useComponentDimensions(messageRef)
     const [labelOffset, setLabelOffset] = useState(null);
 
     useEffect(() => {
-        setLabelOffset(messageWidth)
-    }, [messageWidth])
-
-    useEffect(() => {
-        console.log('label offset', labelOffset)
-    })
+        setLabelOffset(width)
+    }, [width])
 
     let alignment;
     let background;
@@ -35,7 +31,7 @@ const message = props => {
         alignment = 'flex-start';
         background = 'rgba(0,0,0,0.05)';
         color = '#000000'
-        labelPosition = {left: labelOffset && labelOffset}
+        labelPosition = {left: labelOffset && `${labelOffset + 10}px`, top: '5px'}
     } else {
         alignment = 'flex-end';
         margin = '10px'
@@ -43,13 +39,14 @@ const message = props => {
         color = '#000000'
         background = '#337bff';
         color = 'white';
-        // labelPosition = {}
+        labelPosition = {right: labelOffset && `${labelOffset + 20}px`, top: '5px'}
     }
 
     if (pending) {
         background = 'rgba(0,0,0,0.05)'
         color = 'rgba(0,0,0,0.1)'
     }
+
 
     let message;
     switch (type) {
@@ -65,11 +62,12 @@ const message = props => {
     }
 
     return (
-        <div className={classes.Container} style={{justifyContent : alignment}}>
+        <div className={classes.Container} style={{justifyContent : alignment}} >
             {profileImage}
-            <Label label={convertMessageDatetime(date)} {...labelPosition}>
+            <Label label={convertMessageDatetime(date)} {...labelPosition} minWidth="80px" minHeight="20px">
                 {message}
             </Label>
+
         </div>
     )
 }

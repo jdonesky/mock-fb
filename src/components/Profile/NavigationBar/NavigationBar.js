@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {NavLink} from 'react-router-dom';
 import classes from './NavigationBar.css';
 import NavDropdown from './NavigationDropdown/NavigationDropdown';
+import {MessengerContext} from "../../../context/messenger-context";
 
 import Eye from '../../../assets/images/eye';
 import Pen from '../../../assets/images/edit';
@@ -28,6 +29,7 @@ const navigationBar = (props) => {
     const [isFriend, setIsFriend] = useState(null);
     const {width, height} = getWindowDimensions()
     const { myPublicProfile, otherProfile, otherPublicProfile } = props
+    const messengerContext = useContext(MessengerContext)
 
     useEffect(() => {
         if (props.displayProfile !== 'me') {
@@ -47,6 +49,12 @@ const navigationBar = (props) => {
 
     const closeNavDropdown = () => {
         setShowNavDropdown(false);
+    }
+
+    const startChat = () => {
+        if (otherPublicProfile) {
+            messengerContext.startChat(otherPublicProfile)
+        }
     }
 
     let navDropdown;
@@ -111,7 +119,7 @@ const navigationBar = (props) => {
     } else {
         if (myPublicProfile && otherProfile && otherPublicProfile) {
             if (isFriend) {
-                firstEditButton = <li className={[classes.EditControl, classes.FirstControlButton].join(" ")}>
+                firstEditButton = <li className={[classes.EditControl, classes.FirstControlButton].join(" ")} onClick={startChat}>
                     <div className={classes.MessageUserButtonIcon}><FbMessage/></div>
                     Message</li>
             } else {

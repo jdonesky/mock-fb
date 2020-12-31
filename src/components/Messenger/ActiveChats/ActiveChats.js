@@ -40,7 +40,7 @@ const activeChats = props => {
       activeChatTab = (
           <Label label={theirProfile.name} bottom='55px'>
              <div className={classes.ActiveChatTab} style={{backgroundImage: theirProfile.profileImage ? `url(${theirProfile.profileImage})` : null}} onClick={restartChat}>
-               {theirProfile.profileImage ? null : props.fetchingActiveChat ? <Spinner /> : <Avatar fill="white" />}
+               {theirProfile.profileImage ? null : props.fetchingActiveChat || props.clearingActiveChat ? <Spinner /> : <Avatar fill="white" />}
              </div>
           </Label>
       )
@@ -59,12 +59,13 @@ const mapStateToProps = state => {
       firebaseKey: state.profile.firebaseKey,
       storedActiveChat: state.messenger.activeChat,
       fetchingActiveChat: state.messenger.fetchingActiveChat,
+      clearingActiveChat: state.messenger.clearingActiveChat
    }
 }
 
 const mapDispatchToProps = dispatch => {
    return {
-      onFetchActiveChat: (authToken) => dispatch(actions.fetchActiveChatAttempt(authToken))
+      onFetchActiveChat: (authToken) => dispatch(actions.fetchActiveChatAttempt(authToken)),
    }
 }
 

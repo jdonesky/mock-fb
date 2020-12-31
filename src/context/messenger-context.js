@@ -46,16 +46,6 @@ const messengerContextProvider = props => {
         openMessenger();
     }
 
-    const sendMessage = (payload) => {
-        if (props.activeChat) {
-            const message = {
-                userKey: myPublicProfile.userKey,
-                message: payload,
-                date: new Date()
-            }
-            props.onSendMessage(props.authToken, props.activeChat.key, message)
-        }
-    }
 
     return (
         <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, closeMessenger: closeMessenger, startChat: startChat, retrieveChat: retrieveChat}}>

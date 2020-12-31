@@ -16,9 +16,11 @@ const label = props => {
     }, [])
 
     const startShowing = () => {
-        showTimer = setTimeout(() => {
+        if (!showTimer) {
+            showTimer = setTimeout(() => {
                 setShow(true);
-            }, 250)
+            }, 500)
+        }
     }
 
     const hide = () => {
@@ -26,9 +28,7 @@ const label = props => {
     }
 
     const cancelShow = () => {
-        if (showTimer) {
-            showTimer = null;
-        }
+        showTimer = null;
         hide();
     }
 
@@ -39,7 +39,7 @@ const label = props => {
             <div className={classes.Container}
                  style={{
                      top: props.top || null, bottom: props.bottom || null, left: props.left || null, right: props.right || null,
-                     height: props.height || null, width: props.width || null
+                     height: props.height || null, width: props.width || null, minWidth: props.minWidth || null, minHeight: props.minHeight || null
                  }}
             >
                 {props.label}
@@ -50,7 +50,7 @@ const label = props => {
     return (
         <div className={classes.Positioner}>
             {label}
-            <div onMouseEnter={startShowing} onMouseOut={cancelShow}>
+            <div onMouseEnter={startShowing} onMouseLeave={cancelShow}>
                 {props.children}
             </div>
         </div>

@@ -35,11 +35,6 @@ const messenger = (props) => {
     const [photo, setPhoto] = useState(null);
     const [gif, setGif] = useState(null);
 
-    // useEffect(() => {
-    //     console.log('conversation', conversation);
-    //     console.log('chat-record', chatRecord)
-    // })
-
     useEffect(() => {
         if (conversation && chatRecord && chatRecord.messages) {
             if (conversation.length !== chatRecord.messages.length) {
@@ -94,6 +89,11 @@ const messenger = (props) => {
         setTextMessage('');
         setPhoto(null);
         setGif(null);
+    }
+
+    const closeChat = () => {
+        props.onClearActiveChat(props.authToken);
+        messengerContext.closeMessenger()
     }
 
     let iconsFill;
@@ -153,7 +153,6 @@ const messenger = (props) => {
         fetchingIndicator = <InlineDots />
     }
 
-
     return (
         <div
             className={[classes.Container, messengerContext.showMessenger ?  classes.ShowMessenger : null].join(" ")}
@@ -168,10 +167,10 @@ const messenger = (props) => {
                 {fetchingIndicator}
                 <div className={classes.ControlsBlock}>
                     <Label label="Minimize chat" bottom='40px' left="-35px" width="90px">
-                        <div className={[classes.Control, classes.Minimize].join(" ")}><Minimize fill={iconsFill}/></div>
+                        <div className={[classes.Control, classes.Minimize].join(" ")} onClick={() => messengerContext.closeMessenger()}><Minimize fill={iconsFill}/></div>
                     </Label>
                     <Label label="Close chat" bottom='40px' left="-20px"  width="70px">
-                        <div className={[classes.Control, classes.Close].join(" ")} onClick={() => messengerContext.closeMessenger()}><Close fill={iconsFill}/></div>
+                        <div className={[classes.Control, classes.Close].join(" ")} onClick={closeChat}><Close fill={iconsFill}/></div>
                     </Label>
                 </div>
             </section>
@@ -214,7 +213,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchChatRecord: (authToken, chatKey) => dispatch(actions.fetchChatRecordAttempt(authToken, chatKey)),
-        onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message))
+        onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message)),
+        onClearActiveChat: (authToken) => dispatch(actions.clearActiveChatAttempt(authToken))
     }
 }
 
