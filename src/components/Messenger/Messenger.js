@@ -13,6 +13,7 @@ import Avatar from '../../assets/images/BookmarkIcons/user';
 import Photo from '../../assets/images/polaroid';
 import Gif from '../../assets/images/MessengerIcons/gif';
 import Like from '../../assets/images/like';
+import Airplane from '../../assets/images/MessengerIcons/airplane';
 
 import Spinner from '../UI/Spinner/Spinner';
 import Label from '../UI/Label/Label';
@@ -26,8 +27,12 @@ const messenger = (props) => {
     const messageBar = useRef(null);
     const [focusing, setFocusing] = useState(true);
     const [theirProfile, setTheirProfile] = useState(null);
-    // const [chatRecord, setChatRecord] = useState(null);
     const {activeChat, chatRecord} = props
+
+    const [textMessage,setTextMessage] = useState('')
+    const [photo, setPhoto] = useState(null);
+    const [gif, setGif] = useState(null);
+
 
     useEffect(() => {
         messageBar.current.focus();
@@ -54,6 +59,25 @@ const messenger = (props) => {
         }
     }
 
+    const updateText = (event) => {
+        setTextMessage(event.target.value)
+    }
+
+    const sendMessage = (type, payload) => {
+        const message = {
+            userKey: props.firebaseKey,
+            type: type,
+            content: payload,
+            date: new Date()
+        }
+        if (activeChat) {
+            props.onSendMessage(props.authToken, activeChat.key, message)
+            setTextMessage('');
+            setPhoto(null);
+            setGif(null);
+        }
+    }
+
     let iconsFill;
     if (focusing) {
         iconsFill = "#3078fc"
@@ -75,11 +99,35 @@ const messenger = (props) => {
     } else {
         if (chatRecord && chatRecord.messages) {
             messages = chatRecord.messages.map(msg => (
-                <Message />
+                <Message
+                  key={msg.id}
+                  userKey={msg.userKey}
+                  type={msg.type}
+                  contents={msg.contents}
+                  date={msg.date}
+                />
             ))
         }
     }
 
+    let rightButton;
+    let leftButtons;
+    let messageBarLength;
+    let messageBarMarginLeft;
+    if (textMessage === '') {
+        leftButtons = (
+            <React.Fragment>
+                <div className={classes.AddMediaButton}><Photo fill={iconsFill}/></div>
+                <div className={classes.AddMediaButton}><Gif fill={iconsFill}/></div>
+            </React.Fragment>
+        )
+        rightButton = <div className={classes.SendButton}><Like fill={iconsFill}/></div>
+        messageBarLength = "250px"
+    } else {
+        rightButton = <div className={classes.SendButton} onClick={() => sendMessage('text', textMessage)}><Airplane fill={iconsFill}/></div>
+        messageBarLength = "290px"
+        messageBarMarginLeft = "10px"
+    }
 
 
     return (
@@ -94,7 +142,7 @@ const messenger = (props) => {
                     <div className={classes.HeaderName}>{theirName}</div>
                 </div>
                 <div className={classes.ControlsBlock}>
-                    <Label label="Minimize chat" bottom='40px' left="-35px" width="100px">
+                    <Label label="Minimize chat" bottom='40px' left="-35px" width="90px">
                         <div className={[classes.Control, classes.Minimize].join(" ")}><Minimize fill={iconsFill}/></div>
                     </Label>
                     <Label label="Close chat" bottom='40px' left="-20px"  width="70px">
@@ -114,12 +162,11 @@ const messenger = (props) => {
                 {messages}
             </section>
             <section className={[classes.Footer,messengerContext.showMessenger ?  classes.ShowMessageBar : null].join(" ")}>
-                <div className={classes.AddMediaButton}><Photo fill={iconsFill}/></div>
-                <div className={classes.AddMediaButton}><Gif fill={iconsFill}/></div>
-                <div className={classes.MessageBarContainer}>
-                    <input className={classes.MessageBar} placeholder="Aa" ref={messageBar} onFocus={() => setFocusing(true)} onBlur={() => setFocusing(false)}/>
+                {leftButtons}
+                <div className={classes.MessageBarContainer} style={{width: messageBarLength, marginLeft: messageBarMarginLeft || null }}>
+                    <input className={classes.MessageBar} placeholder="Aa" ref={messageBar} onChange={(event) => updateText(event)} onFocus={() => setFocusing(true)} onBlur={() => setFocusing(false)}/>
                 </div>
-                <div className={classes.LikeButton}><Like fill={iconsFill}/></div>
+                {rightButton}
             </section>
         </div>
     )
@@ -139,7 +186,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchChatRecord: (authToken, chatKey) => dispatch(actions.fetchChatRecordAttempt(authToken, chatKey))
+        onFetchChatRecord: (authToken, chatKey) => dispatch(actions.fetchChatRecordAttempt(authToken, chatKey)),
+        onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message))
     }
 }
 

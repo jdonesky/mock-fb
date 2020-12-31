@@ -17,8 +17,8 @@ export const MessengerContext = React.createContext({
 
 const messengerContextProvider = props => {
 
-    const {authToken, myPublicProfile, activeChat} = props
-    const [showMessenger, setShowMessenger] = useState(true);
+    const {authToken, myPublicProfile} = props
+    const [showMessenger, setShowMessenger] = useState(false);
 
     const openMessenger = () => {
         setShowMessenger(true);

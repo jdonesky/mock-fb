@@ -1,6 +1,7 @@
 
 import * as actionTypes from './actionTypes';
 import axios from '../../axios/db-axios-instance';
+import {KeyGenerator} from "../../shared/utility";
 
 const startNewChatInit = () => {
     return {
@@ -151,27 +152,30 @@ export const sendMessageAttempt = (authToken, chatKey, message) => {
     return dispatch => {
         let newChat;
         dispatch(sendMessageInit());
-        axios.get(`/chats/${chatKey}.json?auth=${authToken}`)
-            .then(response => {
-                console.log('SUCCESS - got chat');
-                newChat = {...response.data}
-                let newMessages;
-                if (newChat.messages && newChat.message.length) {
-                    newMessages = [...newChat.messages, message]
-                } else {
-                    newMessages = [message]
-                }
-                newChat.messages = newMessages
-                return axios.put(`/chats/${chatKey}.json?auth=${authToken}`)
-            })
-            .then(response => {
-                console.log('SUCCESS - put new chat with message')
-                dispatch(sendMessageSuccess(newChat));
-            })
-            .catch(error => {
-                console.log(error);
-                dispatch(sendMessageFail(error));
-            })
+        KeyGenerator.getKey(authToken, (newKey) => {
+            const newMessage = {...message, id: newKey}
+            axios.get(`/chats/${chatKey}.json?auth=${authToken}`)
+                .then(response => {
+                    console.log('SUCCESS - got chat');
+                    newChat = {...response.data}
+                    let newMessages;
+                    if (newChat.messages && newChat.message.length) {
+                        newMessages = [...newChat.messages, newMessage]
+                    } else {
+                        newMessages = [newMessage]
+                    }
+                    newChat.messages = newMessages
+                    return axios.put(`/chats/${chatKey}.json?auth=${authToken}`, newChat)
+                })
+                .then(response => {
+                    console.log('SUCCESS - put new chat with message')
+                    dispatch(sendMessageSuccess(newChat));
+                })
+                .catch(error => {
+                    console.log(error);
+                    dispatch(sendMessageFail(error));
+                })
+        })
     }
 }
 

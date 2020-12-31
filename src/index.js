@@ -17,6 +17,8 @@ import friendsReducer from "./store/reducers/friends";
 import photosReducer from "./store/reducers/photos";
 import messengerReducer from "./store/reducers/messenger";
 
+import MessengerContextProvider from './context/messenger-context';
+
 const rootReducer = combineReducers({
   auth: authReducer,
   profile: profileReducer,
@@ -42,7 +44,9 @@ const store = createStore(
 const app = (
   <Provider store={store}>
     <BrowserRouter >
-      <App />
+      <MessengerContextProvider>
+        <App />
+      </MessengerContextProvider>
     </BrowserRouter>
   </Provider>
 );

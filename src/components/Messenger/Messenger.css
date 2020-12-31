@@ -245,7 +245,6 @@
     font-family: "Lucida Grande";
     font-weight: 400;
     font-size: 15px;
-    color: rgba(0,0,0,0.2);
     border: none;
     background-color: transparent;
     margin-left: 10px;
@@ -255,7 +254,9 @@
     color: rgba(0,0,0,0.4);
 }
 
-.LikeButton {
+
+
+.SendButton {
     height: 40px;
     width: 40px;
     margin: 0 5px 0 2px;
@@ -266,11 +267,11 @@
     align-items: center;
 }
 
-.LikeButton:hover {
+.SendButton:hover {
     background-color:rgba(0,0,0,0.05);
 }
 
-.LikeButton svg {
+.SendButton svg {
     height: auto;
     width: 50%;
     position: relative;

@@ -1,5 +1,5 @@
 
-import React, {useEffect, Suspense} from "react";
+import React, {useEffect, useContext, Suspense} from "react";
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 import Layout from "./hoc/Layout/Layout";
@@ -9,8 +9,12 @@ import DeleteContextProvider from "./context/delete-context";
 import LifeEventContextProvider from "./context/life-event-context";
 import PostContextProvider from "./context/post-context";
 import PageContextProvider from "./context/page-context";
-import MessengerProvider from "./context/messenger-context";
-import ActiveChatTab from './components/Messenger/ActiveChats/ActiveChats';
+// import MessengerProvider from "./context/messenger-context";
+import {MessengerContext} from "./context/messenger-context";
+
+const AsyncActiveChatTab = React.lazy(() => {
+    return import('./components/Messenger/ActiveChats/ActiveChats')
+});
 
 const AsyncAuth = React.lazy(() => {
     return import("./containers/Auth/Auth");
@@ -74,6 +78,7 @@ const AsyncMessengerModal = React.lazy(() => {
 const app = (props) => {
 
     const {authToken, userId, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onReloadApp} = props;
+    const messengerContext = useContext(MessengerContext)
 
     useEffect(() => {
         onReloadApp();
@@ -115,7 +120,6 @@ const app = (props) => {
     }
 
     return (
-        <MessengerProvider>
             <PageContextProvider>
                 <PostContextProvider>
                     <LifeEventContextProvider>
@@ -127,7 +131,7 @@ const app = (props) => {
                                     <AsyncCreateLifeEventModal />
                                     <AsyncEditPageModal />
                                     <AsyncMessengerModal />
-                                    <ActiveChatTab />
+                                    <AsyncActiveChatTab />
                                     {routes}
                                 </Suspense>
                             </Layout>
@@ -135,7 +139,6 @@ const app = (props) => {
                     </LifeEventContextProvider>
                 </PostContextProvider>
             </PageContextProvider>
-        </MessengerProvider>
     );
 
 }
