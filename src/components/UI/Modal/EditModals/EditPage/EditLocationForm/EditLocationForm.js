@@ -209,7 +209,7 @@ const editLocationForm = props => {
                 </div>
             </section>
             <section className={classes.MapContainer}>
-                <Map userLocation={coordinates}/>
+                <Map userLocation={coordinates} minWidth="410px"/>
             </section>
             <div className={saveButtonClasses.join(" ")} onClick={formValid ? saveEdits : null }>
                 {props.editingPageAbout ? <Spinner /> : 'Save Location'}

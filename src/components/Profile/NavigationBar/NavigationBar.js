@@ -4,6 +4,7 @@ import {withRouter} from 'react-router';
 import {NavLink} from 'react-router-dom';
 import classes from './NavigationBar.css';
 import NavDropdown from './NavigationDropdown/NavigationDropdown';
+import {EditProfileContext} from "../../../context/edit-profile-context";
 import {MessengerContext} from "../../../context/messenger-context";
 
 import Eye from '../../../assets/images/eye';
@@ -41,6 +42,7 @@ const navigationBar = (props) => {
 
     const {width, height} = getWindowDimensions()
     const { myPublicProfile, otherProfile, otherPublicProfile, myFriends } = props
+    const editProfileContext = useContext(EditProfileContext)
     const messengerContext = useContext(MessengerContext)
 
     useEffect(() => {
@@ -193,7 +195,7 @@ const navigationBar = (props) => {
     let thirdEditButton;
     let moreOptions;
     if (props.displayProfile === 'me') {
-        firstEditButton =  <li className={[classes.EditControl, classes.FirstControlButton].join(" ")}><div className={classes.EditProfileButtonIcon}><Pen /></div>Edit Profile</li>
+        firstEditButton =  <li className={[classes.EditControl, classes.FirstControlButton].join(" ")} onClick={editProfileContext.openEditModal}><div className={classes.EditProfileButtonIcon}><Pen /></div>Edit Profile</li>
         secondEditButton = <li className={classes.EditControl}><div className={classes.EditControlIcon}><Eye /></div></li>
         thirdEditButton =  <li className={classes.EditControl}><div className={classes.EditControlIcon}><Search /></div></li>
         moreOptions = (

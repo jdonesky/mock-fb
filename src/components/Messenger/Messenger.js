@@ -185,10 +185,10 @@ const messenger = (props) => {
                 </div>
                 {fetchingIndicator}
                 <div className={classes.ControlsBlock}>
-                    <Label label="Minimize chat" bottom='40px' left="-35px" width="90px">
+                    <Label label="Minimize" bottom='40px' left="-35px" width="60px">
                         <div className={[classes.Control, classes.Minimize].join(" ")} onClick={() => messengerContext.closeMessenger()}><Minimize fill={iconsFill}/></div>
                     </Label>
-                    <Label label="Close chat" bottom='40px' left="-20px"  width="70px">
+                    <Label label="Close" bottom='40px' width="50px">
                         <div className={[classes.Control, classes.Close].join(" ")} onClick={closeChat}><Close fill={iconsFill}/></div>
                     </Label>
                 </div>

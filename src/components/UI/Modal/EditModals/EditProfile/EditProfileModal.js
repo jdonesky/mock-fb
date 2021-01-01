@@ -17,7 +17,7 @@ const editProfileModal = props => {
     switch (editProfileContext.modalContent) {
         case 'BASE':
             modalContent = <BaseForm />
-            modalContainer = classes.BaseModal;
+            modalContainer = [classes.BaseModal, classes.EditProfileModal].join(" ");
             break;
         case 'DESCRIPTION':
             // modalContent = <DescriptionForm />
@@ -31,7 +31,7 @@ const editProfileModal = props => {
 
     return (
         <Modal show={editProfileContext.showEditModal ? editProfileContext.showEditModal : undefined} close={editProfileContext.closeEditModal} addClass={modalContainer}>
-            <section className={classes.ContentContainer} style={{width: `${width *.6}px`}}>
+            <section className={classes.ContentContainer}>
                 <section className={classes.Header}>
                     <div className={classes.TitleBlock}>
                         <div className={classes.Title}>Edit Profile</div>

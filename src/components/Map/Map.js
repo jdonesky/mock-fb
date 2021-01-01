@@ -14,10 +14,6 @@ const mapContainer = props => {
 
     const {userLocation} = props
 
-    useEffect(() => {
-        console.log('iN mAP comPONEnent', userLocation)
-        console.log('MAP ref center', map.current.defaultCenter)
-    })
 
     useEffect(() => {
         if (userLocation) {
@@ -32,7 +28,11 @@ const mapContainer = props => {
         google={props.google}
         ref={map}
         zoom={props.zoom}
-        style={{height: '51.5%', width: '87.3%', borderRadius: '8px'}}
+        style={{
+            height: props.height || '51.5%', width: props.width || '87.3%',
+            minHeight: props.minHeight || null, minWidth: props.minWidth || null,
+            borderRadius: '8px',
+        }}
         center={center}
         >
             {pin ? <Marker position={{lat: pin.lat, lng: pin.lng}}/> : null}

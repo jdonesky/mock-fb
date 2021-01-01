@@ -12,10 +12,12 @@ import Photo from '../../../../assets/images/MiscIcons/landscapePhoto';
 import Trash from '../../../../assets/images/delete';
 
 import {PageContext} from "../../../../context/page-context";
+import finishSvg from "../../../../assets/images/LifeEventIcons/finish";
 
 const createPageForm = props => {
 
     const pageContext = useContext(PageContext);
+    const finishFormRef = useRef(null);
     const profilePicUploader = useRef(null);
     const profilePicContainer = useRef(null);
     const coverPicUploader = useRef(null);
@@ -26,6 +28,12 @@ const createPageForm = props => {
     const [allowNav, setAllowNav] = useState(false);
 
     const {pageName, category, description, profileImage, coverImage, formValid} = pageContext
+
+    useEffect(() => {
+        if (finishFormRef.current) {
+            finishFormRef.current.scrollIntoView({behavior: "smooth"})
+        }
+    }, [finishFormRef.current])
 
     useEffect(() => {
         if (shouldBlockNavigation) {
@@ -189,23 +197,30 @@ const createPageForm = props => {
             </div>
         )
         imageSection = (
-            <section className={classes.ImageSection}>
-                <div className={classes.ImageSectionHeader}>Images</div>
-                <div className={classes.ImageContainerHeader}>
-                    <div className={classes.ImageTypeCaption}>Profile Photo <span className={classes.Optional}> · Optional</span></div>
-                    <div className={classes.InfoIcon}><Info fill="rgba(0,0,0,0.5)"/></div>
-                </div>
-                {profileImageContainer}
-                <div className={classes.ImageContainerCaption}>Use a logo or image that helps people identify this Page in search results.</div>
-                <div className={classes.ImageContainerHeader}>
-                    <div className={classes.ImageTypeCaption}>Cover Photo <span className={classes.Optional}> · Optional</span></div>
-                    <div className={classes.InfoIcon}><Info fill="rgba(0,0,0,0.5)"/></div>
-                </div>
-                {coverImageContainer}
-                <div className={classes.ImageContainerCaption}>Use an image that represents what this page is about.</div>
-            </section>
+            <React.Fragment>
+                <div ref={finishFormRef}/>
+                <section className={classes.ImageSection}>
+                    <div className={classes.ImageSectionHeader}>Images</div>
+                    <div className={classes.ImageContainerHeader}>
+                        <div className={classes.ImageTypeCaption}>Profile Photo <span className={classes.Optional}> · Optional</span></div>
+                        <div className={classes.InfoIcon}><Info fill="rgba(0,0,0,0.5)"/></div>
+                    </div>
+                    {profileImageContainer}
+                    <div className={classes.ImageContainerCaption}>Use a logo or image that helps people identify this Page in search results.</div>
+                    <div className={classes.ImageContainerHeader}>
+                        <div className={classes.ImageTypeCaption}>Cover Photo <span className={classes.Optional}> · Optional</span></div>
+                        <div className={classes.InfoIcon}><Info fill="rgba(0,0,0,0.5)"/></div>
+                    </div>
+                    {coverImageContainer}
+                    <div className={classes.ImageContainerCaption}>Use an image that represents what this page is about.</div>
+                </section>
+            </React.Fragment>
         )
         createButtonText = "Save"
+    }
+
+    const startCreatingPage = () => {
+        pageContext.startCreatePage()
     }
 
     const finishCreatingPage = () => {
@@ -223,7 +238,7 @@ const createPageForm = props => {
         createButtonAction = finishCreatingPage;
     } else {
         if (pageContext.formValid) {
-            createButtonAction = pageContext.startCreatePage;
+            createButtonAction = startCreatingPage;
         }
     }
 

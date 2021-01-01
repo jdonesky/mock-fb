@@ -50,7 +50,7 @@ const label = props => {
     return (
         <div className={classes.Positioner}>
             {label}
-            <div onMouseOver={startShowing} onMouseOut={cancelShow}>
+            <div className={classes.HoverBox} onMouseOver={startShowing} onMouseOut={cancelShow}>
                 {props.children}
             </div>
         </div>

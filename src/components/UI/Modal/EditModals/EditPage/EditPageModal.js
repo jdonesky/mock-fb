@@ -17,39 +17,39 @@ const editPageModal = props => {
     const pageContext = useContext(PageContext);
 
     let modalContent;
-    let modalContainer;
+    let modalContainer = [classes.BaseModal]
     switch (pageContext.modalContent) {
         case 'LOCATION':
             modalContent = <LocationForm />
-            modalContainer = classes.LocationModal;
+            modalContainer.push(classes.LocationModal)
             break;
         case 'DESCRIPTION':
             modalContent = <DescriptionForm />
-            modalContainer = classes.SingleEntryModal;
+            modalContainer.push(classes.SingleEntryModal);
             break;
         case 'WEBSITE':
             modalContent = <WebsiteForm />
-            modalContainer = classes.SingleEntryModal;
+            modalContainer.push(classes.SingleEntryModal);
             break;
         case 'PHONE':
             modalContent = <PhoneForm />
-            modalContainer = classes.SingleEntryModal;
+            modalContainer.push(classes.SingleEntryModal);
             break;
         case 'EMAIL':
             modalContent = <EmailForm />
-            modalContainer = classes.SingleEntryModal;
+            modalContainer.push(classes.SingleEntryModal);
             break;
         case 'CATEGORY':
             modalContent = <CategoryForm />
-            modalContainer = classes.SingleEntryModal;
+            modalContainer.push(classes.SingleEntryModal);
             break;
         default:
             modalContent = null;
     }
 
     return (
-        <Modal show={pageContext.showModal ? pageContext.showModal : undefined} close={() => pageContext.setShowModal(false)} addClass={modalContainer}>
-            <section className={classes.ContentContainer} style={{width: `${width *.6}px`}}>
+        <Modal show={pageContext.showModal ? pageContext.showModal : undefined} close={() => pageContext.setShowModal(false)} addClass={modalContainer.join(" ")}>
+            <section className={classes.ContentContainer}>
                 <section className={classes.Header}>
                     <div className={classes.TitleBlock}>
                         <div className={classes.Title}>Edit Page Info</div>

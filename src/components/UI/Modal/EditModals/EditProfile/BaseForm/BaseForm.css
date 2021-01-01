@@ -1,12 +1,18 @@
 
 .BaseContainer {
-    height: 100%;
-    width: 90%;
+    height: 520px;
+    width: 100%;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
+    overflow: auto;
 }
+
+.BaseContainer::-webkit-scrollbar {
+    display: none;
+}
+
 
 .FormContainer {
     width: 100%;
@@ -17,7 +23,7 @@
 
 .FormHeader {
     height: 50px;
-    width: 100%;
+    width: 95%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -34,6 +40,11 @@
     font-weight: 100;
     font-size: 15px;
     color: #0a70ff;
+    cursor: pointer;
+}
+
+.HeaderButton:hover {
+    text-decoration: underline;
 }
 
 .FormBody {
@@ -42,3 +53,47 @@
     align-items: center;
 }
 
+.ProfileImage {
+    height: 170px;
+    width: 170px;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.1);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.ProfileImage:hover {
+    background-color: rgba(0,0,0,0.15);
+    filter: saturate(2);
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: 4px;
+}
+
+.CoverImage {
+    height: 200px;
+    width: 450px;
+    border-radius: 8px;
+    background-position: center;
+    background-size: cover;
+    background-color: rgba(0,0,0,0.05);
+    cursor: pointer;
+}
+
+.CoverImage:hover {
+    background-color: rgba(0,0,0,0.08);
+    filter: saturate(2);
+}
+
+.BioCaption {
+    height: 30px;
+    font-family: "Lucida Grande";
+    font-weight: 100;
+    font-size: 15px;
+    color: rgba(0,0,0,0.4);
+}
