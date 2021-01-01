@@ -12,9 +12,29 @@ import * as actions from "../../../../../../store/actions";
 
 const baseForm = props => {
 
+    const profilePicContainer = useRef(null);
+    const coverPicContainer = useRef(null);
+
     const [editingBio, setEditingBio] = useState(false);
     const editBioRef = useRef(null)
     const {profileImage, coverImage, bio} = props
+
+    const imageUploadHandler = (event, type) => {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                if (type === 'PROFILE') {
+                    profilePicContainer.current.style.backgroundImage = `url(${event.target.result})`;
+                    props.onProfileUpdate(props.authToken,props.firebaseKey,"profileImage",event.target.result, 'edit')
+                } else {
+                    coverPicContainer.current.style.backgroundImage = `url(${event.target.result})`;
+                    props.onProfileUpdate(props.authToken,props.firebaseKey,"coverImage",event.target.result, 'edit')
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const editBio = () => {
         setEditingBio(true);
@@ -31,10 +51,10 @@ const baseForm = props => {
             <section className={classes.FormContainer}>
                 <div className={classes.FormHeader}>
                     <div className={classes.HeaderTitle}>Profile Picture</div>
-                    <div className={classes.HeaderButton}>{profileImage ? 'Edit' : 'Add'}</div>
+                    <div className={classes.HeaderButton} onClick={(event) => imageUploadHandler(event,'PROFILE')}>{profileImage ? 'Edit' : 'Add'}</div>
                 </div>
                 <div className={classes.FormBody}>
-                    <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}}>
+                    <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}} onClick={(event) => imageUploadHandler(event,'PROFILE')}>
                         {profileImage ? null : <Avatar fill="white" />}
                     </div>
                 </div>
@@ -42,10 +62,10 @@ const baseForm = props => {
             <section className={classes.FormContainer}>
                 <div className={classes.FormHeader}>
                     <div className={classes.HeaderTitle}>Cover Photo</div>
-                    <div className={classes.HeaderButton}>{coverImage ? 'Edit' : 'Add'}</div>
+                    <div className={classes.HeaderButton} onClick={(event) => imageUploadHandler(event)}>{coverImage ? 'Edit' : 'Add'}</div>
                 </div>
                 <div className={classes.FormBody}>
-                    <div className={classes.CoverImage} style={{backgroundImage: coverImage ? `url(${coverImage})` : null }}/>
+                    <div className={classes.CoverImage} style={{backgroundImage: coverImage ? `url(${coverImage})` : null }} onClick={imageUploadHandler}/>
                 </div>
             </section>
             <section className={classes.FormContainer}>
