@@ -1,0 +1,44 @@
+
+.BaseContainer {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.FormContainer {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.FormHeader {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.HeaderTitle {
+    font-family: "Lucida Grande";
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.HeaderButton {
+    font-family: "Lucida Grande";
+    font-weight: 100;
+    font-size: 15px;
+    color: #0a70ff;
+}
+
+.FormBody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

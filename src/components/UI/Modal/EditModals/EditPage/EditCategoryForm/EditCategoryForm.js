@@ -53,7 +53,7 @@ const editCategoryForm = (props) => {
     }
 
     const saveEdits = () => {
-        const newCategory= category;
+        const newCategory = category;
         pageContext.saveAboutEdits('category', newCategory);
     }
 

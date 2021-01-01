@@ -43,7 +43,7 @@ export const startCreatePageAttempt = (authToken, page) => {
             const today = new Date();
             let yesterday = new Date();
             yesterday = new Date(yesterday.setDate(today.getDate() - 1));
-            const posts = [{userType: 'PAGE', name: newPage.name, text: 'hold postsKey', date: yesterday, id: -1},{userType: 'PAGE', name: newPage.name,text: `${newPage.name} was created ${convertDatetime(today, true)}`, date: today, id: newKey}]
+            const posts = [{userType: 'PAGE', name: newPage.name, text: 'hold postsKey', date: yesterday, id: -1 },{userType: 'PAGE', name: newPage.name,text: `${newPage.name} was created ${convertDatetime(today, true)}`, date: today, id: newKey}]
             axios.post(`/posts.json?auth=${authToken}`,posts)
                 .then(response => {
                     postsKey = response.data.name;
@@ -79,17 +79,25 @@ export const finishCreatePageAttempt = (authToken, page, cb) => {
     return dispatch => {
         dispatch(createPageInit())
         const pageKey = page.dbKey
-        console.log(pageKey);
-        if (pageKey) {
-            axios.put(`pages/${pageKey}.json?auth=${authToken}`, page)
+        if (page.profileImage) {
+            axios.get(`/posts/${page.postsKey}.json?auth=${authToken}`)
                 .then(response => {
-                    dispatch(finishCreatePageSuccess())
-                    cb();
+                    const postsWithProfilePics = response.data.map(post => ({...post, profileImage: page.profileImage}))
+                    return axios.put(`/posts/${page.postsKey}.json?auth=${authToken}`, postsWithProfilePics)
                 })
                 .catch(error => {
-                    dispatch(createPageFail(error));
+                    console.log(error);
                 })
         }
+        axios.put(`pages/${pageKey}.json?auth=${authToken}`, page)
+            .then(response => {
+                dispatch(finishCreatePageSuccess())
+                cb();
+            })
+            .catch(error => {
+                dispatch(createPageFail(error));
+            })
+
     }
 }
 
@@ -294,6 +302,16 @@ export const editPageImageAttempt = (authToken, field, newPage) => {
             .then(response => {
                 console.log(`SUCCESS - put new ${field}`)
                 dispatch(success(newPage));
+                if (field === 'profileImage') {
+                    return axios.get(`/posts/${newPage.postsKey}.json?auth=${authToken}`)
+                }
+            })
+            .then(response => {
+                const postsWithNewProfilePics = response.data.map(post => ({...post, profileImage: newPage.profileImage}))
+                return axios.put(`/posts/${newPage.postsKey}.json?auth=${authToken}`, postsWithNewProfilePics)
+            })
+            .then(response => {
+                console.log('added new profile pic to posts')
             })
             .catch(error => {
                 dispatch(fail(error));

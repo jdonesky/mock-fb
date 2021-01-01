@@ -1,5 +1,5 @@
 
-import React, {useEffect, useContext, Suspense} from "react";
+import React, {useEffect, Suspense} from "react";
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 import Layout from "./hoc/Layout/Layout";
@@ -9,8 +9,7 @@ import DeleteContextProvider from "./context/delete-context";
 import LifeEventContextProvider from "./context/life-event-context";
 import PostContextProvider from "./context/post-context";
 import PageContextProvider from "./context/page-context";
-// import MessengerProvider from "./context/messenger-context";
-import {MessengerContext} from "./context/messenger-context";
+import ProfileContextProvider from "./context/edit-profile-context";
 
 const AsyncActiveChatTab = React.lazy(() => {
     return import('./components/Messenger/ActiveChats/ActiveChats')
@@ -67,6 +66,10 @@ const AsyncCreateLifeEventModal = React.lazy(() => {
     return import("./components/UI/Modal/LifeEventModals/LifeEventModal")
 })
 
+const AsyncEditProfileModal = React.lazy(() => {
+    return import("./components/UI/Modal/EditModals/EditProfile/EditProfileModal")
+})
+
 const AsyncEditPageModal = React.lazy(() => {
     return import("./components/UI/Modal/EditModals/EditPage/EditPageModal");
 })
@@ -78,7 +81,6 @@ const AsyncMessengerModal = React.lazy(() => {
 const app = (props) => {
 
     const {authToken, userId, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onReloadApp} = props;
-    const messengerContext = useContext(MessengerContext)
 
     useEffect(() => {
         onReloadApp();
@@ -122,21 +124,24 @@ const app = (props) => {
     return (
             <PageContextProvider>
                 <PostContextProvider>
-                    <LifeEventContextProvider>
-                        <DeleteContextProvider>
-                            <Layout>
-                                <Suspense fallback={<FoldingSquare />}>
-                                    <AsyncDeleteModal />
-                                    <AsyncCreatePostModal />
-                                    <AsyncCreateLifeEventModal />
-                                    <AsyncEditPageModal />
-                                    <AsyncMessengerModal />
-                                    <AsyncActiveChatTab />
-                                    {routes}
-                                </Suspense>
-                            </Layout>
-                        </DeleteContextProvider>
-                    </LifeEventContextProvider>
+                    <ProfileContextProvider>
+                        <LifeEventContextProvider>
+                            <DeleteContextProvider>
+                                <Layout>
+                                    <Suspense fallback={<FoldingSquare />}>
+                                        <AsyncDeleteModal />
+                                        <AsyncCreatePostModal />
+                                        <AsyncCreateLifeEventModal />
+                                        <AsyncEditPageModal />
+                                        <AsyncMessengerModal />
+                                        <AsyncActiveChatTab />
+                                        <AsyncEditProfileModal />
+                                        {routes}
+                                    </Suspense>
+                                </Layout>
+                            </DeleteContextProvider>
+                        </LifeEventContextProvider>
+                    </ProfileContextProvider>
                 </PostContextProvider>
             </PageContextProvider>
     );

@@ -40,7 +40,6 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile) => {
         dispatch(startNewChatInit())
         axios.post(`/chats.json?auth=${authToken}`, newChat)
             .then(response => {
-                console.log('SUCCESS - posted new chat')
                 chatKey = response.data.name;
                 return axios.put(`/chats/${chatKey}.json?auth=${authToken}`, {...newChat, key: chatKey})
                     .then(response => {
@@ -64,24 +63,19 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile) => {
                         return axios.put(`/public-profiles/${theirNewProfile.publicProfileKey}.json?auth=${authToken}`, theirNewProfile)
                     })
                     .then(response => {
-                        console.log('SUCCESS - put their new profile with chat');
                         return axios.put(`/public-profiles/${myNewProfile.publicProfileKey}.json?auth=${authToken}`, myNewProfile)
                     })
                     .then(response => {
-                        console.log('SUCCESS - put my new profile with chat');
                         return axios.put(`/activeChat.json?auth=${authToken}`, {...newChat, key: chatKey})
                     })
                     .then(response => {
-                        console.log('SUCCESS - post active chat');
                         dispatch(startNewChatSuccess(newChat))
                     })
                     .catch(error => {
-                        console.log('fail', error);
                         dispatch(startNewChatFail(error))
                     })
             })
             .catch(error => {
-                console.log('fail - post chat ');
                 dispatch(startNewChatFail(error))
             })
 
@@ -113,12 +107,9 @@ export const restartOldChatAttempt = (authToken, chatKey) => {
         dispatch(restartOldChatInit());
         axios.get(`/chats/${chatKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('SUCCESS - got previous chat', response.data);
-                console.log('fetch without messages field? ')
                 return axios.put(`/activeChat.json?auth=${authToken}`, response.data)
             })
             .then(response => {
-                console.log('SUCCESS - post active chat', response.data);
                 dispatch(restartOldChatSuccess(response.data));
             })
             .catch(error => {
@@ -199,7 +190,6 @@ export const fetchActiveChatAttempt = (authToken) => {
         dispatch(fetchActiveChatInit())
         axios.get(`/activeChat.json?auth=${authToken}`)
             .then(response => {
-                console.log('SUCCESS - get active chat')
                 dispatch(fetchActiveChatSuccess(response.data))
             })
             .catch(error => {
@@ -232,11 +222,9 @@ export const clearActiveChatAttempt = (authToken) => {
         dispatch(clearActiveChatInit())
         axios.delete(`/activeChat.json?auth=${authToken}`)
             .then(response => {
-                console.log('SUCCESS - deleted active chat')
                 dispatch(clearActiveChatSuccess())
             })
             .catch(error => {
-                console.log('FAIL - ')
                 dispatch(clearActiveChatFail(error))
             })
     }
@@ -264,11 +252,9 @@ const fetchChatRecordFail = (error) => {
 
 export const fetchChatRecordAttempt = (authToken, chatKey) => {
     return dispatch => {
-        console.log('fetching chatRecord')
         dispatch(fetchChatRecordInit())
         axios.get(`/chats/${chatKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('success - fetched chatRecord')
                 dispatch(fetchChatRecordSuccess(response.data));
             })
             .catch(error => {

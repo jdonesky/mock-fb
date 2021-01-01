@@ -69,6 +69,18 @@
     top: 4px;
 }
 
+.StartingIndicator {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-weight: 900;
+    font-family: "Lucida Grande";
+    width: 200px;
+    margin: 0 auto;
+    position: relative;
+    left: 35px;
+}
+
 .HeaderName {
     height: 35px;
     display: flex;

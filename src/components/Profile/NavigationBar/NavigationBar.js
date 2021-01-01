@@ -40,7 +40,7 @@ const navigationBar = (props) => {
     const [deniedRequest, setDeniedRequest] = useState(false);
 
     const {width, height} = getWindowDimensions()
-    const { myPublicProfile, otherProfile, otherPublicProfile } = props
+    const { myPublicProfile, otherProfile, otherPublicProfile, myFriends } = props
     const messengerContext = useContext(MessengerContext)
 
     useEffect(() => {
@@ -52,6 +52,12 @@ const navigationBar = (props) => {
             }
         }
     }, [myPublicProfile,otherProfile])
+
+    useEffect(() => {
+        if (myFriends && props.displayProfile !== 'me') {
+            setIsFriend(myFriends.find(friend => friend.userKey === otherProfile.userKey))
+        }
+    }, [myFriends])
 
     useEffect(() => {
         props.onFetchMyFriendRequests(props.authToken,props.myPublicProfileKey);
@@ -178,7 +184,7 @@ const navigationBar = (props) => {
         }
     }
 
-    if (props.sendingRequest || props.cancelingRequest) {
+    if (props.sendingRequest || props.cancelingRequest || props.acceptingRequest || props.denyingRequest) {
         addFriendButtonIcon = <Spinner bottom={'60px'} right={"3px"}/>
     }
 
@@ -196,9 +202,13 @@ const navigationBar = (props) => {
     } else {
         if (myPublicProfile && otherProfile && otherPublicProfile) {
             if (isFriend) {
-                firstEditButton = <li className={[classes.EditControl, classes.FirstControlButton].join(" ")} onClick={startChat}>
-                    <div className={classes.MessageUserButtonIcon}><FbMessage/></div>
-                    Message</li>
+                firstEditButton =
+                    (
+                        <li className={[classes.EditControl, classes.FirstControlButton].join(" ")} onClick={startChat}>
+                            <div className={classes.MessageUserButtonIcon}><FbMessage/></div>
+                            Message
+                        </li>
+                    )
             } else {
                 firstEditButton = (
                     <React.Fragment>
@@ -360,6 +370,9 @@ const mapStateToProps = state => {
         myReceivedRequests: state.friends.receivedRequests,
         sendingRequest: state.friends.sendingFriendRequest,
         cancelingRequest: state.friends.cancelingFriendRequest,
+        acceptingRequest: state.friends.acceptingFriendRequest,
+        denyingRequest: state.friends.denyingFriendRequest,
+        myFriends: state.friends.friends
     }
 }
 

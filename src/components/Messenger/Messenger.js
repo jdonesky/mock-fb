@@ -38,8 +38,10 @@ const messenger = (props) => {
     useEffect(() => {
         if (conversation && chatRecord && chatRecord.messages) {
             if (conversation.length !== chatRecord.messages.length) {
-                props.onFetchChatRecord(props.authToken, activeChat && activeChat.key)
+                props.onFetchChatRecord(props.authToken, activeChat && activeChat.key);
             }
+        } else if (conversation && chatRecord && !chatRecord.messages) {
+            props.onFetchChatRecord(props.authToken, activeChat && activeChat.key);
         }
 
     }, [conversation, chatRecord])
@@ -73,7 +75,10 @@ const messenger = (props) => {
         setTextMessage(event.target.value)
     }
 
-    const sendMessage = (type, payload) => {
+    const sendMessage = (type, payload, event) => {
+        if (event) {
+            event.preventDefault()
+        }
         const message = {
             userKey: props.firebaseKey,
             type: type,
@@ -83,9 +88,13 @@ const messenger = (props) => {
         if (activeChat) {
             props.onSendMessage(props.authToken, activeChat.key, message)
         }
-        setConversation(prevState => {
-            return [...prevState, {...message, pending: true}]
-        })
+        if (conversation) {
+            setConversation(prevState => {
+                return [...prevState, {...message, pending: true, id: -1}]
+            })
+        } else {
+            setConversation([{...message, pending: true, id: -1}])
+        }
         setTextMessage('');
         setPhoto(null);
         setGif(null);
@@ -153,6 +162,16 @@ const messenger = (props) => {
         fetchingIndicator = <InlineDots />
     }
 
+    let startingIndicator;
+    if (props.startingChat) {
+        startingIndicator = (
+            <div className={classes.StartingIndicator}>
+                <div>Connecting</div>
+                <InlineDots top="23px" right="35px" />
+            </div>
+        )
+    }
+
     return (
         <div
             className={[classes.Container, messengerContext.showMessenger ?  classes.ShowMessenger : null].join(" ")}
@@ -179,6 +198,7 @@ const messenger = (props) => {
                     <div className={classes.ConversationStarterProfilePic} style={{backgroundImage: theirProfileImage ? `url(${theirProfileImage})`: null}} onClick={goToTheirProfile}>
                         {theirProfileImage ? null : props.startingChat || props.restartingChat ? <Spinner /> : <Avatar fill="white" />}
                     </div>
+                    {startingIndicator}
                     <div className={classes.ConversationStarterName}>{theirProfile && theirProfile.name}</div>
                     <div className={classes.ConversationStarterDate}>{activeChat ? convertMessageDatetime(activeChat.startDate) : ''}</div>
                     <div className={classes.ConversationStarterCaption}>{activeChat ? 'You are now connected on dumb messenger' : ' '}</div>
@@ -189,7 +209,9 @@ const messenger = (props) => {
             <section className={[classes.Footer,messengerContext.showMessenger ?  classes.ShowMessageBar : null].join(" ")}>
                 {leftButtons}
                 <div className={classes.MessageBarContainer} style={{width: messageBarLength, marginLeft: messageBarMarginLeft || null }}>
-                    <input className={classes.MessageBar} value={textMessage} placeholder="Aa" ref={messageBar} onChange={(event) => updateText(event)} onFocus={() => setFocusing(true)} onBlur={() => setFocusing(false)}/>
+                    <form onSubmit={(event) => sendMessage('text', textMessage, event)}>
+                        <input className={classes.MessageBar} value={textMessage} placeholder="Aa" ref={messageBar} onChange={(event) => updateText(event)} onFocus={() => setFocusing(true)} onBlur={() => setFocusing(false)}/>
+                    </form>
                 </div>
                 {rightButton}
             </section>

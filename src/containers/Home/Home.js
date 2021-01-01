@@ -43,7 +43,6 @@ const home = (props) => {
     }
 
     const navToFullProfile = (userKey) => {
-        console.log('CLICKED!')
         if (userKey === props.firebaseKey) {
             props.history.push(`/user-profile/me`)
         } else {

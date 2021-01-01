@@ -18,7 +18,7 @@ const bookmarks = props => {
     )
 
     let links = [
-        {text: props.name && props.name, path: '/user-profile/me', icon: <div className={classes.AvatarCircle}><Avatar fill="white"/></div>},
+        {text: props.name && props.name, path: '/user-profile/me', icon: <div className={classes.AvatarCircle} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})`: null}}>{props.profileImage ? null : <Avatar fill="white"/>}</div>},
         {text: "Friends", path: '/friends', icon: <div className={classes.IconContainer}><Friends fillFirst="#0c9cf5" fillSecond="#3beb81"/></div>},
         {text: "Groups", path: '/groups', icon: <div className={[classes.AvatarCircle, classes.GroupCircle].join(" ")}><Group fill="white"/></div>},
         {text: "Events", path: '/events', icon: <div className={[classes.IconContainer,classes.EventContainer].join(" ")}><Event first="rgba(0,0,0,0.6)" second="rgba(0,0,0,0.6)" third="red" fourth="#ffffff" fifth="rgba(0,0,0,0.7)"/></div>},
@@ -45,7 +45,8 @@ const bookmarks = props => {
 
 const mapStateToProps = state => {
     return {
-        name: state.profile.firstName + ' ' + state.profile.lastName
+        name: state.profile.firstName + ' ' + state.profile.lastName,
+        profileImage: state.profile.profileImage
     }
 }
 
