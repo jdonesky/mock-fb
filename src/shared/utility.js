@@ -90,6 +90,7 @@ export const mapMonths = {
 }
 
 export const reverseMapMonths = {
+  '0' : 'January',
   '1' : 'January',
   '2' : 'February',
   '3' : 'March',
@@ -105,6 +106,7 @@ export const reverseMapMonths = {
 }
 
 export const reverseMapZeroMonths = {
+  '00' : 'January',
   '01' : 'January',
   '02' : 'February',
   '03' : 'March',
@@ -121,8 +123,9 @@ export const reverseMapZeroMonths = {
 
 
 export const convertDate = (date) => {
+  console.log('date', date)
   const year = date.split('-')[0]
-  const month = reverseMapZeroMonths[date.split('-')[1]];
+  const month = reverseMapZeroMonths[date.split('-')[1]] || reverseMapMonths[date.split('-')[1]];
   const day = date.split('-')[2]
   return [month, day, year]
 }
@@ -227,6 +230,7 @@ export const checkBirthday = (date) => {
   const birthdayMonth = new Date(date).getMonth();
   return thisMonth === birthdayMonth + 1;
 }
+
 
 export const geocode = (address, cb) => {
   if (address) {

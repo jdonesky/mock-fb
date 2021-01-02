@@ -5,27 +5,21 @@ import {connect} from 'react-redux';
 import classes from './EditIntro.css';
 import AddContentButton from '../../../../../Profile/ProfileAbout/AboutContent/SharedContent/AddContentButton';
 import Switch from '../../../../Switch/Switch';
+import InlineDots from '../../../../Spinner/InlineDots';
 import Edit from '../../../../../../assets/images/edit';
 import * as actions from "../../../../../../store/actions";
 import {EditProfileContext} from "../../../../../../context/edit-profile-context";
 
+
 const editIntro = props => {
 
-    const {authToken, firebaseKey, occupations, education, currLocation, hometown, relationships} = props;
+    const {occupations, education, currLocation, hometown, relationships} = props;
     const editProfileContext = useContext(EditProfileContext);
     const [addWork, setAddWork] = useState({});
     const [addEducation, setAddEducation] = useState({});
     const [addCurrLocation, setAddCurrLocation] = useState(false);
     const [addHometown, setAddHometown] = useState(false)
     const [addRelationship, setAddRelationship] = useState({});
-
-    useEffect(() => {
-        console.log(addWork)
-        console.log(addEducation)
-        console.log(addCurrLocation)
-        console.log(addHometown)
-        console.log(addRelationship)
-    })
 
     useEffect(() => {
         if (occupations) {
@@ -231,7 +225,7 @@ const mapStateToProps = state => {
         education: state.profile.education,
         currLocation: state.profile.currLocation,
         hometown: state.profile.hometown,
-        relationships: state.profile.relationships
+        relationships: state.profile.relationships,
     }
 }
 

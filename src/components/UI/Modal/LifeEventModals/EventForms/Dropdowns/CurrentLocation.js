@@ -1,10 +1,14 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import classes from './CurrentLocation.css'
 import {connect} from 'react-redux'
+import {geocode} from "../../../../../../shared/utility";
 import Search from '../../../../../Search/Searchbar'
 import SuggestedLocation from './SuggestedLocation'
 
 const currentLocation = ({currLocation, hometown, pastLocations, update, close}) => {
+
+
+    const [showSuggested, setShowSuggested] = useState(false);
 
     useEffect(() => {
         console.log('all suggestions', suggestions);
@@ -64,6 +68,17 @@ const currentLocation = ({currLocation, hometown, pastLocations, update, close})
         ))
     }
 
+    let suggestedDropdown;
+    if (showSuggested) {
+        suggestedDropdown = (
+            <div className={classes.SuggestionsPositioner}>
+                <div className={classes.SuggestionsDropdown}>
+                    {suggestLocations}
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className={classes.Container}>
             <div className={classes.BaseArrow} />
@@ -71,7 +86,7 @@ const currentLocation = ({currLocation, hometown, pastLocations, update, close})
                 <Search filterResults={filterTerms}/>
                 <div className={classes.ConfirmButton} onClick={confirmSearch}><span>Done</span></div>
             </div>
-            {suggestLocations}
+            {suggestedDropdown}
         </div>
     )
 }

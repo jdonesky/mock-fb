@@ -1,5 +1,6 @@
 
 import React, {useContext} from 'react';
+import {connect} from 'react-redux';
 import classes from '../Shared.css';
 import Modal from '../../Modal';
 import {EditProfileContext} from "../../../../../context/edit-profile-context";
@@ -8,6 +9,7 @@ import Close from '../../../../../assets/images/close'
 
 import BaseForm from './BaseForm/BaseForm';
 import EditIntro from './EditIntro/EditIntro';
+import InlineDots from '../../../Spinner/InlineDots';
 
 const editProfileModal = props => {
     const {width, height} = getWindowDimensions()
@@ -33,6 +35,10 @@ const editProfileModal = props => {
             modalContainer = classes.BaseModal;
     }
 
+    if (props.updatingProfile) {
+        title = <InlineDots left="70px" />
+    }
+
     const closeModal = () => {
         editProfileContext.closeEditModal();
         editProfileContext.toggleModalContent('BASE');
@@ -55,4 +61,9 @@ const editProfileModal = props => {
     );
 }
 
-export default editProfileModal;
+const mapStateToProps = state => {
+    return {
+        updatingProfile: state.profile.contentEntryLoading
+    }
+}
+export default connect(mapStateToProps)(editProfileModal);

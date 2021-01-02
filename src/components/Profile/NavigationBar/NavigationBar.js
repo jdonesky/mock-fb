@@ -56,10 +56,10 @@ const navigationBar = (props) => {
     }, [myPublicProfile,otherProfile])
 
     useEffect(() => {
-        if (myFriends && props.displayProfile !== 'me') {
+        if (myFriends && otherProfile && props.displayProfile !== 'me') {
             setIsFriend(myFriends.find(friend => friend.userKey === otherProfile.userKey))
         }
-    }, [myFriends])
+    }, [myFriends, otherProfile])
 
     useEffect(() => {
         props.onFetchMyFriendRequests(props.authToken,props.myPublicProfileKey);

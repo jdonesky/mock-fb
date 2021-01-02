@@ -1,5 +1,5 @@
 
-import React, {useState, useRef, useContext} from 'react';
+import React, {useState, useRef, useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
 import classes from './BaseForm.css';
 import EditBioForm from '../../../../../Profile/ProfileHeader/EditHeader/EditBioForm';
@@ -16,6 +16,7 @@ import Heart from '../../../../../../assets/images/heart';
 
 
 const baseForm = props => {
+
 
     const profilePicContainer = useRef(null);
     const profilePicUploader = useRef(null);
@@ -77,32 +78,32 @@ const baseForm = props => {
     let relationshipIntro;
 
     if (props.currentLocation && props.currentLocation.introItem) {
-        currLocationIntro = props.currentLocation.name
+        currLocationIntro = <span className={classes.FilledEntry}>{`Lives in ${props.currentLocation.name}`}</span>
     } else {
         currLocationIntro = 'Current City';
     }
 
     if (props.occupations && props.occupations.filter(occupation => occupation.introItem).length !== 0) {
-        workplaceIntro = `${props.occupations.find(occupation => occupation.introItem).position} at ${props.occupations.find(occupation => occupation.introItem).company}`
+        workplaceIntro = <span className={classes.FilledEntry}>{`${props.occupations.find(occupation => occupation.introItem).position} at ${props.occupations.find(occupation => occupation.introItem).company}`}</span>
     } else {
         workplaceIntro = 'Workplace';
     }
 
     if (props.education && props.education.filter(school => school.introItem).length !== 0) {
-        schoolIntro = props.education.find(school => school.introItem).school
+        schoolIntro = <span className={classes.FilledEntry}>{props.education.find(school => school.introItem).school}</span>
     } else {
         schoolIntro = 'School';
     }
 
     if (props.hometown && props.hometown.introItem) {
-        hometownIntro = props.hometown.name
+        hometownIntro = <span className={classes.FilledEntry}>{`From ${props.hometown.name}`}</span>
     } else {
         hometownIntro = 'Hometown';
 
     }
 
-    if (props.relationships && props.relationships[0].introItem) {
-        schoolIntro = props.relationships[0].status
+    if (props.relationships && props.relationships.filter(relationship => relationship.introItem).length !== 0) {
+        relationshipIntro = <span className={classes.FilledEntry}>{props.relationships && props.relationships.find(relationship => relationship.introItem).status}</span>
     } else {
         relationshipIntro = 'Relationship Status'
     }
@@ -147,7 +148,7 @@ const baseForm = props => {
                         style={{
                             display: "none"
                         }}
-                    />E
+                    />
                 </div>
             </section>
             <section className={classes.FormContainer}>

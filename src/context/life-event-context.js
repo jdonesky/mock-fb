@@ -15,7 +15,7 @@ export const LifeEventContext = React.createContext({
 })
 
 const LifeEventContextProvider = (props) => {
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(true);
     const [category, setCategory] = useState(null);
     const [modalContent, setModalContent] = useState(false);
 

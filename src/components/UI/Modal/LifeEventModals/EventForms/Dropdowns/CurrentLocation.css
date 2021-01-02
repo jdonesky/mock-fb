@@ -10,7 +10,7 @@
     background-color: white;
     position: absolute;
     bottom: 107px;
-    left: 334px;
+    left: 235px;
     box-shadow: 0 12px 28px 0px rgba(0,0,0,0.2)
 }
 
@@ -55,5 +55,20 @@
     bottom: 1px;
     content: "";
     position: absolute;
-    left: -7px;
+    left: 103px;
+}
+
+.SuggestionsPositioner {
+    position: relative;
+}
+
+.SuggestionsDropdown {
+    width: 250px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 3px rgba(0,0,0,0.3);
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
 }

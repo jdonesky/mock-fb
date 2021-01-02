@@ -142,6 +142,11 @@
 
 .BaseInput {
     width: 93%;
+    font-family: "Lucida Grande";
+}
+
+.BaseInput::placeholder {
+    font-family: "Lucida Grande";
 }
 
 .TitleCaption {
