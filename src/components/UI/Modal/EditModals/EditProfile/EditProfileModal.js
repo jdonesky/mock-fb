@@ -33,6 +33,12 @@ const editProfileModal = props => {
             modalContainer = classes.BaseModal;
     }
 
+    const closeModal = () => {
+        editProfileContext.closeEditModal();
+        editProfileContext.toggleModalContent('BASE');
+    }
+
+
     return (
         <Modal show={editProfileContext.showEditModal ? editProfileContext.showEditModal : undefined} close={editProfileContext.closeEditModal} addClass={modalContainer}>
             <section className={classes.ContentContainer}>
@@ -40,7 +46,7 @@ const editProfileModal = props => {
                     <div className={classes.TitleBlock}>
                         <div className={classes.Title}>{title}</div>
                     </div>
-                    <div className={classes.ExitModalButton} onClick={() => editProfileContext.closeEditModal()}><Close fill="rgba(0,0,0,.5)"/></div>
+                    <div className={classes.ExitModalButton} onClick={closeModal}><Close fill="rgba(0,0,0,.5)"/></div>
                 </section>
                 <div className={classes.Break}/>
                 {modalContent}

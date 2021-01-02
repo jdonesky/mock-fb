@@ -7,6 +7,8 @@
     justify-content: flex-start;
     align-items: center;
     overflow: auto;
+    box-sizing: border-box;
+    padding-bottom: 20px;
 }
 
 .BaseContainer::-webkit-scrollbar {

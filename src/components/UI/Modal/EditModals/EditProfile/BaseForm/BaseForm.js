@@ -76,13 +76,37 @@ const baseForm = props => {
     let hometownIntro;
     let relationshipIntro;
 
-    if (!props.intro) {
+    if (props.currentLocation && props.currentLocation.introItem) {
+        currLocationIntro = props.currentLocation.name
+    } else {
         currLocationIntro = 'Current City';
+    }
+
+    if (props.occupations && props.occupations.filter(occupation => occupation.introItem).length !== 0) {
+        workplaceIntro = `${props.occupations.find(occupation => occupation.introItem).position} at ${props.occupations.find(occupation => occupation.introItem).company}`
+    } else {
         workplaceIntro = 'Workplace';
+    }
+
+    if (props.education && props.education.filter(school => school.introItem).length !== 0) {
+        schoolIntro = props.education.find(school => school.introItem).school
+    } else {
         schoolIntro = 'School';
+    }
+
+    if (props.hometown && props.hometown.introItem) {
+        hometownIntro = props.hometown.name
+    } else {
         hometownIntro = 'Hometown';
+
+    }
+
+    if (props.relationships && props.relationships[0].introItem) {
+        schoolIntro = props.relationships[0].status
+    } else {
         relationshipIntro = 'Relationship Status'
     }
+
 
     return (
         <div className={classes.BaseContainer}>
@@ -123,7 +147,7 @@ const baseForm = props => {
                         style={{
                             display: "none"
                         }}
-                    />
+                    />E
                 </div>
             </section>
             <section className={classes.FormContainer}>

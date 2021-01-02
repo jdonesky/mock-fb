@@ -1,16 +1,18 @@
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './EditIntro.css';
 import AddContentButton from '../../../../../Profile/ProfileAbout/AboutContent/SharedContent/AddContentButton';
 import Switch from '../../../../Switch/Switch';
 import Edit from '../../../../../../assets/images/edit';
 import * as actions from "../../../../../../store/actions";
+import {EditProfileContext} from "../../../../../../context/edit-profile-context";
 
 const editIntro = props => {
 
     const {authToken, firebaseKey, occupations, education, currLocation, hometown, relationships} = props;
-
+    const editProfileContext = useContext(EditProfileContext);
     const [addWork, setAddWork] = useState({});
     const [addEducation, setAddEducation] = useState({});
     const [addCurrLocation, setAddCurrLocation] = useState(false);
@@ -97,6 +99,12 @@ const editIntro = props => {
         props.onProfileUpdate(props.authToken, props.firebaseKey, field, newEntry, 'edit', id)
     }
 
+    const navToEdit = (path) => {
+        props.history.push(path);
+        editProfileContext.closeEditModal()
+        editProfileContext.toggleModalContent('BASE')
+    }
+
 
     let existingWork;
     if (occupations) {
@@ -108,7 +116,7 @@ const editIntro = props => {
                     </div>
                     {`${job.position} at ${job.company}`}
                 </div>
-                <div className={classes.EditItemButton}>
+                <div className={classes.EditItemButton} onClick={() => navToEdit('/user-profile/me/about/work-education')}>
                     <Edit />
                 </div>
             </div>
@@ -125,7 +133,7 @@ const editIntro = props => {
                     </div>
                     {`Student at ${school.school}`}
                 </div>
-                <div className={classes.EditItemButton}>
+                <div className={classes.EditItemButton}  onClick={() => navToEdit('/user-profile/me/about/work-education')}>
                     <Edit />
                 </div>
             </div>
@@ -142,7 +150,7 @@ const editIntro = props => {
                     </div>
                     {`Lives in ${currLocation.name}`}
                 </div>
-                <div className={classes.EditItemButton}>
+                <div className={classes.EditItemButton} onClick={() => navToEdit('/user-profile/me/about/places-lived')}>
                     <Edit />
                 </div>
             </div>
@@ -159,7 +167,7 @@ const editIntro = props => {
                     </div>
                     {`Lives in ${hometown.name}`}
                 </div>
-                <div className={classes.EditItemButton}>
+                <div className={classes.EditItemButton} onClick={() => navToEdit('/user-profile/me/about/places-lived')}>
                     <Edit />
                 </div>
             </div>
@@ -176,7 +184,7 @@ const editIntro = props => {
                     </div>
                     {relationships[0].status}
                 </div>
-                <div className={classes.EditItemButton}>
+                <div className={classes.EditItemButton} onClick={() => navToEdit('/user-profile/me/about/family-relationships')}>
                     <Edit />
                 </div>
             </div>
@@ -198,7 +206,7 @@ const editIntro = props => {
             </section>
             <section className={classes.IntroSection}>
                 <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Current City</div>
-                {existingEducation}
+                {existingCurrLocation}
                 <AddContentButton category="currLocation" textLineHeight="23px"/>
             </section>
             <section className={classes.IntroSection}>
@@ -233,4 +241,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(editIntro);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(editIntro));

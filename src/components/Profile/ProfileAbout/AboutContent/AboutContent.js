@@ -28,16 +28,16 @@ const aboutContent = (props) => {
     let content = null;
     switch (match.params.tab) {
         case 'work-education':
-            content = <WorkAndEducation {...props}/>
+            content = <WorkAndEducation {...props} />
             break;
         case 'places-lived':
-            content = <PlacesLived {...props}/>
+            content = <PlacesLived {...props} />
             break;
         case 'contact-info':
-            content = <ContactBasicInfo {...props}/>
+            content = <ContactBasicInfo {...props} />
             break;
         case 'family-relationships':
-            content = <FamilyAndRelationships {...props}/>
+            content = <FamilyAndRelationships {...props} />
             break;
         case 'life-events':
             content = <LifeEvents {...props} />

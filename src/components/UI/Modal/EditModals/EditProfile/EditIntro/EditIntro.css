@@ -7,6 +7,11 @@
     justify-content: flex-start;
     align-items: center;
     overflow: auto;
+    padding-bottom: 20px;
+}
+
+.Container::-webkit-scrollbar {
+    display: none;
 }
 
 .SubHeader {
@@ -18,6 +23,7 @@
     font-family: "Lucida Grande";
     font-weight: 550;
     font-size: 16px;
+    margin-top: 20px;
 }
 
 .IntroSection {
@@ -29,7 +35,7 @@
 }
 
 .SectionHeader {
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .IntroItem {
