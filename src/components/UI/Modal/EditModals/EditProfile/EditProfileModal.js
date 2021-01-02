@@ -7,21 +7,25 @@ import getWindowDimensions from "../../../../../hooks/getWindowDimensions";
 import Close from '../../../../../assets/images/close'
 
 import BaseForm from './BaseForm/BaseForm';
+import EditIntro from './EditIntro/EditIntro';
 
 const editProfileModal = props => {
     const {width, height} = getWindowDimensions()
     const editProfileContext = useContext(EditProfileContext);
 
+    let title;
     let modalContent;
     let modalContainer;
     switch (editProfileContext.modalContent) {
         case 'BASE':
+            title = 'Edit Profile'
             modalContent = <BaseForm />
             modalContainer = [classes.BaseModal, classes.EditProfileModal].join(" ");
             break;
-        case 'DESCRIPTION':
-            // modalContent = <DescriptionForm />
-            // modalContainer = classes.SingleEntryModal;
+        case 'INTRO':
+            title = 'Edit Details'
+            modalContent = <EditIntro />
+            modalContainer = [classes.BaseModal, classes.EditProfileModal].join(" ");
             break;
 
         default:
@@ -34,7 +38,7 @@ const editProfileModal = props => {
             <section className={classes.ContentContainer}>
                 <section className={classes.Header}>
                     <div className={classes.TitleBlock}>
-                        <div className={classes.Title}>Edit Profile</div>
+                        <div className={classes.Title}>{title}</div>
                     </div>
                     <div className={classes.ExitModalButton} onClick={() => editProfileContext.closeEditModal()}><Close fill="rgba(0,0,0,.5)"/></div>
                 </section>

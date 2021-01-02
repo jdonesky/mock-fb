@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import classes from './ProfilePics.css';
 import * as actions from '../../../store/actions/index'
 import CameraSvg from '../../../assets/images/MiscIcons/camera';
+import Avatar from '../../../assets/images/BookmarkIcons/user';
 
 const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate, displayProfile, otherUserProfile}) => {
     const profilePicUploader = useRef(null);
@@ -66,7 +67,7 @@ const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate,
     if (displayProfile === 'me') {
         profilePicUploadButton = (
             <div className={classes.ProfileUploadButton}onClick={() => profilePicUploader.current.click()}>
-                <div className={classes.CameraIcon}>
+                <div className={[classes.CameraIcon, classes.ProfilePicIcon].join(" ")}>
                     <CameraSvg />
                 </div>
             </div>
@@ -105,6 +106,7 @@ const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate,
                 className={classes.ProfilePicContainer}
                 ref={profilePicContainer}
             >
+                {profilePic ? null : <Avatar fill="whiter"/>}
                 <input
                     ref={profilePicUploader}
                     type="file"

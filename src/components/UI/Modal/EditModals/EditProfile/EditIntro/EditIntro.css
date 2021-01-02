@@ -1,0 +1,10 @@
+
+.Container {
+    height: 520px;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: auto;
+}
