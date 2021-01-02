@@ -4,30 +4,30 @@
     justify-content: left;
     align-content: center;
     height: 30px;
-    width: 200px;
+    min-width: 200px;
     margin: 5px 0;
     cursor: pointer;
 }
 
 .PlusIcon {
-    height: 22px;
-    width: 22px;
-    position: relative;
-    top: 2px;
-    border: 1.5px solid #0B86DE;
-    border-radius: 100px;
+    height: 26px;
+    width: 26px;
+    border: 2px solid #0B86DE;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .PlusIcon svg {
-    fill: #0B86DE;
     height: 70%;
     width: auto;
-    position: absolute;
-    top: 3px;
-    left: 3px;
+    position: relative;
+
 }
 
-.AddButton span {
+.AddButtonText {
     margin: 0 8px;
     padding: 3px;
     color: #0B86DE;

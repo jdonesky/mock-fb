@@ -147,11 +147,11 @@ const baseForm = props => {
                         {currLocationIntro}
                     </div>
                     <div className={classes.IntroEntry}>
-                        <div className={classes.IntroIcon}><Briefcase fill="rgba(0,0,0,0.4)"/></div>
+                        <div className={[classes.IntroIcon, classes.Briefcase].join(" ")}><Briefcase fill="rgba(0,0,0,0.4)"/></div>
                         {workplaceIntro}
                     </div>
                     <div className={classes.IntroEntry}>
-                        <div className={classes.IntroIcon}><GraduationCap fill="rgba(0,0,0,0.4)"/></div>
+                        <div className={[classes.IntroIcon, classes.GradCap].join(" ")}><GraduationCap fill="rgba(0,0,0,0.4)"/></div>
                         {schoolIntro}
                     </div>
                     <div className={classes.IntroEntry}>

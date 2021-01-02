@@ -12,7 +12,7 @@ export const EditProfileContext = React.createContext({
 const ProfileContextProvider = (props) => {
 
     const [showEditModal, setShowEditModal] = useState(true);
-    const [modalContent, setModalContent] = useState('BASE');
+    const [modalContent, setModalContent] = useState('INTRO');
 
     const openEditModal = () => {
         setShowEditModal(true);

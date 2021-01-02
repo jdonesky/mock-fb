@@ -67,17 +67,27 @@ const workAndEducation = props => {
         addSchoolButton = <AddButton category="education"/>
     }
 
+    let workPlaceholder;
+    let schoolPlaceholder;
+    if (displayProfile !== 'me' && !workEntries) {
+        workPlaceholder = <span className={sharedClasses.Placeholder}>No work to show</span>
+    }
+
+    if (displayProfile !== 'me' && !workEntries) {
+        schoolPlaceholder = <span className={sharedClasses.Placeholder}>No school to show</span>
+    }
+
     return (
         <React.Fragment>
             <section className={sharedClasses.SubCategory} style={{marginTop: '0'}}>
                 <h3>Work</h3>
                 {addWorkButton}
-                {workEntries ? workEntries : <span className={sharedClasses.Placeholder}>No work to show</span>}
+                {workEntries ? workEntries : workPlaceholder}
             </section>
             <section className={sharedClasses.SubCategory}>
                 <h3>Education</h3>
                 {addSchoolButton}
-                {educationEntries  ? educationEntries :  <span className={sharedClasses.Placeholder}>No school to show</span>}
+                {educationEntries  ? educationEntries :  schoolPlaceholder}
             </section>
         </React.Fragment>
     );

@@ -3,7 +3,7 @@
 import React, {useState, useContext} from 'react';
 import {connect} from 'react-redux'
 import classes from './AddContentButton.css'
-import Plus from '../../../../../assets/images/plus'
+import Plus from '../../../../../assets/images/MiscIcons/plus';
 import EditWorkForm from "../EditContent/EditWorkForm";
 import EditSchoolForm from "../EditContent/EditSchoolForm";
 import EditLocationForm from "../EditContent/EditLocationForm";
@@ -85,7 +85,7 @@ const addContentButton = props => {
             <div className={classes.PlusIcon}>
                 <Plus fill="#0B86DE" className={classes.Plus}/>
             </div>
-            <span>{text}</span>
+            <span className={classes.AddButtonText} style={{lineHeight: props.textLineHeight || null}}>{text}</span>
         </div>
     )
 
