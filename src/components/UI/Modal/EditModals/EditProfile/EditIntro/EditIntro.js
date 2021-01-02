@@ -23,14 +23,31 @@ const editIntro = props => {
         }
     }, [occupations])
 
+    useEffect(() => {
+        if (education) {
+            setAddEducation(education && education.map(school => school.id).reduce((ids, id) => ({...ids, [id]: education.find(job => job.id === id).introItem || false}), {}))
+        }
+    }, [education])
 
-    const updateWorkIntro = (event, id) => {
+
+    const updateIntro = (event, field, id) => {
         event.persist()
-        setAddWork(prevState => ({
-            ...prevState,
-            [id]: event.target && event.target.checked
-        }))
+        let newEntry;
+        switch (field) {
+            case 'occupations':
+                setAddWork(prevState => ({
+                    ...prevState,
+                    [id]: event.target && event.target.checked
+                }))
+                newEntry = {...occupations.find(job => job.id === id), introItem: event.target.checked}
+                break;
+            case 'education':
+                break;
+        }
+
+        props.onProfileUpdate(props.authToken, props.firebaseKey, 'occupations', newEntry, 'edit', id)
     }
+
 
     let existingWork;
     if (occupations) {
@@ -38,9 +55,26 @@ const editIntro = props => {
             <div key={job.id} className={classes.IntroItem}>
                 <div className={classes.ItemLeftBlock}>
                     <div className={classes.ItemSwitch}>
-                        <Switch name={job.id} isSelected={addWork[job.id]} onChange={(event) => updateWorkIntro(event,job.id)} />
+                        <Switch name={job.id} isSelected={addWork[job.id]} onChange={(event) => updateIntro(event,'occupations', job.id)} />
                     </div>
                     {`${job.position} at ${job.company}`}
+                </div>
+                <div className={classes.EditItemButton}>
+                    <Edit />
+                </div>
+            </div>
+        ))
+    }
+
+    let existingEducation;
+    if (education) {
+        existingEducation = education.map(school => (
+            <div key={school.id} className={classes.IntroItem}>
+                <div className={classes.ItemLeftBlock}>
+                    <div className={classes.ItemSwitch}>
+                        <Switch name={school.id} isSelected={addEducation[school.id]} onChange={(event) => updateIntro(event,school.id)} />
+                    </div>
+                    {`Student at ${school.school}`}
                 </div>
                 <div className={classes.EditItemButton}>
                     <Edit />
@@ -56,6 +90,10 @@ const editIntro = props => {
                 <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Work</div>
                 {existingWork}
                  <AddContentButton category="work" textLineHeight="23px"/>
+            </section>
+            <section className={classes.IntroSection}>
+                <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Education</div>
+                {existingEducation}
             </section>
         </div>
     );

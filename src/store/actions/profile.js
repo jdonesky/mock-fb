@@ -119,7 +119,6 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
         const url = `/users/${firebaseKey}.json?auth=${authToken}`
         axios.get(url)
             .then(response => {
-                console.log('UPDATING user PROFILE - ', response.data)
                 publicProfileKey = response.data.publicProfileKey;
                 postsKey = response.data.postsKey;
                 KeyGenerator.getKey(authToken, (newKey) => {
@@ -197,11 +196,9 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                     }
                     axios.put(url, updatedUserProfile)
                         .then(response => {
-                            console.log('PUT REQ RESPONSE', response)
                             return axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
                         })
                         .then(response => {
-                            console.log('updating PUBLIC profile', response.data);
                             switch (how) {
                                 case "edit":
                                     if (fieldName === 'occupations' || fieldName === 'education' || fieldName === 'relationships' || fieldName === 'family' || fieldName === 'pastLocations' || fieldName === 'posts') {
@@ -264,7 +261,6 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                                         const updatedContacts = {...response.data['contacts'], [fieldName] : null}
                                         updatedPublicProfile = {...response.data, contacts: updatedContacts}
                                     } else {
-                                        console.log('deleting single entry field')
                                         updatedPublicProfile = {...response.data, [fieldName]: null}
                                     }
                                     break;
@@ -276,22 +272,19 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                         .then(response => {
                             dispatch(updateProfileSuccess(updatedUserProfile));
                             if (updatePostsProfilePics) {
-                                console.log('UPDATING POSTS WITH NEW PROFILE PIC');
-                                return axios.get(`/posts/${postsKey}.json?auth=${authToken}`)
+                                axios.get(`/posts/${postsKey}.json?auth=${authToken}`)
+                                    .then(response => {
+                                        console.log('GET POSTS SUCCESS - ', response.data);
+                                        const updatedPosts = response.data.map(post => ({...post, [fieldName]: payload}))
+                                        return axios.put(`/posts/${postsKey}.json?auth=${authToken}`, updatedPosts)
+                                    })
+                                    .then(response => {
+                                        // dispatch(updateProfileSuccess(updatedUserProfile));
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                    })
                             }
-                            // else {
-                            //     console.log('SUCCESS/DONT UPDATE POSTS');
-                            //     dispatch(updateProfileSuccess(updatedUserProfile));
-                            // }
-                        })
-                        .then(response => {
-                            console.log('GET POSTS SUCCESS - ', response.data);
-                            const updatedPosts = response.data.map(post => ({...post, [fieldName]: payload}))
-                            return axios.put(`/posts/${postsKey}.json?auth=${authToken}`, updatedPosts)
-                        })
-                        .then(response => {
-                            console.log('SUCCESS/UPDATED POSTS WITH NEW PROFILE PIC');
-                            // dispatch(updateProfileSuccess(updatedUserProfile));
                         })
                         .catch(err => console.log(err))
                 })
