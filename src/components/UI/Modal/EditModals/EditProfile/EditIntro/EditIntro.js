@@ -9,12 +9,20 @@ import * as actions from "../../../../../../store/actions";
 
 const editIntro = props => {
 
-    const {authToken, firebaseKey, occupations, education} = props
+    const {authToken, firebaseKey, occupations, education, currLocation, hometown, relationships} = props;
+
     const [addWork, setAddWork] = useState({});
-    const [addEducation, setAddEducation] = useState({})
+    const [addEducation, setAddEducation] = useState({});
+    const [addCurrLocation, setAddCurrLocation] = useState(false);
+    const [addHometown, setAddHometown] = useState(false)
+    const [addRelationship, setAddRelationship] = useState({});
 
     useEffect(() => {
         console.log(addWork)
+        console.log(addEducation)
+        console.log(addCurrLocation)
+        console.log(addHometown)
+        console.log(addRelationship)
     })
 
     useEffect(() => {
@@ -29,6 +37,23 @@ const editIntro = props => {
         }
     }, [education])
 
+    useEffect(() => {
+        if (currLocation) {
+            setAddCurrLocation(currLocation && currLocation.introItem || false)
+        }
+    }, [currLocation])
+
+    useEffect(() => {
+        if (hometown) {
+            setAddHometown(hometown && hometown.introItem || false)
+        }
+    }, [hometown])
+
+    useEffect(() => {
+        if (relationships) {
+            setAddRelationship(relationships && relationships.map(relationship => relationship.id).reduce((ids, id) => ({...ids, [id]: relationships.find(job => job.id === id).introItem || false}), {}))
+        }
+    }, [relationships])
 
     const updateIntro = (event, field, id) => {
         event.persist()
@@ -42,10 +67,34 @@ const editIntro = props => {
                 newEntry = {...occupations.find(job => job.id === id), introItem: event.target.checked}
                 break;
             case 'education':
+                setAddEducation(prevState => ({
+                    ...prevState,
+                    [id]: event.target && event.target.checked
+                }))
+                newEntry = {...education.find(school => school.id === id), introItem: event.target.checked}
+                break;
+            case 'currLocation':
+                setAddCurrLocation(prevState => {
+                    return !prevState
+                })
+                newEntry = {...currLocation, introItem: event.target.checked}
+                break;
+            case 'hometown':
+                setAddHometown(prevState => {
+                    return !prevState
+                })
+                newEntry = {...hometown, introItem: event.target.checked}
+                break;
+            case 'relationships':
+                setAddRelationship(prevState => ({
+                    ...prevState,
+                    [id]: event.target && event.target.checked
+                }))
+                newEntry = {...relationships.find(relationship => relationship.id === id), introItem: event.target.checked}
                 break;
         }
 
-        props.onProfileUpdate(props.authToken, props.firebaseKey, 'occupations', newEntry, 'edit', id)
+        props.onProfileUpdate(props.authToken, props.firebaseKey, field, newEntry, 'edit', id)
     }
 
 
@@ -72,7 +121,7 @@ const editIntro = props => {
             <div key={school.id} className={classes.IntroItem}>
                 <div className={classes.ItemLeftBlock}>
                     <div className={classes.ItemSwitch}>
-                        <Switch name={school.id} isSelected={addEducation[school.id]} onChange={(event) => updateIntro(event,school.id)} />
+                        <Switch name={school.id} isSelected={addEducation[school.id]} onChange={(event) => updateIntro(event,'education', school.id)} />
                     </div>
                     {`Student at ${school.school}`}
                 </div>
@@ -81,6 +130,57 @@ const editIntro = props => {
                 </div>
             </div>
         ))
+    }
+
+    let existingCurrLocation;
+    if (currLocation) {
+        existingCurrLocation = (
+            <div className={classes.IntroItem}>
+                <div className={classes.ItemLeftBlock}>
+                    <div className={classes.ItemSwitch}>
+                        <Switch name={currLocation.name} isSelected={addCurrLocation} onChange={(event) => updateIntro(event,'currLocation')} />
+                    </div>
+                    {`Lives in ${currLocation.name}`}
+                </div>
+                <div className={classes.EditItemButton}>
+                    <Edit />
+                </div>
+            </div>
+        )
+    }
+
+    let existingHometown;
+    if (currLocation) {
+        existingHometown = (
+            <div className={classes.IntroItem}>
+                <div className={classes.ItemLeftBlock}>
+                    <div className={classes.ItemSwitch}>
+                        <Switch name={hometown.name} isSelected={addHometown} onChange={(event) => updateIntro(event,'hometown')} />
+                    </div>
+                    {`Lives in ${hometown.name}`}
+                </div>
+                <div className={classes.EditItemButton}>
+                    <Edit />
+                </div>
+            </div>
+        )
+    }
+
+    let existingRelationship;
+    if (currLocation) {
+        existingRelationship = (
+            <div className={classes.IntroItem}>
+                <div className={classes.ItemLeftBlock}>
+                    <div className={classes.ItemSwitch}>
+                        <Switch name={relationships[0].id} isSelected={addRelationship[relationships[0].id]} onChange={(event) => updateIntro(event,'relationships', relationships[0].id)} />
+                    </div>
+                    {relationships[0].status}
+                </div>
+                <div className={classes.EditItemButton}>
+                    <Edit />
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -94,6 +194,22 @@ const editIntro = props => {
             <section className={classes.IntroSection}>
                 <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Education</div>
                 {existingEducation}
+                <AddContentButton category="education" textLineHeight="23px"/>
+            </section>
+            <section className={classes.IntroSection}>
+                <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Current City</div>
+                {existingEducation}
+                <AddContentButton category="currLocation" textLineHeight="23px"/>
+            </section>
+            <section className={classes.IntroSection}>
+                <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Hometown</div>
+                {existingHometown}
+                <AddContentButton category="hometown" textLineHeight="23px"/>
+            </section>
+            <section className={classes.IntroSection}>
+                <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Relationship</div>
+                {existingRelationship}
+                <AddContentButton category="relationship" textLineHeight="23px"/>
             </section>
         </div>
     );
