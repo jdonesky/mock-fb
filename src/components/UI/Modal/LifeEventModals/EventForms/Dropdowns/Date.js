@@ -42,6 +42,7 @@ const dateForm = ({update, values, birthday, year, month, day}) => {
 
     const inputs = Object.keys(fields).map(key => (
         <Input
+            key={key}
             elementType={fields[key].elementType}
             value={fields[key].value}
             changed={(event) => updateInput(key, event)}

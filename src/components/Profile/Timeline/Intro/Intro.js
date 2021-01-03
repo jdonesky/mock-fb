@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, {useContext} from 'react';
 import {connect} from 'react-redux';
 import Button from '../../../UI/Button/Button'
 import classes from './Intro.css'
 import entryClasses from '../../../UI/Modal/EditModals/EditProfile/BaseForm/BaseForm.css'
+import {EditProfileContext} from "../../../../context/edit-profile-context";
 import House from "../../../../assets/images/home";
 import Briefcase from "../../../../assets/images/briefcase";
 import GraduationCap from "../../../../assets/images/graduation-cap";
@@ -12,6 +13,14 @@ import Heart from "../../../../assets/images/heart";
 
 const intro = (props) => {
 
+    const editProfileContext = useContext(EditProfileContext);
+
+    const startEditingDetails = () => {
+        console.log('clicked')
+        editProfileContext.toggleModalContent('INTRO')
+        editProfileContext.openEditModal()
+    }
+
     let profile;
     let editButtons;
     let currLocationIntro;
@@ -19,12 +28,13 @@ const intro = (props) => {
     let schoolIntro;
     let hometownIntro;
     let relationshipIntro;
+
     if (props.displayProfile === 'me') {
         editButtons = (
             <div className={classes.Buttons}>
-                <Button addClass="Neutral">Edit Details</Button>
-                <Button addClass="Neutral">Add Hobbies</Button>
-                <Button addClass="Neutral">Edit Featured</Button>
+                <Button addClass="Neutral" clicked={startEditingDetails}>Edit Details</Button>
+                {/*<Button addClass="Neutral">Add Hobbies</Button>*/}
+                {/*<Button addClass="Neutral">Edit Featured</Button>*/}
             </div>
         )
         profile = {

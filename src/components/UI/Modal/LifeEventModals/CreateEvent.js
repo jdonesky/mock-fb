@@ -237,7 +237,7 @@ const createEvent = (props) => {
 
     let currentLocationForm;
     if (showLocationForm) {
-        currentLocationForm = <CurrentLocationForm values={addInputs} update={updateInputs} close={closeLocationForm} />
+        currentLocationForm = <CurrentLocationForm value={addedInputs['location']} update={updateInputs} close={closeLocationForm} />
     }
 
     return (

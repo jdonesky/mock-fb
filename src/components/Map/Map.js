@@ -31,7 +31,7 @@ const mapContainer = props => {
         style={{
             height: props.height || '51.5%', width: props.width || '87.3%',
             minHeight: props.minHeight || null, minWidth: props.minWidth || null,
-            borderRadius: '8px',
+            borderRadius: props.borderRadius || '8px',
         }}
         center={center}
         >

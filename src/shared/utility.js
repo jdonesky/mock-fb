@@ -123,7 +123,6 @@ export const reverseMapZeroMonths = {
 
 
 export const convertDate = (date) => {
-  console.log('date', date)
   const year = date.split('-')[0]
   const month = reverseMapZeroMonths[date.split('-')[1]] || reverseMapMonths[date.split('-')[1]];
   const day = date.split('-')[2]
@@ -236,8 +235,7 @@ export const geocode = (address, cb) => {
   if (address) {
     Axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyD4T1w5B2QyiyC4gFZ_f1dmvZ8_ghJkX0E`)
         .then(response => {
-          console.log('GEOCODED RESPONSE', response.data.results[0]);
-          cb('SUCCESS', response.data.results[0])
+          cb('SUCCESS', response.data.results)
         })
         .catch(error => {
           cb('FAIL', error)

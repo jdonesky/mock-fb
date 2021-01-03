@@ -82,12 +82,12 @@ const editLocationForm = props => {
             geocode(`${address} ${city} ${zip}`, (type, payload) => {
                 switch (type) {
                     case 'SUCCESS':
-                        setSuggestedAddress(payload.formatted_address);
-                        setStoredCoordinates(payload.geometry.location);
+                        setSuggestedAddress(payload[0].formatted_address);
+                        setStoredCoordinates(payload[0].geometry.location);
                         setShowSuggestedAddress(true);
                         break;
                     case 'FAIL':
-                        setError(payload);
+                        setError(payload[0]);
                         setShowErrorMessage(true);
                         break;
                     default:

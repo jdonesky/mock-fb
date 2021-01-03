@@ -19,14 +19,16 @@ import Follow from '../../../assets/images/UserActionIcons/follow';
 import Dots from '../../../assets/images/dots';
 import DownArrow from '../../../assets/images/down-arrow';
 import UnFriend from "../../../assets/images/UserActionIcons/unfriend";
-import RespondRequest from "../../../assets/images/UserActionIcons/respondRequest";
+
+import Label from '../../UI/Label/Label';
+import Spinner from "../../UI/Spinner/Spinner";
 import InlineDots from '../../UI/Spinner/InlineDots';
+import RespondRequest from "../../../assets/images/UserActionIcons/respondRequest";
 import RespondRequestDropdown from "../../Users/Dropdowns/RespondRequest/RespondRequest";
 
 import OutsideAlerter from "../../../hooks/outsideClickHandler";
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 import * as actions from "../../../store/actions";
-import Spinner from "../../UI/Spinner/Spinner";
 
 
 const navigationBar = (props) => {
@@ -196,8 +198,17 @@ const navigationBar = (props) => {
     let moreOptions;
     if (props.displayProfile === 'me') {
         firstEditButton =  <li className={[classes.EditControl, classes.FirstControlButton].join(" ")} onClick={editProfileContext.openEditModal}><div className={classes.EditProfileButtonIcon}><Pen /></div>Edit Profile</li>
-        secondEditButton = <li className={classes.EditControl}><div className={classes.EditControlIcon}><Eye /></div></li>
-        thirdEditButton =  <li className={classes.EditControl}><div className={classes.EditControlIcon}><Search /></div></li>
+
+        secondEditButton = (
+            <Label label="View As" bottom="50px" left="3px" backgroundColor="rgba(0,0,0,0.7)">
+                <li className={classes.EditControl}><div className={classes.EditControlIcon}><Eye /></div></li>
+            </Label>
+        )
+        thirdEditButton =  (
+            <Label label="Search Profile" bottom="50px" width="80px" right="-14px" backgroundColor="rgba(0,0,0,0.7)">
+                <li className={classes.EditControl}><div className={classes.EditControlIcon}><Search /></div></li>
+            </Label>
+        )
         moreOptions = (
                 <div className={classes.MoreOptionsDropdownButton}><div className={classes.MoreOptionsIcon}><ActivityLog /></div>Activity Log</div>
         )

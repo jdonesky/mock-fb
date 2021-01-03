@@ -4,89 +4,84 @@ import {connect} from 'react-redux'
 import {geocode} from "../../../../../../shared/utility";
 import Search from '../../../../../Search/Searchbar'
 import SuggestedLocation from './SuggestedLocation'
+import Map from '../../../../../Map/Map';
 
-const currentLocation = ({currLocation, hometown, pastLocations, update, close}) => {
-
+const currentLocation = ({value, update, close}) => {
 
     const [showSuggested, setShowSuggested] = useState(false);
+    const [searchResults, setSearchResults] = useState(null);
+    const [storedLocation, setStoredLocation] = useState(value || null);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
-    useEffect(() => {
-        console.log('all suggestions', suggestions);
-    })
 
-    let curLoc;
-    if (currLocation) {
-        curLoc = {key: 'currLocation', name: currLocation.name}
-    }
-    let homeLoc;
-    if (hometown) {
-        homeLoc = {key: 'hometown', name: hometown.name};
-    }
-    let pastLocs;
-    if (pastLocations && pastLocations.length) {
-        pastLocs = pastLocations.map(loc => ({key: 'pastLocation', name: loc.name}))
-    }
-
-    let allSuggestions;
-    if (curLoc) {
-        allSuggestions.push(curLoc)
-    }
-    if (homeLoc) {
-        allSuggestions.push(homeLoc)
-    }
-
-    if (pastLocs && pastLocs.length) {
-        pastLocs.forEach(loc => allSuggestions.push(loc));
-    }
-
-    const [searchTerm, setSearchTerm] = useState('')
-    const [suggestions, setSuggestions] = useState(allSuggestions)
-
-    const updateInput = (value) => {
-        update('location',value);
-        close();
+    const updateStored = (location) => {
+        setStoredLocation(location)
+        setSearchResults(null);
+        setShowSuggested(false)
     }
 
     const confirmSearch = () => {
-        update('location', searchTerm);
+        update('location', storedLocation);
         close();
     }
 
     const filterTerms = useCallback((term) => {
-        setSearchTerm(term)
-        let filtered;
-        if (allSuggestions && allSuggestions.length) {
-            filtered = allSuggestions.filter(suggestion => suggestion.name.slice(0,term.length).toLowerCase() === term.toLowerCase())
-        }
-        setSuggestions(filtered && filtered.length ? filtered : term)
+        geocode(term, (type, payload) => {
+            switch (type) {
+                case 'SUCCESS':
+                    const results = payload.map(loc => ({
+                        name: loc.formatted_address,
+                        coordinates: loc.geometry.location
+                    }))
+                    setSearchResults(results);
+                    setShowSuggested(true);
+                    break;
+                case 'FAIL':
+                    setShowErrorMessage(true);
+                    break;
+                default:
+                    return;
+            }
+        })
     }, [])
 
-    let suggestLocations;
-    if (suggestions && typeof(suggestions) ==='object') {
-        suggestLocations = suggestions.map(loc => (
-            <SuggestedLocation type={loc.key} text={loc.name} clicked={() => updateInput(loc.name)}/>
+    let suggestedLocations;
+    if (searchResults) {
+        suggestedLocations = searchResults.map((loc,i) => (
+            <SuggestedLocation key={i} text={loc.name} clicked={() => updateStored(loc)}/>
         ))
     }
 
     let suggestedDropdown;
-    if (showSuggested) {
+    if (showSuggested && searchResults.length) {
         suggestedDropdown = (
             <div className={classes.SuggestionsPositioner}>
                 <div className={classes.SuggestionsDropdown}>
-                    {suggestLocations}
+                    {suggestedLocations}
                 </div>
             </div>
         )
+    }
+
+    let errorMessage;
+    if (showErrorMessage || searchResults && searchResults.length === 0) {
+        errorMessage = <div>Sorry, nothing found</div>
     }
 
     return (
         <div className={classes.Container}>
             <div className={classes.BaseArrow} />
             <div className={classes.Header}>
-                <Search filterResults={filterTerms}/>
-                <div className={classes.ConfirmButton} onClick={confirmSearch}><span>Done</span></div>
+                <Search term={value ? value.name : null} filterResults={filterTerms}/>
+                <div className={[classes.ConfirmButton, storedLocation ? null : classes.DisableSave].join(" ")} onClick={storedLocation ? confirmSearch : null}><span>Save</span></div>
             </div>
+            {errorMessage}
             {suggestedDropdown}
+            <section className={classes.MapSection}>
+                <div className={classes.MapContainer}>
+                    <Map userLocation={storedLocation && storedLocation.coordinates} height="210px" width="250px" borderRadius="6px"/>
+                </div>
+            </section>
         </div>
     )
 }

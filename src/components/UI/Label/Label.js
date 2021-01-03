@@ -1,25 +1,26 @@
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import classes from './Label.css';
 
 const label = props => {
 
     const [show, setShow] = useState(false);
-    let showTimer;
+    // let showTimer = useRef(null)
 
     useEffect(() => {
         return () => {
             if (showTimer) {
-                showTimer = null;
+                clearTimeout(showTimer);
             }
         }
     }, [])
 
+    let showTimer;
     const startShowing = () => {
         if (!showTimer) {
             showTimer = setTimeout(() => {
                 setShow(true);
-            }, 500)
+            }, 400)
         }
     }
 
@@ -28,7 +29,7 @@ const label = props => {
     }
 
     const cancelShow = () => {
-        showTimer = null;
+        clearTimeout(showTimer)
         hide();
     }
 
@@ -39,7 +40,8 @@ const label = props => {
             <div className={classes.Container}
                  style={{
                      top: props.top || null, bottom: props.bottom || null, left: props.left || null, right: props.right || null,
-                     height: props.height || null, width: props.width || null, minWidth: props.minWidth || null, minHeight: props.minHeight || null
+                     height: props.height || null, width: props.width || null, minWidth: props.minWidth || null, minHeight: props.minHeight || null,
+                     backgroundColor: props.backgroundColor || null
                  }}
             >
                 {props.label}
@@ -50,7 +52,7 @@ const label = props => {
     return (
         <div className={classes.Positioner}>
             {label}
-            <div className={classes.HoverBox} onMouseOver={startShowing} onMouseOut={cancelShow}>
+            <div className={classes.HoverBox} onMouseEnter={startShowing} onMouseLeave={cancelShow}>
                 {props.children}
             </div>
         </div>

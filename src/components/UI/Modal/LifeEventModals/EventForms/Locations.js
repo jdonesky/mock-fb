@@ -12,7 +12,7 @@ const locationEvent = ({update, values}) => {
         <Input
             elementType="input"
             type="text"
-            value={values["location"] || ''}
+            value={values["location"] ? values['location'].name : ''}
             valid={true}
             touched={false}
             placeholder="Location"

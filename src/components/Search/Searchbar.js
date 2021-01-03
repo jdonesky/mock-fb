@@ -8,7 +8,7 @@ const searchBar = (props) => {
 
     const {filterResults, className, iconClass, inputClass, placeholder, currentlySelected, focusOnMount} = props
 
-    const [searchTerm, setSearchTerm] =  useState('')
+    const [searchTerm, setSearchTerm] =  useState(props.term || '')
     const userInputRef = useRef()
 
     useEffect(() => {
