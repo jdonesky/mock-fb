@@ -60,7 +60,6 @@ export const fetchFullProfileAttempt = (userKey, authToken) => {
     dispatch(fetchFullProfileInit());
     axios.get(`/users/${userKey}.json?auth=${authToken}`)
         .then(response => {
-          console.log(response.data);
           dispatch(fetchFullProfileSuccess(response.data));
         })
         .catch(error => {

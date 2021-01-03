@@ -12,7 +12,6 @@ const viewAsModal = (props) => {
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split('/')[1])
 
     useEffect(() => {
-        console.log(props.history.location.pathname.split('/')[1])
         if (pathRoot !== props.history.location.pathname.split('/')[1]) {
             setPathRoot(props.history.location.pathname.split('/')[1])
         }
@@ -31,8 +30,9 @@ const viewAsModal = (props) => {
     }
 
     const goBack = () => {
-        props.history.replace(routeBack)
-        viewAsContext.closeModal();
+        viewAsContext.closeModal( () => {
+            props.history.replace(routeBack)
+        });
     }
 
     const message = <div className={classes.Message}>{`This content on your ${context} is: Public`}</div>

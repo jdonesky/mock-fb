@@ -27,12 +27,23 @@ const Photos = React.lazy(() => {
     return import('../../components/Profile/Photos/Photos');
 })
 
+const GuardRoute = React.lazy(() => {
+    return import('../../components/UI/Modal/GuardRouteModals/GuardRouteModal')
+})
+
 const userProfile = (props) => {
 
     const viewAsContext = useContext(ViewAsContext)
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[1])
     const [displayProfile, setDisplayProfile] = useState(props.match.params.id)
     const [viewAsFlag, setViewAsFlag] = useState(props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1])
+
+    const viewAsPermittedPaths = [
+        `/${pathRoot}/${displayProfile}/view-as`,
+        `/${pathRoot}/${displayProfile}/about/view-as`,
+        `/${pathRoot}/${displayProfile}/friends/view-as`,
+        `/${pathRoot}/${displayProfile}/photos/view-as`
+    ]
 
     const {otherProfile, myPublicProfileKey} = props
 
@@ -56,21 +67,16 @@ const userProfile = (props) => {
         }
     }, [])
 
-    useEffect(() => {
-        console.log('viewing As ', viewAsContext.viewingAs)
-    })
 
     useEffect(() => {
         if (displayProfile !== 'me') {
-            if (displayProfile === props.firebaseKey && viewAsFlag !== 'view-as' && !viewAsContext.viewingAs) {
+            if (displayProfile === props.firebaseKey && viewAsFlag !== 'view-as' && !viewAsContext.viewingAs && viewAsPermittedPaths.find(path => path === props.history.location.pathname)) {
                 props.history.replace('/user-profile/me')
             }
         }
     })
 
     useEffect(() => {
-        console.log('viewAsFlag - in profile container', viewAsFlag)
-        console.log('displayProfile - in profile container', displayProfile)
         if (displayProfile !== props.match.params.id) {
             setDisplayProfile(props.match.params.id)
         }
@@ -104,24 +110,31 @@ const userProfile = (props) => {
     }
 
     let viewAsRedirect;
-    if (!viewAsContext.viewingAs && viewAsFlag === props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1] && viewAsFlag === 'view-as') {
+    if (!viewAsContext.viewingAs && viewAsFlag === props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1] && viewAsFlag === 'view-as' && viewAsPermittedPaths.find(path => path === props.history.location.pathname)) {
         viewAsRedirect = <Redirect to="/user-profile/me"/>
     }
 
     const endViewingAs = () => {
         viewAsContext.closeModal()
-        return true;
     }
+
 
     let profile = (
         <React.Fragment>
-            <Prompt
-                when={viewAsContext.viewingAs && viewAsFlag === props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1] && viewAsFlag === 'view-as' }
-                message={(location, action) => {
-                    return
+            <GuardRoute
+                when={viewAsContext.allowNav !== true && viewAsContext.viewingAs && viewAsFlag === props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1] && viewAsFlag === 'view-as'}
+                navigate={path => props.history.push(path)}
+                shouldBlock={location => {
+                    if (!viewAsPermittedPaths.includes(location)) {
+                        return true
+                    }
+                    return false
                 }}
+                cleanUp={endViewingAs}
+                allowNav={viewAsContext.allowNav}
+                caption={"Leaving this page will exit View-As mode..."}
+                permittedPaths={viewAsPermittedPaths}
             />
-
             {viewAsRedirect}
           <div className={classes.UserProfile}>
             <ProfilePics displayProfile={displayProfile}/>

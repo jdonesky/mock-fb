@@ -96,7 +96,6 @@ const app = (props) => {
 
     useEffect(() => {
         if (myPublicProfileKey) {
-            console.log('ROOT FETCH PUBLIC PROFILE')
             onFetchMyPublicProfile(authToken, myPublicProfileKey)
         }
     }, [myPublicProfileKey])
