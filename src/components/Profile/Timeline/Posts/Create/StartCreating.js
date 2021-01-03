@@ -1,6 +1,6 @@
 
 
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './StartCreating.css'
@@ -12,9 +12,16 @@ import { PostContext } from "../../../../../context/post-context";
 
 const startPost = (props) => {
 
+    const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split('/')[1])
     const lifeEventContext = useContext(LifeEventContext);
-    const postContext = useContext(PostContext)
+    const postContext = useContext(PostContext);
     const imageUploader = useRef(null);
+
+    useEffect(() => {
+        if (pathRoot !== props.history.location.pathname.split('/')[1]) {
+            setPathRoot(props.history.location.pathname.split('/')[1]);
+        }
+    })
 
     const imageUploadHandler = (event) => {
         const [file] = event.target.files;
@@ -35,13 +42,17 @@ const startPost = (props) => {
     }
 
     let placeholder;
+    let startCreatingAction;
     if (!props.displayProfile || props.displayProfile === 'me') {
         placeholder = 'Whats on your mind?'
+        startCreatingAction = postContext.toggleModal;
     } else if (props.displayProfile && props.displayProfile !== 'me') {
         if (props.otherProfile) {
             placeholder = `Say something to ${props.otherProfile.firstName}...`
+            startCreatingAction = () => postContext.openPostToOtherModal(props.otherProfile, 'USER')
         }
     }
+
 
 
     return (
@@ -52,7 +63,7 @@ const startPost = (props) => {
                         {props.profileImage ? null : <NoGenderPlaceholder />}
                     </div>
                 </div>
-                <div className={classes.QueryBar} onClick={postContext.toggleModal}>
+                <div className={classes.QueryBar} onClick={startCreatingAction}>
                     <span>{placeholder}</span>
                 </div>
             </section>

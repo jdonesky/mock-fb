@@ -1,6 +1,7 @@
 
 
 import React, { useState, useContext, useRef, useEffect } from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './Post.css'
 
@@ -432,8 +433,8 @@ const post = (props) => {
     }
 
     let location;
-    if (props.location) {
-        location = <span> in <b>{props.location}</b></span>
+    if (props.postLocation) {
+        location = <span> in <b>{props.postLocation}</b></span>
     }
 
     let profileImage;
@@ -446,6 +447,11 @@ const post = (props) => {
     let profileSummary;
     if (viewingSummary) {
         profileSummary = <ProfileSummary userType={props.userType} userKey={props.userKey} publicProfileKey={props.publicProfileKey} myFriends={props.friends} onMouseEnter={cancelCloseSummary} onMouseLeave={startClosingViewingSummary}/>
+    }
+
+    let other;
+    if (props.postedToOther && props.otherUser) {
+        other = <div className={classes.Other}> &rsaquo; <b className={classes.OtherUserName} onClick={() => props.history.push(`/${props.pagePosted ? 'page' : 'user-profile'}/${props.otherUser.userKey}`)}>{props.otherUser.name}</b></div>
     }
 
     return (
@@ -461,7 +467,7 @@ const post = (props) => {
                         </OutsideAlerter>
                     </div>
                     <div className={classes.IdContainer}>
-                        <div>{props.posterName && props.posterName}{taggedFriends}{location}</div>
+                        <div className={classes.NameContainer}>{props.posterName && props.posterName}{taggedFriends}{location}{other}</div>
                         <div className={classes.DateAndPrivacyContainer}>
                             <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date.toString()) + '          •' : '-- -- ---        •'}</span>
                             <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>
@@ -558,4 +564,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(post);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(post));

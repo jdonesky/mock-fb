@@ -18,6 +18,10 @@ export const PostContext = React.createContext({
     passData: () => {},
     toggleModal: () => {},
     openPageCreateModal: () => {},
+    openPostToOtherModal: () => {},
+    postingToOther: false,
+    otherUser: null,
+    otherUserType: null,
     cancelModal: () => {},
     toggleModalContent: () => {},
     toggleEditingPost: () => {},
@@ -48,9 +52,13 @@ const PostContextProvider = (props) => {
     const [pagePosting, setPagePosting] = useState(false);
     const [page, setPage] = useState(null);
 
-    const [postingToWall, setPostingToWall] = useState(false);
+    const [postingToOther, setPostingToOther] = useState(false);
     const [otherUser, setOtherUser] = useState(null);
+    const [otherUserType, setOtherUserType] = useState(null);
 
+    const [pagePosted,setPagePosted] = useState(false);
+    const [postedToOther, setPostedToOther] = useState(false);
+    const [other, setOther] = useState(null);
 
     useEffect(() => {
         if (editingPost) {
@@ -66,9 +74,14 @@ const PostContextProvider = (props) => {
         setShowModal(true);
     }
 
-    const openPostToWallModal = (profile) => {
-        setPostingToWall(true);
+    const openPostToOtherModal = (profile, type, page) => {
+        if (page) {
+            setPagePosting(true)
+            setPage(page)
+        }
+        setPostingToOther(true);
         setOtherUser(profile);
+        setOtherUserType(type);
         setShowModal(true);
     }
 
@@ -78,8 +91,7 @@ const PostContextProvider = (props) => {
         })
     };
 
-    const cancelModal = () => {
-        setShowModal(false);
+    const clearAllData = () => {
         setModalContent('CREATE_POST');
         setEditingPost(false);
         setText('');
@@ -97,8 +109,15 @@ const PostContextProvider = (props) => {
         setEditingPost(false);
         setPagePosting(false);
         setPage(null);
-        setPostingToWall(false);
+        setPagePosted(false);
+        setPostingToOther(false);
         setOtherUser(null);
+        setOtherUserType(null);
+    }
+
+    const cancelModal = () => {
+        setShowModal(false);
+        clearAllData()
     };
 
     const toggleModalContent = (page) => {
@@ -183,6 +202,15 @@ const PostContextProvider = (props) => {
             case 'postId':
                 setPostId(payload)
                 break;
+            case 'pagePosted':
+                setPagePosted(payload)
+                break
+            case 'postedToOther':
+                setPostedToOther(payload)
+                break;
+            case 'other':
+                setOther(payload)
+                break;
             default:
                 setImage(null)
         }
@@ -199,16 +227,46 @@ const PostContextProvider = (props) => {
         let name;
         let postKey;
         let userKey;
-        let publicKey
-        if (pagePosting && page) {
+        let profileImage;
+        let publicKey;
+        let other;
+        if (pagePosting && page && !postingToOther) {
             name = page.name
             postKey = page.postsKey
             userKey = page.dbKey
-        } else {
+            profileImage = page.profileImage;
+        } else if (!pagePosting && postingToOther && otherUserType === 'USER' && otherUser) {
             name = props.name;
-            postKey = props.postsKey;
             userKey = props.firebaseKey;
             publicKey = props.publicProfileKey;
+            postKey = otherUser.postsKey;
+            profileImage = props.profileImage;
+            other = {name: otherUser.firstName + ' ' + otherUser.lastName, userKey: otherUser.userKey, publicProfileKey: otherUser.publicProfileKey}
+        } else if (pagePosting && page && postingToOther && otherUserType === 'USER' && otherUser) {
+            name = props.name;
+            userKey = page.dbKey;
+            postKey = otherUser.postsKey;
+            profileImage = page.profileImage;
+            other = {name: otherUser.firstName + ' ' + otherUser.lastName, userKey: otherUser.userKey, publicProfileKey: otherUser.publicProfileKey}
+        } else if (!pagePosting && postingToOther && otherUserType === 'PAGE' && otherUser) {
+            name = props.name;
+            userKey = props.firebaseKey;
+            publicKey = props.publicProfileKey;
+            postKey = otherUser.dbKey;
+            profileImage = props.profileImage;
+            other = {name: otherUser.name, userKey: otherUser.dbKey}
+        } else if (pagePosting && page && postingToOther && otherUserType === 'PAGE' && otherUser) {
+            name = page.name;
+            userKey = page.dbKey;
+            postKey = otherUser.dbKey;
+            profileImage = page.profileImage;
+            other = {name: otherUser.name, userKey: otherUser.dbKey}
+        } else {
+            name = props.name;
+            userKey = props.firebaseKey;
+            publicKey = props.publicProfileKey;
+            postKey = props.postsKey;
+            profileImage = props.profileImage
         }
 
         const post = {
@@ -221,19 +279,15 @@ const PostContextProvider = (props) => {
             name: name,
             userKey: userKey,
             postsKey: postKey,
-            profileImage: props.profileImage
+            publicKey: publicKey,
+            profileImage: profileImage,
+            pagePosted: pagePosting,
+            postedToOther: postingToOther,
+            otherUser: other
         };
 
-        if (publicKey) {
-            post.publicProfileKey = publicKey
-        }
-
         props.onAddPost(props.authToken, postKey, post);
-        setText('');
-        setImage(null);
-        setBackground(null);
-        setTagged([]);
-        setLocation(null);
+        clearAllData()
     };
 
 
@@ -251,19 +305,18 @@ const PostContextProvider = (props) => {
             date: new Date(),
             name: props.name,
             userKey: props.firebaseKey,
-            postProfileImage: postProfileImage
+            postProfileImage: postProfileImage,
+            pagePosted: pagePosted,
+            postedToOther: postedToOther,
+            otherUser: other
         }
 
         props.onEditPost(props.authToken, postsKey, postId, post);
-        setText('');
-        setImage(null);
-        setBackground(null);
-        setTagged([]);
-        setLocation(null);
+        clearAllData()
     }
 
     return (
-        <PostContext.Provider value={{savePost: savePost, saveEdits: saveEdits, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, toggleEditingPost: toggleEditingPost, recordInitialValues: recordInitialValues, initialValues: initialValues, editingPost: editingPost, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost, openPageCreateModal: openPageCreateModal, pagePosting: pagePosting, page: page}}>
+        <PostContext.Provider value={{savePost: savePost, saveEdits: saveEdits, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, toggleEditingPost: toggleEditingPost, recordInitialValues: recordInitialValues, initialValues: initialValues, editingPost: editingPost, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost, openPageCreateModal: openPageCreateModal, pagePosting: pagePosting, page: page, openPostToOtherModal: openPostToOtherModal, postingToOther: postingToOther, otherUser: otherUser, otherUserType: otherUserType}}>
             {props.children}
         </PostContext.Provider>
     );

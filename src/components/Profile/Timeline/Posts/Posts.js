@@ -49,6 +49,9 @@ const posts = ({posts, authToken, postsKey, firebaseKey, onFetchSelfPosts, delet
 
     const posted = posts && posts.length && posts.length > 1 ? posts.slice(1).map(post => (
         <Post
+            postedToOther={post.postedToOther}
+            otherUser={post.otherUser}
+            pagePosted={post.pagePosted}
             userType={post.userType}
             postsKey={post.postsKey}
             userKey={post.userKey}
@@ -62,7 +65,7 @@ const posts = ({posts, authToken, postsKey, firebaseKey, onFetchSelfPosts, delet
             image={post.image}
             date={post.date}
             tagged={post.tagged}
-            location={post.location}
+            postLocation={post.location}
             comments={post.comments}
             reactions={post.reactions}
             navToFullProfile={navToFullProfile}

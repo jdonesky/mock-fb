@@ -107,7 +107,7 @@ const auth = props => {
   const cancelSignup = () => setSigningUp(false);
 
   const signUpModal = (
-        <Modal show={signingUp} close={cancelSignup} addClass={classes.SignUpModal}>
+        <Modal show={signingUp ? 1 : 0} close={cancelSignup} addClass={classes.SignUpModal}>
           <SignUp />
         </Modal>
   )

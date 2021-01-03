@@ -62,10 +62,37 @@
     z-index: 9;
 }
 
+.NameContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family:'Lucida Grande';
+    font-weight: 500;
+    font-size: 15px;
+}
+
 .DateAndPrivacyContainer {
     display: flex;
     justify-content: space-around;
     min-width: 80px;
+}
+
+.Other {
+    font-family:'Lucida Grande';
+    font-weight: 500;
+    font-size: 14px;
+    margin-left: 7px;
+}
+
+.OtherUserName {
+    font-family:'Lucida Grande';
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.OtherUserName:hover {
+   text-decoration: underline;
 }
 
 .Date {

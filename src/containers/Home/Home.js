@@ -8,7 +8,6 @@ import StartCreating from "../../components/Profile/Timeline/Posts/Create/StartC
 import Post from '../../components/Profile/Timeline/Posts/Post/Post';
 import InlineDots from '../../components/UI/Spinner/InlineDots';
 import useInfiniteScroll from "../../hooks/infiniteScroll";
-import {clearScrollEnd} from "../../store/actions/index";
 
 const home = (props) => {
 
@@ -56,6 +55,9 @@ const home = (props) => {
     if (props.othersPosts && props.othersPosts.length) {
         posts = props.othersPosts.map(post => (
             <Post
+                postedToOther={post.postedToOther}
+                otherUser={post.otherUser}
+                pagePosted={post.pagePosted}
                 userType={post.userType}
                 postsKey={post.postsKey}
                 userKey={post.userKey}
@@ -69,7 +71,7 @@ const home = (props) => {
                 image={post.image}
                 date={post.date}
                 tagged={post.tagged}
-                location={post.location}
+                postLocation={post.location}
                 comments={post.comments}
                 reactions={post.reactions}
                 navToFullProfile={navToFullProfile}
@@ -103,7 +105,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchOthersPosts: (authToken, lastFetchedPage, posts) => dispatch(actions.fetchOthersPostsAttempt(authToken, lastFetchedPage, posts)),
         onClearOthersPostsPageCount: () => dispatch(actions.clearOthersPostsPageCount()),
-        onClearScrollEnd: () => dispatch(clearScrollEnd())
+        onClearScrollEnd: () => dispatch(actions.clearScrollEnd())
     }
 }
 
