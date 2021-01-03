@@ -18,7 +18,7 @@ const input = (props) => {
           value={props.value}
           type={props.type}
           invalid={props.valid ? 1 : 0}
-          touched={props.touched}
+          touched={props.touched ? 1 : 0}
           placeholder={props.placeholder}
           onChange={props.changed}
           className={inputClasses.join(" ")}

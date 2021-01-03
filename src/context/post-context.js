@@ -48,6 +48,10 @@ const PostContextProvider = (props) => {
     const [pagePosting, setPagePosting] = useState(false);
     const [page, setPage] = useState(null);
 
+    const [postingToWall, setPostingToWall] = useState(false);
+    const [otherUser, setOtherUser] = useState(null);
+
+
     useEffect(() => {
         if (editingPost) {
             validateEdits();
@@ -59,6 +63,12 @@ const PostContextProvider = (props) => {
     const openPageCreateModal = (page) => {
         setPagePosting(true)
         setPage(page);
+        setShowModal(true);
+    }
+
+    const openPostToWallModal = (profile) => {
+        setPostingToWall(true);
+        setOtherUser(profile);
         setShowModal(true);
     }
 
@@ -85,6 +95,10 @@ const PostContextProvider = (props) => {
         setPostProfileImage(null);
         setInitialValues({});
         setEditingPost(false);
+        setPagePosting(false);
+        setPage(null);
+        setPostingToWall(false);
+        setOtherUser(null);
     };
 
     const toggleModalContent = (page) => {
@@ -179,6 +193,7 @@ const PostContextProvider = (props) => {
         }
     };
 
+
     const savePost = () => {
 
         let name;
@@ -220,6 +235,7 @@ const PostContextProvider = (props) => {
         setTagged([]);
         setLocation(null);
     };
+
 
     const saveEdits = () => {
 
