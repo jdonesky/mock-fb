@@ -7,12 +7,25 @@ const fetchPublicProfileInit = () => {
   };
 };
 
+const fetchProfileSummaryInit = () => {
+  return {
+    type: actionTypes.FETCH_PROFILE_SUMMARY_INIT,
+  };
+};
+
 const fetchPublicProfileSuccess = (profile) => {
   return {
     type: actionTypes.FETCH_PUBLIC_PROFILE_SUCCESS,
     profile: profile
   };
 };
+
+const fetchProfileSummarySuccess = (profile) => {
+  return {
+    type: actionTypes.FETCH_PROFILE_SUMMARY_SUCCESS,
+    profile: profile
+  };
+}
 
 const fetchPublicProfileFail = (error) => {
   return {
@@ -21,15 +34,34 @@ const fetchPublicProfileFail = (error) => {
   };
 };
 
-export const fetchPublicProfileAttempt = (authToken, publicProfileKey) => {
+const fetchProfileSummaryFail = (error) => {
+  return {
+    type: actionTypes.FETCH_PROFILE_SUMMARY_FAIL,
+    error: error,
+  };
+}
+
+export const fetchPublicProfileAttempt = (authToken, publicProfileKey, type) => {
   return (dispatch) => {
-    dispatch(fetchPublicProfileInit());
+    let init;
+    let success;
+    let fail;
+    if (type === 'SUMMARY') {
+      init = fetchProfileSummaryInit;
+      success = fetchProfileSummarySuccess;
+      fail = fetchProfileSummaryFail;
+    } else {
+      init = fetchPublicProfileInit;
+      success = fetchPublicProfileSuccess;
+      fail = fetchPublicProfileFail;
+    }
+    dispatch(init());
     axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
     .then(response => {
-        dispatch(fetchPublicProfileSuccess(response.data))
+        dispatch(success(response.data))
     })
     .catch(error => {
-        dispatch(fetchPublicProfileFail(error))
+        dispatch(fail(error))
     })
   };
 };
@@ -68,7 +100,6 @@ export const fetchFullProfileAttempt = (userKey, authToken) => {
         })
   }
 }
-
 
 const fetchManyPublicProfilesInit = () => {
   return {

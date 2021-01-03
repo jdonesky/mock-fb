@@ -50,10 +50,11 @@ const profileSummaryDropdown = (props) => {
     const [deniedRequest, setDeniedRequest] = useState(false);
     const [likedPage, setLikedPage] = useState(false);
 
+
     useEffect(() => {
         if (!userType) {
             onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
-            onFetchPublicProfile(authToken, publicProfileKey)
+            onFetchPublicProfile(authToken, publicProfileKey, 'SUMMARY');
         } else if (userType === 'PAGE') {
             if (userKey) {
                 onFetchPageSummary(authToken, userKey)
@@ -584,8 +585,8 @@ const profileSummaryDropdown = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
-        profile: state.users.singleProfile,
-        fetchingPublicProfile: state.users.loadingSingleProfile,
+        profile: state.users.profileSummary,
+        fetchingPublicProfile: state.users.loadingProfileSummary,
         pageSummary: state.pages.pageSummary,
         fetchingPageSummary: state.pages.fetchingPageSummary,
         firebaseKey: state.profile.firebaseKey,
@@ -602,7 +603,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPublicProfile: (authToken,publicProfileKey) => dispatch(actions.fetchPublicProfileAttempt(authToken,publicProfileKey)),
+        onFetchPublicProfile: (authToken,publicProfileKey, type) => dispatch(actions.fetchPublicProfileAttempt(authToken,publicProfileKey, type)),
         onFetchMyPublicProfile: (authToken, publicProfileKey) => dispatch(actions.fetchMyPublicProfileAttempt(authToken, publicProfileKey)),
         onSendFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.sendFriendRequestAttempt(authToken, senderKey, recipientKey)),
         onCancelFriendRequest: (authToken, senderKey, recipientKey) => dispatch(actions.cancelFriendRequestAttempt(authToken, senderKey, recipientKey)),

@@ -3,6 +3,8 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   singleProfile: null,
   loadingSingleProfile: false,
+  profileSummary: null,
+  loadingProfileSummary: false,
   manyProfiles: [],
   loadingManyProfiles: false,
   fullProfile: null,
@@ -30,6 +32,29 @@ const fetchPublicProfileFail = (state, action) => {
     ...state,
     error: action.error,
     loadingSingleProfile: false,
+  };
+};
+
+const fetchProfileSummaryInit = (state, action) => {
+  return {
+    ...state,
+    loadingProfileSummary: true,
+  };
+};
+
+const fetchProfileSummarySuccess = (state, action) => {
+  return {
+    ...state,
+    profileSummary: action.profile,
+    loadingProfileSummary: false
+  }
+};
+
+const fetchProfileSummaryFail = (state, action) => {
+  return {
+    ...state,
+    error: action.error,
+    loadingProfileSummary: false,
   };
 };
 
@@ -81,7 +106,7 @@ const fetchFullProfileFail = (state,action) => {
 const clearPublicProfile = (state,action) => {
   return {
     ...state,
-    singleProfile: null
+    profileSummary: null
   }
 }
 
@@ -96,6 +121,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_PUBLIC_PROFILE_INIT: return fetchPublicProfileInit(state, action);
     case actionTypes.FETCH_PUBLIC_PROFILE_SUCCESS: return fetchPublicProfileSuccess(state, action);
     case actionTypes.FETCH_PUBLIC_PROFILE_FAIL: return fetchPublicProfileFail(state, action);
+    case actionTypes.FETCH_PROFILE_SUMMARY_INIT: return fetchProfileSummaryInit(state, action);
+    case actionTypes.FETCH_PROFILE_SUMMARY_SUCCESS: return fetchProfileSummarySuccess(state, action);
+    case actionTypes.FETCH_PROFILE_SUMMARY_FAIL: return fetchProfileSummaryFail(state, action);
     case actionTypes.FETCH_MANY_PUBLIC_PROFILES_INIT: return fetchManyPublicProfilesInit(state, action);
     case actionTypes.FETCH_MANY_PUBLIC_PROFILES_SUCCESS: return fetchManyPublicProfilesSuccess(state, action);
     case actionTypes.FETCH_MANY_PUBLIC_PROFILES_FAIL: return fetchManyPublicProfilesFail(state, action);
