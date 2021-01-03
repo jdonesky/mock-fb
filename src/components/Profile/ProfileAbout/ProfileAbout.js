@@ -16,6 +16,7 @@ const AboutContent = React.lazy(() => {
 const profileAbout = props => {
 
     const [displayProfile, setDisplayProfile] = useState(props.match.params.id);
+    const [viewAsFlag, setViewAsFlag] = useState(props.history.location.pathname.split('/')[props.history.location.pathname.split('/').length - 1])
 
     useEffect(() => {
         if (displayProfile !== props.match.params.id) {
@@ -33,11 +34,11 @@ const profileAbout = props => {
                 <section className={classes.IndexContainer}>
                     <h2>About</h2>
                     <ul>
-                        <NavLink exact to={`/user-profile/${props.displayProfile}/about`} activeClassName={classes.active}>Overview</NavLink>
-                        <NavLink to={`/user-profile/${props.displayProfile}/about/work-education`} activeClassName={classes.active}>Work and Education</NavLink>
-                        <NavLink to={`/user-profile/${props.displayProfile}/about/places-lived`} activeClassName={classes.active}>Places Lived</NavLink>
-                        <NavLink to={`/user-profile/${props.displayProfile}/about/contact-info`} activeClassName={classes.active}>Contact and Basic Info</NavLink>
-                        <NavLink to={`/user-profile/${props.displayProfile}/about/family-relationships`} activeClassName={classes.active}>Family and Relationships</NavLink>
+                        <NavLink exact to={`/user-profile/${props.displayProfile}/about/${viewAsFlag || null}`} activeClassName={classes.active}>Overview</NavLink>
+                        <NavLink to={`/user-profile/${props.displayProfile}/about/work-education/${viewAsFlag || null}`} activeClassName={classes.active}>Work and Education</NavLink>
+                        <NavLink to={`/user-profile/${props.displayProfile}/about/places-lived/${viewAsFlag || null}`} activeClassName={classes.active}>Places Lived</NavLink>
+                        <NavLink to={`/user-profile/${props.displayProfile}/about/contact-info/${viewAsFlag || null}`} activeClassName={classes.active}>Contact and Basic Info</NavLink>
+                        <NavLink to={`/user-profile/${props.displayProfile}/about/family-relationships/${viewAsFlag || null}`} activeClassName={classes.active}>Family and Relationships</NavLink>
                         {lifeEventTab}
                     </ul>
                 </section>

@@ -6,6 +6,7 @@ import classes from './NavigationBar.css';
 import NavDropdown from './NavigationDropdown/NavigationDropdown';
 import {EditProfileContext} from "../../../context/edit-profile-context";
 import {MessengerContext} from "../../../context/messenger-context";
+import {ViewAsContext} from "../../../context/view-as-context";
 
 import Eye from '../../../assets/images/eye';
 import Pen from '../../../assets/images/edit';
@@ -33,6 +34,7 @@ import * as actions from "../../../store/actions";
 
 const navigationBar = (props) => {
 
+    const [viewAsFlag, setViewAsFlag] = useState(props.history.location.pathname.split('/')[props.history.location.pathname.split('/').length - 1])
     const [showNavDropdown, setShowNavDropdown] = useState(false);
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const [isFriend, setIsFriend] = useState(null);
@@ -44,8 +46,9 @@ const navigationBar = (props) => {
 
     const {width, height} = getWindowDimensions()
     const { myPublicProfile, otherProfile, otherPublicProfile, myFriends } = props
-    const editProfileContext = useContext(EditProfileContext)
-    const messengerContext = useContext(MessengerContext)
+    const editProfileContext = useContext(EditProfileContext);
+    const messengerContext = useContext(MessengerContext);
+    const viewAsContext = useContext(ViewAsContext);
 
     useEffect(() => {
         if (props.displayProfile !== 'me') {
@@ -70,6 +73,12 @@ const navigationBar = (props) => {
     useEffect(() => {
         props.onFetchMyFriends(props.authToken, props.myPublicProfileKey)
     }, [acceptedRequest])
+
+
+    const viewAs = () => {
+        props.history.push(`/user-profile/${props.firebaseKey}/view-as`)
+        viewAsContext.openModal()
+    }
 
     const sendFriendRequest = () => {
         if (otherProfile && props.myPublicProfileKey) {
@@ -201,7 +210,7 @@ const navigationBar = (props) => {
 
         secondEditButton = (
             <Label label="View As" bottom="50px" left="3px" backgroundColor="rgba(0,0,0,0.7)">
-                <li className={classes.EditControl}><div className={classes.EditControlIcon}><Eye /></div></li>
+                <li className={classes.EditControl} onClick={viewAs}><div className={classes.EditControlIcon}><Eye /></div></li>
             </Label>
         )
         thirdEditButton =  (
@@ -234,7 +243,7 @@ const navigationBar = (props) => {
                         )
 
                 if (otherPublicProfile.privacy.AllowMessages === 'ALL') {
-                    secondEditButton = <li className={classes.EditControl}>
+                    secondEditButton = <li className={classes.EditControl} onClick={startChat}>
                         <div className={classes.EditControlIcon}><FbMessage/></div>
                     </li>
                     if (otherPublicProfile.privacy.AllowFollowers) {
@@ -282,7 +291,7 @@ const navigationBar = (props) => {
                 </OutsideAlerter>
             </ul>
         )
-    } else if (props.displayProfile !== 'me') {
+    } else if (props.displayProfile !== 'me' && viewAsFlag !== 'view-as') {
         if (myPublicProfile && otherPublicProfile && otherProfile) {
             editControls = (
                 <ul className={classes.EditControls}>
@@ -302,6 +311,29 @@ const navigationBar = (props) => {
                 </ul>
             )
         }
+    } else if (props.displayProfile !== 'me' && viewAsFlag === 'view-as') {
+        if (myPublicProfile && otherPublicProfile && otherProfile) {
+            editControls = (
+                    <ul className={classes.EditControls}>
+                        <li className={[classes.EditControl, classes.FirstControlButton, classes.EditControlDisabled].join(" ")}>
+                            <div className={classes.AddFriendButtonIcon}><AddFriend fill='rgba(0,0,0,0.3)'/></div>
+                            {addFriendButtonText}
+                        </li>
+                        <li className={[classes.EditControl, classes.EditControlDisabled].join(" ")}>
+                            <div className={classes.EditControlIcon}><FbMessage fill="rgba(0,0,0,0.3)"/></div>
+                        </li>
+                        <Label label="Search Profile" bottom="50px" width="80px" right="-14px" backgroundColor="rgba(0,0,0,0.7)">
+                            <li className={[classes.EditControl, classes.EditControlDisabled].join(" ")}><div className={classes.EditControlIcon}><Search fill="rgba(0,0,0,0.3)"/></div></li>
+                        </Label>
+                        <OutsideAlerter action={() => setShowMoreOptions(false)}>
+                            <li className={[classes.EditControl, classes.EditControlDisabled].join(" ")}>
+                                <div className={[classes.EditControlIcon, classes.DotsIcon].join(" ")}><Dots fill="rgba(0,0,0,0.3)"/></div>
+                            </li>
+                            {moreOptionsDropdown}
+                        </OutsideAlerter>
+                    </ul>
+            )
+        }
     }
 
     if (props.fetchingMyPublicProfile || props.fetchingOtherPublicProfile || props.fetchingOtherProfile) {
@@ -317,28 +349,28 @@ const navigationBar = (props) => {
                         {  props.pathRoot === 'friends' && width >= 840  || props.pathRoot === 'user-profile' && width >= 588 ? <div className={classes.TimelineTab}>
                             <NavLink
                                 exact
-                                to={`/${props.pathRoot}/${props.displayProfile}`}
+                                to={viewAsContext.viewingAs ? `/${props.pathRoot}/${props.displayProfile}/${viewAsFlag}` : `/${props.pathRoot}/${props.displayProfile}`}
                                 activeClassName={classes.active}
                             >{props.displayProfile === 'me' ? 'Timeline' : 'Posts'}
                             </NavLink>
                         </div> : null }
                         {  props.pathRoot === 'friends' && width >= 940 || props.pathRoot === 'user-profile' && width >= 664 ? <div className={classes.AboutTab}>
                             <NavLink
-                                to={`/${props.pathRoot}/${props.displayProfile}/about`}
+                                to={viewAsContext.viewingAs ? `/${props.pathRoot}/${props.displayProfile}/about/${viewAsFlag}`: `/${props.pathRoot}/${props.displayProfile}/about`}
                                 activeClassName={classes.active}
                             >About
                             </NavLink>
                         </div> : null }
                         {  props.pathRoot === 'friends' && width >= 1035 || props.pathRoot === 'user-profile' && width >= 777 ? <div className={classes.FriendsTab}>
                             <NavLink
-                                to={`/${props.pathRoot}/${props.displayProfile}/friends`}
+                                to={ viewAsContext.viewingAs ? `/${props.pathRoot}/${props.displayProfile}/friends/${viewAsFlag}` : `/${props.pathRoot}/${props.displayProfile}/friends`}
                                 activeClassName={classes.active}
                             >Friends
                             </NavLink>
                         </div> : null }
                         {  props.pathRoot === 'friends' && width >= 1160 || props.pathRoot === 'user-profile' && width >=  859 ? <div className={classes.PhotosTab}>
                             <NavLink
-                                to={`/${props.pathRoot}/${props.displayProfile}/photos`}
+                                to={viewAsContext.viewingAs ? `/${props.pathRoot}/${props.displayProfile}/photos/${viewAsFlag}` : `/${props.pathRoot}/${props.displayProfile}/photos`}
                                 activeClassName={classes.active}
                             >Photos
                             </NavLink>
@@ -372,6 +404,7 @@ const navigationBar = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
         myPublicProfile: state.profile.publicProfile,
         myPublicProfileKey: state.profile.publicProfileKey,
         otherProfile: state.users.fullProfile,

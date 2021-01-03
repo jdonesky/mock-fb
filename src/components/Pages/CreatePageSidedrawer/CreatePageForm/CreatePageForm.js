@@ -43,7 +43,6 @@ const createPageForm = props => {
         } else {
             window.onbeforeunload = null;
         }
-
     }, [shouldBlockNavigation])
 
     useEffect(() => {

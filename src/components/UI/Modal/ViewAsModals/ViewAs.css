@@ -1,10 +1,63 @@
 
 .Container {
-    top: 0;
-    width: 100vh;
-    background-color: rgba(0,0,0,.7);
+    height: 75px;
+    width: 100vw;
+    position: fixed;
+    top: -150vh;
+    background-color: rgba(0,0,0,0.9);
+    border-radius: 5px;
+    transition: top 0.3s ease-out;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0,0,0,.4);
+}
+
+.ShowContainer {
+    top: 63px;
+}
+
+.MessageBlock {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .Message {
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    font-size: 15px;
+    color: white;
+}
 
+.PublicIcon {
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+}
+
+.PublicIcon svg {
+    height: auto;
+    width: 100%;
+}
+
+.ExitButton {
+    height: 40px;
+    width: 120px;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dadada;
+    border-radius: 7px;
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    cursor: pointer;
+}
+
+.ExitButton:hover {
+    background: #d2d2d2;
 }

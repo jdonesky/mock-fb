@@ -1,8 +1,9 @@
 
-import React, {useEffect, useState, Suspense} from "react";
-import {Switch, Route} from 'react-router';
+import React, {useEffect, useState, useContext, Suspense} from "react";
+import {Switch, Route, Prompt, Redirect} from 'react-router';
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
+import {ViewAsContext} from "../../context/view-as-context";
 
 import withErrorHandler from "../../hoc/withErrorHandler";
 import ProfilePics from '../../components/Profile/ProfilePics/ProfilePics';
@@ -28,24 +29,55 @@ const Photos = React.lazy(() => {
 
 const userProfile = (props) => {
 
-    const [displayProfile, setDisplayProfile] = useState(props.match.params.id)
+    const viewAsContext = useContext(ViewAsContext)
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[1])
+    const [displayProfile, setDisplayProfile] = useState(props.match.params.id)
+    const [viewAsFlag, setViewAsFlag] = useState(props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1])
+
     const {otherProfile, myPublicProfileKey} = props
 
     useEffect(() => {
+        if (viewAsContext.viewingAs) {
+            window.onbeforeunload = () => {
+                return "Would you like to exit view-as mode?";
+            }
+        } else {
+            window.onbeforeunload = null;
+        }
+
+    }, [viewAsContext.viewingAs])
+
+    useEffect(() => {
+        return () => {
+            if (viewAsContext.viewingAs) {
+                viewAsContext.closeModal()
+                window.onbeforeunload = null;
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        console.log('viewing As ', viewAsContext.viewingAs)
+    })
+
+    useEffect(() => {
         if (displayProfile !== 'me') {
-            if (displayProfile === props.firebaseKey) {
+            if (displayProfile === props.firebaseKey && viewAsFlag !== 'view-as' && !viewAsContext.viewingAs) {
                 props.history.replace('/user-profile/me')
             }
         }
     })
 
     useEffect(() => {
+        console.log('viewAsFlag - in profile container', viewAsFlag)
+        console.log('displayProfile - in profile container', displayProfile)
         if (displayProfile !== props.match.params.id) {
             setDisplayProfile(props.match.params.id)
         }
+        if (viewAsFlag !== props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1]) {
+            setViewAsFlag(props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1])
+        }
     })
-
 
     useEffect(() => {
         if (displayProfile !== 'me') {
@@ -71,8 +103,26 @@ const userProfile = (props) => {
         }
     }
 
+    let viewAsRedirect;
+    if (!viewAsContext.viewingAs && viewAsFlag === props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1] && viewAsFlag === 'view-as') {
+        viewAsRedirect = <Redirect to="/user-profile/me"/>
+    }
+
+    const endViewingAs = () => {
+        viewAsContext.closeModal()
+        return true;
+    }
+
     let profile = (
         <React.Fragment>
+            <Prompt
+                when={viewAsContext.viewingAs && viewAsFlag === props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1] && viewAsFlag === 'view-as' }
+                message={(location, action) => {
+                    return
+                }}
+            />
+
+            {viewAsRedirect}
           <div className={classes.UserProfile}>
             <ProfilePics displayProfile={displayProfile}/>
             <ProfileHeader displayProfile={displayProfile} name={name} bio={bio} />
@@ -83,22 +133,22 @@ const userProfile = (props) => {
               <div className={classes.ProfileContentBackdrop}>
                   <div className={classes.SwitchContent}>
                     <Switch>
-                      <Route exact path={`/${pathRoot}/:id`} render={(props) => (
+                      <Route exact path={viewAsContext.viewingAs ? `/${pathRoot}/:id/${viewAsFlag}` :`/${pathRoot}/:id`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                             <Timeline pathRoot={pathRoot} displayProfile={displayProfile} />
                           </Suspense>
                       )}/>
-                      <Route path={`/${pathRoot}/:id/about`} render={(props) => (
+                      <Route path={viewAsContext.viewingAs ? `/${pathRoot}/:id/about/${viewAsFlag}` : `/${pathRoot}/:id/about` } render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                             <ProfileAbout pathRoot={pathRoot} displayProfile={displayProfile}/>
                           </Suspense>
                       )} />
-                      <Route path={`/${pathRoot}/:id/friends`} render={(props) => (
+                      <Route path={viewAsContext.viewingAs ? `/${pathRoot}/:id/friends/${viewAsFlag}` : `/${pathRoot}/:id/friends`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                              <Friends pathRoot={pathRoot} displayProfile={displayProfile}/>
                           </Suspense>
                       )} />
-                      <Route path={`/${pathRoot}/:id/photos`} render={(props) => (
+                      <Route path={viewAsContext.viewingAs ? `/${pathRoot}/:id/photos/${viewAsFlag}` : `/${pathRoot}/:id/photos`} render={(props) => (
                           <Suspense fallback={<SquareFold />}>
                               <Photos pathRoot={pathRoot} displayProfile={displayProfile}/>
                           </Suspense>

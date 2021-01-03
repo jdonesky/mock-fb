@@ -10,6 +10,7 @@ import LifeEventContextProvider from "./context/life-event-context";
 import PostContextProvider from "./context/post-context";
 import PageContextProvider from "./context/page-context";
 import ProfileContextProvider from "./context/edit-profile-context";
+import ViewAsContextProvider from "./context/view-as-context";
 
 const AsyncActiveChatTab = React.lazy(() => {
     return import('./components/Messenger/ActiveChats/ActiveChats')
@@ -78,6 +79,10 @@ const AsyncMessengerModal = React.lazy(() => {
     return import("./components/Messenger/Messenger");
 })
 
+const AsyncViewAsModal = React.lazy(() => {
+    return import("./components/UI/Modal/ViewAsModals/ViewAs");
+})
+
 const app = (props) => {
 
     const {authToken, userId, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onReloadApp} = props;
@@ -126,20 +131,23 @@ const app = (props) => {
                 <PostContextProvider>
                     <ProfileContextProvider>
                         <LifeEventContextProvider>
-                            <DeleteContextProvider>
-                                <Layout>
-                                    <Suspense fallback={<FoldingSquare />}>
-                                        <AsyncDeleteModal />
-                                        <AsyncCreatePostModal />
-                                        <AsyncCreateLifeEventModal />
-                                        <AsyncEditPageModal />
-                                        <AsyncMessengerModal />
-                                        <AsyncActiveChatTab />
-                                        <AsyncEditProfileModal />
-                                        {routes}
-                                    </Suspense>
-                                </Layout>
-                            </DeleteContextProvider>
+                            <ViewAsContextProvider>
+                                <DeleteContextProvider>
+                                    <Layout>
+                                        <Suspense fallback={<FoldingSquare />}>
+                                            <AsyncDeleteModal />
+                                            <AsyncCreatePostModal />
+                                            <AsyncCreateLifeEventModal />
+                                            <AsyncEditPageModal />
+                                            <AsyncMessengerModal />
+                                            <AsyncActiveChatTab />
+                                            <AsyncEditProfileModal />
+                                            <AsyncViewAsModal />
+                                            {routes}
+                                        </Suspense>
+                                    </Layout>
+                                </DeleteContextProvider>
+                            </ViewAsContextProvider>
                         </LifeEventContextProvider>
                     </ProfileContextProvider>
                 </PostContextProvider>

@@ -224,6 +224,19 @@
     cursor: pointer;
 }
 
+.EditControl:hover {
+    background: rgba(0,0,0,0.15);
+}
+
+.EditControlDisabled {
+    color: rgba(0,0,0,0.3);
+    cursor: default;
+}
+
+.EditControlDisabled:hover {
+    background-color: #e6e6e6;
+}
+
 .EditControlIcon {
     height: 20px;
     width: 20px;
@@ -364,9 +377,6 @@
     right: 2px;
 }
 
-.EditControl:hover {
-    background: rgba(0,0,0,0.15);
-}
 
 .EditControls svg {
     height: 100%;
