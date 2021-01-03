@@ -50,10 +50,6 @@ const navigationBar = (props) => {
     const messengerContext = useContext(MessengerContext);
     const viewAsContext = useContext(ViewAsContext);
 
-    useEffect(() => {
-        console.log('navigation bar, viewingAs? ', viewAsContext.viewingAs )
-        console.log('ABOUT PATH ', `/${props.pathRoot}/${props.displayProfile}/about/${viewAsFlag}`)
-    })
 
     useEffect(() => {
         if (props.displayProfile !== 'me') {

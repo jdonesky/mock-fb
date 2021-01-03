@@ -48,6 +48,7 @@ const LifeEventContextProvider = (props) => {
 
     const saveEvent = (payload) => {
         props.onProfileUpdate(props.authToken, props.firebaseKey, 'lifeEvents', payload, 'add')
+        cancelModal()
     }
 
     return (

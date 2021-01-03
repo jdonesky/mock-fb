@@ -16,7 +16,6 @@ const intro = (props) => {
     const editProfileContext = useContext(EditProfileContext);
 
     const startEditingDetails = () => {
-        console.log('clicked')
         editProfileContext.toggleModalContent('INTRO')
         editProfileContext.openEditModal()
     }

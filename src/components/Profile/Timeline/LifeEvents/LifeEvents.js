@@ -22,6 +22,13 @@ const lifeEvents = (props) => {
         }
     }
 
+    const firstEventClass = [classes.LeftEvent]
+    const firstEventImageClass = [classes.LeftEventImage]
+    if (sortedEvents && sortedEvents.length === 1) {
+        firstEventClass.push(classes.SingleEvent)
+        firstEventImageClass.push(classes.SingleEventImage)
+    }
+
     const first = sortedEvents && sortedEvents[0] && [sortedEvents[0]].map(ev => {
         return (
             <Event
@@ -29,8 +36,8 @@ const lifeEvents = (props) => {
                 category={ev.category}
                 mainText={ev.title}
                 subText={`${ev.year} ${mapMonths[ev.month]} ${ev.day}` === `${new Date().getFullYear().toString()} ${new Date().getMonth().toString()} ${new Date().getDate().toString()}` ? 'Today' : `${ev.month} ${ev.day} ${ev.year !== new Date().getFullYear().toString() ? ', ' + ev.year : ''}`}
-                className={classes.LeftEvent}
-                imageClass={classes.LeftEventImage}
+                className={firstEventClass.join(" ")}
+                imageClass={firstEventImageClass.join(" ")}
             />
         )
     })
