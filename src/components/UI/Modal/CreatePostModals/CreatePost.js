@@ -31,7 +31,7 @@ const createPost = (props) => {
     }
 
     return (
-        <Modal show={postContext.showModal ? postContext.showModal : undefined} close={postContext.cancelModal} addClass={classes.CreatePostContainer}>
+        <Modal show={postContext.showModal ? 1 : 0} close={postContext.cancelModal} addClass={classes.CreatePostContainer}>
                 {modalContent}
         </Modal>
     );

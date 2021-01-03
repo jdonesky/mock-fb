@@ -175,7 +175,6 @@ const post = (props) => {
     }
 
     const postReactionHandler = (caption) => {
-        console.log('CLICKED');
         const reaction = {
             userId: props.userId,
             name: props.name,

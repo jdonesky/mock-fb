@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import classes from '../Shared.css';
 import Modal from '../../Modal';
 import {EditProfileContext} from "../../../../../context/edit-profile-context";
-import getWindowDimensions from "../../../../../hooks/getWindowDimensions";
 import Close from '../../../../../assets/images/close'
 
 import BaseForm from './BaseForm/BaseForm';
@@ -12,7 +11,7 @@ import EditIntro from './EditIntro/EditIntro';
 import InlineDots from '../../../Spinner/InlineDots';
 
 const editProfileModal = props => {
-    const {width, height} = getWindowDimensions()
+
     const editProfileContext = useContext(EditProfileContext);
 
     let title;
@@ -46,7 +45,7 @@ const editProfileModal = props => {
 
 
     return (
-        <Modal show={editProfileContext.showEditModal ? editProfileContext.showEditModal : undefined} close={editProfileContext.closeEditModal} addClass={modalContainer}>
+        <Modal show={editProfileContext.showEditModal ? 1 : 0} close={editProfileContext.closeEditModal} addClass={modalContainer}>
             <section className={classes.ContentContainer}>
                 <section className={classes.Header}>
                     <div className={classes.TitleBlock}>

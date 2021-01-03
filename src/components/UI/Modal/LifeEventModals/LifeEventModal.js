@@ -13,7 +13,7 @@ const lifeEventModal = () => {
     let modalContent = lifeEventContext.modalContent ? <CreateEvent show={lifeEventContext.showModal} /> : <ChooseCategory show={lifeEventContext.showModal}/>
 
     return (
-        <Modal show={lifeEventContext.showModal ? lifeEventContext.showModal : undefined} close={lifeEventContext.cancelModal}>
+        <Modal show={lifeEventContext.showModal ? 1 : 0} close={lifeEventContext.cancelModal}>
             <div className={classes.CancelIcon} onClick={lifeEventContext.cancelModal}>
                 <Close />
             </div>

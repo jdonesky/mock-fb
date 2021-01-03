@@ -3,7 +3,6 @@ import React, {useContext} from 'react';
 import classes from '../Shared.css';
 import Modal from '../../Modal';
 import {PageContext} from "../../../../../context/page-context";
-import getWindowDimensions from "../../../../../hooks/getWindowDimensions";
 import LocationForm from "./EditLocationForm/EditLocationForm";
 import DescriptionForm from "./EditDescriptionForm/EditDescriptionForm";
 import WebsiteForm from './EditWebsiteForm/EditWebsiteForm';
@@ -13,7 +12,6 @@ import CategoryForm from './EditCategoryForm/EditCategoryForm';
 import Close from '../../../../../assets/images/close'
 
 const editPageModal = props => {
-    const {width, height} = getWindowDimensions()
     const pageContext = useContext(PageContext);
 
     let modalContent;
@@ -48,7 +46,7 @@ const editPageModal = props => {
     }
 
     return (
-        <Modal show={pageContext.showModal ? pageContext.showModal : undefined} close={() => pageContext.setShowModal(false)} addClass={modalContainer.join(" ")}>
+        <Modal show={pageContext.showModal ? 1 : 0} close={() => pageContext.setShowModal(false)} addClass={modalContainer.join(" ")}>
             <section className={classes.ContentContainer}>
                 <section className={classes.Header}>
                     <div className={classes.TitleBlock}>

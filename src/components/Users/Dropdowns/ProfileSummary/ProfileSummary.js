@@ -257,8 +257,8 @@ const profileSummaryDropdown = (props) => {
                 firstInfo = <span className={classes.InfoEntry}>{pageSummary.email}</span>
                 firstInfoIcon = <Email fill='rgba(0,0,0,0.5)'/>
                 markFirst = 'EMAIL'
-            } else if (pageSummary.location) {
-                firstInfo = <span className={classes.InfoEntry}>{pageSummary.location}</span>
+            } else if (pageSummary.location && pageSummary.location.address) {
+                firstInfo = <span className={classes.InfoEntry}>{pageSummary.location.address}</span>
                 firstInfoIcon = <Pin fill='rgba(0,0,0,0.5)'/>
                 markFirst = 'LOCATION'
             } else {

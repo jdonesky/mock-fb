@@ -17,7 +17,7 @@ const input = (props) => {
         <input
           value={props.value}
           type={props.type}
-          invalid={!props.valid}
+          invalid={props.valid ? 1 : 0}
           touched={props.touched}
           placeholder={props.placeholder}
           onChange={props.changed}
