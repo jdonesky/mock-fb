@@ -23,15 +23,19 @@ const page = (props) => {
 
     const {authToken, firebaseKey, ownedPageKeys} = props
 
-    // useEffect(() => {
-    //     if (ownedPageKeys) {
-    //         console.log('my owned keys', ownedPageKeys)
-    //         if (props.othersPage) {
-    //             console.log('this page key', props.othersPage.adminUserKey)
-    //             console.log('in page - this page key in my owned keys ? ', ownedPageKeys.includes(props.othersPage.dbKey))
-    //         }
-    //     }
-    // })
+    useEffect(() => {
+        console.log(props.othersPage)
+    })
+
+    useEffect(() => {
+        if (displayPage) {
+            if (pathRoot === 'manage') {
+                props.onFetchOwnedPage(authToken, displayPage);
+            } else {
+                props.onFetchOthersPage(authToken, displayPage);
+            }
+        }
+    }, [displayPage])
 
     useEffect(() => {
         if (authToken && firebaseKey) {
@@ -71,7 +75,11 @@ const page = (props) => {
         }
     }
 
-    let page = (
+    let page;
+    if (props.fetchingOwnedPage || props.fetchingOthersPage) {
+        page = <SquareFold />
+    } else {
+        page = (
             <div className={classes.WhiteBackFill}>
                 <Header pathRoot={pathRoot} displayPage={displayPage} name={name} category={category} owned={owned}/>
                 <NavigationBar owned={owned}/>
@@ -86,12 +94,8 @@ const page = (props) => {
                     </div>
                 </div>
             </div>
-    )
+        )
 
-    if (pathRoot === 'manage' && props.fetchingOwnedPage) {
-        page = <SquareFold />
-    } else if (pathRoot === 'discover' && props.fetchingOthersPage ) {
-        page = <SquareFold />
     }
 
     return page;
@@ -104,14 +108,17 @@ const mapStateToProps = (state) => {
         firebaseKey: state.profile.firebaseKey,
         ownedPage: state.pages.ownedPage,
         othersPage: state.pages.othersPage,
-        ownedPageKeys: state.pages.ownedPageKeys
+        ownedPageKeys: state.pages.ownedPageKeys,
+        fetchingOwnedPage: state.pages.fetchingOwnedPage,
+        fetchingOthersPage: state.pages.fetchingOthersPage
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onFetchOwnedPageKeys: (authToken, userKey) => dispatch(actions.fetchOwnedPageKeysAttempt(authToken, userKey)),
-        onFetchOwnedPage: (authToken, pageKey) => dispatch(actions.fetchOwnedPageAttempt(authToken, pageKey))
+        onFetchOwnedPage: (authToken, pageKey) => dispatch(actions.fetchOwnedPageAttempt(authToken, pageKey)),
+        onFetchOthersPage: (authToken, pageKey) => dispatch(actions.fetchOthersPageAttempt(authToken, pageKey)),
     };
 };
 

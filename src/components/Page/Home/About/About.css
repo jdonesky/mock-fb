@@ -18,6 +18,15 @@
     margin: 5px;
 }
 
+.AboutEntry {
+    min-height: 30px;
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 5px;
+}
+
 .EditButtonLeftBlock {
     height: 100%;
     display: flex;

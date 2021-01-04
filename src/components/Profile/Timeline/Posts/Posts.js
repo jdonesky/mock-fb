@@ -6,7 +6,7 @@ import Post from './Post/Post';
 import InlineDots from '../../../UI/Spinner/InlineDots';
 import * as actions from '../../../../store/actions/index';
 
-const posts = ({posts, authToken, postsKey, firebaseKey, onFetchSelfPosts, deletingPost, loadingSelfPosts, displayProfile, otherProfile, ownedPage, userType, history}) => {
+const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, loadingSelfPosts, loadingOthersPosts, displayProfile, otherProfile, ownedPage, ownedPageKeys, othersPage, userType, history}) => {
 
     const [pathRoot, setPathRoot] = useState(history.location.pathname.split('/')[2])
     const [profileImage,setProfileImage] = useState(null);
@@ -16,6 +16,12 @@ const posts = ({posts, authToken, postsKey, firebaseKey, onFetchSelfPosts, delet
           setPathRoot(history.location.pathname.split('/')[2]);
       }
     })
+
+    const checkPageOwnership = (dbKey) => {
+        if (ownedPageKeys && dbKey) {
+            return ownedPageKeys.includes(dbKey)
+        }
+    }
 
     useEffect(() => {
         let key;
@@ -33,10 +39,15 @@ const posts = ({posts, authToken, postsKey, firebaseKey, onFetchSelfPosts, delet
                     key = ownedPage.postsKey
                     setProfileImage(ownedPage.profileImage);
                 }
+            } else if (pathRoot === 'view') {
+                if (othersPage) {
+                    key = othersPage.postsKey
+                    setProfileImage(othersPage.profileImage)
+                }
             }
         }
         onFetchSelfPosts(authToken, key)
-    }, [onFetchSelfPosts, authToken, postsKey, displayProfile, userType, ownedPage])
+    }, [onFetchSelfPosts, authToken, postsKey, displayProfile, userType, ownedPage, othersPage, pathRoot])
 
 
     const posted = posts && posts.length && posts.length > 1 ? posts.slice(1).map(post => (
@@ -60,11 +71,12 @@ const posts = ({posts, authToken, postsKey, firebaseKey, onFetchSelfPosts, delet
             postLocation={post.location}
             comments={post.comments}
             reactions={post.reactions}
+            owned={checkPageOwnership(post.userKey)}
         />
     )) : null
 
     let loadingIndicator;
-    if (loadingSelfPosts || deletingPost) {
+    if (loadingSelfPosts || loadingOthersPosts || deletingPost) {
         loadingIndicator = <InlineDots />
     }
 
@@ -84,8 +96,11 @@ const mapStateToProps = state => {
         posts: state.posts.posts,
         deletingPost: state.posts.deletingPost,
         loadingSelfPosts: state.posts.loadingSelfPosts,
+        loadingOthersPosts: state.posts.loadingOthersPosts,
         otherProfile: state.users.fullProfile,
-        ownedPage: state.pages.ownedPage
+        ownedPage: state.pages.ownedPage,
+        ownedPageKeys: state.pages.ownedPageKeys,
+        othersPage: state.pages.othersPage,
     }
 }
 

@@ -24,15 +24,15 @@ const header = (props) => {
 
     const {ownedPage, othersPage, onEditPageImage, authToken, editingProfileImage, editingCoverImage, owned} = props
 
-    useEffect(() => {
-        if (displayPage) {
-            if (pathRoot === 'manage') {
-                props.onFetchOwnedPage(authToken, displayPage);
-            } else {
-                props.onFetchOthersPage(authToken, displayPage);
-            }
-        }
-    }, [displayPage])
+    // useEffect(() => {
+    //     if (displayPage) {
+    //         if (pathRoot === 'manage') {
+    //             props.onFetchOwnedPage(authToken, displayPage);
+    //         } else {
+    //             props.onFetchOthersPage(authToken, displayPage);
+    //         }
+    //     }
+    // }, [displayPage])
 
     useEffect(() => {
         if (pathRoot === 'manage') {
