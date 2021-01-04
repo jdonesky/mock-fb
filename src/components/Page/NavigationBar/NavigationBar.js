@@ -14,6 +14,7 @@ const navigationBar = props => {
 
     const { width, height } = getWindowDimensions()
     const [displayPage, setDisplayPage] = useState(props.match.params.id)
+    const [pathBase, setPathBase] = useState(props.history.location.pathname.split("/")[1])
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[2])
 
     useEffect(() => {
@@ -34,37 +35,45 @@ const navigationBar = props => {
     const moreClasses = [classes.NavTab]
 
 
-    if (props.history.location.pathname === `/pages/${pathRoot}/${displayPage}`) {
+    if (props.history.location.pathname === `/${pathBase}/${pathRoot}/${displayPage}`) {
         homeClasses.push(classes.ActiveNavTab);
     }
-    if (props.history.location.pathname === `/pages/${pathRoot}/${displayPage}/about`) {
+    if (props.history.location.pathname === `/${pathBase}/${pathRoot}/${displayPage}/about`) {
         aboutClasses.push(classes.ActiveNavTab)
     }
-    if (props.history.location.pathname === `/pages/${pathRoot}/${displayPage}/photos`) {
+    if (props.history.location.pathname === `/${pathBase}/${pathRoot}/${displayPage}/photos`) {
         photosClasses.push(classes.ActiveNavTab)
     }
 
+    let widths;
+    if (pathBase === 'pages') {
+        widths = [840,905,955]
+    } else if (pathBase === 'page') {
+        widths = [550, 625, 665]
+    }
+
     let arrowFill = "rgba(0,0,0,0.5)";
-    if ( width < 955 && props.history.location.pathname === `/pages/${pathRoot}/${displayPage}/photos`) {
+    if ( width < widths[2] && props.history.location.pathname === `/${pathBase}/${pathRoot}/${displayPage}/photos`) {
         moreClasses.push(classes.ActiveNavTab)
         arrowFill = "#1665f7"
     }
 
-    if ( width < 905 && props.history.location.pathname === `/pages/${pathRoot}/${displayPage}/about`) {
+    if ( width < widths[1] && props.history.location.pathname === `/${pathBase}/${pathRoot}/${displayPage}/about`) {
         moreClasses.push(classes.ActiveNavTab)
         arrowFill = "#1665f7"
     }
 
-    if ( width < 840 && props.history.location.pathname === `/pages/${pathRoot}/${displayPage}`) {
+    if ( width < widths[0] && props.history.location.pathname === `/${pathBase}/${pathRoot}/${displayPage}`) {
         moreClasses.push(classes.ActiveNavTab)
         arrowFill = "#1665f7"
     }
+
 
     const navTabs = (
             <React.Fragment>
-                { width >= 840 ? <div className={homeClasses.join(" ")} onClick={() => props.history.push(`/pages/${pathRoot}/${displayPage}`)}>Home</div> : null }
-                { width >= 905 ? <div className={aboutClasses.join(" ")} onClick={() => props.history.push(`/pages/${pathRoot}/${displayPage}/about`)}>About</div> : null}
-                {width >= 955 ? <div className={photosClasses.join(" ")} onClick={() => props.history.push(`/pages/${pathRoot}/${displayPage}/photos`)}>Photos</div> : null}
+                { width >= widths[0] ? <div className={homeClasses.join(" ")} onClick={() => props.history.push(`/${pathBase}/${pathRoot}/${displayPage}`)}>Home</div> : null }
+                { width >= widths[1] ? <div className={aboutClasses.join(" ")} onClick={() => props.history.push(`/${pathBase}/${pathRoot}/${displayPage}/about`)}>About</div> : null}
+                { width >= widths[2] ? <div className={photosClasses.join(" ")} onClick={() => props.history.push(`/${pathBase}/${pathRoot}/${displayPage}/photos`)}>Photos</div> : null}
                 <div className={moreClasses.join(" ")} >More<div className={classes.MoreArrow}><DownArrow fill={arrowFill} /></div></div>
             </React.Fragment>
         )

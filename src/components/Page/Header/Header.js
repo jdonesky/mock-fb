@@ -87,7 +87,7 @@ const header = (props) => {
 
     return (
         <div className={classes.PageHeaderPositioner}>
-            <div ref={coverImageContainer} className={classes.CoverImage} style={{backgroundImage: coverImage ? `url(${coverImage})` : `url(${CreatePageCover})`, height: `${width * 0.23}px`, }}>
+            <div ref={coverImageContainer} className={classes.CoverImage} style={{backgroundImage: coverImage ? `url(${coverImage})` : `url(${CreatePageCover})`, height: `${width * 0.25}px`, }}>
                 {coverImageUploadButton}
             </div>
             <input
@@ -101,8 +101,8 @@ const header = (props) => {
                 }}
             />
             <div className={classes.PageProfileHeader}>
-                <div className={classes.PageProfileCircleOutline}>
-                    <div ref={profileImageContainer} className={classes.PageProfileCircle} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}}>
+                <div className={classes.PageProfileCircleOutline} style={{height: `${width * 0.16}px`, width: `${width * 0.16}px`}}>
+                    <div ref={profileImageContainer} className={classes.PageProfileCircle} style={{backgroundImage: profileImage ? `url(${profileImage})`: null, height: `${width * 0.15}px`, width: `${width * 0.15}px`}}>
                         {profileImage ? null : <Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/>}
                         {profileImageUploadButton}
                     </div>
