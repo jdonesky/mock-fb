@@ -63,6 +63,9 @@ export const startCreatePageAttempt = (authToken, page) => {
                     postsWithKeys = postsWithKeys.map(post => ({...post, userKey: pageKey}))
                     return axios.put(`/posts/${postsKey}.json?auth=${authToken}`, [...postsWithKeys])
                 })
+                // .then(response => {
+                //     return axios.get()
+                // })
                 .then(response => {
                     dispatch(startCreatePageSuccess(newPage))
                 })
@@ -170,6 +173,44 @@ export const fetchOwnedPageAttempt = (authToken, pageKey) => {
     }
 }
 
+
+const fetchOthersPageInit = () => {
+    return {
+        type: actionTypes.FETCH_OTHERS_PAGE_INIT
+    }
+}
+
+const fetchOthersPageSuccess = (page) => {
+    return {
+        type: actionTypes.FETCH_OTHERS_PAGE_SUCCESS,
+        page: page
+    }
+}
+
+const fetchOthersPageFail = (error) => {
+    return {
+        type: actionTypes.FETCH_OTHERS_PAGE_FAIL,
+        error: error
+    }
+}
+
+export const fetchOthersPageAttempt = (authToken, pageKey) => {
+    return dispatch => {
+        dispatch(fetchOthersPageInit());
+        axios.get(`/pages/${pageKey}.json?auth=${authToken}`)
+            .then(response => {
+                console.log(response.data)
+                dispatch(fetchOthersPageSuccess(response.data))
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(fetchOthersPageFail(error))
+            })
+    }
+}
+
+
+
 const fetchPageSummaryInit = () => {
     return {
         type: actionTypes.FETCH_PAGE_SUMMARY_INIT
@@ -192,11 +233,9 @@ const fetchPageSummaryFail = (error) => {
 
 export const fetchPageSummaryAttempt = (authToken, pageKey) => {
     return dispatch => {
-        console.log(pageKey);
         dispatch(fetchPageSummaryInit());
         axios.get(`/pages/${pageKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('SUCCESS - got summary');
                 console.log(response.data)
                 dispatch(fetchPageSummarySuccess(response.data))
             })
@@ -421,6 +460,48 @@ export const likePageAttempt = (authToken, newPage, newProfile, profileKey) => {
             })
     }
 }
+
+
+const cancelLikeInit = () => {
+    return {
+        type: actionTypes.CANCEL_LIKE_INIT
+    }
+}
+
+const cancelLikeSuccess = (likedPages) => {
+    return {
+        type: actionTypes.CANCEL_LIKE_SUCCESS,
+        likedPages: likedPages
+    }
+}
+
+const cancelLikeFail = (error) => {
+    return {
+        type: actionTypes.CANCEL_LIKE_FAIL,
+        error: error
+    }
+}
+
+export const cancelLikeAttempt = (authToken, newPage, newProfile, profileKey) => {
+    return dispatch => {
+        dispatch(likePageInit());
+        axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
+            .then(response => {
+                console.log('success - put new page');
+                return axios.put(`/public-profiles/${profileKey}.json?auth=${authToken}`, newProfile)
+            })
+            .then(response => {
+                console.log('success - put new profile');
+                dispatch(likePageSuccess());
+                dispatch(actions.likePageSuccessFeedback(newProfile))
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(likePageFail(error));
+            })
+    }
+}
+
 
 export const clearPageSummary = () => {
     return {

@@ -17,8 +17,9 @@ import SquareFold from "../../components/UI/Spinner/SquareFold";
 
 const page = (props) => {
 
-    const [displayPage, setDisplayPage] = useState(props.match.params.id)
+    const [basePath, setBasePath] = useState(props.history.location.pathname.split("/")[1])
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[2])
+    const [displayPage, setDisplayPage] = useState(props.match.params.id)
 
     useEffect(() => {
         if (displayPage) {
@@ -44,7 +45,7 @@ const page = (props) => {
     } else {
         if (props.othersPage) {
             name = props.othersPage.name
-            category = props.otherProfile.name
+            category = props.othersPage.name
         }
     }
 
@@ -57,7 +58,7 @@ const page = (props) => {
                     <div className={classes.SharedContentBackdrop}>
                         <div className={classes.SharedContentFlexContainer}>
                             <Switch>
-                                <Route exact path={`/pages/${pathRoot}/${displayPage}`} component={Home} />
+                                <Route exact path={`/${basePath}/${pathRoot}/${displayPage}`} component={Home} />
                             </Switch>
                         </div>
                     </div>

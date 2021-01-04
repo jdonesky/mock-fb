@@ -5,14 +5,14 @@ const initialState = {
     pageInProgress: null,
     ownedPage: null,
     myPages: [],
-    otherPage: null,
+    othersPage: null,
     othersPages: [],
     pageSummary: null,
     creatingNewPage: false,
-    fetchingOwnedPages: false,
     fetchingOwnedPage: false,
-    fetchingOthersPages: false,
+    fetchingOwnedPages: false,
     fetchingOthersPage: false,
+    fetchingOthersPages: false,
     fetchingPageSummary: false,
     editingPageAbout: false,
     editingProfileImage: false,
@@ -99,6 +99,29 @@ const fetchOwnedPageFail = (state,action) => {
     }
 }
 
+const fetchOthersPageInit = (state,action) => {
+    return {
+        ...state,
+        fetchingOthersPage: true
+    }
+}
+
+const fetchOthersPageSuccess = (state,action) => {
+    return {
+        ...state,
+        othersPage: action.page,
+        fetchingOthersPage: false
+    }
+}
+
+const fetchOthersPageFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        fetchingOthersPage: false
+    }
+}
+
 const fetchPageSummaryInit = (state,action) => {
     return {
         ...state,
@@ -128,7 +151,6 @@ const editPageAboutInit = (state,action) => {
         editingPageAbout: true
     }
 }
-
 
 const editPageAboutSuccess = (state,action) => {
     return {
@@ -263,6 +285,9 @@ const reducer = (state=initialState, action) => {
         case actionTypes.FETCH_OWNED_PAGE_INIT: return fetchOwnedPageInit(state,action);
         case actionTypes.FETCH_OWNED_PAGE_SUCCESS: return fetchOwnedPageSuccess(state,action);
         case actionTypes.FETCH_OWNED_PAGE_FAIL: return fetchOwnedPageFail(state,action);
+        case actionTypes.FETCH_OTHERS_PAGE_INIT: return fetchOthersPageInit(state,action);
+        case actionTypes.FETCH_OTHERS_PAGE_SUCCESS: return fetchOthersPageSuccess(state,action);
+        case actionTypes.FETCH_OTHERS_PAGE_FAIL: return fetchOthersPageFail(state,action);
         case actionTypes.FETCH_PAGE_SUMMARY_INIT: return fetchPageSummaryInit(state,action);
         case actionTypes.FETCH_PAGE_SUMMARY_SUCCESS: return fetchPageSummarySuccess(state,action);
         case actionTypes.FETCH_PAGE_SUMMARY_FAIL: return fetchPageSummaryFail(state,action);

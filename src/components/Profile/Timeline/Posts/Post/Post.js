@@ -193,7 +193,7 @@ const post = (props) => {
 
     const toggleDeleteModal = () => {
         cancelEditDropdown()
-        deleteContext.passData(null,props.id,'post','DELETE_POST')
+        deleteContext.passData(null,props.id,'post','DELETE_POST', props.postsKey)
         deleteContext.toggleModal();
     }
 

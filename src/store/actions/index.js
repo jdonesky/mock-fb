@@ -38,11 +38,13 @@ export {
    finishCreatePageAttempt,
    fetchOwnedPagesAttempt,
    fetchOwnedPageAttempt,
+   fetchOthersPageAttempt,
    fetchPageSummaryAttempt,
    editPageAboutAttempt,
    editPageImageAttempt,
    requestPageLikeAttempt,
    likePageAttempt,
+   cancelLikeAttempt,
    clearPageSummary,
    clearPageInProgress
 } from "./pages";

@@ -13,7 +13,7 @@ const deleteModal = () => {
             <div className={classes.DeleteModal} style={{display: !deleteContext.showModal && 'none'}}>
                 <div className={classes.Header}>
                     <h1>Are you sure?</h1>
-                    <div className={classes.CancelIcon} onClick={deleteContext.toggleModal}>
+                    <div className={classes.CancelIcon} onClick={deleteContext.cancelDelete}>
                         <Close/>
                     </div>
                 </div>

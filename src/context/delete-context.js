@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux'
 import * as actions from "../store/actions";
 
@@ -9,6 +9,7 @@ export const DeleteContext = React.createContext({
     passData: () => {},
     showModal: false,
     toggleModal: () => {},
+    cancelDelete: () => {},
     caption: null,
     deleteAction: null,
     deleteEntry: () => {},
@@ -26,10 +27,31 @@ const DeleteContextProvider = (props) => {
     const [nestedId2, setNestedId2] = useState(null);
     const [nestedId3, setNestedId3] = useState(null);
 
+    // useEffect(() => {
+    //     console.log('deleteAction', deleteAction);
+    //     console.log('postsKey', nestedId1)
+    //     console.log('postId', id);
+    // })
+
     const toggleModal = () => {
         setShowModal((prevState) => {
             return !prevState;
         })
+    }
+
+    const clearAllData = () => {
+        setField(null);
+        setId(null);
+        setCaption(null);
+        setDeleteAction(null);
+        setNestedId1(null);
+        setNestedId2(null);
+        setNestedId3(null);
+    }
+
+    const cancelDelete = () => {
+        setShowModal(false);
+        clearAllData();
     }
 
     const passData = (field,id,caption, deleteActionType, nestedId1, nestedId2, nestedId3) => {
@@ -48,7 +70,7 @@ const DeleteContextProvider = (props) => {
                 props.onProfileUpdate(props.authToken, props.firebaseKey, field, null, 'delete', id);
                 break;
             case "DELETE_POST":
-                props.onDeletePost(props.authToken, props.postsKey, id)
+                props.onDeletePost(props.authToken, nestedId1, id)
                 break;
             case "DELETE_POST_COMMENT":
                 props.onDeletePostComment(props.authToken, id, nestedId1, nestedId2)
@@ -60,19 +82,13 @@ const DeleteContextProvider = (props) => {
                 throw new Error('Oops, none of the above!')
 
         }
-        setField(null);
-        setId(null);
-        setCaption(null);
-        setDeleteAction(null);
-        setNestedId1(null);
-        setNestedId2(null);
-        setNestedId3(null);
+        clearAllData()
         toggleModal();
     }
 
 
     return (
-        <DeleteContext.Provider value={{field: field, id: id, passData: passData, showModal: showModal, toggleModal: toggleModal, caption: caption, deleteAction: deleteAction, deleteEntry: deleteEntry}}>
+        <DeleteContext.Provider value={{field: field, id: id, passData: passData, showModal: showModal, toggleModal: toggleModal, caption: caption, deleteAction: deleteAction, deleteEntry: deleteEntry, cancelDelete: cancelDelete}}>
             {props.children}
         </DeleteContext.Provider>
     );
@@ -82,7 +98,7 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
-        postsKey: state.profile.postsKey
+        myPostsKey: state.profile.postsKey
     }
 }
 

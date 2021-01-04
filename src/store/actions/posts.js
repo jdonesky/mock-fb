@@ -15,6 +15,7 @@ export const addPostAttempt = (authToken, postsKey, post) => {
             const url = `/posts/${postsKey}.json?auth=${authToken}`
             axios.get(url)
                 .then(response => {
+                    console.log('response', response)
                     const newPosts = [...response.data, {...post, id: newKey}]
                     console.log('ADDING POST: newPosts after adding new post: ', newPosts)
                     axios.put(url, newPosts)
@@ -98,6 +99,8 @@ const deletePostInit = () => {
 export const deletePostAttempt = (authToken, postsKey, postId) => {
     return dispatch => {
         dispatch(deletePostInit());
+        console.log('postsKey', postsKey);
+        console.log('postId', postId);
         const url = `/posts/${postsKey}.json?auth=${authToken}`;
         let newPosts;
         axios.get(url)

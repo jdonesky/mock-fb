@@ -106,7 +106,7 @@ const profilePics = ({token, firebaseKey, profilePic, coverPic, onProfileUpdate,
                 className={classes.ProfilePicContainer}
                 ref={profilePicContainer}
             >
-                {profilePic ? null : <Avatar fill="whiter"/>}
+                {profilePic ? null : <Avatar fill="white"/>}
                 <input
                     ref={profilePicUploader}
                     type="file"

@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import Input from '../../../../UI/Input/Input'
 import Button from '../../../../UI/Button/Button'
 import {fieldBuilder} from "../../../../../shared/utility";
-import formClasses from "./EditRelationshipForm.css"
 import sharedClasses from './SharedEditFormUI.css'
 
 const editGenderForm = (props) => {
@@ -87,7 +86,7 @@ const editGenderForm = (props) => {
     }
 
     return (
-        <form onSubmit={saveChangesHandler} className={formClasses.Form}>
+        <form onSubmit={saveChangesHandler} className={sharedClasses.EditForm}>
             {formInputs}
             <hr/>
             <div className={sharedClasses.Buttons}>

@@ -53,8 +53,6 @@ const startPost = (props) => {
         }
     }
 
-
-
     return (
         <div className={classes.Container}>
             <section className={classes.Header}>

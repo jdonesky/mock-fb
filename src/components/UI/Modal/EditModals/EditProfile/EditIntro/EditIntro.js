@@ -191,27 +191,27 @@ const editIntro = props => {
             <section className={classes.IntroSection}>
                 <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Work</div>
                 {existingWork}
-                 <AddContentButton category="work" textLineHeight="23px"/>
+                 <AddContentButton actionType="NAV" category="work" textLineHeight="23px"/>
             </section>
             <section className={classes.IntroSection}>
                 <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Education</div>
                 {existingEducation}
-                <AddContentButton category="education" textLineHeight="23px"/>
+                <AddContentButton actionType="NAV" category="education" textLineHeight="23px"/>
             </section>
             <section className={classes.IntroSection}>
                 <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Current City</div>
                 {existingCurrLocation}
-                <AddContentButton category="currLocation" textLineHeight="23px"/>
+                <AddContentButton actionType="NAV" category="currLocation" textLineHeight="23px"/>
             </section>
             <section className={classes.IntroSection}>
                 <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Hometown</div>
                 {existingHometown}
-                <AddContentButton category="hometown" textLineHeight="23px"/>
+                <AddContentButton actionType="NAV" category="hometown" textLineHeight="23px"/>
             </section>
             <section className={classes.IntroSection}>
                 <div className={[classes.SubHeader, classes.SectionHeader].join(" ")}>Relationship</div>
                 {existingRelationship}
-                <AddContentButton category="relationship" textLineHeight="23px"/>
+                <AddContentButton actionType="NAV" category="relationship" textLineHeight="23px"/>
             </section>
         </div>
     );

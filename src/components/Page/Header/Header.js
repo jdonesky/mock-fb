@@ -16,12 +16,28 @@ const header = (props) => {
 
     const {width,height} = getWindowDimensions()
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split('/')[2])
+    const [displayPage, setDisplayPage] = useState(props.history.location.pathname.split('/')[3])
     const profileImageContainer = useRef(null);
     const profileImageUploader = useRef(null);
     const coverImageContainer = useRef(null);
     const coverImageUploader = useRef(null);
 
     const {ownedPage, othersPage, onEditPageImage, authToken, editingProfileImage, editingCoverImage} = props
+
+    useEffect(() => {
+        console.log('pathRoot', pathRoot)
+        console.log('displayPage', displayPage)
+    })
+
+    useEffect(() => {
+        if (displayPage) {
+            if (pathRoot === 'manage') {
+                props.onFetchOwnedPage(authToken, displayPage);
+            } else {
+                props.onFetchOthersPage(authToken, displayPage);
+            }
+        }
+    }, [displayPage])
 
     useEffect(() => {
         if (pathRoot === 'manage') {
@@ -87,7 +103,7 @@ const header = (props) => {
 
     return (
         <div className={classes.PageHeaderPositioner}>
-            <div ref={coverImageContainer} className={classes.CoverImage} style={{backgroundImage: coverImage ? `url(${coverImage})` : `url(${CreatePageCover})`, height: `${width * 0.25}px`, }}>
+            <div ref={coverImageContainer} className={classes.CoverImage} style={{backgroundImage: coverImage ? `url(${coverImage})` : `url(${CreatePageCover})`, height: `${width * 0.27}px`, }}>
                 {coverImageUploadButton}
             </div>
             <input
@@ -130,7 +146,9 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         ownedPage: state.pages.ownedPage,
+        fetchingOwnedPage: state.pages.fetchingOwnedPage,
         othersPage: state.pages.othersPage,
+        fetchingOthersPage: state.pages.fetchingOthersPage,
         editingProfileImage: state.pages.editingProfileImage,
         editingCoverImage: state.pages.editingCoverImage
     }
@@ -139,6 +157,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onEditPageImage: (authToken, field, newPage) => dispatch(actions.editPageImageAttempt(authToken, field, newPage)),
+        onFetchOthersPage: (authToken, pageKey) => dispatch(actions.fetchOthersPageAttempt(authToken, pageKey)),
+        onFetchOwnedPage: (authToken, pageKey) => dispatch(actions.fetchOwnedPageAttempt(authToken, pageKey))
     }
 }
 

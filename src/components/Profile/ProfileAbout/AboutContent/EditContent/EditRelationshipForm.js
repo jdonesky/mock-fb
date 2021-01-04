@@ -114,7 +114,7 @@ const editRelationshipForm = (props) => {
     }
 
     return (
-        <form onSubmit={saveChangesHandler} className={formClasses.Form}>
+        <form onSubmit={saveChangesHandler} className={sharedClasses.EditForm}>
             {formInputs}
             <hr/>
             <div className={sharedClasses.Buttons}>

@@ -50,6 +50,9 @@ const profileSummaryDropdown = (props) => {
     const [deniedRequest, setDeniedRequest] = useState(false);
     const [likedPage, setLikedPage] = useState(false);
 
+    useEffect(() => {
+        console.log('publicProfileKey', publicProfileKey)
+    })
 
     useEffect(() => {
         if (!userType) {

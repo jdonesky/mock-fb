@@ -1,6 +1,7 @@
 
 
 import React, {useState, useContext} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux'
 import classes from './AddContentButton.css'
 import Plus from '../../../../../assets/images/MiscIcons/plus';
@@ -13,10 +14,13 @@ import EditEmailForm from "../EditContent/EditEmailForm"
 import EditGenderForm from "../EditContent/EditGenderForm";
 import EditFamilyForm from "../EditContent/EditFamilyForm";
 import {LifeEventContext} from "../../../../../context/life-event-context";
+import {EditProfileContext} from "../../../../../context/edit-profile-context";
 import * as actions from "../../../../../store/actions";
 
 const addContentButton = props => {
+
     const [addingContent, setAddingContent] = useState(false);
+    const editProfileContext = useContext(EditProfileContext)
     const lifeEventContext = useContext(LifeEventContext)
 
     const saveEdits = (fieldName, payload) => {
@@ -29,32 +33,45 @@ const addContentButton = props => {
         })
     }
 
+    const navToAboutForm = (path) => {
+        props.history.push(`/user-profile/me/about/${path}`)
+        editProfileContext.closeEditModal()
+        editProfileContext.toggleModalContent('BASE')
+    }
+
     let text;
     let editForm;
+    let path;
     switch (props.category) {
         case 'work':
             text = 'Add a workplace'
             editForm = <EditWorkForm cancel={toggleEditing} save={saveEdits}/>
+            path = 'work-education'
             break;
         case 'education':
             text = 'Add a school'
             editForm = <EditSchoolForm cancel={toggleEditing} save={saveEdits}/>
+            path = 'work-education'
             break;
         case 'currLocation':
             text = 'Add current location'
             editForm = <EditLocationForm locType="current" cancel={toggleEditing} save={saveEdits}/>
+            path = 'places-lived'
             break;
         case 'pastLocation':
             text = "Add past location"
             editForm = <EditLocationForm locType="pastLocation" cancel={toggleEditing} save={saveEdits}/>
+            path = 'places-lived'
             break;
         case 'hometown':
             text = 'Add hometown'
             editForm = <EditLocationForm locType="origin" cancel={toggleEditing} save={saveEdits}/>
+            path = 'places-lived'
             break;
         case 'relationship':
             text = 'Add a relationship '
             editForm = <EditRelationshipForm cancel={toggleEditing} save={saveEdits}/>
+            path = 'family-relationships'
             break;
         case 'family':
             text = 'Add a family member'
@@ -63,25 +80,40 @@ const addContentButton = props => {
         case 'phone':
             text = 'Add a phone number'
             editForm = <EditPhoneForm cancel={toggleEditing} save={saveEdits}/>
+            path = 'contact-info'
             break;
         case 'email':
             text = 'Add an email'
             editForm = <EditEmailForm cancel={toggleEditing} save={saveEdits}/>
+            path = 'contact-info'
             break;
         case 'gender':
             text = 'Add your gender'
             editForm = <EditGenderForm cancel={toggleEditing} save={saveEdits}/>
+            path = 'contact-info'
             break;
         case 'lifeEvent':
             text = 'Add a life event'
+            path = 'life-events'
             break;
         default:
             text = null;
             editForm = null;
     }
 
+    let action;
+    if (props.actionType === 'NAV') {
+        action = () => navToAboutForm(path);
+    } else {
+        if (props.category === 'lifeEvent') {
+            action = lifeEventContext.toggleModal
+        } else {
+            action = toggleEditing
+        }
+    }
+
     const addButton = (
-        <div className={classes.AddButton} onClick={props.category === 'lifeEvent' ? lifeEventContext.toggleModal :toggleEditing}>
+        <div className={classes.AddButton} onClick={action}>
             <div className={classes.PlusIcon}>
                 <Plus fill="#0B86DE" className={classes.Plus}/>
             </div>
@@ -106,4 +138,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(addContentButton);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(addContentButton));

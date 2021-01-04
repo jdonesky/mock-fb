@@ -57,6 +57,7 @@ const PostContextProvider = (props) => {
     const [otherUserType, setOtherUserType] = useState(null);
 
     const [pagePosted,setPagePosted] = useState(false);
+    const [pageKey, setPageKey] = useState(null);
     const [postedToOther, setPostedToOther] = useState(false);
     const [other, setOther] = useState(null);
 
@@ -205,6 +206,9 @@ const PostContextProvider = (props) => {
             case 'pagePosted':
                 setPagePosted(payload)
                 break
+            case 'pageKey':
+                setPageKey(payload)
+                break
             case 'postedToOther':
                 setPostedToOther(payload)
                 break;
@@ -270,6 +274,7 @@ const PostContextProvider = (props) => {
         }
 
         const post = {
+            userType: pagePosting ? 'PAGE' : null,
             text: text,
             image: image || null,
             background: background || null,
@@ -279,7 +284,7 @@ const PostContextProvider = (props) => {
             name: name,
             userKey: userKey,
             postsKey: postKey,
-            publicKey: publicKey,
+            publicProfileKey: publicKey,
             profileImage: profileImage,
             pagePosted: pagePosting,
             postedToOther: postingToOther,
@@ -294,8 +299,7 @@ const PostContextProvider = (props) => {
     const saveEdits = () => {
 
         const post = {
-            postsKey: postsKey,
-            publicProfileKey: props.publicProfileKey,
+            userType: pagePosted ? 'PAGE' : null,
             text: text,
             image: image || null,
             background: background || null,
@@ -304,7 +308,9 @@ const PostContextProvider = (props) => {
             location: location,
             date: new Date(),
             name: props.name,
-            userKey: props.firebaseKey,
+            userKey: pagePosted ? pageKey : props.firebaseKey,
+            publicProfileKey: pagePosted ? null : props.publicProfileKey,
+            postsKey: postsKey,
             postProfileImage: postProfileImage,
             pagePosted: pagePosted,
             postedToOther: postedToOther,

@@ -52,7 +52,7 @@ const guardRoute = ({when, navigate, shouldBlock, cleanUp, allowNav, caption, pe
                 message={handleGuardedPath}
             />
             <Modal
-                show={showModal && !allowNav && !permittedPaths.includes(lastLocation.pathname) || undefined}
+                show={showModal && !allowNav && !permittedPaths.includes(lastLocation.pathname) ? 1 : 0}
                 addClass={classes.GuardModal}
             >
                 <div className={classes.WarningContainer}>
