@@ -16,10 +16,14 @@ const navigationBar = props => {
     const [displayPage, setDisplayPage] = useState(props.match.params.id)
     const [pathBase, setPathBase] = useState(props.history.location.pathname.split("/")[1])
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[2])
+    // const [ownedPage, setOwnedPage] = useState(props.owned);
+    const {owned} = props
 
-    useEffect(() => {
-        console.log('page nav - pathRoot', pathRoot)
-    })
+    // useEffect(() => {
+    //     if (owned) {
+    //         setOwnedPage(owned)
+    //     }
+    // }, [owned])
 
     useEffect(() => {
         if (pathRoot === 'manage' || pathRoot === 'view') {
@@ -79,16 +83,7 @@ const navigationBar = props => {
         )
 
     let navButtons;
-    if (pathRoot === 'discover' || pathRoot === 'view') {
-        navButtons = (
-            <React.Fragment>
-                <div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><Like /></div><div className={classes.NavButtonText}>Like</div></div>
-                <div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><FbMessage /></div><div className={classes.NavButtonText}>Message</div></div>
-                <div className={classes.NavButton}><div className={classes.NavButtonIcon}><SearchGlass /></div></div>
-                <div className={classes.NavButton}><div className={classes.NavButtonIcon}><Dots /></div></div>
-            </React.Fragment>
-        )
-    } else if (pathRoot === 'manage') {
+    if (pathRoot === 'manage' || owned) {
         navButtons = (
             <React.Fragment>
                 <div className={[classes.NavButton, classes.BigButton].join(" ")} style={{minWidth: '150px'}}><div className={classes.NavButtonIcon}><Eye /></div><div className={classes.NavButtonText}>View as Visitor</div></div>
@@ -96,6 +91,17 @@ const navigationBar = props => {
                 <div className={classes.NavButton}><div className={classes.NavButtonIcon}><Dots /></div></div>
             </React.Fragment>
         )
+    } else if (pathRoot === 'discover' || pathRoot === 'view' ) {
+        if (!owned) {
+            navButtons = (
+                <React.Fragment>
+                    <div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><Like /></div><div className={classes.NavButtonText}>Like</div></div>
+                    <div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><FbMessage /></div><div className={classes.NavButtonText}>Message</div></div>
+                    <div className={classes.NavButton}><div className={classes.NavButtonIcon}><SearchGlass /></div></div>
+                    <div className={classes.NavButton}><div className={classes.NavButtonIcon}><Dots /></div></div>
+                </React.Fragment>
+            )
+        }
     }
 
     return (

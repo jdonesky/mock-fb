@@ -36,6 +36,7 @@ export {
 export {
    startCreatePageAttempt,
    finishCreatePageAttempt,
+   fetchOwnedPageKeysAttempt,
    fetchOwnedPagesAttempt,
    fetchOwnedPageAttempt,
    fetchOthersPageAttempt,

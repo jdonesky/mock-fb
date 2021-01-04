@@ -22,12 +22,7 @@ const header = (props) => {
     const coverImageContainer = useRef(null);
     const coverImageUploader = useRef(null);
 
-    const {ownedPage, othersPage, onEditPageImage, authToken, editingProfileImage, editingCoverImage} = props
-
-    useEffect(() => {
-        console.log('pathRoot', pathRoot)
-        console.log('displayPage', displayPage)
-    })
+    const {ownedPage, othersPage, onEditPageImage, authToken, editingProfileImage, editingCoverImage, owned} = props
 
     useEffect(() => {
         if (displayPage) {
@@ -62,10 +57,18 @@ const header = (props) => {
             reader.onload = (event) => {
                 if (type === 'PROFILE') {
                     profileImageContainer.current.style.backgroundImage = `url(${event.target.result})`;
-                    onEditPageImage(authToken, "profileImage", {...ownedPage, profileImage: event.target.result})
+                    if (pathRoot === 'manage') {
+                        onEditPageImage(authToken, "profileImage", {...ownedPage, profileImage: event.target.result})
+                    } else if (owned) {
+                        onEditPageImage(authToken, "profileImage", {...othersPage, profileImage: event.target.result})
+                    }
                 } else {
                     coverImageContainer.current.style.backgroundImage = `url(${event.target.result})`;
-                    onEditPageImage(authToken,"coverImage",{...ownedPage, coverImage: event.target.result})
+                    if (pathRoot === 'manage') {
+                        onEditPageImage(authToken, "coverImage", {...ownedPage, coverImage: event.target.result})
+                    } else if (owned) {
+                        onEditPageImage(authToken, "coverImage", {...othersPage, coverImage: event.target.result})
+                    }
                 }
             };
             reader.readAsDataURL(file);
@@ -87,6 +90,22 @@ const header = (props) => {
                 </div>
             )
 
+            profileImageUploadButton = (
+                <div className={classes.ProfileUploadButton} onClick={() => profileImageUploader.current.click()}>
+                    {editingProfileImage ? <Spinner bottom='49px' left='1px' /> : <Camera />}
+                </div>
+            )
+        }
+    } else if (owned) {
+        if (othersPage) {
+            coverImage = othersPage.coverImage
+            profileImage = othersPage.profileImage
+            coverImageUploadButton = (
+                <div className={classes.CoverUploadButton} onClick={() => coverImageUploader.current.click()}>
+                    <div className={classes.CoverUploadIcon}>{editingCoverImage ? <Spinner bottom="62px" /> : <Camera />}</div>
+                    <div className={classes.CoverUploadText}>Edit</div>
+                </div>
+            )
             profileImageUploadButton = (
                 <div className={classes.ProfileUploadButton} onClick={() => profileImageUploader.current.click()}>
                     {editingProfileImage ? <Spinner bottom='49px' left='1px' /> : <Camera />}

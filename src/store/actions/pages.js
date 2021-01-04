@@ -63,10 +63,23 @@ export const startCreatePageAttempt = (authToken, page) => {
                     postsWithKeys = postsWithKeys.map(post => ({...post, userKey: pageKey}))
                     return axios.put(`/posts/${postsKey}.json?auth=${authToken}`, [...postsWithKeys])
                 })
-                // .then(response => {
-                //     return axios.get()
-                // })
                 .then(response => {
+                    return axios.get(`/users/${page.adminUserKey}.json?auth=${authToken}`)
+                })
+                .then(response => {
+                    console.log('SUCCESS - got profile to add new page key')
+                    const newProfile = {...response.data}
+                    let newPageKeys;
+                    if (newProfile.ownedPageKeys) {
+                        newPageKeys = [...newProfile.ownedPageKeys, pageKey]
+                    } else {
+                        newPageKeys = [pageKey]
+                    }
+                    newProfile.ownedPageKeys = newPageKeys;
+                    return axios.put(`/users/${page.adminUserKey}.json?auth=${authToken}`, newProfile)
+                })
+                .then(response => {
+                    console.log('Success - put new profile with new page key')
                     dispatch(startCreatePageSuccess(newPage))
                 })
                 .catch(error => {
@@ -94,7 +107,7 @@ export const finishCreatePageAttempt = (authToken, page, cb) => {
         }
         axios.put(`pages/${pageKey}.json?auth=${authToken}`, page)
             .then(response => {
-                dispatch(finishCreatePageSuccess())
+                dispatch(finishCreatePageSuccess());
                 cb();
             })
             .catch(error => {
@@ -104,6 +117,45 @@ export const finishCreatePageAttempt = (authToken, page, cb) => {
     }
 }
 
+const fetchOwnedPageKeysInit = () => {
+    return {
+        type: actionTypes.FETCH_OWNED_PAGE_KEYS_INIT
+    }
+}
+
+const fetchOwnedPageKeysSuccess = (pageKeys) => {
+    return {
+        type: actionTypes.FETCH_OWNED_PAGE_KEYS_SUCCESS,
+        pageKeys: pageKeys
+    }
+}
+
+const fetchOwnedPageKeysFail = (error) => {
+    return {
+        type: actionTypes.FETCH_OWNED_PAGE_KEYS_FAIL,
+        error: error
+    }
+}
+
+export const fetchOwnedPageKeysAttempt = (authToken, userKey) => {
+    return dispatch => {
+        dispatch(fetchOwnedPageKeysInit());
+        axios.get(`/users/${userKey}.json?auth=${authToken}`)
+            .then(response => {
+                console.log(response.data);
+                let ownedPageKeys;
+                if (response.data) {
+                    ownedPageKeys = response.data.ownedPageKeys;
+                }
+                console.log(ownedPageKeys);
+                dispatch(fetchOwnedPageKeysSuccess(ownedPageKeys));
+            })
+            .catch(error => {
+                dispatch(fetchOwnedPageKeysFail(error));
+            })
+    }
+
+}
 
 const fetchOwnedPagesInit = () => {
     return {

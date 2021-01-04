@@ -54,16 +54,38 @@ const post = (props) => {
     const [showEmojiSelector, setShowEmojiSelector] = useState(null);
     const [showGifSelector, setShowGifSelector] = useState(false);
 
+    // useEffect(() => {
+    //     console.log('Post "usertype"', props.userType)
+    //     console.log('Post "userKey"', props.userKey)
+    // })
+
+
     useEffect(() => {
         return () => {
             if (summaryOpeningTimer) {
-                summaryOpeningTimer = null;
+                clearTimeout(summaryOpeningTimer);
             }
             if (summaryClosingTimer) {
-                summaryClosingTimer = null;
+                clearTimeout(summaryClosingTimer);
             }
         }
     }, [])
+
+    const navToFullProfile = () => {
+        if (!props.userType) {
+            if (props.userKey === props.firebaseKey) {
+                props.history.push(`/user-profile/me`)
+            } else {
+                if (props.userKey) {
+                    props.history.push(`/user-profile/${props.userKey}`)
+                }
+            }
+        } else if (props.userType === 'PAGE') {
+            if (props.userKey) {
+                props.history.push(`/page/view/${props.userKey}`)
+            }
+        }
+    }
 
     let summaryOpeningTimer;
     const startViewingSummary = () => {
@@ -459,7 +481,7 @@ const post = (props) => {
             <section className={classes.Header}>
                 <div className={classes.HeaderInfo}>
                     <div className={classes.ProfileImageContainer}>
-                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}} onMouseEnter={enterProfileImage} onMouseLeave={leaveProfileImage} onClick={() => props.navToFullProfile(props.userKey)}>
+                        <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}} onMouseEnter={enterProfileImage} onMouseLeave={leaveProfileImage} onClick={navToFullProfile}>
                             {profileImage ? null : <NoGenderPlaceholder />}
                         </div>
                         <OutsideAlerter action={quickCloseSummary}>

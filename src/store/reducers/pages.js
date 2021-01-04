@@ -4,12 +4,14 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     pageInProgress: null,
     ownedPage: null,
+    ownedPageKeys: [],
     myPages: [],
     othersPage: null,
     othersPages: [],
     pageSummary: null,
     creatingNewPage: false,
     fetchingOwnedPage: false,
+    fetchingOwnedPageKeys: false,
     fetchingOwnedPages: false,
     fetchingOthersPage: false,
     fetchingOthersPages: false,
@@ -50,6 +52,29 @@ const createPageFail = (state,action) => {
         ...state,
         error: action.error,
         creatingNewPage: false
+    }
+}
+
+const fetchOwnedPageKeysInit = (state,action) => {
+    return {
+        ...state,
+        fetchingOwnedPageKeys: true
+    }
+}
+
+const fetchOwnedPageKeysSuccess = (state,action) => {
+    return {
+        ...state,
+        ownedPageKeys: action.pageKeys,
+        fetchingOwnedPageKeys: false
+    }
+}
+
+const fetchOwnedPageKeysFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        fetchingOwnedPageKeys: false
     }
 }
 
@@ -279,6 +304,9 @@ const reducer = (state=initialState, action) => {
         case actionTypes.START_CREATE_PAGE_SUCCESS: return startCreatePageSuccess(state,action);
         case actionTypes.FINISH_CREATE_PAGE_SUCCESS: return finishCreatePageSuccess(state,action);
         case actionTypes.CREATE_PAGE_FAIL: return createPageFail(state,action);
+        case actionTypes.FETCH_OWNED_PAGE_KEYS_INIT: return fetchOwnedPageKeysInit(state,action);
+        case actionTypes.FETCH_OWNED_PAGE_KEYS_SUCCESS: return fetchOwnedPageKeysSuccess(state,action);
+        case actionTypes.FETCH_OWNED_PAGE_KEYS_FAIL: return fetchOwnedPageKeysFail(state,action);
         case actionTypes.FETCH_OWNED_PAGES_INIT: return fetchOwnedPagesInit(state,action);
         case actionTypes.FETCH_OWNED_PAGES_SUCCESS: return fetchOwnedPagesSuccess(state,action);
         case actionTypes.FETCH_OWNED_PAGES_FAIL: return fetchOwnedPagesFail(state,action);

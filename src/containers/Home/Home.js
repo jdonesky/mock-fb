@@ -41,16 +41,6 @@ const home = (props) => {
         bottomLoadingIndicator = <div className={classes.BottomLoader}><InlineDots /></div>
     }
 
-    const navToFullProfile = (userKey) => {
-        if (userKey === props.firebaseKey) {
-            props.history.push(`/user-profile/me`)
-        } else {
-            props.history.push(`/user-profile/${userKey}`)
-        }
-
-    }
-
-
     let posts;
     if (props.othersPosts && props.othersPosts.length) {
         posts = props.othersPosts.map(post => (
@@ -74,7 +64,6 @@ const home = (props) => {
                 postLocation={post.location}
                 comments={post.comments}
                 reactions={post.reactions}
-                navToFullProfile={navToFullProfile}
             />
         ))
     }

@@ -38,14 +38,6 @@ const posts = ({posts, authToken, postsKey, firebaseKey, onFetchSelfPosts, delet
         onFetchSelfPosts(authToken, key)
     }, [onFetchSelfPosts, authToken, postsKey, displayProfile, userType, ownedPage])
 
-    const navToFullProfile = (userKey) => {
-        if (userKey === firebaseKey) {
-            history.push(`/user-profile/me`)
-        } else {
-            history.push(`/user-profile/${userKey}`)
-        }
-
-    }
 
     const posted = posts && posts.length && posts.length > 1 ? posts.slice(1).map(post => (
         <Post
@@ -68,7 +60,6 @@ const posts = ({posts, authToken, postsKey, firebaseKey, onFetchSelfPosts, delet
             postLocation={post.location}
             comments={post.comments}
             reactions={post.reactions}
-            navToFullProfile={navToFullProfile}
         />
     )) : null
 
