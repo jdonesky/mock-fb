@@ -55,12 +55,6 @@ const post = (props) => {
     const [showGifSelector, setShowGifSelector] = useState(false);
 
     useEffect(() => {
-        console.log('Post "owned"', props.owned)
-
-    })
-
-
-    useEffect(() => {
         return () => {
             if (summaryOpeningTimer) {
                 clearTimeout(summaryOpeningTimer);

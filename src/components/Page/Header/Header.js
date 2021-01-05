@@ -1,6 +1,6 @@
 
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './Header.css';
@@ -11,9 +11,11 @@ import Flag from "../../../assets/images/BookmarkIcons/flag";
 import Camera from "../../../assets/images/MiscIcons/camera";
 import FbMessage from "../../../assets/images/UserActionIcons/fbMessage";
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
+import {MessengerContext} from "../../../context/messenger-context";
 
 const header = (props) => {
 
+    const messengerContext = useContext(MessengerContext);
     const {width,height} = getWindowDimensions()
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split('/')[2])
     const [displayPage, setDisplayPage] = useState(props.history.location.pathname.split('/')[3])
@@ -65,6 +67,12 @@ const header = (props) => {
         }
     };
 
+    const startChat = () => {
+        if (othersPage) {
+            // console.log(othersPage);
+            messengerContext.startChat(othersPage, 'PAGE')
+        }
+    }
 
     let coverImage;
     let profileImage;
@@ -112,7 +120,7 @@ const header = (props) => {
             headerFlexFlow = 'column'
             sendMessageButton = (
                 <div className={classes.PageHeaderRightBlock} style={{height: width > 900 ? '120px' : null}}>
-                    <div className={classes.SendMessageButton}>
+                    <div className={classes.SendMessageButton} onClick={startChat}>
                         <div className={classes.MessageButtonIcon}>
                             <FbMessage fill="white" />
                         </div>
@@ -139,7 +147,7 @@ const header = (props) => {
                     display: "none"
                 }}
             />
-            <div className={classes.PageProfileHeader} style={{flexFlow: headerFlexFlow && width < 900 ? headerFlexFlow : null, justifyContent: headerFlexFlow && width > 900 ? "space-between" : null, alignItems: headerFlexFlow && width < 900 ? "flex-start" : null, bottom: headerFlexFlow && width < 900 ? "-145px" : null}}>
+            <div className={classes.PageProfileHeader} style={{flexFlow: headerFlexFlow && width < 900 ? headerFlexFlow : null, justifyContent: headerFlexFlow && width > 900 ? "space-between" : "flex-start", alignItems: headerFlexFlow && width < 900 ? "flex-start" : null, bottom: headerFlexFlow && width < 900 ? "-185px" : null, marginBottom: headerFlexFlow && width < 900 ? "50px" : null}}>
                 <div className={classes.PageHeaderLeftBlock}>
                     <div className={classes.PageProfileCircleOutline} style={{height: `${width * 0.16}px`, width: `${width * 0.16}px`}}>
                         <div ref={profileImageContainer} className={classes.PageProfileCircle} style={{backgroundImage: profileImage ? `url(${profileImage})`: null, height: `${width * 0.15}px`, width: `${width * 0.15}px`}}>

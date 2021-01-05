@@ -23,15 +23,24 @@ const startNewChatFail = (error) => {
     }
 }
 
-export const startNewChatAttempt = (authToken, myProfile, theirProfile) => {
+export const startNewChatAttempt = (authToken, myProfile, theirProfile, type) => {
     return dispatch => {
         let chatKey;
         let myNewProfile;
         let theirNewProfile;
+        let theirKey;
+        let theirName;
+        if (type === 'PAGE') {
+            theirKey = theirProfile.dbKey;
+            theirName = theirProfile.name;
+        } else {
+            theirKey = theirProfile.userKey;
+            theirName = theirProfile.firstName + ' ' + theirProfile.lastName;
+        }
         const newChat = {
             parties: [
                     {name: myProfile.firstName + ' ' + myProfile.lastName, profileImage: myProfile.profileImage, userKey:myProfile.userKey},
-                    {name: theirProfile.firstName + ' ' + theirProfile.lastName, profileImage: theirProfile.profileImage, userKey: theirProfile.userKey}
+                    {name: theirName, profileImage: theirProfile.profileImage, userKey: theirKey, type: type}
                 ],
             messages: [],
             startDate: new Date()
@@ -46,9 +55,9 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile) => {
                         myNewProfile = {...myProfile}
                         let myNewChats;
                         if (myNewProfile.chats) {
-                            myNewChats = {...myNewProfile.chats, [theirProfile.userKey]: chatKey}
+                            myNewChats = {...myNewProfile.chats, [theirKey]: chatKey}
                         } else {
-                            myNewChats = {[theirProfile.userKey] : chatKey}
+                            myNewChats = {[theirKey] : chatKey}
                         }
                         myNewProfile.chats = myNewChats;
 
@@ -60,7 +69,13 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile) => {
                             theirNewChats = {[myProfile.userKey]: chatKey}
                         }
                         theirNewProfile.chats = theirNewChats
-                        return axios.put(`/public-profiles/${theirNewProfile.publicProfileKey}.json?auth=${authToken}`, theirNewProfile)
+                        let theirProfilePath;
+                        if (type === 'PAGE') {
+                            theirProfilePath = `/pages/${theirKey}.json?auth=${authToken}`;
+                        } else {
+                            theirProfilePath = `/public-profiles/${theirNewProfile.publicProfileKey}.json?auth=${authToken}`;
+                        }
+                        return axios.put(theirProfilePath, theirNewProfile)
                     })
                     .then(response => {
                         return axios.put(`/public-profiles/${myNewProfile.publicProfileKey}.json?auth=${authToken}`, myNewProfile)
@@ -145,6 +160,7 @@ export const sendMessageAttempt = (authToken, chatKey, message) => {
         dispatch(sendMessageInit());
         KeyGenerator.getKey(authToken, (newKey) => {
             const newMessage = {...message, id: newKey}
+            console.log('newMessage', newMessage)
             axios.get(`/chats/${chatKey}/messages.json?auth=${authToken}`)
                 .then(response => {
                     if (response.data && response.data.length) {
@@ -155,6 +171,7 @@ export const sendMessageAttempt = (authToken, chatKey, message) => {
                     return axios.put(`/chats/${chatKey}/messages.json?auth=${authToken}`, newChat)
                 })
                 .then(response => {
+                    console.log('put message', response);
                     dispatch(sendMessageSuccess(newChat))
                 })
                 .catch(error => {

@@ -28,15 +28,19 @@ const messengerContextProvider = props => {
         setShowMessenger(false);
     }
 
-    const startChat = (otherPartyProfile) => {
+    const startChat = (otherPartyProfile, type) => {
         let existingChat;
         if (myPublicProfile && myPublicProfile.chats) {
-            existingChat = myPublicProfile.chats[otherPartyProfile.userKey]
+            if (type === 'PAGE') {
+                existingChat = myPublicProfile.chats[otherPartyProfile.dbKey]
+            } else {
+                existingChat = myPublicProfile.chats[otherPartyProfile.userKey]
+            }
             if (existingChat) {
                 props.onRestartChat(authToken, existingChat);
             }
         } else {
-            props.onStartNewChat(authToken, props.myPublicProfile, otherPartyProfile)
+            props.onStartNewChat(authToken, props.myPublicProfile, otherPartyProfile, type)
         }
         openMessenger();
     }
@@ -66,7 +70,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onRestartChat: (authToken, chatKey) => dispatch(actions.restartOldChatAttempt(authToken, chatKey)),
-        onStartNewChat: (authToken, myProfile, theirProfile) => dispatch(actions.startNewChatAttempt(authToken, myProfile, theirProfile)),
+        onStartNewChat: (authToken, myProfile, theirProfile, type) => dispatch(actions.startNewChatAttempt(authToken, myProfile, theirProfile, type)),
         onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message)),
         onFetchActiveChat: (authToken) => dispatch(actions.fetchActiveChatAttempt(authToken)),
         onClearActiveChat: (authToken) => dispatch(actions.clearActiveChatAttempt(authToken)),

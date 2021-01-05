@@ -142,12 +142,10 @@ export const fetchOwnedPageKeysAttempt = (authToken, userKey) => {
         dispatch(fetchOwnedPageKeysInit());
         axios.get(`/users/${userKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log(response.data);
                 let ownedPageKeys;
                 if (response.data) {
                     ownedPageKeys = response.data.ownedPageKeys;
                 }
-                console.log(ownedPageKeys);
                 dispatch(fetchOwnedPageKeysSuccess(ownedPageKeys));
             })
             .catch(error => {
@@ -251,7 +249,6 @@ export const fetchOthersPageAttempt = (authToken, pageKey) => {
         dispatch(fetchOthersPageInit());
         axios.get(`/pages/${pageKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log(response.data)
                 dispatch(fetchOthersPageSuccess(response.data))
             })
             .catch(error => {

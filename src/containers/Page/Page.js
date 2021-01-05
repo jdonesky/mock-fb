@@ -23,9 +23,9 @@ const page = (props) => {
 
     const {authToken, firebaseKey, ownedPageKeys} = props
 
-    useEffect(() => {
-        console.log(props.othersPage)
-    })
+    // useEffect(() => {
+    //     console.log(props.othersPage)
+    // })
 
     useEffect(() => {
         if (displayPage) {

@@ -152,7 +152,7 @@ const editIntro = props => {
     }
 
     let existingHometown;
-    if (currLocation) {
+    if (hometown) {
         existingHometown = (
             <div className={classes.IntroItem}>
                 <div className={classes.ItemLeftBlock}>
@@ -169,7 +169,7 @@ const editIntro = props => {
     }
 
     let existingRelationship;
-    if (currLocation) {
+    if (relationships) {
         existingRelationship = (
             <div className={classes.IntroItem}>
                 <div className={classes.ItemLeftBlock}>

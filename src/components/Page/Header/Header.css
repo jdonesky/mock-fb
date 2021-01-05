@@ -171,7 +171,7 @@
     height: 40px;
     width: 280px;
     border-radius: 5px;
-    background-color: #155fe8;
+    background-color: #1665f7;
     color: white;
     cursor: pointer;
     display: flex;
@@ -180,13 +180,13 @@
 }
 
 .SendMessageButton:hover {
-    background-color: #1665f7;
+    background-color: #155fe8;
 }
 
 .MessageButtonIcon {
-    margin-left: 8px;
-    height: 28px;
-    width: 28px;
+    margin-right: 8px;
+    height: 23px;
+    width: 23px;
 }
 
 .MessageButtonIcon svg {
@@ -195,6 +195,8 @@
 }
 
 .MessageButtonText {
+    font-family: "Lucida Grande";
+    font-weight: 550;
     display: flex;
     justify-content: flex-start;
     align-items: center;

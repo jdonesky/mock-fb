@@ -13,14 +13,23 @@ import FbMessage from '../../../../assets/images/UserActionIcons/fbMessage';
 const createPost = props => {
 
     const postContext = useContext(PostContext);
-    const {ownProfileImage, ownedPage} = props
+    const {ownProfileImage, ownedPage, ownedPageKeys, othersPage} = props
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split('/')[2])
     const [profilePic, setProfilePic] = useState(null);
+
+    let owned;
+    if (ownedPageKeys && othersPage) {
+        owned = ownedPageKeys.includes(othersPage.dbKey)
+    }
 
     useEffect(() => {
         if (pathRoot === 'manage') {
             if (ownedPage && ownedPage.profileImage) {
                 setProfilePic(ownedPage.profileImage)
+            }
+        } else if (owned) {
+            if (othersPage && othersPage.profileImage) {
+                setProfilePic((othersPage.profileImage))
             }
         } else {
             if (ownProfileImage) {
@@ -31,10 +40,16 @@ const createPost = props => {
 
 
     let toggleModalAction;
-    let page;
-    if (ownedPage) {
-        toggleModalAction = postContext.openPageCreateModal;
-        page = {...ownedPage}
+    if (pathRoot === 'manage') {
+        toggleModalAction = () => postContext.openPageCreateModal(ownedPage);
+    } else {
+        if (othersPage) {
+            if (owned) {
+                toggleModalAction = () => postContext.openPageCreateModal(othersPage)
+            } else {
+                toggleModalAction = () => postContext.openPostToOtherModal(othersPage, 'PAGE')
+            }
+        }
     }
 
     return (
@@ -43,7 +58,7 @@ const createPost = props => {
                 <div className={classes.ProfileImage} style={{backgroundImage: profilePic ? `url(${profilePic})` : null}}>
                     {profilePic ? null : <Avatar fill="white"/>}
                 </div>
-                <div className={classes.CreatePostButton} onClick={() => toggleModalAction(page)}>Create Post</div>
+                <div className={classes.CreatePostButton} onClick={toggleModalAction}>Create Post</div>
             </section>
             <section className={classes.BottomBlock}>
                 <div className={classes.MediaButton}>
@@ -62,7 +77,9 @@ const createPost = props => {
 const mapStateToProps = state => {
     return {
         ownProfileImage: state.profile.profileImage,
-        ownedPage: state.pages.ownedPage
+        ownedPage: state.pages.ownedPage,
+        ownedPageKeys: state.pages.ownedPageKeys,
+        othersPage: state.pages.othersPage
     }
 }
 
