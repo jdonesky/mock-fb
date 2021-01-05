@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect, useContext} from 'react';
-import {withRouter} from 'react-router';
+import {withRouter, Route} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './About.css';
 import sharedClasses from '../Shared.css';
@@ -130,7 +130,8 @@ const about = props => {
                 },
                 othersPage.website ? {
                     text: othersPage.website,
-                    icon: <Web fill="rgba(0,0,0,0.45)"/>
+                    icon: <Web fill="rgba(0,0,0,0.45)"/>,
+                    website: true
                 } : null,
                 othersPage.phone ? {
                     text: othersPage.phone,
@@ -141,7 +142,8 @@ const about = props => {
                 },
                 othersPage.email ? {
                     text: othersPage.email,
-                    icon: <Email fill="rgba(0,0,0,0.45)"/>
+                    icon: <Email fill="rgba(0,0,0,0.45)"/>,
+                    email: true
                 } : null,
                 {
                     text: othersPage.category,
@@ -158,7 +160,11 @@ const about = props => {
                                 {obj.icon}
                             </div>
                             <div
-                                className={[classes.EditText, obj.followText ? classes.FollowClass : null, obj.messageText ? classes.MessageClass : null, obj.categoryText ? classes.CategoryClass : null].join(" ")}>{obj.text}</div>
+                                className={[classes.AboutText, obj.followText ? classes.FollowClass : null, obj.messageText ? classes.EditText: null, obj.messageText ? classes.MessageClass: null, obj.categoryText ? classes.CategoryClass : null, obj.email ? classes.Link : null, obj.website ? classes.Link : null].join(" ")}
+                                onClick={obj.action}
+                            >
+                                {obj.email ? <a href={`mailto:${obj.text}`}>{obj.text}</a> : obj.website ? <a href={`http://${obj.text}`} target="_blank" rel="noopener noreferrer">{obj.text}</a> : obj.text}
+                            </div>
                         </div>
                     </div>
                 )

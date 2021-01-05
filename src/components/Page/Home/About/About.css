@@ -53,6 +53,11 @@
     cursor: pointer;
 }
 
+.AboutText {
+    font-family: "Lucida Grande";
+    font-size: 14px;
+}
+
 .EditText:hover {
     text-decoration: underline;
 }
@@ -92,4 +97,17 @@
 
 .CategoryClass:hover {
     text-decoration-color: rgba(0,0,0,0.5);
+}
+
+.Link a {
+    font-family: "Lucida Grande";
+    font-weight: 300;
+    font-size: 14px;
+    color: #0a70ff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.Link a:hover {
+    text-decoration: underline;
 }

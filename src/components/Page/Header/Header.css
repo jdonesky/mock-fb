@@ -22,10 +22,23 @@
     justify-content: flex-start;
     align-items: flex-end;
     position: absolute;
-    bottom: -120px;
+    bottom: -140px;
     left: 5%;
+    width: 76%;
     max-width: 930px;
-    margin: 0 auto;
+    margin: 0 auto 20px;
+}
+
+.PageHeaderLeftBlock {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.PageHeaderRightBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media (min-width: 1100px) {
@@ -154,3 +167,35 @@
     left: 5px;
 }
 
+.SendMessageButton {
+    height: 40px;
+    width: 280px;
+    border-radius: 5px;
+    background-color: #155fe8;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SendMessageButton:hover {
+    background-color: #1665f7;
+}
+
+.MessageButtonIcon {
+    margin-left: 8px;
+    height: 28px;
+    width: 28px;
+}
+
+.MessageButtonIcon svg {
+    height: auto;
+    width: 100%;
+}
+
+.MessageButtonText {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}

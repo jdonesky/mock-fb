@@ -9,8 +9,8 @@ import Spinner from '../../UI/Spinner/Spinner';
 import CreatePageCover from "../../../assets/images/Raster/createPagePreview.png";
 import Flag from "../../../assets/images/BookmarkIcons/flag";
 import Camera from "../../../assets/images/MiscIcons/camera";
+import FbMessage from "../../../assets/images/UserActionIcons/fbMessage";
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
-
 
 const header = (props) => {
 
@@ -23,16 +23,6 @@ const header = (props) => {
     const coverImageUploader = useRef(null);
 
     const {ownedPage, othersPage, onEditPageImage, authToken, editingProfileImage, editingCoverImage, owned} = props
-
-    // useEffect(() => {
-    //     if (displayPage) {
-    //         if (pathRoot === 'manage') {
-    //             props.onFetchOwnedPage(authToken, displayPage);
-    //         } else {
-    //             props.onFetchOthersPage(authToken, displayPage);
-    //         }
-    //     }
-    // }, [displayPage])
 
     useEffect(() => {
         if (pathRoot === 'manage') {
@@ -75,10 +65,13 @@ const header = (props) => {
         }
     };
 
+
     let coverImage;
     let profileImage;
     let coverImageUploadButton;
     let profileImageUploadButton;
+    let sendMessageButton;
+    let headerFlexFlow;
     if (pathRoot === 'manage') {
         if (ownedPage) {
             coverImage = ownedPage.coverImage
@@ -116,6 +109,17 @@ const header = (props) => {
         if (othersPage) {
             coverImage = othersPage.coverImage
             profileImage = othersPage.profileImage
+            headerFlexFlow = 'column'
+            sendMessageButton = (
+                <div className={classes.PageHeaderRightBlock} style={{height: width > 900 ? '120px' : null}}>
+                    <div className={classes.SendMessageButton}>
+                        <div className={classes.MessageButtonIcon}>
+                            <FbMessage fill="white" />
+                        </div>
+                        <div className={classes.MessageButtonText}>Send Message</div>
+                    </div>
+                </div>
+            )
         }
     }
 
@@ -135,27 +139,30 @@ const header = (props) => {
                     display: "none"
                 }}
             />
-            <div className={classes.PageProfileHeader}>
-                <div className={classes.PageProfileCircleOutline} style={{height: `${width * 0.16}px`, width: `${width * 0.16}px`}}>
-                    <div ref={profileImageContainer} className={classes.PageProfileCircle} style={{backgroundImage: profileImage ? `url(${profileImage})`: null, height: `${width * 0.15}px`, width: `${width * 0.15}px`}}>
-                        {profileImage ? null : <Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/>}
-                        {profileImageUploadButton}
+            <div className={classes.PageProfileHeader} style={{flexFlow: headerFlexFlow && width < 900 ? headerFlexFlow : null, justifyContent: headerFlexFlow && width > 900 ? "space-between" : null, alignItems: headerFlexFlow && width < 900 ? "flex-start" : null, bottom: headerFlexFlow && width < 900 ? "-145px" : null}}>
+                <div className={classes.PageHeaderLeftBlock}>
+                    <div className={classes.PageProfileCircleOutline} style={{height: `${width * 0.16}px`, width: `${width * 0.16}px`}}>
+                        <div ref={profileImageContainer} className={classes.PageProfileCircle} style={{backgroundImage: profileImage ? `url(${profileImage})`: null, height: `${width * 0.15}px`, width: `${width * 0.15}px`}}>
+                            {profileImage ? null : <Flag first="rgba(0,0,0,0.28)" second="rgba(0,0,0,0.29)"/>}
+                            {profileImageUploadButton}
+                        </div>
+                    </div>
+                    <input
+                        ref={profileImageUploader}
+                        type="file"
+                        accept="image/*"
+                        multiple={false}
+                        onChange={(event) => imageUploadHandler(event,'PROFILE')}
+                        style={{
+                            display: "none"
+                        }}
+                    />
+                    <div className={classes.PageNameAndCategory}>
+                        <div className={classes.PageName}>{props.name || 'Page Name'}</div>
+                        <div className={classes.PageCategory}>{props.category || 'Category'}</div>
                     </div>
                 </div>
-                <input
-                    ref={profileImageUploader}
-                    type="file"
-                    accept="image/*"
-                    multiple={false}
-                    onChange={(event) => imageUploadHandler(event,'PROFILE')}
-                    style={{
-                        display: "none"
-                    }}
-                />
-                <div className={classes.PageNameAndCategory}>
-                    <div className={classes.PageName}>{props.name || 'Page Name'}</div>
-                    <div className={classes.PageCategory}>{props.category || 'Category'}</div>
-                </div>
+                {sendMessageButton}
             </div>
         </div>
     )
