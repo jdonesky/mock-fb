@@ -121,16 +121,19 @@ const auth = props => {
   if (props.error) {
     switch(props.error) {
       case 'INVALID_EMAIL':
-        errorMessage = 'Please enter a valid email'
+        errorMessage = 'Please enter a valid email address'
         break
       case 'INVALID_PASSWORD':
-        errorMessage = 'Please enter a valid password'
+        errorMessage = 'Looks like that password is incorrect.'
         break;
       case 'EMAIL_NOT_FOUND':
-        errorMessage = 'Please enter a valid email'
+        errorMessage = "No account found. Sign up or enter another email address"
         break;
       case 'MISSING_PASSWORD':
         errorMessage = 'Please enter your password'
+        break;
+      case 'EMAIL_EXISTS':
+        errorMessage = 'Looks like an account already exists with that email address'
         break;
       default:
         errorMessage = 'Something went wrong'

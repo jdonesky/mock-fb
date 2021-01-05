@@ -16,6 +16,7 @@ import usersReducer from "./store/reducers/users";
 import friendsReducer from "./store/reducers/friends";
 import photosReducer from "./store/reducers/photos";
 import messengerReducer from "./store/reducers/messenger";
+import activityReducer from "./store/reducers/activity";
 
 import MessengerContextProvider from './context/messenger-context';
 
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   photos: photosReducer,
   users: usersReducer,
   friends: friendsReducer,
-  messenger: messengerReducer
+  messenger: messengerReducer,
+  activity: activityReducer
 });
 
 const composeEnhancers =

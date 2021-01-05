@@ -82,3 +82,7 @@ export {
    clearActiveChatAttempt,
    fetchChatRecordAttempt
 } from "./messenger";
+
+export {
+   fetchNewActivityRecordAttempt
+} from "./activity";
