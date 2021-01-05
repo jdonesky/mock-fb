@@ -71,9 +71,24 @@
     align-items: flex-start;
 }
 
-.ProfileImageContainer {
-    height: 60px;
-    width: 60px;
+.NotificationContainer {
+    min-height: 50px;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.NotificationContainer:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.ImageContainer {
+    height: 40px;
+    width: 40px;
     border-radius: 100%;
     border: 1px solid rgba(0,0,0,0.1);
     background-color: rgba(0,0,0,0.1);
@@ -82,13 +97,26 @@
     margin-right: 10px;
 }
 
-.ProfileImageContainer svg {
+.ImageContainer svg {
     height: auto;
     width: 85%;
     position: relative;
     top: 8px;
     left: 5px;
 }
+
+.TextContainer {
+    height: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-family: "Lucida Grande";
+    font-size: 15px;
+    color: rgba(0,0,0,0.3);
+}
+
+
+
 
 .NameTagContainer {
     display: flex;
@@ -179,3 +207,5 @@
     top: 4px;
     left: 7px;
 }
+
+

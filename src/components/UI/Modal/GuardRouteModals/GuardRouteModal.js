@@ -11,7 +11,6 @@ const guardRoute = ({when, navigate, shouldBlock, cleanUp, allowNav, caption, pe
     const [allow, setAllow] = useState(allowNav);
 
 
-
     useEffect(() => {
         if (allow !== allowNav) {
             setAllow(allowNav);

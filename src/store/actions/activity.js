@@ -11,7 +11,7 @@ const fetchNewActivityInit = () => {
 const fetchNewActivitySuccess = (records) => {
     return {
         type: actionTypes.FETCH_NEW_ACTIVITY_SUCCESS,
-        newActivity: records
+        records: records
     }
 }
 
@@ -25,13 +25,13 @@ const fetchNewActivityFail = (error) => {
 export const fetchNewActivityRecordAttempt = (authToken,key) => {
     return dispatch => {
         dispatch(fetchNewActivityInit());
-
         axios.get(`/activity/${key}/records.json?auth=${authToken}&orderBy="read"&equalTo="false"`)
             .then(response => {
                 console.log(response.data);
+                dispatch(fetchNewActivitySuccess(response.data))
             })
             .catch(error => {
-                console.log(error);
+                dispatch(fetchNewActivityFail(error))
             })
     }
 }

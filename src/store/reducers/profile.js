@@ -108,7 +108,7 @@ const updateProfileSuccess = (state,action) => {
     posts: action.userData.posts || null,
     userId: action.userData.userId || null,
     publicProfileKey: action.userData.publicProfileKey || null,
-    activityLogKey: action.userdata.activityLogKey || null,
+    activityLogKey: action.userData.activityLogKey || null,
     publicProfile: action.userData.publicProfile || null,
     contentEntryLoading: false,
   }

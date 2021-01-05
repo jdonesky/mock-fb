@@ -64,7 +64,7 @@ export const createProfileAttempt =  (token,newUserData) => {
                 })
                 .then(response => {
                     activityLogKey = response.data.name;
-                    const firstEntry = {text: `Joined dumb facebook on ${today}`, date: today, id: -1, read:false}
+                    const firstEntry = {text: `You joined dumb facebook on ${`${today.split(' ')[0]} ${today.split(' ')[1]} ${today.split(' ')[2]}`}`, date: today, id: -1, read: false, type: "SELF"}
                     return axios.post(`/activity/${activityLogKey}/records.json?auth=${token}`, firstEntry)
                 })
                 .then(response => {

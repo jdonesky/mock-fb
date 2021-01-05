@@ -9,37 +9,41 @@ import Dots from "../../../../../assets/images/dots";
 
 const notifications = (props) => {
 
-    const {authToken, logKey, onFetchNewActivity} = props;
+    const {authToken, logKey, onFetchNewActivity, newActivity} = props;
+
+    useEffect(() => {
+        console.log('new', newActivity)
+    })
 
     useEffect(() => {
         if (logKey)
             onFetchNewActivity(authToken, logKey)
     }, [authToken, logKey, onFetchNewActivity])
 
-    let newNotifications = [];
+    let newNotifications;
     let earlierNotifications = [];
-    if (props.newActivity && props.newActivity.length) {
-        props.newActivity.forEach(note => {
-            if (note.date && new Date(note.date) < new Date()) {
-                newNotifications.push(
-                    <section className={classes.NotificationContainer}>
+    if (newActivity && Object.keys(newActivity).length) {
+        newNotifications = Object.keys(newActivity).map(note => (
+                    <section className={classes.NotificationsContainer}>
                         <div className={classes.ImageContainer}
-                             style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}
+                             style={{backgroundImage: note.image ? `url(${note.image})` : null}}
                         >
-                            {props.profileImage ? null : <Avatar />}
+                            {note.image ? null : <Avatar fill="white"/>}
                         </div>
                         <div className={classes.TextContainer}>
-                            <div className={classes.Name}>{props.name ? props.name : ''}</div>
-                            <div className={classes.SubText}>See your profile</div>
                         </div>
                         <div className={classes.EditButtonContainer}>
                             <div className={classes.EditButton}></div>
                         </div>
                     </section>
                 )
-            }
-        });
+
+        );
     }
+
+    // if (note.date && new Date(note.date) < new Date()) {
+    //     newNotifications.push
+
 
     const placeholder = (<span className={classes.Placeholder}>No activity</span>)
 
