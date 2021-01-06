@@ -4,8 +4,9 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import classes from './Notifications.css';
 import * as actions from '../../../../../store/actions/index';
-import Avatar from '../../../../../assets/images/profile-placeholder-gender-neutral';
 import Dots from "../../../../../assets/images/dots";
+
+import Notification from './Notification/Notification';
 
 const notifications = (props) => {
 
@@ -20,29 +21,18 @@ const notifications = (props) => {
             onFetchNewActivity(authToken, logKey)
     }, [authToken, logKey, onFetchNewActivity])
 
+
     let newNotifications;
-    let earlierNotifications = [];
     if (newActivity && Object.keys(newActivity).length) {
-        newNotifications = Object.keys(newActivity).map(note => (
-                    <section className={classes.NotificationsContainer}>
-                        <div className={classes.ImageContainer}
-                             style={{backgroundImage: note.image ? `url(${note.image})` : null}}
-                        >
-                            {note.image ? null : <Avatar fill="white"/>}
-                        </div>
-                        <div className={classes.TextContainer}>
-                        </div>
-                        <div className={classes.EditButtonContainer}>
-                            <div className={classes.EditButton}></div>
-                        </div>
-                    </section>
-                )
-
-        );
+        newNotifications = Object.keys(newActivity).map(key => (
+            <Notification
+                image={newActivity[key].image}
+                text={newActivity[key].text}
+                type={newActivity[key].type}
+                date={newActivity[key].date}
+            />
+        ))
     }
-
-    // if (note.date && new Date(note.date) < new Date()) {
-    //     newNotifications.push
 
 
     const placeholder = (<span className={classes.Placeholder}>No activity</span>)
@@ -60,9 +50,9 @@ const notifications = (props) => {
             </section>
             <section className={classes.NotificationsContainer}>
                 <span className={[classes.DropdownTitle, classes.SubTitle].join(" ")}>New</span>
-                {newNotifications.length !== 0? newNotifications : placeholder}
-                <span className={[classes.DropdownTitle, classes.SubTitle].join(" ")}>Earlier</span>
-                {earlierNotifications.length !== 0 ? earlierNotifications : placeholder}
+                {newNotifications && newNotifications.length !== 0? newNotifications : placeholder}
+                {/*<span className={[classes.DropdownTitle, classes.SubTitle].join(" ")}>Earlier</span>*/}
+                {/*{earlierNotifications.length !== 0 ? earlierNotifications : placeholder}*/}
             </section>
         </div>
     );

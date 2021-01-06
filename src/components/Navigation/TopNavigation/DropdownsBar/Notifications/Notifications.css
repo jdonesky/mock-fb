@@ -86,9 +86,18 @@
     background-color: rgba(0,0,0,0.05);
 }
 
+.ImageBlock {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .ImageContainer {
     height: 40px;
+    min-height: 40px;
     width: 40px;
+    min-width: 40px;
     border-radius: 100%;
     border: 1px solid rgba(0,0,0,0.1);
     background-color: rgba(0,0,0,0.1);
@@ -114,9 +123,6 @@
     font-size: 15px;
     color: rgba(0,0,0,0.3);
 }
-
-
-
 
 .NameTagContainer {
     display: flex;

@@ -206,6 +206,35 @@ export const convertMessageDatetime = (date) => {
 
 }
 
+export const getElapsedTime = (date) => {
+
+  const then = new Date(date);
+  const now = new Date();
+
+  let timeDiff = now.getTime() - then.getTime();
+  timeDiff = timeDiff / 1000;
+
+  const seconds = Math.floor(timeDiff % 60);
+  timeDiff = Math.floor(timeDiff / 60);
+  const minutes = timeDiff % 60;
+  timeDiff = Math.floor(timeDiff / 60);
+  const hours = timeDiff % 24;
+  timeDiff = Math.floor(timeDiff / 24);
+  const days = timeDiff;
+  let totalHours = hours + (days * 24);
+  let totalHoursAsString = totalHours < 10 ? "0" + totalHours : totalHours + "";
+
+  if (totalHoursAsString === "00") {
+    return `${minutes} ${minutes > 1 ? 'minutes' : 'minute'} ago`;
+  } else if (totalHours < 24 && totalHours >= 1) {
+    return `${hours} ${hours > 1 ? 'hours' : 'hour'} ago`
+  } else if (days >=1 && days < 7) {
+    return `${days} ${days > 1 ? 'days' : 'day'} ago`;
+  } else if (days > 7) {
+    return convertMessageDatetime(date);
+  }
+}
+
 
 export class KeyGenerator {
 

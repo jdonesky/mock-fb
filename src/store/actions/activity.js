@@ -24,10 +24,11 @@ const fetchNewActivityFail = (error) => {
 
 export const fetchNewActivityRecordAttempt = (authToken,key) => {
     return dispatch => {
+        console.log('key', key);
         dispatch(fetchNewActivityInit());
         axios.get(`/activity/${key}/records.json?auth=${authToken}&orderBy="read"&equalTo="false"`)
             .then(response => {
-                console.log(response.data);
+                console.log(response);
                 dispatch(fetchNewActivitySuccess(response.data))
             })
             .catch(error => {

@@ -1,0 +1,105 @@
+
+.NotificationContainer {
+    position: relative;
+    min-height: 50px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 8px;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.NotificationContainer:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.ImageContainer {
+    height: 40px;
+    min-height: 40px;
+    width: 40px;
+    min-width: 40px;
+    border-radius: 100%;
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.1);
+    background-position: center;
+    background-size: cover;
+    margin-right: 10px;
+    overflow: hidden;
+}
+
+.ImageContainer svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: 4px;
+}
+
+.TextContainer {
+    height: 100%;
+}
+
+.Text {
+    height: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-family: "Lucida Grande";
+    font-size: 15px;
+    font-weight: 550;
+    color: rgba(0,0,0,0.6);
+}
+
+.Date {
+    height: 20%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "Lucida Grande";
+    font-weight: 100;
+    color: rgba(0,0,0,0.5);
+    font-size: 12px;
+}
+
+.DateUnread {
+    font-weight: 900;
+    color: #0a70ff;
+}
+
+
+.EditButtonContainer {
+    position: absolute;
+    right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    min-height: 30px;
+    width: 30px;
+    min-width: 30px;
+    border-radius: 100%;
+    border: 1px solid rgba(0,0,0,0.4);
+    background-color: white;
+    cursor: pointer;
+}
+
+.EditButtonContainer:hover {
+    background-color: #e3e3e3;
+}
+
+.EditButtonIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15px;
+    width: 15px;
+}
+
+.EditButtonIcon svg {
+    height: auto;
+    width: 100%;
+}
+

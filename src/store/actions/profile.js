@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
 import {KeyGenerator} from "../../shared/utility";
 import {convertDatetime} from "../../shared/utility";
+import {convertMessageDatetime} from "../../shared/utility";
 
 
 const loadProfileInit = () => {
@@ -64,7 +65,7 @@ export const createProfileAttempt =  (token,newUserData) => {
                 })
                 .then(response => {
                     activityLogKey = response.data.name;
-                    const firstEntry = {text: `You joined dumb facebook on ${`${today.split(' ')[0]} ${today.split(' ')[1]} ${today.split(' ')[2]}`}`, date: today, id: -1, read: false, type: "SELF"}
+                    const firstEntry = {text: `You joined dumb facebook`, date: today, id: -1, read: "false", type: "SELF"}
                     return axios.post(`/activity/${activityLogKey}/records.json?auth=${token}`, firstEntry)
                 })
                 .then(response => {
