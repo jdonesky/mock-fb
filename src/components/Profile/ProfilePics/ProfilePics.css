@@ -4,11 +4,12 @@
     width: 100%;
 }
 
+
 .ProfilePicContainer {
     width: 175px;
     height: 175px;
     margin: 25px auto;
-    border-radius: 200px;
+    border-radius: 100%;
     overflow: hidden;
     z-index: 3;
     position: relative;

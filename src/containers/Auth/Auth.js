@@ -7,6 +7,7 @@ import SignUp from './SignUp';
 import Modal from "../../components/UI/Modal/Modal";
 import * as actions from "../../store/actions/index";
 import classes from "./Auth.css";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 
 const auth = props => {
@@ -158,7 +159,7 @@ const auth = props => {
           </div>
           <form className={classes.Form} onSubmit={authSubmitHandler}>
             {formFields}
-            <button className={classes.LoginButton} type="submit" /*disabled={formIsValid} */>Log In</button>
+            <button className={classes.LoginButton} type="submit" >{props.loading ? <Spinner bottom="47px" />  : 'Log In'}</button>
             <div className={classes.Break}/>
             <button className={classes.SignUpButton} type="button" onClick={switchModeHandler}>Create New Account</button>
           </form>
@@ -172,6 +173,7 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
     error: state.auth.error,
+    loading: state.auth.loading
   };
 };
 

@@ -14,8 +14,6 @@ const searchDropdown = ({searchHistory, close}) => {
         recentSearches = <div className={classes.Placeholder}>No recent searches</div>
     }
 
-
-
     return (
         <div className={classes.DropdownContainer}>
             <section className={classes.HeaderSection}>
@@ -33,8 +31,14 @@ const searchDropdown = ({searchHistory, close}) => {
 
 const mapStateToProps = state => {
     return {
-        searchHistory: state.profile.searchHistory
+        searchHistory: state.activity.searchHistory
     }
 }
 
-export default connect(mapStateToProps)(searchDropdown);
+const mapDispatchToProps = dispatch => {
+    return {
+        onGeneralSearch: (authToken, term) => dispatch()
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(searchDropdown);

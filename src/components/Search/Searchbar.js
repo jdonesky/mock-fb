@@ -5,7 +5,6 @@ import Search from '../../assets/images/search'
 
 const searchBar = (props) => {
 
-
     const {filterResults, className, iconClass, inputClass, placeholder, currentlySelected, focusOnMount} = props
 
     const [searchTerm, setSearchTerm] =  useState(props.term || '')
@@ -16,7 +15,6 @@ const searchBar = (props) => {
             userInputRef.current.focus();
         }
     }, [])
-
 
     useEffect(() => {
         const timer = setTimeout(() => {

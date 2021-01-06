@@ -4,6 +4,7 @@ import { fieldBuilder, validityCheck } from "../../shared/utility";
 import Input from '../../components/UI/Input/Input'
 import classes from './Auth.css'
 import * as actions from '../../store/actions/index'
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const signUp = props => {
 
@@ -106,7 +107,7 @@ const signUp = props => {
           <p>It's quick and easy.</p>
           <div className={classes.Break} style={{width: "100%"}}/>
           {formFields}
-          <button className={classes.SignUpButton} type="submit">Sign Up</button>
+          <button className={classes.SignUpButton} type="submit">{props.loading ? <Spinner bottom="47px" /> : 'Sign Up'}</button>
       </form>
   );
 }

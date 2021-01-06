@@ -1,0 +1,65 @@
+
+.Positioner {
+    position: relative;
+}
+
+.Container {
+    position: absolute;
+    left: -240px;
+    top: 20px;
+    height: 75px;
+    width: 280px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.2);
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+.Option {
+    height: 30px;
+    width: 95%;
+    border-radius: 6px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+.Option:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.IconContainer {
+    height: 100%;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 8px;
+}
+
+.OptionIcon {
+    height: 28px;
+    width: 28px;
+    position: relative;
+    top: 5px;
+}
+
+.OptionIcon svg {
+    height: auto;
+    width: 80%;
+}
+
+.DeleteOptionIcon svg {
+    width: 100%;
+}
+
+.OptionText {
+    font-family: "Lucida Grande";
+    font-size: 14px;
+}
+

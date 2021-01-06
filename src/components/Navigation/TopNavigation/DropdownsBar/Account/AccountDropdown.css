@@ -40,14 +40,14 @@
     background-position: center;
     background-size: cover;
     margin-right: 10px;
+    overflow: hidden;
 }
 
 .ProfileImageContainer svg {
     height: auto;
-    width: 85%;
+    width: 100%;
     position: relative;
-    top: 8px;
-    left: 5px;
+    top: 4px;
 }
 
 .NameTagContainer {

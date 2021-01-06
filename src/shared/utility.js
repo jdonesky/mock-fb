@@ -206,7 +206,7 @@ export const convertMessageDatetime = (date) => {
 
 }
 
-export const getElapsedTime = (date) => {
+export const getElapsedTime = (date, calc) => {
 
   const then = new Date(date);
   const now = new Date();
@@ -224,14 +224,18 @@ export const getElapsedTime = (date) => {
   let totalHours = hours + (days * 24);
   let totalHoursAsString = totalHours < 10 ? "0" + totalHours : totalHours + "";
 
-  if (totalHoursAsString === "00") {
-    return `${minutes} ${minutes > 1 ? 'minutes' : 'minute'} ago`;
-  } else if (totalHours < 24 && totalHours >= 1) {
-    return `${hours} ${hours > 1 ? 'hours' : 'hour'} ago`
-  } else if (days >=1 && days < 7) {
-    return `${days} ${days > 1 ? 'days' : 'day'} ago`;
-  } else if (days > 7) {
-    return convertMessageDatetime(date);
+  if (!calc) {
+    if (totalHoursAsString === "00") {
+      return `${minutes} ${minutes > 1 || minutes === 0 ? 'minutes' : 'minute'} ago`;
+    } else if (totalHours < 24 && totalHours >= 1) {
+      return `${hours} ${hours > 1 ? 'hours' : 'hour'} ago`
+    } else if (days >= 1 && days < 7) {
+      return `${days} ${days > 1 ? 'days' : 'day'} ago`;
+    } else if (days > 7) {
+      return convertMessageDatetime(date);
+    }
+  } else if (calc === 'CALC') {
+    return days
   }
 }
 
@@ -270,4 +274,8 @@ export const geocode = (address, cb) => {
           cb('FAIL', error)
         })
   }
+}
+
+export const createActivityRecord = () => {
+
 }

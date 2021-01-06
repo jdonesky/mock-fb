@@ -84,5 +84,8 @@ export {
 } from "./messenger";
 
 export {
-   fetchNewActivityRecordAttempt
+   fetchNewActivityRecordAttempt,
+   switchReadStatusAttempt,
+   createActivityAttempt,
+   deleteActivityAttempt,
 } from "./activity";

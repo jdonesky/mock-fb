@@ -3,7 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import classes from './AccountDropdown.css';
-import Avatar from '../../../../../assets/images/profile-placeholder-gender-neutral';
+import Avatar from '../../../../../assets/images/BookmarkIcons/user';
 
 import Feedback from '../../../../../assets/images/TopNavButtonIcons/feedback';
 import Gear from '../../../../../assets/images/TopNavButtonIcons/gear';
@@ -20,15 +20,13 @@ const accountDropdown = (props) => {
         props.close();
     }
 
-
-
     return (
         <div className={classes.DropdownContainer}>
             <section className={classes.HeaderContainer} onClick={navProfile}>
                 <div className={classes.ProfileImageContainer}
                      style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}
                 >
-                    {props.profileImage ? null : <Avatar />}
+                    {props.profileImage ? null : <Avatar fill="white"/>}
                 </div>
                 <div className={classes.NameTagContainer}>
                     <div className={classes.Name}>{props.name ? props.name : ''}</div>

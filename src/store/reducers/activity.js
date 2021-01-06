@@ -2,10 +2,14 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+    idInProcess: null,
     newActivity: null,
     oldActivity: null,
     fetchingNewActivity: false,
     fetchingOldActivity: false,
+    switchingReadStatus: false,
+    creatingActivity: false,
+    deletedActivity: false,
     error: null
 }
 
@@ -32,12 +36,89 @@ const fetchNewActivityFail = (state,action) => {
     }
 }
 
+const switchReadStatusInit = (state,action) => {
+    return {
+        ...state,
+        switchingReadStatus: true,
+        idInProcess: action.id
+    }
+}
+
+const switchReadStatusSuccess = (state,action) => {
+    return {
+        ...state,
+        switchingReadStatus: false,
+        idInProcess: null
+    }
+}
+
+const switchReadStatusFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        switchingReadStatus: false,
+        idInProcess: null
+    }
+}
+
+const createActivityInit = (state,action) => {
+    return {
+        ...state,
+        creatingActivity: true
+    }
+}
+
+const createActivitySuccess = (state,action) => {
+    return {
+        ...state,
+        creatingActivity: false
+    }
+}
+
+const createActivityFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        creatingActivity: false
+    }
+}
+
+const deleteActivityInit = (state,action) => {
+    return {
+        ...state,
+        deletedActivity: true,
+        idInProcess: action.id
+    }
+}
+
+const deleteActivitySuccess = (state,action) => {
+    return {
+        ...state,
+    }
+}
+
+const deleteActivityFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+    }
+}
+
 
 const reducer = (state=initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_NEW_ACTIVITY_INIT: return fetchNewActivityInit(state,action);
         case actionTypes.FETCH_NEW_ACTIVITY_SUCCESS: return fetchNewActivitySuccess(state,action);
         case actionTypes.FETCH_NEW_ACTIVITY_FAIL: return fetchNewActivityFail(state,action);
+        case actionTypes.SWITCH_READ_STATUS_INIT: return switchReadStatusInit(state,action);
+        case actionTypes.SWITCH_READ_STATUS_SUCCESS: return switchReadStatusSuccess(state,action);
+        case actionTypes.SWITCH_READ_STATUS_FAIL: return switchReadStatusFail(state,action);
+        case actionTypes.CREATE_ACTIVITY_INIT: return createActivityInit(state,action);
+        case actionTypes.CREATE_ACTIVITY_SUCCESS: return createActivitySuccess(state,action);
+        case actionTypes.CREATE_ACTIVITY_FAIL: return createActivityFail(state,action);
+        case actionTypes.DELETE_ACTIVITY_INIT: return deleteActivityInit(state,action);
+        case actionTypes.DELETE_ACTIVITY_SUCCESS: return deleteActivitySuccess(state,action);
+        case actionTypes.DELETE_ACTIVITY_FAIL: return deleteActivityFail(state,action);
         default: return state;
     }
 }
