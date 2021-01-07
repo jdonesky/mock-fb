@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import classes from "./BaseForm.css";
 import {PostContext} from "../../../../../context/post-context";
 
-import Close from "../../../../../assets/images/close";
+import Close from "../../../../../assets/images/MessengerIcons/close";
 import PrivacyButton from "../../../Button/PrivacyButton";
 import Flag from "../../../../../assets/images/TopNavButtonIcons/flag";
 import Avatar from "../../../../../assets/images/BookmarkIcons/user";
@@ -162,7 +162,7 @@ const baseForm = (props) => {
                     <h3>Create Post</h3>
                 </div>
                 <div className={classes.CancelIcon} onClick={postContext.cancelModal}>
-                    <Close />
+                    <Close fill="rgba(0,0,0,0.5)"/>
                 </div>
             </section>
             <div className={classes.Break}/>

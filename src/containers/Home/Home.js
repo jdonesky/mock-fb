@@ -35,6 +35,10 @@ const home = (props) => {
         }
     }, [])
 
+    let topLoadingIndicator;
+    if (props.loadingOthersPosts) {
+        topLoadingIndicator = <InlineDots />
+    }
 
     let bottomLoadingIndicator
     if (isBottom && !props.scrollEnd) {
@@ -72,6 +76,7 @@ const home = (props) => {
         <div className={classes.HomeContainer}>
             <section className={classes.PostsSection}>
                 <StartCreating />
+                {topLoadingIndicator}
                 {posts}
             </section>
             {bottomLoadingIndicator}

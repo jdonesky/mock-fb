@@ -4,9 +4,8 @@ import {connect} from 'react-redux';
 import baseClasses from '../ChooseBackground/ChooseBackground.css';
 import classes from "./TagFriends.css";
 import BackArrow from "../../../../../assets/images/LifeEventIcons/left-arrow";
-import Cancel from "../../../../../assets/images/close"
+import Cancel from "../../../../../assets/images/MessengerIcons/close";
 import {PostContext} from "../../../../../context/post-context";
-import {KeyGenerator} from "../../../../../shared/utility";
 
 import Suggestion from './Suggestion/Suggestion'
 import Search from "../../../../Search/Searchbar";
@@ -14,8 +13,13 @@ import Search from "../../../../Search/Searchbar";
 const tagFriends = (props) => {
 
     const postContext = useContext(PostContext)
-    const [allSuggestions, setAllSuggestions] = useState(null);
     const {authToken, myPublicProfile} = props
+    const [searchName, setSearchName] = useState('')
+    const [suggestions, setSuggestions] = useState(null)
+
+    useEffect(() => {
+        console.log(suggestions);
+    })
 
     useEffect(() => {
         console.log('fetching public profile');
@@ -24,12 +28,9 @@ const tagFriends = (props) => {
         }
     }, [myPublicProfile])
 
-
-    const [searchName, setSearchName] = useState('')
-    const [suggestions, setSuggestions] = useState(allSuggestions)
-
     const selectSuggestion = (key) => {
         const selectedFriend = suggestions.find(friend => key === friend.userKey);
+        console.log('selectedFriend ', selectedFriend)
         setSuggestions(prevState => {
             return prevState.filter(friend => friend.userKey !== key);
         })
@@ -39,12 +40,15 @@ const tagFriends = (props) => {
 
     const filterTerms = useCallback((name) => {
         setSearchName(name)
-        const filtered = allSuggestions.filter(suggestion => suggestion.firstName.slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.lastName.slice(0,name.length).toLowerCase() === name.toLowerCase())
-        setSuggestions(filtered.length ? filtered : '')
+        if (myPublicProfile && myPublicProfile.friends) {
+            const filtered = myPublicProfile.friends.filter(friend => friend.name.split(" ")[0].slice(0, name.length).toLowerCase() === name.toLowerCase() || friend.name.split(" ")[1].slice(0, name.length).toLowerCase() === name.toLowerCase())
+            setSuggestions(filtered.length ? filtered : '')
+        }
     }, [])
 
     const removeTag = (key) => {
         const taggedFriend = postContext.tagged.find(friend => friend.userKey === key);
+        console.log('tagged friend', taggedFriend);
         postContext.passData('remove-tag', key)
         setSuggestions(prevState => {
             return [...prevState,taggedFriend];
@@ -58,7 +62,12 @@ const tagFriends = (props) => {
     // }
 
     const friendSuggestions = suggestions && suggestions.map(suggest => (
-        <Suggestion key={suggest.id} name={suggest.name} img={suggest.profileImage} clicked={() => selectSuggestion(suggest.userKey)} />
+        <Suggestion
+            key={suggest.userKey}
+            name={suggest.name}
+            img={suggest.profileImage}
+            clicked={() => selectSuggestion(suggest.userKey)}
+        />
     ))
 
     const taggedFriends = (
@@ -66,7 +75,7 @@ const tagFriends = (props) => {
             <h5 className={classes.SuggestionsTitle} style={{display: postContext.tagged.length ? 'block' : 'none'}}>TAGGED</h5>
             <section className={classes.TaggedSection} style={{display: postContext.tagged.length ? 'flex' : 'none'}}>
                 {postContext.tagged.length ? postContext.tagged.map(friend => (
-                    <div key={friend.id} className={classes.Tag} onClick={() => removeTag(friend.id)}>
+                    <div key={friend.userKey} className={classes.Tag} onClick={() => removeTag(friend.userKey)}>
                         <span>{friend.name}</span>
                         <div className={classes.RemoveTagIcon}><Cancel fill="#0B86DE" /></div>
                     </div>
