@@ -1,6 +1,6 @@
 
 .Container {
-    z-index: 5;
+    z-index: 6;
     min-height: 80px;
     width: 100%;
     max-width: 930px;
@@ -40,7 +40,7 @@
 
 .Button {
     height: 40px;
-    width: 150px;
+    min-width: 170px;
     border-radius: 6px;
     background-color: #0a70ff;
     color: white;

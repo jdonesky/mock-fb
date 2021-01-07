@@ -143,9 +143,10 @@ export const cancelFriendRequestAttempt = (authToken, senderKey, recipientKey) =
     }
 }
 
-const acceptFriendRequestInit = () => {
+const acceptFriendRequestInit = (userKey) => {
     return {
-        type: actionTypes.ACCEPT_FRIEND_REQUEST_INIT
+        type: actionTypes.ACCEPT_FRIEND_REQUEST_INIT,
+        userKey: userKey
     }
 }
 
@@ -170,7 +171,7 @@ export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey, c
         let recipientNewPublicProfile;
         let newReceivedRequests;
         let newFriends;
-        dispatch(acceptFriendRequestInit());
+        dispatch(acceptFriendRequestInit(senderKey));
         const getSender = axios.get(`/public-profiles/${senderKey}.json?auth=${authToken}`);
         const getRecipient = axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`);
 

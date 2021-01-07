@@ -45,7 +45,7 @@ const requestsSideDrawer = props => {
             })
         }
         if (combinedKeys && combinedKeys.length) {
-            onFetchManyProfiles(authToken, combinedKeys)
+            onFetchManyProfiles(authToken, combinedKeys, 'REQUESTS')
         }
     }, [friendRequests, onFetchManyProfiles, authToken])
 
@@ -91,6 +91,7 @@ const requestsSideDrawer = props => {
             receivedRequestsList = receivedRequestsList.map( req => (
                 <Request
                     key={req.userKey}
+                    userKey={req.userKey}
                     profileImage={req.profileImage}
                     name={req.name}
                     mutualFriends={req.mutualFriends}
@@ -98,15 +99,18 @@ const requestsSideDrawer = props => {
                     publicProfileKey={req.publicProfileKey}
                     acceptReq={acceptRequest}
                     denyReq={denyRequest}
+                    acceptingRequest={props.acceptingFriendRequest}
+                    denyingRequest={props.denyingRequest}
                     myFriends={myFriends}
                     myNewFriends={friendsRef.current}
                     display={display}
+                    keyInProcess={props.keyInProcess}
                 />
             ))
         }
     }
 
-    if (props.fetchingFriendRequests) {
+    if (props.fetchingFriendRequests || props.loadingManyProfiles) {
         receivedRequestsList = <InlineDots />
     }
 
@@ -135,8 +139,6 @@ const requestsSideDrawer = props => {
                         mutualFriends={req.mutualFriends}
                         userKey={req.userKey}
                         publicProfileKey={req.publicProfileKey}
-                        acceptReq={acceptRequest}
-                        denyReq={denyRequest}
                         myFriends={friendsRef}
                     />
                 ))
@@ -185,14 +187,18 @@ const mapStateToProps = state => {
         fetchingFriends: state.friends.fetchingFriends,
         myFriends: state.profile.publicProfile && state.profile.publicProfile.friends ? state.profile.publicProfile.friends : [],
         newFriends: state.friends.friends,
-        manyProfiles: state.users.manyProfiles
+        manyProfiles: state.users.manyProfileRequests,
+        loadingManyProfiles: state.users.loadingManyProfileRequests,
+        acceptingFriendRequest: state.friends.acceptingFriendRequest,
+        denyingFriendRequest: state.friends.denyingFriendRequest,
+        keyInProcess: state.friends.keyInProcess
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken, publicProfileKey)),
-        onFetchManyProfiles: (authToken, publicProfileKeys) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, publicProfileKeys)),
+        onFetchManyProfiles: (authToken, publicProfileKeys, type) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, publicProfileKeys, type)),
         onAcceptRequest: (authToken, senderKey, recipientKey, cb) => dispatch(actions.acceptFriendRequestAttempt(authToken, senderKey, recipientKey, cb)),
         onDenyRequest: (authToken, senderKey, recipientKey) => dispatch(actions.denyFriendRequestAttempt(authToken, senderKey, recipientKey)),
     }

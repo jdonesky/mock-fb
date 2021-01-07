@@ -1,14 +1,33 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import classes from './Request.css';
 
 import Avatar from '../../../assets/images/BookmarkIcons/user';
 import Dots from '../../../assets/images/dots';
+import Spinner from '../../UI/Spinner/Spinner';
 
 const request = props => {
 
+    const {acceptingRequest, denyingRequest, keyInProcess} = props
     const [requestAccepted, setRequestAccepted] = useState(false);
     const [requestDenied, setRequestDenied] = useState(false);
+
+    useEffect(() => {
+        console.log('this users key', props.userKey)
+        console.log('accepting request? ', props.acceptingRequest)
+        console.log('denying request? ', props.denyingRequest)
+    })
+
+    useEffect(() => {
+        if (keyInProcess === props.userKey) {
+            if (acceptingRequest) {
+                setRequestAccepted(true)
+            } else if (denyingRequest) {
+                setRequestDenied(true)
+            }
+        }
+    }, [acceptingRequest, denyingRequest])
+
 
     const confirm = () => {
         props.acceptReq(props.publicProfileKey);
@@ -25,10 +44,10 @@ const request = props => {
             {props.mutualFriends ? <div className={classes.MutualFriends}>{`${props.mutualFriends.length} mutual friend${props.mutualFriends.length === 1 ? '' : 's'}`}</div> : null}
             <div className={classes.ControlsContainer} style={{flex: props.mutualFriends ? null : '1'}}>
                 <div className={[classes.Control, classes.ConfirmControl].join(" ")} onClick={confirm}>
-                    Confirm
+                    {props.acceptingRequest ? <Spinner /> : 'Confirm'}
                 </div>
                 <div className={classes.Control} onClick={deny}>
-                    Delete
+                    {props.denyingRequest ? <Spinner /> : 'Delete'}
                 </div>
             </div>
         </React.Fragment>

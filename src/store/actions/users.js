@@ -121,9 +121,41 @@ const fetchManyPublicProfilesFail = (error) => {
   }
 }
 
-export const fetchManyPublicProfilesAttempt = (authToken, publicProfileKeys= []) => {
+const fetchManyPublicProfileRequestsInit = () => {
+  return {
+    type: actionTypes.FETCH_MANY_PUBLIC_PROFILE_REQUESTS_INIT
+  }
+}
+
+const fetchManyPublicProfileRequestsSuccess = (profiles) => {
+  return {
+    type: actionTypes.FETCH_MANY_PUBLIC_PROFILE_REQUESTS_SUCCESS,
+    profiles: profiles
+  }
+}
+
+const fetchManyPublicProfileRequestsFail = (error) => {
+  return {
+    type: actionTypes.FETCH_MANY_PUBLIC_PROFILE_REQUESTS_FAIL,
+    error: error
+  }
+}
+
+export const fetchManyPublicProfilesAttempt = (authToken, publicProfileKeys= [], type) => {
   return dispatch => {
-    dispatch(fetchManyPublicProfilesInit())
+    let init;
+    let success;
+    let fail;
+    if (type && type === 'REQUESTS') {
+      init = fetchManyPublicProfileRequestsInit;
+      success = fetchManyPublicProfileRequestsSuccess;
+      fail = fetchManyPublicProfileRequestsFail;
+    } else {
+      init = fetchManyPublicProfilesInit;
+      success = fetchManyPublicProfilesSuccess;
+      fail = fetchManyPublicProfilesFail;
+    }
+    dispatch(init())
     const queries = [];
     publicProfileKeys.forEach(key => {
       queries.push(axios.get(`/public-profiles/${key}.json?auth=${authToken}`))
@@ -135,10 +167,10 @@ export const fetchManyPublicProfilesAttempt = (authToken, publicProfileKeys= [])
               return response.data
             }
           })
-          dispatch(fetchManyPublicProfilesSuccess(profiles));
+          dispatch(success(profiles));
         })
         .catch(error => {
-          dispatch(fetchManyPublicProfilesFail(error));
+          dispatch(fail(error));
         })
   }
 }

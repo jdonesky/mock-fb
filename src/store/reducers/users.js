@@ -6,7 +6,9 @@ const initialState = {
   profileSummary: null,
   loadingProfileSummary: false,
   manyProfiles: [],
+  manyProfileRequests: [],
   loadingManyProfiles: false,
+  loadingManyProfileRequests: false,
   fullProfile: null,
   loadingFullProfile: false,
   error: null,
@@ -80,6 +82,29 @@ const fetchManyPublicProfilesFail = (state, action) => {
   }
 }
 
+const fetchManyPublicProfileRequestsInit = (state,action) => {
+  return {
+    ...state,
+    loadingManyProfileRequests: true
+  }
+}
+
+const fetchManyPublicProfileRequestsSuccess = (state,action) => {
+  return {
+    ...state,
+    manyProfileRequests: action.profiles,
+    loadingManyProfileRequests: false
+  }
+}
+
+const fetchManyPublicProfileRequestsFail = (state, action) => {
+  return {
+    ...state,
+    error: action.error
+  }
+}
+
+
 const fetchFullProfileInit = (state, action) => {
   return {
     ...state,
@@ -140,6 +165,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_PROFILE_SUMMARY_FAIL: return fetchProfileSummaryFail(state, action);
     case actionTypes.FETCH_MANY_PUBLIC_PROFILES_INIT: return fetchManyPublicProfilesInit(state, action);
     case actionTypes.FETCH_MANY_PUBLIC_PROFILES_SUCCESS: return fetchManyPublicProfilesSuccess(state, action);
+    case actionTypes.FETCH_MANY_PUBLIC_PROFILE_REQUESTS_FAIL: return fetchManyPublicProfileRequestsFail(state, action);
+    case actionTypes.FETCH_MANY_PUBLIC_PROFILE_REQUESTS_INIT: return fetchManyPublicProfileRequestsInit(state, action);
+    case actionTypes.FETCH_MANY_PUBLIC_PROFILE_REQUESTS_SUCCESS: return fetchManyPublicProfileRequestsSuccess(state, action);
     case actionTypes.FETCH_MANY_PUBLIC_PROFILES_FAIL: return fetchManyPublicProfilesFail(state, action);
     case actionTypes.FETCH_FULL_PROFILE_INIT: return fetchFullProfileInit(state, action);
     case actionTypes.FETCH_FULL_PROFILE_SUCCESS: return fetchFullProfileSuccess(state, action);

@@ -10,6 +10,9 @@ const respondRequestDropdown = props => {
         props.onAcceptFriendRequest(props.authToken, props.senderKey, props.recipientKey);
         props.accept(true);
         props.close();
+        if (props.acceptRequest) {
+            props.acceptRequest();
+        }
     }
 
     const denyRequest = () => {
@@ -20,9 +23,9 @@ const respondRequestDropdown = props => {
 
 
     return (
-         <div className={classes.RespondRequestDropdownPositioner}>
+         <div className={classes.RespondRequestDropdownPositioner} >
              <div className={classes.RespondButtonBlocker} onClick={props.close}/>
-             <div className={classes.RespondRequestDropdown}>
+             <div className={classes.RespondRequestDropdown} style={props.style || null}>
                  <div className={classes.RespondRequestOption} onClick={acceptRequest}>
                      <span className={classes.RespondOptionText}>Confirm</span>
                  </div>

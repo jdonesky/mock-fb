@@ -1,5 +1,6 @@
 
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
+import {withRouter} from 'react-router';
 import classes from './Timeline.css';
 import {connect} from 'react-redux';
 import Greeting from './Greeting/Greeting';
@@ -11,6 +12,20 @@ import CreatePost from './Posts/Create/StartCreating';
 import Posts from './Posts/Posts';
 
 const timeLine = (props) => {
+
+    const [acceptedFriendRequest, setAcceptedFriendRequest] = useState(false);
+    const [displayProfile, setDisplayProfile] = useState(props.history.location.pathname.split('/')[2])
+
+    useEffect(() => {
+        if (displayProfile !== props.history.location.pathname.split('/')[2]) {
+            setDisplayProfile(props.history.location.pathname.split('/')[2])
+        }
+    })
+
+    useEffect(() => {
+        setAcceptedFriendRequest(false);
+    }, [displayProfile])
+
 
     let isFriend;
     if (props.myPublicProfile && props.myPublicProfile.friends) {
@@ -24,11 +39,11 @@ const timeLine = (props) => {
     if (props.displayProfile === 'me') {
         createPost = <CreatePost displayProfile={props.displayProfile}/>
     } else {
-        if (isFriend) {
+        if (isFriend || acceptedFriendRequest) {
             createPost = <CreatePost displayProfile={props.displayProfile}/>
         } else {
             if (props.theirPublicProfile) {
-                greeting = <Greeting name={props.theirPublicProfile.firstName}/>
+                greeting = <Greeting name={props.theirPublicProfile.firstName} acceptRequest={() => setAcceptedFriendRequest(true)}/>
             }
         }
     }
@@ -53,4 +68,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(timeLine);
+export default connect(mapStateToProps)(withRouter(timeLine));

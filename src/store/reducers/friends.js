@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
+  keyInProcess: null,
   friends: [],
   sentRequests: [],
   receivedRequests: [],
@@ -108,7 +109,8 @@ const cancelFriendRequestFail = (state, action) => {
 const acceptFriendRequestInit = (state,action) => {
   return {
     ...state,
-    acceptingFriendRequest: true
+    acceptingFriendRequest: true,
+    keyInProcess: action.userKey
   }
 }
 
@@ -117,7 +119,8 @@ const acceptFriendRequestSuccess = (state,action) => {
     ...state,
     receivedRequests: action.receivedRequests,
     friends: action.friends,
-    acceptingFriendRequest: false
+    acceptingFriendRequest: false,
+    keyInProcess: null,
   }
 }
 
@@ -125,7 +128,8 @@ const acceptFriendRequestFail = (state,action) => {
   return {
     ...state,
     error: action.error,
-    acceptingFriendRequest: false
+    acceptingFriendRequest: false,
+    keyInProcess: null,
   }
 }
 
