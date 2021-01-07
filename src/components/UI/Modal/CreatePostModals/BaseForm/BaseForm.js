@@ -6,7 +6,8 @@ import {PostContext} from "../../../../../context/post-context";
 
 import Close from "../../../../../assets/images/close";
 import PrivacyButton from "../../../Button/PrivacyButton";
-import NoGenderPlaceholder from "../../../../../assets/images/profile-placeholder-gender-neutral";
+import Flag from "../../../../../assets/images/TopNavButtonIcons/flag";
+import Avatar from "../../../../../assets/images/BookmarkIcons/user";
 import Letters from "../../../../../assets/images/text-font";
 import BackChevron from "../../../../../assets/images/left-chevron";
 import GridView from "../../../../../assets/images/grid";
@@ -168,7 +169,7 @@ const baseForm = (props) => {
             <section className={classes.NameSection}>
                 <div className={classes.ProfileImageContainer}>
                     <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}}>
-                        {profileImage ? null : <NoGenderPlaceholder />}
+                        {profileImage ? null : props.pagePosting ? <Flag fill="white" /> : <Avatar fill="white" />}
                     </div>
                 </div>
                 <div className={classes.IdContainer}>

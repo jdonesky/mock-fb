@@ -89,16 +89,25 @@ const friends = (props) => {
 
     useEffect(() => {
         if (loadedProfiles && loadedProfiles.length)  {
-            setSelectedFriends(loadedProfiles.map(profile => (
-                <Friend
-                    key={profile.userKey}
-                    myFriends={loadedProfiles}
-                    this={profile}
-                    navTo={goToFullProfile}
-                    pathRoot={pathRoot}
-                    displayProfile={displayProfile}
-                />
-            )))
+            setSelectedFriends(loadedProfiles.map((profile,i)=> {
+                let style;
+                if (loadedProfiles.length === 1) {
+                    style = {width: "98%"}
+                } else if (loadedProfiles.length % 2 !== 0 && i === loadedProfiles.length - 1) {
+                    style = {width: "98%"}
+                }
+                return (
+                    <Friend
+                        key={profile.userKey}
+                        myFriends={loadedProfiles}
+                        this={profile}
+                        navTo={goToFullProfile}
+                        pathRoot={pathRoot}
+                        displayProfile={displayProfile}
+                        style={style && style}
+                    />
+                )}
+            ))
         }
     }, [loadedProfiles])
 

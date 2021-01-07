@@ -115,6 +115,7 @@
     background-position: center;
     background-size: cover;
     background-color: rgba(0,0,0,0.1);
+    overflow: hidden;
     margin: 0 8px;
 }
 
@@ -125,6 +126,13 @@
     top: 1px;
     left: 1px;
 }
+
+.Avatar svg {
+    width: 100%;
+    top: 4px;
+    left: 0;
+}
+
 
 .SearchRecordText {
     font-family: "Lucida Grande";

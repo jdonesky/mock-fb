@@ -1,5 +1,5 @@
 
-import React, {useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {connect} from 'react-redux';
 import Button from '../../../UI/Button/Button'
 import classes from './Intro.css'
@@ -37,7 +37,7 @@ const intro = (props) => {
             </div>
         )
         profile = {
-            currentLocation: props.currentLocation,
+            currentLocation: props.currLocation,
             occupations: props.occupations,
             education: props.education,
             hometown: props.hometown,

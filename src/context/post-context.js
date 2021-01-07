@@ -182,7 +182,7 @@ const PostContextProvider = (props) => {
                 setTagged([...payload])
             case 'remove-tag':
                 setTagged(prevState => {
-                    return prevState.filter(tag => tag.id !== payload);
+                    return prevState.filter(tag => tag.userKey !== payload);
                 })
                 break;
             case 'location':

@@ -62,7 +62,7 @@ const friend = (props) => {
 
     return (
         <React.Fragment>
-            <div className={classes.FriendContainer}>
+            <div className={classes.FriendContainer} style={props.style || null}>
                 <div className={classes.IdContainer}>
                     <div className={classes.ProfileImage} style={{backgroundImage: props.this.profileImage ? `url(${props.this.profileImage})` : null}} onClick={() => props.navTo(props.this.userKey)}>
                         {props.this.profileImage ? null : <Avatar />}

@@ -11,25 +11,27 @@ import {KeyGenerator} from "../../../../../shared/utility";
 import Suggestion from './Suggestion/Suggestion'
 import Search from "../../../../Search/Searchbar";
 
-const tagFriends = ({authToken,friends}) => {
+const tagFriends = (props) => {
 
     const postContext = useContext(PostContext)
+    const [allSuggestions, setAllSuggestions] = useState(null);
+    const {authToken, myPublicProfile} = props
 
-    // const allSuggestions = friends && friends.slice(0, 10).map(friend => (
-    //     {name: friend.name, img: friend.img}
-    // ))
+    useEffect(() => {
+        console.log('fetching public profile');
+        if (myPublicProfile && myPublicProfile.friends) {
+            setSuggestions(myPublicProfile.friends)
+        }
+    }, [myPublicProfile])
 
-    const allSuggestions = [{name: 'John Doe', img: null, id: 1}, {name:'Mary Smith',img: null, id: 2}, {name:'Freddy Roach',img: null, id: 3},{name:'Mickey Mouse',img: null, id: 4},{name:'Jimmy John',img: null, id: 5},{name:'Frankie Edgar',img: null, id: 6}].map(friend => (
-        {name: friend.name, img: friend.img, id: friend.id}
-    ))
 
     const [searchName, setSearchName] = useState('')
     const [suggestions, setSuggestions] = useState(allSuggestions)
 
-    const selectSuggestion = (id) => {
-        const selectedFriend = /*friends*/suggestions.find(friend => id === friend.id);
+    const selectSuggestion = (key) => {
+        const selectedFriend = suggestions.find(friend => key === friend.userKey);
         setSuggestions(prevState => {
-            return prevState.filter(friend => friend.id !== id);
+            return prevState.filter(friend => friend.userKey !== key);
         })
 
         postContext.passData('tag', selectedFriend)
@@ -37,26 +39,26 @@ const tagFriends = ({authToken,friends}) => {
 
     const filterTerms = useCallback((name) => {
         setSearchName(name)
-        const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase())
+        const filtered = allSuggestions.filter(suggestion => suggestion.firstName.slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.lastName.slice(0,name.length).toLowerCase() === name.toLowerCase())
         setSuggestions(filtered.length ? filtered : '')
     }, [])
 
-    const removeTag = (id) => {
-        const taggedFriend = postContext.tagged.find(friend => friend.id === id);
-        postContext.passData('remove-tag',id)
+    const removeTag = (key) => {
+        const taggedFriend = postContext.tagged.find(friend => friend.userKey === key);
+        postContext.passData('remove-tag', key)
         setSuggestions(prevState => {
             return [...prevState,taggedFriend];
         })
     }
 
-    const confirmSearch = () => {
-        KeyGenerator.getKey(authToken, (newKey) => {
-            postContext.passData('tag', {name: searchName, img: null, id: newKey})
-        })
-    }
+    // const confirmSearch = () => {
+    //     KeyGenerator.getKey(authToken, (newKey) => {
+    //         postContext.passData('tag', {name: searchName, img: null, id: newKey})
+    //     })
+    // }
 
     const friendSuggestions = suggestions && suggestions.map(suggest => (
-        <Suggestion key={suggest.id} name={suggest.name} img={suggest.img} clicked={() => selectSuggestion(suggest.id)} />
+        <Suggestion key={suggest.id} name={suggest.name} img={suggest.profileImage} clicked={() => selectSuggestion(suggest.userKey)} />
     ))
 
     const taggedFriends = (
@@ -86,7 +88,7 @@ const tagFriends = ({authToken,friends}) => {
             </section>
             <section className={classes.SearchSection}>
                 <Search filterResults={filterTerms} className={classes.SearchBar} placeholder="Search for friends"/>
-                <div className={classes.ConfirmButton} onClick={searchName ? confirmSearch : null} style={{color: searchName ?  "#155fe8" : "#c4c4c4"}}><span>Done</span></div>
+                <div className={classes.ConfirmButton} style={{color: searchName ?  "#155fe8" : "#c4c4c4"}}><span>Done</span></div>
             </section>
             <section className={classes.SuggestionsSection}>
                 {taggedFriends}
@@ -100,7 +102,7 @@ const tagFriends = ({authToken,friends}) => {
 const mapStateToProps = (state) => {
     return {
         authToken: state.auth.token,
-        friends: state.profile.friends
+        myPublicProfile: state.profile.publicProfile
     }
 }
 

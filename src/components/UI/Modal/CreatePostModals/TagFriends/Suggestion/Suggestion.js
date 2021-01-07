@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Suggestion.css'
-import NoGenderPlaceholder from "../../../../../../assets/images/profile-placeholder-gender-neutral";
+import Avatar from "../../../../../../assets/images/BookmarkIcons/user";
 
 const suggestedLocation = (props) => {
 
@@ -8,7 +8,7 @@ const suggestedLocation = (props) => {
         <div className={classes.Container} onClick={props.clicked}>
             <div className={classes.ProfileImageContainer}>
                 <div className={classes.ProfileImage}>
-                    {props.image || <NoGenderPlaceholder /> }
+                    {props.image || <Avatar fill="white" /> }
                 </div>
             </div>
             <div className={classes.Text}><span>{props.name}</span></div>

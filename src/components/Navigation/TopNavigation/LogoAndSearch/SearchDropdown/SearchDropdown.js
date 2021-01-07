@@ -21,10 +21,6 @@ const searchDropdown = (props) => {
     const [searchResults, setSearchResults] = useState(null);
 
     useEffect(() => {
-        console.log(searches);
-    })
-
-    useEffect(() => {
        onFetchPersonalActivity(authToken, activityLogKey, 'GENERAL_SEARCH')
        return () => {
            setSearches(null);
@@ -42,7 +38,6 @@ const searchDropdown = (props) => {
 
 
     useEffect(() => {
-        console.log(personalActivity);
         if (personalActivity) {
             setSearches(personalActivity)
         }
@@ -87,8 +82,10 @@ const searchDropdown = (props) => {
     if (searches) {
         recentSearches = Object.keys(searches).map(key => ({...searches[key], key: key})).sort((a,b) => b.sortDate - a.sortDate).map(search => {
             let icon;
+            let iconClass;
             if (search.subject === 'user') {
                 icon = <Avatar fill="white" />
+                iconClass = "Avatar";
             } else if (search.subject === 'page') {
                 icon = <Flag fill="white" />
             } else {
@@ -98,7 +95,7 @@ const searchDropdown = (props) => {
                 return (
                     <div className={classes.SearchRecord} key={search.key} >
                         <div className={classes.SearchRecordLeftBlock}>
-                            <div className={classes.ProfileImage} style={{backgroundImage: search.image ? `url(${search.image})` : null }}>
+                            <div className={[classes.ProfileImage, iconClass ? classes[iconClass] : null].join(" ")} style={{backgroundImage: search.image ? `url(${search.image})` : null }}>
                                 {search.image ? null : icon}
                             </div>
                             <div className={classes.SearchRecordText} onClick={() => filterResults(search.text)}>{search.text}</div>
@@ -120,8 +117,10 @@ const searchDropdown = (props) => {
     if (searchResults) {
         showResults = searchResults.map(result => {
             let icon;
+            let iconClass;
             if (result.matched === 'user') {
                 icon = <Avatar fill="white" />
+                iconClass = "Avatar"
             } else if (result.matched === 'page') {
                 icon = <Flag fill="white" />
             }
@@ -129,7 +128,7 @@ const searchDropdown = (props) => {
             return (
                 <div className={classes.SearchRecord} key={result.matched === 'user' ? result.userKey : result.dbKey} onClick={() => selectSearchResult(result)}>
                     <div className={classes.SearchRecordLeftBlock}>
-                        <div className={classes.ProfileImage} style={{backgroundImage: result.profileImage ? `url(${result.profileImage})` : null }}>
+                        <div className={[classes.ProfileImage, iconClass ? classes[iconClass] : null].join(" ")} style={{backgroundImage: result.profileImage ? `url(${result.profileImage})` : null }}>
                             {result.profileImage ? null : icon}
                         </div>
                         <div className={classes.SearchResultText}>{result.matched === 'user' ? `${result.firstName} ${result.lastName}` : result.name}</div>
