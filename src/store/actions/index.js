@@ -85,6 +85,7 @@ export {
 
 export {
    fetchNewActivityRecordAttempt,
+   fetchPersonalActivityAttempt,
    switchReadStatusAttempt,
    createActivityAttempt,
    deleteActivityAttempt,

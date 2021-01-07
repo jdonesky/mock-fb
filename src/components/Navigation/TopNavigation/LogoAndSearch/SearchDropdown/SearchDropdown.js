@@ -9,11 +9,16 @@ import InlineDots from '../../../../UI/Spinner/InlineDots';
 
 const searchDropdown = (props) => {
 
-    const {authToken, onSearchAll, searchingAll, results, searchHistory, close} = props;
+    const {authToken, onFetchPersonalActivity, personalActivity, onSearchAll, searchingAll, results, searchHistory, close, onCreateActivityRecord, activityLogKey} = props;
 
     useEffect(() => {
-        console.log(results)
+        console.log('search result', results)
+        console.log('previous searches', personalActivity)
     })
+
+    useEffect(() => {
+       onFetchPersonalActivity(authToken, activityLogKey, 'GENERAL_SEARCH')
+    }, [])
 
     let recentSearches;
     if (searchHistory && searchHistory.length) {
@@ -21,9 +26,15 @@ const searchDropdown = (props) => {
     } else {
         recentSearches = <div className={classes.Placeholder}>No recent searches</div>
     }
-
     const filterResults = useCallback(phrase => {
         onSearchAll(authToken, phrase)
+        const newActivity = {
+            type: "GENERAL_SEARCH",
+            date: new Date(),
+            sortDate: new Date().getTime(),
+            text: phrase,
+        }
+        onCreateActivityRecord(authToken, activityLogKey, newActivity, 'PERSONAL')
     }, [])
 
     return (
@@ -46,13 +57,17 @@ const mapStateToProps = state => {
         authToken: state.auth.token,
         results: state.search.results,
         searchHistory: state.activity.searchHistory,
-        searchingAll: state.search.searchingAll
+        searchingAll: state.search.searchingAll,
+        activityLogKey: state.profile.activityLogKey,
+        personalActivity: state.activity.personalActivity
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSearchAll: (authToken, phrase) => dispatch(actions.searchAllAttempt(authToken, phrase))
+        onSearchAll: (authToken, phrase) => dispatch(actions.searchAllAttempt(authToken, phrase)),
+        onCreateActivityRecord: (authToken, logKey, activity, type) => dispatch(actions.createActivityAttempt(authToken, logKey, activity, type)),
+        onFetchPersonalActivity: (authToken, logKey, type) => dispatch(actions.fetchPersonalActivityAttempt(authToken, logKey, type))
     }
 }
 

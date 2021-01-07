@@ -1,7 +1,6 @@
 
 import * as actionTypes from './actionTypes';
 import axios from '../../axios/db-axios-instance';
-import {getElapsedTime} from "../../shared/utility";
 
 const fetchNewActivityInit = () => {
     return {
@@ -51,6 +50,41 @@ export const fetchNewActivityRecordAttempt = (authToken,key) => {
             })
             .catch(error => {
                 dispatch(fetchNewActivityFail(error))
+            })
+    }
+}
+
+const fetchPersonalActivityInit = () => {
+    return {
+        type: actionTypes.FETCH_PERSONAL_ACTIVITY_INIT
+    }
+}
+
+const fetchPersonalActivitySuccess = (records) => {
+    return {
+        type: actionTypes.FETCH_PERSONAL_ACTIVITY_SUCCESS,
+        records: records
+    }
+}
+
+const fetchPersonalActivityFail = (error) => {
+    return {
+        type: actionTypes.FETCH_PERSONAL_ACTIVITY_FAIL,
+        error: error
+    }
+}
+
+export const fetchPersonalActivityAttempt = (authToken,key, type) => {
+    return dispatch => {
+        dispatch(fetchPersonalActivityInit());
+        axios.get(`/activity/${key}/personal.json?auth=${authToken}&orderBy="type"&equalTo="${type}"&limitToFirst=10`)
+            .then(response => {
+                console.log('success- fetched personal activity', response.data)
+                dispatch(fetchPersonalActivitySuccess(response.data))
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(fetchPersonalActivityFail(error))
             })
     }
 }

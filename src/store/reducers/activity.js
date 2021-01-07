@@ -5,8 +5,10 @@ const initialState = {
     idInProcess: null,
     newActivity: null,
     oldActivity: null,
+    personalActivity: null,
     fetchingNewActivity: false,
     fetchingOldActivity: false,
+    fetchingPersonalActivity: false,
     switchingReadStatus: false,
     creatingActivity: false,
     deletedActivity: false,
@@ -33,6 +35,29 @@ const fetchNewActivityFail = (state,action) => {
         ...state,
         error: action.error,
         fetchingNewActivity: false
+    }
+}
+
+const fetchPersonalActivityInit = (state,action) => {
+    return {
+        ...state,
+        fetchingPersonalActivity: true
+    }
+}
+
+const fetchPersonalActivitySuccess = (state,action) => {
+    return {
+        ...state,
+        personalActivity: action.records,
+        fetchingPersonalActivity: false
+    }
+}
+
+const fetchPersonalActivityFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        fetchingPersonalActivity: false
     }
 }
 
@@ -110,6 +135,9 @@ const reducer = (state=initialState, action) => {
         case actionTypes.FETCH_NEW_ACTIVITY_INIT: return fetchNewActivityInit(state,action);
         case actionTypes.FETCH_NEW_ACTIVITY_SUCCESS: return fetchNewActivitySuccess(state,action);
         case actionTypes.FETCH_NEW_ACTIVITY_FAIL: return fetchNewActivityFail(state,action);
+        case actionTypes.FETCH_PERSONAL_ACTIVITY_INIT: return fetchPersonalActivityInit(state,action);
+        case actionTypes.FETCH_PERSONAL_ACTIVITY_SUCCESS: return fetchPersonalActivitySuccess(state,action);
+        case actionTypes.FETCH_PERSONAL_ACTIVITY_FAIL: return fetchPersonalActivityFail(state,action);
         case actionTypes.SWITCH_READ_STATUS_INIT: return switchReadStatusInit(state,action);
         case actionTypes.SWITCH_READ_STATUS_SUCCESS: return switchReadStatusSuccess(state,action);
         case actionTypes.SWITCH_READ_STATUS_FAIL: return switchReadStatusFail(state,action);
