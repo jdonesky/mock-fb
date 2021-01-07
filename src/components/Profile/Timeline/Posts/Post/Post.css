@@ -152,10 +152,9 @@
 
 .ProfileImage svg {
     height: auto;
-    width: 90%;
+    width: 100%;
     position: relative;
-    top: 3px;
-    left: 2px;
+    top: 4px;
 }
 
 .EditOptionsPositioner {
@@ -451,10 +450,9 @@
 
 .CommenterProfileImage svg {
     height: auto;
-    width: 90%;
+    width: 100%;
     position: relative;
-    top: 5px;
-    left: 2px;
+    top: 4px;
 }
 
 .CommenterProfileImage:hover {

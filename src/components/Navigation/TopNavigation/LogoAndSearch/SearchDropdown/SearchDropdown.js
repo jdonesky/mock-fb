@@ -1,11 +1,19 @@
 
-import React, {useState} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {connect} from 'react-redux'
-import Searchbar from "../../../../Search/Searchbar";
 import classes from './SearchDropdown.css'
+import * as actions from '../../../../../store/actions/index';
+import Searchbar from "../../../../Search/Searchbar";
 import BackArrow from '../../../../../assets/images/TopNavButtonIcons/backArrow';
+import InlineDots from '../../../../UI/Spinner/InlineDots';
 
-const searchDropdown = ({searchHistory, close}) => {
+const searchDropdown = (props) => {
+
+    const {authToken, onSearchAll, searchingAll, results, searchHistory, close} = props;
+
+    useEffect(() => {
+        console.log(results)
+    })
 
     let recentSearches;
     if (searchHistory && searchHistory.length) {
@@ -14,16 +22,20 @@ const searchDropdown = ({searchHistory, close}) => {
         recentSearches = <div className={classes.Placeholder}>No recent searches</div>
     }
 
+    const filterResults = useCallback(phrase => {
+        onSearchAll(authToken, phrase)
+    }, [])
+
     return (
         <div className={classes.DropdownContainer}>
             <section className={classes.HeaderSection}>
                 <div className={classes.BackButton} onClick={close}>
                     <BackArrow fill="rgba(0,0,0,0.7)" />
                 </div>
-                <Searchbar className={classes.SearchBar} iconClass={classes.SearchGlass} placeholder="Search dumb facebook" focusOnMount/>
+                <Searchbar filterResults={filterResults} className={classes.SearchBar} iconClass={classes.SearchGlass} placeholder="Search dumb facebook" focusOnMount/>
             </section>
             <section className={classes.RecentSearchSection}>
-                {recentSearches}
+                {searchingAll ? <InlineDots /> : recentSearches}
             </section>
         </div>
     );
@@ -31,13 +43,16 @@ const searchDropdown = ({searchHistory, close}) => {
 
 const mapStateToProps = state => {
     return {
-        searchHistory: state.activity.searchHistory
+        authToken: state.auth.token,
+        results: state.search.results,
+        searchHistory: state.activity.searchHistory,
+        searchingAll: state.search.searchingAll
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGeneralSearch: (authToken, term) => dispatch()
+        onSearchAll: (authToken, phrase) => dispatch(actions.searchAllAttempt(authToken, phrase))
     }
 }
 

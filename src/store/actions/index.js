@@ -89,3 +89,7 @@ export {
    createActivityAttempt,
    deleteActivityAttempt,
 } from "./activity";
+
+export {
+   searchAllAttempt,
+} from "./search";

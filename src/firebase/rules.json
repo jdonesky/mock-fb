@@ -28,3 +28,67 @@
     }
   }
 }
+
+
+// modified with indexes for general search
+
+
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      ".indexOn": ["firstName","lastName","userId","currLocation", "hometown"],
+      "$user_key": {
+        "firstName": {
+          ".indexOn": [".value"]
+        },
+        "lastName": {
+          ".indexOn": [".value"]
+        },
+        "currLocation": {
+          ".indexOn": [".value"]
+        }
+      }
+    },
+    "public-profiles" : {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      ".indexOn": ["postsKey", "userKey"]
+    },
+    "posts": {
+      ".read" : "true",
+      ".write": "auth != null",
+      "$post_id": {
+        ".indexOn": ["text", "id"]
+      }
+
+    },
+    "pages": {
+      ".read" : "true",
+      ".write": "auth != null",
+      ".indexOn": ["adminUserKey", "category", "name", "adminName"]
+    },
+    "chats": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "activeChat": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "activity": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "$user_id": {
+        "records": {
+          ".indexOn": ["sortDate", "type", "read","id"]
+        }
+      }
+    },
+    "key" : {
+      ".read" : "true",
+      ".write" : "auth != null"
+    }
+  }
+}

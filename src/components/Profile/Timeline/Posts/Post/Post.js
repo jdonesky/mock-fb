@@ -13,7 +13,7 @@ import EditOwnPostDropdown from './Dropdowns/EditPost/EditOwnPost';
 import EditOthersPostDropdown from './Dropdowns/EditPost/EditOthersPost';
 import ProfileSummary from '../../../../Users/Dropdowns/ProfileSummary/ProfileSummary';
 
-import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
+import Avatar from '../../../../../assets/images/BookmarkIcons/user';
 import Dots from '../../../../../assets/images/dots'
 import Like from '../../../../../assets/images/like-outline';
 import SpeechBubble from '../../../../../assets/images/speech-bubble';
@@ -476,7 +476,7 @@ const post = (props) => {
                 <div className={classes.HeaderInfo}>
                     <div className={classes.ProfileImageContainer}>
                         <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})` : null}} onMouseEnter={enterProfileImage} onMouseLeave={leaveProfileImage} onClick={navToFullProfile}>
-                            {profileImage ? null : <NoGenderPlaceholder />}
+                            {profileImage ? null : <Avatar fill="white"/>}
                         </div>
                         <OutsideAlerter action={quickCloseSummary}>
                             {profileSummary}
@@ -520,7 +520,7 @@ const post = (props) => {
             <section className={classes.CommentBarSection}>
                 <div className={classes.CommenterProfileImageContainer}>
                     <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                        {props.profileImage ? null : <NoGenderPlaceholder />}
+                        {props.profileImage ? null : <Avatar fill="white"/>}
                     </div>
                 </div>
                 <form onSubmit={saveComment} className={classes.CommentForm}>

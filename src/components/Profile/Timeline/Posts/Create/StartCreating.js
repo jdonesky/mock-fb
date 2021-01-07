@@ -4,7 +4,7 @@ import React, { useContext, useRef, useState, useEffect } from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './StartCreating.css'
-import NoGenderPlaceholder from '../../../../../assets/images/profile-placeholder-gender-neutral';
+import Avatar from '../../../../../assets/images/BookmarkIcons/user';
 import Flag from '../../../../../assets/images/LifeEventIcons/finish';
 import AddPhoto from '../../../../../assets/images/LifeEventIcons/addCamera';
 import { LifeEventContext } from "../../../../../context/life-event-context";
@@ -58,7 +58,7 @@ const startPost = (props) => {
             <section className={classes.Header}>
                 <div className={classes.ProfileImageContainer}>
                     <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}} onClick={navToProfile}>
-                        {props.profileImage ? null : <NoGenderPlaceholder />}
+                        {props.profileImage ? null : <Avatar fill="white" />}
                     </div>
                 </div>
                 <div className={classes.QueryBar} onClick={startCreatingAction}>

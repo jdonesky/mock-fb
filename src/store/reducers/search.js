@@ -17,7 +17,7 @@ const searchAllInit = (state,action) => {
 const searchAllSuccess = (state,action) => {
     return {
         ...state,
-        results: action.result,
+        results: action.results,
         searchingAll : false
     }
 }

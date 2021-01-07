@@ -12,9 +12,9 @@ const notifications = (props) => {
 
     const {authToken, logKey, onFetchNewActivity, newActivity, onSwitchReadStatus, idInProcess, switchingReadStatus, onDeleteRecord, deletedRecord} = props;
 
-    useEffect(() => {
-        console.log('new', newActivity)
-    })
+    // useEffect(() => {
+    //     console.log('new', newActivity)
+    // })
 
     useEffect(() => {
         if (logKey)
