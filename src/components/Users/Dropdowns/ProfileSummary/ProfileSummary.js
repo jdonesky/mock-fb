@@ -38,7 +38,7 @@ import {MessengerContext} from "../../../../context/messenger-context";
 
 const profileSummaryDropdown = (props) => {
 
-    const {onFetchMyFriendRequests, onFetchPublicProfile, onFetchPageSummary, publicProfileKey, myPublicProfile, authToken, userType, pageSummary, userKey, onClearPublicProfile, onClearPageSummary} = props
+    const {onFetchMyFriendRequests, onFetchPublicProfile, onFetchPageSummary, publicProfileKey, myPublicProfile, authToken, userType, pageSummary, userKey, onClearProfileSummary, onClearPageSummary} = props
     const messengerContext = useContext(MessengerContext);
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
@@ -65,12 +65,12 @@ const profileSummaryDropdown = (props) => {
         }
         return () => {
             if (!userType) {
-                onClearPublicProfile();
+                onClearProfileSummary();
             } else if (userType === 'PAGE') {
                 onClearPageSummary();
             }
         }
-    }, [onFetchPublicProfile, publicProfileKey, authToken, userType, userKey, onClearPublicProfile, onClearPageSummary])
+    }, [onFetchPublicProfile, publicProfileKey, authToken, userType, userKey, onClearProfileSummary, onClearPageSummary])
 
     useEffect(() => {
         props.onFetchMyPublicProfile(authToken, props.myPublicProfileKey)
@@ -614,7 +614,7 @@ const mapDispatchToProps = dispatch => {
         onFetchMyFriendRequests: (authToken, publicProfileKey) => dispatch(actions.fetchFriendRequestsAttempt(authToken, publicProfileKey)),
         onFetchMyFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken,publicProfileKey)),
         onFetchPageSummary: (authToken, pageKey) => dispatch(actions.fetchPageSummaryAttempt(authToken, pageKey)),
-        onClearPublicProfile: () => dispatch(actions.clearPublicProfile()),
+        onClearProfileSummary: () => dispatch(actions.clearProfileSummary()),
         onClearPageSummary: () => dispatch(actions.clearPageSummary())
     }
 }

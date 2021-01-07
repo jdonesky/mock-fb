@@ -32,10 +32,6 @@ const friends = (props) => {
     const {myPublicProfile, otherPublicProfile, manyProfiles} = props
 
     useEffect(() => {
-        console.log(selectedFriends)
-    })
-
-    useEffect(() => {
         if (pathRoot !== props.history.location.pathname.split('/')[1] || displayProfile !== props.match.params.id) {
             setPathRoot(props.history.location.pathname.split('/')[1]);
             setDisplayProfile(displayProfile !== props.match.params.id);
@@ -43,16 +39,28 @@ const friends = (props) => {
     })
 
     useEffect(() => {
-        if (pathRoot === 'user-profile' && displayProfile === 'me') {
-            if (myPublicProfile) {
-                setLoadedFriends(myPublicProfile.friends);
-                if (myPublicProfile.currLocation) {
-                    setMyCurrentLocation(myPublicProfile.currLocation.name);
+        if (pathRoot === 'user-profile') {
+            if (displayProfile === 'me') {
+                if (myPublicProfile) {
+                    setLoadedFriends(myPublicProfile.friends);
+                    if (myPublicProfile.currLocation) {
+                        setMyCurrentLocation(myPublicProfile.currLocation.name);
+                    }
+                    if (myPublicProfile.hometown)
+                        setMyHometown(myPublicProfile.hometown.name);
                 }
-                if (myPublicProfile.hometown)
-                setMyHometown(myPublicProfile.hometown.name);
+            } else if (displayProfile !== 'me') {
+                if (otherPublicProfile) {
+                    setLoadedFriends(otherPublicProfile.friends);
+                    if (otherPublicProfile.currLocation) {
+                        setMyCurrentLocation(otherPublicProfile.currLocation.name);
+                    }
+                    if (otherPublicProfile.hometown) {
+                        setMyHometown(otherPublicProfile.hometown.name);
+                    }
+                }
             }
-        } else if (pathRoot === 'user-profile' || pathRoot === 'friends' && displayProfile !== 'me') {
+        } else if (pathRoot === 'friend') {
             if (otherPublicProfile) {
                 setLoadedFriends(otherPublicProfile.friends);
                 if (otherPublicProfile.currLocation) {
@@ -63,6 +71,7 @@ const friends = (props) => {
                 }
             }
         }
+
     }, [myPublicProfile, otherPublicProfile])
 
     useEffect(() => {
@@ -86,6 +95,8 @@ const friends = (props) => {
                     myFriends={loadedProfiles}
                     this={profile}
                     navTo={goToFullProfile}
+                    pathRoot={pathRoot}
+                    displayProfile={displayProfile}
                 />
             )))
         }
@@ -96,6 +107,7 @@ const friends = (props) => {
             setLoadedFriends(null);
             setLoadedProfiles(null);
             setSelectedFriends(null);
+            props.onClearManyProfiles();
         }
     },[])
 
@@ -242,7 +254,7 @@ const friends = (props) => {
                 })
             setSelectedFriends(filteredFriends);
         } else {
-            return;
+            setSelectedFriends(null)
         }
 
     }, [])
@@ -294,11 +306,14 @@ const friends = (props) => {
         selected = <InlineDots />
     }
     if (selectedFriends) {
-        if (selectedFriends.length === 0) {
-            selected = <div>You have no dumb friends</div>
-        } else {
+        if (selectedFriends.length !== 0) {
             selected = selectedFriends
         }
+    }
+
+    let loadingIndicator;
+    if (props.fetchingManyProfiles) {
+        loadingIndicator = <InlineDots />
     }
 
     return (
@@ -345,6 +360,7 @@ const friends = (props) => {
                 {moreFiltersDropdown}
             </section>
             <section className={classes.FriendsSection}>
+                {loadingIndicator}
                 {selected}
             </section>
         </div>
@@ -370,7 +386,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchManyProfiles: (authToken, keys) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, keys))
+        onFetchManyProfiles: (authToken, keys) => dispatch(actions.fetchManyPublicProfilesAttempt(authToken, keys)),
+        onClearManyProfiles: () => dispatch(actions.clearManyProfiles())
     }
 }
 

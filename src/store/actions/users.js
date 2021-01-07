@@ -143,11 +143,24 @@ export const fetchManyPublicProfilesAttempt = (authToken, publicProfileKeys= [])
   }
 }
 
+export const clearProfileSummary = () => {
+  return {
+    type: actionTypes.CLEAR_PROFILE_SUMMARY
+  }
+}
+
 export const clearPublicProfile = () => {
   return {
     type: actionTypes.CLEAR_PUBLIC_PROFILE
   }
 }
+
+export const clearManyProfiles = () => {
+  return {
+    type: actionTypes.CLEAR_MANY_PROFILES
+  }
+}
+
 
 export const clearUsers = () => {
   return {

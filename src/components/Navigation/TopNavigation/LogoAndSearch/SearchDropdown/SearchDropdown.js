@@ -67,6 +67,7 @@ const searchDropdown = (props) => {
         }
         const newActivity = {
             type: "GENERAL_SEARCH",
+            image: result.profileImage,
             subject: result.matched,
             date: new Date(),
             sortDate: new Date().getTime(),
@@ -131,13 +132,8 @@ const searchDropdown = (props) => {
                         <div className={classes.ProfileImage} style={{backgroundImage: result.profileImage ? `url(${result.profileImage})` : null }}>
                             {result.profileImage ? null : icon}
                         </div>
-                        <div className={classes.SearchRecordText}>{result.matched === 'user' ? `${result.firstName} ${result.lastName}` : result.name}</div>
+                        <div className={classes.SearchResultText}>{result.matched === 'user' ? `${result.firstName} ${result.lastName}` : result.name}</div>
                     </div>
-                    {/*<div className={classes.DeleteButtonContainer}>*/}
-                    {/*    <div className={classes.DeleteButton}>*/}
-                    {/*        <Delete fill="rgba(0,0,0,0.5)"/>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                 </div>
             )
         })

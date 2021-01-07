@@ -155,7 +155,8 @@ const denyFriendRequestFail = (state,action) => {
 
 const clearFriends = (state,action) => {
   return {
-    ...initialState
+    ...state,
+    friends: []
   }
 }
 

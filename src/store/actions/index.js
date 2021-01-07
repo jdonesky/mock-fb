@@ -60,7 +60,9 @@ export {
    fetchPublicProfileAttempt,
    fetchManyPublicProfilesAttempt,
    fetchFullProfileAttempt,
+   clearProfileSummary,
    clearPublicProfile,
+   clearManyProfiles,
    clearUsers
 } from "./users";
 

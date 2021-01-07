@@ -132,6 +132,11 @@
     cursor: pointer;
 }
 
+.SearchResultText {
+    font-family: "Lucida Grande";
+    font-size: 16px;
+}
+
 .SearchRecordText:hover {
     text-decoration: underline;
     font-weight: 900;
