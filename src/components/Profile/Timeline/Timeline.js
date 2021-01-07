@@ -2,6 +2,7 @@
 import React, {useEffect} from 'react';
 import classes from './Timeline.css';
 import {connect} from 'react-redux';
+import Greeting from './Greeting/Greeting';
 import Intro from './Intro/Intro';
 import Photos from './Photos/Photos';
 import Friends from './Friends/Friends';
@@ -19,16 +20,22 @@ const timeLine = (props) => {
     }
 
     let createPost;
+    let greeting;
     if (props.displayProfile === 'me') {
         createPost = <CreatePost displayProfile={props.displayProfile}/>
     } else {
         if (isFriend) {
             createPost = <CreatePost displayProfile={props.displayProfile}/>
+        } else {
+            if (props.theirPublicProfile) {
+                greeting = <Greeting name={props.theirPublicProfile.firstName}/>
+            }
         }
     }
 
     return (
         <div className={classes.Timeline}>
+            {greeting}
             <Intro displayProfile={props.displayProfile}/>
             <Photos displayProfile={props.displayProfile}/>
             <Friends displayProfile={props.displayProfile}/>

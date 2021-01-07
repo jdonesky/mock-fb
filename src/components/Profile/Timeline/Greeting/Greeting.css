@@ -1,0 +1,73 @@
+
+.Container {
+    z-index: 5;
+    min-height: 80px;
+    width: 100%;
+    max-width: 930px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 10px 18px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.LeftBlock {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.MainText {
+    font-family: "Lucida Grande";
+    font-weight: 900;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.SubText {
+    font-family: "Lucida Grande";
+    font-weight: 100;
+    font-size: 16px;
+    color: rgba(0,0,0,.45);
+}
+
+.Button {
+    height: 40px;
+    width: 150px;
+    border-radius: 6px;
+    background-color: #0a70ff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.Button:hover {
+    background-color: #1665f7;
+}
+
+.Icon {
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+}
+
+.Icon svg {
+    height: auto;
+    width: 100%;
+}
+
+.ButtonText {
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    font-size: 16px;
+}
+

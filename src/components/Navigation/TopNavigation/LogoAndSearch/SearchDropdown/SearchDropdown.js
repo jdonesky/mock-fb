@@ -94,11 +94,11 @@ const searchDropdown = (props) => {
             if (searches[search.key]) {
                 return (
                     <div className={classes.SearchRecord} key={search.key} >
-                        <div className={classes.SearchRecordLeftBlock}>
+                        <div className={classes.SearchRecordLeftBlock} onClick={() => filterResults(search.text)}>
                             <div className={[classes.ProfileImage, iconClass ? classes[iconClass] : null].join(" ")} style={{backgroundImage: search.image ? `url(${search.image})` : null }}>
                                 {search.image ? null : icon}
                             </div>
-                            <div className={classes.SearchRecordText} onClick={() => filterResults(search.text)}>{search.text}</div>
+                            <div className={classes.SearchRecordText}>{search.text}</div>
                         </div>
                         <div className={classes.DeleteButtonContainer} onClick={() => deleteSearchRecord(search.key)}>
                             <div className={classes.DeleteButton}>
