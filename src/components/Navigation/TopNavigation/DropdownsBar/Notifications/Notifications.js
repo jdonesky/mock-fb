@@ -30,7 +30,7 @@ const notifications = (props) => {
     }
 
     const deleteRecord = (key) => {
-        onDeleteRecord(authToken, logKey, key)
+        onDeleteRecord(authToken, logKey, 'records', key)
     }
 
     let newNotifications;

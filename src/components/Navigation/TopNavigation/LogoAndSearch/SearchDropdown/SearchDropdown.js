@@ -15,23 +15,37 @@ import Delete from '../../../../../assets/images/MessengerIcons/close';
 
 const searchDropdown = (props) => {
 
-    const {authToken, onFetchPersonalActivity, personalActivity, onSearchAll, searchingAll, results, close, onCreateActivityRecord, activityLogKey} = props;
-
+    const {authToken, onFetchPersonalActivity, personalActivity, onSearchAll, searchingAll, results, close, onCreateActivityRecord, activityLogKey, onDeleteActivity, onClearSearchResults, onClearLocalActivity} = props;
     const [searches, setSearches] = useState(null);
+    const [searchResults, setSearchResults] = useState(null);
 
     useEffect(() => {
-        console.log('search result', results)
-        console.log('previous searches', personalActivity)
+        console.log(searches);
     })
 
     useEffect(() => {
        onFetchPersonalActivity(authToken, activityLogKey, 'GENERAL_SEARCH')
+       return () => {
+           setSearches(null);
+           setSearchResults(null);
+           onClearLocalActivity('personalActivity')
+           onClearSearchResults();
+       }
     }, [])
 
     useEffect(() => {
+        if (results) {
+            setSearchResults(results)
+        }
+    }, [results])
 
-    }, [])
 
+    useEffect(() => {
+        console.log(personalActivity);
+        if (personalActivity) {
+            setSearches(personalActivity)
+        }
+    }, [personalActivity])
 
     const filterResults = useCallback(phrase => {
         onSearchAll(authToken, phrase)
@@ -41,34 +55,23 @@ const searchDropdown = (props) => {
             sortDate: new Date().getTime(),
             text: phrase,
         }
-        setSearches(prevState => {
-            if (prevState !== null) {
-                return [...prevState, newActivity]
-            } else {
-                return [newActivity]
-            }
-        })
         onCreateActivityRecord(authToken, activityLogKey, newActivity, 'PERSONAL')
     }, [])
 
-    let recentSearches;
-    if (!searches) {
-        if (personalActivity && personalActivity.length) {
-            console.log('IN personalActivity.length block')
-            recentSearches = personalActivity.sort((a,b) => a.sortDate > b.sortDate ? a : b);
-        } else {
-            recentSearches = <div className={classes.Placeholder}>No recent searches</div>
-        }
-    } else if (searches && searches.length) {
-        if (personalActivity && personalActivity.length) {
-            recentSearches = [...searches, ...personalActivity].sort((a,b) => a.sortDate > b.sortDate ? a : b)
-        } else if (!personalActivity) {
-            recentSearches = searches
-        }
+    const selectSearchResult = () => {
+
     }
 
-    if (recentSearches && recentSearches.length) {
-        recentSearches = recentSearches.map(search => {
+    const deleteSearchRecord = (key) => {
+        setSearches(prevState => {
+            return {...prevState, [key]: undefined}
+        })
+        onDeleteActivity(authToken, activityLogKey, 'personal', key)
+    }
+
+    let recentSearches;
+    if (searches) {
+        recentSearches = Object.keys(searches).map(key => ({...searches[key], key: key})).sort((a,b) => b.sortDate - a.sortDate).map(search => {
             let icon;
             if (search.subject === 'USER') {
                 icon = <Avatar fill="white" />
@@ -77,14 +80,45 @@ const searchDropdown = (props) => {
             } else {
                 icon = <Question fill="white" />
             }
+            if (searches[search.key]) {
+                return (
+                    <div className={classes.SearchRecord} key={search.key} >
+                        <div className={classes.SearchRecordLeftBlock}>
+                            <div className={classes.ProfileImage} style={{backgroundImage: search.image ? `url(${search.image})` : null }}>
+                                {search.image ? null : icon}
+                            </div>
+                            <div className={classes.SearchRecordText} onClick={() => filterResults(search.text)}>{search.text}</div>
+                        </div>
+                        <div className={classes.DeleteButtonContainer} onClick={() => deleteSearchRecord(search.key)}>
+                            <div className={classes.DeleteButton}>
+                                <Delete fill="rgba(0,0,0,0.5)"/>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+        })
+    } else {
+        recentSearches = <div className={classes.Placeholder}>No recent searches</div>
+    }
+
+    let showResults;
+    if (searchResults) {
+        showResults = searchResults.map(result => {
+            let icon;
+            if (result.matched === 'user') {
+                icon = <Avatar fill="white" />
+            } else if (result.matched === 'page') {
+                icon = <Flag fill="white" />
+            }
 
             return (
-                <div className={classes.SearchRecord}>
+                <div className={classes.SearchRecord} key={result.matched === 'user' ? result.userKey : result.dbKey}>
                     <div className={classes.SearchRecordLeftBlock}>
-                        <div className={classes.ProfileImage} style={{backgroundImage: search.image ? `url(${search.image})` : null }}>
-                            {search.image ? null : icon}
+                        <div className={classes.ProfileImage} style={{backgroundImage: result.profileImage ? `url(${result.profileImage})` : null }}>
+                            {result.profileImage ? null : icon}
                         </div>
-                        <div className={classes.SearchRecordText}>search.text</div>
+                        <div className={classes.SearchRecordText}>{result.matched === 'user' ? `${result.firstName} ${result.lastName}` : result.name}</div>
                     </div>
                     <div className={classes.DeleteButtonContainer}>
                         <div className={classes.DeleteButton}>
@@ -94,7 +128,6 @@ const searchDropdown = (props) => {
                 </div>
             )
         })
-
     }
 
     return (
@@ -106,7 +139,7 @@ const searchDropdown = (props) => {
                 <Searchbar filterResults={filterResults} className={classes.SearchBar} iconClass={classes.SearchGlass} placeholder="Search dumb facebook" focusOnMount/>
             </section>
             <section className={classes.RecentSearchSection}>
-                {searchingAll ? <InlineDots /> : recentSearches}
+                {showResults ? showResults : searchingAll ? <InlineDots /> : recentSearches}
             </section>
         </div>
     );
@@ -126,7 +159,10 @@ const mapDispatchToProps = dispatch => {
     return {
         onSearchAll: (authToken, phrase) => dispatch(actions.searchAllAttempt(authToken, phrase)),
         onCreateActivityRecord: (authToken, logKey, activity, type) => dispatch(actions.createActivityAttempt(authToken, logKey, activity, type)),
-        onFetchPersonalActivity: (authToken, logKey, type) => dispatch(actions.fetchPersonalActivityAttempt(authToken, logKey, type))
+        onFetchPersonalActivity: (authToken, logKey, type) => dispatch(actions.fetchPersonalActivityAttempt(authToken, logKey, type)),
+        onDeleteActivity: (authToken, logKey, loc, key) => dispatch(actions.deleteActivityAttempt(authToken, logKey, loc, key)),
+        onClearSearchResults: () => dispatch(actions.clearSearchResults()),
+        onClearLocalActivity: (loc) => dispatch(actions.clearLocalActivity(loc))
     }
 }
 

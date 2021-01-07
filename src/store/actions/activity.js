@@ -183,17 +183,24 @@ const deleteActivityFail = (error) => {
     }
 }
 
-export const deleteActivityAttempt = (authToken, logKey, key) => {
+export const deleteActivityAttempt = (authToken, logKey, loc, key) => {
     return dispatch => {
         dispatch(deleteActivityInit(key));
-        axios.delete(`/activity/${logKey}/records/${key}.json?auth=${authToken}`)
+        axios.delete(`/activity/${logKey}/${loc}/${key}.json?auth=${authToken}`)
             .then(response => {
                 console.log('success - deleted activity')
                 dispatch(deleteActivitySuccess());
             })
             .catch(error => {
-                console.log('fail- ', error);
+                console.log('fail - ', error);
                 dispatch(deleteActivityFail(error));
             })
+    }
+}
+
+export const clearLocalActivity = (loc) => {
+    return {
+        type: actionTypes.CLEAR_LOCAL_ACTIVITY,
+        loc: loc
     }
 }

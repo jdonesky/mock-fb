@@ -30,7 +30,7 @@ export const searchAllAttempt = (authToken, searchPhrase) => {
         axios.get(`/users.json?auth=${authToken}&orderBy="firstName"&startAt="${searchPhrase[0].toUpperCase()}"&endAt="${searchPhrase[0].toUpperCase()}\uf8ff"`)
             .then(response => {
                 if (response.data && Object.keys(response.data).length) {
-                    results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'}))
+                    results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'user'}))
                 }
                 return axios.get(`/users.json?auth=${authToken}&orderBy="firstName"&startAt="${searchPhrase[0].toLowerCase()}"&endAt="${searchPhrase[0].toLowerCase()}\uf8ff"`)
             })
@@ -38,9 +38,9 @@ export const searchAllAttempt = (authToken, searchPhrase) => {
                 if (response.data && Object.keys(response.data).length) {
                     if (results) {
                         keys = results.map(res => res.userKey)
-                        results = [...results, ...Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'})).filter(res => !keys.includes(res.userKey) )]
+                        results = [...results, ...Object.keys(response.data).map(key => ({...response.data[key], matched: 'user'})).filter(res => !keys.includes(res.userKey) )]
                     } else {
-                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'}))
+                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'user'}))
                     }
                 }
                 return axios.get(`/users.json?auth=${authToken}&orderBy="lastName"&startAt="${searchPhrase[0].toUpperCase()}"&endAt="${searchPhrase[0].toUpperCase()}\uf8ff"`)
@@ -49,9 +49,9 @@ export const searchAllAttempt = (authToken, searchPhrase) => {
                 if (response.data && Object.keys(response.data).length) {
                     if (results) {
                         keys = results.map(res => res.userKey)
-                        results = [...results, ...Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'})).filter(res => !keys.includes(res.userKey) )]
+                        results = [...results, ...Object.keys(response.data).map(key => ({...response.data[key], matched: 'user'})).filter(res => !keys.includes(res.userKey) )]
                     } else {
-                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'}))
+                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'user'}))
                     }
                 }
                 return axios.get(`/users.json?auth=${authToken}&orderBy="lastName"&startAt="${searchPhrase[0].toLowerCase()}"&endAt="${searchPhrase[0].toLowerCase()}\uf8ff"`)
@@ -60,9 +60,9 @@ export const searchAllAttempt = (authToken, searchPhrase) => {
                 if (response.data && Object.keys(response.data).length) {
                     if (results) {
                         keys = results.map(res => res.userKey)
-                        results = [...results, ...Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'})).filter(res => !keys.includes(res.userKey) )]
+                        results = [...results, ...Object.keys(response.data).map(key => ({...response.data[key], matched: 'user'})).filter(res => !keys.includes(res.userKey) )]
                     } else {
-                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'}))
+                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'user'}))
                     }
                 }
                 return axios.get(`/pages.json?auth=${authToken}&orderBy="name"&startAt="${searchPhrase[0].toUpperCase()}"&endAt="${searchPhrase[0].toUpperCase()}\uf8ff"`)
@@ -70,9 +70,9 @@ export const searchAllAttempt = (authToken, searchPhrase) => {
             .then(response => {
                 if (response.data && Object.keys(response.data).length) {
                     if (results) {
-                        results = [...results, ...Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'}))]
+                        results = [...results, ...Object.keys(response.data).map(key => ({...response.data[key], matched: 'page'}))]
                     } else {
-                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'}))
+                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'page'}))
                     }
                 }
                 return axios.get(`/pages.json?auth=${authToken}&orderBy="name"&startAt="${searchPhrase[0].toLowerCase()}"&endAt="${searchPhrase[0].toLowerCase()}\uf8ff"`)
@@ -81,13 +81,12 @@ export const searchAllAttempt = (authToken, searchPhrase) => {
                 if (response.data && Object.keys(response.data).length) {
                     if (results) {
                         keys = results.map(res => res.dbKey)
-                        console.log('page keys')
                         results = [...results, ...Object.keys(response.data).map(key => ({
                             ...response.data[key],
-                            matched: 'name'
+                            matched: 'page'
                         })).filter(res => !keys.includes(res.dbKey))]
                     } else {
-                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'name'}))
+                        results = Object.keys(response.data).map(key => ({...response.data[key], matched: 'page'}))
                     }
                 }
             })
@@ -97,5 +96,11 @@ export const searchAllAttempt = (authToken, searchPhrase) => {
             .catch(error => {
                 dispatch(searchAllFail(error));
             })
+    }
+}
+
+export const clearSearchResults = () => {
+    return {
+        type: actionTypes.CLEAR_SEARCH_RESULTS
     }
 }

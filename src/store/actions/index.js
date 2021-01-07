@@ -89,8 +89,10 @@ export {
    switchReadStatusAttempt,
    createActivityAttempt,
    deleteActivityAttempt,
+   clearLocalActivity
 } from "./activity";
 
 export {
    searchAllAttempt,
+   clearSearchResults
 } from "./search";

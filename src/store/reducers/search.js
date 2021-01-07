@@ -30,11 +30,19 @@ const searchAllFail = (state,action) => {
     }
 }
 
+const clearSearchResults = (state,action) => {
+    return {
+        ...state,
+        results: null
+    }
+}
+
 const reducer = (state=initialState, action) => {
     switch (action.type) {
         case actionTypes.SEARCH_ALL_INIT: return searchAllInit(state,action);
         case actionTypes.SEARCH_ALL_SUCCESS: return searchAllSuccess(state,action);
         case actionTypes.SEARCH_ALL_FAIL: return searchAllFail(state,action);
+        case actionTypes.CLEAR_SEARCH_RESULTS: return clearSearchResults(state,action);
         default: return state;
     }
 }

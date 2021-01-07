@@ -129,6 +129,12 @@ const deleteActivityFail = (state,action) => {
     }
 }
 
+const clearLocalActivity = (state,action) => {
+    return {
+        ...state,
+        [action.loc]: null
+    }
+}
 
 const reducer = (state=initialState, action) => {
     switch (action.type) {
@@ -147,6 +153,7 @@ const reducer = (state=initialState, action) => {
         case actionTypes.DELETE_ACTIVITY_INIT: return deleteActivityInit(state,action);
         case actionTypes.DELETE_ACTIVITY_SUCCESS: return deleteActivitySuccess(state,action);
         case actionTypes.DELETE_ACTIVITY_FAIL: return deleteActivityFail(state,action);
+        case actionTypes.CLEAR_LOCAL_ACTIVITY: return clearLocalActivity(state,action);
         default: return state;
     }
 }

@@ -73,7 +73,7 @@
     flex-flow: column;
     justify-content: space-evenly;
     align-items: center;
-    width: 95%;
+    width: 100%;
     margin: 0 auto 5px;
 }
 
@@ -120,21 +120,32 @@
 
 .ProfileImage svg {
     height: auto;
-    width: 100%;
+    width: 90%;
+    position: relative;
+    top: 1px;
+    left: 1px;
 }
 
 .SearchRecordText {
     font-family: "Lucida Grande";
     font-size: 16px;
+    cursor: pointer;
+}
+
+.SearchRecordText:hover {
+    text-decoration: underline;
+    font-weight: 900;
 }
 
 .DeleteButtonContainer {
     height: 30px;
     width: 30px;
+    border-radius: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin: 0 8px 0 auto;
 }
 
 .DeleteButtonContainer:hover {
@@ -144,6 +155,9 @@
 .DeleteButton {
     height: 20px;
     width: 20px;
+    position: relative;
+    top: 2px;
+
 }
 
 .DeleteButton svg {
