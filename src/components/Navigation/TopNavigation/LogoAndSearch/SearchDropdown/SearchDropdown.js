@@ -1,7 +1,8 @@
 
 import React, {useState, useEffect, useCallback} from 'react';
-import {connect} from 'react-redux'
-import classes from './SearchDropdown.css'
+import {withRouter} from 'react-router';
+import {connect} from 'react-redux';
+import classes from './SearchDropdown.css';
 import * as actions from '../../../../../store/actions/index';
 import Searchbar from "../../../../Search/Searchbar";
 import InlineDots from '../../../../UI/Spinner/InlineDots';
@@ -58,8 +59,20 @@ const searchDropdown = (props) => {
         onCreateActivityRecord(authToken, activityLogKey, newActivity, 'PERSONAL')
     }, [])
 
-    const selectSearchResult = () => {
-
+    const selectSearchResult = (result) => {
+        if (result.matched === 'user') {
+            props.history.push(`/user-profile/${result.userKey}`)
+        } else {
+            props.history.push(`/page/view/${result.dbKey}`)
+        }
+        const newActivity = {
+            type: "GENERAL_SEARCH",
+            subject: result.matched,
+            date: new Date(),
+            sortDate: new Date().getTime(),
+            text: result.matched === 'user' ? `${result.firstName} ${result.lastName}` : result.name,
+        }
+        onCreateActivityRecord(authToken, activityLogKey, newActivity, 'PERSONAL')
     }
 
     const deleteSearchRecord = (key) => {
@@ -73,9 +86,9 @@ const searchDropdown = (props) => {
     if (searches) {
         recentSearches = Object.keys(searches).map(key => ({...searches[key], key: key})).sort((a,b) => b.sortDate - a.sortDate).map(search => {
             let icon;
-            if (search.subject === 'USER') {
+            if (search.subject === 'user') {
                 icon = <Avatar fill="white" />
-            } else if (search.subject === 'PAGE') {
+            } else if (search.subject === 'page') {
                 icon = <Flag fill="white" />
             } else {
                 icon = <Question fill="white" />
@@ -113,18 +126,18 @@ const searchDropdown = (props) => {
             }
 
             return (
-                <div className={classes.SearchRecord} key={result.matched === 'user' ? result.userKey : result.dbKey}>
+                <div className={classes.SearchRecord} key={result.matched === 'user' ? result.userKey : result.dbKey} onClick={() => selectSearchResult(result)}>
                     <div className={classes.SearchRecordLeftBlock}>
                         <div className={classes.ProfileImage} style={{backgroundImage: result.profileImage ? `url(${result.profileImage})` : null }}>
                             {result.profileImage ? null : icon}
                         </div>
                         <div className={classes.SearchRecordText}>{result.matched === 'user' ? `${result.firstName} ${result.lastName}` : result.name}</div>
                     </div>
-                    <div className={classes.DeleteButtonContainer}>
-                        <div className={classes.DeleteButton}>
-                            <Delete fill="rgba(0,0,0,0.5)"/>
-                        </div>
-                    </div>
+                    {/*<div className={classes.DeleteButtonContainer}>*/}
+                    {/*    <div className={classes.DeleteButton}>*/}
+                    {/*        <Delete fill="rgba(0,0,0,0.5)"/>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
             )
         })
@@ -166,4 +179,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(searchDropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(searchDropdown));
