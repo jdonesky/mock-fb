@@ -85,3 +85,69 @@
     justify-content: center;
     align-items: center;
 }
+
+.SearchRecord {
+    height: 50px;
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.SearchRecord:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.SearchRecordLeftBlock {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ProfileImage {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    background-position: center;
+    background-size: cover;
+    background-color: rgba(0,0,0,0.1);
+    margin: 0 8px;
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 100%;
+}
+
+.SearchRecordText {
+    font-family: "Lucida Grande";
+    font-size: 16px;
+}
+
+.DeleteButtonContainer {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.DeleteButtonContainer:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.DeleteButton {
+    height: 20px;
+    width: 20px;
+}
+
+.DeleteButton svg {
+    height: auto;
+    width: 100%;
+
+}
