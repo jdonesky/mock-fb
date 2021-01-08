@@ -18,6 +18,10 @@ const AsyncManagePagesSidedrawer = React.lazy(() => {
     return import('../../components/Pages/ManagePageSidedrawer/ManagePageSidedrawer');
 })
 
+const AsyncInboxSidedrawer = React.lazy(() => {
+    return import ('../../components/Pages/InboxSideDrawer/InboxSidedrawer');
+})
+
 const AsyncCreatePageSidedrawer = React.lazy(() => {
     return import('../../components/Pages/CreatePageSidedrawer/CreatePageSidedrawer');
 })
@@ -32,15 +36,17 @@ const pages = props => {
         displayPanelContents = <Managed />;
     } else if (props.history.location.pathname === '/pages/create') {
         displayPanelContents = <PagePreview preview="PAGE"/>
-    } else if (props.history.location.pathname === `/pages/${props.history.location.pathname.split('/')[2]}`) {
+    } else if (props.history.location.pathname === `/pages/inbox`) {
+
     }
 
     return (
         <div className={classes.FullPage}>
             <Switch>
-                <Route path='/pages/manage' component={AsyncManagePagesSidedrawer}/>
                 <Route path='/pages/create' exact component={AsyncCreatePageSidedrawer}/>
                 <Route path='/pages/discover' component={AsyncBrowsePagesSidedrawer} />
+                <Route path='/pages/manage' component={AsyncManagePagesSidedrawer}/>
+                <Route path='/pages/inbox' component={AsyncInboxSidedrawer}/>
                 <Route path='/pages/liked' component={AsyncBrowsePagesSidedrawer} />
                 <Route path='/pages/invites' component={AsyncBrowsePagesSidedrawer} />
                 <Route path='/pages' exact component={AsyncBrowsePagesSidedrawer}/>

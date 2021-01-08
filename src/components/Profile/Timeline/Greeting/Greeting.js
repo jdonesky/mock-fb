@@ -1,5 +1,6 @@
 
 import React, {useState, useEffect} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './Greeting.css';
 import AddFriend from '../../../../assets/images/UserActionIcons/addFriend';
@@ -12,6 +13,7 @@ import Spinner from '../../../UI/Spinner/Spinner';
 
 const greeting = props => {
 
+    const [viewAsFlag, setViewAsFlag] = useState(props.history.location.pathname.split('/')[props.history.location.pathname.split('/').length - 1])
     const {authToken,myPublicProfile, myPublicProfileKey, otherProfile, otherPublicProfile} = props
     const [friendRequestSent, setFriendRequestSent] = useState(false);
     const [friendRequestCanceled, setFriendRequestCanceled] = useState(false);
@@ -56,22 +58,23 @@ const greeting = props => {
     let ButtonText;
     let ButtonIcon;
     let ButtonAction;
+    let iconFill = viewAsFlag === 'view-as' ? 'rgba(0,0,0,0.1)' : 'white'
     if (otherProfile) {
         if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) !== -1)) {
             ButtonText = 'Cancel Request';
-            ButtonIcon = <UnFriend fill="white"/>
+            ButtonIcon = <UnFriend fill={iconFill} />
             ButtonAction = cancelFriendRequest;
         }
 
         if (!friendRequestSent && (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) === -1) || friendRequestCanceled || deniedRequest) {
             ButtonText = 'Add Friend';
-            ButtonIcon = <AddFriend fill="white"/>
+            ButtonIcon = <AddFriend fill={iconFill} />
             ButtonAction = sendFriendRequest;
         }
 
         if (props.myReceivedRequests && props.myReceivedRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) !== -1) {
             ButtonText = 'Respond'
-            ButtonIcon = <RespondRequest fill="white"/>
+            ButtonIcon = <RespondRequest fill={iconFill} />
             ButtonAction = () => setRespondingRequest(true)
         }
     }
@@ -106,7 +109,7 @@ const greeting = props => {
                 <div className={classes.SubText}>To see what they share with friends, send them a friend request.</div>
                 {mutualFriendsSection}
             </div>
-            <div className={classes.Button} onClick={ButtonAction}>
+            <div className={[classes.Button, viewAsFlag === 'view-as' ? classes.DisabledButton : null].join(" ")} onClick={viewAsFlag !== 'view-as' ? ButtonAction : null}>
                 <div className={classes.Icon}>{ButtonIcon}</div>
                 <div className={classes.ButtonText}>{ButtonText}</div>
             </div>
@@ -142,4 +145,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(greeting);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(greeting));

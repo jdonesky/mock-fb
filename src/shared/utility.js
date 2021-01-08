@@ -276,14 +276,12 @@ export const geocode = (address, cb) => {
   }
 }
 
-export const createActivityRecord = () => {
-
-}
-
 export const checkComponentVisibility = (ref) => {
+
   const rect = ref.getBoundingClientRect();
 
   let out = {top: null, bottom: null, left: null, right: null};
+
   if (rect.top <= 70) {
     out = {...out, top: 70 - rect.top}
   }
@@ -298,4 +296,10 @@ export const checkComponentVisibility = (ref) => {
   }
 
   return out;
+
+}
+
+
+export const createActivityRecord = () => {
+
 }

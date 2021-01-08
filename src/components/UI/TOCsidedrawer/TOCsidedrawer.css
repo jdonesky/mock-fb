@@ -174,17 +174,50 @@
     margin-left: 20px;
 }
 
+/*.Paths {*/
+/*    position: relative;*/
+/*    top: 4px;*/
+/*    left: 5px;*/
+/*    color: rgba(0,0,0,0.3);*/
+/*    font-weight: 100;*/
+/*    font-size: 13px;*/
+/*    font-family: "Lucida Grande";*/
+/*    display: flex;*/
+/*    justify-content: flex-start;*/
+/*    align-items: flex-start;*/
+/*}*/
+
+/*.Path {*/
+/*    margin: 0 3px;*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.PathCurrent {*/
+/*    margin: 0 3px;*/
+/*    display: inline-block;*/
+/*    cursor: default;*/
+/*}*/
+/*.PathCurrent:hover {*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*.Path:hover {*/
+/*    cursor: pointer;*/
+/*    text-decoration: underline;*/
+/*}*/
+
+
 .Paths {
     position: relative;
-    top: 4px;
-    left: 5px;
+    top: 3px;
+    right: 77px;
     color: rgba(0,0,0,0.3);
     font-weight: 100;
     font-size: 13px;
     font-family: "Lucida Grande";
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
 }
 
 .Path {
@@ -192,17 +225,7 @@
     display: inline-block;
 }
 
-.PathCurrent {
-    margin: 0 3px;
-    display: inline-block;
-    cursor: default;
-}
-.PathCurrent:hover {
-    text-decoration: none;
-}
-
 .Path:hover {
     cursor: pointer;
     text-decoration: underline;
 }
-

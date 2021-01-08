@@ -80,7 +80,9 @@ export const authAttempt = (email, password, isSignUp, userData) => {
         }
       })
       .catch((error) => {
-        dispatch(authFail(error.response.data.error));
+        if (error.response && error.response.data) {
+          dispatch(authFail(error.response.data.error));
+        }
       });
   };
 };

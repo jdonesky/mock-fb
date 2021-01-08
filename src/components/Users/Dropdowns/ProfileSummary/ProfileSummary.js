@@ -59,17 +59,17 @@ const profileSummaryDropdown = (props) => {
     const [adjustLeft, setAdjustLeft] = useState(null);
     const [adjustRight, setAdjustRight] = useState(null);
 
-    useEffect(() => {
-        // console.log('top - ', adjustTop)
-        if (adjustBottom) {
-
-        console.log('bottom - ', adjustBottom)
-        }
-        // console.log('left - ', adjustLeft)
-        // console.log('right - ', adjustRight)
-        console.log('loc', props.loc)
-        console.log('style', style)
-    })
+    // useEffect(() => {
+    //     // console.log('top - ', adjustTop)
+    //     if (adjustBottom) {
+    //
+    //     console.log('bottom - ', adjustBottom)
+    //     }
+    //     // console.log('left - ', adjustLeft)
+    //     // console.log('right - ', adjustRight)
+    //     console.log('loc', props.loc)
+    //     console.log('style', style)
+    // })
 
     useEffect(() => {
         const out = checkComponentVisibility(container.current)

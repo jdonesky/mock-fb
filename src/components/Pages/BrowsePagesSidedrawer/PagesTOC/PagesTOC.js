@@ -20,13 +20,13 @@ const pagesTOC = props => {
     const [showOwnedPages, setShowOwnedPages] = useState(true);
 
     useEffect(() => {
-        console.log('FIRED FETCH MY PAGES ON MOUNT');
+        // console.log('FIRED FETCH MY PAGES ON MOUNT');
         onFetchOwnedPages(authToken, userKey)
     }, [authToken, userKey, onFetchOwnedPages])
 
-    useEffect(() => {
-        console.log('MY PAGES - ', myPages)
-    })
+    // useEffect(() => {
+    //     console.log('MY PAGES - ', myPages)
+    // })
 
     const manageOwnedPage = (key) => {
         props.onFetchOwnedPage(props.authToken, key);

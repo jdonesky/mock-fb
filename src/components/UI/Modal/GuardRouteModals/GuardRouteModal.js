@@ -1,6 +1,6 @@
 
 import React, {useEffect, useState} from 'react';
-import classes from './GuardRouterModal.css';
+import classes from './GuardRouteModal.css';
 import {Prompt} from 'react-router-dom';
 import Modal from '../Modal';
 
