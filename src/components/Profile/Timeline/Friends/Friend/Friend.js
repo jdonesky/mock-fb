@@ -65,7 +65,7 @@ const friend = props => {
 
     let profileSummary;
     if (viewingSummary) {
-        profileSummary = <ProfileSummary userKey={props.userKey} publicProfileKey={props.publicProfileKey} myFriends={props.myFriends} onMouseEnter={cancelCloseSummary} onMouseLeave={startClosingViewingSummary}/>
+        profileSummary = <ProfileSummary loc="FRIEND" userKey={props.userKey} publicProfileKey={props.publicProfileKey} myFriends={props.myFriends} onMouseEnter={cancelCloseSummary} onMouseLeave={startClosingViewingSummary}/>
     }
 
     return (

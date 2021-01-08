@@ -462,7 +462,7 @@ const post = (props) => {
 
     let profileSummary;
     if (viewingSummary) {
-        profileSummary = <ProfileSummary userType={props.userType} userKey={props.userKey} publicProfileKey={props.publicProfileKey} myFriends={props.friends} onMouseEnter={cancelCloseSummary} onMouseLeave={startClosingViewingSummary}/>
+        profileSummary = <ProfileSummary loc="POST" userType={props.userType} userKey={props.userKey} publicProfileKey={props.publicProfileKey} myFriends={props.friends} onMouseEnter={cancelCloseSummary} onMouseLeave={startClosingViewingSummary}/>
     }
 
     let other;

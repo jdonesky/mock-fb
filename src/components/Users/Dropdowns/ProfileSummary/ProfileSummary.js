@@ -1,4 +1,4 @@
-import React, {useState,useEffect, useContext} from 'react';
+import React, {useState,useEffect,useRef, useContext} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import classes from './ProfileSummary.css';
@@ -34,12 +34,15 @@ import Email from '../../../../assets/images/email';
 import Spinner from '../../../../components/UI/Spinner/Spinner';
 import InlineDots from '../../../../components/UI/Spinner/InlineDots';
 import {convertDashedDatetime} from "../../../../shared/utility";
+import {checkComponentVisibility} from "../../../../shared/utility";
 import {MessengerContext} from "../../../../context/messenger-context";
+import getWindowDimensions from "../../../../hooks/getWindowDimensions";
 
 const profileSummaryDropdown = (props) => {
 
     const {onFetchMyFriendRequests, onFetchPublicProfile, onFetchPageSummary, publicProfileKey, myPublicProfile, authToken, userType, pageSummary, userKey, onClearProfileSummary, onClearPageSummary} = props
     const messengerContext = useContext(MessengerContext);
+    const container = useRef(null);
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
     const [viewingMoreOptions, setViewingMoreOptions] = useState(false);
@@ -49,6 +52,32 @@ const profileSummaryDropdown = (props) => {
     const [acceptedRequest, setAcceptedRequest] = useState(false);
     const [deniedRequest, setDeniedRequest] = useState(false);
     const [likedPage, setLikedPage] = useState(false);
+
+    const [adjustTop, setAdjustTop] = useState(null);
+    const [adjustBottom, setAdjustBottom] = useState(null);
+    const [adjustLeft, setAdjustLeft] = useState(null);
+    const [adjustRight, setAdjustRight] = useState(null);
+
+    useEffect(() => {
+        console.log('adjust - top, bottom, left, right', adjustTop, adjustBottom, adjustLeft, adjustRight)
+    })
+
+    useEffect(() => {
+        const out = checkComponentVisibility(container.current)
+        if (out.top) {
+            setAdjustTop(out.top);
+        }
+        if (out.bottom) {
+            setAdjustBottom(out.bottom);
+        }
+        if (out.right) {
+            setAdjustRight(out.right);
+        }
+        if (out.left) {
+            setAdjustLeft(out.left);
+        }
+
+    })
 
     useEffect(() => {
         if (!userType) {
@@ -246,7 +275,6 @@ const profileSummaryDropdown = (props) => {
                     firstInfoIcon = <Cake fill='rgba(0,0,0,0.5)'/>
                 }
             }
-
         }
     } else if (userType === 'PAGE') {
         if (pageSummary) {
@@ -324,8 +352,10 @@ const profileSummaryDropdown = (props) => {
     }
 
     let secondInfoEntry;
+    let addRepositionOffset = 0;
     if (secondInfo && secondInfoIcon) {
         secondInfoEntry = <div className={[classes.InfoEntryContainer, classes.SecondInfoEntry].join(" ")}><div className={classes.InfoIcon}>{secondInfoIcon}</div>{secondInfo}</div>
+        addRepositionOffset = 30
     }
 
     let isFriendsOptions;
@@ -559,7 +589,8 @@ const profileSummaryDropdown = (props) => {
         summary = <InlineDots top="35%"/>
     } else {
         summary = <React.Fragment>
-            <section className={classes.HeaderContainer}>
+            <section className={classes.HeaderContainer}
+            >
                 <div className={classes.ProfileImageBlock}>
                     <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}} onClick={goToFullProfile}>
                         {profileImage ? null : <Avatar />}
@@ -578,9 +609,52 @@ const profileSummaryDropdown = (props) => {
         </React.Fragment>
     }
 
+    const friendDefaults = {top: '100px', left: '-285px'}
+    const postDefaults = {top: `${-205 - addRepositionOffset}px`, left: '-55px'}
+
+    let friendAdjusted;
+    let postAdjusted;
+    if (adjustTop) {
+        friendAdjusted =  {top: `${}`, left: '-285px'}
+        postAdjusted = {top: '22px', left: '-55px'}
+    }
+    if (adjustBottom) {
+
+    }
+
+    let defaults;
+    let adjusted;
+    let style;
+    if (props.loc === 'FRIEND') {
+        defaults = friendDefaults;
+        adjusted = friendAdjusted;
+    } else if (props.loc === 'POST') {
+        defaults = postDefaults;
+        adjusted = postAdjusted;
+    }
+
+    if (props.loc === 'FRIEND') {
+        if (adjustTop || adjustBottom || adjustRight || adjustLeft) {
+            style = adjusted;
+        } else {
+            style = defaults;
+        }
+    }
+
+    if (props.loc === 'POST') {
+        if (adjustTop || adjustBottom) {
+            style = adjusted;
+        } else {
+            style = defaults;
+        }
+    }
+
+
     return (
         <div className={classes.Positioner} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
-        <div className={classes.DropdownContainer}>
+        <div className={classes.DropdownContainer} ref={container}
+             style={style}
+        >
             {summary}
         </div>
     </div>

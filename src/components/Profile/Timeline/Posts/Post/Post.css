@@ -428,7 +428,9 @@
 }
 
 .CommenterProfileImageContainer {
+    min-height: 35px;
     height: 35px;
+    min-width: 35px;
     width: 35px;
     display: flex;
     align-items: center;
@@ -436,7 +438,9 @@
 }
 
 .CommenterProfileImage {
+    min-height: 35px;
     height: 35px;
+    min-width: 35px;
     width: 35px;
     border-radius: 100%;
     border: 1px solid #cccccc;

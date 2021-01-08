@@ -279,3 +279,23 @@ export const geocode = (address, cb) => {
 export const createActivityRecord = () => {
 
 }
+
+export const checkComponentVisibility = (ref) => {
+  const rect = ref.getBoundingClientRect();
+
+  let out = {top: null, bottom: null, left: null, right: null};
+  if (rect.top <= 70) {
+    out = {...out, top: 70 - rect.top}
+  }
+  if (rect.left <= 0) {
+    out = {...out, left:  0 - rect.left}
+  }
+  if (rect.bottom >= (window.innerHeight || document.documentElement.clientHeight)) {
+    out = {...out, bottom: rect.bottom - window.innerHeight}
+  }
+  if (rect.right >= (window.innerWidth || document.documentElement.clientWidth)) {
+    out = {...out, right: rect.right - window.innerWidth}
+  }
+
+  return out;
+}

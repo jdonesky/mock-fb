@@ -5,14 +5,15 @@
 }
 
 .DropdownContainer {
-    min-height: 150px;
+    min-height: 180px;
     width: 400px;
+    min-width: 400px;
     border-radius: 8px;
     background-color: white;
     box-shadow: 0 0 4px 4px rgba(0,0,0,0.05);
     position: absolute;
-    top: 20px;
-    left: -85px;
+    /*top: 5px;*/
+    /*left: -100px;*/
     display: flex;
     flex-flow: column;
     z-index: 10;
