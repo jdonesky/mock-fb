@@ -1,19 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from "./TOCsidedrawer.css";
 
 const tocSidedrawer = props => {
 
     let containerClass;
     let headerClass;
-    // let pathsClass;
     if (props.adjustWidth === true) {
         containerClass = classes.SideDrawerContainer;
         headerClass = classes.Header;
-        // pathsClass = classes.PathsContainer;
     } else {
         containerClass = classes.FixedWidthSideDrawer;
         headerClass = classes.FixedWidthHeader;
-        // pathsClass = classes.FixedWidthPathsContainer;
     }
 
     return (

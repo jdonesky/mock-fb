@@ -37,7 +37,7 @@ const pages = props => {
     } else if (props.history.location.pathname === '/pages/create') {
         displayPanelContents = <PagePreview preview="PAGE"/>
     } else if (props.history.location.pathname === `/pages/inbox`) {
-
+        // displayPanelContents =
     }
 
     return (

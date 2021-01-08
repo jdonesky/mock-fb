@@ -171,7 +171,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-left: 20px;
+    margin-left: 15px;
 }
 
 /*.Paths {*/
@@ -210,7 +210,7 @@
 .Paths {
     position: relative;
     top: 3px;
-    right: 77px;
+    right: 80px;
     color: rgba(0,0,0,0.3);
     font-weight: 100;
     font-size: 13px;
@@ -228,4 +228,13 @@
 .Path:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+.PagePath {
+    color: #0a70ff;
+}
+
+.PathDisabled:hover {
+    text-decoration: none;
+    cursor: default;
 }
