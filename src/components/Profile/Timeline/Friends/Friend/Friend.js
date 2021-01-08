@@ -71,14 +71,14 @@ const friend = props => {
     return (
         <React.Fragment>
             <div className={classes.Container} >
-                <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null, height: `${width * .25}px`}} onClick={props.nav} onMouseEnter={enterProfileImage} onMouseLeave={leaveProfileImage}>
+                <OutsideAlerter action={quickCloseSummary}>
+                    {profileSummary}
+                </OutsideAlerter>
+                <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null, height: `${width * .25}px`, width:`${width * .23 <= 250 ? width * .23 : 250}px` }} onClick={props.nav} onMouseEnter={enterProfileImage} onMouseLeave={leaveProfileImage}>
                     {props.profileImage ? null : <Avatar fill="white"/>}
                 </div>
                 <div className={classes.Name} onClick={props.nav}>{props.name}</div>
             </div>
-            <OutsideAlerter action={quickCloseSummary}>
-                {profileSummary}
-            </OutsideAlerter>
         </React.Fragment>
     )
 }

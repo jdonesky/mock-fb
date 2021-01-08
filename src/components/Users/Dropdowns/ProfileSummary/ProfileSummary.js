@@ -40,6 +40,7 @@ import getWindowDimensions from "../../../../hooks/getWindowDimensions";
 
 const profileSummaryDropdown = (props) => {
 
+    const { width, height } = getWindowDimensions()
     const {onFetchMyFriendRequests, onFetchPublicProfile, onFetchPageSummary, publicProfileKey, myPublicProfile, authToken, userType, pageSummary, userKey, onClearProfileSummary, onClearPageSummary} = props
     const messengerContext = useContext(MessengerContext);
     const container = useRef(null);
@@ -59,7 +60,15 @@ const profileSummaryDropdown = (props) => {
     const [adjustRight, setAdjustRight] = useState(null);
 
     useEffect(() => {
-        console.log('adjust - top, bottom, left, right', adjustTop, adjustBottom, adjustLeft, adjustRight)
+        // console.log('top - ', adjustTop)
+        if (adjustBottom) {
+
+        console.log('bottom - ', adjustBottom)
+        }
+        // console.log('left - ', adjustLeft)
+        // console.log('right - ', adjustRight)
+        console.log('loc', props.loc)
+        console.log('style', style)
     })
 
     useEffect(() => {
@@ -609,17 +618,14 @@ const profileSummaryDropdown = (props) => {
         </React.Fragment>
     }
 
-    const friendDefaults = {top: '100px', left: '-285px'}
+    const friendDefaults = {bottom: `1px`, left: `${-.21 * width <= 150 ? -.21 * width : -.1 * width}px`}
     const postDefaults = {top: `${-205 - addRepositionOffset}px`, left: '-55px'}
 
     let friendAdjusted;
     let postAdjusted;
     if (adjustTop) {
-        friendAdjusted =  {top: `${}`, left: '-285px'}
+        friendAdjusted =  {bottom: `${.5 * width <= 300 ? -.5 * width : .5 * width > 300 && .5 * width <= 400 ? -400 : -450}px`, left: `${-.21 * width <= 200 ? -.21 * width : -.1 * width}px`}
         postAdjusted = {top: '22px', left: '-55px'}
-    }
-    if (adjustBottom) {
-
     }
 
     let defaults;
