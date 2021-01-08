@@ -1,9 +1,9 @@
 
 .Container {
-    z-index: 5;
+    z-index: 6;
     width: 100%;
     max-width: 930px;
-    margin: 0 0 15px;
+    margin-bottom: 15px;
     border: none;
     border-radius: 10px;
     box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
@@ -22,26 +22,29 @@
     justify-content: space-between;
 }
 
-.Header a {
-    line-height: 30px;
-}
-
-.Link {
-    width: 70px;
-    height: 30px;
-    text-align: center;
-}
-
 .Link {
     color: #1665f7;
-    text-decoration: none;
+    width: 70px;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .Link:hover {
-    border-radius: 5px;
     background: rgba(0,0,0,0.05);
 }
 
+.FriendsContainer {
+    margin: 0 auto 20px;
+    width: 97%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
 
 
 

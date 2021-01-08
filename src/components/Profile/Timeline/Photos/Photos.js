@@ -1,12 +1,15 @@
 
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import Photo from './Photo/Photo'
 import classes from './Photos.css'
+import getWindowDimensions from "../../../../hooks/getWindowDimensions";
+
 
 const photos = (props) => {
+
+    const {width, height} = getWindowDimensions();
 
     let photos = [];
     if (props.displayProfile === 'me') {
@@ -32,16 +35,16 @@ const photos = (props) => {
             <Photo
                 key={i}
                 photo={pic}
+                width={width}
             />
         ))
     }
-
 
     return (
         <div className={classes.Container}>
             <div className={classes.Header}>
                 <h2>Photos</h2>
-                <Link className={classes.Link} to="user-profile/photos">See All</Link>
+                <div className={classes.Link} onClick={() => props.history.push(`/user-profile/${props.displayProfile}/photos`)}>See All</div>
             </div>
             <section className={classes.PhotosContainer}>
                 {photos}

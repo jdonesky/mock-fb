@@ -51,10 +51,6 @@ const profileSummaryDropdown = (props) => {
     const [likedPage, setLikedPage] = useState(false);
 
     useEffect(() => {
-        console.log('publicProfileKey', publicProfileKey)
-    })
-
-    useEffect(() => {
         if (!userType) {
             onFetchMyFriendRequests(authToken, props.myPublicProfileKey)
             onFetchPublicProfile(authToken, publicProfileKey, 'SUMMARY');
@@ -73,15 +69,21 @@ const profileSummaryDropdown = (props) => {
     }, [onFetchPublicProfile, publicProfileKey, authToken, userType, userKey, onClearProfileSummary, onClearPageSummary])
 
     useEffect(() => {
-        props.onFetchMyPublicProfile(authToken, props.myPublicProfileKey)
+        if (likedPage) {
+            props.onFetchMyPublicProfile(authToken, props.myPublicProfileKey)
+        }
     }, [likedPage])
 
     useEffect(() => {
-        props.onFetchMyFriendRequests(authToken,props.myPublicProfileKey);
+        if (friendRequestCanceled) {
+            props.onFetchMyFriendRequests(authToken,props.myPublicProfileKey);
+        }
     }, [friendRequestCanceled])
 
     useEffect(() => {
-        props.onFetchMyFriends(authToken, props.myPublicProfileKey)
+        if (acceptedRequest) {
+            props.onFetchMyFriends(authToken, props.myPublicProfileKey)
+        }
     }, [acceptedRequest])
 
     const goToFullProfile = () => {

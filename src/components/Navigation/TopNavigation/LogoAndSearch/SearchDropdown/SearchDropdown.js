@@ -110,7 +110,12 @@ const searchDropdown = (props) => {
             }
         })
     } else {
-        recentSearches = <div className={classes.Placeholder}>No recent searches</div>
+        if (props.fetchingPersonalActivity) {
+            recentSearches = <InlineDots />
+        } else if (searches && !searches.length) {
+            recentSearches = <div className={classes.Placeholder}>No recent searches</div>
+        }
+
     }
 
     let showResults;
@@ -159,7 +164,8 @@ const mapStateToProps = state => {
         results: state.search.results,
         searchingAll: state.search.searchingAll,
         activityLogKey: state.profile.activityLogKey,
-        personalActivity: state.activity.personalActivity
+        personalActivity: state.activity.personalActivity,
+        fetchingPersonalActivity: state.activity.fetchingPersonalActivity
     }
 }
 

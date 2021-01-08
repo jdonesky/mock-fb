@@ -1,17 +1,12 @@
 
 .Container {
-    height: 190px;
-    width: 170px;
+    max-height: 300px;
+    width: 33%;
+    background-position: center;
+    background-size: cover;
     cursor: pointer;
 }
 
-.Backdrop {
-    height: 100%;
-    width: 100%;
-    background-position: center;
-    background-size: cover;
-}
-
-.Backdrop:hover {
+.Container:hover {
     filter: saturate(2);
 }

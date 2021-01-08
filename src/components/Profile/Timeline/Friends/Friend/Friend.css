@@ -1,0 +1,51 @@
+
+.Container {
+    min-height: 100px;
+    max-height: 300px;
+    width: 30%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 5px;
+}
+
+.ProfileImage {
+    height: 90%;
+    width: 100%;
+    border-radius: 10px;
+    background-position: center;
+    background-size: cover;
+    background-color: rgba(0,0,0,0.1);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.ProfileImage:hover {
+    background-color: rgba(0,0,0,0.15);
+    filter: saturate(2);
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: 30px;
+}
+
+.Name {
+    width: 100%;
+    margin-top: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.Name:hover {
+    text-decoration: underline;
+}
