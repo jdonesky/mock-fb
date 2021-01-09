@@ -136,8 +136,11 @@ const auth = props => {
       case 'EMAIL_EXISTS':
         errorMessage = 'Looks like an account already exists with that email address'
         break;
+      case 'WEAK_PASSWORD':
+        errorMessage = 'Please use a password with at least 6 characters'
+        break;
       default:
-        errorMessage = 'Something went wrong'
+        errorMessage = 'There was an error on our side. Please reload and try again'
     }
   }
 

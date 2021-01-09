@@ -573,9 +573,11 @@ const switchPageAvailabilityFail = (error) => {
 export const switchPageAvailability = (authToken, pageKey, newStatus) => {
     return dispatch => {
         dispatch(switchPageAvailabilityInit())
-        axios.patch(`/pages/${pageKey}/isOnline.json?auth=${authToken}`, newStatus)
+        console.log('pageKey', pageKey);
+        console.log('new status', newStatus)
+        axios.patch(`/pages/${pageKey}.json?auth=${authToken}`, newStatus)
             .then(response => {
-                console.log('success -')
+                console.log('success -', response.data)
                 dispatch(switchPageAvailabilitySuccess());
             })
             .catch(error => {

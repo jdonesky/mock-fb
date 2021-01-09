@@ -56,7 +56,11 @@ const searchDropdown = (props) => {
 
     const selectSearchResult = (result) => {
         if (result.matched === 'user') {
-            props.history.push(`/user-profile/${result.userKey}`)
+            if (result.userKey === props.firebaseKey) {
+                props.history.push(`/user-profile/me`)
+            } else {
+                props.history.push(`/user-profile/${result.userKey}`)
+            }
         } else {
             props.history.push(`/page/view/${result.dbKey}`)
         }
@@ -161,6 +165,7 @@ const searchDropdown = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
         results: state.search.results,
         searchingAll: state.search.searchingAll,
         activityLogKey: state.profile.activityLogKey,

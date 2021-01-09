@@ -51,7 +51,7 @@ const messenger = (props) => {
     }, [])
 
     useEffect(() => {
-        if (activeChat) {
+        if (activeChat && activeChat.parties) {
             setTheirProfile(activeChat.parties.find(party => party.userKey !== props.firebaseKey))
             props.onFetchChatRecord(props.authToken, activeChat.key)
         }
@@ -66,7 +66,12 @@ const messenger = (props) => {
     const goToTheirProfile = () => {
         if (theirProfile) {
             if (props.history.location.pathname !== `/user-profile/${theirProfile.userKey}`) {
-                props.history.push(`/user-profile/${theirProfile.userKey}`)
+                if (theirProfile.userKey === props.firebaseKey) {
+                    props.history.push(`/user-profile/me`)
+
+                } else {
+                    props.history.push(`/user-profile/${theirProfile.userKey}`)
+                }
             }
         }
     }
@@ -101,7 +106,7 @@ const messenger = (props) => {
     }
 
     const closeChat = () => {
-        props.onClearActiveChat(props.authToken);
+        props.onClearActiveChat(props.authToken, props.firebaseKey);
         messengerContext.closeMessenger()
     }
 

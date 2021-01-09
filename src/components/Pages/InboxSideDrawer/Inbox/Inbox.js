@@ -14,9 +14,10 @@ import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 
 const inbox = (props) => {
 
+    const {ownedPage} = props;
+    const [availability, setAvailability] = useState(ownedPage && ownedPage.isOnline);
     const [displayPage, setDisplayPage] = useState(props.history.location.pathname.split('/')[3])
     const [viewingAvailability,setViewingAvailability] = useState(false);
-    const {ownedPage} = props;
 
     useEffect(() => {
         if (displayPage !== props.history.location.pathname.split('/')[3]) {
@@ -25,15 +26,26 @@ const inbox = (props) => {
     })
 
     useEffect(() => {
+        if (ownedPage) {
+            setAvailability(ownedPage.isOnline)
+        }
+    }, [ownedPage])
+
+    useEffect(() => {
         if (!ownedPage && displayPage) {
             props.onFetchOwnedPage(props.authToken, displayPage)
         }
     }, [])
 
+    const updateAvailability = (status) => {
+        setAvailability(status)
+        props.onSwitchAvailability(props.authToken, displayPage, {isOnline: status})
+    }
+
     let isOnlineIndicator;
-    if (ownedPage && ownedPage.isOnline) {
+    if (availability) {
         isOnlineIndicator = <div className={classes.OnlineIndicator} style={{backgroundColor: "green"}}/>
-    } else if (ownedPage && !ownedPage.isOnline) {
+    } else {
         isOnlineIndicator = <div className={classes.OnlineIndicator} style={{backgroundColor: "red"}}/>
     }
 
@@ -43,7 +55,8 @@ const inbox = (props) => {
             <ToggleAvailability
                 name={ownedPage && ownedPage.name}
                 isOnline={ownedPage && ownedPage.isOnline}
-                pageKey={ownedPage && ownedPage.dbKey}
+                availability={availability}
+                updateAvailability={updateAvailability}
             />
         )
     }
@@ -84,7 +97,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOwnedPage: (authToken, pageKey) => dispatch(actions.fetchOwnedPageAttempt(authToken, pageKey))
+        onFetchOwnedPage: (authToken, pageKey) => dispatch(actions.fetchOwnedPageAttempt(authToken, pageKey)),
+        onSwitchAvailability: (authToken, pageKey, newStatus) => dispatch(actions.switchPageAvailability(authToken, pageKey, newStatus))
     }
 }
 

@@ -13,13 +13,19 @@ const activeChats = props => {
 
    const messengerContext = useContext(MessengerContext);
    const [activeChat, setActiveChat] = useState(null);
-   const { storedActiveChat, authToken } = props;
+   const { storedActiveChat, authToken, firebaseKey } = props;
 
    useEffect(() => {
-      if (authToken) {
-         props.onFetchActiveChat(authToken)
+      console.log('storedActiveChat', storedActiveChat)
+      console.log('')
+   })
+
+   useEffect(() => {
+      if (authToken && firebaseKey) {
+         console.log('FETCHING ACTIVE CHAT (in ActiveChats component)')
+         props.onFetchActiveChat(authToken, firebaseKey)
       }
-   }, [authToken])
+   }, [authToken, firebaseKey])
 
    useEffect(() => {
       if (storedActiveChat) {
@@ -35,7 +41,7 @@ const activeChats = props => {
 
    let activeChatTab;
    let theirProfile;
-   if (storedActiveChat) {
+   if (storedActiveChat && storedActiveChat.parties) {
       theirProfile = storedActiveChat.parties.find(party => party.userKey !== props.firebaseKey)
       activeChatTab = (
           <Label label={theirProfile.name} bottom='55px'>
@@ -65,7 +71,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
    return {
-      onFetchActiveChat: (authToken) => dispatch(actions.fetchActiveChatAttempt(authToken)),
+      onFetchActiveChat: (authToken, userKey) => dispatch(actions.fetchActiveChatAttempt(authToken, userKey)),
    }
 }
 

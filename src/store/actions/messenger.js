@@ -23,6 +23,7 @@ const startNewChatFail = (error) => {
     }
 }
 
+
 export const startNewChatAttempt = (authToken, myProfile, theirProfile, type) => {
     return dispatch => {
         let chatKey;
@@ -39,13 +40,13 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile, type) =>
         }
         const newChat = {
             parties: [
-                    {name: myProfile.firstName + ' ' + myProfile.lastName, profileImage: myProfile.profileImage, userKey:myProfile.userKey},
-                    {name: theirName, profileImage: theirProfile.profileImage, userKey: theirKey, type: type}
-                ],
+                {name: myProfile.firstName + ' ' + myProfile.lastName, profileImage: myProfile.profileImage, userKey:myProfile.userKey},
+                {name: theirName, profileImage: theirProfile.profileImage, userKey: theirKey, type: type}
+            ],
             messages: [],
             startDate: new Date()
         }
-        console.log('new Chat ', newChat)
+        console.log('new Chat', newChat)
         dispatch(startNewChatInit())
         axios.post(`/chats.json?auth=${authToken}`, newChat)
             .then(response => {
@@ -81,7 +82,7 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile, type) =>
                         return axios.put(`/public-profiles/${myNewProfile.publicProfileKey}.json?auth=${authToken}`, myNewProfile)
                     })
                     .then(response => {
-                        return axios.put(`/activeChat.json?auth=${authToken}`, {...newChat, key: chatKey})
+                        return axios.patch(`/users/${myNewProfile.userKey}.json?auth=${authToken}`, {activeChat:{...newChat, key: chatKey}})
                     })
                     .then(response => {
                         dispatch(startNewChatSuccess(newChat))
@@ -96,6 +97,81 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile, type) =>
 
     }
 }
+
+
+// export const startNewChatAttempt = (authToken, myProfile, theirProfile, type) => {
+//     return dispatch => {
+//         let chatKey;
+//         let myNewProfile;
+//         let theirNewProfile;
+//         let theirKey;
+//         let theirName;
+//         if (type === 'PAGE') {
+//             theirKey = theirProfile.dbKey;
+//             theirName = theirProfile.name;
+//         } else {
+//             theirKey = theirProfile.userKey;
+//             theirName = theirProfile.firstName + ' ' + theirProfile.lastName;
+//         }
+//         const newChat = {
+//             parties: [
+//                     {name: myProfile.firstName + ' ' + myProfile.lastName, profileImage: myProfile.profileImage, userKey:myProfile.userKey},
+//                     {name: theirName, profileImage: theirProfile.profileImage, userKey: theirKey, type: type}
+//                 ],
+//             messages: [],
+//             startDate: new Date()
+//         }
+//         console.log('new Chat ', newChat)
+//         dispatch(startNewChatInit())
+//         axios.post(`/chats.json?auth=${authToken}`, newChat)
+//             .then(response => {
+//                 chatKey = response.data.name;
+//                 return axios.put(`/chats/${chatKey}.json?auth=${authToken}`, {...newChat, key: chatKey})
+//                     .then(response => {
+//                         myNewProfile = {...myProfile}
+//                         let myNewChats;
+//                         if (myNewProfile.chats) {
+//                             myNewChats = {...myNewProfile.chats, [theirKey]: chatKey}
+//                         } else {
+//                             myNewChats = {[theirKey] : chatKey}
+//                         }
+//                         myNewProfile.chats = myNewChats;
+//
+//                         theirNewProfile = {...theirProfile}
+//                         let theirNewChats;
+//                         if (theirNewProfile.chats) {
+//                             theirNewChats = {...theirNewProfile.chats, [myProfile.userKey]: chatKey}
+//                         } else {
+//                             theirNewChats = {[myProfile.userKey]: chatKey}
+//                         }
+//                         theirNewProfile.chats = theirNewChats
+//                         let theirProfilePath;
+//                         if (type === 'PAGE') {
+//                             theirProfilePath = `/pages/${theirKey}.json?auth=${authToken}`;
+//                         } else {
+//                             theirProfilePath = `/public-profiles/${theirNewProfile.publicProfileKey}.json?auth=${authToken}`;
+//                         }
+//                         return axios.put(theirProfilePath, theirNewProfile)
+//                     })
+//                     .then(response => {
+//                         return axios.put(`/public-profiles/${myNewProfile.publicProfileKey}.json?auth=${authToken}`, myNewProfile)
+//                     })
+//                     .then(response => {
+//                         return axios.put(`/activeChat.json?auth=${authToken}`, {...newChat, key: chatKey})
+//                     })
+//                     .then(response => {
+//                         dispatch(startNewChatSuccess(newChat))
+//                     })
+//                     .catch(error => {
+//                         dispatch(startNewChatFail(error))
+//                     })
+//             })
+//             .catch(error => {
+//                 dispatch(startNewChatFail(error))
+//             })
+//
+//     }
+// }
 
 const restartOldChatInit = () => {
     return {
@@ -117,14 +193,15 @@ const restartOldChatFail = (error) => {
     }
 }
 
-export const restartOldChatAttempt = (authToken, chatKey) => {
+export const restartOldChatAttempt = (authToken, userKey, chatKey) => {
     return dispatch => {
         dispatch(restartOldChatInit());
         axios.get(`/chats/${chatKey}.json?auth=${authToken}`)
             .then(response => {
-                return axios.put(`/activeChat.json?auth=${authToken}`, response.data)
+                return axios.patch(`/users/${userKey}/activeChat.json?auth=${authToken}`, {...response.data})
             })
             .then(response => {
+                console.log(response.data)
                 dispatch(restartOldChatSuccess(response.data));
             })
             .catch(error => {
@@ -133,6 +210,23 @@ export const restartOldChatAttempt = (authToken, chatKey) => {
             })
     }
 }
+
+// export const restartOldChatAttempt = (authToken, chatKey) => {
+//     return dispatch => {
+//         dispatch(restartOldChatInit());
+//         axios.get(`/chats/${chatKey}.json?auth=${authToken}`)
+//             .then(response => {
+//                 return axios.put(`/activeChat-${chatKey}.json?auth=${authToken}`, response.data)
+//             })
+//             .then(response => {
+//                 dispatch(restartOldChatSuccess(response.data));
+//             })
+//             .catch(error => {
+//                 console.log(error);
+//                 dispatch(restartOldChatFail(error));
+//             })
+//     }
+// }
 
 const sendMessageInit = () => {
     return {
@@ -202,11 +296,12 @@ const fetchActiveChatFail = (error) => {
     }
 }
 
-export const fetchActiveChatAttempt = (authToken) => {
+export const fetchActiveChatAttempt = (authToken, userKey) => {
     return dispatch => {
         dispatch(fetchActiveChatInit())
-        axios.get(`/activeChat.json?auth=${authToken}`)
+        axios.get(`/users/${userKey}/activeChat.json?auth=${authToken}`)
             .then(response => {
+                console.log('FETCHED ACTIVE CHAT', response.data);
                 dispatch(fetchActiveChatSuccess(response.data))
             })
             .catch(error => {
@@ -234,10 +329,10 @@ const clearActiveChatFail = (error) => {
     }
 }
 
-export const clearActiveChatAttempt = (authToken) => {
+export const clearActiveChatAttempt = (authToken, userKey) => {
     return dispatch => {
         dispatch(clearActiveChatInit())
-        axios.delete(`/activeChat.json?auth=${authToken}`)
+        axios.delete(`/users/${userKey}/activeChat.json?auth=${authToken}`)
             .then(response => {
                 dispatch(clearActiveChatSuccess())
             })

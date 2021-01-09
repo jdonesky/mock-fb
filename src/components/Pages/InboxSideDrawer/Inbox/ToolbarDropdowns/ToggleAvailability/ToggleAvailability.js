@@ -3,14 +3,12 @@ import React, {useState, useRef, useEffect} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './ToggleAvailability.css';
-import * as actions from '../../../../../../store/actions/index';
 
 const toggleAvailability = props => {
 
+    const {availability, updateAvailability} = props
     const [displayPage, setDisplayPage] = useState(props.history.location.pathname.split('/')[3])
-    const [availability, setAvailability] = useState(props.isOnline || null);
-    const initialValue = useRef(props.isOnline);
-    const {pageKey} = props
+    const initialValue = useRef(availability);
 
     useEffect(() => {
         if (displayPage !== props.history.location.pathname.split('/')[3]) {
@@ -19,17 +17,9 @@ const toggleAvailability = props => {
     })
 
     useEffect(() => {
-        console.log('initial', initialValue);
+        console.log('initial', initialValue.current);
         console.log('current', availability);
     })
-
-    useEffect(() => {
-        return () => {
-            if (availability !== initialValue) {
-                props.onSwitchAvailability(props.authToken, pageKey, availability)
-            }
-        }
-    }, [])
 
     return (
         <div className={classes.Positioner}>
@@ -42,7 +32,7 @@ const toggleAvailability = props => {
                             type="radio"
                             value={true}
                             checked={availability === true}
-                            onChange={() => setAvailability(true)}
+                            onChange={() => updateAvailability(true)}
                         />
                     </div>
                     <div className={classes.DescriptionContainer}>
@@ -57,7 +47,7 @@ const toggleAvailability = props => {
                             type="radio"
                             value={false}
                             checked={availability === false}
-                            onChange={() => setAvailability(false)}
+                            onChange={() => updateAvailability(false)}
                         />
                     </div>
                     <div className={classes.DescriptionContainer}>
@@ -76,10 +66,4 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onSwitchAvailability: (authToken, pageKey, newStatus) => dispatch(actions.switchPageAvailability(authToken, pageKey, newStatus))
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(toggleAvailability));
+export default connect(mapStateToProps)(withRouter(toggleAvailability));

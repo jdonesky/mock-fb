@@ -9,7 +9,6 @@ export const MessengerContext = React.createContext({
     closeMessenger: () => {},
     startChat: () => {},
     closeChat: () => {},
-    pauseChat: () => {},
     retrieveChat: () => {},
     activeConversation: null,
     waitingConversations: null,
@@ -46,7 +45,7 @@ const messengerContextProvider = props => {
     }
 
     const retrieveChat = (chatKey) => {
-        props.onRestartChat(authToken, chatKey)
+        props.onRestartChat(authToken, props.firebaseKey, chatKey)
         openMessenger();
     }
 
@@ -61,6 +60,7 @@ const messengerContextProvider = props => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
         myPublicProfile: state.profile.publicProfile,
         otherProfile: state.users.fullProfile,
         activeChat: state.messenger.activeChat
@@ -69,7 +69,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onRestartChat: (authToken, chatKey) => dispatch(actions.restartOldChatAttempt(authToken, chatKey)),
+        onRestartChat: (authToken, userKey, chatKey) => dispatch(actions.restartOldChatAttempt(authToken, userKey, chatKey)),
         onStartNewChat: (authToken, myProfile, theirProfile, type) => dispatch(actions.startNewChatAttempt(authToken, myProfile, theirProfile, type)),
         onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message)),
         onFetchActiveChat: (authToken) => dispatch(actions.fetchActiveChatAttempt(authToken)),
