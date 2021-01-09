@@ -20,12 +20,15 @@ const page = (props) => {
     const [basePath, setBasePath] = useState(props.history.location.pathname.split("/")[1]);
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[2]);
     const [displayPage, setDisplayPage] = useState(props.match.params.id);
+    const [hub, setHub] = useState(props.match.params.hub);
 
     const {authToken, firebaseKey, ownedPageKeys} = props
 
-    // useEffect(() => {
-    //     console.log(props.othersPage)
-    // })
+    useEffect(() => {
+        if (hub !== props.match.params.hub) {
+            setHub(props.match.params.hub);
+        }
+    })
 
     useEffect(() => {
         if (displayPage) {
@@ -79,23 +82,26 @@ const page = (props) => {
     if (props.fetchingOwnedPage || props.fetchingOthersPage) {
         page = <SquareFold />
     } else {
-        page = (
-            <div className={classes.WhiteBackFill}>
-                <Header pathRoot={pathRoot} displayPage={displayPage} name={name} category={category} owned={owned}/>
-                <NavigationBar owned={owned}/>
-                <div className={classes.SharedCliff} />
-                <div className={classes.FlexContentPositioner}>
-                    <div className={classes.SharedContentBackdrop}>
-                        <div className={classes.SharedContentFlexContainer}>
-                            <Switch>
-                                <Route exact path={`/${basePath}/${pathRoot}/${displayPage}`} component={Home} />
-                            </Switch>
+        if (hub !== 'inbox') {
+            page = (
+                <div className={classes.WhiteBackFill}>
+                    <Header pathRoot={pathRoot} displayPage={displayPage} name={name} category={category} owned={owned}/>
+                    <NavigationBar owned={owned}/>
+                    <div className={classes.SharedCliff} />
+                    <div className={classes.FlexContentPositioner}>
+                        <div className={classes.SharedContentBackdrop}>
+                            <div className={classes.SharedContentFlexContainer}>
+                                <Switch>
+                                    <Route exact path={`/${basePath}/${pathRoot}/${displayPage}`} component={Home} />
+                                </Switch>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        )
-
+            )
+        } else {
+            page = null;
+        }
     }
 
     return page;

@@ -1,0 +1,55 @@
+
+
+.SideBarContainer {
+    position:absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 60px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #fff;
+    border-right: 1px solid rgba(0,0,0,0.15);
+}
+
+.ProfileImageContainer {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.ProfileImage {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    background-position: center;
+    background-size: cover;
+    background-color: rgba(0,0,0,.1);
+    cursor: pointer;
+}
+
+.ProfileImage:hover {
+    background-color: rgba(0,0,0,0.14);
+    filter: saturate(2);
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 60%;
+    position: relative;
+    left: 10px;
+    top: 8px;
+}
+
+.SectionBreak {
+    height: 1px;
+    width: 70%;
+    background-color: rgba(0,0,0,.15);
+    margin: 30px auto;
+}
+

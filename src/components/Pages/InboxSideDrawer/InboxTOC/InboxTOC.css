@@ -7,6 +7,7 @@
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
+    margin-top: 20px;
 }
 
 .NavSection {
@@ -18,7 +19,112 @@
 }
 
 .SubHeader {
+    width: 100%;
     font-family: "Lucida Grande";
     font-weight: 900;
-    font-size: 18px;
+    font-size: 19px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
 }
+
+.CategoryTab {
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+.CategoryTab:hover {
+    background-color: rgba(0,0,0,.1);
+}
+
+.ActiveTab {
+    background-color: rgba(38, 161, 255, 0.15);
+}
+
+.ActiveTab:hover {
+    background-color: rgba(38, 161, 255, 0.15);
+}
+
+
+.IconContainer {
+    height: 37px;
+    width: 37px;
+    border-radius: 100%;
+    background-color: rgba(0,0,0,.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 15px;
+}
+
+/*.ActiveIconContainer {*/
+/*    */
+/*}*/
+.ActiveTab .IconContainer {
+    background-color: #0a70ff;
+}
+
+.Icon {
+    height: 30px;
+    width: 30px;
+}
+
+.Icon svg {
+    height: auto;
+    width: 100%;
+}
+
+.MessageIcon {
+    height: 20px;
+    width: 20px;
+    position: relative;
+    left: 1px;
+}
+
+.FbIcon {
+    height: 22px;
+    width: 22px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.5);
+    position: relative;
+    top: 1px;
+    left: 1px;
+}
+
+.FbIcon svg {
+    height: auto;
+    width: 90%;
+    position: relative;
+    top: 3px;
+    left: 1px;
+}
+
+.ReactIcon {
+    position: relative;
+    top: 1px;
+    left: 1px;
+}
+
+.CategoryText {
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    font-size: 15px;
+}
+
+.SectionBreak {
+    height: .5px;
+    width: 95%;
+    background-color:rgba(0,0,0,0.1);
+    margin: 20px auto;
+}
+

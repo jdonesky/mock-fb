@@ -5,7 +5,7 @@ import classes from "../../UI/TOCsidedrawer/TOCsidedrawer.css";
 import * as actions from '../../../store/actions/index';
 import TOCsidedrawer from "../../UI/TOCsidedrawer/TOCsidedrawer";
 import InboxTOC from './InboxTOC/InboxTOC';
-// import InboxSideBar from './InboxSideBar/InboxSideBar'
+import InboxSideBar from './InboxSideBar/InboxSideBar'
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 
 const inboxSidedrawer = props => {
@@ -28,11 +28,13 @@ const inboxSidedrawer = props => {
 
 
     let paths;
-    if (props.ownedPage) {
-        paths = <div className={classes.Paths}><div className={[classes.Path, classes.PagePath].join(" ")}>{ownedPage.name}</div><span> &rsaquo;</span><div className={[classes.Path, classes.PathDisabled].join(" ")}>Inbox</div></div>
+    let profileImage;
+    if (ownedPage) {
+        paths = <div className={classes.Paths}><div className={[classes.Path, classes.PagePath].join(" ")} onClick={() => props.history.push(`/pages/manage/${displayPage}`)}>{ownedPage.name}</div><span> &rsaquo;</span><div className={[classes.Path, classes.PathDisabled].join(" ")}>Inbox</div></div>
+        profileImage = ownedPage.profileImage
     }
-    
-    return (
+
+    const sidedrawer = (
         <TOCsidedrawer
             title="Inbox"
             paths={paths}
@@ -40,6 +42,19 @@ const inboxSidedrawer = props => {
             <InboxTOC />
         </TOCsidedrawer>
     )
+
+    const sidebar = (
+        <InboxSideBar profileImage={profileImage}/>
+    )
+
+    let content;
+    if (width > 1300) {
+        content = sidedrawer
+    } else {
+        content = sidebar;
+    }
+    
+    return content
 }
 
 const mapStateToProps = state => {

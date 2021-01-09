@@ -17,7 +17,7 @@ const navigationTabs = props => {
 
     let tabs = [
         {name: 'Page', path: `/pages/manage/${displayPage}`},
-        {name: 'Inbox', path:`/pages/inbox/${displayPage}`},
+        {name: 'Inbox', path:`/pages/inbox/${displayPage}/messages`},
         {name: 'Notifications', path:`/pages/manage/${displayPage}/notifications`},
         {name: 'Edit Page Info', path:`/pages/manage/${displayPage}/edit`},
         {name: 'Settings', path:`/pages/manage/${displayPage}/settings`},
