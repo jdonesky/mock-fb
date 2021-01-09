@@ -6,6 +6,7 @@ import * as actions from '../../../store/actions/index';
 import TOCsidedrawer from "../../UI/TOCsidedrawer/TOCsidedrawer";
 import InboxTOC from './InboxTOC/InboxTOC';
 import InboxSideBar from './InboxSideBar/InboxSideBar'
+import Inbox from './Inbox/Inbox'
 import getWindowDimensions from "../../../hooks/getWindowDimensions";
 
 const inboxSidedrawer = props => {
@@ -19,7 +20,7 @@ const inboxSidedrawer = props => {
             setDisplayPage(props.history.location.pathname.split('/')[3])
         }
     })
-
+    Inbox
     useEffect(() => {
         if (displayPage && !ownedPage) {
             props.onFetchOwnedPage(props.authToken, displayPage)
@@ -47,14 +48,19 @@ const inboxSidedrawer = props => {
         <InboxSideBar profileImage={profileImage}/>
     )
 
-    let content;
+    let sideMenu;
     if (width > 1300) {
-        content = sidedrawer
+        sideMenu = sidedrawer
     } else {
-        content = sidebar;
+        sideMenu = sidebar;
     }
     
-    return content
+    return (
+        <React.Fragment>
+            {sideMenu}
+            <Inbox style={{left: width > 1300 ? '355px' : '61px' }} />
+        </React.Fragment>
+    )
 }
 
 const mapStateToProps = state => {

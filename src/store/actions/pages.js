@@ -551,6 +551,39 @@ export const cancelLikeAttempt = (authToken, newPage, newProfile, profileKey) =>
     }
 }
 
+const switchPageAvailabilityInit = () => {
+    return {
+        type: actionTypes.SWITCH_PAGE_AVAILABILITY_INIT
+    }
+}
+
+const switchPageAvailabilitySuccess = () => {
+    return {
+        type: actionTypes.SWITCH_PAGE_AVAILABILITY_SUCCESS
+    }
+}
+
+const switchPageAvailabilityFail = (error) => {
+    return {
+        type: actionTypes.SWITCH_PAGE_AVAILABILITY_FAIL,
+        error: error
+    }
+}
+
+export const switchPageAvailability = (authToken, pageKey, newStatus) => {
+    return dispatch => {
+        dispatch(switchPageAvailabilityInit())
+        axios.patch(`/pages/${pageKey}/isOnline.json?auth=${authToken}`, newStatus)
+            .then(response => {
+                console.log('success -')
+                dispatch(switchPageAvailabilitySuccess());
+            })
+            .catch(error => {
+                dispatch(switchPageAvailabilityFail(error));
+            })
+    }
+}
+
 
 export const clearPageSummary = () => {
     return {

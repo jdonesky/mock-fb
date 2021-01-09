@@ -20,6 +20,7 @@ const initialState = {
     editingProfileImage: false,
     editingCoverImage: false,
     requestingPageLike: false,
+    switchingPageAvailability: false,
     likingPage: false,
     error: null
 }
@@ -284,6 +285,28 @@ const likePageFail = (state,action) => {
     }
 }
 
+const switchPageAvailabilityInit = (state,action) => {
+    return {
+        ...state,
+        switchingPageAvailability: true
+    }
+}
+
+const switchPageAvailabilitySuccess = (state,action) => {
+    return {
+        ...state,
+        switchingPageAvailability: false
+    }
+}
+
+const switchPageAvailabilityFail = (state,action) => {
+    return {
+        ...state,
+        error: action.error,
+        switchingPageAvailability: false
+    }
+}
+
 const clearPageSummary = (state,action) => {
     return {
         ...state,
@@ -334,6 +357,9 @@ const reducer = (state=initialState, action) => {
         case actionTypes.LIKE_PAGE_INIT: return likePageInit(state,action);
         case actionTypes.LIKE_PAGE_SUCCESS: return likePageSuccess(state,action);
         case actionTypes.LIKE_PAGE_FAIL: return likePageFail(state,action);
+        case actionTypes.SWITCH_PAGE_AVAILABILITY_INIT: switchPageAvailabilityInit(state,action);
+        case actionTypes.SWITCH_PAGE_AVAILABILITY_SUCCESS: switchPageAvailabilitySuccess(state,action);
+        case actionTypes.SWITCH_PAGE_AVAILABILITY_FAIL: switchPageAvailabilityFail(state,action);
         case actionTypes.CLEAR_PAGE_SUMMARY: return clearPageSummary(state,action);
         case actionTypes.CLEAR_PAGE_IN_PROGRESS: return clearPageInProgress(state,action);
         default:

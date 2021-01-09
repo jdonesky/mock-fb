@@ -46,6 +46,7 @@ export {
    requestPageLikeAttempt,
    likePageAttempt,
    cancelLikeAttempt,
+   switchPageAvailability,
    clearPageSummary,
    clearPageInProgress
 } from "./pages";

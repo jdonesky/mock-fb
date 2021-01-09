@@ -1,0 +1,90 @@
+
+.Positioner {
+    position: relative;
+}
+
+.Container {
+    position: absolute;
+    top: 3px;
+    left: -3px;
+    height: 175px;
+    width: 300px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.25);
+    background-color: #fff;
+}
+
+.Arrow {
+    border-style: solid;
+    position: absolute;
+    border-color: transparent;
+    border-width: 8px 8px 0 8px;
+    bottom: 174px;
+    left: -127px;
+}
+
+.Arrow:after {
+    border-color:  white transparent;
+    border-style: solid;
+    border-width: 0 7px 7px 7px;
+    bottom: 1px;
+    content: "";
+    position: absolute;
+    right: -140px;
+}
+
+.SelectionContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.CheckBlock {
+    height: 95%;
+    width: 15%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 3px;
+}
+
+.CheckInput {
+    min-height: 20px;
+    height: 20px;
+    min-width: 20px;
+    width: 20px;
+    border: 1px solid rgba(0,0,0,.3);
+    border-radius: 100%;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.DescriptionContainer {
+    width: 85%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 8px 12px 8px 0;
+}
+
+.DescriptionHeader {
+    font-family: "Lucida Grande";
+    font-size: 12px;
+    font-weight: 550;
+}
+
+.DescriptionCaption {
+    font-family: "Lucida Grande";
+    font-size: 10px;
+    font-weight: 100;
+    color: rgba(0,0,0,0.4);
+    margin-top: 3px;
+}
+
+
