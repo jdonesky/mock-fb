@@ -10,8 +10,17 @@
     margin-top: 20px;
 }
 
+
 .NavSection {
     width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.SideBarNavSection {
+    width: 80%;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
@@ -26,7 +35,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 10px;
+    margin: 0 0 10px 20px;
 }
 
 .CategoryTab {
@@ -35,6 +44,16 @@
     border-radius: 5px;
     display: flex;
     justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+.SideBarTab {
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
     align-items: center;
     cursor: pointer;
 }
@@ -53,8 +72,10 @@
 
 
 .IconContainer {
+    min-height: 37px;
     height: 37px;
     width: 37px;
+    min-width: 37px;
     border-radius: 100%;
     background-color: rgba(0,0,0,.05);
     display: flex;
@@ -63,9 +84,10 @@
     margin: 0 15px;
 }
 
-/*.ActiveIconContainer {*/
-/*    */
-/*}*/
+.SideBarIcon {
+    margin: 0;
+}
+
 .ActiveTab .IconContainer {
     background-color: #0a70ff;
 }
@@ -112,6 +134,12 @@
 .ReactIcon {
     position: relative;
     top: 1px;
+    left: 1px;
+}
+
+.SideBarReactIcon {
+    position: relative;
+    top: 2px;
     left: 1px;
 }
 
