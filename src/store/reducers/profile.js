@@ -113,6 +113,7 @@ const updateProfileSuccess = (state,action) => {
     publicProfileKey: action.userData.publicProfileKey || null,
     activityLogKey: action.userData.activityLogKey || null,
     publicProfile: action.userData.publicProfile || null,
+    fetchingActiveChat: false,
     contentEntryLoading: false,
   }
 }
@@ -154,6 +155,58 @@ const startChatSuccessFeedBack = (state,action) => {
   }
 }
 
+const fetchActiveChatInit = (state,action) => {
+  return {
+    ...state,
+    fetchingActiveChat: true,
+    noActiveChat: false
+  }
+}
+
+const fetchActiveChatSuccess = (state,action) => {
+  return {
+    ...state,
+    activeChat: action.chat,
+    fetchingActiveChat: false
+  }
+}
+
+const fetchActiveChatFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    fetchingActiveChat: false,
+    noActiveChat: true
+  }
+}
+
+const clearActiveChatInit = (state,action) => {
+  return {
+    ...state,
+    clearingActiveChat: true,
+    noActiveChat: false
+  }
+}
+
+const clearActiveChatSuccess = (state,action) => {
+  return {
+    ...state,
+    activeChat: action.chat,
+    clearingActiveSuccess: false,
+    noActiveChat: true
+  }
+}
+
+const clearActiveChatFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    clearingActiveSuccess: false,
+    noActiveChat: true
+  }
+}
+
+
 const clearProfile = (state,action) => {
   return {
     ...initialState
@@ -172,6 +225,12 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_MY_PUBLIC_PROFILE_SUCCESS: return fetchMyPublicProfileSuccess(state,action);
     case actionTypes.FETCH_MY_PUBLIC_PROFILE_FAIL: return fetchMyPublicProfileFail(state,action);
     case actionTypes.LIKE_PAGE_SUCCESS_FEEDBACK: return likePageSuccessFeedback(state,action);
+    case actionTypes.FETCH_ACTIVE_CHAT_INIT: return fetchActiveChatInit(state,action);
+    case actionTypes.FETCH_ACTIVE_CHAT_SUCCESS: return fetchActiveChatSuccess(state,action);
+    case actionTypes.FETCH_ACTIVE_CHAT_FAIL: return fetchActiveChatFail(state,action);
+    case actionTypes.CLEAR_ACTIVE_CHAT_INIT: return clearActiveChatInit(state,action);
+    case actionTypes.CLEAR_ACTIVE_CHAT_SUCCESS: return clearActiveChatSuccess(state,action);
+    case actionTypes.CLEAR_ACTIVE_CHAT_FAIL: return clearActiveChatFail(state,action);
     case actionTypes.START_CHAT_SUCCESS_FEEDBACK: return startChatSuccessFeedBack(state,action);
     case actionTypes.CLEAR_PROFILE: return clearProfile(state,action);
     default:

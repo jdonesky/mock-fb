@@ -13,7 +13,7 @@ const activeChats = props => {
 
    const messengerContext = useContext(MessengerContext);
    const [activeChat, setActiveChat] = useState(null);
-   const { storedActiveChat, authToken, firebaseKey, clearingActiveChat} = props;
+   const { storedActiveChat, authToken, firebaseKey, clearingActiveCa} = props;
 
    useEffect(() => {
       if (clearingActiveChat) {

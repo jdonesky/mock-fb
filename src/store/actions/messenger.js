@@ -290,7 +290,7 @@ export const fetchActiveChatAttempt = (authToken, userKey) => {
         axios.get(`/users/${userKey}/activeChat.json?auth=${authToken}`)
             .then(response => {
                 console.log('fetched activeChat', response.data);
-                dispatch(fetchActiveChatSuccess(response.data))
+                dispatch(fetchActiveChatSuccess(response.data));
             })
             .catch(error => {
                 dispatch(fetchActiveChatFail(error));

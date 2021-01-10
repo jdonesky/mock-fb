@@ -10,13 +10,13 @@ export const MessengerContext = React.createContext({
     startChat: () => {},
     closeChat: () => {},
     retrieveChat: () => {},
-    activeConversation: null,
-    waitingConversations: null,
+    activeChat: null,
 })
 
 const messengerContextProvider = props => {
 
     const {authToken, myPublicProfile} = props
+    const [activeChat, setActiveChat] = useState(null);
     const [showMessenger, setShowMessenger] = useState(false);
 
     const openMessenger = () => {
@@ -51,8 +51,12 @@ const messengerContextProvider = props => {
         openMessenger();
     }
 
+    const clearChat = () => {
+        setActiveChat(null)
+    }
+
     return (
-        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, closeMessenger: closeMessenger, startChat: startChat, retrieveChat: retrieveChat}}>
+        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, closeMessenger: closeMessenger, startChat: startChat, retrieveChat: retrieveChat, activeChat: activeChat}}>
             {props.children}
         </MessengerContext.Provider>
     )
@@ -64,7 +68,7 @@ const mapStateToProps = state => {
         firebaseKey: state.profile.firebaseKey,
         myPublicProfile: state.profile.publicProfile,
         otherProfile: state.users.fullProfile,
-        activeChat: state.messenger.activeChat
+        activeChat: state.profile.activeChat
     }
 }
 
