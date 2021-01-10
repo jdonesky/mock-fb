@@ -3,7 +3,6 @@ import * as actionTypes from "../actions/actionTypes";
 import axios from "../../axios/db-axios-instance";
 import {KeyGenerator} from "../../shared/utility";
 import {convertDatetime} from "../../shared/utility";
-import {convertMessageDatetime} from "../../shared/utility";
 
 
 const loadProfileInit = () => {

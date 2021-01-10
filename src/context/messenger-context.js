@@ -49,7 +49,6 @@ const messengerContextProvider = props => {
         openMessenger();
     }
 
-
     return (
         <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, closeMessenger: closeMessenger, startChat: startChat, retrieveChat: retrieveChat}}>
             {props.children}

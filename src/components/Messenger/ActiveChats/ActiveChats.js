@@ -16,11 +16,6 @@ const activeChats = props => {
    const { storedActiveChat, authToken, firebaseKey } = props;
 
    useEffect(() => {
-      console.log('storedActiveChat', storedActiveChat)
-      console.log('')
-   })
-
-   useEffect(() => {
       if (authToken && firebaseKey) {
          console.log('FETCHING ACTIVE CHAT (in ActiveChats component)')
          props.onFetchActiveChat(authToken, firebaseKey)

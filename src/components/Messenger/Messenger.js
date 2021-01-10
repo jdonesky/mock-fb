@@ -36,8 +36,32 @@ const messenger = (props) => {
     const [gif, setGif] = useState(null);
 
     useEffect(() => {
+        console.log(activeChat);
+        // if (!activeChat) {
+        //     props.onFetchActiveChat(props.authToken, props.firebaseKey);
+        // }
+    })
+
+    useEffect(() => {
+        if (activeChat && activeChat.parties) {
+            setTheirProfile(activeChat.parties.find(party => party.userKey !== props.firebaseKey))
+            props.onFetchChatRecord(props.authToken, activeChat.key)
+        }
+    }, [activeChat])
+
+    useEffect(() => {
+        if (chatRecord) {
+            console.log('got chatRecord', chatRecord);
+            setConversation(chatRecord.messages)
+        }
+    }, [chatRecord])
+
+
+    useEffect(() => {
         if (conversation && chatRecord && chatRecord.messages) {
+            console.log('in first block')
             if (conversation.length !== chatRecord.messages.length) {
+                console.log(' conversation and chat record !== length, re-fetching chatRecord')
                 props.onFetchChatRecord(props.authToken, activeChat && activeChat.key);
             }
         } else if (conversation && chatRecord && !chatRecord.messages) {
@@ -50,18 +74,6 @@ const messenger = (props) => {
         messageBar.current.focus();
     }, [])
 
-    useEffect(() => {
-        if (activeChat && activeChat.parties) {
-            setTheirProfile(activeChat.parties.find(party => party.userKey !== props.firebaseKey))
-            props.onFetchChatRecord(props.authToken, activeChat.key)
-        }
-    }, [activeChat])
-
-    useEffect(() => {
-        if (chatRecord) {
-            setConversation(chatRecord.messages)
-        }
-    }, [chatRecord])
 
     const goToTheirProfile = () => {
         if (theirProfile) {
@@ -205,7 +217,7 @@ const messenger = (props) => {
                     </div>
                     {startingIndicator}
                     <div className={classes.ConversationStarterName}>{theirProfile && theirProfile.name}</div>
-                    <div className={classes.ConversationStarterDate}>{activeChat ? convertMessageDatetime(activeChat.startDate) : ''}</div>
+                    <div className={classes.ConversationStarterDate}>{activeChat && activeChat.date ? convertMessageDatetime(activeChat.startDate) : ''}</div>
                     <div className={classes.ConversationStarterCaption}>{activeChat ? 'You are now connected on dumb messenger' : ' '}</div>
                 </div>
                 {messages}
@@ -231,7 +243,7 @@ const mapStateToProps = state => {
         restartingChat: state.messenger.restartingChat,
         fetchingChatRecord: state.messenger.fetchingChatRecord,
         sendingMessage: state.messenger.sendingMessage,
-        activeChat: state.messenger.activeChat,
+        activeChat: state.profile.activeChat,
         chatRecord: state.messenger.chatRecord,
         firebaseKey: state.profile.firebaseKey,
     }
@@ -239,6 +251,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onFetchActiveChat: (authToken, userKey) => dispatch(actions.fetchActiveChatAttempt(authToken, userKey)),
         onFetchChatRecord: (authToken, chatKey) => dispatch(actions.fetchChatRecordAttempt(authToken, chatKey)),
         onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message)),
         onClearActiveChat: (authToken) => dispatch(actions.clearActiveChatAttempt(authToken))
