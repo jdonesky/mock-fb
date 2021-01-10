@@ -13,7 +13,13 @@ const activeChats = props => {
 
    const messengerContext = useContext(MessengerContext);
    const [activeChat, setActiveChat] = useState(null);
-   const { storedActiveChat, authToken, firebaseKey } = props;
+   const { storedActiveChat, authToken, firebaseKey, clearingActiveChat} = props;
+
+   useEffect(() => {
+      if (clearingActiveChat) {
+         props.onFetchActiveChat(authToken, firebaseKey)
+      }
+   }, [clearingActiveChat])
 
    useEffect(() => {
       if (authToken && firebaseKey) {
@@ -58,7 +64,7 @@ const mapStateToProps = state => {
    return {
       authToken: state.auth.token,
       firebaseKey: state.profile.firebaseKey,
-      storedActiveChat: state.messenger.activeChat,
+      storedActiveChat: state.profile.activeChat,
       fetchingActiveChat: state.messenger.fetchingActiveChat,
       clearingActiveChat: state.messenger.clearingActiveChat
    }

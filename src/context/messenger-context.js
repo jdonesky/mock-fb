@@ -36,6 +36,7 @@ const messengerContextProvider = props => {
                 existingChat = myPublicProfile.chats[otherPartyProfile.userKey]
             }
             if (existingChat) {
+                console.log('existingChat', existingChat)
                 props.onRestartChat(authToken, props.firebaseKey, existingChat);
             }
         } else {

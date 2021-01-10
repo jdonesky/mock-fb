@@ -147,6 +147,13 @@ const likePageSuccessFeedback = (state,action) => {
   }
 }
 
+const startChatSuccessFeedBack = (state,action) => {
+  return {
+    ...state,
+    activeChat: action.chat
+  }
+}
+
 const clearProfile = (state,action) => {
   return {
     ...initialState
@@ -165,6 +172,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_MY_PUBLIC_PROFILE_SUCCESS: return fetchMyPublicProfileSuccess(state,action);
     case actionTypes.FETCH_MY_PUBLIC_PROFILE_FAIL: return fetchMyPublicProfileFail(state,action);
     case actionTypes.LIKE_PAGE_SUCCESS_FEEDBACK: return likePageSuccessFeedback(state,action);
+    case actionTypes.START_CHAT_SUCCESS_FEEDBACK: return startChatSuccessFeedBack(state,action);
     case actionTypes.CLEAR_PROFILE: return clearProfile(state,action);
     default:
       return state;

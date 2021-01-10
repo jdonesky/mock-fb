@@ -11,6 +11,7 @@ export {
   fetchMyPublicProfileAttempt,
   updateProfileAttempt,
   likePageSuccessFeedback,
+  startChatSuccessFeedback,
   clearProfile
 } from "./profile";
 

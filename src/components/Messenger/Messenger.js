@@ -218,7 +218,7 @@ const messenger = (props) => {
                     </div>
                     {startingIndicator}
                     <div className={classes.ConversationStarterName}>{theirProfile && theirProfile.name}</div>
-                    <div className={classes.ConversationStarterDate}>{activeChat && activeChat.date ? convertMessageDatetime(activeChat.startDate) : ''}</div>
+                    <div className={classes.ConversationStarterDate}>{activeChat && activeChat.startDate ? convertMessageDatetime(activeChat.startDate) : ''}</div>
                     <div className={classes.ConversationStarterCaption}>{activeChat ? 'You are now connected on dumb messenger' : ' '}</div>
                 </div>
                 {messages}

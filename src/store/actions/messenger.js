@@ -2,6 +2,7 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios/db-axios-instance';
 import {KeyGenerator} from "../../shared/utility";
+import {startChatSuccessFeedback} from "./profile";
 
 const startNewChatInit = () => {
     return {
@@ -83,10 +84,12 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile, type) =>
                         return axios.put(`/public-profiles/${myNewProfile.publicProfileKey}.json?auth=${authToken}`, myNewProfile)
                     })
                     .then(response => {
+                        console.log('patching to user profile', {[chatKey]: {...newChat}})
                         return axios.patch(`/users/${myNewProfile.userKey}/activeChat.json?auth=${authToken}`, {[chatKey]: {...newChat}})
                     })
                     .then(response => {
                         dispatch(startNewChatSuccess(newChat))
+                        dispatch(startChatSuccessFeedback({...newChat, key: chatKey}))
                     })
                     .catch(error => {
                         dispatch(startNewChatFail(error))

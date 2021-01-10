@@ -367,6 +367,15 @@ export const likePageSuccessFeedback = (newPublicProfile) => {
 }
 
 
+export const startChatSuccessFeedback = (chat) => {
+    return {
+        type: actionTypes.START_CHAT_SUCCESS_FEEDBACK,
+        chat: chat
+    }
+}
+
+
+
 export const clearProfile = () => {
   return {
     type: actionTypes.CLEAR_PROFILE,
