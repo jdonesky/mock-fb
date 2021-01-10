@@ -38,18 +38,8 @@
     "users": {
       ".read": "auth != null",
       ".write": "auth != null",
-      ".indexOn": ["firstName","lastName","userId","currLocation", "hometown"],
-      "$user_key": {
-        "firstName": {
-          ".indexOn": [".value"]
-        },
-        "lastName": {
-          ".indexOn": [".value"]
-        },
-        "currLocation": {
-          ".indexOn": [".value"]
-        }
-      }
+      ".indexOn": ["firstName","lastName","userId"],
+
     },
     "public-profiles" : {
       ".read": "auth != null",
@@ -62,7 +52,6 @@
       "$post_id": {
         ".indexOn": ["text", "id"]
       }
-
     },
     "pages": {
       ".read" : "true",
@@ -83,6 +72,9 @@
       "$user_id": {
         "records": {
           ".indexOn": ["sortDate", "type", "read","id"]
+        },
+        "personal": {
+          ".indexOn" : ["sortDate", "type"]
         }
       }
     },

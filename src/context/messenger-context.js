@@ -36,7 +36,7 @@ const messengerContextProvider = props => {
                 existingChat = myPublicProfile.chats[otherPartyProfile.userKey]
             }
             if (existingChat) {
-                props.onRestartChat(authToken, existingChat);
+                props.onRestartChat(authToken, props.firebaseKey, existingChat);
             }
         } else {
             props.onStartNewChat(authToken, props.myPublicProfile, otherPartyProfile, type)
@@ -45,6 +45,7 @@ const messengerContextProvider = props => {
     }
 
     const retrieveChat = (chatKey) => {
+        console.log('RETRIEVING CHAT', chatKey);
         props.onRestartChat(authToken, props.firebaseKey, chatKey)
         openMessenger();
     }

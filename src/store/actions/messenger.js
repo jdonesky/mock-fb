@@ -25,6 +25,7 @@ const startNewChatFail = (error) => {
 
 
 export const startNewChatAttempt = (authToken, myProfile, theirProfile, type) => {
+    console.log('STARTING NEW CHAT ATTEMPT')
     return dispatch => {
         let chatKey;
         let myNewProfile;
@@ -82,7 +83,7 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile, type) =>
                         return axios.put(`/public-profiles/${myNewProfile.publicProfileKey}.json?auth=${authToken}`, myNewProfile)
                     })
                     .then(response => {
-                        return axios.put(`/users/${myNewProfile.userKey}.json?auth=${authToken}`, {...newChat, key: chatKey})
+                        return axios.patch(`/users/${myNewProfile.userKey}/activeChat.json?auth=${authToken}`, {[chatKey]: {...newChat}})
                     })
                     .then(response => {
                         dispatch(startNewChatSuccess(newChat))
@@ -201,6 +202,7 @@ export const restartOldChatAttempt = (authToken, userKey, chatKey) => {
                 return axios.put(`/users/${userKey}/activeChat.json?auth=${authToken}`, response.data)
             })
             .then(response => {
+                console.log('success - put old chat in profile activeChat', response.data)
                 dispatch(restartOldChatSuccess(response.data));
             })
             .catch(error => {
@@ -231,6 +233,7 @@ const sendMessageFail = (error) => {
 }
 
 export const sendMessageAttempt = (authToken, chatKey, message) => {
+    console.log('SENDING MESSAGE ATTEMPT')
     return dispatch => {
         let newChat;
         dispatch(sendMessageInit());
@@ -283,6 +286,7 @@ export const fetchActiveChatAttempt = (authToken, userKey) => {
         dispatch(fetchActiveChatInit())
         axios.get(`/users/${userKey}/activeChat.json?auth=${authToken}`)
             .then(response => {
+                console.log('fetched activeChat', response.data);
                 dispatch(fetchActiveChatSuccess(response.data))
             })
             .catch(error => {
@@ -310,11 +314,13 @@ const clearActiveChatFail = (error) => {
     }
 }
 
-export const clearActiveChatAttempt = (authToken) => {
+export const clearActiveChatAttempt = (authToken, userKey) => {
+    console.log('delete userKey/activeChat', userKey)
     return dispatch => {
         dispatch(clearActiveChatInit())
-        axios.delete(`/activeChat.json?auth=${authToken}`)
+        axios.delete(`/users/${userKey}/activeChat.json?auth=${authToken}`)
             .then(response => {
+                console.log('success - deleted activeChat from profile');
                 dispatch(clearActiveChatSuccess())
             })
             .catch(error => {

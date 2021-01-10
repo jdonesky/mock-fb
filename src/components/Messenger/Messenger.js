@@ -35,12 +35,14 @@ const messenger = (props) => {
     const [photo, setPhoto] = useState(null);
     const [gif, setGif] = useState(null);
 
-    useEffect(() => {
-        console.log(activeChat);
-        // if (!activeChat) {
-        //     props.onFetchActiveChat(props.authToken, props.firebaseKey);
-        // }
-    })
+    // useEffect(() => {
+    //     console.log('activeChat', activeChat);
+    //     console.log('no activeChat', props.noActiveChat);
+    //
+    //     if (!activeChat && !props.noActiveChat) {
+    //         props.onFetchActiveChat(props.authToken, props.firebaseKey);
+    //     }
+    // }, [])
 
     useEffect(() => {
         if (activeChat && activeChat.parties) {
@@ -59,7 +61,6 @@ const messenger = (props) => {
 
     useEffect(() => {
         if (conversation && chatRecord && chatRecord.messages) {
-            console.log('in first block')
             if (conversation.length !== chatRecord.messages.length) {
                 console.log(' conversation and chat record !== length, re-fetching chatRecord')
                 props.onFetchChatRecord(props.authToken, activeChat && activeChat.key);
@@ -239,13 +240,14 @@ const messenger = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
         startingChat: state.messenger.startingChat,
         restartingChat: state.messenger.restartingChat,
         fetchingChatRecord: state.messenger.fetchingChatRecord,
         sendingMessage: state.messenger.sendingMessage,
         activeChat: state.profile.activeChat,
+        noActiveChat: state.messenger.noActiveChat,
         chatRecord: state.messenger.chatRecord,
-        firebaseKey: state.profile.firebaseKey,
     }
 }
 
@@ -254,7 +256,7 @@ const mapDispatchToProps = dispatch => {
         onFetchActiveChat: (authToken, userKey) => dispatch(actions.fetchActiveChatAttempt(authToken, userKey)),
         onFetchChatRecord: (authToken, chatKey) => dispatch(actions.fetchChatRecordAttempt(authToken, chatKey)),
         onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message)),
-        onClearActiveChat: (authToken) => dispatch(actions.clearActiveChatAttempt(authToken))
+        onClearActiveChat: (authToken, userKey) => dispatch(actions.clearActiveChatAttempt(authToken, userKey))
     }
 }
 
