@@ -294,7 +294,7 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                                         return axios.put(`/posts/${postsKey}.json?auth=${authToken}`, updatedPosts)
                                     })
                                     .then(response => {
-                                        // dispatch(updateProfileSuccess(updatedUserProfile));
+                                        dispatch(updateProfileSuccess(updatedUserProfile));
                                     })
                                     .catch(err => {
                                         console.log(err);
@@ -375,6 +375,73 @@ export const startChatSuccessFeedback = (chat) => {
 }
 
 
+const fetchActiveChatInit = () => {
+    return {
+        type: actionTypes.FETCH_ACTIVE_CHAT_INIT
+    }
+}
+
+const fetchActiveChatSuccess = (chat) => {
+    return {
+        type: actionTypes.FETCH_ACTIVE_CHAT_SUCCESS,
+        chat: chat
+    }
+}
+
+const fetchActiveChatFail = (error) => {
+    return {
+        type: actionTypes.FETCH_ACTIVE_CHAT_FAIL,
+        error: error
+    }
+}
+
+export const fetchActiveChatAttempt = (authToken, userKey) => {
+    return dispatch => {
+        dispatch(fetchActiveChatInit())
+        axios.get(`/users/${userKey}/activeChat.json?auth=${authToken}`)
+            .then(response => {
+                console.log('fetched activeChat', response.data);
+                dispatch(fetchActiveChatSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(fetchActiveChatFail(error));
+            })
+    }
+}
+
+const clearActiveChatInit = () => {
+    return {
+        type: actionTypes.CLEAR_ACTIVE_CHAT_INIT
+    }
+}
+
+const clearActiveChatSuccess = () => {
+    return {
+        type: actionTypes.CLEAR_ACTIVE_CHAT_SUCCESS,
+    }
+}
+
+const clearActiveChatFail = (error) => {
+    return {
+        type: actionTypes.CLEAR_ACTIVE_CHAT_FAIL,
+        error: error
+    }
+}
+
+export const clearActiveChatAttempt = (authToken, userKey) => {
+    console.log('delete userKey/activeChat', userKey)
+    return dispatch => {
+        dispatch(clearActiveChatInit())
+        axios.delete(`/users/${userKey}/activeChat.json?auth=${authToken}`)
+            .then(response => {
+                console.log('success - deleted activeChat from profile');
+                dispatch(clearActiveChatSuccess())
+            })
+            .catch(error => {
+                dispatch(clearActiveChatFail(error))
+            })
+    }
+}
 
 export const clearProfile = () => {
   return {

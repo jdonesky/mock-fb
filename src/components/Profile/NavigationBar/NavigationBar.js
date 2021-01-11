@@ -111,9 +111,7 @@ const navigationBar = (props) => {
 
     const startChat = () => {
         if (otherPublicProfile) {
-            console.log('otherPublicProfile', otherPublicProfile)
-
-            messengerContext.startChat(otherPublicProfile)
+            messengerContext.startChat(otherPublicProfile, 'USER', 'USER')
         }
     }
 
@@ -295,7 +293,6 @@ const navigationBar = (props) => {
             </ul>
         )
     } else if (props.displayProfile !== 'me' && viewAsFlag !== 'view-as') {
-        console.log('myPublicProfile = ', myPublicProfile)
         if (myPublicProfile && otherPublicProfile && otherProfile) {
             editControls = (
                 <ul className={classes.EditControls}>

@@ -2,7 +2,6 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    activeChat: null,
     chatRecord: null,
     startingChat: false,
     restartingChat: false,
@@ -11,7 +10,6 @@ const initialState = {
     fetchingChatRecord: false,
     sendingMessage: false,
     error: null,
-    noActiveChat: false,
 }
 
 const startNewChatInit = (state,action) => {
@@ -57,57 +55,6 @@ const restartOldChatFail = (state, action) => {
         ...state,
         error: action.error,
         restartingChat: false
-    }
-}
-
-const fetchActiveChatInit = (state,action) => {
-    return {
-        ...state,
-        fetchingActiveChat: true,
-        noActiveChat: false
-    }
-}
-
-const fetchActiveChatSuccess = (state,action) => {
-    return {
-        ...state,
-        activeChat: action.chat,
-        fetchingActiveChat: false
-    }
-}
-
-const fetchActiveChatFail = (state,action) => {
-    return {
-        ...state,
-        error: action.error,
-        fetchingActiveChat: false,
-        noActiveChat: true
-    }
-}
-
-const clearActiveChatInit = (state,action) => {
-    return {
-        ...state,
-        clearingActiveChat: true,
-        noActiveChat: false
-    }
-}
-
-const clearActiveChatSuccess = (state,action) => {
-    return {
-        ...state,
-        activeChat: action.chat,
-        clearingActiveSuccess: false,
-        noActiveChat: true
-    }
-}
-
-const clearActiveChatFail = (state,action) => {
-    return {
-        ...state,
-        error: action.error,
-        clearingActiveSuccess: false,
-        noActiveChat: true
     }
 }
 
@@ -165,12 +112,6 @@ const reducer = (state= initialState,action) => {
         case actionTypes.RESTART_OLD_CHAT_INIT: return restartOldChatInit(state,action);
         case actionTypes.RESTART_OLD_CHAT_SUCCESS: return restartOldChatSuccess(state,action);
         case actionTypes.RESTART_OLD_CHAT_FAIL: return restartOldChatFail(state,action);
-        case actionTypes.FETCH_ACTIVE_CHAT_INIT: return fetchActiveChatInit(state,action);
-        case actionTypes.FETCH_ACTIVE_CHAT_SUCCESS: return fetchActiveChatSuccess(state,action);
-        case actionTypes.FETCH_ACTIVE_CHAT_FAIL: return fetchActiveChatFail(state,action);
-        case actionTypes.CLEAR_ACTIVE_CHAT_INIT: return clearActiveChatInit(state,action);
-        case actionTypes.CLEAR_ACTIVE_CHAT_SUCCESS: return clearActiveChatSuccess(state,action);
-        case actionTypes.CLEAR_ACTIVE_CHAT_FAIL: return clearActiveChatFail(state,action);
         case actionTypes.FETCH_CHAT_RECORD_INIT: return fetchChatRecordInit(state,action);
         case actionTypes.FETCH_CHAT_RECORD_SUCCESS: return fetchChatRecordSuccess(state,action);
         case actionTypes.FETCH_CHAT_RECORD_FAIL: return fetchChatRecordFail(state,action);

@@ -12,6 +12,8 @@ export {
   updateProfileAttempt,
   likePageSuccessFeedback,
   startChatSuccessFeedback,
+  fetchActiveChatAttempt,
+  clearActiveChatAttempt,
   clearProfile
 } from "./profile";
 
@@ -82,8 +84,6 @@ export {
    startNewChatAttempt,
    restartOldChatAttempt,
    sendMessageAttempt,
-   fetchActiveChatAttempt,
-   clearActiveChatAttempt,
    fetchChatRecordAttempt
 } from "./messenger";
 

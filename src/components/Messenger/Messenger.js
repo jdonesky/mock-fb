@@ -29,25 +29,36 @@ const messenger = (props) => {
     const [focusing, setFocusing] = useState(true);
     const [theirProfile, setTheirProfile] = useState(null);
     const [conversation, setConversation] = useState(null);
-    const {activeChat, chatRecord} = props
+    const {onFetchActiveChat, activeChat, chatRecord} = props
+    const {localActiveChat} = messengerContext
 
     const [textMessage,setTextMessage] = useState('')
     const [photo, setPhoto] = useState(null);
     const [gif, setGif] = useState(null);
 
     // useEffect(() => {
-    //     console.log('activeChat', activeChat);
-    //     console.log('no activeChat', props.noActiveChat);
-    //
-    //     if (!activeChat && !props.noActiveChat) {
-    //         props.onFetchActiveChat(props.authToken, props.firebaseKey);
-    //     }
+    //     onFetchActiveChat()
     // }, [])
 
     useEffect(() => {
+        messageBar.current.focus();
+    }, [])
+
+    useEffect(() => {
+        if (localActiveChat && localActiveChat.parties) {
+            setTheirProfile(localActiveChat.parties.find(party => party.userKey !== props.firebaseKey))
+        }
+        // if (localActiveChat && localActiveChat.key) {
+        //     props.onFetchChatRecord(props.authToken, localActiveChat.key)
+        // }
+    }, [localActiveChat])
+
+    useEffect(() => {
         if (activeChat && activeChat.parties) {
-            setTheirProfile(activeChat.parties.find(party => party.userKey !== props.firebaseKey))
-            props.onFetchChatRecord(props.authToken, activeChat.key)
+            setTheirProfile(localActiveChat.parties.find(party => party.userKey !== props.firebaseKey))
+        }
+        if (activeChat && activeChat.key) {
+            props.onFetchChatRecord(props.authToken, localActiveChat.key)
         }
     }, [activeChat])
 
@@ -70,10 +81,6 @@ const messenger = (props) => {
         }
 
     }, [conversation, chatRecord])
-
-    useEffect(() => {
-        messageBar.current.focus();
-    }, [])
 
 
     const goToTheirProfile = () => {
@@ -119,8 +126,7 @@ const messenger = (props) => {
     }
 
     const closeChat = () => {
-        props.onClearActiveChat(props.authToken, props.firebaseKey);
-        messengerContext.closeMessenger()
+        messengerContext.clearActiveChat();
     }
 
     let iconsFill;
@@ -204,7 +210,7 @@ const messenger = (props) => {
                 {fetchingIndicator}
                 <div className={classes.ControlsBlock}>
                     <Label label="Minimize" bottom='40px' left="-35px" width="60px">
-                        <div className={[classes.Control, classes.Minimize].join(" ")} onClick={() => messengerContext.closeMessenger()}><Minimize fill={iconsFill}/></div>
+                        <div className={[classes.Control, classes.Minimize].join(" ")} onClick={() => messengerContext.minimizeMessenger()}><Minimize fill={iconsFill}/></div>
                     </Label>
                     <Label label="Close" bottom='40px' width="50px">
                         <div className={[classes.Control, classes.Close].join(" ")} onClick={closeChat}><Close fill={iconsFill}/></div>
@@ -218,7 +224,7 @@ const messenger = (props) => {
                     </div>
                     {startingIndicator}
                     <div className={classes.ConversationStarterName}>{theirProfile && theirProfile.name}</div>
-                    <div className={classes.ConversationStarterDate}>{activeChat && activeChat.startDate ? convertMessageDatetime(activeChat.startDate) : ''}</div>
+                    <div className={classes.ConversationStarterDate}>{localActiveChat && localActiveChat.startDate ? convertMessageDatetime(localActiveChat.startDate) : ''}</div>
                     <div className={classes.ConversationStarterCaption}>{activeChat ? 'You are now connected on dumb messenger' : ' '}</div>
                 </div>
                 {messages}
@@ -246,7 +252,7 @@ const mapStateToProps = state => {
         fetchingChatRecord: state.messenger.fetchingChatRecord,
         sendingMessage: state.messenger.sendingMessage,
         activeChat: state.profile.activeChat,
-        noActiveChat: state.messenger.noActiveChat,
+        noActiveChat: state.profile.noActiveChat,
         chatRecord: state.messenger.chatRecord,
     }
 }

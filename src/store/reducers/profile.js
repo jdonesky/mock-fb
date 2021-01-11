@@ -12,9 +12,12 @@ const initialState = {
   publicProfileKey: null,
   publicProfile: null,
   activityLogKey: null,
-  activeChat: null,
   userId: null,
   error: null,
+  activeChat: null,
+  noActiveChat: false,
+  fetchingActiveChat: false,
+  clearingActiveChat: false,
   profileLoading: false,
   publicProfileLoading: false,
   contentEntryLoading: false
