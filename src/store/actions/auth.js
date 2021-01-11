@@ -51,7 +51,7 @@ export const authAttempt = (email, password, isSignUp, userData) => {
   return (dispatch) => {
     dispatch(authInit());
     const axiosInstance = isSignUp ? axiosSignUp : axiosSignIn;
-    const apiKey = "AIzaSyD4T1w5B2QyiyC4gFZ_f1dmvZ8_ghJkX0E"
+    const apiKey = process.env.REACT_APP_API_KEY
     const authData = {
       email: email,
       password: password,
