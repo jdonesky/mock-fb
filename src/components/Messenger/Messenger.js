@@ -37,9 +37,6 @@ const messenger = (props) => {
     const [photo, setPhoto] = useState(null);
     const [gif, setGif] = useState(null);
 
-    useEffect(() => {
-        console.log('resetMessengerStarter', resetMessengerStarter);
-    })
 
     useEffect(() => {
         if (resetMessengerStarter) {

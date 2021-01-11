@@ -1,0 +1,63 @@
+
+.BrowserSupportMessage {
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.PermissionForm {
+    height: 240px;
+    width: 300px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.PermissionMessage {
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    font-size: 18px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.Controls {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Button {
+    height: 40px;
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Deny {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.Deny:hover {
+    background-color: rgba(0,0,0,0.15);
+}
+
+.Allow {
+    color: white;
+    background-color: #0a70ff;
+}
+
+.Allow:hover {
+    background-color: #1665f7;
+}
