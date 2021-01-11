@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState,useEffect} from 'react';
 import classes from './Pages.css'
 import {Route, Switch} from 'react-router-dom'
 
@@ -29,7 +29,20 @@ const AsyncCreatePageSidedrawer = React.lazy(() => {
 
 const pages = props => {
 
+    const [displayPage, setDisplayPage] = useState(props.history.location.pathname.split('/')[3])
+    const [viewing, setViewing] = useState(props.history.location.pathname.split('/')[2])
     const { width, height } = getWindowDimensions();
+
+    useEffect(() => {
+        console.log('viewing', viewing)
+        console.log('displayPage', displayPage);
+        if (viewing !== props.history.location.pathname.split('/')[2]) {
+            setViewing(props.history.location.pathname.split('/')[2])
+        }
+        if (displayPage !== props.history.location.pathname.split('/')[3] ) {
+            setDisplayPage(props.history.location.pathname.split('/')[3])
+        }
+    })
 
     let displayPanelContents;
     if (props.history.location.pathname === '/pages') {
@@ -51,7 +64,7 @@ const pages = props => {
                 <Route path='/pages/invites' component={AsyncBrowsePagesSidedrawer} />
                 <Route path='/pages' exact component={AsyncBrowsePagesSidedrawer}/>
             </Switch>
-            <div className={classes.PreviewPanel}  style={{width: `${width - 355}px`}}>
+            <div className={classes.PreviewPanel}  style={{width: viewing === 'inbox' && width > 1300 ? `${width - 655}px` : `${width - 355}px`, left: viewing === 'inbox' && width > 1300 ? '655px' : null}}>
                 {displayPanelContents}
                 <Route path='/pages/:hub/:id' component={AsyncPage}/>
             </div>

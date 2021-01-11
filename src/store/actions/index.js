@@ -11,9 +11,11 @@ export {
   fetchMyPublicProfileAttempt,
   updateProfileAttempt,
   likePageSuccessFeedback,
-  startChatSuccessFeedback,
+  startNewChatAttempt,
+  restartOldChatAttempt,
   fetchActiveChatAttempt,
   clearActiveChatAttempt,
+  clearLocalActiveChat,
   clearProfile
 } from "./profile";
 
@@ -81,10 +83,9 @@ export {
 } from "./friends";
 
 export {
-   startNewChatAttempt,
-   restartOldChatAttempt,
    sendMessageAttempt,
-   fetchChatRecordAttempt
+   fetchChatRecordAttempt,
+   clearLocalChatRecord
 } from "./messenger";
 
 export {

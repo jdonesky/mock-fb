@@ -171,7 +171,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-left: 15px;
+    margin: 5px 0 0 35px;
 }
 
 /*.Paths {*/
@@ -208,9 +208,6 @@
 
 
 .Paths {
-    position: relative;
-    top: 3px;
-    right: 80px;
     color: rgba(0,0,0,0.3);
     font-weight: 100;
     font-size: 13px;

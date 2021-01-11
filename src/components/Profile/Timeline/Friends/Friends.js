@@ -39,7 +39,11 @@ const friends = (props) => {
     }, [displayProfile, myPublicProfile, otherPublicProfile])
 
     const navToProfile = (key) => {
-        props.history.push(`/user-profile/${key}`);
+        if (key !== props.firebaseKey) {
+            props.history.push(`/user-profile/${key}`);
+        } else {
+            props.history.push('/user-profile/me')
+        }
     }
 
     let friends;
@@ -78,6 +82,7 @@ const friends = (props) => {
 
 const mapStateToProps = state => {
     return {
+        firebaseKey: state.profile.firebaseKey,
         myPublicProfileKey: state.profile.publicProfileKey,
         myPublicProfile: state.profile.publicProfile,
         otherProfile: state.users.fullProfile,

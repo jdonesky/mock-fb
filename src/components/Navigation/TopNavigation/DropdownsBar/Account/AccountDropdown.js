@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import classes from './AccountDropdown.css';
+import * as actions from '../../../../../store/actions/index';
 import Avatar from '../../../../../assets/images/BookmarkIcons/user';
 
 import Feedback from '../../../../../assets/images/TopNavButtonIcons/feedback';
@@ -18,6 +19,12 @@ const accountDropdown = (props) => {
             props.history.push('/user-profile/me')
         }
         props.close();
+    }
+
+    const logout = () => {
+        props.history.push('/logout')
+        props.onClearLocalActiveChat();
+        props.onClearLocalChatRecord();
     }
 
     return (
@@ -62,7 +69,7 @@ const accountDropdown = (props) => {
                     <RightArrow fill="rgba(0,0,0,0.6)"/>
                 </div>
             </section>
-            <section className={classes.Button} onClick={() => props.history.push('/logout')}>
+            <section className={classes.Button} onClick={logout}>
                 <div className={[classes.Icon, classes.Logout].join(" ")}>
                     <Logout />
                 </div>
@@ -79,4 +86,11 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(accountDropdown));
+const mapDispatchToProps = dispatch => {
+    return {
+        onClearLocalActiveChat: () => dispatch(actions.clearLocalActiveChat()),
+        onClearLocalChatRecord: () => dispatch(actions.clearLocalChatRecord())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(accountDropdown));

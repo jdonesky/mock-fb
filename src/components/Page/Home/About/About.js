@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import classes from './About.css';
 import sharedClasses from '../Shared.css';
 import {PageContext} from "../../../../context/page-context";
+import {MessengerContext} from "../../../../context/messenger-context";
 
 import Edit from '../../../../assets/images/edit';
 import Pin from '../../../../assets/images/Pin';
@@ -23,7 +24,34 @@ const about = props => {
     const [displayProfile,setDisplayProfile] = useState(props.history.location.pathname.split('/')[3])
 
     const pageContext = useContext(PageContext);
+    const messengerContext = useContext(MessengerContext);
     const {adminPage, ownedPageKeys, othersPage} = props
+
+
+    useEffect(() => {
+
+    })
+
+    const startChat = (isOwned) => {
+        console.log('startingChat - isOwned(page)?', isOwned)
+        console.log('ownedPage', ownedPage);
+        console.log('adminPage', adminPage);
+        let page;
+        if (isOwned) {
+            let owned;
+            if (adminPage) {
+                 owned = adminPage
+            } else if (ownedPage) {
+                owned = ownedPage;
+            }
+            page = owned
+        } else {
+            page = othersPage
+        }
+        if (page) {
+            messengerContext.startChat(page, 'PAGE', 'USER')
+        }
+    }
 
     let owned;
     if (pathRoot === 'view') {
@@ -36,12 +64,14 @@ const about = props => {
     if (pathRoot === 'manage') {
         if (adminPage) {
             ownedPage = adminPage;
+            owned = true;
         }
     } else if (owned) {
         if (othersPage) {
             ownedPage = othersPage
         }
     }
+
 
     let editButtons;
     if (ownedPage) {
@@ -79,8 +109,10 @@ const about = props => {
                 icon: <Phone fill="rgba(0,0,0,0.45)"/>
             },
             {
-                text: 'Send Message', action: () => {
-                }, filled: false, icon: <FbMessage fill="rgba(0,0,0,0.45)"/>, messageText: true
+                text: 'Send Message', action: () => startChat(true),
+                filled: false,
+                icon: <FbMessage fill="rgba(0,0,0,0.45)"/>,
+                messageText: true
             },
             {
                 text: ownedPage.email || 'Enter email',
@@ -138,7 +170,11 @@ const about = props => {
                     icon: <Phone fill="rgba(0,0,0,0.45)"/>
                 } : null,
                 {
-                    text: 'Send Message', filled: false, icon: <FbMessage fill="rgba(0,0,0,0.45)"/>, messageText: true
+                    text: 'Send Message',
+                    action: () => startChat(false),
+                    filled: false,
+                    icon: <FbMessage fill="rgba(0,0,0,0.45)"/>,
+                    messageText: true
                 },
                 othersPage.email ? {
                     text: othersPage.email,

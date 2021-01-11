@@ -13,6 +13,7 @@ export const MessengerContext = React.createContext({
     startChat: () => {},
     fetchActiveChat: () => {},
     clearActiveChat: () => {},
+    resetMessengerStarter: false,
     retrieveChat: () => {},
 })
 
@@ -21,14 +22,14 @@ const messengerContextProvider = props => {
     const [localActiveChat, setLocalActiveChat] = useState(null);
     const [showMessenger, setShowMessenger] = useState(false);
     const [showActiveChat, setShowActiveChat] = useState(true);
-    const {authToken, myPublicProfile, ownedPage, onFetchActiveChat, activeChat} = props
-
+    const [resetMessenger, setResetMessenger] = useState(false);
+    const {authToken, firebaseKey, myPublicProfile, ownedPage, onFetchActiveChat, activeChat} = props
 
     useEffect(() => {
-        if (authToken && props.firebaseKey) {
+        if (authToken && firebaseKey) {
             onFetchActiveChat(authToken, props.firebaseKey);
         }
-    }, [])
+    }, [firebaseKey])
 
     useEffect(() => {
         if (activeChat) {
@@ -38,9 +39,21 @@ const messengerContextProvider = props => {
 
     const fetchActiveChat = () => {
         if (authToken && props.firebaseKey) {
-            console.log('NOW ... fetching')
             onFetchActiveChat(authToken, props.firebaseKey);
         }
+    }
+
+    const retrieveChat = (chatKey) => {
+        props.onRestartChat(authToken, props.firebaseKey, chatKey)
+        openMessenger();
+    }
+
+    const clearActiveChat = () => {
+        setShowMessenger(false);
+        setLocalActiveChat(null);
+        props.onClearActiveChat(props.authToken, props.firebaseKey)
+        props.onClearLocalChatRecord();
+        props.onClearLocalActiveChat();
     }
 
     const openMessenger = () => {
@@ -92,6 +105,7 @@ const messengerContextProvider = props => {
     }
 
     const startChat = (theirProfile, theirType, myType) => {
+
         let myProfile;
         if (myType === 'PAGE' && props.ownedPage) {
             myProfile = props.ownedPage
@@ -107,10 +121,33 @@ const messengerContextProvider = props => {
                 existingChat = myProfile.chats[theirProfile.userKey]
             }
             if (existingChat) {
-                console.log('existingChat - restartChat', existingChat)
-                props.onRestartChat(authToken, props.firebaseKey, existingChat, (fetchedChat) => {
-                    setLocalActiveChat(fetchedChat)
-                });
+                if (activeChat && activeChat.key === existingChat) {
+                    console.log('chat is active already');
+                    openMessenger()
+                } else {
+                    setResetMessenger(true);
+                    console.log('existingChat - restartChat', existingChat)
+                    props.onRestartChat(authToken, props.firebaseKey, existingChat);
+                    setTimeout(() => {
+                        setResetMessenger(false)
+                    }, 500)
+                }
+            } else {
+                console.log('no existingChat creating new chat')
+                let myProfile;
+                if (myType === 'PAGE' && props.ownedPage) {
+                    myProfile = props.ownedPage
+                } else if (myType === 'USER' && myPublicProfile) {
+                    myProfile = myPublicProfile
+                }
+                const newChat = createNewChat(myProfile, theirProfile, theirType, myType)
+                console.log('setting LocalActiveChat to new chat')
+                setLocalActiveChat(newChat)
+                console.log('localActiveChat now -> ', localActiveChat)
+                console.log('... and clearing local chat Record')
+                props.onClearLocalChatRecord()
+                console.log('chatRecord now -> ', props.chatRecord)
+                props.onStartNewChat(authToken, myProfile, theirProfile, newChat, theirType, myType)
             }
         } else {
             console.log('no existingChat creating new chat')
@@ -125,24 +162,11 @@ const messengerContextProvider = props => {
             setLocalActiveChat(newChat)
             props.onStartNewChat(authToken, myProfile, theirProfile, newChat, theirType, myType)
         }
-        openMessenger(); //!!!
-    }
-
-    const retrieveChat = (chatKey) => {
-        console.log('RETRIEVING CHAT', chatKey);
-        props.onRestartChat(authToken, props.firebaseKey, chatKey)
         openMessenger();
     }
 
-    const clearActiveChat = () => {
-        console.log('CLICKED');
-        setShowMessenger(false);
-        setLocalActiveChat(null);
-        props.onClearActiveChat(props.authToken, props.firebaseKey)
-    }
-
     return (
-        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, minimizeMessenger: minimizeMessenger, closeMessenger: closeMessenger, startChat: startChat, retrieveChat: retrieveChat, localActiveChat: localActiveChat, fetchActiveChat: fetchActiveChat, clearActiveChat: clearActiveChat, showActiveChat: showActiveChat}}>
+        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, minimizeMessenger: minimizeMessenger, closeMessenger: closeMessenger, startChat: startChat, retrieveChat: retrieveChat, localActiveChat: localActiveChat, fetchActiveChat: fetchActiveChat, clearActiveChat: clearActiveChat, showActiveChat: showActiveChat, resetMessengerStarter: resetMessenger}}>
             {props.children}
         </MessengerContext.Provider>
     )
@@ -154,7 +178,8 @@ const mapStateToProps = state => {
         firebaseKey: state.profile.firebaseKey,
         myPublicProfile: state.profile.publicProfile,
         otherProfile: state.users.fullProfile,
-        activeChat: state.profile.activeChat
+        activeChat: state.profile.activeChat,
+        chatRecord: state.messenger.chatRecord
     }
 }
 
@@ -162,9 +187,11 @@ const mapDispatchToProps = dispatch => {
     return {
         onRestartChat: (authToken, userKey, chatKey) => dispatch(actions.restartOldChatAttempt(authToken, userKey, chatKey)),
         onStartNewChat: (authToken, myProfile, theirProfile, chat, theirType, myType) => dispatch(actions.startNewChatAttempt(authToken, myProfile, theirProfile, chat, theirType, myType)),
-        onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message)),
         onFetchActiveChat: (authToken, userKey) => dispatch(actions.fetchActiveChatAttempt(authToken, userKey)),
+        onFetchChatRecord: (authToken, chatKey) => dispatch(actions.fetchChatRecordAttempt(authToken, chatKey)),
         onClearActiveChat: (authToken, userKey) => dispatch(actions.clearActiveChatAttempt(authToken, userKey)),
+        onClearLocalActiveChat: () => dispatch(actions.clearLocalActiveChat()),
+        onClearLocalChatRecord: () => dispatch(actions.clearLocalChatRecord())
     }
 }
 

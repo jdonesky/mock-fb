@@ -20,7 +20,7 @@ const inboxSidedrawer = props => {
             setDisplayPage(props.history.location.pathname.split('/')[3])
         }
     })
-    Inbox
+
     useEffect(() => {
         if (displayPage && !ownedPage) {
             props.onFetchOwnedPage(props.authToken, displayPage)
@@ -31,7 +31,11 @@ const inboxSidedrawer = props => {
     let paths;
     let profileImage;
     if (ownedPage) {
-        paths = <div className={classes.Paths}><div className={[classes.Path, classes.PagePath].join(" ")} onClick={() => props.history.push(`/pages/manage/${displayPage}`)}>{ownedPage.name}</div><span> &rsaquo;</span><div className={[classes.Path, classes.PathDisabled].join(" ")}>Inbox</div></div>
+        paths = (
+            <div className={classes.PathsContainer}>
+                <div className={classes.Paths}><div className={[classes.Path, classes.PagePath].join(" ")} onClick={() => props.history.push(`/pages/manage/${displayPage}`)}>{ownedPage.name}</div><span> &rsaquo;</span><div className={[classes.Path, classes.PathDisabled].join(" ")}>Inbox</div></div>
+            </div>
+        )
         profileImage = ownedPage.profileImage
     }
 

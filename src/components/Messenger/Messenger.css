@@ -102,7 +102,7 @@
     margin-right: 10px;
 }
 
-.Control{
+.Control {
     height: 25px;
     width: 25px;
     border-radius: 100%;
@@ -159,7 +159,9 @@
 }
 
 .ConversationStarterProfilePic {
+    min-height: 70px;
     height: 70px;
+    min-width: 70px;
     width: 70px;
     background-color: rgba(0,0,0,0.1);
     background-position: center;

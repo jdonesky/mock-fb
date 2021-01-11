@@ -130,7 +130,13 @@ const profileSummaryDropdown = (props) => {
 
     const startChat = () => {
         if (props.profile) {
-            messengerContext.startChat(props.profile)
+            let theirType;
+            if (userType === 'PAGE') {
+                theirType = userType
+            } else {
+                theirType = 'USER'
+            }
+            messengerContext.startChat(props.profile, theirType, 'USER')
         }
     }
 

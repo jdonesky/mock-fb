@@ -29,59 +29,89 @@ const messenger = (props) => {
     const [focusing, setFocusing] = useState(true);
     const [theirProfile, setTheirProfile] = useState(null);
     const [conversation, setConversation] = useState(null);
-    const {onFetchActiveChat, activeChat, chatRecord} = props
-    const {localActiveChat} = messengerContext
+
+    const { activeChat, chatRecord } = props
+    const { localActiveChat, clearActiveChat, resetMessengerStarter } = messengerContext
 
     const [textMessage,setTextMessage] = useState('')
     const [photo, setPhoto] = useState(null);
     const [gif, setGif] = useState(null);
 
-    // useEffect(() => {
-    //     onFetchActiveChat()
-    // }, [])
+    useEffect(() => {
+        console.log('resetMessengerStarter', resetMessengerStarter);
+    })
+
+    useEffect(() => {
+        if (resetMessengerStarter) {
+            console.log('resetting messenger starter ')
+            setTheirProfile(null)
+        }
+    })
+
+    useEffect(() => {
+        if (!localActiveChat) {
+            setTheirProfile(null);
+        }
+        if (activeChat && localActiveChat) {
+            if (localActiveChat.key !== activeChat.key) {
+                setTheirProfile(null);
+            }
+        }
+    })
 
     useEffect(() => {
         messageBar.current.focus();
     }, [])
 
-    useEffect(() => {
-        if (localActiveChat && localActiveChat.parties) {
-            setTheirProfile(localActiveChat.parties.find(party => party.userKey !== props.firebaseKey))
-        }
-        // if (localActiveChat && localActiveChat.key) {
-        //     props.onFetchChatRecord(props.authToken, localActiveChat.key)
-        // }
-    }, [localActiveChat])
+    // useEffect(() => {
+    //     if (localActiveChat && localActiveChat.parties) {
+    //         setTheirProfile(localActiveChat.parties.find(party => party.userKey !== props.firebaseKey))
+    //     }
+    // }, [localActiveChat])
 
     useEffect(() => {
-        if (activeChat && activeChat.parties) {
-            setTheirProfile(localActiveChat.parties.find(party => party.userKey !== props.firebaseKey))
+        if (activeChat && localActiveChat) {
+            if (activeChat.key === localActiveChat.key) {
+                if (activeChat && activeChat.parties) {
+                    setTheirProfile(activeChat.parties.find(party => party.userKey !== props.firebaseKey))
+                }
+                if (activeChat && activeChat.key) {
+                    props.onFetchChatRecord(props.authToken, activeChat.key)
+                }
+            }
         }
-        if (activeChat && activeChat.key) {
-            props.onFetchChatRecord(props.authToken, localActiveChat.key)
-        }
+
     }, [activeChat])
 
     useEffect(() => {
         if (chatRecord) {
-            console.log('got chatRecord', chatRecord);
-            setConversation(chatRecord.messages)
+            if (chatRecord && chatRecord.messages) {
+                const mappedChatRecord = Object.keys(chatRecord.messages).map(key => ({
+                    ...chatRecord.messages[key],
+                    key: key
+                }))
+                setConversation(mappedChatRecord)
+            }
         }
     }, [chatRecord])
 
 
     useEffect(() => {
         if (conversation && chatRecord && chatRecord.messages) {
-            if (conversation.length !== chatRecord.messages.length) {
+            if (conversation.length !== Object.keys(chatRecord.messages).length) {
                 console.log(' conversation and chat record !== length, re-fetching chatRecord')
                 props.onFetchChatRecord(props.authToken, activeChat && activeChat.key);
             }
-        } else if (conversation && chatRecord && !chatRecord.messages) {
+        }
+        else if (conversation && conversation.length === 1 && chatRecord && !chatRecord.messages) {
             props.onFetchChatRecord(props.authToken, activeChat && activeChat.key);
         }
 
     }, [conversation, chatRecord])
 
+    const closeChat = () => {
+        clearActiveChat();
+    }
 
     const goToTheirProfile = () => {
         if (theirProfile) {
@@ -115,18 +145,14 @@ const messenger = (props) => {
         }
         if (conversation) {
             setConversation(prevState => {
-                return [...prevState, {...message, pending: true, id: -1}]
+                return [...prevState, {...message, pending: true, key: -1}]
             })
         } else {
-            setConversation([{...message, pending: true, id: -1}])
+            setConversation([{...message, pending: true, key: -1}])
         }
         setTextMessage('');
         setPhoto(null);
         setGif(null);
-    }
-
-    const closeChat = () => {
-        messengerContext.clearActiveChat();
     }
 
     let iconsFill;
@@ -144,13 +170,12 @@ const messenger = (props) => {
     }
 
     let messages;
-    if (props.fetchingChatRecord) {
-        messages = <InlineDots />
-    }
+
     if (conversation) {
         messages = conversation.map(msg => (
             <Message
-                key={msg.id}
+                key={msg.key}
+                id={msg.key}
                 userKey={msg.userKey}
                 myKey={props.firebaseKey}
                 theirProfileImage={theirProfileImage}
@@ -160,6 +185,10 @@ const messenger = (props) => {
                 pending={msg.pending}
             />
         ))
+    }
+
+    if (props.startingChat || props.restartingChat) {
+        messages = <InlineDots top="30px"/>
     }
 
     let rightButton;
@@ -196,6 +225,16 @@ const messenger = (props) => {
         )
     }
 
+    let restartingIndicator;
+    if (props.restartingChat) {
+        restartingIndicator = (
+            <div className={classes.StartingIndicator}>
+                <div>Reconnecting</div>
+                <InlineDots top="23px" right="25px" />
+            </div>
+        )
+    }
+
     return (
         <div
             className={[classes.Container, messengerContext.showMessenger ?  classes.ShowMessenger : null].join(" ")}
@@ -203,9 +242,9 @@ const messenger = (props) => {
             <section className={classes.Header}>
                 <div className={classes.IdBlock}>
                     <div className={classes.HeaderProfileImage} style={{backgroundImage: theirProfileImage ? `url(${theirProfileImage})`: null}} onClick={goToTheirProfile}>
-                        {theirProfileImage ? null : props.startingChat || props.restartingChat ? <Spinner /> : <Avatar fill="white" />}
+                        {theirProfileImage ? null : props.startingChat || props.restartingChat || props.fetchingChatRecord || props.fetchingActiveChat ? <Spinner /> : <Avatar fill="white" />}
                     </div>
-                    <div className={classes.HeaderName}>{theirName}</div>
+                    <div className={classes.HeaderName}>{props.startingChat || props.restartingChat || props.fetchingChatRecord || props.fetchingActiveChat ? ' ' : theirName}</div>
                 </div>
                 {fetchingIndicator}
                 <div className={classes.ControlsBlock}>
@@ -222,9 +261,10 @@ const messenger = (props) => {
                     <div className={classes.ConversationStarterProfilePic} style={{backgroundImage: theirProfileImage ? `url(${theirProfileImage})`: null}} onClick={goToTheirProfile}>
                         {theirProfileImage ? null : props.startingChat || props.restartingChat ? <Spinner /> : <Avatar fill="white" />}
                     </div>
+                    {restartingIndicator}
                     {startingIndicator}
                     <div className={classes.ConversationStarterName}>{theirProfile && theirProfile.name}</div>
-                    <div className={classes.ConversationStarterDate}>{localActiveChat && localActiveChat.startDate ? convertMessageDatetime(localActiveChat.startDate) : ''}</div>
+                    <div className={classes.ConversationStarterDate}>{activeChat && activeChat.startDate ? convertMessageDatetime(activeChat.startDate) : ''}</div>
                     <div className={classes.ConversationStarterCaption}>{activeChat ? 'You are now connected on dumb messenger' : ' '}</div>
                 </div>
                 {messages}
@@ -247,12 +287,13 @@ const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
-        startingChat: state.messenger.startingChat,
-        restartingChat: state.messenger.restartingChat,
-        fetchingChatRecord: state.messenger.fetchingChatRecord,
-        sendingMessage: state.messenger.sendingMessage,
+        startingChat: state.profile.startingChat,
+        restartingChat: state.profile.restartingChat,
         activeChat: state.profile.activeChat,
         noActiveChat: state.profile.noActiveChat,
+        fetchingActiveChat: state.profile.fetchingActiveChat,
+        fetchingChatRecord: state.messenger.fetchingChatRecord,
+        sendingMessage: state.messenger.sendingMessage,
         chatRecord: state.messenger.chatRecord,
     }
 }

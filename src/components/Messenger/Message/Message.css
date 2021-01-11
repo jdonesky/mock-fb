@@ -11,9 +11,12 @@
 .ProfileImage {
     height: 25px;
     width: 25px;
+    border: 1px solid rgba(0,0,0,0.15);
     border-radius: 100%;
     background-position: center;
     background-size: cover;
+    background-color: rgba(0,0,0,0.1);
+    overflow: hidden;
     margin-right: 8px;
 }
 

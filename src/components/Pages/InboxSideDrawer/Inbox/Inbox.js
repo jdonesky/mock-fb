@@ -71,9 +71,9 @@ const inbox = (props) => {
                     </div>
                     <div className={classes.ToolBarRightBlock}>
                         <OutsideAlerter action={() => setViewingAvailability(false)}>
-                            <div className={classes.MessageIconContainer}>
+                            <div className={classes.MessageIconContainer} onClick={() => setViewingAvailability(prevState => {return !prevState})}>
                                 {isOnlineIndicator}
-                                <div className={classes.MessageIcon} onClick={() => setViewingAvailability(true)}><Message /></div>
+                                <div className={classes.MessageIcon} ><Message /></div>
                             </div>
                             {availabilityDropdown}
                         </OutsideAlerter>

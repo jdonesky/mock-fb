@@ -69,8 +69,7 @@ const header = (props) => {
 
     const startChat = () => {
         if (othersPage) {
-            // console.log(othersPage);
-            messengerContext.startChat(othersPage, 'PAGE')
+            messengerContext.startChat(othersPage, 'PAGE', 'USER')
         }
     }
 

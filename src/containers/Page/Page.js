@@ -31,6 +31,12 @@ const page = (props) => {
     })
 
     useEffect(() => {
+        if (props.match.params.id !== displayPage) {
+            setDisplayPage(props.match.params.id);
+        }
+    })
+
+    useEffect(() => {
         if (displayPage) {
             if (pathRoot === 'manage') {
                 props.onFetchOwnedPage(authToken, displayPage);
@@ -46,19 +52,6 @@ const page = (props) => {
         }
     },[authToken, firebaseKey])
 
-    useEffect(() => {
-        if (displayPage) {
-            if (pathRoot === 'manage') {
-                props.onFetchOwnedPage(props.authToken, displayPage)
-            }
-        }
-    },[displayPage])
-
-    useEffect(() => {
-        if (props.match.params.id !== displayPage) {
-            setDisplayPage(props.match.params.id);
-        }
-    })
 
     let name;
     let category;
