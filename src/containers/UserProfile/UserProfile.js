@@ -37,6 +37,8 @@ const userProfile = (props) => {
     const [pathRoot, setPathRoot] = useState(props.history.location.pathname.split("/")[1])
     const [displayProfile, setDisplayProfile] = useState(props.match.params.id)
     const [viewAsFlag, setViewAsFlag] = useState(props.history.location.pathname.split("/")[props.history.location.pathname.split("/").length - 1])
+    const [reqPermission, setReqPermission] = useState(null);
+
 
     const viewAsPermittedPaths = [
         `/${pathRoot}/${displayProfile}/view-as`,
