@@ -1,5 +1,5 @@
 const functions = require("firebase-functions");
-const cors = require('cors')({origin: true})
+// const cors = require('cors')({origin: true})
 const admin = require('firebase-admin')
 
 // // Create and Deploy Your First Cloud Functions
@@ -7,12 +7,13 @@ const admin = require('firebase-admin')
 
 admin.initializeApp(functions.config().firebase);
 
-exports.sendMessageNotification = functions.database.ref('conversations/{conversationID}/messages/{messageID}').onWrite(event => {
+
+exports.sendMessageNotification = functions.database.ref('chats/{chatID}/messages/{messageID}').onWrite(event => {
     if (event.data.previous.exists()) {
         return;
     }
 
-    admin.database().ref('messages').child(event.params.messageID).once('value').then(function(snap) {
+    admin.database().ref('chats').child(event.params.messageID).once('value').then(function(snap) {
         const messageData = snap.val();
 
         const topic = 'notifications_' + messageData.receiverKey;
