@@ -32,7 +32,7 @@
     background-color: rgba(0,0,0,0.1);
     background-position: center;
     background-size: cover;
-    background-repeat: no-repeat;
+    overflow: hidden;
     cursor: pointer;
 }
 
@@ -44,6 +44,8 @@
 .ProfileImage svg {
     height: auto;
     width: 100%;
+    position: relative;
+    top: 4px;
 }
 
 .InfoAndControlsContainer {

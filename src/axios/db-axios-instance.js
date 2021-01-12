@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const instance = axios.create({
-  // baseURL: "https://dumb-fb-de682.firebaseio.com/",
-  // baseURL: "https://mockfb-1a939.firebaseio.com/",
-  baseURL: "https://mockfb2.firebaseio.com/"
+  // baseURL: "https://mockfb2.firebaseio.com/"
+
+  // MockFb3 with cloud functions
+  baseURL: "https://mockfb3-bc1eb-default-rtdb.firebaseio.com"
 });
 
 instance.interceptors.request.use(reqConfig => {

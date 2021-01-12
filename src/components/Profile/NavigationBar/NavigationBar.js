@@ -45,7 +45,7 @@ const navigationBar = (props) => {
     const [deniedRequest, setDeniedRequest] = useState(false);
 
     const {width, height} = getWindowDimensions()
-    const { myPublicProfile, otherProfile, otherPublicProfile, myFriends } = props
+    const { myPublicProfile, otherProfile, otherPublicProfile, myFriends, acceptingRequest, sendingRequest, cancelingRequest, denyingRequest } = props
     const editProfileContext = useContext(EditProfileContext);
     const messengerContext = useContext(MessengerContext);
     const viewAsContext = useContext(ViewAsContext);
@@ -68,8 +68,18 @@ const navigationBar = (props) => {
     }, [myFriends, otherProfile])
 
     useEffect(() => {
+        setTimeout(() => {
+            props.onFetchMyFriendRequests(props.authToken,props.myPublicProfileKey);
+        }, 2000)
+    }, [sendingRequest, cancelingRequest, acceptingRequest, denyingRequest])
+
+    useEffect(() => {
         props.onFetchMyFriendRequests(props.authToken,props.myPublicProfileKey);
     }, [friendRequestCanceled])
+
+    useEffect(() => {
+        props.onFetchMyFriendRequests(props.authToken,props.myPublicProfileKey);
+    }, [sendingRequest])
 
     useEffect(() => {
         props.onFetchMyFriends(props.authToken, props.myPublicProfileKey)
@@ -166,7 +176,7 @@ const navigationBar = (props) => {
     let addFriendButtonIcon;
     let addFriendButtonAction;
     if (otherProfile) {
-        if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) !== -1)) {
+        if (friendRequestSent || sendingRequest || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) !== -1)) {
             addFriendButtonText = 'Cancel Request';
             addFriendButtonIcon = <UnFriend fill='#155fe8'/>
             addFriendButtonAction = cancelFriendRequest;
@@ -198,7 +208,7 @@ const navigationBar = (props) => {
         }
     }
 
-    if (props.sendingRequest || props.cancelingRequest || props.acceptingRequest || props.denyingRequest) {
+    if (sendingRequest || cancelingRequest || acceptingRequest || denyingRequest) {
         addFriendButtonIcon = <Spinner bottom={'60px'} right={"3px"}/>
     }
 

@@ -30,7 +30,7 @@ const messenger = (props) => {
     const [theirProfile, setTheirProfile] = useState(null);
     const [conversation, setConversation] = useState(null);
 
-    const { activeChat, chatRecord } = props
+    const { activeChat, chatRecord, ownedPage } = props
     const { localActiveChat, clearActiveChat, resetMessengerStarter } = messengerContext
 
     const [textMessage,setTextMessage] = useState('')
@@ -40,7 +40,7 @@ const messenger = (props) => {
 
     useEffect(() => {
         if (resetMessengerStarter) {
-            console.log('resetting messenger starter ')
+            // console.log('resetting messenger starter ')
             setTheirProfile(null)
         }
     })
@@ -131,12 +131,44 @@ const messenger = (props) => {
         if (event) {
             event.preventDefault()
         }
+        let myType;
+        let myKey;
+        let recipientType;
+        let recipientKey;
+        if (localActiveChat) {
+            console.log('localActiveChat', localActiveChat);
+            console.log('myType? localActiveChat.parties.find... ', localActiveChat.parties.find(party => party.userKey === props.firebaseKey).type)
+
+
+            if (ownedPage) {
+                myType = localActiveChat.parties.find(party => party.userKey === props.firebaseKey || party.userKey === ownedPage.dbKey).userType
+            } else {
+                myType = 'USER';
+            }
+            console.log('myType -> ', myType)
+            if (myType) {
+                if (myType === 'USER') {
+                    myKey = props.firebaseKey
+                } else {
+                    myKey = ownedPage.dbKey
+                }
+            }
+            recipientType = localActiveChat && localActiveChat.parties.find(party => party.userKey !== myKey).type
+            recipientKey = localActiveChat && localActiveChat.parties.find(party => party.userKey !== myKey).userKey
+            console.log('recipientType -> ', recipientType)
+            console.log('recipientKey -> ', recipientKey)
+        }
+
+
         const message = {
-            userKey: props.firebaseKey,
+            userKey: myKey,
+            recipientType: recipientType,
+            recipientKey: recipientKey,
             type: type,
             content: payload,
             date: new Date()
         }
+
         if (activeChat) {
             props.onSendMessage(props.authToken, activeChat.key, message)
         }
@@ -292,6 +324,7 @@ const mapStateToProps = state => {
         fetchingChatRecord: state.messenger.fetchingChatRecord,
         sendingMessage: state.messenger.sendingMessage,
         chatRecord: state.messenger.chatRecord,
+        ownedPage: state.pages.ownedPage
     }
 }
 

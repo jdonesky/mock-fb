@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {connect} from 'react-redux'
 import classes from './Comment.css';
 import postClasses from '../Post.css'
-import NoGenderPlaceholder from "../../../../../../assets/images/profile-placeholder-gender-neutral";
+import Avatar from "../../../../../../assets/images/BookmarkIcons/user";
 import Dots from '../../../../../../assets/images/dots';
 import Smiley from "../../../../../../assets/images/smile";
 import Camera from "../../../../../../assets/images/camera-outline";
@@ -266,7 +266,7 @@ const comment = (props) => {
         <section className={classes.CommentBarSection} style={{display: replying ? 'flex' : 'none'}}>
             <div className={classes.CommenterProfileImageContainer}>
                 <div className={classes.CommenterProfileImage} style={{backgroundImage: props.commentProfileImage ? `url(${props.commentProfileImage})` : null}}>
-                    {props.commentProfileImage ? null : <NoGenderPlaceholder />}
+                    {props.commentProfileImage ? null : <Avatar fill="white" />}
                 </div>
             </div>
             <form className={classes.ReplyForm} onSubmit={saveReply}>
@@ -322,7 +322,7 @@ const comment = (props) => {
             <section className={postClasses.CommentBarSection}>
                 <div className={postClasses.CommenterProfileImageContainer}>
                     <div className={postClasses.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                        {props.profileImage ? null : <NoGenderPlaceholder />}
+                        {props.profileImage ? null : <Avatar fill="white" />}
                     </div>
                 </div>
                 <form onSubmit={saveCommentEdits} className={postClasses.CommentForm}>
@@ -363,7 +363,7 @@ const comment = (props) => {
         <div className={classes.CommentContainer} onMouseEnter={() => showEditingButton()} onMouseLeave={() => hideEditingButton()}>
             <div className={classes.CommenterProfileImageContainer}>
                 <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                    {props.commentProfileImage ? null : <NoGenderPlaceholder />}
+                    {props.commentProfileImage ? null : <Avatar fill="white"/>}
                 </div>
             </div>
             <div className={classes.CommentBubbleContainer}>

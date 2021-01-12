@@ -5,6 +5,41 @@ import {KeyGenerator} from "../../shared/utility";
 import {convertDatetime} from "../../shared/utility";
 
 
+const saveNotificationTokenInit = () => {
+    return {
+        type: actionTypes.SAVE_NOTIFICATION_TOKEN_INIT
+    }
+}
+
+const saveNotificationTokenSuccess = (token) => {
+    return {
+        type: actionTypes.SAVE_NOTIFICATION_TOKEN_SUCCESS,
+        token: token
+    }
+}
+
+const saveNotificationTokenFail = (error) => {
+    return {
+        type: actionTypes.SAVE_NOTIFICATION_TOKEN_FAIL,
+        error: error
+    }
+}
+
+export const saveNotificationTokenAttempt = (authToken, userKey, token) => {
+    return dispatch => {
+        dispatch(saveNotificationTokenInit())
+        axios.patch(`/users/${userKey}/notificationToken.json?auth=${authToken}`, {token: token})
+            .then(response => {
+                console.log('success - saved notification token')
+                dispatch(saveNotificationTokenSuccess(token))
+            })
+            .catch(error => {
+                console.log('failed to save notification token', error )
+                dispatch(saveNotificationTokenFail(error))
+            })
+    }
+}
+
 const loadProfileInit = () => {
     return {
         type: actionTypes.LOAD_PROFILE_INIT

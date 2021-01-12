@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 import { connect } from 'react-redux';
 import classes from "../Comment.css";
 import * as actions from '../../../../../../../store/actions/index'
-import NoGenderPlaceholder from "../../../../../../../assets/images/profile-placeholder-gender-neutral";
+import Avatar from "../../../../../../../assets/images/BookmarkIcons/user";
 import Dots from "../../../../../../../assets/images/dots";
 import OutsideAlerter from "../../../../../../../hooks/outsideClickHandler";
 import Smiley from "../../../../../../../assets/images/smile";
@@ -164,7 +164,7 @@ const reply = (props) => {
         <section className={classes.CommentBarSection}>
             <div className={classes.CommenterProfileImageContainer}>
                 <div className={classes.CommenterProfileImage} style={{backgroundImage: props.commentProfileImage ? `url(${props.commentProfileImage})` : null}}>
-                    {props.commentProfileImage ? null : <NoGenderPlaceholder />}
+                    {props.commentProfileImage ? null : <Avatar fill="white" />}
                 </div>
             </div>
             <form className={classes.ReplyForm} onSubmit={saveReplyEdits}>
@@ -220,7 +220,7 @@ const reply = (props) => {
                 <div className={classes.CommentContainer}>
                     <div className={classes.CommenterProfileImageContainer}>
                         <div className={classes.CommenterProfileImage} style={{backgroundImage: props.replyProfileImage ? `url(${props.replyProfileImage})` : null}}>
-                            {props.replyProfileImage ? null : <NoGenderPlaceholder />}
+                            {props.replyProfileImage ? null : <Avatar fill="white" />}
                         </div>
                     </div>
                     <div className={classes.CommentBubbleContainer}>

@@ -7,6 +7,7 @@ export {
 
 export {
   createProfileAttempt,
+  saveNotificationTokenAttempt,
   fetchProfileAttempt,
   fetchMyPublicProfileAttempt,
   updateProfileAttempt,

@@ -3,8 +3,8 @@ import React, {useState, useEffect} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './Greeting.css';
-import AddFriend from '../../../../assets/images/UserActionIcons/addFriend';
 import * as actions from "../../../../store/actions";
+import AddFriend from '../../../../assets/images/UserActionIcons/addFriend';
 import UnFriend from "../../../../assets/images/UserActionIcons/unfriend";
 import RespondRequest from "../../../../assets/images/UserActionIcons/respondRequest";
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
@@ -20,18 +20,29 @@ const greeting = props => {
     const [respondingRequest, setRespondingRequest] = useState(false);
     const [acceptedRequest, setAcceptedRequest] = useState(false);
     const [deniedRequest, setDeniedRequest] = useState(false);
+    const [blockConfirm, setBlockConfirm] = useState(false);
+
+    const {sendingRequest, cancelingRequest, acceptingRequest, denyingRequest} = props;
 
 
     useEffect(() => {
-        if (authToken && myPublicProfileKey) {
-            props.onFetchMyFriendRequests(authToken,myPublicProfileKey);
+        if (acceptingRequest) {
+            setBlockConfirm(true);
         }
+    }, [acceptingRequest])
+
+    useEffect(() => {
+        setTimeout(() => {
+            props.onFetchMyFriendRequests(authToken,myPublicProfileKey);
+        }, 2000)
+    }, [sendingRequest, cancelingRequest, acceptingRequest, denyingRequest])
+
+    useEffect(() => {
+            props.onFetchMyFriendRequests(authToken,myPublicProfileKey);
     }, [friendRequestCanceled])
 
     useEffect(() => {
-        if (authToken && myPublicProfileKey) {
             props.onFetchMyFriends(authToken, myPublicProfileKey)
-        }
     }, [acceptedRequest])
 
     const sendFriendRequest = () => {
@@ -60,7 +71,7 @@ const greeting = props => {
     let ButtonAction;
     let iconFill = viewAsFlag === 'view-as' ? 'rgba(0,0,0,0.1)' : 'white'
     if (otherProfile) {
-        if (friendRequestSent || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) !== -1)) {
+        if (friendRequestSent || sendingRequest || (props.mySentRequests && props.mySentRequests.findIndex(req => req.publicProfileKey === otherProfile.publicProfileKey) !== -1)) {
             ButtonText = 'Cancel Request';
             ButtonIcon = <UnFriend fill={iconFill} />
             ButtonAction = cancelFriendRequest;
@@ -109,7 +120,7 @@ const greeting = props => {
                 <div className={classes.SubText}>To see what they share with friends, send them a friend request.</div>
                 {mutualFriendsSection}
             </div>
-            <div className={[classes.Button, viewAsFlag === 'view-as' ? classes.DisabledButton : null].join(" ")} onClick={viewAsFlag !== 'view-as' ? ButtonAction : null}>
+            <div className={[classes.Button, viewAsFlag === 'view-as' || blockConfirm ? classes.DisabledButton : null].join(" ")} onClick={viewAsFlag !== 'view-as' ? ButtonAction : null}>
                 <div className={classes.Icon}>{ButtonIcon}</div>
                 <div className={classes.ButtonText}>{ButtonText}</div>
             </div>

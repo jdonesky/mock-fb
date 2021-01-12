@@ -22,8 +22,34 @@ const initialState = {
   clearingActiveChat: false,
   profileLoading: false,
   publicProfileLoading: false,
-  contentEntryLoading: false
+  contentEntryLoading: false,
+  notificationToken: null,
+  savingNotificationToken: false,
 };
+
+const saveNotificationTokenInit = (state,action) => {
+  return {
+    ...state,
+    savingNotificationToken: true
+  }
+}
+
+const saveNotificationTokenSuccess = (state,action) => {
+  return {
+    ...state,
+    notificationToken: action.token,
+    savingNotificationToken: false
+  }
+}
+
+const saveNotificationTokenFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    savingNotificationToken: false
+  }
+}
+
 
 const loadProfileInit = (state,action) => {
   return {
@@ -266,6 +292,9 @@ const clearProfile = (state,action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.SAVE_NOTIFICATION_TOKEN_INIT: return saveNotificationTokenInit(state,action);
+    case actionTypes.SAVE_NOTIFICATION_TOKEN_SUCCESS: return saveNotificationTokenSuccess(state,action);
+    case actionTypes.SAVE_NOTIFICATION_TOKEN_FAIL: return saveNotificationTokenFail(state,action);
     case actionTypes.LOAD_PROFILE_INIT: return loadProfileInit(state,action);
     case actionTypes.UPDATE_PROFILE_INIT: return updateProfileInit(state, action);
     case actionTypes.CREATE_PROFILE_SUCCESS: return createProfileSuccess(state, action);

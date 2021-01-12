@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
+// import firebase from './firebase';
 import registerServiceWorker from "./registerServiceWorker";
 
 import authReducer from "./store/reducers/auth";
@@ -55,16 +56,31 @@ const app = (
   </Provider>
 );
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-      .register("/firebase-messaging-sw.js")
-      .then(function(registration) {
-        console.log("Registration successful, scope is:", registration.scope);
-      })
-      .catch(function(err) {
-        console.log("Service worker registration failed, error:", err);
-      });
-}
+// if ("serviceWorker" in navigator) {
+//   navigator.serviceWorker
+//       .register("../firebase-messaging-sw.js")
+//       .then(function(registration) {
+//         const messaging = firebase.messaging();
+//         console.log('messaging');
+//         messaging.requestPermission()
+//             .then(response => {
+//                 console.log('NOTIFICATION PERMISSION GRANTED');
+//                 messaging.getToken().then(currentToken => {
+//                     console.log('firebase token', currentToken)
+//                 })
+//             })
+//             .catch(error => {
+//                 console.log('PUSH MESSAGING IS NOT ALLOWED')
+//             })
+//         messaging.onMessage(payload => {
+//             console.log('message received', payload)
+//         })
+//         console.log("Registration successful, scope is:", registration.scope);
+//       })
+//       .catch(function(error) {
+//         console.log("Service worker registration failed, error:", error);
+//       });
+// }
 
 ReactDOM.render(app, document.getElementById("root"));
 registerServiceWorker();

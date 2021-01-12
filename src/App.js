@@ -11,6 +11,7 @@ import PostContextProvider from "./context/post-context";
 import PageContextProvider from "./context/page-context";
 import ProfileContextProvider from "./context/edit-profile-context";
 import ViewAsContextProvider from "./context/view-as-context";
+import firebase from "./firebase";
 
 const AsyncActiveChatTab = React.lazy(() => {
     return import('./components/Messenger/ActiveChats/ActiveChats')
@@ -85,7 +86,7 @@ const AsyncViewAsModal = React.lazy(() => {
 
 const app = (props) => {
 
-    const {authToken, userId, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onReloadApp} = props;
+    const {authToken, userId, firebaseKey, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onSaveNotificationToken, onReloadApp} = props;
 
     useEffect(() => {
         onReloadApp();
@@ -99,6 +100,38 @@ const app = (props) => {
             onFetchMyPublicProfile(authToken, myPublicProfileKey)
         }
     }, [myPublicProfileKey])
+
+    useEffect(() => {
+        if (firebaseKey) {
+            console.log('FIREBASE KEY RETRIEVED -> ', firebaseKey)
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker
+                    .register("../firebase-messaging-sw.js")
+                    .then(function (registration) {
+                        const messaging = firebase.messaging();
+                        console.log('messaging');
+                        messaging.requestPermission()
+                            .then(response => {
+                                console.log('NOTIFICATION PERMISSION GRANTED');
+                                messaging.getToken().then(currentToken => {
+                                    console.log('firebase token', currentToken)
+                                    onSaveNotificationToken(authToken, firebaseKey, currentToken)
+                                })
+                            })
+                            .catch(error => {
+                                console.log('PUSH MESSAGING IS NOT ALLOWED')
+                            })
+                        messaging.onMessage(payload => {
+                            console.log('message received', payload)
+                        })
+                        console.log("Registration successful, scope is:", registration.scope);
+                    })
+                    .catch(function (error) {
+                        console.log("Service worker registration failed, error:", error);
+                    });
+            }
+        }
+    }, [firebaseKey])
 
     let routes = (
         <Switch>
@@ -158,6 +191,7 @@ const app = (props) => {
 const mapStateToProps = (state) => {
     return {
         userId: state.auth.userId,
+        firebaseKey: state.profile.firebaseKey,
         authToken: state.auth.token,
         myPublicProfileKey: state.profile.publicProfileKey
     };
@@ -167,7 +201,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onReloadApp: () => dispatch(actions.autoSignIn()),
         onFetchMyProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
-        onFetchMyPublicProfile: (authToken, publicProfileKey) => dispatch(actions.fetchMyPublicProfileAttempt(authToken, publicProfileKey))
+        onFetchMyPublicProfile: (authToken, publicProfileKey) => dispatch(actions.fetchMyPublicProfileAttempt(authToken, publicProfileKey)),
+        onSaveNotificationToken: (authToken, userKey, token) => dispatch(actions.saveNotificationTokenAttempt(authToken, userKey, token))
     };
 };
 

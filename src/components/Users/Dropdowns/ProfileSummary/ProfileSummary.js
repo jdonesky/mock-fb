@@ -9,7 +9,7 @@ import IsFriendOptions from './SummaryOptionMenus/IsFriendDropdown';
 import RespondRequestDropdown from '../RespondRequest/RespondRequest';
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 
-import Avatar from '../../../../assets/images/profile-placeholder-gender-neutral';
+import Avatar from '../../../../assets/images/BookmarkIcons/user';
 import Friends from '../../../../assets/images/UserActivityIcons/friends';
 import Link from '../../../../assets/images/UserActivityIcons/link';
 import Home from '../../../../assets/images/UserActivityIcons/home';
@@ -58,6 +58,7 @@ const profileSummaryDropdown = (props) => {
     const [adjustBottom, setAdjustBottom] = useState(null);
     const [adjustLeft, setAdjustLeft] = useState(null);
     const [adjustRight, setAdjustRight] = useState(null);
+
 
     useEffect(() => {
         const out = checkComponentVisibility(container.current)
@@ -435,9 +436,14 @@ const profileSummaryDropdown = (props) => {
             if (props.profile.userKey !== props.firebaseKey) {
                 if (props.myPublicProfile && props.myPublicProfile.friends) {
                     isFriend = props.myPublicProfile.friends.find(friend => friend.userKey === props.profile.userKey) || null;
+                } else if (!props.myPublicProfile) {
+                    if (props.profile && props.profile.friends) {
+                        isFriend = props.profile.friends.find(friend => friend.userKey === props.myPublicProfileKey)
+                    }
                 } else {
-                    isFriend = null;
+                    isFriend = null
                 }
+
                 if (isFriend || acceptedRequest) {
                     firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")} onClick={startChat}>
                         <div className={classes.MessageIcon}><FbMessage/></div>
@@ -596,7 +602,7 @@ const profileSummaryDropdown = (props) => {
             >
                 <div className={classes.ProfileImageBlock}>
                     <div className={classes.ProfileImage} style={{backgroundImage: profileImage ? `url(${profileImage})`: null}} onClick={goToFullProfile}>
-                        {profileImage ? null : <Avatar />}
+                        {profileImage ? null : <Avatar fill="white"/>}
                     </div>
                 </div>
                 <div className={classes.UserInfoContainer}>

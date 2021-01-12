@@ -55,7 +55,6 @@ const sendMessageFail = (state,action) => {
 }
 
 const clearLocalChatRecord = (state,action) => {
-    console.log('in reducer - clearing localChatRecord -> ', initialState)
     return initialState
 }
 

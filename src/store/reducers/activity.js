@@ -15,6 +15,7 @@ const initialState = {
     error: null
 }
 
+
 const fetchNewActivityInit = (state,action) => {
     return {
         ...state,

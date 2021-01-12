@@ -2,6 +2,8 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios/db-axios-instance';
 
+
+
 const fetchNewActivityInit = () => {
     return {
         type: actionTypes.FETCH_NEW_ACTIVITY_INIT
