@@ -28,7 +28,7 @@ const saveNotificationTokenFail = (error) => {
 export const saveNotificationTokenAttempt = (authToken, userKey, token) => {
     return dispatch => {
         dispatch(saveNotificationTokenInit())
-        axios.patch(`/users/${userKey}/notificationToken.json?auth=${authToken}`, {token: token})
+        axios.patch(`/users/${userKey}/notificationToken.json?auth=${authToken}`, {[token]: true})
             .then(response => {
                 console.log('success - saved notification token')
                 dispatch(saveNotificationTokenSuccess(token))
