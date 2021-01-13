@@ -2,6 +2,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+    newMessages: null,
     chatRecord: null,
     fetchingChatRecord: false,
     sendingMessage: false,
@@ -54,12 +55,20 @@ const sendMessageFail = (state,action) => {
     }
 }
 
+const updateNewMessages = (state,action) => {
+    return {
+        ...state,
+        newMessages: action.messages
+    }
+}
+
 const clearLocalChatRecord = (state,action) => {
     return initialState
 }
 
 const reducer = (state= initialState,action) => {
     switch(action.type) {
+        case actionTypes.UPDATE_NEW_MESSAGES: return updateNewMessages(state,action);
         case actionTypes.FETCH_CHAT_RECORD_INIT: return fetchChatRecordInit(state,action);
         case actionTypes.FETCH_CHAT_RECORD_SUCCESS: return fetchChatRecordSuccess(state,action);
         case actionTypes.FETCH_CHAT_RECORD_FAIL: return fetchChatRecordFail(state,action);

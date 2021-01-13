@@ -2,6 +2,7 @@ import * as actionTypes from "./actionTypes";
 import * as actions from "./index"
 import axiosSignIn from "../../axios/signin-axios-instance";
 import axiosSignUp from "../../axios/signup-axios-instance";
+import firebase from '../../firebase';
 
 const authInit = () => {
   return {
@@ -76,8 +77,12 @@ export const authAttempt = (email, password, isSignUp, userData) => {
         if (isSignUp) {
           const newUserData = {userId: userId, ...userData}
           console.log('IS SIGN UP', newUserData)
+
           dispatch(actions.createProfileAttempt(token, newUserData))
         }
+        firebase.auth().signInWithEmailAndPassword(email,password)
+            .then(response => {console.log('success authorized sdk- ', response)})
+            .catch(error => {console.log('failed to auth sdk - ', error)})
       })
       .catch((error) => {
         if (error.response && error.response.data) {

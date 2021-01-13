@@ -106,3 +106,10 @@ export const clearLocalChatRecord = () => {
         type: actionTypes.CLEAR_LOCAL_CHAT_RECORD
     }
 }
+
+export const updateNewMessages = (messages) => {
+    return {
+        type: actionTypes.UPDATE_NEW_MESSAGES,
+        messages: messages
+    }
+}

@@ -84,6 +84,7 @@ export {
 } from "./friends";
 
 export {
+   updateNewMessages,
    sendMessageAttempt,
    fetchChatRecordAttempt,
    clearLocalChatRecord

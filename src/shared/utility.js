@@ -1,5 +1,6 @@
 import axios from '../axios/db-axios-instance'
 import Axios from 'axios';
+import firebase from '../firebase';
 
 export const fieldBuilder = (
   elType,
@@ -301,5 +302,21 @@ export const checkComponentVisibility = (ref) => {
 
 
 export const createActivityRecord = () => {
+
+}
+
+export const checkForNewMessages = (userKey, cb) => {
+  console.log(`/users/${userKey}/newMessages`)
+  const newMessages = firebase.database().ref(`/users/${userKey}/newMessages`)
+  newMessages.on('value', snapshot => {
+    let messages = [];
+    snapshot.forEach( childSnapshot => {
+      const child = childSnapshot.val()
+      console.log(child);
+      messages.push(child);
+    })
+    console.log('messages array ( in utility.js ) -> ', messages);
+    cb(messages)
+  })
 
 }

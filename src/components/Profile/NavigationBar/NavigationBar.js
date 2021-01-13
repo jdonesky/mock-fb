@@ -429,7 +429,7 @@ const mapStateToProps = state => {
         cancelingRequest: state.friends.cancelingFriendRequest,
         acceptingRequest: state.friends.acceptingFriendRequest,
         denyingRequest: state.friends.denyingFriendRequest,
-        myFriends: state.friends.friends
+        myFriends: state.friends.friends,
     }
 }
 

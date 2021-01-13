@@ -11,7 +11,9 @@ import PostContextProvider from "./context/post-context";
 import PageContextProvider from "./context/page-context";
 import ProfileContextProvider from "./context/edit-profile-context";
 import ViewAsContextProvider from "./context/view-as-context";
+
 import firebase from "./firebase";
+import {checkForNewMessages} from "./shared/utility";
 
 const AsyncActiveChatTab = React.lazy(() => {
     return import('./components/Messenger/ActiveChats/ActiveChats')
@@ -86,7 +88,7 @@ const AsyncViewAsModal = React.lazy(() => {
 
 const app = (props) => {
 
-    const {authToken, userId, firebaseKey, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onSaveNotificationToken, onReloadApp} = props;
+    const {authToken, userId, firebaseKey, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onSaveNotificationToken, onLoadNewMessages, onReloadApp} = props;
 
     useEffect(() => {
         onReloadApp();
@@ -109,7 +111,6 @@ const app = (props) => {
                     .register("../firebase-messaging-sw.js")
                     .then(function (registration) {
                         const messaging = firebase.messaging();
-                        console.log('messaging');
                         messaging.requestPermission()
                             .then(response => {
                                 console.log('NOTIFICATION PERMISSION GRANTED');
@@ -130,6 +131,11 @@ const app = (props) => {
                         console.log("Service worker registration failed, error:", error);
                     });
             }
+            checkForNewMessages(firebaseKey, (newMessages) => {
+                onLoadNewMessages(newMessages)
+            })
+
+
         }
     }, [firebaseKey])
 
@@ -202,7 +208,8 @@ const mapDispatchToProps = (dispatch) => {
         onReloadApp: () => dispatch(actions.autoSignIn()),
         onFetchMyProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
         onFetchMyPublicProfile: (authToken, publicProfileKey) => dispatch(actions.fetchMyPublicProfileAttempt(authToken, publicProfileKey)),
-        onSaveNotificationToken: (authToken, userKey, token) => dispatch(actions.saveNotificationTokenAttempt(authToken, userKey, token))
+        onSaveNotificationToken: (authToken, userKey, token) => dispatch(actions.saveNotificationTokenAttempt(authToken, userKey, token)),
+        onLoadNewMessages: (messages) => dispatch(actions.updateNewMessages(messages))
     };
 };
 
