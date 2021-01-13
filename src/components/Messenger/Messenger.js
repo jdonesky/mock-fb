@@ -80,37 +80,37 @@ const messenger = (props) => {
     }, [activeChat])
 
 
-    useEffect(() => {
-        if (chatRecord) {
-            if (chatRecord && chatRecord.messages) {
-                const messages = []
-                for (let key in chatRecord.messages) {
-                    const outerMessage = chatRecord.messages[key]
-                    const recipientInfoKey = Object.keys(outerMessage)[0]
-                    const innerMessage = {...outerMessage[recipientInfoKey], key: key}
-                    messages.push(innerMessage)
-                }
-                setConversation(messages)
-            }
-        }
-    }, [chatRecord])
+    // useEffect(() => {
+    //     if (chatRecord) {
+    //         if (chatRecord && chatRecord.messages) {
+    //             const messages = []
+    //             for (let key in chatRecord.messages) {
+    //                 const outerMessage = chatRecord.messages[key]
+    //                 const recipientInfoKey = Object.keys(outerMessage)[0]
+    //                 const innerMessage = {...outerMessage[recipientInfoKey], key: key}
+    //                 messages.push(innerMessage)
+    //             }
+    //             setConversation(messages)
+    //         }
+    //     }
+    // }, [chatRecord])
 
 
     /// KEEP THIS = MAPPING NORMAL MESSAGE STRUCTURE
 
-    // useEffect(() => {
-    //     if (chatRecord) {
-    //         console.log(chatRecord)
-    //         if (chatRecord && chatRecord.messages) {
-    //             const mappedChatRecord = Object.keys(chatRecord.messages).map(key => ({
-    //                 ...chatRecord.messages[key],
-    //                 key: key
-    //             }))
-    //             console.log('mappedChatRecord', mappedChatRecord)
-    //             setConversation(mappedChatRecord)
-    //         }
-    //     }
-    // }, [chatRecord])
+    useEffect(() => {
+        if (chatRecord) {
+            console.log(chatRecord)
+            if (chatRecord && chatRecord.messages) {
+                const mappedChatRecord = Object.keys(chatRecord.messages).map(key => ({
+                    ...chatRecord.messages[key],
+                    key: key
+                }))
+                console.log('mappedChatRecord', mappedChatRecord)
+                setConversation(mappedChatRecord)
+            }
+        }
+    }, [chatRecord])
 
 
     useEffect(() => {
@@ -153,12 +153,12 @@ const messenger = (props) => {
         }
         let myType;
         let myKey;
+        let myName;
         let recipientType;
         let recipientKey;
         if (localActiveChat) {
             console.log('localActiveChat', localActiveChat);
             console.log('myType? localActiveChat.parties.find... ', localActiveChat.parties.find(party => party.userKey === props.firebaseKey).type)
-
 
             if (ownedPage) {
                 myType = localActiveChat.parties.find(party => party.userKey === props.firebaseKey || party.userKey === ownedPage.dbKey).userType
@@ -167,25 +167,26 @@ const messenger = (props) => {
             }
             if (myType) {
                 if (myType === 'USER') {
-                    myKey = props.firebaseKey
+                    myKey = props.firebaseKey;
+                    myName = props.myName;
                 } else {
-                    myKey = ownedPage.dbKey
+                    myKey = ownedPage.dbKey;
+                    myName = ownedPage.name;
                 }
             }
             recipientType = localActiveChat && localActiveChat.parties.find(party => party.userKey !== myKey).type
             recipientKey = localActiveChat && localActiveChat.parties.find(party => party.userKey !== myKey).userKey
         }
 
-
         const message = {
-            [`${recipientType}%${recipientKey}`] : {
-                userKey: myKey,
-                recipientType: recipientType,
-                recipientKey: recipientKey,
-                type: type,
-                content: payload,
-                date: new Date()
-            }
+            userName: myName,
+            userKey: myKey,
+            userType: myType,
+            recipientType: recipientType,
+            recipientKey: recipientKey,
+            type: type,
+            content: payload,
+            date: new Date()
         }
 
         if (activeChat) {
@@ -193,10 +194,10 @@ const messenger = (props) => {
         }
         if (conversation) {
             setConversation(prevState => {
-                return [...prevState, { [-1] : {...message, pending: true, key: -1}}]
+                return [...prevState, {...message, pending: true, key: -1}]
             })
         } else {
-            setConversation([{ [-1] : {...message, pending: true, key: -1}}])
+            setConversation([{...message, pending: true, key: -1}])
         }
         setTextMessage('');
         setPhoto(null);
@@ -333,6 +334,7 @@ const messenger = (props) => {
 
 const mapStateToProps = state => {
     return {
+        myName: state.profile.firstName + ' ' + state.profile.lastName,
         authToken: state.auth.token,
         firebaseKey: state.profile.firebaseKey,
         startingChat: state.profile.startingChat,
