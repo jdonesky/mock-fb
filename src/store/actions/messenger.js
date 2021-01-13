@@ -38,36 +38,6 @@ export const sendMessageAttempt = (authToken, chatKey, message) => {
     }
 }
 
-// export const sendMessageAttempt = (authToken, chatKey, message) => {
-//     console.log('SENDING MESSAGE ATTEMPT')
-//     return dispatch => {
-//         let newChat;
-//         dispatch(sendMessageInit());
-//         KeyGenerator.getKey(authToken, (newKey) => {
-//             const newMessage = {...message, id: newKey}
-//             console.log('newMessage', newMessage)
-//             axios.get(`/chats/${chatKey}/messages.json?auth=${authToken}`)
-//                 .then(response => {
-//                     if (response.data && response.data.length) {
-//                         newChat = [...response.data, newMessage]
-//                     } else {
-//                         newChat = [newMessage]
-//                     }
-//                     return axios.put(`/chats/${chatKey}/messages.json?auth=${authToken}`, newChat)
-//                 })
-//                 .then(response => {
-//                     console.log('put message', response);
-//                     dispatch(sendMessageSuccess(newChat))
-//                 })
-//                 .catch(error => {
-//                     dispatch(sendMessageFail(error));
-//                 })
-//         })
-//     }
-// }
-
-
-
 const fetchChatRecordInit = () => {
     return {
         type: actionTypes.FETCH_CHAT_RECORD_INIT
@@ -101,6 +71,44 @@ export const fetchChatRecordAttempt = (authToken, chatKey) => {
     }
 }
 
+const fetchMyChatsInit = () => {
+    return {
+        type: actionTypes.FETCH_MY_CHATS_INIT
+    }
+}
+
+const fetchMyChatsSuccess = (chats) => {
+    return {
+        type: actionTypes.FETCH_MY_CHATS_SUCCESS,
+        chats: chats
+    }
+}
+
+const fetchMyChatsFail = () => {
+    return {
+        type: actionTypes.FETCH_MY_CHATS_FAIL
+    }
+}
+
+export const fetchMyChatsAttempt = (authToken, publicProfileKey) => {
+    return dispatch => {
+        dispatch(fetchMyChatsInit())
+        axios.get(`public-profiles/${publicProfileKey}/chats.json?auth=${authToken}`)
+            .then(response => {
+                let chats = response.data;
+                if (chats && Object.keys(chats).length) {
+                    chats = Object.keys(chats).map(key => ({key: key, otherPartyKey: key, chatKey: chats[key]}))
+                    dispatch(fetchMyChatsSuccess(chats))
+                }
+            })
+            .catch(error => {
+                console.log('failed fetching chats -> ', error);
+                dispatch(fetchMyChatsFail(error))
+            })
+
+    }
+}
+
 export const clearLocalChatRecord = () => {
     return {
         type: actionTypes.CLEAR_LOCAL_CHAT_RECORD
@@ -113,3 +121,5 @@ export const updateNewMessages = (messages) => {
         messages: messages
     }
 }
+
+

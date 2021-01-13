@@ -87,6 +87,7 @@ export {
    updateNewMessages,
    sendMessageAttempt,
    fetchChatRecordAttempt,
+   fetchMyChatsAttempt,
    clearLocalChatRecord
 } from "./messenger";
 

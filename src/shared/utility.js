@@ -300,10 +300,9 @@ export const checkComponentVisibility = (ref) => {
 
 }
 
-
-export const createActivityRecord = () => {
-
-}
+// export const createActivityRecord = () => {
+//
+// }
 
 export const checkForNewMessages = (userKey, cb) => {
   console.log(`/users/${userKey}/newMessages`)

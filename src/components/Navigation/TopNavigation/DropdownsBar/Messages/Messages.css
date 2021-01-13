@@ -1,0 +1,96 @@
+
+.DropdownContainer {
+    position: absolute;
+    min-height: 200px;
+    width: 360px;
+    top: 27px;
+    left: -270px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 6px 4px rgba(0,0,0,0.05);
+    padding-bottom: 8px;
+}
+
+.Header {
+    height: 50px;
+    width: 92%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px auto;
+}
+
+.Title {
+    font-family: "Lucida Grande";
+    font-size: 23px;
+    font-weight: 900;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.HeaderButtons {
+    height: 100%;
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.HeaderButton {
+    min-heigth: 28px;
+    height: 28px;
+    min-width: 28px;
+    width: 28px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.HeaderButton:hover {
+    background-color: rgba(0,0,0,.05);
+}
+
+.HeaderButtonIcon {
+    height: 22px;
+    width: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.HeaderButtonIcon svg {
+    height: auto;
+    width: 70%;
+}
+
+.ComposeIcon svg {
+    width: 80%;
+    position: relative;
+    left: 1px;
+}
+
+.SearchBar {
+    width: 92%;
+}
+
+.SearchGlass svg {
+    width: 50%;
+}
+
+.ChatsContainer {
+    margin-top: 10px;
+    width: 92%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+

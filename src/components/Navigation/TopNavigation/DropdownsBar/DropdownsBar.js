@@ -4,9 +4,11 @@ import classes from './DropdownsBar.css';
 import CreateMenu from './Create/CreateMenu';
 import Notifications from "./Notifications/Notifications";
 import AccountDropdown from "./Account/AccountDropdown";
+import Messages from "./Messages/Messages"
 
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 import Plus from '../../../../assets/images/TopNavButtonIcons/plus';
+import FbMessage from '../../../../assets/images/UserActionIcons/fbMessage';
 import Bell from '../../../../assets/images/TopNavButtonIcons/bell';
 import Down from '../../../../assets/images/TopNavButtonIcons/caretDown';
 
@@ -15,6 +17,7 @@ const dropdownsBar = (props) => {
     const [showCreateMenu, setShowCreateMenu] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
     const [showAccountMenu,setShowAccountMenu] = useState(false);
+    const [showMessages, setShowMessages] = useState(false);
 
     const toggleAccountMenu = () => {
         setShowAccountMenu(prevState => {
@@ -46,6 +49,16 @@ const dropdownsBar = (props) => {
         setShowCreateMenu(false);
     }
 
+    const toggleMessages = () => {
+        setShowMessages(prevState => {
+            return !prevState
+        })
+    }
+
+    const closeMessages = () => {
+        setShowMessages(false);
+    }
+
     let createMenu;
     const createButtonClasses = [classes.Button, classes.Plus];
     if (showCreateMenu) {
@@ -54,17 +67,24 @@ const dropdownsBar = (props) => {
     }
 
     let accountDropdown;
-    const accountButtonClasses = [classes.Button, classes.Down]
+    const accountButtonClasses = [classes.Button, classes.Down];
     if (showAccountMenu) {
         accountDropdown = <AccountDropdown close={closeAccountMenu}/>
-        accountButtonClasses.push(classes.ButtonActive)
+        accountButtonClasses.push(classes.ButtonActive);
     }
 
     let notificationsDropdown;
-    const notificationButtonClasses = [classes.Button, classes.Bell]
+    const notificationButtonClasses = [classes.Button, classes.Bell];
     if (showNotifications) {
         notificationsDropdown = <Notifications close={closeNotifications}/>
-        notificationButtonClasses.push(classes.ButtonActive)
+        notificationButtonClasses.push(classes.ButtonActive);
+    }
+
+    let messagesDropdown;
+    const messagesButtonClasses = [classes.Button, classes.Messages];
+    if (showMessages) {
+        messagesDropdown = <Messages close={closeMessages}/>
+        messagesButtonClasses.push(classes.ButtonActive);
     }
 
     return (
@@ -76,6 +96,15 @@ const dropdownsBar = (props) => {
                 <div className={classes.AccountDropdownPositioner}>
                     {showCreateMenu && <div className={classes.ButtonBlocker} onClick={closeCreateMenu}/>}
                     {createMenu}
+                </div>
+            </OutsideAlerter>
+            <div className={messagesButtonClasses.join(" ")} onClick={toggleMessages}>
+                <FbMessage fill={showMessages ? '#1b6ee3' : null}/>
+            </div>
+            <OutsideAlerter action={closeMessages}>
+                <div className={classes.AccountDropdownPositioner}>
+                    {showMessages && <div className={classes.ButtonBlocker} onClick={closeMessages}/>}
+                    {messagesDropdown}
                 </div>
             </OutsideAlerter>
             <div className={notificationButtonClasses.join(" ")} onClick={toggleNotifications}>
