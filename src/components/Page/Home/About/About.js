@@ -109,7 +109,7 @@ const about = props => {
                 icon: <Phone fill="rgba(0,0,0,0.45)"/>
             },
             {
-                text: 'Send Message', action: () => startChat(true),
+                text: 'Send Conversation', action: () => startChat(true),
                 filled: false,
                 icon: <FbMessage fill="rgba(0,0,0,0.45)"/>,
                 messageText: true
@@ -170,7 +170,7 @@ const about = props => {
                     icon: <Phone fill="rgba(0,0,0,0.45)"/>
                 } : null,
                 {
-                    text: 'Send Message',
+                    text: 'Send Conversation',
                     action: () => startChat(false),
                     filled: false,
                     icon: <FbMessage fill="rgba(0,0,0,0.45)"/>,

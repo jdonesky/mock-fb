@@ -96,7 +96,7 @@ const navigationBar = props => {
             navButtons = (
                 <React.Fragment>
                     <div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><Like /></div><div className={classes.NavButtonText}>Like</div></div>
-                    {/*<div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><FbMessage /></div><div className={classes.NavButtonText}>Message</div></div>*/}
+                    {/*<div className={[classes.NavButton, classes.BigButton].join(" ")}><div className={classes.NavButtonIcon}><FbMessage /></div><div className={classes.NavButtonText}>Conversation</div></div>*/}
                     <div className={classes.NavButton}><div className={classes.NavButtonIcon}><SearchGlass /></div></div>
                     <div className={classes.NavButton}><div className={classes.NavButtonIcon}><Dots /></div></div>
                 </React.Fragment>

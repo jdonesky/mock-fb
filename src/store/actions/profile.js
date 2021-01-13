@@ -30,7 +30,7 @@ export const saveNotificationTokenAttempt = (authToken, userKey, token) => {
         dispatch(saveNotificationTokenInit())
         axios.patch(`/users/${userKey}/notificationToken.json?auth=${authToken}`, {[token]: token})
             .then(response => {
-                console.log('success - saved notification token')
+                // console.log('success - saved notification token')
                 dispatch(saveNotificationTokenSuccess(token))
             })
             .catch(error => {
@@ -580,7 +580,7 @@ export const fetchActiveChatAttempt = (authToken, userKey) => {
         dispatch(fetchActiveChatInit())
         axios.get(`/users/${userKey}/activeChat.json?auth=${authToken}`)
             .then(response => {
-                console.log('fetched activeChat', response.data);
+                // console.log('fetched activeChat', response.data);
                 dispatch(fetchActiveChatSuccess(response.data));
             })
             .catch(error => {

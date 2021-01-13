@@ -100,13 +100,13 @@ const messenger = (props) => {
 
     useEffect(() => {
         if (chatRecord) {
-            console.log(chatRecord)
+            // console.log(chatRecord)
             if (chatRecord && chatRecord.messages) {
                 const mappedChatRecord = Object.keys(chatRecord.messages).map(key => ({
                     ...chatRecord.messages[key],
                     key: key
                 }))
-                console.log('mappedChatRecord', mappedChatRecord)
+                // console.log('mappedChatRecord', mappedChatRecord)
                 setConversation(mappedChatRecord)
             }
         }
@@ -116,7 +116,7 @@ const messenger = (props) => {
     useEffect(() => {
         if (conversation && chatRecord && chatRecord.messages) {
             if (conversation.length !== Object.keys(chatRecord.messages).length) {
-                console.log(' conversation and chat record !== length, re-fetching chatRecord')
+                // console.log(' conversation and chat record !== length, re-fetching chatRecord')
                 props.onFetchChatRecord(props.authToken, activeChat && activeChat.key);
             }
         }
@@ -157,8 +157,8 @@ const messenger = (props) => {
         let recipientType;
         let recipientKey;
         if (localActiveChat) {
-            console.log('localActiveChat', localActiveChat);
-            console.log('myType? localActiveChat.parties.find... ', localActiveChat.parties.find(party => party.userKey === props.firebaseKey).type)
+            // console.log('localActiveChat', localActiveChat);
+            // console.log('myType? localActiveChat.parties.find... ', localActiveChat.parties.find(party => party.userKey === props.firebaseKey).type)
 
             if (ownedPage) {
                 myType = localActiveChat.parties.find(party => party.userKey === props.firebaseKey || party.userKey === ownedPage.dbKey).userType

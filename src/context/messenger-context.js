@@ -42,7 +42,6 @@ const messengerContextProvider = props => {
             onFetchActiveChat(authToken, props.firebaseKey);
         }
     }
-
     const retrieveChat = (chatKey) => {
         props.onRestartChat(authToken, props.firebaseKey, chatKey)
         openMessenger();

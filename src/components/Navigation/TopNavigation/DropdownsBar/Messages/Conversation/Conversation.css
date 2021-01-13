@@ -1,0 +1,80 @@
+
+.Container {
+    height: 75px;
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 4px;
+}
+
+.Container:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.ProfileImageBlock {
+    height: 92%;
+    width: 75px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ProfileImage {
+    height: 60px;
+    width: 60px;
+    min-height: 60px;
+    min-width: 60px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 100%;
+    background-color: rgba(0,0,0,0.1);
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.ProfileImage svg {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: 4px;
+}
+
+.TextBlock {
+    width: 230px;
+    height: 92%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.Name {
+    font-family: "Lucida Grande";
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.LastMessage {
+    font-family: "Lucida Grande";
+    font-weight: 100;
+    font-size: 13px;
+    color: rgba(0,0,0,.3);
+}
+
+.UnreadIndicator {
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    background-color: #1665f7;
+}
+
+.UnreadText {
+    font-weight: 900;
+    color: #1665f7;
+}

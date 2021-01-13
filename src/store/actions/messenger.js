@@ -93,13 +93,21 @@ const fetchMyChatsFail = () => {
 export const fetchMyChatsAttempt = (authToken, publicProfileKey) => {
     return dispatch => {
         dispatch(fetchMyChatsInit())
+        let chatKeys;
         axios.get(`public-profiles/${publicProfileKey}/chats.json?auth=${authToken}`)
             .then(response => {
-                let chats = response.data;
-                if (chats && Object.keys(chats).length) {
-                    chats = Object.keys(chats).map(key => ({key: key, otherPartyKey: key, chatKey: chats[key]}))
-                    dispatch(fetchMyChatsSuccess(chats))
+                chatKeys = Object.keys(response.data).map(key => response.data[key]);
+                let chatQueries;
+                if (response.data && Object.keys(response.data).length) {
+                    chatQueries = chatKeys.map(key => axios.get(`chats/${key}.json?auth=${authToken}`))
                 }
+                if (chatQueries && chatQueries.length) {
+                    return Promise.all(chatQueries)
+                }
+            })
+            .then(responses => {
+                const chats = responses.map((response, i) => ({...response.data, chatKey: chatKeys[i] }));
+                dispatch(fetchMyChatsSuccess(chats))
             })
             .catch(error => {
                 console.log('failed fetching chats -> ', error);
@@ -108,6 +116,7 @@ export const fetchMyChatsAttempt = (authToken, publicProfileKey) => {
 
     }
 }
+
 
 export const clearLocalChatRecord = () => {
     return {

@@ -105,7 +105,7 @@ const app = (props) => {
 
     useEffect(() => {
         if (firebaseKey) {
-            console.log('FIREBASE KEY RETRIEVED -> ', firebaseKey)
+            // console.log('FIREBASE KEY RETRIEVED -> ', firebaseKey)
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker
                     .register("../firebase-messaging-sw.js")
@@ -113,9 +113,9 @@ const app = (props) => {
                         const messaging = firebase.messaging();
                         messaging.requestPermission()
                             .then(response => {
-                                console.log('NOTIFICATION PERMISSION GRANTED');
+                                // console.log('NOTIFICATION PERMISSION GRANTED');
                                 messaging.getToken().then(currentToken => {
-                                    console.log('firebase token', currentToken)
+                                    // console.log('firebase token', currentToken)
                                     onSaveNotificationToken(authToken, firebaseKey, currentToken)
                                 })
                             })
@@ -123,9 +123,9 @@ const app = (props) => {
                                 console.log('PUSH MESSAGING IS NOT ALLOWED')
                             })
                         messaging.onMessage(payload => {
-                            console.log('message received', payload)
+                            // console.log('message received', payload)
                         })
-                        console.log("Registration successful, scope is:", registration.scope);
+                        // console.log("Registration successful, scope is:", registration.scope);
                     })
                     .catch(function (error) {
                         console.log("Service worker registration failed, error:", error);
