@@ -3,9 +3,10 @@ import React, {useEffect, useRef} from 'react';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 import classes from './Home.css';
-
 import StartCreating from "../../components/Profile/Timeline/Posts/Create/StartCreating";
 import Post from '../../components/Profile/Timeline/Posts/Post/Post';
+import Bookmarks from '../../components/Navigation/Bookmarks/Bookmarks';
+
 import InlineDots from '../../components/UI/Spinner/InlineDots';
 import useInfiniteScroll from "../../hooks/infiniteScroll";
 
@@ -72,8 +73,15 @@ const home = (props) => {
         ))
     }
 
+    const bookmarksSideDrawer = (
+        <div className={classes.BookmarksSideDrawer}>
+            <Bookmarks />
+        </div>
+    )
+
     return (
         <div className={classes.HomeContainer}>
+            {bookmarksSideDrawer}
             <section className={classes.PostsSection}>
                 <StartCreating />
                 {topLoadingIndicator}

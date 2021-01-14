@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {connect} from 'react-redux';
 import classes from './DropdownsBar.css';
+import {MessengerContext} from '../../../../context/messenger-context';
 
 import CreateMenu from './Create/CreateMenu';
 import Notifications from "./Notifications/Notifications";
@@ -21,12 +22,8 @@ const dropdownsBar = (props) => {
     const [showNotifications, setShowNotifications] = useState(false);
     const [showAccountMenu,setShowAccountMenu] = useState(false);
     const [showMessages, setShowMessages] = useState(false);
-
-    const {firebaseKey, newMessages} = props;
-
-    useEffect(() => {
-        console.log(newMessages);
-    })
+    const messengerContext = useContext(MessengerContext);
+    const { firebaseKey, newMessages, activeChat } = props;
 
     const toggleAccountMenu = () => {
         setShowAccountMenu(prevState => {
@@ -96,10 +93,29 @@ const dropdownsBar = (props) => {
         messagesButtonClasses.push(classes.ButtonActive);
     }
 
+    let filtered
     let newMessageCount;
     if (newMessages && newMessages.filter(msg => msg.senderKey !== firebaseKey).length) {
-        newMessageCount = <NewCounter count={newMessages.filter(msg => msg.senderKey !== firebaseKey).length}/>
+        filtered = newMessages.filter(msg => msg.senderKey !== firebaseKey)
+        if (filtered.length && activeChat && messengerContext.showMessenger) {
+            console.log('IN SHOW MESSENGER BLOCK')
+            filtered = filtered.filter(msg => msg.chatKey !== activeChat.key)
+        }
+        // if (filtered.length && removedMessageKey) {
+        //     console.log('IN REMOVED MESSAGE KEY BLOCK')
+        //     filtered = filtered.filter(msg => msg.senderKey !== removedMessageKey)
+        // }
+        if (filtered.length) {
+            newMessageCount = <NewCounter count={filtered.length}/>
+        }
     }
+
+
+
+
+
+
+
 
     return (
         <div className={classes.DropdownsContainer}>
@@ -146,8 +162,9 @@ const dropdownsBar = (props) => {
 
 const mapStateToProps = state => {
     return {
+        newMessages: state.messenger.newMessages,
         firebaseKey: state.profile.firebaseKey,
-        newMessages: state.messenger.newMessages
+        activeChat: state.profile.activeChat,
     }
 }
 

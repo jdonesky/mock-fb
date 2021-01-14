@@ -15,6 +15,7 @@ const initialState = {
   userId: null,
   error: null,
   activeChat: null,
+  removedMessageKey: null,
   noActiveChat: false,
   startingChat: false,
   restartingChat: false,
@@ -287,6 +288,7 @@ const removeFromNewMessagesInit = (state,action) => {
 const removeFromNewMessagesSuccess = (state,action) => {
   return {
     ...state,
+    removedMessageKey: action.key,
     removingFromNewMessages: false
   }
 }

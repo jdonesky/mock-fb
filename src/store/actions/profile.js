@@ -408,10 +408,11 @@ const startNewChatInit = () => {
     }
 }
 
-const startNewChatSuccess = (chat) => {
+const startNewChatSuccess = (chat, publicProfile) => {
     return {
         type: actionTypes.START_NEW_CHAT_SUCCESS,
-        chat: chat
+        chat: chat,
+        publicProfile: publicProfile
     }
 }
 
@@ -503,7 +504,7 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile, chat, th
                 return axios.patch(activeChatPath, {...newChat, key: chatKey})
             })
             .then(response => {
-                dispatch(startNewChatSuccess({...newChat, key: chatKey}))
+                dispatch(startNewChatSuccess({...newChat, key: chatKey}, myNewProfile))
             })
             .catch(error => {
                 dispatch(startNewChatFail(error))
@@ -630,9 +631,10 @@ const removeFromNewMessagesInit = () => {
     }
 }
 
-const removeFromNewMessagesSuccess = () => {
+const removeFromNewMessagesSuccess = (key) => {
     return {
-        type: actionTypes.REMOVE_FROM_NEW_MESSAGES_SUCCESS
+        type: actionTypes.REMOVE_FROM_NEW_MESSAGES_SUCCESS,
+        key: key
     }
 }
 
@@ -649,7 +651,8 @@ export const removeFromNewMessagesAttempt = (authToken, pathRoot, myKey, theirKe
         axios.delete(`/${pathRoot}/${myKey}/newMessages/${theirKey}.json?auth=${authToken}`)
             .then(response => {
                 console.log('SUCCESS - DELETED NEW MESSAGE');
-                dispatch(removeFromNewMessagesSuccess())
+                console.log('theirKey -> ', theirKey)
+                dispatch(removeFromNewMessagesSuccess(theirKey))
             })
             .catch(error => {
                 console.log('FAIL - ', error)

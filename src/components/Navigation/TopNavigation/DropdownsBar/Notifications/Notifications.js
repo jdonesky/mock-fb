@@ -10,11 +10,7 @@ import Notification from './Notification/Notification';
 
 const notifications = (props) => {
 
-    const {authToken, logKey, onFetchNewActivity, newActivity, onSwitchReadStatus, idInProcess, switchingReadStatus, onDeleteRecord, deletedRecord, newMessages} = props;
-
-    useEffect(() => {
-        console.log('newMessages (in notifications) -> ', newMessages);
-    })
+    const {authToken, logKey, onFetchNewActivity, newActivity, onSwitchReadStatus, idInProcess, switchingReadStatus, onDeleteRecord, deletedRecord } = props;
 
     useEffect(() => {
         if (logKey)
@@ -88,7 +84,6 @@ const mapStateToProps = state => {
         switchingReadStatus: state.activity.switchingReadStatus,
         deletedRecord: state.activity.deletedActivity,
         idInProcess: state.activity.idInProcess,
-        newMessages: state.messenger.newMessages
     }
 }
 

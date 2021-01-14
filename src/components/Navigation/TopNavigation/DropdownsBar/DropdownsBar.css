@@ -5,7 +5,6 @@
     align-items: center;
     width: 200px;
     min-width: 160px;
-    /*max-width: 400px;*/
     margin-right: 8px;
 }
 
@@ -54,6 +53,11 @@
     width: 35%;
     top: 12px;
     left: 14px;
+}
+
+.Messages svg {
+    top: 11px;
+    left: 11px;
 }
 
 .AccountDropdownPositioner {

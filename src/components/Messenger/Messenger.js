@@ -30,13 +30,19 @@ const messenger = (props) => {
     const [theirProfile, setTheirProfile] = useState(null);
     const [conversation, setConversation] = useState(null);
 
-    const { activeChat, chatRecord, ownedPage, newMessages } = props
-    const { localActiveChat, clearActiveChat, resetMessengerStarter } = messengerContext
+    const { firebaseKey, activeChat, chatRecord, ownedPage, newMessages } = props
+    const { localActiveChat, clearActiveChat, resetMessengerStarter, removeFromNewMessages, showMessenger } = messengerContext
 
     const [textMessage,setTextMessage] = useState('')
     const [photo, setPhoto] = useState(null);
     const [gif, setGif] = useState(null);
 
+    useEffect(() => {
+        if (showMessenger && activeChat) {
+            const otherPartyKey = activeChat.parties.find(party => party.userKey !== firebaseKey).userKey
+            removeFromNewMessages('USER', otherPartyKey);
+        }
+    }, [showMessenger, activeChat, firebaseKey])
 
     useEffect(() => {
         if (resetMessengerStarter) {
@@ -59,17 +65,12 @@ const messenger = (props) => {
         messageBar.current.focus();
     }, [])
 
-    // useEffect(() => {
-    //     if (localActiveChat && localActiveChat.parties) {
-    //         setTheirProfile(localActiveChat.parties.find(party => party.userKey !== props.firebaseKey))
-    //     }
-    // }, [localActiveChat])
 
     useEffect(() => {
         if (activeChat && localActiveChat) {
             if (activeChat.key === localActiveChat.key) {
                 if (activeChat && activeChat.parties) {
-                    setTheirProfile(activeChat.parties.find(party => party.userKey !== props.firebaseKey))
+                    setTheirProfile(activeChat.parties.find(party => party.userKey !== firebaseKey))
                 }
                 if (activeChat && activeChat.key) {
                     props.onFetchChatRecord(props.authToken, activeChat.key)
@@ -79,25 +80,6 @@ const messenger = (props) => {
 
     }, [activeChat])
 
-
-    // useEffect(() => {
-    //     if (chatRecord) {
-    //         if (chatRecord && chatRecord.messages) {
-    //             const messages = []
-    //             for (let key in chatRecord.messages) {
-    //                 const outerMessage = chatRecord.messages[key]
-    //                 const recipientInfoKey = Object.keys(outerMessage)[0]
-    //                 const innerMessage = {...outerMessage[recipientInfoKey], key: key}
-    //                 messages.push(innerMessage)
-    //             }
-    //             setConversation(messages)
-    //         }
-    //     }
-    // }, [chatRecord])
-
-
-    /// KEEP THIS = MAPPING NORMAL MESSAGE STRUCTURE
-
     useEffect(() => {
         if (chatRecord) {
             if (chatRecord && chatRecord.messages) {
@@ -105,7 +87,6 @@ const messenger = (props) => {
                     ...chatRecord.messages[key],
                     key: key
                 }))
-                // console.log('mappedChatRecord', mappedChatRecord)
                 setConversation(mappedChatRecord)
             }
         }
@@ -114,13 +95,9 @@ const messenger = (props) => {
 
     useEffect(() => {
         if (newMessages) {
-            console.log(newMessages);
             if (activeChat) {
-                console.log('activeChat -> ', activeChat);
                 const messageToAdd = newMessages.find(msg => msg.chatKey === activeChat.key)
-                console.log('messageToAdd -> ', messageToAdd && messageToAdd);
-                console.log('messageToAdd in conversation form -> ', messageToAdd && {...messageToAdd.message, key: new Date()})
-                if (messageToAdd && messageToAdd.senderKey !== props.firebaseKey) {
+                if (messageToAdd && messageToAdd.senderKey !== firebaseKey) {
                     if (conversation) {
                         let messageDates = conversation.map(msg => msg.date);
                         if (!messageDates.includes(messageToAdd.message.date)) {
@@ -139,7 +116,6 @@ const messenger = (props) => {
     useEffect(() => {
         if (conversation && chatRecord && chatRecord.messages) {
             if (conversation.length !== Object.keys(chatRecord.messages).length) {
-                // console.log(' conversation and chat record !== length, re-fetching chatRecord')
                 props.onFetchChatRecord(props.authToken, activeChat && activeChat.key);
             }
         }
@@ -156,7 +132,7 @@ const messenger = (props) => {
     const goToTheirProfile = () => {
         if (theirProfile) {
             if (props.history.location.pathname !== `/user-profile/${theirProfile.userKey}`) {
-                if (theirProfile.userKey === props.firebaseKey) {
+                if (theirProfile.userKey === firebaseKey) {
                     props.history.push(`/user-profile/me`)
 
                 } else {
@@ -180,17 +156,14 @@ const messenger = (props) => {
         let recipientType;
         let recipientKey;
         if (localActiveChat) {
-            // console.log('localActiveChat', localActiveChat);
-            // console.log('myType? localActiveChat.parties.find... ', localActiveChat.parties.find(party => party.userKey === props.firebaseKey).type)
-
             if (ownedPage) {
-                myType = localActiveChat.parties.find(party => party.userKey === props.firebaseKey || party.userKey === ownedPage.dbKey).userType
+                myType = localActiveChat.parties.find(party => party.userKey === firebaseKey || party.userKey === ownedPage.dbKey).userType
             } else {
                 myType = 'USER';
             }
             if (myType) {
                 if (myType === 'USER') {
-                    myKey = props.firebaseKey;
+                    myKey = firebaseKey;
                     myName = props.myName;
                 } else {
                     myKey = ownedPage.dbKey;
@@ -249,7 +222,7 @@ const messenger = (props) => {
                 key={msg.key}
                 id={msg.key}
                 userKey={msg.userKey}
-                myKey={props.firebaseKey}
+                myKey={firebaseKey}
                 theirProfileImage={theirProfileImage}
                 type={msg.type}
                 content={msg.content}

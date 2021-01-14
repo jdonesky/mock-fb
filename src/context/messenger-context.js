@@ -132,8 +132,12 @@ const messengerContextProvider = props => {
             myProfile = myPublicProfile
         }
 
+        console.log('myProfile -> ', myProfile);
+
         let existingChat;
         if (myProfile && myProfile.chats) {
+            console.log('myProfile', myProfile)
+            console.log('activeChat', activeChat)
             if (theirType === 'PAGE') {
                 existingChat = myProfile.chats[theirProfile.dbKey]
             } else {
@@ -160,12 +164,8 @@ const messengerContextProvider = props => {
                     myProfile = myPublicProfile
                 }
                 const newChat = createNewChat(myProfile, theirProfile, theirType, myType)
-                console.log('setting LocalActiveChat to new chat')
                 setLocalActiveChat(newChat)
-                console.log('localActiveChat now -> ', localActiveChat)
-                console.log('... and clearing local chat Record')
                 props.onClearLocalChatRecord()
-                console.log('chatRecord now -> ', props.chatRecord)
                 props.onStartNewChat(authToken, myProfile, theirProfile, newChat, theirType, myType)
             }
         } else {

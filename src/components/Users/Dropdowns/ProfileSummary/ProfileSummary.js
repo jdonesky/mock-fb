@@ -41,7 +41,7 @@ import getWindowDimensions from "../../../../hooks/getWindowDimensions";
 const profileSummaryDropdown = (props) => {
 
     const { width, height } = getWindowDimensions()
-    const {onFetchMyFriendRequests, onFetchPublicProfile, onFetchPageSummary, publicProfileKey, myPublicProfile, authToken, userType, pageSummary, userKey, onClearProfileSummary, onClearPageSummary} = props
+    const { onFetchMyFriendRequests, onFetchPublicProfile, onFetchPageSummary, publicProfileKey, myPublicProfile, authToken, userType, pageSummary, userKey, onClearProfileSummary, onClearPageSummary } = props
     const messengerContext = useContext(MessengerContext);
     const container = useRef(null);
 
@@ -131,6 +131,7 @@ const profileSummaryDropdown = (props) => {
 
     const startChat = () => {
         if (props.profile) {
+            console.log('starting chat with -> ', props.profile)
             let theirType;
             if (userType === 'PAGE') {
                 theirType = userType

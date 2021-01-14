@@ -1,5 +1,6 @@
 
 import React from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classes from './Bookmarks.css';
 import Link from './Link/Link';
@@ -50,4 +51,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(bookmarks);
+export default connect(mapStateToProps)(withRouter(bookmarks));

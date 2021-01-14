@@ -305,8 +305,6 @@ export const checkComponentVisibility = (ref) => {
 // }
 
 export const checkForNewMessages = (userKey, cb) => {
-  // console.log(`/users/${userKey}/newMessages`)
-  console.log(`/users/${userKey}/newMessages`)
   const newMessages = firebase.database().ref(`/users/${userKey}/newMessages`)
   newMessages.on('value', snapshot => {
     let messages = [];
