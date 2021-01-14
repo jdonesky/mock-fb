@@ -81,7 +81,9 @@ export const authAttempt = (email, password, isSignUp, userData) => {
           dispatch(actions.createProfileAttempt(token, newUserData))
         }
         firebase.auth().signInWithEmailAndPassword(email,password)
-            .then(response => {console.log('success authorized sdk- ', response)})
+            .then(response => {
+              // console.log('success authorized sdk- ', response)
+            })
             .catch(error => {console.log('failed to auth sdk - ', error)})
       })
       .catch((error) => {

@@ -1,5 +1,5 @@
 
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {connect} from 'react-redux';
 import classes from './Messages.css';
 import * as actions from '../../../../../store/actions/index';
@@ -14,17 +14,25 @@ const messagesDropdown = props => {
 
     const messengerContext = useContext(MessengerContext);
     const { retrieveChat, removeFromNewMessages } = messengerContext;
-    const { authToken, firebaseKey, myPublicProfileKey, onFetchMyChats, onLoadNewMessages, myChats, newMessages } = props
+    const { authToken, firebaseKey, myPublicProfileKey, onFetchMyChats, onFetchFriends, onLoadNewMessages, myChats, newMessages, friends } = props
+    const [searchResults, setSearchResults] = useState(null);
 
     useEffect(() => {
         onFetchMyChats(authToken, myPublicProfileKey);
         checkForNewMessages(firebaseKey, (newMessages) => {
             onLoadNewMessages(newMessages)
         })
+        onFetchFriends(authToken, myPublicProfileKey)
     }, [])
 
-    const filterResults = () => {
-        return;
+    const filterResults = (name) => {
+        let filtered = [];
+        if (friends) {
+            filtered = friends.filter(friend => friends.name.split(" ")[0].slice(0, name.length) === name || friends.name.split(" ")[1].slice(0, name.length) === name)
+        }
+        if (myChats) {
+            filtered = [...filtered, myChats.parties.map(party => party.userKey !== firebaseKey)]
+        }
     }
 
     const reopenChat = (chatKey) => {
@@ -85,7 +93,8 @@ const mapStateToProps = state => {
         firebaseKey: state.profile.firebaseKey,
         myPublicProfileKey: state.profile.publicProfileKey,
         myChats: state.messenger.myChats,
-        newMessages: state.messenger.newMessages
+        newMessages: state.messenger.newMessages,
+        friends: state.friends.friends
     }
 }
 
@@ -93,7 +102,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchMyChats: (authToken, userKey) => dispatch(actions.fetchMyChatsAttempt(authToken, userKey)),
         onLoadNewMessages: (authToken, userKey) => dispatch(actions.updateNewMessages(authToken, userKey)),
-
+        onFetchFriends: (authToken, publicProfileKey) => dispatch(actions.fetchFriendsAttempt(authToken, publicProfileKey))
     }
 }
 

@@ -658,6 +658,7 @@ export const removeFromNewMessagesAttempt = (authToken, pathRoot, myKey, theirKe
     }
 }
 
+
 export const clearProfile = () => {
   return {
     type: actionTypes.CLEAR_PROFILE,
