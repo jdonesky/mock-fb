@@ -28,7 +28,7 @@ const activeChats = props => {
          if (localActiveChat.key) {
             retrieveChat(localActiveChat.key)
          } else {
-            console.log('NO KEY IN LOCAL ACTIVE CHAT')
+            console.log('NO KEY IN LOCAL ACTIVE CHAT');
             return;
          }
       }

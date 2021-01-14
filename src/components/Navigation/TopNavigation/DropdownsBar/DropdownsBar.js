@@ -22,7 +22,11 @@ const dropdownsBar = (props) => {
     const [showAccountMenu,setShowAccountMenu] = useState(false);
     const [showMessages, setShowMessages] = useState(false);
 
-    const {newMessages} = props;
+    const {firebaseKey, newMessages} = props;
+
+    useEffect(() => {
+        console.log(newMessages);
+    })
 
     const toggleAccountMenu = () => {
         setShowAccountMenu(prevState => {
@@ -93,8 +97,8 @@ const dropdownsBar = (props) => {
     }
 
     let newMessageCount;
-    if (newMessages && newMessages.length) {
-        newMessageCount = <NewCounter count={newMessages.length}/>
+    if (newMessages && newMessages.filter(msg => msg.senderKey !== firebaseKey).length) {
+        newMessageCount = <NewCounter count={newMessages.filter(msg => msg.senderKey !== firebaseKey).length}/>
     }
 
     return (
@@ -142,6 +146,7 @@ const dropdownsBar = (props) => {
 
 const mapStateToProps = state => {
     return {
+        firebaseKey: state.profile.firebaseKey,
         newMessages: state.messenger.newMessages
     }
 }

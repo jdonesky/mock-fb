@@ -30,7 +30,7 @@ const messenger = (props) => {
     const [theirProfile, setTheirProfile] = useState(null);
     const [conversation, setConversation] = useState(null);
 
-    const { activeChat, chatRecord, ownedPage } = props
+    const { activeChat, chatRecord, ownedPage, newMessages } = props
     const { localActiveChat, clearActiveChat, resetMessengerStarter } = messengerContext
 
     const [textMessage,setTextMessage] = useState('')
@@ -100,7 +100,6 @@ const messenger = (props) => {
 
     useEffect(() => {
         if (chatRecord) {
-            // console.log(chatRecord)
             if (chatRecord && chatRecord.messages) {
                 const mappedChatRecord = Object.keys(chatRecord.messages).map(key => ({
                     ...chatRecord.messages[key],
@@ -112,6 +111,30 @@ const messenger = (props) => {
         }
     }, [chatRecord])
 
+
+    useEffect(() => {
+        if (newMessages) {
+            console.log(newMessages);
+            if (activeChat) {
+                console.log('activeChat -> ', activeChat);
+                const messageToAdd = newMessages.find(msg => msg.chatKey === activeChat.key)
+                console.log('messageToAdd -> ', messageToAdd && messageToAdd);
+                console.log('messageToAdd in conversation form -> ', messageToAdd && {...messageToAdd.message, key: new Date()})
+                if (messageToAdd && messageToAdd.senderKey !== props.firebaseKey) {
+                    if (conversation) {
+                        let messageDates = conversation.map(msg => msg.date);
+                        if (!messageDates.includes(messageToAdd.message.date)) {
+                            setConversation(prevState => {
+                                return [...prevState, {...messageToAdd.message, key: new Date()}]
+                            })
+                        }
+                    } else {
+                        setConversation([{...messageToAdd.message, key: new Date()}])
+                    }
+                }
+            }
+        }
+    }, [newMessages])
 
     useEffect(() => {
         if (conversation && chatRecord && chatRecord.messages) {
@@ -345,7 +368,8 @@ const mapStateToProps = state => {
         fetchingChatRecord: state.messenger.fetchingChatRecord,
         sendingMessage: state.messenger.sendingMessage,
         chatRecord: state.messenger.chatRecord,
-        ownedPage: state.pages.ownedPage
+        ownedPage: state.pages.ownedPage,
+        newMessages: state.messenger.newMessages,
     }
 }
 
@@ -354,7 +378,7 @@ const mapDispatchToProps = dispatch => {
         onFetchActiveChat: (authToken, userKey) => dispatch(actions.fetchActiveChatAttempt(authToken, userKey)),
         onFetchChatRecord: (authToken, chatKey) => dispatch(actions.fetchChatRecordAttempt(authToken, chatKey)),
         onSendMessage: (authToken, chatKey, message) => dispatch(actions.sendMessageAttempt(authToken, chatKey, message)),
-        onClearActiveChat: (authToken, userKey) => dispatch(actions.clearActiveChatAttempt(authToken, userKey))
+        onClearActiveChat: (authToken, userKey) => dispatch(actions.clearActiveChatAttempt(authToken, userKey)),
     }
 }
 
