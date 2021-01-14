@@ -658,8 +658,8 @@ const fetchOthersPostsFail = (error) => {
 }
 
 
-export const clearPosts = () => {
+export const logoutClearPosts = () => {
     return {
-        type: actionTypes.CLEAR_POSTS
+        type: actionTypes.LOGOUT_CLEAR_POSTS
     }
 }

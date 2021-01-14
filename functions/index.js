@@ -3,7 +3,7 @@ const admin = require('firebase-admin')
 
 admin.initializeApp();
 
-exports.pushNotification = functions.database.ref('/chats/{chatID}/messages/{messageID}').onWrite(
+exports.pushMessageNotification = functions.database.ref('/chats/{chatID}/messages/{messageID}').onWrite(
 
     async (change,context) => {
         if (!change.after.val()) {
@@ -61,7 +61,7 @@ exports.pushNotification = functions.database.ref('/chats/{chatID}/messages/{mes
 
 
 
-exports.writeToDB = functions.database.ref('/chats/{chatID}/messages/{messageID}').onWrite(
+exports.writeToNewMessages = functions.database.ref('/chats/{chatID}/messages/{messageID}').onWrite(
 
     async (change,context) => {
         if (!change.after.val()) {
@@ -92,7 +92,8 @@ exports.writeToDB = functions.database.ref('/chats/{chatID}/messages/{messageID}
         const payload = {
             senderKey: senderKey,
             senderName: senderName,
-            chatKey: chatId
+            chatKey: chatId,
+            message: {...message}
         }
         console.log('PAYLOAD => ', payload)
 

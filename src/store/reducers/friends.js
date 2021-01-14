@@ -164,6 +164,10 @@ const clearFriends = (state,action) => {
   }
 }
 
+const logoutClearFriends = (state,action) => {
+  return initialState
+}
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -186,6 +190,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.DENY_FRIEND_REQUEST_SUCCESS: return denyFriendRequestSuccess(state,action);
     case actionTypes.DENY_FRIEND_REQUEST_FAIL: return denyFriendRequestFail(state,action);
     case actionTypes.CLEAR_FRIENDS: return clearFriends(state,action);
+    case actionTypes.LOGOUT_CLEAR_FRIENDS: return logoutClearFriends(state,action);
     default:
       return state;
   }

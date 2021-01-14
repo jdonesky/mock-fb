@@ -1,5 +1,6 @@
 
 import * as actionTypes from '../actions/actionTypes';
+import {clearLocalActiveChat} from "../actions";
 
 const initialState = {
     newMessages: null,
@@ -14,6 +15,7 @@ const initialState = {
 const fetchMyChatsInit = (state,action) => {
     return {
         ...state,
+        myChats: null,
         fetchingMyChats: true
     }
 }
@@ -37,6 +39,7 @@ const fetchMyChatsFail = (state,action) => {
 const fetchChatRecordInit = (state,action) => {
     return {
         ...state,
+        chatRecord: null,
         fetchingChatRecord: true
     }
 }
@@ -88,6 +91,13 @@ const updateNewMessages = (state,action) => {
 }
 
 const clearLocalChatRecord = (state,action) => {
+    return {
+        ...state,
+        chatRecord: null
+    }
+}
+
+const logoutClearMessenger = (state,action) => {
     return initialState
 }
 
@@ -104,6 +114,7 @@ const reducer = (state= initialState,action) => {
         case actionTypes.SEND_MESSAGE_SUCCESS: return sendMessageSuccess(state,action);
         case actionTypes.SEND_MESSAGE_FAIL: return sendMessageFail(state,action);
         case actionTypes.CLEAR_LOCAL_CHAT_RECORD: return clearLocalChatRecord(state,action);
+        case actionTypes.LOGOUT_CLEAR_MESSENGER: return logoutClearMessenger(state,action);
         default: return state;
     }
 }

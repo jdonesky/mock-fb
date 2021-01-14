@@ -149,7 +149,7 @@ const clearManyProfiles = (state,action) => {
     }
 }
 
-const clearUsers = (state,action) => {
+const logoutClearUsers = (state,action) => {
   return {
     ...initialState
   }
@@ -175,7 +175,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.CLEAR_PROFILE_SUMMARY: return clearProfileSummary(state,action);
     case actionTypes.CLEAR_PUBLIC_PROFILE: return clearPublicProfile(state,action);
     case actionTypes.CLEAR_MANY_PROFILES: return clearManyProfiles(state,action);
-    case actionTypes.CLEAR_USERS: return clearUsers(state,action);
+    case actionTypes.LOGOUT_CLEAR_USERS: return logoutClearUsers(state,action);
     default:
       return state;
   }

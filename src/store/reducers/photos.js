@@ -56,7 +56,7 @@ const fetchTaggedMeFail = (state,action) => {
     }
 }
 
-const clearPhotos = () => {
+const logoutClearPhotos = () => {
     return {
         ...initialState
     }
@@ -71,7 +71,7 @@ const reducer = (state=initialState,action) => {
         case actionTypes.FETCH_TAGGED_ME_PHOTOS_INIT: return fetchTaggedMeInit(state,action);
         case actionTypes.FETCH_TAGGED_ME_PHOTOS_SUCCESS: return fetchTaggedMeSuccess(state,action);
         case actionTypes.FETCH_TAGGED_ME_PHOTOS_FAIL: return fetchTaggedMeFail(state,action);
-        case actionTypes.CLEAR_PHOTOS: return clearPhotos(state,action);
+        case actionTypes.LOGOUT_CLEAR_PHOTOS: return logoutClearPhotos(state,action);
         default:
             return state;
     }

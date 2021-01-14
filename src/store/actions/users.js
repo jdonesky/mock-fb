@@ -194,8 +194,8 @@ export const clearManyProfiles = () => {
 }
 
 
-export const clearUsers = () => {
+export const logoutClearUsers = () => {
   return {
-    type: actionTypes.CLEAR_USERS
+    type: actionTypes.LOGOUT_CLEAR_USERS
   }
 }

@@ -1,0 +1,29 @@
+
+.Positioner {
+    position: relative;
+}
+
+.Badge {
+    height: 19px;
+    width: 19px;
+    border-radius: 100%;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -25px;
+    right: -50px;
+}
+
+.Counter {
+    color: white;
+    font-family: Avenir;
+    font-weight: 100;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: 1px;
+}

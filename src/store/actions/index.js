@@ -18,7 +18,7 @@ export {
   clearActiveChatAttempt,
   clearLocalActiveChat,
   removeFromNewMessagesAttempt,
-  clearProfile
+  logoutClearProfile
 } from "./profile";
 
 export {
@@ -37,7 +37,7 @@ export {
    addPostReactionAttempt,
    markScrollEnd,
    clearScrollEnd,
-   clearPosts
+   logoutClearPosts
 } from "./posts";
 
 export {
@@ -55,13 +55,14 @@ export {
    cancelLikeAttempt,
    switchPageAvailability,
    clearPageSummary,
-   clearPageInProgress
+   clearPageInProgress,
+   logoutClearPages,
 } from "./pages";
 
 export {
    fetchByMePhotosAttempt,
    fetchTaggedMePhotosAttempt,
-   clearPhotos
+   logoutClearPhotos,
 } from "./photos";
 
 export {
@@ -71,7 +72,7 @@ export {
    clearProfileSummary,
    clearPublicProfile,
    clearManyProfiles,
-   clearUsers
+   logoutClearUsers,
 } from "./users";
 
 export {
@@ -81,7 +82,8 @@ export {
    cancelFriendRequestAttempt,
    acceptFriendRequestAttempt,
    denyFriendRequestAttempt,
-   clearFriends
+   clearFriends,
+   logoutClearFriends
 } from "./friends";
 
 export {
@@ -89,7 +91,8 @@ export {
    sendMessageAttempt,
    fetchChatRecordAttempt,
    fetchMyChatsAttempt,
-   clearLocalChatRecord
+   clearLocalChatRecord,
+   logoutClearMessenger
 } from "./messenger";
 
 export {
@@ -98,10 +101,12 @@ export {
    switchReadStatusAttempt,
    createActivityAttempt,
    deleteActivityAttempt,
-   clearLocalActivity
+   clearLocalActivity,
+   logoutClearActivity
 } from "./activity";
 
 export {
    searchAllAttempt,
-   clearSearchResults
+   clearSearchResults,
+   logoutClearSearch
 } from "./search";

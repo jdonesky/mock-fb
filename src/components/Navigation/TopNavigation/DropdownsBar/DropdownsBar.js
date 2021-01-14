@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import classes from './DropdownsBar.css';
 
 import CreateMenu from './Create/CreateMenu';
 import Notifications from "./Notifications/Notifications";
 import AccountDropdown from "./Account/AccountDropdown";
 import Messages from "./Messages/Messages"
+import NewCounter from '../Shared/NewCounter/NewCounter';
 
 import OutsideAlerter from "../../../../hooks/outsideClickHandler";
 import Plus from '../../../../assets/images/TopNavButtonIcons/plus';
@@ -12,12 +14,15 @@ import FbMessage from '../../../../assets/images/UserActionIcons/fbMessage';
 import Bell from '../../../../assets/images/TopNavButtonIcons/bell';
 import Down from '../../../../assets/images/TopNavButtonIcons/caretDown';
 
+
 const dropdownsBar = (props) => {
 
     const [showCreateMenu, setShowCreateMenu] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
     const [showAccountMenu,setShowAccountMenu] = useState(false);
     const [showMessages, setShowMessages] = useState(false);
+
+    const {newMessages} = props;
 
     const toggleAccountMenu = () => {
         setShowAccountMenu(prevState => {
@@ -87,6 +92,11 @@ const dropdownsBar = (props) => {
         messagesButtonClasses.push(classes.ButtonActive);
     }
 
+    let newMessageCount;
+    if (newMessages && newMessages.length) {
+        newMessageCount = <NewCounter count={newMessages.length}/>
+    }
+
     return (
         <div className={classes.DropdownsContainer}>
             <div className={createButtonClasses.join(" ")} onClick={toggleCreateMenu}>
@@ -98,6 +108,7 @@ const dropdownsBar = (props) => {
                     {createMenu}
                 </div>
             </OutsideAlerter>
+            {newMessageCount}
             <div className={messagesButtonClasses.join(" ")} onClick={toggleMessages}>
                 <FbMessage fill={showMessages ? '#1b6ee3' : null}/>
             </div>
@@ -129,4 +140,10 @@ const dropdownsBar = (props) => {
     );
 }
 
-export default dropdownsBar;
+const mapStateToProps = state => {
+    return {
+        newMessages: state.messenger.newMessages
+    }
+}
+
+export default connect(mapStateToProps)(dropdownsBar);

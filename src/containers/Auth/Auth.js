@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { fieldBuilder, validityCheck } from "../../shared/utility";
@@ -174,6 +174,8 @@ const auth = props => {
 
 const mapStateToProps = (state) => {
   return {
+    authToken: state.auth.token,
+    userId: state.auth.userId,
     isAuthenticated: state.auth.token !== null,
     error: state.auth.error,
     loading: state.auth.loading

@@ -321,6 +321,10 @@ const clearPageInProgress = (state,action) => {
     }
 }
 
+export const logoutClearPages = (state,action) => {
+    return initialState
+}
+
 const reducer = (state=initialState, action) => {
     switch(action.type) {
         case actionTypes.CREATE_PAGE_INIT: return createPageInit(state,action);
@@ -362,6 +366,7 @@ const reducer = (state=initialState, action) => {
         case actionTypes.SWITCH_PAGE_AVAILABILITY_FAIL: switchPageAvailabilityFail(state,action);
         case actionTypes.CLEAR_PAGE_SUMMARY: return clearPageSummary(state,action);
         case actionTypes.CLEAR_PAGE_IN_PROGRESS: return clearPageInProgress(state,action);
+        case actionTypes.LOGOUT_CLEAR_PAGES: return logoutClearPages(state,action);
         default:
             return state
     }

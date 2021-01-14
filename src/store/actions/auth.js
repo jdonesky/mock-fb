@@ -44,6 +44,15 @@ const checkAuthTimeout = (expirationTime) => {
   return (dispatch) => {
     setTimeout(() => {
       dispatch(authLogout());
+      dispatch(actions.logoutClearProfile());
+      dispatch(actions.logoutClearPages());
+      dispatch(actions.logoutClearPosts());
+      dispatch(actions.logoutClearActivity());
+      dispatch(actions.logoutClearUsers());
+      dispatch(actions.logoutClearMessenger());
+      dispatch(actions.logoutClearSearch());
+      dispatch(actions.logoutClearFriends());
+      dispatch(actions.logoutClearPhotos());
     }, expirationTime * 1000);
   };
 };
@@ -80,6 +89,7 @@ export const authAttempt = (email, password, isSignUp, userData) => {
 
           dispatch(actions.createProfileAttempt(token, newUserData))
         }
+
         firebase.auth().signInWithEmailAndPassword(email,password)
             .then(response => {
               // console.log('success authorized sdk- ', response)
@@ -99,6 +109,15 @@ export const autoSignIn = () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
       dispatch(authLogout());
+      dispatch(actions.logoutClearProfile());
+      dispatch(actions.logoutClearPages());
+      dispatch(actions.logoutClearPosts());
+      dispatch(actions.logoutClearActivity());
+      dispatch(actions.logoutClearUsers());
+      dispatch(actions.logoutClearMessenger());
+      dispatch(actions.logoutClearSearch());
+      dispatch(actions.logoutClearFriends());
+      dispatch(actions.logoutClearPhotos());
     } else {
       const expirationDate = new Date(localStorage.getItem("expirationDate"));
       if (expirationDate < new Date()) {

@@ -6,14 +6,20 @@ import * as actions from "../../store/actions/index";
 const Logout = (props) => {
 
   useEffect(() => {
+    console.log('activeChat => ', props.activeChat )
+  })
+
+  useEffect(() => {
     props.onLogout();
     props.onClearProfile();
     props.onClearUsers();
     props.onClearPhotos();
     props.onClearPosts();
     props.onClearFriends();
-    props.onClearLocalChatRecord();
-    props.onClearLocalActiveChat();
+    props.onClearMessenger();
+    props.onClearPages();
+    props.onClearActivity();
+    props.onClearSearch();
   }, [])
 
   return <Redirect to="/authentication" />;
@@ -21,17 +27,25 @@ const Logout = (props) => {
 }
 
 
+const mapStateToProps = state => {
+  return {
+    activeChat: state.profile.activeChat
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogout: () => dispatch(actions.authLogout()),
-    onClearProfile: () => dispatch(actions.clearProfile()),
-    onClearUsers: () => dispatch(actions.clearUsers()),
-    onClearPhotos: () => dispatch(actions.clearPhotos()),
-    onClearPosts: () => dispatch(actions.clearPosts()),
-    onClearFriends: () => dispatch(actions.clearFriends()),
-    onClearLocalChatRecord: () => dispatch(actions.clearLocalChatRecord()),
-    onClearLocalActiveChat: () => dispatch(actions.clearLocalActiveChat())
+    onClearProfile: () => dispatch(actions.logoutClearProfile()),
+    onClearUsers: () => dispatch(actions.logoutClearUsers()),
+    onClearPhotos: () => dispatch(actions.logoutClearPhotos()),
+    onClearPosts: () => dispatch(actions.logoutClearPosts()),
+    onClearFriends: () => dispatch(actions.logoutClearFriends()),
+    onClearMessenger: () => dispatch(actions.logoutClearMessenger()),
+    onClearPages: () => dispatch(actions.logoutClearPosts()),
+    onClearActivity: () => dispatch(actions.logoutClearActivity()),
+    onClearSearch: () => dispatch(actions.logoutClearSearch()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(Logout);
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

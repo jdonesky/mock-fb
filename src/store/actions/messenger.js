@@ -118,12 +118,6 @@ export const fetchMyChatsAttempt = (authToken, publicProfileKey) => {
 }
 
 
-export const clearLocalChatRecord = () => {
-    return {
-        type: actionTypes.CLEAR_LOCAL_CHAT_RECORD
-    }
-}
-
 export const updateNewMessages = (messages) => {
     return {
         type: actionTypes.UPDATE_NEW_MESSAGES,
@@ -132,3 +126,14 @@ export const updateNewMessages = (messages) => {
 }
 
 
+export const clearLocalChatRecord = () => {
+    return {
+        type: actionTypes.CLEAR_LOCAL_CHAT_RECORD
+    }
+}
+
+export const logoutClearMessenger = () => {
+    return {
+        type: actionTypes.LOGOUT_CLEAR_MESSENGER
+    }
+}

@@ -599,3 +599,8 @@ export const clearPageInProgress = () => {
     }
 }
 
+export const logoutClearPages = () => {
+    return {
+        type: actionTypes.LOGOUT_CLEAR_PAGES
+    }
+}

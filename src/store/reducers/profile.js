@@ -307,10 +307,8 @@ const clearLocalActiveChat = (state,action) => {
 }
 
 
-const clearProfile = (state,action) => {
-  return {
-    ...initialState
-  }
+const logoutClearProfile = (state,action) => {
+  return initialState
 }
 
 const reducer = (state = initialState, action) => {
@@ -344,7 +342,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.REMOVE_FROM_NEW_MESSAGES_FAIL: return removeFromNewMessagesFail(state,action);
     case actionTypes.CLEAR_ACTIVE_CHAT_FAIL: return clearActiveChatFail(state,action);
     case actionTypes.CLEAR_LOCAL_ACTIVE_CHAT: return clearLocalActiveChat(state,action);
-    case actionTypes.CLEAR_PROFILE: return clearProfile(state,action);
+    case actionTypes.LOGOUT_CLEAR_PROFILE: return logoutClearProfile(state,action);
     default:
       return state;
   }

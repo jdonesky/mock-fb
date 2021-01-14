@@ -659,9 +659,9 @@ export const removeFromNewMessagesAttempt = (authToken, pathRoot, myKey, theirKe
 }
 
 
-export const clearProfile = () => {
+export const logoutClearProfile = () => {
   return {
-    type: actionTypes.CLEAR_PROFILE,
+    type: actionTypes.LOGOUT_CLEAR_PROFILE,
   };
 };
 

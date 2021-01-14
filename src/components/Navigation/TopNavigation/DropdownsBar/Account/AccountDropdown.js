@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, {useContext} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import classes from './AccountDropdown.css';
 import * as actions from '../../../../../store/actions/index';
+import {MessengerContext} from "../../../../../context/messenger-context";
 import Avatar from '../../../../../assets/images/BookmarkIcons/user';
 
 import Feedback from '../../../../../assets/images/TopNavButtonIcons/feedback';
@@ -14,6 +15,8 @@ import RightArrow from '../../../../../assets/images/TopNavButtonIcons/rightArro
 
 const accountDropdown = (props) => {
 
+    const messengerContext = useContext(MessengerContext);
+
     const navProfile = () => {
         if (props.location.pathname !== '/user-profile/me') {
             props.history.push('/user-profile/me')
@@ -23,8 +26,18 @@ const accountDropdown = (props) => {
 
     const logout = () => {
         props.history.push('/logout')
-        props.onClearLocalActiveChat();
-        props.onClearLocalChatRecord();
+        messengerContext.clearActiveChat()
+        props.onClearProfile();
+        props.onClearPosts();
+        props.onClearPages();
+        props.onClearFriends();
+        props.onClearMessenger();
+        props.onClearActivity();
+        props.onClearSearch();
+        props.onClearPhotos();
+        props.onClearUsers();
+
+
     }
 
     return (
@@ -88,8 +101,16 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onClearLocalActiveChat: () => dispatch(actions.clearLocalActiveChat()),
-        onClearLocalChatRecord: () => dispatch(actions.clearLocalChatRecord())
+        onLogout: () => dispatch(actions.authLogout()),
+        onClearProfile: () => dispatch(actions.logoutClearProfile()),
+        onClearUsers: () => dispatch(actions.logoutClearUsers()),
+        onClearPhotos: () => dispatch(actions.logoutClearPhotos()),
+        onClearPosts: () => dispatch(actions.logoutClearPosts()),
+        onClearFriends: () => dispatch(actions.logoutClearFriends()),
+        onClearMessenger: () => dispatch(actions.logoutClearMessenger()),
+        onClearPages: () => dispatch(actions.logoutClearPosts()),
+        onClearActivity: () => dispatch(actions.logoutClearActivity()),
+        onClearSearch: () => dispatch(actions.logoutClearSearch()),
     }
 }
 

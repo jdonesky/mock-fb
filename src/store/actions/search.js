@@ -104,3 +104,9 @@ export const clearSearchResults = () => {
         type: actionTypes.CLEAR_SEARCH_RESULTS
     }
 }
+
+export const logoutClearSearch = () => {
+    return {
+        type: actionTypes.LOGOUT_CLEAR_SEARCH
+    }
+}

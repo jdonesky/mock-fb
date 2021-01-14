@@ -324,10 +324,8 @@ const clearScrollEnd = (state,action) => {
 }
 
 
-const clearPosts = (state,action) => {
-    return {
-        ...initialState
-    }
+const logoutClearPosts = (state,action) => {
+    return initialState
 }
 
 
@@ -372,7 +370,7 @@ const reducer = (state = initialState, action) => {
       case actionTypes.DELETE_REPLY_FAIL: return deleteReplyFail(state,action);
       case actionTypes.MARK_SCROLL_END: return markScrollEnd(state,action);
       case actionTypes.CLEAR_SCROLL_END: return clearScrollEnd(state,action);
-      case actionTypes.CLEAR_POSTS: return clearPosts(state,action);
+      case actionTypes.LOGOUT_CLEAR_POSTS: return logoutClearPosts(state,action);
     default:
         return state
   }

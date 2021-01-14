@@ -206,3 +206,9 @@ export const clearLocalActivity = (loc) => {
         loc: loc
     }
 }
+
+export const logoutClearActivity = () => {
+    return {
+        type: actionTypes.LOGOUT_CLEAR_ACTIVITY
+    }
+}

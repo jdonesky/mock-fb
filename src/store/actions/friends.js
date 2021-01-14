@@ -385,3 +385,9 @@ export const clearFriends = () => {
         type: actionTypes.CLEAR_FRIENDS
     }
 }
+
+export const logoutClearFriends = () => {
+    return {
+        type: actionTypes.LOGOUT_CLEAR_FRIENDS
+    }
+}

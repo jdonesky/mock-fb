@@ -137,6 +137,10 @@ const clearLocalActivity = (state,action) => {
     }
 }
 
+const logoutClearActivity = (state, action) => {
+    return initialState
+}
+
 const reducer = (state=initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_NEW_ACTIVITY_INIT: return fetchNewActivityInit(state,action);
@@ -155,6 +159,7 @@ const reducer = (state=initialState, action) => {
         case actionTypes.DELETE_ACTIVITY_SUCCESS: return deleteActivitySuccess(state,action);
         case actionTypes.DELETE_ACTIVITY_FAIL: return deleteActivityFail(state,action);
         case actionTypes.CLEAR_LOCAL_ACTIVITY: return clearLocalActivity(state,action);
+        case actionTypes.LOGOUT_CLEAR_ACTIVITY: return logoutClearActivity(state,action);
         default: return state;
     }
 }
