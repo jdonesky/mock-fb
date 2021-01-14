@@ -20,6 +20,7 @@ const initialState = {
   restartingChat: false,
   fetchingActiveChat: false,
   clearingActiveChat: false,
+  removingFromNewMessages: false,
   profileLoading: false,
   publicProfileLoading: false,
   contentEntryLoading: false,
@@ -276,6 +277,28 @@ const clearActiveChatFail = (state,action) => {
   }
 }
 
+const removeFromNewMessagesInit = (state,action) => {
+  return {
+    ...state,
+    removingFromNewMessages: true
+  }
+}
+
+const removeFromNewMessagesSuccess = (state,action) => {
+  return {
+    ...state,
+    removingFromNewMessages: false
+  }
+}
+
+const removeFromNewMessagesFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    removingFromNewMessages: false
+  }
+}
+
 const clearLocalActiveChat = (state,action) => {
   return {
     ...state,
@@ -316,6 +339,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_ACTIVE_CHAT_FAIL: return fetchActiveChatFail(state,action);
     case actionTypes.CLEAR_ACTIVE_CHAT_INIT: return clearActiveChatInit(state,action);
     case actionTypes.CLEAR_ACTIVE_CHAT_SUCCESS: return clearActiveChatSuccess(state,action);
+    case actionTypes.REMOVE_FROM_NEW_MESSAGES_INIT: return removeFromNewMessagesInit(state,action);
+    case actionTypes.REMOVE_FROM_NEW_MESSAGES_SUCCESS: return removeFromNewMessagesSuccess(state,action);
+    case actionTypes.REMOVE_FROM_NEW_MESSAGES_FAIL: return removeFromNewMessagesFail(state,action);
     case actionTypes.CLEAR_ACTIVE_CHAT_FAIL: return clearActiveChatFail(state,action);
     case actionTypes.CLEAR_LOCAL_ACTIVE_CHAT: return clearLocalActiveChat(state,action);
     case actionTypes.CLEAR_PROFILE: return clearProfile(state,action);

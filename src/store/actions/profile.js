@@ -624,6 +624,40 @@ export const clearActiveChatAttempt = (authToken, userKey) => {
     }
 }
 
+const removeFromNewMessagesInit = () => {
+    return {
+        type: actionTypes.REMOVE_FROM_NEW_MESSAGES_INIT
+    }
+}
+
+const removeFromNewMessagesSuccess = () => {
+    return {
+        type: actionTypes.REMOVE_FROM_NEW_MESSAGES_SUCCESS
+    }
+}
+
+const removeFromNewMessagesFail = (error) => {
+    return {
+        type: actionTypes.REMOVE_FROM_NEW_MESSAGES_FAIL,
+        error: error
+    }
+}
+
+export const removeFromNewMessagesAttempt = (authToken, pathRoot, myKey, theirKey) => {
+    return dispatch => {
+        dispatch(removeFromNewMessagesInit)
+        axios.delete(`/${pathRoot}/${myKey}/newMessages/${theirKey}.json?auth=${authToken}`)
+            .then(response => {
+                console.log('SUCCESS - DELETED NEW MESSAGE');
+                dispatch(removeFromNewMessagesSuccess())
+            })
+            .catch(error => {
+                console.log('FAIL - ', error)
+                dispatch(removeFromNewMessagesFail(error))
+            })
+    }
+}
+
 export const clearProfile = () => {
   return {
     type: actionTypes.CLEAR_PROFILE,

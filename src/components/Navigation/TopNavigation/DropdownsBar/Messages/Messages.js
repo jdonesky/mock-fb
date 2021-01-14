@@ -13,7 +13,7 @@ import {checkForNewMessages} from "../../../../../shared/utility";
 const messagesDropdown = props => {
 
     const messengerContext = useContext(MessengerContext);
-    const { retrieveChat } = messengerContext;
+    const { retrieveChat, removeFromNewMessages } = messengerContext;
     const { authToken, firebaseKey, myPublicProfileKey, onFetchMyChats, onLoadNewMessages, myChats, newMessages } = props
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const messagesDropdown = props => {
     let chats;
     if (updatedChats) {
         chats = updatedChats.map(chat => (
-            <Conversation key={chat.chatKey} {...chat} reopenChat={() => reopenChat(chat.chatKey)} myUserKey={firebaseKey}/>
+            <Conversation key={chat.chatKey} {...chat} reopenChat={() => reopenChat(chat.chatKey)} removeFromNewMessages={removeFromNewMessages} myUserKey={firebaseKey}/>
         ))
     }
 
@@ -92,7 +92,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchMyChats: (authToken, userKey) => dispatch(actions.fetchMyChatsAttempt(authToken, userKey)),
-        onLoadNewMessages: (authToken, userKey) => dispatch(actions.updateNewMessages(authToken, userKey))
+        onLoadNewMessages: (authToken, userKey) => dispatch(actions.updateNewMessages(authToken, userKey)),
+
     }
 }
 

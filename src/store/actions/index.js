@@ -17,6 +17,7 @@ export {
   fetchActiveChatAttempt,
   clearActiveChatAttempt,
   clearLocalActiveChat,
+  removeFromNewMessagesAttempt,
   clearProfile
 } from "./profile";
 

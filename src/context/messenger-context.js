@@ -15,6 +15,7 @@ export const MessengerContext = React.createContext({
     clearActiveChat: () => {},
     resetMessengerStarter: false,
     retrieveChat: () => {},
+    removeFromNewMessages: () => {}
 })
 
 const messengerContextProvider = props => {
@@ -23,7 +24,7 @@ const messengerContextProvider = props => {
     const [showMessenger, setShowMessenger] = useState(false);
     const [showActiveChat, setShowActiveChat] = useState(true);
     const [resetMessenger, setResetMessenger] = useState(false);
-    const {authToken, firebaseKey, myPublicProfile, ownedPage, onFetchActiveChat, activeChat} = props
+    const {authToken, firebaseKey, myPublicProfile, ownedPage, onFetchActiveChat, onRemoveFromNewMessages, activeChat} = props
 
     useEffect(() => {
         if (authToken && firebaseKey) {
@@ -36,6 +37,25 @@ const messengerContextProvider = props => {
             setLocalActiveChat(activeChat)
         }
     }, [activeChat])
+
+    const removeFromNewMessages = (myType, theirKey) => {
+        let pathRoot;
+        let key;
+        switch (myType) {
+            case 'USER':
+                pathRoot = 'users';
+                key = firebaseKey;
+                break;
+            case 'PAGE':
+                pathRoot = 'pages';
+                key = ownedPage && ownedPage.dbKey;
+                break;
+            default:
+                pathRoot = 'users'
+                key = firebaseKey;
+        }
+        onRemoveFromNewMessages(authToken, pathRoot, key, theirKey)
+    }
 
     const fetchActiveChat = () => {
         if (authToken && props.firebaseKey) {
@@ -165,7 +185,7 @@ const messengerContextProvider = props => {
     }
 
     return (
-        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, minimizeMessenger: minimizeMessenger, closeMessenger: closeMessenger, startChat: startChat, retrieveChat: retrieveChat, localActiveChat: localActiveChat, fetchActiveChat: fetchActiveChat, clearActiveChat: clearActiveChat, showActiveChat: showActiveChat, resetMessengerStarter: resetMessenger}}>
+        <MessengerContext.Provider value={{showMessenger:showMessenger, openMessenger: openMessenger, minimizeMessenger: minimizeMessenger, closeMessenger: closeMessenger, startChat: startChat, retrieveChat: retrieveChat, localActiveChat: localActiveChat, fetchActiveChat: fetchActiveChat, clearActiveChat: clearActiveChat, removeFromNewMessages: removeFromNewMessages, showActiveChat: showActiveChat, resetMessengerStarter: resetMessenger}}>
             {props.children}
         </MessengerContext.Provider>
     )
@@ -189,6 +209,7 @@ const mapDispatchToProps = dispatch => {
         onFetchActiveChat: (authToken, userKey) => dispatch(actions.fetchActiveChatAttempt(authToken, userKey)),
         onFetchChatRecord: (authToken, chatKey) => dispatch(actions.fetchChatRecordAttempt(authToken, chatKey)),
         onClearActiveChat: (authToken, userKey) => dispatch(actions.clearActiveChatAttempt(authToken, userKey)),
+        onRemoveFromNewMessages: (authToken, pathRoot, myKey, theirKey) => dispatch(actions.removeFromNewMessagesAttempt(authToken, pathRoot, myKey, theirKey)),
         onClearLocalActiveChat: () => dispatch(actions.clearLocalActiveChat()),
         onClearLocalChatRecord: () => dispatch(actions.clearLocalChatRecord())
     }
