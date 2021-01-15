@@ -76,6 +76,8 @@ export {
 } from "./users";
 
 export {
+   fetchFollowingIdsAttempt,
+   updateFollowedOnline,
    fetchFriendsAttempt,
    fetchFriendRequestsAttempt,
    sendFriendRequestAttempt,

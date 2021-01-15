@@ -27,10 +27,48 @@
     display: none;
 }
 
-@media (min-width: 900px) {
+.ContactsSideDrawer {
+    position: fixed;
+    top: 82px;
+    right: 0;
+    height: 100%;
+    width: 25vw;
+    display: none;
+}
+
+.ContactsHeader {
+    box-sizing: border-box;
+    padding: 4px;
+    height: 45px;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ContactsTitle {
+    font-family: "Lucida Grande";
+    font-weight: 550;
+    font-size: 15px;
+    color: rgba(0,0,0,.4);
+}
+
+/*.ContactsHeaderControls*/
+
+.BottomLoader {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto;
+}
+
+
+@media (min-width: 800px) {
     .HomeContainer {
-        left: 300px;
-        width: 65vw
+        left: 30vw;
+        width: 70vw
     }
 
     .PostSection {
@@ -42,11 +80,23 @@
     }
 }
 
-.BottomLoader {
-    height: 100px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 50px auto;
+
+@media (min-width: 1050px) {
+    .HomeContainer {
+        left: 35vh;
+        width: 55vw
+    }
+
+    .PostSection {
+        width: 100%;
+    }
+
+    .BookmarksSideDrawer {
+        display: block;
+        width: 25vw;
+    }
+
+    .ContactsSideDrawer {
+        display: block;
+    }
 }

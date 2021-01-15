@@ -6,7 +6,7 @@ import Avatar from '../../../assets/images/BookmarkIcons/user';
 const contact = props => {
 
     let onlineIndicator;
-    if (props.online) {
+    if (props.online.includes(props.userId)) {
         onlineIndicator = <div className={classes.OnlineIndicator} />
     }
 
@@ -16,6 +16,7 @@ const contact = props => {
                 <div className={classes.ProfileImage}>
                     {props.profileImage ? null : <Avatar fill="white" />}
                 </div>
+                {onlineIndicator}
             </div>
             <div className={classes.Name}>{props.name}</div>
         </div>

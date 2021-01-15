@@ -3,6 +3,8 @@ import * as actionTypes from '../actions/actionTypes'
 const initialState = {
   keyInProcess: null,
   friends: [],
+  following: [],
+  online: [],
   sentRequests: [],
   receivedRequests: [],
   sendingFriendRequest: false,
@@ -11,6 +13,8 @@ const initialState = {
   denyingFriendRequest: false,
   fetchingFriendRequests: false,
   fetchingFriends: false,
+  fetchingFollowing: false,
+  fetchingOnline: false,
   error: null
 };
 
@@ -133,7 +137,6 @@ const acceptFriendRequestFail = (state,action) => {
   }
 }
 
-
 const denyFriendRequestInit = (state,action) => {
   return {
     ...state,
@@ -154,6 +157,36 @@ const denyFriendRequestFail = (state,action) => {
     ...state,
     error: action.error,
     denyingFriendRequest: false
+  }
+}
+
+const fetchFollowingIdsInit = (state,action) => {
+  return {
+    ...state,
+    fetchingFollowing: true,
+  }
+}
+
+const fetchFollowingIdsSuccess = (state,action) => {
+  return {
+    ...state,
+    following: action.ids,
+    fetchingFollowing: false
+  }
+}
+
+const fetchFollowingIdsFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    fetchingFollowing: false
+  }
+}
+
+const updateFollowedOnline = (state,action) => {
+  return {
+    ...state,
+    online: [...state.online, action.userStatus]
   }
 }
 
@@ -189,6 +222,10 @@ const reducer = (state = initialState, action) => {
     case actionTypes.DENY_FRIEND_REQUEST_INIT: return denyFriendRequestInit(state,action);
     case actionTypes.DENY_FRIEND_REQUEST_SUCCESS: return denyFriendRequestSuccess(state,action);
     case actionTypes.DENY_FRIEND_REQUEST_FAIL: return denyFriendRequestFail(state,action);
+    case actionTypes.FETCH_FOLLOWING_IDS_INIT: return fetchFollowingIdsInit(state,action);
+    case actionTypes.FETCH_FOLLOWING_IDS_SUCCESS: return fetchFollowingIdsSuccess(state,action);
+    case actionTypes.FETCH_FOLLOWING_IDS_FAIL: return fetchFollowingIdsFail(state,action);
+    case actionTypes.UPDATE_FOLLOWED_ONLINE: return updateFollowedOnline(state,action);
     case actionTypes.CLEAR_FRIENDS: return clearFriends(state,action);
     case actionTypes.LOGOUT_CLEAR_FRIENDS: return logoutClearFriends(state,action);
     default:

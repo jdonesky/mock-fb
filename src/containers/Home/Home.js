@@ -6,6 +6,7 @@ import classes from './Home.css';
 import StartCreating from "../../components/Profile/Timeline/Posts/Create/StartCreating";
 import Post from '../../components/Profile/Timeline/Posts/Post/Post';
 import Bookmarks from '../../components/Navigation/Bookmarks/Bookmarks';
+import ContactsSidedrawer from "../../components/Contacts/ContactsSidedrawer";
 
 import InlineDots from '../../components/UI/Spinner/InlineDots';
 import useInfiniteScroll from "../../hooks/infiniteScroll";
@@ -79,9 +80,20 @@ const home = (props) => {
         </div>
     )
 
+    const contactsSideDrawer = (
+        <div className={classes.ContactsSideDrawer}>
+            <section className={classes.ContactsHeader}>
+                <div className={classes.ContactsTitle}>Contacts</div>
+                <div className={classes.ContactsHeaderControl}></div>
+            </section>
+            <ContactsSidedrawer />
+        </div>
+    )
+
     return (
         <div className={classes.HomeContainer}>
             {bookmarksSideDrawer}
+            {contactsSideDrawer}
             <section className={classes.PostsSection}>
                 <StartCreating />
                 {topLoadingIndicator}

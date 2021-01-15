@@ -314,5 +314,43 @@ export const checkForNewMessages = (userKey, cb) => {
     })
     cb(messages)
   })
-
 }
+
+export const checkForActiveUsers = (authToken, followIds, cb) => {
+  console.log('follow Ids in checkForActiveUsers -> ', followIds);
+  if (followIds) {
+    let queries = [];
+    for (let i=0; i < followIds.length; i++) {
+      console.log('making query for ', followIds[i])
+      queries.push([firebase.database().ref(`/follows/${followIds[i]}/isOnline`), followIds[i]]);
+    }
+    console.log('queries -> ', queries)
+
+    queries.forEach(query => {
+      query[0].on('value', snapshot => {
+        let userStatus = {[query[1]]: snapshot.val()}
+        cb(userStatus)
+      })
+    });
+  }
+}
+
+// export const checkForActiveFriends = (authToken, followIds, cb) => {
+//   console.log(followIds)
+//   let promises = [];
+//   for (let id of followIds) {
+//     promises.push(axios.get(`/follows/${id}/isOnline.json?auth=${authToken}`))
+//   }
+//   console.log('promises -> ', promises);
+//   Promise.all(promises)
+//       .then( async responses => {
+//         console.log(responses);
+//         const online = await responses.map((response,i ) => response.data ? {isOnline: response.data, userId: followIds[i]} : null)
+//         console.log('success fetched activeFriends -> ', online);
+//         cb(online);
+//       })
+//       .catch(error => {
+//         console.log('failed fetching active friends -> ', error)
+//       })
+//
+// }

@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import * as actions from "./index"
+import axios from '../../axios/db-axios-instance';
 import axiosSignIn from "../../axios/signin-axios-instance";
 import axiosSignUp from "../../axios/signup-axios-instance";
 import firebase from '../../firebase';
@@ -32,6 +33,25 @@ export const authResetError = () => {
 }
 
 export const authLogout = () => {
+  return async dispatch => {
+    const userId = await localStorage.getItem('userId')
+    const authToken = await localStorage.getItem('authToken');
+    if (userId && authToken) {
+      axios.delete(`/follows/${userId}/isOnline.json?auth=${authToken}`)
+          .then(response => {
+            console.log('success- switched offline')
+            dispatch(logout())
+          })
+          .catch(error => {
+            console.log('failed switching offline')
+            dispatch(logout());
+          })
+      // dispatch(logout())
+    }
+  }
+}
+
+export const logout = () => {
   localStorage.removeItem("authToken");
   localStorage.removeItem("userId");
   localStorage.removeItem("expirationDate");
@@ -79,10 +99,11 @@ export const authAttempt = (email, password, isSignUp, userData) => {
         localStorage.setItem("expirationDate", expirationDate);
         localStorage.setItem("authToken", token);
         localStorage.setItem("userId", userId);
-
-        dispatch(authSuccess(token, userId));
-        dispatch(checkAuthTimeout(expirationTime));
-
+        axios.patch(`/follows/${userId}.json?auth=${token}`, {isOnline: true})
+            .then(response => {
+              dispatch(authSuccess(token, userId));
+              dispatch(checkAuthTimeout(expirationTime));
+            })
         if (isSignUp) {
           const newUserData = {userId: userId, ...userData}
           console.log('IS SIGN UP', newUserData)

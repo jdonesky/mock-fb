@@ -37,7 +37,7 @@ export const sendFriendRequestAttempt = (authToken, senderKey, recipientKey) => 
               console.log('sender', responses[0].data);
               console.log('recipient', responses[1].data);
 
-              const sentRequest = {name: recipientNewPublicProfile.firstName + ' ' + recipientNewPublicProfile.lastName, publicProfileKey: recipientKey, userKey: recipientNewPublicProfile.userKey, date: new Date()};
+              const sentRequest = {name: recipientNewPublicProfile.firstName + ' ' + recipientNewPublicProfile.lastName, publicProfileKey: recipientKey, userKey: recipientNewPublicProfile.userKey, userId: recipientNewPublicProfile.userId, date: new Date()};
               if (senderNewPublicProfile.friendRequests && senderNewPublicProfile.friendRequests.sent && senderNewPublicProfile.friendRequests.sent.length) {
                   newSentRequests = [...senderNewPublicProfile.friendRequests.sent, sentRequest]
               } else {
@@ -45,7 +45,7 @@ export const sendFriendRequestAttempt = (authToken, senderKey, recipientKey) => 
               }
 
               let newReceivedRequests;
-              const receivedRequest = {name: senderNewPublicProfile.firstName + ' ' + senderNewPublicProfile.lastName, publicProfileKey: senderKey, userKey: senderNewPublicProfile.userKey, date: new Date() }
+              const receivedRequest = {name: senderNewPublicProfile.firstName + ' ' + senderNewPublicProfile.lastName, publicProfileKey: senderKey, userKey: senderNewPublicProfile.userKey, userId: senderNewPublicProfile.userId, date: new Date() }
               if (recipientNewPublicProfile.friendRequests && recipientNewPublicProfile.friendRequests.received && recipientNewPublicProfile.friendRequests.received.length) {
                   newReceivedRequests = [...recipientNewPublicProfile.friendRequests.received, receivedRequest]
               } else {
@@ -221,7 +221,11 @@ export const acceptFriendRequestAttempt = (authToken, senderKey, recipientKey, c
                 const recordSent = axios.put(`/public-profiles/${senderKey}.json?auth=${authToken}`, senderNewPublicProfile)
                 const recordReceived = axios.put(`/public-profiles/${recipientKey}.json?auth=${authToken}`, recipientNewPublicProfile)
 
-                return Promise.all([recordSent, recordReceived])
+                const updateSenderFollows = axios.patch(`/follows/${senderNewPublicProfile.userId}/follows.json?auth=${authToken}`, {[recipientNewPublicProfile.userId]: sendersNewFriend})
+                const updateRecipientFollows = axios.patch(`/follows/${recipientNewPublicProfile.userId}/follows.json?auth=${authToken}`, {[senderNewPublicProfile.userId]: recipientsNewFriend})
+
+
+                return Promise.all([recordSent, recordReceived, updateSenderFollows, updateRecipientFollows])
                     .then(responses => {
                         console.log('SUCCESS - ACCEPTED REQUEST')
                         dispatch(acceptFriendRequestSuccess(newReceivedRequests, newFriends))
@@ -377,6 +381,51 @@ export const fetchFriendsAttempt = (authToken, publicProfileKey) => {
             .catch(error => {
                 dispatch(fetchFriendsFail(error))
             })
+    }
+}
+
+const fetchFollowingIdsInit = () => {
+    return {
+        type: actionTypes.FETCH_FOLLOWING_IDS_INIT
+    }
+}
+
+const fetchFollowingIdsSuccess = (ids) => {
+    return {
+        type: actionTypes.FETCH_FOLLOWING_IDS_SUCCESS,
+        ids: ids
+    }
+}
+
+const fetchFollowingIdsFail = (error) => {
+    return {
+        type: actionTypes.FETCH_FOLLOWING_IDS_FAIL,
+        error: error
+    }
+}
+
+
+export const fetchFollowingIdsAttempt = (authToken, userId, cb) => {
+    return dispatch => {
+        dispatch(fetchFollowingIdsInit());
+        axios.get(`/follows/${userId}/follows.json?shallow=true&auth=${authToken}`)
+            .then(response => {
+                console.log('success fetching following ids -> ', response);
+                let ids = response.data ? Object.keys(response.data) : null;
+                dispatch(fetchFollowingIdsSuccess(ids))
+                cb(ids);
+            })
+            .catch(error => {
+                console.log('failed fetching following ids -> ', error);
+                dispatch(fetchFollowingIdsFail(error));
+            })
+    }
+}
+
+export const updateFollowedOnline = (userStatus) => {
+    return {
+        type: actionTypes.UPDATE_FOLLOWED_ONLINE,
+        userStatus: userStatus
     }
 }
 

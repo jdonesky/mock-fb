@@ -14,6 +14,7 @@ import ViewAsContextProvider from "./context/view-as-context";
 
 import firebase from "./firebase";
 import {checkForNewMessages} from "./shared/utility";
+import {checkForActiveUsers} from "./shared/utility";
 
 const AsyncActiveChatTab = React.lazy(() => {
     return import('./components/Messenger/ActiveChats/ActiveChats')
@@ -88,7 +89,7 @@ const AsyncViewAsModal = React.lazy(() => {
 
 const app = (props) => {
 
-    const {authToken, userId, firebaseKey, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onSaveNotificationToken, onLoadNewMessages, onReloadApp} = props;
+    const {authToken, userId, firebaseKey, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onSaveNotificationToken, onLoadNewMessages, onFetchFollowingIds, onUpdateFollowedOnline, onReloadApp} = props;
 
     useEffect(() => {
         onReloadApp();
@@ -133,6 +134,13 @@ const app = (props) => {
             }
             checkForNewMessages(firebaseKey, (newMessages) => {
                 onLoadNewMessages(newMessages)
+            })
+
+            onFetchFollowingIds(authToken, userId, ids => {
+                checkForActiveUsers(authToken, ids, online => {
+                    console.log('active users, passed through from checkForActiveUsers callback -> ONLINE IN APP', online);
+                    onUpdateFollowedOnline(online);
+                })
             })
 
 
@@ -197,8 +205,8 @@ const app = (props) => {
 const mapStateToProps = (state) => {
     return {
         userId: state.auth.userId,
-        firebaseKey: state.profile.firebaseKey,
         authToken: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
         myPublicProfileKey: state.profile.publicProfileKey
     };
 };
@@ -209,7 +217,9 @@ const mapDispatchToProps = (dispatch) => {
         onFetchMyProfile: (userId, authToken) => dispatch(actions.fetchProfileAttempt(userId, authToken)),
         onFetchMyPublicProfile: (authToken, publicProfileKey) => dispatch(actions.fetchMyPublicProfileAttempt(authToken, publicProfileKey)),
         onSaveNotificationToken: (authToken, userKey, token) => dispatch(actions.saveNotificationTokenAttempt(authToken, userKey, token)),
-        onLoadNewMessages: (messages) => dispatch(actions.updateNewMessages(messages))
+        onLoadNewMessages: (messages) => dispatch(actions.updateNewMessages(messages)),
+        onFetchFollowingIds: (authToken, userId, cb) => dispatch(actions.fetchFollowingIdsAttempt(authToken, userId, cb)),
+        onUpdateFollowedOnline: (userStatus) => dispatch(actions.updateFollowedOnline(userStatus))
     };
 };
 
