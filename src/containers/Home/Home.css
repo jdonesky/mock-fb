@@ -8,6 +8,13 @@
     width: 100%;
 }
 
+.Break {
+    height: 1px;
+    width: 95%;
+    margin: 0;
+    background-color: rgba(0,0,0,0.2);
+}
+
 .PostsSection {
     position: relative;
     top: 70px;
@@ -16,6 +23,7 @@
     margin: 20px auto;
     display: flex;
     flex-flow: column;
+    z-index: 1;
 }
 
 .BookmarksSideDrawer {
@@ -23,17 +31,18 @@
     top: 82px;
     left: 0;
     height: 100%;
-    width: 30vw;
+    width: 20vw;
     display: none;
 }
 
 .ContactsSideDrawer {
     position: fixed;
-    top: 82px;
+    top: 93px;
     right: 0;
     height: 100%;
     width: 25vw;
     display: none;
+    z-index: 2;
 }
 
 .ContactsHeader {
@@ -44,6 +53,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 2;
 }
 
 .ContactsTitle {
@@ -53,7 +63,24 @@
     color: rgba(0,0,0,.4);
 }
 
-/*.ContactsHeaderControls*/
+.ContactsHeaderControl {
+    height: 23px;
+    width: 23px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.ContactsHeaderControl:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.ContactsHeaderControl svg {
+    height: auto;
+    width: 55%;
+    position: relative;
+    top: 1px;
+    left: 5px;
+}
 
 .BottomLoader {
     height: 100px;
@@ -67,7 +94,7 @@
 
 @media (min-width: 800px) {
     .HomeContainer {
-        left: 30vw;
+        left: 20vw;
         width: 70vw
     }
 
@@ -83,7 +110,7 @@
 
 @media (min-width: 1050px) {
     .HomeContainer {
-        left: 35vh;
+        left: 20vw;
         width: 55vw
     }
 
@@ -97,6 +124,9 @@
     }
 
     .ContactsSideDrawer {
-        display: block;
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-start;
+        align-items: flex-start;
     }
 }

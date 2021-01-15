@@ -1,0 +1,82 @@
+
+
+.Container {
+    position: absolute;
+    box-sizing: border-box;
+    padding: 8px 0;
+    z-index: 4;
+    top: 40px;
+    right: 8px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 330px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 3px rgba(0,0,0,0.1);
+}
+
+.Arrow {
+    border-style: solid;
+    position: absolute;
+    border-color: transparent;
+    border-width: 8px 8px 0 8px;
+    bottom: 118px;
+    right: -40px;
+}
+
+.Arrow:after {
+    border-color:  white transparent;
+    border-style: solid;
+    border-width: 0 7px 7px 7px;
+    bottom: 1px;
+    content: "";
+    position: absolute;
+    right: -140px;
+}
+
+.Break {
+    height: 1px;
+    width: 92%;
+    background-color: rgba(0,0,0,0.2);
+    margin: 6px auto;
+}
+
+.DropdownOptionsButton {
+    height: 40px;
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 5px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.DropdownOptionsButton:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.DropdownIcon {
+    height: 30px;
+    width: 30px;
+    margin-right: 12px;
+}
+
+.DropdownIcon svg {
+    height: auto;
+    width: 70%;
+    position: relative;
+    top: 7px;
+    left: 8px;
+}
+
+.SwitchBlock {
+    height: 100%;
+    width: 50px;
+    margin-left: auto;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

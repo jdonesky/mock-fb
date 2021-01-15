@@ -14,12 +14,16 @@ const initialState = {
   activityLogKey: null,
   userId: null,
   error: null,
+  activeStatus: null,
+  blockActiveOnLogin: false,
   activeChat: null,
   removedMessageKey: null,
   noActiveChat: false,
   startingChat: false,
   restartingChat: false,
   fetchingActiveChat: false,
+  fetchingActiveStatus: false,
+  switchingActiveStatus: false,
   clearingActiveChat: false,
   removingFromNewMessages: false,
   profileLoading: false,
@@ -253,6 +257,53 @@ const fetchActiveChatFail = (state,action) => {
   }
 }
 
+const fetchActiveStatusInit = (state,action) => {
+  return {
+    ...state,
+    fetchingActiveStatus: true
+  }
+}
+
+const fetchActiveStatusSuccess = (state,action) => {
+  return {
+    ...state,
+    activeStatus: action.status,
+    fetchingActiveStatus: false
+  }
+}
+
+const fetchActiveStatusFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    fetchingActiveStatus: false
+  }
+}
+
+const switchActiveStatusInit = (state,action) => {
+  return {
+    ...state,
+    switchingActiveStatus: true
+  }
+}
+
+const switchActiveStatusSuccess = (state,action) => {
+  return {
+    ...state,
+    activeStatus: action.status,
+    blockActiveOnLogin: action.block,
+    switchingActiveStatus: false
+  }
+}
+
+const switchActiveStatusFail = (state,action) => {
+  return {
+    ...state,
+    error: action.error,
+    switchingActiveStatus: false
+  }
+}
+
 const clearActiveChatInit = (state,action) => {
   return {
     ...state,
@@ -338,6 +389,12 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_ACTIVE_CHAT_INIT: return fetchActiveChatInit(state,action);
     case actionTypes.FETCH_ACTIVE_CHAT_SUCCESS: return fetchActiveChatSuccess(state,action);
     case actionTypes.FETCH_ACTIVE_CHAT_FAIL: return fetchActiveChatFail(state,action);
+    case actionTypes.FETCH_ACTIVE_STATUS_INIT: return fetchActiveStatusInit(state,action);
+    case actionTypes.FETCH_ACTIVE_STATUS_SUCCESS: return fetchActiveStatusSuccess(state,action);
+    case actionTypes.FETCH_ACTIVE_STATUS_FAIL: return fetchActiveStatusFail(state,action);
+    case actionTypes.SWITCH_ACTIVE_STATUS_INIT: return switchActiveStatusInit(state,action);
+    case actionTypes.SWITCH_ACTIVE_STATUS_SUCCESS: return switchActiveStatusSuccess(state,action);
+    case actionTypes.SWITCH_ACTIVE_STATUS_FAIL: return switchActiveStatusFail(state,action);
     case actionTypes.CLEAR_ACTIVE_CHAT_INIT: return clearActiveChatInit(state,action);
     case actionTypes.CLEAR_ACTIVE_CHAT_SUCCESS: return clearActiveChatSuccess(state,action);
     case actionTypes.REMOVE_FROM_NEW_MESSAGES_INIT: return removeFromNewMessagesInit(state,action);

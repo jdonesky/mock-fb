@@ -89,7 +89,7 @@ const AsyncViewAsModal = React.lazy(() => {
 
 const app = (props) => {
 
-    const {authToken, userId, firebaseKey, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onSaveNotificationToken, onLoadNewMessages, onFetchFollowingIds, onUpdateFollowedOnline, onReloadApp} = props;
+    const {authToken, userId, firebaseKey, onFetchMyProfile, myPublicProfileKey, onFetchMyPublicProfile, onSaveNotificationToken, onLoadNewMessages, onFetchFollowingIds, onUpdateFollowedOnline, onFetchActiveStatus, onReloadApp} = props;
 
     useEffect(() => {
         onReloadApp();
@@ -143,6 +143,7 @@ const app = (props) => {
                 })
             })
 
+            onFetchActiveStatus(authToken, userId);
 
         }
     }, [firebaseKey])
@@ -219,7 +220,8 @@ const mapDispatchToProps = (dispatch) => {
         onSaveNotificationToken: (authToken, userKey, token) => dispatch(actions.saveNotificationTokenAttempt(authToken, userKey, token)),
         onLoadNewMessages: (messages) => dispatch(actions.updateNewMessages(messages)),
         onFetchFollowingIds: (authToken, userId, cb) => dispatch(actions.fetchFollowingIdsAttempt(authToken, userId, cb)),
-        onUpdateFollowedOnline: (userStatus) => dispatch(actions.updateFollowedOnline(userStatus))
+        onUpdateFollowedOnline: (userStatus) => dispatch(actions.updateFollowedOnline(userStatus)),
+        onFetchActiveStatus: (authToken, userId) => dispatch(actions.fetchActiveStatusAttempt(authToken, userId)),
     };
 };
 

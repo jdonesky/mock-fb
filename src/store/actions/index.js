@@ -18,6 +18,8 @@ export {
   clearActiveChatAttempt,
   clearLocalActiveChat,
   removeFromNewMessagesAttempt,
+  fetchActiveStatusAttempt,
+  switchActiveStatusAttempt,
   logoutClearProfile
 } from "./profile";
 

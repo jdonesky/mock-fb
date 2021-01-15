@@ -5,6 +5,91 @@ import {KeyGenerator} from "../../shared/utility";
 import {convertDatetime} from "../../shared/utility";
 
 
+const fetchActiveStatusInit = () => {
+    return {
+        type: actionTypes.FETCH_ACTIVE_STATUS_INIT
+    }
+}
+
+const fetchActiveStatusSuccess = (status) => {
+    return {
+        type: actionTypes.FETCH_ACTIVE_STATUS_SUCCESS,
+        status: status
+    }
+}
+
+const fetchActiveStatusFail = (error) => {
+    return {
+        type: actionTypes.FETCH_ACTIVE_STATUS_FAIL,
+        error: error
+    }
+}
+
+export const fetchActiveStatusAttempt = (authToken, userId) => {
+    return dispatch => {
+        dispatch(fetchActiveStatusInit());
+        axios.get(`/follows/${userId}/isOnline.json?auth=${authToken}`)
+            .then(response => {
+                console.log('success - put new active status -> ', response.data);
+                let status;
+                if (response.data) {
+                    status = response.data;
+                } else {
+                    status = false
+                }
+                dispatch(fetchActiveStatusSuccess(status));
+            })
+            .catch(error => {
+                console.log('failed getting active status -> ', error);
+                dispatch(fetchActiveStatusFail(error));
+            })
+    }
+}
+
+const switchActiveStatusInit = () => {
+    return {
+        type: actionTypes.SWITCH_ACTIVE_STATUS_INIT
+    }
+}
+
+const switchActiveStatusSuccess = (newStatus, block) => {
+    return {
+        type: actionTypes.SWITCH_ACTIVE_STATUS_SUCCESS,
+        status: newStatus,
+        block: block
+    }
+}
+
+const switchActiveStatusFail = (error) => {
+    return {
+        type: actionTypes.SWITCH_ACTIVE_STATUS_FAIL,
+        error: error
+    }
+}
+
+export const switchActiveStatusAttempt = (authToken, userId, status) => {
+    return dispatch => {
+        dispatch(switchActiveStatusInit());
+        let block;
+        if (status === false) {
+            block = true
+        } else {
+            block = false
+        }
+        const payload = {isOnline: status, blockActiveOnLogin: block}
+        axios.patch(`/follows/${userId}.json?auth=${authToken}`, payload)
+            .then(response => {
+                console.log('success - put new active status -> ', status);
+                dispatch(switchActiveStatusSuccess(status, block));
+            })
+            .catch(error => {
+                console.log('failed putting new active status -> ', error);
+                dispatch(switchActiveStatusFail(error));
+            })
+    }
+}
+
+
 const saveNotificationTokenInit = () => {
     return {
         type: actionTypes.SAVE_NOTIFICATION_TOKEN_INIT

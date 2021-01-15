@@ -1,5 +1,5 @@
 
-import React, {useEffect, useRef} from 'react';
+import React, {useState,useEffect, useRef} from 'react';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 import classes from './Home.css';
@@ -7,13 +7,18 @@ import StartCreating from "../../components/Profile/Timeline/Posts/Create/StartC
 import Post from '../../components/Profile/Timeline/Posts/Post/Post';
 import Bookmarks from '../../components/Navigation/Bookmarks/Bookmarks';
 import ContactsSidedrawer from "../../components/Contacts/ContactsSidedrawer";
+import ContactsOptions from "../../components/Contacts/Dropdowns/ContactsOptions";
 
+import Dots from '../../assets/images/dots';
 import InlineDots from '../../components/UI/Spinner/InlineDots';
 import useInfiniteScroll from "../../hooks/infiniteScroll";
+import OutsideAlerter from "../../hooks/outsideClickHandler";
 
 const home = (props) => {
 
     const [isBottom, setIsBottom] = useInfiniteScroll()
+    const [showContacts, setShowContacts] = useState(true);
+    const [showContactsOptions, setShowContactsOptions] = useState(true);
     const firstUpdate = useRef(true);
 
     useEffect(() => {
@@ -80,13 +85,24 @@ const home = (props) => {
         </div>
     )
 
+    let contactsOptions;
+    if (showContactsOptions) {
+        contactsOptions = <ContactsOptions showContacts={showContacts} toggleContacts={() => setShowContacts(prevState => {return !prevState})} close={() => setShowContactsOptions(false)}/>
+    }
+
     const contactsSideDrawer = (
         <div className={classes.ContactsSideDrawer}>
+            <div className={classes.Break}/>
             <section className={classes.ContactsHeader}>
                 <div className={classes.ContactsTitle}>Contacts</div>
-                <div className={classes.ContactsHeaderControl}></div>
+                <OutsideAlerter action={showContactsOptions ? () => setShowContactsOptions(false) : null}>
+                    <div className={classes.ContactsHeaderControl} style={{backgroundColor: showContactsOptions ? 'rgba(0,0,0,0.05)' : null}} onClick={() => setShowContactsOptions(true)}>
+                        <Dots />
+                    </div>
+                    {contactsOptions}
+                </OutsideAlerter>
             </section>
-            <ContactsSidedrawer />
+            {showContacts ? <ContactsSidedrawer /> : null}
         </div>
     )
 

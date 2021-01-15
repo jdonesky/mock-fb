@@ -99,8 +99,14 @@ export const authAttempt = (email, password, isSignUp, userData) => {
         localStorage.setItem("expirationDate", expirationDate);
         localStorage.setItem("authToken", token);
         localStorage.setItem("userId", userId);
-        axios.patch(`/follows/${userId}.json?auth=${token}`, {isOnline: true})
+
+        axios.get(`/follows/${userId}/blockActiveOnLogin.json?auth=${token}`)
             .then(response => {
+              if (response.data && response.data === true) {
+                console.log('block active true!');
+              } else {
+                axios.put(`/follows/${userId}/isActive.json?auth=${token}`, {isOnline: true})
+              }
               dispatch(authSuccess(token, userId));
               dispatch(checkAuthTimeout(expirationTime));
             })

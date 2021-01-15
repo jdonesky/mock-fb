@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import classes from './EditIntro.css';
 import AddContentButton from '../../../../../Profile/ProfileAbout/AboutContent/SharedContent/AddContentButton';
 import Switch from '../../../../Switch/Switch';
-import InlineDots from '../../../../Spinner/InlineDots';
 import Edit from '../../../../../../assets/images/edit';
 import * as actions from "../../../../../../store/actions";
 import {EditProfileContext} from "../../../../../../context/edit-profile-context";
