@@ -3,7 +3,7 @@
 .HomeContainer {
     position: absolute;
     top: 0;
-    left: 0;
+    /*left: 0;*/
     height: 100%;
     width: 100%;
 }
@@ -30,7 +30,11 @@
 @media (min-width: 900px) {
     .HomeContainer {
         left: 300px;
-        width: 70vw
+        width: 65vw
+    }
+
+    .PostSection {
+        width: 100%;
     }
 
     .BookmarksSideDrawer {

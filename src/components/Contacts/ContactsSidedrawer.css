@@ -1,0 +1,11 @@
+
+.Container {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}

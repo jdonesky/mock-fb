@@ -190,6 +190,7 @@ const startNewChatSuccess = (state,action) => {
   return {
     ...state,
     activeChat: action.chat,
+    publicProfile: action.publicProfile,
     startingChat: false
   }
 }

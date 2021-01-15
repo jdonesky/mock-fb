@@ -34,6 +34,7 @@ const activeChats = props => {
       }
    }
 
+
    let activeChatTab;
    let theirProfile;
    if (localActiveChat && localActiveChat.parties && showActiveChat) {
@@ -43,7 +44,7 @@ const activeChats = props => {
              <div className={classes.ActiveChatTab} style={{backgroundImage: theirProfile.profileImage ? `url(${theirProfile.profileImage})` : null}}
                   onClick={restartChat}
              >
-               {theirProfile.profileImage ? null : props.fetchingActiveChat || props.clearingActiveChat || !localActiveChat.key ? <Spinner /> : <Avatar fill="white" />}
+               {theirProfile.profileImage ? null : props.fetchingActiveChat || props.clearingActiveChat || !activeChat.key ? <Spinner /> : <Avatar fill="white" />}
              </div>
           </Label>
       )

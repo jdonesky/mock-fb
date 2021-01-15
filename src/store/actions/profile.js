@@ -115,6 +115,10 @@ export const createProfileAttempt =  (token,newUserData) => {
                     return axios.put(`users/${userKey}.json?auth=${token}`, userData)
                 })
                 .then(response => {
+                    return axios.put(`/follows/${userKey}.json?auth=${token}`, {name: userData.firstName + ' ' + userData.lastName, userKey: userKey, publicProfileKey: publicProfileKey})
+                })
+                .then(response => {
+                    console.log('success - patched follows')
                     dispatch(createProfileSuccess(userData));
                 })
                 .catch(error => {
