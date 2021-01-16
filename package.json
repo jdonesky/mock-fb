@@ -46,6 +46,7 @@
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
+    "react-svg-loader": "^3.0.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "resolve": "1.6.0",
@@ -115,6 +116,4 @@
       "target": "http://localhost:4000"
     }
   }
-
-
 }

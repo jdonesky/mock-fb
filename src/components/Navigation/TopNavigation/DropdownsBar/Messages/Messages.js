@@ -44,7 +44,7 @@ const messagesDropdown = props => {
 
     let updatedChats;
     if (myChats) {
-        updatedChats = [...myChats].map(chat => ({...chat, messages: [...Object.keys(chat.messages).map(key => ({...chat.messages[key]}))].sort((a,b) => new Date(b.date) - new Date(a.date))}));
+        updatedChats = [...myChats].map(chat => ({...chat, messages: chat.messages ? [...Object.keys(chat.messages).map(key => ({...chat.messages[key]}))].sort((a,b) => new Date(b.date) - new Date(a.date)) : []}));
         if (newMessages) {
             const chatsToUpdate = newMessages.map(message => message.chatKey)
             updatedChats = updatedChats.map(chat => {

@@ -98,7 +98,6 @@ const dropdownsBar = (props) => {
     if (newMessages && newMessages.filter(msg => msg.senderKey !== firebaseKey).length) {
         filtered = newMessages.filter(msg => msg.senderKey !== firebaseKey)
         if (filtered.length && activeChat && messengerContext.showMessenger) {
-            console.log('IN SHOW MESSENGER BLOCK')
             filtered = filtered.filter(msg => msg.chatKey !== activeChat.key)
         }
         // if (filtered.length && removedMessageKey) {
@@ -109,13 +108,6 @@ const dropdownsBar = (props) => {
             newMessageCount = <NewCounter count={filtered.length}/>
         }
     }
-
-
-
-
-
-
-
 
     return (
         <div className={classes.DropdownsContainer}>

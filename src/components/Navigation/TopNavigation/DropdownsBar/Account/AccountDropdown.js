@@ -32,6 +32,7 @@ const accountDropdown = (props) => {
     }
 
     const logout = () => {
+        props.close();
         props.history.push('/logout')
         messengerContext.clearActiveChat()
         props.onClearProfile();

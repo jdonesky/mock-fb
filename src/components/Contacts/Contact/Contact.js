@@ -71,7 +71,7 @@ const contact = props => {
         <React.Fragment>
             <div className={classes.Container} onMouseEnter={enterContact} onMouseLeave={leaveContact} onClick={openChat}>
                 <div className={classes.ProfileImageContainer}>
-                    <div className={classes.ProfileImage}>
+                    <div className={classes.ProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
                         {props.profileImage ? null : <Avatar fill="white" />}
                     </div>
                     {onlineIndicator}

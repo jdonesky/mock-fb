@@ -1,6 +1,6 @@
 
 .DropdownContainer {
-    position: absolute;
+    position:absolute;
     width: 360px;
     top: 27px;
     left: -270px;
@@ -104,5 +104,10 @@
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
+    max-height: 400px;
+    overflow: auto;
 }
 
+.ChatsContainer::-webkit-scrollbar {
+    display: none;
+}
