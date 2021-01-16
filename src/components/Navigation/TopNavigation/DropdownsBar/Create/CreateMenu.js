@@ -3,6 +3,7 @@ import React, {useContext} from 'react';
 import {withRouter} from 'react-router';
 import {PostContext} from "../../../../../context/post-context";
 import {LifeEventContext} from "../../../../../context/life-event-context";
+import {UnderConstructionContext} from "../../../../../context/under-construction-context";
 import classes from './CreateMenu.css';
 
 import Paper from '../../../../../assets/images/TopNavButtonIcons/paperPen';
@@ -15,7 +16,8 @@ import Calendar from '../../../../../assets/images/TopNavButtonIcons/calendar';
 const createMenu = (props) => {
 
     const postContext = useContext(PostContext);
-    const lifeEventContext = useContext(LifeEventContext)
+    const lifeEventContext = useContext(LifeEventContext);
+    const underConstruction = useContext(UnderConstructionContext);
 
     const openPostModal = () => {
         postContext.toggleModal();
@@ -30,6 +32,11 @@ const createMenu = (props) => {
     const startCreatePage = () => {
         props.history.push('/pages/create');
         props.close();
+    }
+
+    const blockRoute = () => {
+        underConstruction.openModal();
+        props.close()
     }
 
     return (
@@ -48,7 +55,7 @@ const createMenu = (props) => {
                     <div className={classes.SmallText}>Share a post on News Feed</div>
                 </div>
             </section>
-            <section className={classes.Button}>
+            <section className={classes.Button} onClick={blockRoute}>
                 <div className={classes.Icon}>
                     <Book />
                 </div>
@@ -76,7 +83,7 @@ const createMenu = (props) => {
                     <div className={classes.SmallText}>Connect and share with customers or fans</div>
                 </div>
             </section>
-            <section className={classes.Button}>
+            <section className={classes.Button} onClick={blockRoute}>
                 <div className={classes.Icon}>
                     <Group />
                 </div>
@@ -85,7 +92,7 @@ const createMenu = (props) => {
                     <div className={classes.SmallText}>Connect over your shared interests</div>
                 </div>
             </section>
-            <section className={classes.Button}>
+            <section className={classes.Button} onClick={blockRoute}>
                 <div className={[classes.Icon, classes.Event].join(" ")}>
                     <Calendar />
                 </div>

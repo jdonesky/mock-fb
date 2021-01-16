@@ -1,13 +1,17 @@
 
-import React from 'react';
+import React, {useContext} from 'react';
 import {withRouter} from 'react-router';
 import classes from './CenterOptionsBar.css';
+import {UnderConstructionContext} from "../../../../context/under-construction-context";
 
 import HouseContour from '../../../../assets/images/TopNavButtonIcons/homeContour';
 import HouseFilled from '../../../../assets/images/TopNavButtonIcons/homeFilled';
 import GroupFilled from '../../../../assets/images/TopNavButtonIcons/groupFill';
 
+
 const centerOptions = (props) => {
+
+    const underConstruction = useContext(UnderConstructionContext);
 
     const navHome = () => {
         if (props.location.pathname !== '/home') {
@@ -16,9 +20,10 @@ const centerOptions = (props) => {
     }
 
     const navGroups = () => {
-        if (props.location.pathname !== '/groups') {
-            props.history.push('/groups')
-        }
+        // if (props.location.pathname !== '/groups') {
+        //     props.history.push('/groups')
+        // }
+        underConstruction.openModal()
     }
 
     const navFullMenu = () => {

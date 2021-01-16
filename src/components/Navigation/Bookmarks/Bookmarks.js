@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, {useContext} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
+import {UnderConstructionContext} from "../../../context/under-construction-context";
 import classes from './Bookmarks.css';
 import Link from './Link/Link';
 
@@ -13,6 +14,8 @@ import Bookmark from '../../../assets/images/BookmarkIcons/bookmark';
 import Flag from '../../../assets/images/BookmarkIcons/flag';
 
 const bookmarks = props => {
+
+    const underConstruction = useContext(UnderConstructionContext);
 
     const navigateTo = path => (
         props.history.push(path)
@@ -34,6 +37,7 @@ const bookmarks = props => {
             text={link.text}
             path={link.path}
             nav={navigateTo}
+            block={underConstruction.openModal}
         />
     ))
 
