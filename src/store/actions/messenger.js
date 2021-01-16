@@ -23,12 +23,10 @@ const sendMessageFail = (error) => {
 }
 
 export const sendMessageAttempt = (authToken, chatKey, message) => {
-    console.log('SENDING MESSAGE ATTEMPT')
     return dispatch => {
         dispatch(sendMessageInit());
         axios.post(`/chats/${chatKey}/messages.json?auth=${authToken}`, message)
             .then(response => {
-                console.log('posted message', response.data.name);
                 dispatch(sendMessageSuccess())
             })
             .catch(error => {
@@ -110,7 +108,6 @@ export const fetchMyChatsAttempt = (authToken, publicProfileKey) => {
                 dispatch(fetchMyChatsSuccess(chats))
             })
             .catch(error => {
-                console.log('failed fetching chats -> ', error);
                 dispatch(fetchMyChatsFail(error))
             })
 

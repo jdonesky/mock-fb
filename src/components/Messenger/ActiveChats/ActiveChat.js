@@ -15,20 +15,11 @@ const activeChat = props => {
    const {localActiveChat, retrieveChat, showMessenger, showActiveChat} = messengerContext
    const {authToken, activeChat} = props
 
-   // useEffect(() => {
-   //    console.log('In ActiveChat tab component')
-   //    console.log('localActiveChat', localActiveChat);
-   //    console.log('VS');
-   //    console.log('activeChat', activeChat);
-   // })
-
    const restartChat = () => {
       if (!showMessenger && localActiveChat) {
-         console.log('activeChat', localActiveChat)
          if (localActiveChat.key) {
             retrieveChat(localActiveChat.key)
          } else {
-            console.log('NO KEY IN LOCAL ACTIVE CHAT');
             return;
          }
       }

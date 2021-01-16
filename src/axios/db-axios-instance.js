@@ -13,7 +13,9 @@ instance.interceptors.request.use(reqConfig => {
     reqConfig.headers.common['Authorization'] = token
   }
   return reqConfig;
-}, err => console.log(err))
+}, err => {
+  console.log(err)
+})
 
 export default instance;
 

@@ -34,8 +34,6 @@ const pages = props => {
     const { width, height } = getWindowDimensions();
 
     useEffect(() => {
-        console.log('viewing', viewing)
-        console.log('displayPage', displayPage);
         if (viewing !== props.history.location.pathname.split('/')[2]) {
             setViewing(props.history.location.pathname.split('/')[2])
         }

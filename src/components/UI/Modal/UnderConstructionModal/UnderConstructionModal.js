@@ -4,7 +4,6 @@ import classes from './UnderConstructionModal.css';
 import {UnderConstructionContext} from "../../../../context/under-construction-context";
 import GuardRail from '../../../../assets/images/ConstructionIcons/guardRail'
 import Jackhammer from '../../../../assets/images/ConstructionIcons/jackhammer'
-import Roadwork from '../../../../assets/images/ConstructionIcons/roadwork'
 import TrafficControl from '../../../../assets/images/ConstructionIcons/trafficControl'
 import Planning from '../../../../assets/images/ConstructionIcons/planning'
 
@@ -21,7 +20,7 @@ const underConstructionModal = props => {
     return (
         <div className={containerClasses.join(" ")} onClick={closeModal}>
             <div className={classes.Content}>
-                <div className={classes.Title}>Shoot...</div>
+                <div className={classes.Title}>Oops...</div>
                 <div className={classes.SubTitle}>
                     The feature you're trying to access is under construction
                 </div>

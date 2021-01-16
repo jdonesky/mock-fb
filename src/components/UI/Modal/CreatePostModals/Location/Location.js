@@ -44,7 +44,6 @@ const searchLocations = ({pastLocations, currLocation, hometown}) => {
             .catch(err => {
                 const filtered = allSuggestions.filter(suggestion => suggestion.name.split(" ")[0].slice(0,name.length).toLowerCase() === name.toLowerCase() || suggestion.name.split(" ")[1].slice(0,name.length).toLowerCase() === name.toLowerCase());
                 setSuggestions(filtered.length ? filtered : '')
-                console.log(err)
             })
     }, [])
 

@@ -9,8 +9,6 @@ import DumbFb from '../../../../assets/images/Logos/filled';
 import AutoReact from '../../../../assets/images/MiscIcons/react';
 
 
-
-
 const inboxTOC = props => {
 
     let messageIconFill = 'rgba(0,0,0,.6)';

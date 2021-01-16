@@ -18,11 +18,6 @@ const contactAndBasicInfo = (props) => {
         }
     })
 
-    useEffect(() => {
-        console.log('otherProfile', otherProfile)
-        console.log(birthday);
-        // console.log(convertDate(birthday))
-    })
 
     const {myContacts, myBirthday, myGender, otherProfile} = props
 

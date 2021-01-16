@@ -131,7 +131,6 @@ const profileSummaryDropdown = (props) => {
 
     const startChat = () => {
         if (props.profile) {
-            console.log('starting chat with -> ', props.profile)
             let theirType;
             if (userType === 'PAGE') {
                 theirType = userType
@@ -188,7 +187,6 @@ const profileSummaryDropdown = (props) => {
                 newPageLikes = {received: [newReceivedLike]}
             }
             newPageSummary.likes = newPageLikes
-            console.log('newPageSummary with likes ', newPageSummary);
             if (newProfile.likes) {
                 newProfileLikes = {...newProfile.likes}
                 if (newProfileLikes.pages) {
@@ -201,7 +199,6 @@ const profileSummaryDropdown = (props) => {
                 newProfileLikes = {pages: [newSentLike]}
             }
             newProfile.likes = newProfileLikes
-            console.log('newProfile with sent likes', newProfile)
             props.onLikePage(authToken, newPageSummary, newProfile, props.myPublicProfileKey);
             setLikedPage(true);
         }

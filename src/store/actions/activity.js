@@ -81,11 +81,9 @@ export const fetchPersonalActivityAttempt = (authToken,key, type) => {
         dispatch(fetchPersonalActivityInit());
         axios.get(`/activity/${key}/personal.json?auth=${authToken}&orderBy="type"&equalTo="${type}"&limitToFirst=10`)
             .then(response => {
-                console.log('success- fetched personal activity', response.data)
                 dispatch(fetchPersonalActivitySuccess(response.data))
             })
             .catch(error => {
-                console.log(error);
                 dispatch(fetchPersonalActivityFail(error))
             })
     }
@@ -116,11 +114,9 @@ export const switchReadStatusAttempt = (authToken, logKey, recordKey, modifiedRe
         dispatch(switchReadStatusInit())
         axios.put(`/activity/${logKey}/records/${recordKey}.json?auth=${authToken}`, modifiedRecord)
             .then(response => {
-                console.log('success - modified read status')
                 dispatch(switchReadStatusSuccess())
             })
             .catch(error => {
-                console.log('failed - ', error)
                 dispatch(switchReadStatusFail(error))
             })
     }
@@ -155,11 +151,9 @@ export const createActivityAttempt = (authToken, logKey, activity, type) => {
         }
         axios.post(`/activity/${logKey}/${loc}.json?auth=${authToken}`, activity)
             .then(response => {
-                console.log('success, created new record');
                 dispatch(createActivitySuccess());
             })
             .catch(error => {
-                console.log('fail', error);
                 dispatch(createActivityFail(error));
             })
     }
@@ -190,11 +184,9 @@ export const deleteActivityAttempt = (authToken, logKey, loc, key) => {
         dispatch(deleteActivityInit(key));
         axios.delete(`/activity/${logKey}/${loc}/${key}.json?auth=${authToken}`)
             .then(response => {
-                console.log('success - deleted activity')
                 dispatch(deleteActivitySuccess());
             })
             .catch(error => {
-                console.log('fail - ', error);
                 dispatch(deleteActivityFail(error));
             })
     }

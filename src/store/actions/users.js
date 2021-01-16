@@ -122,7 +122,6 @@ export const fetchFullProfileAttempt = (userKey, authToken) => {
           dispatch(fetchFullProfileSuccess(response.data));
         })
         .catch(error => {
-          console.log(error);
           dispatch(fetchFullProfileFail(error));
         })
   }

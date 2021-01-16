@@ -24,10 +24,6 @@ import InlineDots from '../../../Spinner/InlineDots';
 
 const baseForm = (props) => {
 
-    // useEffect(() => {
-    //     console.log(postContext.allowPost)
-    // })
-
     const textRef = useRef(null);
 
     const postContext = useContext(PostContext);

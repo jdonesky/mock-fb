@@ -6,10 +6,6 @@ import * as actions from "../../store/actions/index";
 const Logout = (props) => {
 
   useEffect(() => {
-    console.log('activeChat => ', props.activeChat )
-  })
-
-  useEffect(() => {
     props.onLogout();
     props.onClearProfile();
     props.onClearUsers();

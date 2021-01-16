@@ -51,7 +51,6 @@ const contact = props => {
 
     const openChat = () => {
         props.fetchContactProfile(props.authToken, props.publicProfileKey, 'CONTACT', (profile) => {
-            console.log('contact profile in callback -> ', profile);
             props.beginChat(profile, 'USER', 'USER')
         })
     }

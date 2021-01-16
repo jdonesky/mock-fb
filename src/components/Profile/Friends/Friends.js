@@ -255,7 +255,6 @@ const friends = (props) => {
     const searchFriends = useCallback((searchedName, filter, baseResults) => {
         const selected = baseResults[filter]
         let filteredFriends;
-        console.log('selected', selected)
         if (selected && selected.length) {
             filteredFriends = [...selected]
                 .filter(friend => {

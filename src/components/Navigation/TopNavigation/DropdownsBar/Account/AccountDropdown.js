@@ -12,15 +12,22 @@ import Gear from '../../../../../assets/images/TopNavButtonIcons/gear';
 import CrescentMoon from '../../../../../assets/images/TopNavButtonIcons/crescentMoon';
 import Logout from '../../../../../assets/images/TopNavButtonIcons/logout';
 import RightArrow from '../../../../../assets/images/TopNavButtonIcons/rightArrow';
+import {UnderConstructionContext} from "../../../../../context/under-construction-context";
 
 const accountDropdown = (props) => {
 
     const messengerContext = useContext(MessengerContext);
+    const underConstruction = useContext(UnderConstructionContext)
 
     const navProfile = () => {
         if (props.location.pathname !== '/user-profile/me') {
             props.history.push('/user-profile/me')
         }
+        props.close();
+    }
+
+    const blockRoute = () => {
+        underConstruction.openModal()
         props.close();
     }
 
@@ -36,8 +43,6 @@ const accountDropdown = (props) => {
         props.onClearSearch();
         props.onClearPhotos();
         props.onClearUsers();
-
-
     }
 
     return (
@@ -54,7 +59,7 @@ const accountDropdown = (props) => {
                 </div>
             </section>
             <div className={classes.Break}/>
-            <section className={classes.Button}>
+            <section className={classes.Button} onClick={blockRoute}>
                 <div className={classes.Icon}>
                     <Feedback />
                 </div>
@@ -64,7 +69,7 @@ const accountDropdown = (props) => {
                 </div>
             </section>
             <div className={classes.Break}/>
-            <section className={classes.Button}>
+            <section className={classes.Button} onClick={blockRoute}>
                 <div className={classes.Icon}>
                     <Gear />
                 </div>
@@ -73,7 +78,7 @@ const accountDropdown = (props) => {
                     <RightArrow fill="rgba(0,0,0,0.6)"/>
                 </div>
             </section>
-            <section className={classes.Button}>
+            <section className={classes.Button} onClick={blockRoute}>
                 <div className={classes.Icon}>
                     <CrescentMoon />
                 </div>

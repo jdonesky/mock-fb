@@ -67,7 +67,6 @@ export const startCreatePageAttempt = (authToken, page) => {
                     return axios.get(`/users/${page.adminUserKey}.json?auth=${authToken}`)
                 })
                 .then(response => {
-                    console.log('SUCCESS - got profile to add new page key')
                     const newProfile = {...response.data}
                     let newPageKeys;
                     if (newProfile.ownedPageKeys) {
@@ -79,11 +78,9 @@ export const startCreatePageAttempt = (authToken, page) => {
                     return axios.put(`/users/${page.adminUserKey}.json?auth=${authToken}`, newProfile)
                 })
                 .then(response => {
-                    console.log('Success - put new profile with new page key')
                     dispatch(startCreatePageSuccess(newPage))
                 })
                 .catch(error => {
-                    console.log(error)
                     dispatch(createPageFail(error))
                 })
         })
@@ -102,7 +99,6 @@ export const finishCreatePageAttempt = (authToken, page, cb) => {
                     return axios.put(`/posts/${page.postsKey}.json?auth=${authToken}`, postsWithProfilePics)
                 })
                 .catch(error => {
-                    console.log(error);
                 })
         }
         axios.put(`pages/${pageKey}.json?auth=${authToken}`, page)
@@ -217,7 +213,6 @@ export const fetchOwnedPageAttempt = (authToken, pageKey) => {
                 dispatch(fetchOwnedPageSuccess(response.data));
             })
             .catch(error => {
-                console.log(error);
                 dispatch(fetchOwnedPageFail(error));
             })
     }
@@ -252,7 +247,6 @@ export const fetchOthersPageAttempt = (authToken, pageKey) => {
                 dispatch(fetchOthersPageSuccess(response.data))
             })
             .catch(error => {
-                console.log(error);
                 dispatch(fetchOthersPageFail(error))
             })
     }
@@ -285,11 +279,9 @@ export const fetchPageSummaryAttempt = (authToken, pageKey) => {
         dispatch(fetchPageSummaryInit());
         axios.get(`/pages/${pageKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log(response.data)
                 dispatch(fetchPageSummarySuccess(response.data))
             })
             .catch(error => {
-                console.log(error);
                 dispatch(fetchPageSummaryFail(error))
             })
     }
@@ -321,11 +313,9 @@ export const editPageAboutAttempt = (authToken, newPage) => {
         dispatch(editPageAboutInit())
         axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
             .then(response => {
-                console.log('SUCCESS - put new page');
                 dispatch(editPageAboutSuccess(newPage));
             })
             .catch(error => {
-                console.log(error);
                 dispatch(editPageAboutFail(error));
             })
     }
@@ -388,7 +378,6 @@ export const editPageImageAttempt = (authToken, field, newPage) => {
         dispatch(init());
         axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
             .then(response => {
-                console.log(`SUCCESS - put new ${field}`)
                 dispatch(success(newPage));
                 if (field === 'profileImage') {
                     return axios.get(`/posts/${newPage.postsKey}.json?auth=${authToken}`)
@@ -399,7 +388,6 @@ export const editPageImageAttempt = (authToken, field, newPage) => {
                 return axios.put(`/posts/${newPage.postsKey}.json?auth=${authToken}`, postsWithNewProfilePics)
             })
             .then(response => {
-                console.log('added new profile pic to posts')
             })
             .catch(error => {
                 dispatch(fail(error));
@@ -433,7 +421,6 @@ export const requestPageLikeAttempt = ( authToken, newPage, recipientKey ) => {
         dispatch(requestPageLikeInit());
         axios.get(`/public-profiles/${recipientKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('SUCCESS - get recipient profile -', response.data);
 
                 const newPublicProfile = {...response.data};
                 let newLikeRequests
@@ -454,16 +441,12 @@ export const requestPageLikeAttempt = ( authToken, newPage, recipientKey ) => {
                 return axios.put(`/public-profiles/${recipientKey}.json?auth=${authToken}`, newPublicProfile)
             })
             .then(response => {
-                console.log('SUCCESS - put new recipient profile - ');
-
                 return axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
             })
             .then(response => {
-                console.log('SUCCESS - put new Page - ');
                 dispatch(requestPageLikeSuccess(newPage))
             })
             .catch(error => {
-                console.log('FAIL - somewhere - ', error);
                 dispatch(requestPageLikeFail(error))
             })
     }
@@ -495,16 +478,13 @@ export const likePageAttempt = (authToken, newPage, newProfile, profileKey) => {
         dispatch(likePageInit());
         axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
             .then(response => {
-                console.log('success - put new page');
                 return axios.put(`/public-profiles/${profileKey}.json?auth=${authToken}`, newProfile)
             })
             .then(response => {
-                console.log('success - put new profile');
                 dispatch(likePageSuccess());
                 dispatch(actions.likePageSuccessFeedback(newProfile))
             })
             .catch(error => {
-                console.log(error);
                 dispatch(likePageFail(error));
             })
     }
@@ -536,16 +516,13 @@ export const cancelLikeAttempt = (authToken, newPage, newProfile, profileKey) =>
         dispatch(likePageInit());
         axios.put(`/pages/${newPage.dbKey}.json?auth=${authToken}`, newPage)
             .then(response => {
-                console.log('success - put new page');
                 return axios.put(`/public-profiles/${profileKey}.json?auth=${authToken}`, newProfile)
             })
             .then(response => {
-                console.log('success - put new profile');
                 dispatch(likePageSuccess());
                 dispatch(actions.likePageSuccessFeedback(newProfile))
             })
             .catch(error => {
-                console.log(error);
                 dispatch(likePageFail(error));
             })
     }
@@ -573,11 +550,8 @@ const switchPageAvailabilityFail = (error) => {
 export const switchPageAvailability = (authToken, pageKey, newStatus) => {
     return dispatch => {
         dispatch(switchPageAvailabilityInit())
-        console.log('pageKey', pageKey);
-        console.log('new status', newStatus)
         axios.patch(`/pages/${pageKey}.json?auth=${authToken}`, newStatus)
             .then(response => {
-                console.log('success -', response.data)
                 dispatch(switchPageAvailabilitySuccess());
             })
             .catch(error => {

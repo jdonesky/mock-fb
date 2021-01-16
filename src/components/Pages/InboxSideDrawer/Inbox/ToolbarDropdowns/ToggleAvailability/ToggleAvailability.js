@@ -16,11 +16,6 @@ const toggleAvailability = props => {
         }
     })
 
-    useEffect(() => {
-        console.log('initial', initialValue.current);
-        console.log('current', availability);
-    })
-
     return (
         <div className={classes.Positioner}>
             <form className={classes.Container}>

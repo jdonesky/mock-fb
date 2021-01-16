@@ -17,12 +17,8 @@ const tagFriends = (props) => {
     const [searchName, setSearchName] = useState('')
     const [suggestions, setSuggestions] = useState(null)
 
-    useEffect(() => {
-        console.log(suggestions);
-    })
 
     useEffect(() => {
-        console.log('fetching public profile');
         if (myPublicProfile && myPublicProfile.friends) {
             setSuggestions(myPublicProfile.friends)
         }

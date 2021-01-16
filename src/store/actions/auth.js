@@ -39,11 +39,9 @@ export const authLogout = () => {
     if (userId && authToken) {
       axios.delete(`/follows/${userId}/isOnline.json?auth=${authToken}`)
           .then(response => {
-            console.log('success- switched offline')
             dispatch(logout())
           })
           .catch(error => {
-            console.log('failed switching offline')
             dispatch(logout());
           })
       // dispatch(logout())
@@ -110,16 +108,16 @@ export const authAttempt = (email, password, isSignUp, userData) => {
             })
         if (isSignUp) {
           const newUserData = {userId: userId, ...userData}
-          console.log('IS SIGN UP', newUserData)
 
           dispatch(actions.createProfileAttempt(token, newUserData))
         }
 
         firebase.auth().signInWithEmailAndPassword(email,password)
             .then(response => {
-              // console.log('success authorized sdk- ', response)
             })
-            .catch(error => {console.log('failed to auth sdk - ', error)})
+            .catch(error => {
+                dispatch(authFail(error));
+            })
       })
       .catch((error) => {
         if (error.response && error.response.data) {

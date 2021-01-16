@@ -32,12 +32,14 @@ import { DeleteContext } from "../../../../../context/delete-context";
 import {convertDashedDatetime} from "../../../../../shared/utility";
 import OutsideAlerter from "../../../../../hooks/outsideClickHandler";
 import * as actions from "../../../../../store/actions";
+import {UnderConstructionContext} from "../../../../../context/under-construction-context";
 
 
 const post = (props) => {
 
     const postContext = useContext(PostContext);
     const deleteContext = useContext(DeleteContext);
+    const underConstruction = useContext(UnderConstructionContext)
 
     const imageUploader = useRef(null);
     const commentInput = useRef(null);
@@ -197,7 +199,6 @@ const post = (props) => {
             name: props.name,
             caption: caption
         }
-        console.log(reaction);
         props.onPostReaction(props.authToken,props.postsKey, props.id, reaction);
         quickCloseEmojiSelector()
     }
@@ -298,7 +299,7 @@ const post = (props) => {
     if (props.firebaseKey === props.userKey || props.owned) {
         editDropDown = <EditOwnPostDropdown editingDropdown={editingDropdown} toggleEditModal={toggleEditModal} toggleDeleteModal={toggleDeleteModal}/>
     } else {
-        editDropDown = <EditOthersPostDropdown editingDropdown={editingDropdown} posterName={props.posterName}/>
+        editDropDown = <EditOthersPostDropdown editingDropdown={editingDropdown} posterName={props.posterName} close={() => setEditingDropdown(false)}/>
     }
 
 
@@ -486,7 +487,7 @@ const post = (props) => {
                         <div className={classes.NameContainer}>{props.posterName && props.posterName}{taggedFriends}{location}{other}</div>
                         <div className={classes.DateAndPrivacyContainer}>
                             <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date.toString()) + '          •' : '-- -- ---        •'}</span>
-                            <div className={classes.PrivacyIconContainer}><div className={classes.PrivacyIcon}>{icon}</div></div>
+                            <div className={classes.PrivacyIconContainer} onClick={underConstruction.openModal}><div className={classes.PrivacyIcon}>{icon}</div></div>
                         </div>
                     </div>
                 </div>
@@ -527,7 +528,7 @@ const post = (props) => {
                     <div className={classes.CommentBar}>
                         <input  placeholder="Write a comment..." value={commentText} onChange={(event) => updateCommentText(event)} ref={commentInput}/>
                         <div className={classes.CommentButtons}>
-                            <div className={classes.CommentButtonIcon}><Smiley fill="#545353" /></div>
+                            <div className={classes.CommentButtonIcon} onClick={underConstruction.openModal}><Smiley fill="#545353" /></div>
                             <div className={classes.CommentButtonIcon} onClick={() => imageUploader.current.click()}><Camera fill="#545353" /></div>
                             <OutsideAlerter action={closeGifSelector}>
                                 <div className={classes.GifMenuPositioner}>

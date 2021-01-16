@@ -14,7 +14,6 @@ const UnderConstructionContextProvider = props => {
     const [message, setMessage] = useState(null);
 
     const openModal = (message) => {
-        console.log('clicked');
         setMessage(message)
         setShowModal(true);
     }

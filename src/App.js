@@ -143,7 +143,6 @@ const app = (props) => {
 
             onFetchFollowingIds(authToken, userId, ids => {
                 checkForActiveUsers(authToken, ids, online => {
-                    console.log('active users, passed through from checkForActiveUsers callback -> ONLINE IN APP', online);
                     onUpdateFollowedOnline(online);
                 })
             })

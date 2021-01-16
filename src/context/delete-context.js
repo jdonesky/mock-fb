@@ -27,12 +27,6 @@ const DeleteContextProvider = (props) => {
     const [nestedId2, setNestedId2] = useState(null);
     const [nestedId3, setNestedId3] = useState(null);
 
-    // useEffect(() => {
-    //     console.log('deleteAction', deleteAction);
-    //     console.log('postsKey', nestedId1)
-    //     console.log('postId', id);
-    // })
-
     const toggleModal = () => {
         setShowModal((prevState) => {
             return !prevState;

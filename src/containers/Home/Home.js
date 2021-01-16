@@ -22,10 +22,6 @@ const home = (props) => {
     const firstUpdate = useRef(true);
 
     useEffect(() => {
-        console.log(showContactsOptions)
-    })
-
-    useEffect(() => {
         if (firstUpdate.current) {
             firstUpdate.current = false;
             return;

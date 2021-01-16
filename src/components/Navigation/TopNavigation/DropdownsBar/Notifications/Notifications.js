@@ -61,9 +61,9 @@ const notifications = (props) => {
                 <div className={classes.DropdownTitle}>
                     <b>Notifications</b>
                 </div>
-                <div className={classes.HeaderOptionsButton}>
-                    <Dots />
-                </div>
+                {/*<div className={classes.HeaderOptionsButton}>*/}
+                {/*    <Dots />*/}
+                {/*</div>*/}
             </section>
             <section className={classes.NotificationsContainer}>
                 <span className={[classes.DropdownTitle, classes.SubTitle].join(" ")}>New</span>

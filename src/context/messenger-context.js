@@ -132,12 +132,8 @@ const messengerContextProvider = props => {
             myProfile = myPublicProfile
         }
 
-        console.log('myProfile -> ', myProfile);
-
         let existingChat;
         if (myProfile && myProfile.chats) {
-            console.log('myProfile', myProfile)
-            console.log('activeChat', activeChat)
             if (theirType === 'PAGE') {
                 existingChat = myProfile.chats[theirProfile.dbKey]
             } else {
@@ -145,18 +141,15 @@ const messengerContextProvider = props => {
             }
             if (existingChat) {
                 if (activeChat && activeChat.key === existingChat) {
-                    console.log('chat is active already');
                     openMessenger()
                 } else {
                     setResetMessenger(true);
-                    console.log('existingChat - restartChat', existingChat)
                     props.onRestartChat(authToken, props.firebaseKey, existingChat);
                     setTimeout(() => {
                         setResetMessenger(false)
                     }, 500)
                 }
             } else {
-                console.log('no existingChat creating new chat')
                 let myProfile;
                 if (myType === 'PAGE' && props.ownedPage) {
                     myProfile = props.ownedPage
@@ -169,7 +162,6 @@ const messengerContextProvider = props => {
                 props.onStartNewChat(authToken, myProfile, theirProfile, newChat, theirType, myType)
             }
         } else {
-            console.log('no existingChat creating new chat')
             let myProfile;
             if (myType === 'PAGE' && props.ownedPage) {
                 myProfile = props.ownedPage

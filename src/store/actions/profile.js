@@ -30,7 +30,6 @@ export const fetchActiveStatusAttempt = (authToken, userId) => {
         dispatch(fetchActiveStatusInit());
         axios.get(`/follows/${userId}/isOnline.json?auth=${authToken}`)
             .then(response => {
-                console.log('success - put new active status -> ', response.data);
                 let status;
                 if (response.data) {
                     status = response.data;
@@ -40,7 +39,6 @@ export const fetchActiveStatusAttempt = (authToken, userId) => {
                 dispatch(fetchActiveStatusSuccess(status));
             })
             .catch(error => {
-                console.log('failed getting active status -> ', error);
                 dispatch(fetchActiveStatusFail(error));
             })
     }
@@ -79,11 +77,9 @@ export const switchActiveStatusAttempt = (authToken, userId, status) => {
         const payload = {isOnline: status, blockActiveOnLogin: block}
         axios.patch(`/follows/${userId}.json?auth=${authToken}`, payload)
             .then(response => {
-                console.log('success - put new active status -> ', status);
                 dispatch(switchActiveStatusSuccess(status, block));
             })
             .catch(error => {
-                console.log('failed putting new active status -> ', error);
                 dispatch(switchActiveStatusFail(error));
             })
     }
@@ -115,11 +111,9 @@ export const saveNotificationTokenAttempt = (authToken, userKey, token) => {
         dispatch(saveNotificationTokenInit())
         axios.patch(`/users/${userKey}/notificationToken.json?auth=${authToken}`, {[token]: token})
             .then(response => {
-                // console.log('success - saved notification token')
                 dispatch(saveNotificationTokenSuccess(token))
             })
             .catch(error => {
-                console.log('failed to save notification token', error )
                 dispatch(saveNotificationTokenFail(error))
             })
     }
@@ -189,7 +183,6 @@ export const createProfileAttempt =  (token,newUserData) => {
                 })
                 .then(response => {
                     userData = {...userData, activityLogKey: activityLogKey}
-                    console.log(userData);
                     return axios.put(`/public-profiles/${publicProfileKey}.json?auth=${token}`, {...userData, publicProfileKey: publicProfileKey, privacy: {AllowMessages: 'FRIENDS'}, activityLogKey: activityLogKey})
                 })
                 .then(response => {
@@ -203,11 +196,9 @@ export const createProfileAttempt =  (token,newUserData) => {
                     return axios.put(`/follows/${userData.userId}.json?auth=${token}`, {name: userData.firstName + ' ' + userData.lastName, userKey: userKey, publicProfileKey: publicProfileKey, isOnline: true})
                 })
                 .then(response => {
-                    console.log('success - patched follows')
                     dispatch(createProfileSuccess(userData));
                 })
                 .catch(error => {
-                    console.log(error.message);
                     dispatch(updateProfileFail(error))
                 })
         })
@@ -234,7 +225,6 @@ export const fetchProfileAttempt = (userId, token) => {
         dispatch(fetchProfileSuccess(userData));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(updateProfileFail(err));
       });
   };
@@ -326,7 +316,6 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                                 const updatedContacts = {...response.data['contacts'], [fieldName] : null}
                                 updatedUserProfile = {...response.data, contacts: updatedContacts}
                             } else {
-                                console.log('deleting single entry field')
                                 updatedUserProfile = {...response.data, [fieldName]: null}
                             }
                             break;
@@ -413,23 +402,23 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                             if (updatePostsProfilePics) {
                                 axios.get(`/posts/${postsKey}.json?auth=${authToken}`)
                                     .then(response => {
-                                        console.log('GET POSTS SUCCESS - ', response.data);
                                         const updatedPosts = response.data.map(post => ({...post, [fieldName]: payload}))
                                         return axios.put(`/posts/${postsKey}.json?auth=${authToken}`, updatedPosts)
                                     })
                                     .then(response => {
                                         dispatch(updateProfileSuccess(updatedUserProfile));
                                     })
-                                    .catch(err => {
-                                        console.log(err);
+                                    .catch(error => {
+                                        dispatch(updateProfileFail(error));
                                     })
                             }
                         })
-                        .catch(err => console.log(err))
+                        .catch(error => {
+                            dispatch(updateProfileFail(error));
+                        })
                 })
             })
             .catch(error => {
-                console.log(error)
                 dispatch(updateProfileFail(error));
             })
     }
@@ -515,13 +504,6 @@ const startNewChatFail = (error) => {
 
 export const startNewChatAttempt = (authToken, myProfile, theirProfile, chat, theirType, myType) => {
 
-    console.log('STARTING NEW CHAT ATTEMPT')
-    console.log('myProfile', myProfile);
-    console.log('theirProfile', theirProfile);
-    console.log('chat', chat)
-    console.log('theirType', theirType);
-    console.log('myType', myType);
-
     return dispatch => {
         let newChat
         let chatKey;
@@ -542,13 +524,10 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile, chat, th
         } else if (theirType === 'USER') {
             theirKey = theirProfile.userKey
         }
-        console.log('MY KEY', myKey)
-        console.log('THEIR KEY', theirKey);
 
         dispatch(startNewChatInit())
         axios.post(`/chats.json?auth=${authToken}`, chat)
             .then(response => {
-                console.log('post returned chatKey', response.data.name)
                 chatKey = response.data.name;
                 newChat = {...chat, key: chatKey}
                 myNewProfile = {
@@ -562,10 +541,6 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile, chat, th
                     chats: theirProfile.chats ?
                         {...theirProfile.chats, [myKey] : chatKey}
                         : {[myKey] : chatKey} }
-
-
-                console.log('myNewProfile', myNewProfile);
-                console.log('theirNewProfile', theirNewProfile);
 
                 let theirProfilePath;
                 if (theirType === 'PAGE') {
@@ -587,18 +562,11 @@ export const startNewChatAttempt = (authToken, myProfile, theirProfile, chat, th
                 return axios.put(myProfilePath, myNewProfile)
             })
             .then(response => {
-                console.log('patching activeChat -> ', {...newChat, key: chatKey})
-                console.log('...to my profile');
-                console.log('with chatKey -> ', chatKey)
                 return axios.patch(activeChatPath, {...newChat, key: chatKey})
             })
             .then(response => {
                 dispatch(startNewChatSuccess({...newChat, key: chatKey}, myNewProfile))
             })
-            .catch(error => {
-                dispatch(startNewChatFail(error))
-            })
-
             .catch(error => {
                 dispatch(startNewChatFail(error))
             })
@@ -634,11 +602,9 @@ export const restartOldChatAttempt = (authToken, userKey, chatKey) => {
                 return axios.put(`/users/${userKey}/activeChat.json?auth=${authToken}`, {...response.data, key: chatKey})
             })
             .then(response => {
-                console.log('success - put old chat in profile activeChat', response.data)
                 dispatch(restartOldChatSuccess({...response.data, key: chatKey}));
             })
             .catch(error => {
-                console.log(error);
                 dispatch(restartOldChatFail(error));
             })
     }
@@ -670,7 +636,6 @@ export const fetchActiveChatAttempt = (authToken, userKey) => {
         dispatch(fetchActiveChatInit())
         axios.get(`/users/${userKey}/activeChat.json?auth=${authToken}`)
             .then(response => {
-                // console.log('fetched activeChat', response.data);
                 dispatch(fetchActiveChatSuccess(response.data));
             })
             .catch(error => {
@@ -699,13 +664,10 @@ const clearActiveChatFail = (error) => {
 }
 
 export const clearActiveChatAttempt = (authToken, userKey) => {
-    console.log('delete userKey/activeChat', userKey)
     return dispatch => {
         dispatch(clearActiveChatInit())
         axios.put(`/users/${userKey}/activeChat.json?auth=${authToken}`, {null: null})
             .then(response => {
-                console.log(response.data);
-                console.log('success - deleted activeChat from profile');
                 dispatch(clearActiveChatSuccess())
             })
             .catch(error => {
@@ -739,12 +701,10 @@ export const removeFromNewMessagesAttempt = (authToken, pathRoot, myKey, theirKe
         dispatch(removeFromNewMessagesInit)
         axios.delete(`/${pathRoot}/${myKey}/newMessages/${theirKey}.json?auth=${authToken}`)
             .then(response => {
-                console.log('SUCCESS - DELETED NEW MESSAGE');
-                console.log('theirKey -> ', theirKey)
+
                 dispatch(removeFromNewMessagesSuccess(theirKey))
             })
             .catch(error => {
-                console.log('FAIL - ', error)
                 dispatch(removeFromNewMessagesFail(error))
             })
     }

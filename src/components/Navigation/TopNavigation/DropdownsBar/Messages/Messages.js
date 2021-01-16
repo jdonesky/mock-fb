@@ -9,10 +9,13 @@ import Dots from '../../../../../assets/images/dots';
 import ComposeMessage from '../../../../../assets/images/MessengerIcons/composeMessage';
 import {MessengerContext} from "../../../../../context/messenger-context";
 import {checkForNewMessages} from "../../../../../shared/utility";
+import underConstructionModal from "../../../../UI/Modal/UnderConstructionModal/UnderConstructionModal";
+import {UnderConstructionContext} from "../../../../../context/under-construction-context";
 
 const messagesDropdown = props => {
 
     const messengerContext = useContext(MessengerContext);
+    const underConstruction = useContext(UnderConstructionContext)
     const { retrieveChat, removeFromNewMessages } = messengerContext;
     const { authToken, firebaseKey, myPublicProfileKey, onFetchMyChats, onFetchFriends, onLoadNewMessages, myChats, newMessages, friends } = props
     const [searchResults, setSearchResults] = useState(null);
@@ -67,12 +70,12 @@ const messagesDropdown = props => {
             <section className={classes.Header}>
                 <div className={classes.Title}>Messenger</div>
                 <div className={classes.HeaderButtons}>
-                    <div className={classes.HeaderButton}>
-                        <div className={classes.HeaderButtonIcon}>
-                            <Dots />
-                        </div>
-                    </div>
-                    <div className={classes.HeaderButton}>
+                    {/*<div className={classes.HeaderButton}>*/}
+                    {/*    <div className={classes.HeaderButtonIcon}>*/}
+                    {/*        <Dots />*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
+                    <div className={classes.HeaderButton} onClick={underConstruction.openModal}>
                         <div className={[classes.HeaderButtonIcon,classes.ComposeIcon].join(" ")}>
                             <ComposeMessage />
                         </div>
