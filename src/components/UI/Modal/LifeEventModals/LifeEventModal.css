@@ -1,4 +1,6 @@
-
+.Container {
+    top: 2%;
+}
 
 .CancelIcon {
     z-index: 100;
