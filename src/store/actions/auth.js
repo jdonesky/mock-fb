@@ -102,10 +102,8 @@ export const authAttempt = (email, password, isSignUp, userData) => {
 
         axios.get(`/follows/${userId}/blockActiveOnLogin.json?auth=${token}`)
             .then(response => {
-              if (response.data && response.data === true) {
-                console.log('block active true!');
-              } else {
-                axios.put(`/follows/${userId}/isActive.json?auth=${token}`, {isOnline: true})
+              if (!response.data || response.data === false) {
+                  axios.patch(`/follows/${userId}.json?auth=${token}`, {isOnline: true})              } else {
               }
               dispatch(authSuccess(token, userId));
               dispatch(checkAuthTimeout(expirationTime));

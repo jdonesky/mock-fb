@@ -621,6 +621,7 @@ const profileSummaryDropdown = (props) => {
 
     const friendDefaults = {bottom: `1px`, left: `${-.21 * width <= 150 ? -.21 * width : -.1 * width}px`}
     const postDefaults = {top: `${-205 - addRepositionOffset}px`, left: '-55px'}
+    const homeDefaults = {top: '-100px', left: '-410px'}
 
     let friendAdjusted;
     let postAdjusted;
@@ -638,6 +639,8 @@ const profileSummaryDropdown = (props) => {
     } else if (props.loc === 'POST') {
         defaults = postDefaults;
         adjusted = postAdjusted;
+    } else if (props.loc === 'HOME') {
+        defaults = homeDefaults;
     }
 
     if (props.loc === 'FRIEND') {
@@ -654,6 +657,10 @@ const profileSummaryDropdown = (props) => {
         } else {
             style = defaults;
         }
+    }
+
+    if (props.loc === 'HOME') {
+        style = defaults;
     }
 
 

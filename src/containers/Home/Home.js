@@ -18,8 +18,12 @@ const home = (props) => {
 
     const [isBottom, setIsBottom] = useInfiniteScroll()
     const [showContacts, setShowContacts] = useState(true);
-    const [showContactsOptions, setShowContactsOptions] = useState(true);
+    const [showContactsOptions, setShowContactsOptions] = useState(false);
     const firstUpdate = useRef(true);
+
+    useEffect(() => {
+        console.log(showContactsOptions)
+    })
 
     useEffect(() => {
         if (firstUpdate.current) {
@@ -87,7 +91,11 @@ const home = (props) => {
 
     let contactsOptions;
     if (showContactsOptions) {
-        contactsOptions = <ContactsOptions showContacts={showContacts} toggleContacts={() => setShowContacts(prevState => {return !prevState})} close={() => setShowContactsOptions(false)}/>
+        contactsOptions = (
+            <OutsideAlerter action={() => setShowContactsOptions(false)}>
+                <ContactsOptions showContacts={showContacts} toggleContacts={() => setShowContacts(prevState => {return !prevState})} close={() => setShowContactsOptions(false)}/>
+            </OutsideAlerter>
+        )
     }
 
     const contactsSideDrawer = (
@@ -95,13 +103,11 @@ const home = (props) => {
             <div className={classes.Break}/>
             <section className={classes.ContactsHeader}>
                 <div className={classes.ContactsTitle}>Contacts</div>
-                <OutsideAlerter action={showContactsOptions ? () => setShowContactsOptions(false) : null}>
                     <div className={classes.ContactsHeaderControl} style={{backgroundColor: showContactsOptions ? 'rgba(0,0,0,0.05)' : null}} onClick={() => setShowContactsOptions(true)}>
                         <Dots />
                     </div>
-                    {contactsOptions}
-                </OutsideAlerter>
             </section>
+            {contactsOptions}
             {showContacts ? <ContactsSidedrawer /> : null}
         </div>
     )

@@ -12,10 +12,6 @@ const contactsOptions = props => {
 
     const {authToken, userId, activeStatus, onSwitchActiveStatus, showContacts, toggleContacts, close} = props
 
-    useEffect(() => {
-        console.log('in contacts options dropdown -> activeStatus -> ', activeStatus)
-    })
-
     const toggleContactList = () => {
         toggleContacts();
         close();

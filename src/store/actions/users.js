@@ -7,6 +7,12 @@ const fetchPublicProfileInit = () => {
   };
 };
 
+const fetchContactProfileInit = () => {
+  return {
+    type: actionTypes.FETCH_CONTACT_PROFILE_INIT,
+  };
+};
+
 const fetchProfileSummaryInit = () => {
   return {
     type: actionTypes.FETCH_PROFILE_SUMMARY_INIT,
@@ -16,6 +22,13 @@ const fetchProfileSummaryInit = () => {
 const fetchPublicProfileSuccess = (profile) => {
   return {
     type: actionTypes.FETCH_PUBLIC_PROFILE_SUCCESS,
+    profile: profile
+  };
+};
+
+const fetchContactProfileSuccess = (profile) => {
+  return {
+    type: actionTypes.FETCH_CONTACT_PROFILE_SUCCESS,
     profile: profile
   };
 };
@@ -34,6 +47,13 @@ const fetchPublicProfileFail = (error) => {
   };
 };
 
+const fetchContactProfileFail = (error) => {
+  return {
+    type: actionTypes.FETCH_CONTACT_PROFILE_FAIL,
+    error: error,
+  };
+};
+
 const fetchProfileSummaryFail = (error) => {
   return {
     type: actionTypes.FETCH_PROFILE_SUMMARY_FAIL,
@@ -41,7 +61,7 @@ const fetchProfileSummaryFail = (error) => {
   };
 }
 
-export const fetchPublicProfileAttempt = (authToken, publicProfileKey, type) => {
+export const fetchPublicProfileAttempt = (authToken, publicProfileKey, type, cb) => {
   return (dispatch) => {
     let init;
     let success;
@@ -50,6 +70,10 @@ export const fetchPublicProfileAttempt = (authToken, publicProfileKey, type) => 
       init = fetchProfileSummaryInit;
       success = fetchProfileSummarySuccess;
       fail = fetchProfileSummaryFail;
+    } else if (type === 'CONTACT'){
+      init = fetchContactProfileInit;
+      success = fetchContactProfileSuccess;
+      fail = fetchContactProfileFail;
     } else {
       init = fetchPublicProfileInit;
       success = fetchPublicProfileSuccess;
@@ -59,6 +83,9 @@ export const fetchPublicProfileAttempt = (authToken, publicProfileKey, type) => 
     axios.get(`/public-profiles/${publicProfileKey}.json?auth=${authToken}`)
     .then(response => {
         dispatch(success(response.data))
+        if (cb) {
+          cb(response.data);
+        }
     })
     .catch(error => {
         dispatch(fail(error))

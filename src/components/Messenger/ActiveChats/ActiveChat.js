@@ -1,7 +1,7 @@
 
 import React, {useEffect, useContext} from 'react';
 import {connect} from 'react-redux';
-import classes from './ActiveChats.css';
+import classes from './ActiveChat.css';
 import * as actions from '../../../store/actions/index';
 import Avatar from '../../../assets/images/BookmarkIcons/user';
 import Spinner from '../../UI/Spinner/Spinner';
@@ -9,7 +9,7 @@ import Label from '../../UI/Label/Label';
 import {MessengerContext} from "../../../context/messenger-context";
 
 
-const activeChats = props => {
+const activeChat = props => {
 
    const messengerContext = useContext(MessengerContext);
    const {localActiveChat, retrieveChat, showMessenger, showActiveChat} = messengerContext
@@ -44,7 +44,7 @@ const activeChats = props => {
              <div className={classes.ActiveChatTab} style={{backgroundImage: theirProfile.profileImage ? `url(${theirProfile.profileImage})` : null}}
                   onClick={restartChat}
              >
-               {theirProfile.profileImage ? null : props.fetchingActiveChat || props.clearingActiveChat || !activeChat.key ? <Spinner /> : <Avatar fill="white" />}
+               {theirProfile.profileImage ? null : props.fetchingActiveChat || props.clearingActiveChat ? <Spinner /> : <Avatar fill="white" />}
              </div>
           </Label>
       )
@@ -77,4 +77,4 @@ const mapDispatchToProps = dispatch => {
    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(activeChats);
+export default connect(mapStateToProps, mapDispatchToProps)(activeChat);

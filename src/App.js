@@ -17,7 +17,7 @@ import {checkForNewMessages} from "./shared/utility";
 import {checkForActiveUsers} from "./shared/utility";
 
 const AsyncActiveChatTab = React.lazy(() => {
-    return import('./components/Messenger/ActiveChats/ActiveChats')
+    return import('./components/Messenger/ActiveChats/ActiveChat')
 });
 
 const AsyncAuth = React.lazy(() => {

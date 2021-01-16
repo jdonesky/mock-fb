@@ -1,7 +1,9 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
+  contactProfile: null,
   singleProfile: null,
+  loadingContactProfile: false,
   loadingSingleProfile: false,
   profileSummary: null,
   loadingProfileSummary: false,
@@ -34,6 +36,29 @@ const fetchPublicProfileFail = (state, action) => {
     ...state,
     error: action.error,
     loadingSingleProfile: false,
+  };
+};
+
+const fetchContactProfileInit = (state, action) => {
+  return {
+    ...state,
+    loadingContactProfile: true,
+  };
+};
+
+const fetchContactProfileSuccess = (state, action) => {
+  return {
+    ...state,
+    contactProfile: action.profile,
+    loadingContactProfile: false
+  }
+};
+
+const fetchContactProfileFail = (state, action) => {
+  return {
+    ...state,
+    error: action.error,
+    loadingContactProfile: false,
   };
 };
 
@@ -160,6 +185,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_PUBLIC_PROFILE_INIT: return fetchPublicProfileInit(state, action);
     case actionTypes.FETCH_PUBLIC_PROFILE_SUCCESS: return fetchPublicProfileSuccess(state, action);
     case actionTypes.FETCH_PUBLIC_PROFILE_FAIL: return fetchPublicProfileFail(state, action);
+    case actionTypes.FETCH_CONTACT_PROFILE_INIT: return fetchContactProfileInit(state, action);
+    case actionTypes.FETCH_CONTACT_PROFILE_SUCCESS: return fetchContactProfileSuccess(state, action);
+    case actionTypes.FETCH_CONTACT_PROFILE_FAIL: return fetchContactProfileFail(state, action);
     case actionTypes.FETCH_PROFILE_SUMMARY_INIT: return fetchProfileSummaryInit(state, action);
     case actionTypes.FETCH_PROFILE_SUMMARY_SUCCESS: return fetchProfileSummarySuccess(state, action);
     case actionTypes.FETCH_PROFILE_SUMMARY_FAIL: return fetchProfileSummaryFail(state, action);
