@@ -37,12 +37,14 @@ import {convertDashedDatetime} from "../../../../shared/utility";
 import {checkComponentVisibility} from "../../../../shared/utility";
 import {MessengerContext} from "../../../../context/messenger-context";
 import getWindowDimensions from "../../../../hooks/getWindowDimensions";
+import {EditProfileContext} from "../../../../context/edit-profile-context";
 
 const profileSummaryDropdown = (props) => {
 
     const { width, height } = getWindowDimensions()
     const { onFetchMyFriendRequests, onFetchPublicProfile, onFetchPageSummary, publicProfileKey, myPublicProfile, authToken, userType, pageSummary, userKey, onClearProfileSummary, onClearPageSummary } = props
     const messengerContext = useContext(MessengerContext);
+    const editProfileContext = useContext(EditProfileContext)
     const container = useRef(null);
 
     const [viewingIsFriendsOptions, setViewingIsFriendsOptions] = useState(false);
@@ -128,6 +130,13 @@ const profileSummaryDropdown = (props) => {
                 }
             }
         }
+
+    const startEditingProfile = () => {
+        props.history.push('/user-profile/me');
+        setTimeout(() => {
+            editProfileContext.openEditModal()
+        }, 200)
+    }
 
     const startChat = () => {
         if (props.profile) {
@@ -481,7 +490,7 @@ const profileSummaryDropdown = (props) => {
                     }
                 }
             } else {
-                firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")}>
+                firstControl = <div className={[classes.ControlButton, classes.FirstControl].join(" ")} onClick={startEditingProfile}>
                     <div className={[classes.ButtonIcon, classes.EditProfileIcon].join(" ")}><Pen/></div>
                     <span className={classes.ControlButtonText}>Edit Profile</span></div>
                 secondControl = <div className={classes.ControlButton}>
