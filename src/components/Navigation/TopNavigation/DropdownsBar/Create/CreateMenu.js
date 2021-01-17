@@ -55,15 +55,15 @@ const createMenu = (props) => {
                     <div className={classes.SmallText}>Share a post on News Feed</div>
                 </div>
             </section>
-            <section className={classes.Button} onClick={blockRoute}>
-                <div className={classes.Icon}>
-                    <Book />
-                </div>
-                <div className={classes.NameTagContainer}>
-                    <div className={classes.MainText}>Story</div>
-                    <div className={classes.SmallText}>Share a photo or write something</div>
-                </div>
-            </section>
+            {/*<section className={classes.Button} onClick={blockRoute}>*/}
+            {/*    <div className={classes.Icon}>*/}
+            {/*        <Book />*/}
+            {/*    </div>*/}
+            {/*    <div className={classes.NameTagContainer}>*/}
+            {/*        <div className={classes.MainText}>Story</div>*/}
+            {/*        <div className={classes.SmallText}>Share a photo or write something</div>*/}
+            {/*    </div>*/}
+            {/*</section>*/}
             <section className={classes.Button} onClick={openLifeEventModal}>
                 <div className={[classes.Icon, classes.Star].join(" ")}>
                     <Star />
