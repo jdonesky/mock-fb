@@ -29,7 +29,19 @@ const DeleteContextProvider = (props) => {
     const [nestedId4, setNestedId4] = useState(null);
     const [nestedId5, setNestedId5] = useState(null);
 
-ç
+    // useEffect(() => {
+    //         console.log('DELETE CONTEXT')
+    //         console.log('field (null)', field)
+    //         console.log('id ()', id)
+    //         console.log('nestedId1 ()', nestedId1)
+    //         console.log('nestedId2 ()', nestedId2)
+    //         console.log('nestedId3 ()', nestedId3)
+    //         console.log('nestedId4 ()', nestedId4)
+    //         console.log('nestedId4 ()', nestedId5)
+    //         console.log('nestedId4 ()', nestedId6)
+    //         console.log('nestedId4 ()', nestedId7)
+    //
+    // })
 
     const toggleModal = () => {
         setShowModal((prevState) => {

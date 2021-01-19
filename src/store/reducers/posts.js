@@ -202,7 +202,8 @@ const addReplyInit = (state,action) => {
 const addReplySuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
+        posts: action.posts ? action.posts : state.posts,
+        othersPosts: action.othersPosts ? action.othersPosts : state.othersPosts,
         loadingNewReply: false
     }
 }

@@ -59,6 +59,7 @@ const comment = (props) => {
             };
             reader.readAsDataURL(file);
         }
+        replyInput.current.focus();
     }
 
     const editImageUploadHandler = (event) => {
@@ -70,6 +71,7 @@ const comment = (props) => {
             };
             reader.readAsDataURL(file);
         }
+
     }
 
     const showEditingButton = () => {
@@ -136,7 +138,7 @@ const comment = (props) => {
             image: replyImage,
             gif: replyGif
         }
-        props.onPostReply(props.authToken, props.postsKey, props.postId, props.id, reply)
+        props.onPostReply(props.authToken, props.postsKey, props.postId, props.id, reply, props.privacy, props.myPosts, props.othersPosts)
         setReplyText('');
         setReplying(false);
         setReplyImage(null);
@@ -155,7 +157,7 @@ const comment = (props) => {
             image: replyImage,
             gif: gifUrl
         }
-        props.onPostReply(props.authToken, props.postsKey, props.postId, props.id, reply)
+        props.onPostReply(props.authToken, props.postsKey, props.postId, props.id, reply, props.privacy, props.myPosts, props.othersPosts)
         setReplyGif(null);
     }
 
@@ -239,7 +241,8 @@ const comment = (props) => {
 
     let replies;
     if (props.replies) {
-        replies = props.replies && props.replies.length ? props.replies.map(reply => (
+        replies = props.replies && Object.keys(props.replies).length ? Object.keys(props.replies).map(key => ({...props.replies[key]})) : null;
+        replies = replies && replies.map(reply => (
             <Reply
                 postsKey={props.postsKey}
                 postId={props.postId}
@@ -255,7 +258,7 @@ const comment = (props) => {
                 passDeleteData={props.passDeleteData}
                 toggleDeleteModal={props.toggleDeleteModal}
             />
-        )) : null;
+        ))
     }
 
     if (props.deletingReply) {
@@ -430,8 +433,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPostReply: (authToken, postsKey, postId, commentId, reply) => dispatch(actions.addReplyAttempt(authToken, postsKey, postId, commentId, reply)),
-        onEditComment: (authToken, postsKey, postId, commentId, newComment, privacy, myPosts, othersPosts) => dispatch(actions.editCommentAttempt(authToken, postsKey, postId, commentId, newComment, privacy, myPosts, othersPosts))
+        onPostReply: (authToken, postsKey, postId, commentId, reply, privacy, myPosts, othersPosts) => dispatch(actions.addReplyAttempt(authToken, postsKey, postId, commentId, reply, privacy, myPosts, othersPosts)),
+        onEditComment: (authToken, postsKey, postId, commentId, newComment, privacy, myPosts, othersPosts) => dispatch(actions.editCommentAttempt(authToken, postsKey, postId, commentId, newComment, privacy, myPosts, othersPosts, privacy, myPosts, othersPosts))
     }
 }
 

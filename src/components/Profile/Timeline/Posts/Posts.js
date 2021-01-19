@@ -12,10 +12,6 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, load
     const [profileImage,setProfileImage] = useState(null);
 
     useEffect(() => {
-        console.log(posts);
-    })
-
-    useEffect(() => {
       if (pathRoot !== history.location.pathname.split('/')[2]) {
           setPathRoot(history.location.pathname.split('/')[2]);
       }

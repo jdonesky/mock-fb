@@ -469,9 +469,10 @@ export const deleteCommentAttempt = (authToken, postsKey, postId, commentId, pri
 
                     let newComments;
                     if (thisPost.comments) {
+                        console.log('othersPosts - comments before deleting -> ', thisPost.comments)
                         delete thisPost.comments[commentId]
                         newComments = {...thisPost.comments}
-                        console.log('othersPosts - new comments -> ', newComments)
+                        console.log('othersPosts - comments after deleting -> ', newComments)
                     }
 
                     thisPost.comments = newComments;
@@ -488,33 +489,6 @@ export const deleteCommentAttempt = (authToken, postsKey, postId, commentId, pri
 }
 
 
-// export const deleteCommentAttempt = (authToken, postsKey, postId, commentId) => {
-//     return dispatch => {
-//         dispatch(deleteCommentInit());
-//         const url = `/posts/${postsKey}.json?auth=${authToken}`
-//         let newPosts;
-//         axios.get(url)
-//             .then(response => {
-//                 newPosts = [...response.data];
-//                 const targetPostIndex = newPosts.findIndex(post => post.id === postId);
-//                 const targetPost = newPosts.find(post => post.id === postId);
-//
-//                 const targetPostComments = [...targetPost.comments];
-//                 const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
-//                 targetPostComments.splice(targetCommentIndex, 1);
-//
-//                 targetPost.comments = targetPostComments;
-//                 newPosts[targetPostIndex] = targetPost;
-//                 return axios.put(url,newPosts)
-//             })
-//             .then(response => {
-//                 dispatch(deleteCommentSuccess(newPosts));
-//             })
-//             .catch(error => {
-//                 dispatch(deleteCommentFail(error));
-//             })
-//     }
-// }
 
 const addReplyInit = () => {
     return {
@@ -522,51 +496,11 @@ const addReplyInit = () => {
     }
 }
 
-export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply) => {
-    return dispatch => {
-        dispatch(addReplyInit());
-        KeyGenerator.getKey(authToken, (newKey) => {
-            const url = `/posts/${postsKey}.json?auth=${authToken}`
-            const newReply = {...reply, id: newKey}
-            let newPosts;
-            axios.get(url)
-                .then(response => {
-                    newPosts = [...response.data];
-                    const targetPostIndex = newPosts.findIndex(post => post.id === postId);
-                    const targetPost = newPosts.find(post => post.id === postId);
-
-                    const targetPostComments = [...targetPost.comments];
-                    const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
-                    const targetComment = targetPostComments.find(comment => comment.id === commentId);
-
-                    let targetCommentReplies;
-                    if (targetComment.replies && targetComment.replies.length) {
-                        targetCommentReplies = [...targetComment.replies, newReply];
-                    } else {
-                        targetCommentReplies = [newReply];
-                    }
-
-                    targetComment.replies = targetCommentReplies;
-                    targetPostComments[targetCommentIndex] = targetComment;
-                    targetPost.comments = targetPostComments;
-                    newPosts[targetPostIndex] = targetPost;
-
-                    return axios.put(url, newPosts)
-                })
-                .then(response => {
-                    dispatch(addReplySuccess(newPosts));
-                })
-                .catch(error => {
-                    dispatch(addReplyFail(error))
-                })
-        })
-    }
-}
-
-const addReplySuccess = (posts) => {
+const addReplySuccess = (posts, othersPosts) => {
     return {
         type: actionTypes.ADD_REPLY_SUCCESS,
-        posts: posts
+        posts: posts,
+        othersPosts: othersPosts
     }
 }
 
@@ -576,6 +510,142 @@ const addReplyFail = (error) => {
         error: error
     }
 }
+
+export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply, privacy, myPosts, othersPosts) => {
+
+    // console.log('IN ADD REPLY ATTEMPT')
+    // console.log('postsKeys', postsKey)
+    // console.log('postsId', postId)
+    // console.log('commentId', commentId)
+    // console.log('reply', reply)
+    // console.log('privacy', privacy)
+    // console.log('myPosts', myPosts)
+    // console.log('myPosts', othersPosts)
+
+    let loc;
+    if (!privacy) {
+        loc = 'public';
+    } else {
+        loc = privacy;
+    }
+    return dispatch => {
+        dispatch(addReplyInit());
+        let newReply;
+        let url = `/posts/${postsKey}/${loc}/${postId}/comments/${commentId}/replies.json?auth=${authToken}`
+        axios.post(url, reply)
+            .then(response => {
+               const replyKey = response.data.name;
+               newReply = {...reply, id: replyKey};
+               url = `/posts/${postsKey}/${loc}/${postId}/comments/${commentId}/replies/${replyKey}.json?auth=${authToken}`
+               return axios.put(url, newReply)
+            })
+            .then(response => {
+                let myNewPosts;
+                if (myPosts && myPosts.length) {
+                    console.log('myPosts BEFORE -> ', myPosts)
+                    const thisPost = {...myPosts.find(post => post.id === postId)};
+                    const thisPostIndex = myPosts.findIndex(post => post.id === postId);
+                    console.log('this POST -> ', thisPost);
+                    let newComments;
+                    if (thisPost.comments) {
+                        console.log('thisPost.comments -> ', thisPost.comments)
+                        const thisComment = {...thisPost.comments[commentId]}
+                        console.log('this COMMENT', thisComment)
+                        let newReplies;
+                        if (thisComment.replies) {
+                            console.log('thisComment.replies -> ', thisComment.replies)
+                            newReplies = {...thisComment.replies, [newReply.id]: {...newReply}}
+                        } else {
+                            console.log('no existing replies sooo newReplies -> ', {[newReply.id]: {...newReply}})
+                            newReplies = {[newReply.id]: {...newReply}}
+                        }
+                        thisComment.replies = newReplies;
+                        console.log('thisComment REPLIES (after adding)', newReplies)
+                        thisPost.comments[commentId] = thisComment;
+                        newComments = {...thisPost.comments}
+                        thisPost.comments = newComments;
+                        console.log('replace thisPost.comments <- (newComments) ->', newComments)
+                        console.log('thisPost.COMMENTS after putting new reply in comment and comment back in thisPost', thisPost.comments)
+                        myPosts.splice(thisPostIndex, 1, thisPost);
+                        myNewPosts = [...myPosts];
+                        console.log('myNewPosts AFTER ADDING ', myNewPosts)
+                    }
+                }
+
+                let othersNewPosts;
+                if (othersPosts && othersPosts.length) {
+                    console.log('othersPosts BEFORE -> ', othersPosts)
+                    const thisPost = {...othersPosts.find(post => post.id === postId)};
+                    const thisPostIndex = othersPosts.findIndex(post => post.id === postId);
+                    let newComments;
+                    if (thisPost.comments) {
+                        const thisComment = {...thisPost.comments[commentId]}
+                        let newReplies;
+                        if (thisComment.replies) {
+                            newReplies = {...thisComment.replies, [newReply.id]: {...newReply}}
+                        } else {
+                            newReplies = {[newReply.id]: {...newReply}}
+                        }
+                        thisComment.replies = newReplies;
+                        thisPost.comments[commentId] = thisComment;
+                        newComments = {...thisPost.comments}
+                        thisPost.comments = newComments;
+                        othersPosts.splice(thisPostIndex, 1, thisPost);
+                        othersNewPosts = [...othersPosts];
+                    }
+                }
+
+                console.log('myNewPosts AFTER adding reply -> ', myNewPosts);
+                console.log('othersNewPosts AFTER adding reply -> ', othersNewPosts);
+
+                dispatch(addReplySuccess(myNewPosts, othersNewPosts));
+            })
+            .catch(error => {
+                dispatch(addReplyFail(error))
+            })
+    }
+}
+
+// export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply, privacy, myPosts, othersPosts) => {
+//     return dispatch => {
+//         dispatch(addReplyInit());
+//         KeyGenerator.getKey(authToken, (newKey) => {
+//             const url = `/posts/${postsKey}.json?auth=${authToken}`
+//             const newReply = {...reply, id: newKey}
+//             let newPosts;
+//             axios.get(url)
+//                 .then(response => {
+//                     newPosts = [...response.data];
+//                     const targetPostIndex = newPosts.findIndex(post => post.id === postId);
+//                     const targetPost = newPosts.find(post => post.id === postId);
+//
+//                     const targetPostComments = [...targetPost.comments];
+//                     const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
+//                     const targetComment = targetPostComments.find(comment => comment.id === commentId);
+//
+//                     let targetCommentReplies;
+//                     if (targetComment.replies && targetComment.replies.length) {
+//                         targetCommentReplies = [...targetComment.replies, newReply];
+//                     } else {
+//                         targetCommentReplies = [newReply];
+//                     }
+//
+//                     targetComment.replies = targetCommentReplies;
+//                     targetPostComments[targetCommentIndex] = targetComment;
+//                     targetPost.comments = targetPostComments;
+//                     newPosts[targetPostIndex] = targetPost;
+//
+//                     return axios.put(url, newPosts)
+//                 })
+//                 .then(response => {
+//                     dispatch(addReplySuccess(newPosts));
+//                 })
+//                 .catch(error => {
+//                     dispatch(addReplyFail(error))
+//                 })
+//         })
+//     }
+// }
 
 const editReplyInit = () => {
     return {

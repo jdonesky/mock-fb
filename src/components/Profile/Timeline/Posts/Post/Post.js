@@ -257,6 +257,7 @@ const post = (props) => {
             };
             reader.readAsDataURL(file);
         }
+        commentInput.current.focus();
     }
 
     const saveComment = (event) => {
