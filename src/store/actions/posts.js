@@ -1,13 +1,11 @@
 import * as actionTypes from "./actionTypes";
 import axios from '../../axios/db-axios-instance';
-import {KeyGenerator} from "../../shared/utility";
 
 const addPostInit = () => {
     return {
         type: actionTypes.ADD_POST_INIT
     }
 }
-
 
 export const addPostAttempt = (authToken, postsKey, post, privacy) => {
 
@@ -63,7 +61,6 @@ const editPostSuccess = (posts, othersPosts) => {
         type: actionTypes.EDIT_POST_SUCCESS,
         posts: posts,
         othersPosts: othersPosts
-
     }
 }
 
@@ -513,15 +510,6 @@ const addReplyFail = (error) => {
 
 export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply, privacy, myPosts, othersPosts) => {
 
-    // console.log('IN ADD REPLY ATTEMPT')
-    // console.log('postsKeys', postsKey)
-    // console.log('postsId', postId)
-    // console.log('commentId', commentId)
-    // console.log('reply', reply)
-    // console.log('privacy', privacy)
-    // console.log('myPosts', myPosts)
-    // console.log('myPosts', othersPosts)
-
     let loc;
     if (!privacy) {
         loc = 'public';
@@ -542,39 +530,28 @@ export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply, p
             .then(response => {
                 let myNewPosts;
                 if (myPosts && myPosts.length) {
-                    console.log('myPosts BEFORE -> ', myPosts)
                     const thisPost = {...myPosts.find(post => post.id === postId)};
                     const thisPostIndex = myPosts.findIndex(post => post.id === postId);
-                    console.log('this POST -> ', thisPost);
                     let newComments;
                     if (thisPost.comments) {
-                        console.log('thisPost.comments -> ', thisPost.comments)
                         const thisComment = {...thisPost.comments[commentId]}
-                        console.log('this COMMENT', thisComment)
                         let newReplies;
                         if (thisComment.replies) {
-                            console.log('thisComment.replies -> ', thisComment.replies)
                             newReplies = {...thisComment.replies, [newReply.id]: {...newReply}}
                         } else {
-                            console.log('no existing replies sooo newReplies -> ', {[newReply.id]: {...newReply}})
                             newReplies = {[newReply.id]: {...newReply}}
                         }
                         thisComment.replies = newReplies;
-                        console.log('thisComment REPLIES (after adding)', newReplies)
                         thisPost.comments[commentId] = thisComment;
                         newComments = {...thisPost.comments}
                         thisPost.comments = newComments;
-                        console.log('replace thisPost.comments <- (newComments) ->', newComments)
-                        console.log('thisPost.COMMENTS after putting new reply in comment and comment back in thisPost', thisPost.comments)
                         myPosts.splice(thisPostIndex, 1, thisPost);
                         myNewPosts = [...myPosts];
-                        console.log('myNewPosts AFTER ADDING ', myNewPosts)
                     }
                 }
 
                 let othersNewPosts;
                 if (othersPosts && othersPosts.length) {
-                    console.log('othersPosts BEFORE -> ', othersPosts)
                     const thisPost = {...othersPosts.find(post => post.id === postId)};
                     const thisPostIndex = othersPosts.findIndex(post => post.id === postId);
                     let newComments;
@@ -595,9 +572,6 @@ export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply, p
                     }
                 }
 
-                console.log('myNewPosts AFTER adding reply -> ', myNewPosts);
-                console.log('othersNewPosts AFTER adding reply -> ', othersNewPosts);
-
                 dispatch(addReplySuccess(myNewPosts, othersNewPosts));
             })
             .catch(error => {
@@ -606,46 +580,6 @@ export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply, p
     }
 }
 
-// export const addReplyAttempt = (authToken, postsKey, postId, commentId, reply, privacy, myPosts, othersPosts) => {
-//     return dispatch => {
-//         dispatch(addReplyInit());
-//         KeyGenerator.getKey(authToken, (newKey) => {
-//             const url = `/posts/${postsKey}.json?auth=${authToken}`
-//             const newReply = {...reply, id: newKey}
-//             let newPosts;
-//             axios.get(url)
-//                 .then(response => {
-//                     newPosts = [...response.data];
-//                     const targetPostIndex = newPosts.findIndex(post => post.id === postId);
-//                     const targetPost = newPosts.find(post => post.id === postId);
-//
-//                     const targetPostComments = [...targetPost.comments];
-//                     const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
-//                     const targetComment = targetPostComments.find(comment => comment.id === commentId);
-//
-//                     let targetCommentReplies;
-//                     if (targetComment.replies && targetComment.replies.length) {
-//                         targetCommentReplies = [...targetComment.replies, newReply];
-//                     } else {
-//                         targetCommentReplies = [newReply];
-//                     }
-//
-//                     targetComment.replies = targetCommentReplies;
-//                     targetPostComments[targetCommentIndex] = targetComment;
-//                     targetPost.comments = targetPostComments;
-//                     newPosts[targetPostIndex] = targetPost;
-//
-//                     return axios.put(url, newPosts)
-//                 })
-//                 .then(response => {
-//                     dispatch(addReplySuccess(newPosts));
-//                 })
-//                 .catch(error => {
-//                     dispatch(addReplyFail(error))
-//                 })
-//         })
-//     }
-// }
 
 const editReplyInit = () => {
     return {
@@ -653,47 +587,12 @@ const editReplyInit = () => {
     }
 }
 
-export const editReplyAttempt = (authToken, postsKey, postId, commentId, replyId, payload) => {
-    return dispatch => {
-        dispatch(editReplyInit());
-        const url = `/posts/${postsKey}.json?auth=${authToken}`
-        const editedReply = {...payload}
-        let newPosts;
-        axios.get(url)
-            .then(response => {
-                newPosts = [...response.data];
-                const targetPostIndex = newPosts.findIndex(post => post.id === postId);
-                const targetPost = newPosts.find(post => post.id === postId);
-
-                const targetPostComments = [...targetPost.comments];
-                const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
-                const targetComment = targetPostComments.find(comment => comment.id === commentId);
-
-                const targetCommentReplies = [...targetComment.replies]
-                const targetReplyIndex = targetCommentReplies.findIndex(reply => reply.id === replyId);
-                targetCommentReplies[targetReplyIndex] = editedReply;
-
-                targetComment.replies = targetCommentReplies;
-                targetPostComments[targetCommentIndex] = targetComment;
-                targetPost.comments = targetPostComments;
-                newPosts[targetPostIndex] = targetPost;
-
-                return axios.put(url, newPosts)
-            })
-            .then(response => {
-                dispatch(editReplySuccess(newPosts));
-            })
-            .catch(error => {
-                dispatch(editReplyFail(error))
-            })
-
-    }
-}
-
-const editReplySuccess = (posts) => {
+const editReplySuccess = (posts, othersPosts, replyId) => {
     return {
         type: actionTypes.EDIT_REPLY_SUCCESS,
-        posts: posts
+        posts: posts,
+        othersPosts: othersPosts,
+        replyId: replyId
     }
 }
 
@@ -704,6 +603,71 @@ const editReplyFail = (error) => {
     }
 }
 
+export const editReplyAttempt = (authToken, postsKey, postId, commentId, replyId, newReply, privacy, myPosts, othersPosts) => {
+
+    let loc;
+    if (!privacy) {
+        loc = 'public';
+    } else {
+        loc = privacy;
+    }
+
+    return dispatch => {
+        dispatch(editReplyInit());
+        const url = `/posts/${postsKey}/${loc}/${postId}/comments/${commentId}/replies/${replyId}.json?auth=${authToken}`
+        axios.put(url, newReply)
+            .then(response => {
+                let myNewPosts;
+                if (myPosts && myPosts.length) {
+                    const thisPost = {...myPosts.find(post => post.id === postId)};
+                    const thisPostIndex = myPosts.findIndex(post => post.id === postId);
+                    let newComments;
+                    if (thisPost.comments) {
+                        const thisComment = {...thisPost.comments[commentId]}
+                        let newReplies;
+                        if (thisComment.replies) {
+                            newReplies = {...thisComment.replies, [newReply.id]: {...newReply}}
+                        } else {
+                            newReplies = {[newReply.id]: {...newReply}}
+                        }
+                        thisComment.replies = newReplies;
+                        thisPost.comments[commentId] = thisComment;
+                        newComments = {...thisPost.comments}
+                        thisPost.comments = newComments;
+                        myPosts.splice(thisPostIndex, 1, thisPost);
+                        myNewPosts = [...myPosts];
+                    }
+                }
+
+                let othersNewPosts;
+                if (othersPosts && othersPosts.length) {
+                    const thisPost = {...othersPosts.find(post => post.id === postId)};
+                    const thisPostIndex = othersPosts.findIndex(post => post.id === postId);
+                    let newComments;
+                    if (thisPost.comments) {
+                        const thisComment = {...thisPost.comments[commentId]}
+                        let newReplies;
+                        if (thisComment.replies) {
+                            newReplies = {...thisComment.replies, [newReply.id]: {...newReply}}
+                        } else {
+                            newReplies = {[newReply.id]: {...newReply}}
+                        }
+                        thisComment.replies = newReplies;
+                        thisPost.comments[commentId] = thisComment;
+                        newComments = {...thisPost.comments}
+                        thisPost.comments = newComments;
+                        othersPosts.splice(thisPostIndex, 1, thisPost);
+                        othersNewPosts = [...othersPosts];
+                    }
+                }
+                dispatch(editReplySuccess(myNewPosts, othersNewPosts, newReply.id));
+            })
+            .catch(error => {
+                dispatch(editReplyFail(error))
+            })
+
+    }
+}
 
 const deleteReplyInit = () => {
     return {
@@ -711,45 +675,11 @@ const deleteReplyInit = () => {
     }
 }
 
-export const deleteReplyAttempt = (authToken, postsKey, postId, commentId, replyId) => {
-    return dispatch => {
-        dispatch(deleteReplyInit());
-        const url = `/posts/${postsKey}.json?auth=${authToken}`;
-        let newPosts;
-        axios.get(url)
-            .then(response => {
-                newPosts = [...response.data];
-                const targetPostIndex = newPosts.findIndex(post => post.id === postId);
-                const targetPost = newPosts.find(post => post.id === postId);
-
-                const targetPostComments = [...targetPost.comments];
-                const targetCommentIndex = targetPostComments.findIndex(comment => comment.id === commentId);
-                const targetComment = targetPostComments.find(comment => comment.id === commentId);
-
-                const targetCommentReplies = [...targetComment.replies];
-                const targetReplyIndex = targetCommentReplies.findIndex(reply => reply.id === replyId);
-                targetCommentReplies.splice(targetReplyIndex, 1);
-
-                targetComment.replies = targetCommentReplies;
-                targetPostComments[targetCommentIndex] = targetComment;
-                targetPost.comments = targetPostComments;
-                newPosts[targetPostIndex] = targetPost;
-
-                return axios.put(url, newPosts)
-            })
-            .then(response => {
-                dispatch(deleteReplySuccess(newPosts));
-            })
-            .catch(error => {
-                dispatch(deleteReplyFail(error));
-            })
-    }
-}
-
-const deleteReplySuccess = (posts) => {
+const deleteReplySuccess = (posts, othersPosts) => {
     return {
         type: actionTypes.DELETE_REPLY_SUCCESS,
-        posts: posts
+        posts: posts,
+        othersPosts: othersPosts
     }
 }
 
@@ -760,12 +690,78 @@ const deleteReplyFail = (error) => {
     }
 }
 
+export const deleteReplyAttempt = (authToken, postsKey, postId, commentId, replyId, privacy, myPosts, othersPosts) => {
+
+    let loc;
+    if (!privacy) {
+        loc = 'public';
+    } else {
+        loc = privacy;
+    }
+    return dispatch => {
+        dispatch(deleteReplyInit());
+        const url = `/posts/${postsKey}/${loc}/${postId}/comments/${commentId}/replies/${replyId}.json?auth=${authToken}`;
+        axios.delete(url)
+            .then(response => {
+                let myNewPosts;
+                if (myPosts && myPosts.length) {
+                    const thisPost = {...myPosts.find(post => post.id === postId)};
+                    const thisPostIndex = myPosts.findIndex(post => post.id === postId);
+                    let newComments;
+                    if (thisPost.comments) {
+                        const thisComment = {...thisPost.comments[commentId]}
+                        let newReplies;
+                        if (thisComment.replies) {
+                            delete thisComment.replies[replyId]
+                            newReplies = {...thisComment.replies}
+                        } else {
+                            newReplies = {}
+                        }
+                        thisComment.replies = newReplies;
+                        thisPost.comments[commentId] = thisComment;
+                        newComments = {...thisPost.comments}
+                        thisPost.comments = newComments;
+                        myPosts.splice(thisPostIndex, 1, thisPost);
+                        myNewPosts = [...myPosts];
+                    }
+                }
+
+                let othersNewPosts;
+                if (othersPosts && othersPosts.length) {
+                    const thisPost = {...othersPosts.find(post => post.id === postId)};
+                    const thisPostIndex = othersPosts.findIndex(post => post.id === postId);
+                    let newComments;
+                    if (thisPost.comments) {
+                        const thisComment = {...thisPost.comments[commentId]}
+                        let newReplies;
+                        if (thisComment.replies) {
+                            delete thisComment.replies[replyId]
+                            newReplies = {...thisComment.replies}
+                        } else {
+                            newReplies = {}
+                        }
+                        thisComment.replies = newReplies;
+                        thisPost.comments[commentId] = thisComment;
+                        newComments = {...thisPost.comments}
+                        thisPost.comments = newComments;
+                        othersPosts.splice(thisPostIndex, 1, thisPost);
+                        othersNewPosts = [...othersPosts];
+                    }
+                }
+                dispatch(deleteReplySuccess(myNewPosts, othersNewPosts));
+            })
+            .catch(error => {
+                dispatch(deleteReplyFail(error));
+            })
+    }
+}
+
+
 const fetchSelfPostsInit = () => {
     return {
         type: actionTypes.FETCH_SELF_POSTS_INIT,
     }
 }
-
 
 export const fetchSelfPostsAttempt = (authToken, postsKey) => {
     let posts = [];
@@ -879,66 +875,7 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
     }
 }
 
-// export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) => {
-//     return dispatch => {
-//         if (lastFetchedPage === 'last') {
-//             dispatch(markScrollEnd())
-//         }
-//         dispatch(fetchOthersPostsInit())
-//         axios.get(`/posts.json?auth=${authToken}&shallow=true`)
-//             .then(response => {
-//                 const keys = Object.keys(response.data).sort();
-//                 const pageLength = 2;
-//
-//                 if (!lastFetchedPage) {
-//                     lastFetchedPage = 0;
-//                 }
-//
-//                 const promises = [];
-//                 let query;
-//
-//                 for (let key of keys.slice(lastFetchedPage, lastFetchedPage + pageLength)) {
-//                     query = axios.get(`/posts/${key}.json?auth=${authToken}&orderBy="id"&startAt=0&limitToLast=2`)
-//                     promises.push(query);
-//                 }
-//
-//                 if (lastFetchedPage + pageLength <= keys.length) {
-//                     lastFetchedPage = lastFetchedPage + pageLength;
-//                 } else {
-//                     const remainder = keys.length - lastFetchedPage;
-//                     if (remainder) {
-//                         lastFetchedPage += remainder;
-//                     } else {
-//                         lastFetchedPage = 'last';
-//                     }
-//                 }
-//
-//                 return Promise.all(promises)
-//             })
-//             .then(responses => {
-//                 const oldPostIds = oldPosts && oldPosts.length ? oldPosts.map(post => post.id) : null;
-//
-//                 let newPosts = responses.map(response => {
-//                     if (response.data && response.data.length) {
-//                         return [...response.data]
-//                     }}
-//                 )
-//                     .flat().filter(item => item)
-//                     .sort((a,b) => {
-//                         return new Date(b.date) - new Date(a.date);
-//                     });
-//                 if (oldPostIds) {
-//                     newPosts = newPosts.filter(post => !oldPostIds.includes(post.id))
-//                     newPosts = oldPosts.concat(newPosts);
-//                 }
-//
-//                 dispatch(fetchOthersPostsSuccess(newPosts,lastFetchedPage))
-//             })
-//             .catch(error => {
-//                 dispatch(fetchOthersPostsFail(error));
-//             })
-//     }
-// }
+
 
 const fetchOthersPostsSuccess = (posts, lastFetchedPage) => {
     return {

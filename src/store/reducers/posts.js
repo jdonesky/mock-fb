@@ -1,6 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
+  idInProcess: null,
   posts: [],
   othersPosts: [],
   loadingNewPost: false,
@@ -226,7 +227,9 @@ const editReplyInit = (state,action) => {
 const editReplySuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
+        posts: action.posts ? action.posts : state.posts,
+        othersPosts: action.othersPosts ? action.othersPosts : state.othersPosts,
+        idInProcess: action.replyId,
         editingReply: false
     }
 }
@@ -235,7 +238,7 @@ const editReplyFail = (state,action) => {
     return {
         ...state,
         error: action.error,
-        editingReply: true
+        editingReply: false
     }
 }
 
@@ -249,7 +252,8 @@ const deleteReplyInit = (state,action) => {
 const deleteReplySuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
+        posts: action.posts ? action.posts : state.posts,
+        othersPosts: action.othersPosts ? action.othersPosts : state.othersPosts,
         deletingReply: false
     }
 }

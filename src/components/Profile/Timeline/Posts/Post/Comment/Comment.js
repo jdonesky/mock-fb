@@ -254,6 +254,7 @@ const comment = (props) => {
                 text={reply.text}
                 image={reply.image}
                 gif={reply.gif}
+                postPrivacy={props.privacy}
                 startReply={startReplyHandler}
                 passDeleteData={props.passDeleteData}
                 toggleDeleteModal={props.toggleDeleteModal}

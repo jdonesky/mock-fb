@@ -55,7 +55,7 @@ const reply = (props) => {
 
     const toggleDeleteModal = () => {
         closeEditDropdown();
-        props.passDeleteData(null, props.postsKey, 'reply', 'DELETE_POST_REPLY', props.postId, props.commentId, props.id);
+        props.passDeleteData(null, props.postsKey, 'reply', 'DELETE_POST_REPLY', props.postId, props.commentId, props.id, props.postPrivacy, props.myPosts, props.othersPosts);
         props.toggleDeleteModal();
     }
 
@@ -109,7 +109,7 @@ const reply = (props) => {
             image: editReplyImage,
             gif: editReplyGif
         }
-        props.onEditReply(props.authToken, props.postsKey, props.postId, props.commentId, props.id, newReply);
+        props.onEditReply(props.authToken, props.postsKey, props.postId, props.commentId, props.id, newReply, props.postPrivacy, props.myPosts, props.othersPosts);
         setEditReplyText(null);
         setEditReplyImage(null);
         setEditReplyGif(null);
@@ -129,7 +129,7 @@ const reply = (props) => {
             image: editReplyImage,
             gif: gifUrl
         }
-        props.onEditReply(props.authToken, props.postsKey, props.postId, props.commentId, props.id, newReply);
+        props.onEditReply(props.authToken, props.postsKey, props.postId, props.commentId, props.id, newReply, props.postPrivacy, props.myPosts, props.othersPosts);
         setEditReplyText(null);
         setEditReplyImage(null);
         setEditReplyGif(null);
@@ -256,7 +256,7 @@ const reply = (props) => {
         replyContent = editReplyForm;
     }
 
-    if (props.savingEdits) {
+    if (props.savingEdits && props.idInProcess === props.id) {
         replyContent = <InlineDots />
     }
 
@@ -267,13 +267,16 @@ const reply = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
-        savingEdits: state.posts.editingReply
+        savingEdits: state.posts.editingReply,
+        myPosts: state.posts.posts,
+        othersPosts: state.posts.othersPosts,
+        idInProcess: state.posts.idInProcess,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onEditReply: (authToken, postsKey, postId, commentId, replyId, payload) => dispatch(actions.editReplyAttempt(authToken, postsKey, postId, commentId, replyId, payload))
+        onEditReply: (authToken, postsKey, postId, commentId, replyId, payload, privacy, myPosts, othersPosts) => dispatch(actions.editReplyAttempt(authToken, postsKey, postId, commentId, replyId, payload, privacy, myPosts, othersPosts))
     }
 }
 

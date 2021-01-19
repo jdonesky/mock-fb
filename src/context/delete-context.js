@@ -28,20 +28,22 @@ const DeleteContextProvider = (props) => {
     const [nestedId3, setNestedId3] = useState(null);
     const [nestedId4, setNestedId4] = useState(null);
     const [nestedId5, setNestedId5] = useState(null);
+    const [nestedId6, setNestedId6] = useState(null);
+    const [nestedId7, setNestedId7] = useState(null);
 
-    // useEffect(() => {
-    //         console.log('DELETE CONTEXT')
-    //         console.log('field (null)', field)
-    //         console.log('id ()', id)
-    //         console.log('nestedId1 ()', nestedId1)
-    //         console.log('nestedId2 ()', nestedId2)
-    //         console.log('nestedId3 ()', nestedId3)
-    //         console.log('nestedId4 ()', nestedId4)
-    //         console.log('nestedId4 ()', nestedId5)
-    //         console.log('nestedId4 ()', nestedId6)
-    //         console.log('nestedId4 ()', nestedId7)
-    //
-    // })
+    useEffect(() => {
+        if (deleteAction === "DELETE_POST_REPLY") {
+            console.log('DELETE CONTEXT')
+            console.log('field (null)', field)
+            console.log('id (POSTS KEY)', id)
+            console.log('nestedId1 (POST ID)', nestedId1)  //
+            console.log('nestedId2 (COMMENT ID)', nestedId2)  //
+            console.log('nestedId3 (REPLY ID)', nestedId3)  //
+            console.log('nestedId4 (PRIVACY)', nestedId4)  //
+            console.log('nestedID5 (MY POSTS)', nestedId5)  //
+            console.log('nestedID6 (OTHERS POSTS)', nestedId6)  //
+        }
+    })
 
     const toggleModal = () => {
         setShowModal((prevState) => {
@@ -59,6 +61,8 @@ const DeleteContextProvider = (props) => {
         setNestedId3(null);
         setNestedId4(null);
         setNestedId5(null);
+        setNestedId6(null);
+        setNestedId7(null);
     }
 
     const cancelDelete = () => {
@@ -66,7 +70,7 @@ const DeleteContextProvider = (props) => {
         clearAllData();
     }
 
-    const passData = (field,id,caption, deleteActionType, nestedId1, nestedId2, nestedId3, nestedId4, nestedId5) => {
+    const passData = (field,id,caption, deleteActionType, nestedId1, nestedId2, nestedId3, nestedId4, nestedId5, nestedId6, nestedId7) => {
         setField(field);
         setId(id);
         setCaption(caption);
@@ -74,8 +78,10 @@ const DeleteContextProvider = (props) => {
         setNestedId1(nestedId1);
         setNestedId2(nestedId2);
         setNestedId3(nestedId3);
-        setNestedId4(nestedId4)
-        setNestedId5(nestedId5)
+        setNestedId4(nestedId4);
+        setNestedId5(nestedId5);
+        setNestedId6(nestedId6);
+        setNestedId7(nestedId7);
     }
 
     const deleteEntry = () => {
@@ -90,7 +96,7 @@ const DeleteContextProvider = (props) => {
                 props.onDeletePostComment(props.authToken, id, nestedId1, nestedId2, nestedId3, nestedId4, nestedId5)
                 break;
             case "DELETE_POST_REPLY":
-                props.onDeletePostReply(props.authToken, id, nestedId1, nestedId2, nestedId3)
+                props.onDeletePostReply(props.authToken, id, nestedId1, nestedId2, nestedId3, nestedId4, nestedId5, nestedId6)
                 break;
             default:
                 throw new Error('Oops, none of the above!')
@@ -121,7 +127,7 @@ const mapDispatchToProps = dispatch => {
         onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how, id)),
         onDeletePost: (authToken, postsKey, postId, privacy, myPosts, othersPosts) => dispatch(actions.deletePostAttempt(authToken, postsKey, postId, privacy, myPosts, othersPosts)),
         onDeletePostComment: (authToken, postsKey, postId, commentId, privacy, myPosts, othersPosts) => dispatch(actions.deleteCommentAttempt(authToken, postsKey, postId, commentId, privacy, myPosts, othersPosts)),
-        onDeletePostReply: (authToken, postsKey, postId, commentId, replyId) => dispatch(actions.deleteReplyAttempt(authToken, postsKey, postId, commentId, replyId))
+        onDeletePostReply: (authToken, postsKey, postId, commentId, replyId, privacy, myPosts, othersPosts) => dispatch(actions.deleteReplyAttempt(authToken, postsKey, postId, commentId, replyId, privacy, myPosts, othersPosts))
     }
 }
 
