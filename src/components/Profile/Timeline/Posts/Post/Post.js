@@ -83,6 +83,16 @@ const post = (props) => {
         }
     }
 
+    const navToReactorProfile = (userKey) => {
+        if (props.userKey === props.firebaseKey) {
+            props.history.push(`/user-profile/me`)
+        } else {
+            if (props.userKey) {
+                props.history.push(`/user-profile/${props.userKey}`)
+            }
+        }
+    }
+
     let summaryOpeningTimer;
     const startViewingSummary = () => {
         summaryOpeningTimer = setTimeout(() => {
@@ -195,11 +205,13 @@ const post = (props) => {
 
     const postReactionHandler = (caption) => {
         const reaction = {
+            userKey: props.firebaseKey,
             userId: props.userId,
             name: props.name,
-            caption: caption
+            caption: caption,
+            date: new Date()
         }
-        props.onPostReaction(props.authToken,props.postsKey, props.id, reaction);
+        props.onPostReaction(props.authToken,props.postsKey, props.id, reaction, props.privacy, props.myPosts, props.othersPosts);
         quickCloseEmojiSelector()
     }
 
@@ -210,24 +222,25 @@ const post = (props) => {
 
     const toggleDeleteModal = () => {
         cancelEditDropdown()
-        deleteContext.passData(null,props.id,'post','DELETE_POST', props.postsKey)
+        deleteContext.passData(null,props.id,'post','DELETE_POST', props.postsKey, props.privacy, props.myPosts, props.othersPosts )
         deleteContext.toggleModal();
     }
 
     const toggleEditModal = () => {
         cancelEditDropdown();
         postContext.toggleEditingPost();
-        postContext.recordInitialValues(props.status || '',props.image || null, props.background || null, props.tagged || [], props.location || null)
+        postContext.recordInitialValues(props.status || '',props.image || null, props.background || null, props.tagged || [], props.postLocation || null)
         postContext.passData('text',props.status || '');
         postContext.passData('image',props.image || null);
         postContext.passData('background',props.background || null);
-        postContext.passData('location',props.location || null);
+        postContext.passData('location',props.postLocation || null);
         postContext.passData('tags',props.tagged && props.tagged.length ? props.tagged : []);
         postContext.passData('comments', props.comments && props.comments.length ? props.comments : []);
         postContext.passData('postsKey', props.postsKey || null);
         postContext.passData('userKey', props.userKey || null);
         postContext.passData('postProfileImage', props.postProfileImage || null);
         postContext.passData('postId', props.id || null);
+        postContext.passData('privacy', props.privacy || null);
         postContext.toggleModal();
     }
 
@@ -258,7 +271,7 @@ const post = (props) => {
             image: commentImage,
             gif: commentGif,
         }
-        props.onPostComment(props.authToken, props.postsKey, props.id, comment)
+        props.onPostComment(props.authToken, props.postsKey, props.id, comment, props.privacy, props.myPosts, props.othersPosts);
         setCommentText('');
         setCommentImage(null);
         setCommentGif(null);
@@ -274,7 +287,7 @@ const post = (props) => {
             image: commentImage,
             gif: gifUrl,
         };
-        props.onPostComment(props.authToken, props.postsKey, props.id, comment);
+        props.onPostComment(props.authToken, props.postsKey, props.id, comment, props.privacy, props.myPosts, props.othersPosts);
         setShowGifSelector(false);
         setCommentText('');
     }
@@ -361,23 +374,27 @@ const post = (props) => {
     let commentsSection;
     let postsComments;
     if (showComments) {
-        postsComments = props.comments && props.comments.length ? props.comments.map(comment => (
-            <Comment
-                postsKey={props.postsKey}
-                postId={props.id}
-                key={comment.id}
-                id={comment.id}
-                userId={comment.userId}
-                userName={comment.name}
-                commentProfileImage={comment.commentProfileImage}
-                text={comment.text}
-                image={comment.image}
-                gif={comment.gif}
-                replies={comment.replies}
-                passDeleteData={deleteContext.passData}
-                toggleDeleteModal={deleteContext.toggleModal}
-            />
-        )) : null;
+        if (props.comments && Object.keys(props.comments).length) {
+            postsComments = Object.keys(props.comments).map(key => ({...props.comments[key]}))
+                .map(comment => (
+                <Comment
+                    postsKey={props.postsKey}
+                    postId={props.id}
+                    key={comment.id}
+                    id={comment.id}
+                    userId={comment.userId}
+                    userName={comment.name}
+                    commentProfileImage={comment.commentProfileImage}
+                    text={comment.text}
+                    image={comment.image}
+                    gif={comment.gif}
+                    replies={comment.replies}
+                    passDeleteData={deleteContext.passData}
+                    toggleDeleteModal={deleteContext.toggleModal}
+                    privacy={props.privacy}
+                />
+            ));
+        }
 
         let loadingNewCommentIndicator;
         if (props.loadingNewComment) {
@@ -400,7 +417,7 @@ const post = (props) => {
     )
 
     let postReactions;
-    if (props.reactions && props.reactions.length) {
+    if (props.reactions && Object.keys(props.reactions).length) {
         postReactions = <Reactions reactions={props.reactions}/>
     }
 
@@ -568,15 +585,17 @@ const mapStateToProps = state => {
         friends: state.profile.friends,
         loadingNewComment: state.posts.loadingNewComment,
         addingPostReaction: state.posts.addingPostReaction,
-        editingPostReaction: state.posts.editingPostReaction
+        editingPostReaction: state.posts.editingPostReaction,
+        myPosts: state.posts.posts,
+        othersPosts: state.posts.othersPosts
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchSelfPosts: (authToken, postsKey) => dispatch(actions.fetchSelfPostsAttempt(authToken, postsKey)),
-        onPostComment: (authToken, postsKey, postId, comment) => dispatch(actions.addCommentAttempt(authToken, postsKey, postId, comment)),
-        onPostReaction: (authToken, postsKey, postId, reaction) => dispatch(actions.addPostReactionAttempt(authToken, postsKey, postId, reaction)),
+        onPostComment: (authToken, postsKey, postId, comment, privacy, myPosts, othersPosts) => dispatch(actions.addCommentAttempt(authToken, postsKey, postId, comment, privacy, myPosts, othersPosts)),
+        onPostReaction: (authToken, postsKey, postId, reaction, privacy, myPosts, othersPosts) => dispatch(actions.addPostReactionAttempt(authToken, postsKey, postId, reaction, privacy, myPosts, othersPosts)),
     }
 }
 

@@ -113,7 +113,7 @@ const comment = (props) => {
 
     const toggleDeleteModal = () => {
        setEditingDropdown(false);
-       props.passDeleteData(null,props.postsKey,'comment', 'DELETE_POST_COMMENT', props.postId, props.id);
+       props.passDeleteData(null,props.postsKey,'comment', 'DELETE_POST_COMMENT', props.postId, props.id, props.privacy, props.myPosts, props.othersPosts);
        props.toggleDeleteModal();
     }
 
@@ -197,7 +197,7 @@ const comment = (props) => {
             gif: gifUrl,
             replies: props.replies
         };
-        props.onEditComment(props.authToken, props.postsKey, props.postId, props.id, newComment);
+        props.onEditComment(props.authToken, props.postsKey, props.postId, props.id, newComment, props.privacy, props.myPosts, props.othersPosts);
         setEditingComment(false);
     }
 
@@ -215,7 +215,7 @@ const comment = (props) => {
             gif: editCommentGif,
             replies: props.replies
         };
-        props.onEditComment(props.authToken, props.postsKey, props.postId, props.id, newComment);
+        props.onEditComment(props.authToken, props.postsKey, props.postId, props.id, newComment, props.privacy, props.myPosts, props.othersPosts);
         setEditingComment(false);
     }
 
@@ -321,8 +321,8 @@ const comment = (props) => {
         <div className={classes.EditCommentForm}>
             <section className={postClasses.CommentBarSection}>
                 <div className={postClasses.CommenterProfileImageContainer}>
-                    <div className={postClasses.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
-                        {props.profileImage ? null : <Avatar fill="white" />}
+                    <div className={postClasses.CommenterProfileImage} style={{backgroundImage: props.commentProfileImage ? `url(${props.commentProfileImage})` : null}}>
+                        {props.commentProfileImage ? null : <Avatar fill="white" />}
                     </div>
                 </div>
                 <form onSubmit={saveCommentEdits} className={postClasses.CommentForm}>
@@ -362,7 +362,7 @@ const comment = (props) => {
     let commentContent = (
         <div className={classes.CommentContainer} onMouseEnter={() => showEditingButton()} onMouseLeave={() => hideEditingButton()}>
             <div className={classes.CommenterProfileImageContainer}>
-                <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                <div className={classes.CommenterProfileImage} style={{backgroundImage: props.commentProfileImage ? `url(${props.commentProfileImage})` : null}}>
                     {props.commentProfileImage ? null : <Avatar fill="white"/>}
                 </div>
             </div>
@@ -423,13 +423,15 @@ const mapStateToProps = state => {
         loadingNewReply: state.posts.loadingNewReply,
         deletingReply: state.posts.deletingReply,
         commentEditSaving: state.posts.editingComment,
+        myPosts: state.posts.posts,
+        othersPosts: state.posts.othersPosts
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onPostReply: (authToken, postsKey, postId, commentId, reply) => dispatch(actions.addReplyAttempt(authToken, postsKey, postId, commentId, reply)),
-        onEditComment: (authToken, postsKey, postId, commentId, newComment) => dispatch(actions.editCommentAttempt(authToken, postsKey, postId, commentId, newComment))
+        onEditComment: (authToken, postsKey, postId, commentId, newComment, privacy, myPosts, othersPosts) => dispatch(actions.editCommentAttempt(authToken, postsKey, postId, commentId, newComment, privacy, myPosts, othersPosts))
     }
 }
 

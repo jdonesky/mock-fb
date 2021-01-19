@@ -139,55 +139,52 @@ export const createProfileAttempt =  (token,newUserData) => {
         let userKey;
         let publicProfileKey;
         let activityLogKey;
-        let postsWithKeys;
+        let postWithKeys;
         KeyGenerator.getKey(token, (newKey) => {
             const today = new Date();
             let yesterday = new Date();
             yesterday = new Date(yesterday.setDate(today.getDate() - 1));
-            const basePost = {name: newUserData.firstName + ' ' + newUserData.lastName, text: 'hold postsKey', date: yesterday, id: -1}
-            axios.post(`/posts.json?auth=${token}`,[basePost, {name: newUserData.firstName + ' ' + newUserData.lastName,text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(today, true)}`, date: today, id: newKey}])
+            postWithKeys = {name: newUserData.firstName + ' ' + newUserData.lastName,text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(today, true)}`, date: today, id: newKey}
+            axios.post(`/posts.json?auth=${token}`, {userId: newUserData.userId})
                 .then(response => {
                     postsKey = response.data.name;
-                    return axios.get(`/posts/${postsKey}.json?auth=${token}`)
+                    postWithKeys = {...postWithKeys, postsKey: postsKey}
+                    return axios.post(`/posts/${postsKey}/public.json?auth=${token}`, postWithKeys)
                 })
                 .then(response => {
-                    postsWithKeys = response.data.map(post => ({...post, postsKey: postsKey}))
-                    return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys]);
-                })
-                .then(response => {
+                    let postId = response.data.name
+                    postWithKeys = {...postWithKeys, id: postId}
                     userData = {postsKey: postsKey, ...newUserData}
                     return axios.post(`/users.json?auth=${token}`, userData)
                 })
                 .then(response => {
                     userKey = response.data.name
                     userData = {userKey: userKey,...userData};
-                    postsWithKeys = postsWithKeys.map(post => ({...post, userKey: userKey}))
-                    return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys])
-                })
-                .then( response => {
+                    postWithKeys = {...postWithKeys, userKey: userKey}
+
                     return axios.post(`/public-profiles.json?auth=${token}`, {...userData, privacy: {AllowMessages: 'FRIENDS'}})
                 })
                 .then(response => {
                     publicProfileKey = response.data.name;
-                    userData = {publicProfileKey: publicProfileKey,...userData}
-                    return axios.put(`users/${userKey}.json?auth=${token}`, userData)
-                })
-                .then(response => {
+                    userData = {...userData, publicProfileKey: publicProfileKey}
+                    postWithKeys = {...postWithKeys, publicProfileKey: publicProfileKey}
+
                     const newLog = {userKey: userKey, publicProfileKey: publicProfileKey}
                     return axios.post(`/activity.json?auth=${token}`, newLog)
                 })
                 .then(response => {
                     activityLogKey = response.data.name;
+                    userData = {...userData, activityLogKey: activityLogKey}
+                    postWithKeys = {...postWithKeys, activityLogKey: activityLogKey}
+
                     const firstEntry = {text: `You joined dumb facebook`, date: today, sortDate: today.getTime(), read: "false", type: "INFO", subject: "SELF"}
                     return axios.post(`/activity/${activityLogKey}/records.json?auth=${token}`, firstEntry)
                 })
                 .then(response => {
-                    userData = {...userData, activityLogKey: activityLogKey}
-                    return axios.put(`/public-profiles/${publicProfileKey}.json?auth=${token}`, {...userData, publicProfileKey: publicProfileKey, privacy: {AllowMessages: 'FRIENDS'}, activityLogKey: activityLogKey})
+                    return axios.put(`/public-profiles/${publicProfileKey}.json?auth=${token}`, {...userData, privacy: {AllowMessages: 'FRIENDS'}})
                 })
                 .then(response => {
-                    postsWithKeys = postsWithKeys.map(post => ({...post, publicProfileKey: publicProfileKey}))
-                    return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys])
+                    return axios.put(`/posts/${postsKey}/public/${postWithKeys.id}.json?auth=${token}`, postWithKeys)
                 })
                 .then(response => {
                     return axios.put(`users/${userKey}.json?auth=${token}`, userData)
@@ -204,6 +201,82 @@ export const createProfileAttempt =  (token,newUserData) => {
         })
     }
 }
+
+// BEFORE POSTS REFACTOR
+
+// export const createProfileAttempt =  (token,newUserData) => {
+//     return dispatch => {
+//         dispatch(loadProfileInit());
+//         let userData;
+//         let postsKey;
+//         let userKey;
+//         let publicProfileKey;
+//         let activityLogKey;
+//         let postsWithKeys;
+//         KeyGenerator.getKey(token, (newKey) => {
+//             const today = new Date();
+//             let yesterday = new Date();
+//             yesterday = new Date(yesterday.setDate(today.getDate() - 1));
+//             const basePost = {name: newUserData.firstName + ' ' + newUserData.lastName, text: 'hold postsKey', date: yesterday, id: -1}
+//             axios.post(`/posts.json?auth=${token}`,[basePost, {name: newUserData.firstName + ' ' + newUserData.lastName,text: `${newUserData.firstName} ${newUserData.lastName} joined ${convertDatetime(today, true)}`, date: today, id: newKey}])
+//                 .then(response => {
+//                     postsKey = response.data.name;
+//                     return axios.get(`/posts/${postsKey}.json?auth=${token}`)
+//                 })
+//                 .then(response => {
+//                     postsWithKeys = response.data.map(post => ({...post, postsKey: postsKey}))
+//                     return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys]);
+//                 })
+//                 .then(response => {
+//                     userData = {postsKey: postsKey, ...newUserData}
+//                     return axios.post(`/users.json?auth=${token}`, userData)
+//                 })
+//                 .then(response => {
+//                     userKey = response.data.name
+//                     userData = {userKey: userKey,...userData};
+//                     postsWithKeys = postsWithKeys.map(post => ({...post, userKey: userKey}))
+//                     return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys])
+//                 })
+//                 .then( response => {
+//                     return axios.post(`/public-profiles.json?auth=${token}`, {...userData, privacy: {AllowMessages: 'FRIENDS'}})
+//                 })
+//                 .then(response => {
+//                     publicProfileKey = response.data.name;
+//                     userData = {publicProfileKey: publicProfileKey,...userData}
+//                     return axios.put(`users/${userKey}.json?auth=${token}`, userData)
+//                 })
+//                 .then(response => {
+//                     const newLog = {userKey: userKey, publicProfileKey: publicProfileKey}
+//                     return axios.post(`/activity.json?auth=${token}`, newLog)
+//                 })
+//                 .then(response => {
+//                     activityLogKey = response.data.name;
+//                     const firstEntry = {text: `You joined dumb facebook`, date: today, sortDate: today.getTime(), read: "false", type: "INFO", subject: "SELF"}
+//                     return axios.post(`/activity/${activityLogKey}/records.json?auth=${token}`, firstEntry)
+//                 })
+//                 .then(response => {
+//                     userData = {...userData, activityLogKey: activityLogKey}
+//                     return axios.put(`/public-profiles/${publicProfileKey}.json?auth=${token}`, {...userData, publicProfileKey: publicProfileKey, privacy: {AllowMessages: 'FRIENDS'}, activityLogKey: activityLogKey})
+//                 })
+//                 .then(response => {
+//                     postsWithKeys = postsWithKeys.map(post => ({...post, publicProfileKey: publicProfileKey}))
+//                     return axios.put(`/posts/${postsKey}.json?auth=${token}`, [...postsWithKeys])
+//                 })
+//                 .then(response => {
+//                     return axios.put(`users/${userKey}.json?auth=${token}`, userData)
+//                 })
+//                 .then(response => {
+//                     return axios.put(`/follows/${userData.userId}.json?auth=${token}`, {name: userData.firstName + ' ' + userData.lastName, userKey: userKey, publicProfileKey: publicProfileKey, isOnline: true})
+//                 })
+//                 .then(response => {
+//                     dispatch(createProfileSuccess(userData));
+//                 })
+//                 .catch(error => {
+//                     dispatch(updateProfileFail(error))
+//                 })
+//         })
+//     }
+// }
 
 const createProfileSuccess = (userData) => {
   return {

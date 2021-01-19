@@ -21,6 +21,7 @@ const home = (props) => {
     const [showContactsOptions, setShowContactsOptions] = useState(false);
     const firstUpdate = useRef(true);
 
+
     useEffect(() => {
         if (firstUpdate.current) {
             firstUpdate.current = false;
@@ -42,10 +43,10 @@ const home = (props) => {
         }
     }, [])
 
-    let topLoadingIndicator;
-    if (props.loadingOthersPosts) {
-        topLoadingIndicator = <InlineDots />
-    }
+    // let topLoadingIndicator;
+    // if (props.loadingOthersPosts) {
+    //     topLoadingIndicator = <InlineDots />
+    // }
 
     let bottomLoadingIndicator
     if (isBottom && !props.scrollEnd) {
@@ -71,6 +72,7 @@ const home = (props) => {
                 background={post.background}
                 image={post.image}
                 date={post.date}
+                privacy={post.privacy}
                 tagged={post.tagged}
                 postLocation={post.location}
                 comments={post.comments}
@@ -114,7 +116,7 @@ const home = (props) => {
             {contactsSideDrawer}
             <section className={classes.PostsSection}>
                 <StartCreating />
-                {topLoadingIndicator}
+                {/*{topLoadingIndicator}*/}
                 {posts}
             </section>
             {bottomLoadingIndicator}

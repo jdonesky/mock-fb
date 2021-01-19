@@ -25,10 +25,25 @@ const reactions = (props) => {
         setShowOtherNames(false);
     }
 
+    let filteredReactions = [];
+    if (props.reactions && Object.keys(props.reactions).length) {
+        Object.keys(props.reactions).forEach(key => {
+            let existingReaction = filteredReactions.find(reaction => reaction.userKey === props.reactions[key].userKey)
+            let existingReactionIndex = filteredReactions.find(reaction => reaction.userKey === props.reactions[key].userKey)
+            if (existingReaction) {
+                if (new Date(existingReaction.date) < new Date(props.reactions[key].date)) {
+                    filteredReactions.splice(existingReactionIndex, 1, {...props.reactions[key], id: key})
+                }
+            } else {
+                filteredReactions.push({...props.reactions[key], id: key})
+            }
+        })
+    }
+
     let iconTypes;
-    if (props.reactions && props.reactions.length) {
+    if (filteredReactions && filteredReactions.length) {
         iconTypes = new Set();
-        props.reactions.forEach(reaction => {
+        filteredReactions.forEach(reaction => {
             iconTypes.add(reaction.caption);
         })
         iconTypes = [...iconTypes]
@@ -123,8 +138,8 @@ const reactions = (props) => {
 
     let names;
     let otherNames;
-    if (props.reactions && props.reactions.length) {
-        names = props.reactions.map(reaction => reaction.name);
+    if (filteredReactions && filteredReactions.length) {
+        names = filteredReactions.map(reaction => reaction.name);
         if (names.length === 1) {
             names = names[0]
         } else if (names.length === 2) {
@@ -142,7 +157,7 @@ const reactions = (props) => {
             <div className={classes.OtherNamesDropdown}>
                 {otherNames}
             </div>
-        )
+        );
     }
 
     return (

@@ -3,10 +3,11 @@ import React, {useContext} from 'react';
 import Modal from '../Modal';
 import {PostContext} from '../../../../context/post-context';
 import BaseForm from './BaseForm/BaseForm'
-import ChooseBackground from './ChooseBackground/ChooseBackground'
-import TagFriends from './TagFriends/TagFriends'
-import Location from './Location/Location'
-import classes from './CreatePost.css'
+import ChooseBackground from './ChooseBackground/ChooseBackground';
+import SelectAudience from './SelectAudience/SelectAudience';
+import TagFriends from './TagFriends/TagFriends';
+import Location from './Location/Location';
+import classes from './CreatePost.css';
 
 
 const createPost = (props) => {
@@ -16,6 +17,9 @@ const createPost = (props) => {
     switch (postContext.modalContent) {
         case 'CREATE_POST':
             modalContent = <BaseForm />
+            break;
+        case 'SELECT_AUDIENCE':
+            modalContent = <SelectAudience />
             break;
         case 'CHOOSE_BACKGROUND':
             modalContent = <ChooseBackground />

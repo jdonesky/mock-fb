@@ -26,6 +26,10 @@ const DeleteContextProvider = (props) => {
     const [nestedId1, setNestedId1] = useState(null);
     const [nestedId2, setNestedId2] = useState(null);
     const [nestedId3, setNestedId3] = useState(null);
+    const [nestedId4, setNestedId4] = useState(null);
+    const [nestedId5, setNestedId5] = useState(null);
+
+ç
 
     const toggleModal = () => {
         setShowModal((prevState) => {
@@ -41,6 +45,8 @@ const DeleteContextProvider = (props) => {
         setNestedId1(null);
         setNestedId2(null);
         setNestedId3(null);
+        setNestedId4(null);
+        setNestedId5(null);
     }
 
     const cancelDelete = () => {
@@ -48,7 +54,7 @@ const DeleteContextProvider = (props) => {
         clearAllData();
     }
 
-    const passData = (field,id,caption, deleteActionType, nestedId1, nestedId2, nestedId3) => {
+    const passData = (field,id,caption, deleteActionType, nestedId1, nestedId2, nestedId3, nestedId4, nestedId5) => {
         setField(field);
         setId(id);
         setCaption(caption);
@@ -56,6 +62,8 @@ const DeleteContextProvider = (props) => {
         setNestedId1(nestedId1);
         setNestedId2(nestedId2);
         setNestedId3(nestedId3);
+        setNestedId4(nestedId4)
+        setNestedId5(nestedId5)
     }
 
     const deleteEntry = () => {
@@ -64,10 +72,10 @@ const DeleteContextProvider = (props) => {
                 props.onProfileUpdate(props.authToken, props.firebaseKey, field, null, 'delete', id);
                 break;
             case "DELETE_POST":
-                props.onDeletePost(props.authToken, nestedId1, id)
+                props.onDeletePost(props.authToken, nestedId1, id, nestedId2, nestedId3, nestedId4)
                 break;
             case "DELETE_POST_COMMENT":
-                props.onDeletePostComment(props.authToken, id, nestedId1, nestedId2)
+                props.onDeletePostComment(props.authToken, id, nestedId1, nestedId2, nestedId3, nestedId4, nestedId5)
                 break;
             case "DELETE_POST_REPLY":
                 props.onDeletePostReply(props.authToken, id, nestedId1, nestedId2, nestedId3)
@@ -99,8 +107,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onProfileUpdate: (authToken, firebaseKey, fieldName, payload, how, id) => dispatch(actions.updateProfileAttempt(authToken, firebaseKey, fieldName, payload, how, id)),
-        onDeletePost: (authToken, postsKey, postId) => dispatch(actions.deletePostAttempt(authToken, postsKey, postId)),
-        onDeletePostComment: (authToken, postsKey, postId, commentId) => dispatch(actions.deleteCommentAttempt(authToken, postsKey, postId, commentId)),
+        onDeletePost: (authToken, postsKey, postId, privacy, myPosts, othersPosts) => dispatch(actions.deletePostAttempt(authToken, postsKey, postId, privacy, myPosts, othersPosts)),
+        onDeletePostComment: (authToken, postsKey, postId, commentId, privacy, myPosts, othersPosts) => dispatch(actions.deleteCommentAttempt(authToken, postsKey, postId, commentId, privacy, myPosts, othersPosts)),
         onDeletePostReply: (authToken, postsKey, postId, commentId, replyId) => dispatch(actions.deleteReplyAttempt(authToken, postsKey, postId, commentId, replyId))
     }
 }

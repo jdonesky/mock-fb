@@ -61,7 +61,7 @@ const chooseBackground = (props) => {
     return (
         <div className={classes.PageContainer}>
             <section className={classes.Header}>
-                <div className={baseClasses.CancelIcon} onClick={() => postContext.toggleModalContent('CREATE_POST')}>
+                <div className={classes.CancelIcon} onClick={() => postContext.toggleModalContent('CREATE_POST')}>
                     <BackArrow />
                 </div>
                 <div className={classes.Title}>

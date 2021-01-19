@@ -72,6 +72,9 @@
     cursor: pointer;
     margin-left: auto;
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .CancelIcon:hover {
@@ -79,10 +82,9 @@
 }
 
 .CancelIcon svg {
-    height: 50%;
-    width: 100%;
+    height: auto;
+    width: 80%;
     position: relative;
-    top: 8px;
 }
 
 

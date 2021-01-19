@@ -32,7 +32,8 @@ const addPostInit = (state,action) => {
 const addPostSuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
+        posts: state.posts ? [action.post,...state.posts] : [action.post],
+        othersPosts: state.othersPosts ? [action.post,...state.othersPosts] : [action.post],
         loadingNewPost: false
     }
 }
@@ -52,13 +53,16 @@ const editPostInit = (state,action) => {
     }
 }
 
+
 const editPostSuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
+        posts: action.posts ? action.posts : state.posts,
+        othersPosts: action.othersPosts ? action.othersPosts : state.othersPosts,
         editingPost: false
     }
 }
+
 
 const editPostFail = (state,action) => {
     return {
@@ -72,14 +76,15 @@ const editPostFail = (state,action) => {
 const deletePostInit = (state,action) => {
     return {
         ...state,
-        deletingPosts: true
+        deletingPost: true
     }
 }
 
 const deletePostSuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
+        posts: action.posts ? action.posts : state.posts,
+        othersPosts: action.othersPosts ? action.othersPosts : state.othersPosts,
         deletingPost: false
     }
 }
@@ -102,7 +107,8 @@ const addPostReactionInit = (state,action) => {
 const addPostReactionSuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
+        posts: action.posts ? action.posts : state.posts,
+        othersPosts: action.othersPosts ? action.othersPosts : state.othersPosts,
         addingPostReaction: false
     }
 }
@@ -125,7 +131,8 @@ const addCommentInit = (state,action) => {
 const addCommentSuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
+        posts: action.posts ? action.posts : state.posts,
+        othersPosts: action.othersPosts ? action.othersPosts : state.othersPosts,
         loadingNewComment: false
     }
 }
@@ -148,7 +155,8 @@ const editCommentInit = (state,action) => {
 const editCommentSuccess = (state,action) => {
     return {
         ...state,
-        posts: action.posts,
+        posts: action.posts ? action.posts : state.posts,
+        othersPosts: action.othersPosts ? action.othersPosts : state.othersPosts,
         editingComment: false
     }
 }

@@ -10,6 +10,7 @@ export const PostContext = React.createContext({
     background: null,
     tagged: [],
     location: null,
+    privacy: null,
     showModal: false,
     modalContent: null,
     allowPost: false,
@@ -38,11 +39,12 @@ const PostContextProvider = (props) => {
     const [image, setImage] = useState(null);
     const [background, setBackground] = useState(null);
     const [tagged, setTagged] = useState([]);
-    const [location, setLocation] = useState(null);
+    const [postLocation, setPostLocation] = useState(null);
     const [comments, setComments] = useState([]);
     const [postsKey, setPostsKey] = useState(null);
     const [userKey, setUserKey] = useState(null);
     const [postId, setPostId] = useState(null);
+    const [privacy, setPrivacy] = useState(null);
     const [postProfileImage, setPostProfileImage] = useState(null);
 
     const [allowPost, setAllowPost] = useState(false);
@@ -63,11 +65,18 @@ const PostContextProvider = (props) => {
 
     useEffect(() => {
         if (editingPost) {
+            console.log('myPosts', props.myPosts)
+            console.log('othersPosts', props.othersPosts)
+        }
+    })
+
+    useEffect(() => {
+        if (editingPost) {
             validateEdits();
         } else {
             validatePost();
         }
-    }, [text,image,background,tagged,location])
+    }, [text,image,background,tagged,postLocation, privacy])
 
     const openPageCreateModal = (page) => {
         setPagePosting(true)
@@ -99,11 +108,12 @@ const PostContextProvider = (props) => {
         setImage(null);
         setBackground(null);
         setTagged([]);
-        setLocation(null);
+        setPostLocation(null);
         setComments([]);
         setPostsKey(null);
         setUserKey(null);
         setPostId(null);
+        setPrivacy(null);
         setPage(null);
         setPostProfileImage(null);
         setInitialValues({});
@@ -122,6 +132,7 @@ const PostContextProvider = (props) => {
     };
 
     const toggleModalContent = (page) => {
+        console.log('CLICKED')
         setModalContent(page)
     };
 
@@ -132,18 +143,19 @@ const PostContextProvider = (props) => {
         })
     }
 
-    const recordInitialValues = (text,image,background,tagged,location) => {
+    const recordInitialValues = (text,image,background,tagged,postLocation, privacy) => {
         setInitialValues({
             text: text,
             image: image,
             background: background,
             tagged: tagged,
-            location: location
+            postLocation: postLocation,
+            privacy: privacy
         })
     }
 
     const validatePost = () => {
-        if (!text && !image && !background && !tagged.length && !location) {
+        if (!text && !image && !background && !tagged.length && !postLocation) {
             setAllowPost(false);
         } else {
             setAllowPost(true);
@@ -155,7 +167,9 @@ const PostContextProvider = (props) => {
             initialValues.image !== image ||
             initialValues.background !== background ||
             initialValues.tagged.length !== tagged.length ||
-            initialValues.location !== location) {
+            initialValues.postLocation !== postLocation ||
+            initialValues.privacy !== privacy
+        ) {
             setAllowPost(true);
         } else {
             setAllowPost(false);
@@ -186,7 +200,10 @@ const PostContextProvider = (props) => {
                 })
                 break;
             case 'location':
-                setLocation(payload)
+                setPostLocation(payload)
+                break;
+            case 'privacy':
+                setPrivacy(payload)
                 break;
             case 'comments':
                 setComments(payload)
@@ -279,9 +296,10 @@ const PostContextProvider = (props) => {
             image: image || null,
             background: background || null,
             tagged: tagged,
-            location: location,
+            location: postLocation,
             date: new Date(),
             name: name,
+            privacy: privacy || 'public',
             userKey: userKey,
             postsKey: postKey,
             publicProfileKey: publicKey,
@@ -291,7 +309,7 @@ const PostContextProvider = (props) => {
             otherUser: other
         };
 
-        props.onAddPost(props.authToken, postKey, post);
+        props.onAddPost(props.authToken, postKey, post, privacy);
         clearAllData()
     };
 
@@ -305,24 +323,25 @@ const PostContextProvider = (props) => {
             background: background || null,
             tagged: tagged,
             comments: comments,
-            location: location,
+            location: postLocation,
             date: new Date(),
             name: props.name,
+            privacy: privacy,
             userKey: pagePosted ? pageKey : props.firebaseKey,
             publicProfileKey: pagePosted ? null : props.publicProfileKey,
             postsKey: postsKey,
             postProfileImage: postProfileImage,
             pagePosted: pagePosted,
             postedToOther: postedToOther,
-            otherUser: other
+            otherUser: other,
         }
 
-        props.onEditPost(props.authToken, postsKey, postId, post);
+        props.onEditPost(props.authToken, postsKey, postId, post, privacy, props.myPosts, props.othersPosts);
         clearAllData()
     }
 
     return (
-        <PostContext.Provider value={{savePost: savePost, saveEdits: saveEdits, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, toggleEditingPost: toggleEditingPost, recordInitialValues: recordInitialValues, initialValues: initialValues, editingPost: editingPost, text: text, image: image, background: background, tagged: tagged, location: location, allowPost: allowPost, openPageCreateModal: openPageCreateModal, pagePosting: pagePosting, page: page, openPostToOtherModal: openPostToOtherModal, postingToOther: postingToOther, otherUser: otherUser, otherUserType: otherUserType}}>
+        <PostContext.Provider value={{savePost: savePost, saveEdits: saveEdits, passData: passData, showModal: showModal, toggleModal: toggleModal, cancelModal: cancelModal, modalContent: modalContent, toggleModalContent: toggleModalContent, toggleEditingPost: toggleEditingPost, recordInitialValues: recordInitialValues, initialValues: initialValues, editingPost: editingPost, text: text, image: image, background: background, tagged: tagged, location: postLocation, privacy: privacy, allowPost: allowPost, openPageCreateModal: openPageCreateModal, pagePosting: pagePosting, page: page, openPostToOtherModal: openPostToOtherModal, postingToOther: postingToOther, otherUser: otherUser, otherUserType: otherUserType}}>
             {props.children}
         </PostContext.Provider>
     );
@@ -337,14 +356,16 @@ const mapStateToProps = state => {
         name: state.profile.firstName + ' ' + state.profile.lastName,
         profileImage: state.profile.profileImage,
         ownedPage: state.pages.ownedPage,
-        otherProfile: state.users.otherProfile
+        otherProfile: state.users.otherProfile,
+        myPosts: state.posts.posts,
+        othersPosts: state.posts.othersPosts
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onAddPost: (authToken, postsKey, payload) => dispatch(actions.addPostAttempt(authToken, postsKey, payload)),
-        onEditPost: (authToken, postsKey, postId, payload) => dispatch(actions.editPostAttempt(authToken, postsKey, postId, payload))
+        onEditPost: (authToken, postsKey, postId, payload, privacy, myPosts, othersPosts) => dispatch(actions.editPostAttempt(authToken, postsKey, postId, payload, privacy, myPosts, othersPosts))
     };
 };
 

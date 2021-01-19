@@ -42,6 +42,10 @@ const baseForm = (props) => {
         }
     };
 
+    const updatePrivacy = (setting) => {
+        postContext.passData('privacy', setting);
+    }
+
     const updatePostText = (event) => {
         postContext.passData('text',event.target.value)
     }
@@ -170,7 +174,7 @@ const baseForm = (props) => {
                 </div>
                 <div className={classes.IdContainer}>
                     <div className={classes.NameTags}>{name && name}{postContext.tagged.length ? ` is with ${tags}` : null}</div>
-                    <PrivacyButton className={classes.PrivacyButton} privacy="public" />
+                    <PrivacyButton className={classes.PrivacyButton} privacy={postContext.privacy || "public"} clicked={() => postContext.toggleModalContent('SELECT_AUDIENCE')}/>
                 </div>
             </section>
             { postContext.image ? image : (
