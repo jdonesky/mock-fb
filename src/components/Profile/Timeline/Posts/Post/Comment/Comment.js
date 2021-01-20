@@ -15,6 +15,7 @@ import Delete from "../../../../../../assets/images/delete";
 import InlineDots from '../../../../../UI/Spinner/InlineDots';
 import * as actions from '../../../../../../store/actions/index';
 import GifSelector from "../Dropdowns/Gifs/GifSelector";
+import {getElapsedTime} from "../../../../../../shared/utility";
 import {UnderConstructionContext} from "../../../../../../context/under-construction-context";
 
 
@@ -22,9 +23,6 @@ const comment = (props) => {
 
     const underConstruction = useContext(UnderConstructionContext)
 
-    useEffect(() => {
-        console.log('comment.userId -> ', props.userId )
-    })
     useEffect(() => {
         document.addEventListener("keydown", escapeEditingForm, false)
         return () => {
@@ -77,7 +75,6 @@ const comment = (props) => {
             };
             reader.readAsDataURL(file);
         }
-
     }
 
     const showEditingButton = () => {
@@ -379,9 +376,13 @@ const comment = (props) => {
     )
 
     let editingButton;
-    if (props.userKey === props.firebaseKey) {
+    if (props.commentUserKey === props.firebaseKey) {
         editingButton = (
             <div className={classes.EditButton} style={{display: hoveringComment || editingDropdown ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
+        )
+    } else {
+        editingButton = (
+            <div className={classes.DateLabel} style={{display: hoveringComment ? 'block' : 'none'}}>{getElapsedTime(props.date)}</div>
         )
     }
 
