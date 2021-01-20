@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useEffect, useRef, useContext, useCallback} from 'react';
 import { connect } from 'react-redux';
 import classes from "../Comment.css";
 import * as actions from '../../../../../../../store/actions/index'
@@ -13,8 +13,11 @@ import postClasses from "../../Post.css";
 import Delete from "../../../../../../../assets/images/delete";
 import InlineDots from '../../../../../../UI/Spinner/InlineDots'
 import GifSelector from "../../Dropdowns/Gifs/GifSelector";
+import {UnderConstructionContext} from "../../../../../../../context/under-construction-context";
 
 const reply = (props) => {
+
+    const underConstruction = useContext(UnderConstructionContext);
 
     useEffect(() => {
         document.addEventListener("keydown", escapeEditingForm, false)
@@ -104,10 +107,12 @@ const reply = (props) => {
             commentId: props.commentId,
             id: props.id,
             name: props.name,
-            replyProfileImage: props.replyProfileImage,
+            replyProfileImage: props.profileImage,
             text: editReplyText,
             image: editReplyImage,
-            gif: editReplyGif
+            gif: editReplyGif,
+            date: new Date(),
+            edited: true
         }
         props.onEditReply(props.authToken, props.postsKey, props.postId, props.commentId, props.id, newReply, props.postPrivacy, props.myPosts, props.othersPosts);
         setEditReplyText(null);
@@ -124,10 +129,12 @@ const reply = (props) => {
             commentId: props.commentId,
             id: props.id,
             name: props.name,
-            replyProfileImage: props.replyProfileImage,
+            replyProfileImage: props.profileImage,
             text: editReplyText,
             image: editReplyImage,
-            gif: gifUrl
+            gif: gifUrl,
+            date: new Date(),
+            edited: true
         }
         props.onEditReply(props.authToken, props.postsKey, props.postId, props.commentId, props.id, newReply, props.postPrivacy, props.myPosts, props.othersPosts);
         setEditReplyText(null);
@@ -163,8 +170,8 @@ const reply = (props) => {
     let replyBar = (
         <section className={classes.CommentBarSection}>
             <div className={classes.CommenterProfileImageContainer}>
-                <div className={classes.CommenterProfileImage} style={{backgroundImage: props.commentProfileImage ? `url(${props.commentProfileImage})` : null}}>
-                    {props.commentProfileImage ? null : <Avatar fill="white" />}
+                <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                    {props.profileImage ? null : <Avatar fill="white" />}
                 </div>
             </div>
             <form className={classes.ReplyForm} onSubmit={saveReplyEdits}>
@@ -240,7 +247,7 @@ const reply = (props) => {
                         </div>
                         {props.image || props.gif ?  <div className={classes.AttachedImage} style={{backgroundImage: `url(${props.image || props.gif})`}}></div> : null}
                         <div className={classes.CommentBubbleOptionButtons}>
-                            <div className={classes.CommentBubbleButton}>Like</div>
+                            <div className={classes.CommentBubbleButton} onClick={underConstruction.openModal}>Like</div>
                             <span className={classes.InterPoint}>{"•"}</span>
                             <div className={classes.CommentBubbleButton} onClick={props.startReply}>Reply</div>
                         </div>
@@ -267,6 +274,7 @@ const reply = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
+        profileImage: state.profile.profileImage,
         savingEdits: state.posts.editingReply,
         myPosts: state.posts.posts,
         othersPosts: state.posts.othersPosts,

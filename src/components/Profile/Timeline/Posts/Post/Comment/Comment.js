@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import {connect} from 'react-redux'
 import classes from './Comment.css';
 import postClasses from '../Post.css'
@@ -15,10 +15,16 @@ import Delete from "../../../../../../assets/images/delete";
 import InlineDots from '../../../../../UI/Spinner/InlineDots';
 import * as actions from '../../../../../../store/actions/index';
 import GifSelector from "../Dropdowns/Gifs/GifSelector";
+import {UnderConstructionContext} from "../../../../../../context/under-construction-context";
 
 
 const comment = (props) => {
 
+    const underConstruction = useContext(UnderConstructionContext)
+
+    useEffect(() => {
+        console.log('comment.userId -> ', props.userId )
+    })
     useEffect(() => {
         document.addEventListener("keydown", escapeEditingForm, false)
         return () => {
@@ -121,8 +127,10 @@ const comment = (props) => {
 
     const startReplyHandler = () => {
         setReplying(true);
-        replyInput.current.offsetTop;
-        replyInput.current.focus();
+        setTimeout(() => {
+            replyInput.current.scrollIntoView({behavior: "smooth"});
+            replyInput.current.focus();
+        }, 150)
     }
 
     const saveReply = (event) => {
@@ -136,7 +144,8 @@ const comment = (props) => {
             replyProfileImage: props.profileImage,
             text: replyText,
             image: replyImage,
-            gif: replyGif
+            gif: replyGif,
+            date: new Date(),
         }
         props.onPostReply(props.authToken, props.postsKey, props.postId, props.id, reply, props.privacy, props.myPosts, props.othersPosts)
         setReplyText('');
@@ -155,7 +164,8 @@ const comment = (props) => {
             replyProfileImage: props.profileImage,
             text: replyText,
             image: replyImage,
-            gif: gifUrl
+            gif: gifUrl,
+            date: new Date(),
         }
         props.onPostReply(props.authToken, props.postsKey, props.postId, props.id, reply, props.privacy, props.myPosts, props.othersPosts)
         setReplyGif(null);
@@ -197,7 +207,9 @@ const comment = (props) => {
             text: editCommentText,
             image: editCommentImage,
             gif: gifUrl,
-            replies: props.replies
+            replies: props.replies,
+            date: new Date(),
+            edited: true
         };
         props.onEditComment(props.authToken, props.postsKey, props.postId, props.id, newComment, props.privacy, props.myPosts, props.othersPosts);
         setEditingComment(false);
@@ -215,7 +227,9 @@ const comment = (props) => {
             text: editCommentText,
             image: editCommentImage,
             gif: editCommentGif,
-            replies: props.replies
+            replies: props.replies,
+            date: new Date(),
+            edited: true,
         };
         props.onEditComment(props.authToken, props.postsKey, props.postId, props.id, newComment, props.privacy, props.myPosts, props.othersPosts);
         setEditingComment(false);
@@ -258,6 +272,8 @@ const comment = (props) => {
                 startReply={startReplyHandler}
                 passDeleteData={props.passDeleteData}
                 toggleDeleteModal={props.toggleDeleteModal}
+                date={reply.date}
+                edited={reply.edited}
             />
         ))
     }
@@ -269,8 +285,8 @@ const comment = (props) => {
     let replyBar = (
         <section className={classes.CommentBarSection} style={{display: replying ? 'flex' : 'none'}}>
             <div className={classes.CommenterProfileImageContainer}>
-                <div className={classes.CommenterProfileImage} style={{backgroundImage: props.commentProfileImage ? `url(${props.commentProfileImage})` : null}}>
-                    {props.commentProfileImage ? null : <Avatar fill="white" />}
+                <div className={classes.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                    {props.profileImage ? null : <Avatar fill="white" />}
                 </div>
             </div>
             <form className={classes.ReplyForm} onSubmit={saveReply}>
@@ -325,8 +341,8 @@ const comment = (props) => {
         <div className={classes.EditCommentForm}>
             <section className={postClasses.CommentBarSection}>
                 <div className={postClasses.CommenterProfileImageContainer}>
-                    <div className={postClasses.CommenterProfileImage} style={{backgroundImage: props.commentProfileImage ? `url(${props.commentProfileImage})` : null}}>
-                        {props.commentProfileImage ? null : <Avatar fill="white" />}
+                    <div className={postClasses.CommenterProfileImage} style={{backgroundImage: props.profileImage ? `url(${props.profileImage})` : null}}>
+                        {props.profileImage ? null : <Avatar fill="white" />}
                     </div>
                 </div>
                 <form onSubmit={saveCommentEdits} className={postClasses.CommentForm}>
@@ -362,9 +378,16 @@ const comment = (props) => {
         </div>
     )
 
+    let editingButton;
+    if (props.userKey === props.firebaseKey) {
+        editingButton = (
+            <div className={classes.EditButton} style={{display: hoveringComment || editingDropdown ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
+        )
+    }
+
 
     let commentContent = (
-        <div className={classes.CommentContainer} onMouseEnter={() => showEditingButton()} onMouseLeave={() => hideEditingButton()}>
+        <div className={classes.CommentContainer} onMouseEnter={showEditingButton} onMouseLeave={hideEditingButton}>
             <div className={classes.CommenterProfileImageContainer}>
                 <div className={classes.CommenterProfileImage} style={{backgroundImage: props.commentProfileImage ? `url(${props.commentProfileImage})` : null}}>
                     {props.commentProfileImage ? null : <Avatar fill="white"/>}
@@ -381,13 +404,13 @@ const comment = (props) => {
                     <OutsideAlerter action={closeEditingDropdown}>
                         <div className={classes.EditOptionsPositioner}>
                             {editDropDown}
-                            <div className={classes.EditButton} style={{display: hoveringComment || editingDropdown ? 'block' : 'none'}} onClick={toggleEditingDropdown}><Dots /></div>
+                            {editingButton}
                         </div>
                     </OutsideAlerter>
                 </div>
                 {props.image || props.gif ?  <div className={classes.AttachedImage} style={{backgroundImage: `url(${props.image || props.gif})`}}></div> : null}
                 <div className={classes.CommentBubbleOptionButtons}>
-                    <div className={classes.CommentBubbleButton}>Like</div>
+                    <div className={classes.CommentBubbleButton} onClick={underConstruction.openModal}>Like</div>
                     <span className={classes.InterPoint}>{"•"}</span>
                     <div className={classes.CommentBubbleButton} onClick={startReplyHandler}>Reply</div>
                 </div>
@@ -422,6 +445,7 @@ const comment = (props) => {
 const mapStateToProps = state => {
     return {
         authToken: state.auth.token,
+        firebaseKey: state.profile.firebaseKey,
         profileImage: state.profile.profileImage,
         name: state.profile.firstName + ' ' + state.profile.lastName,
         loadingNewReply: state.posts.loadingNewReply,

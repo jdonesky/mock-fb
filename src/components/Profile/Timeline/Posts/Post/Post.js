@@ -29,7 +29,7 @@ import InlineDots from '../../../../UI/Spinner/InlineDots'
 
 import { PostContext } from "../../../../../context/post-context";
 import { DeleteContext } from "../../../../../context/delete-context";
-import {convertDashedDatetime} from "../../../../../shared/utility";
+import {convertDashedDatetime, getElapsedTime} from "../../../../../shared/utility";
 import OutsideAlerter from "../../../../../hooks/outsideClickHandler";
 import * as actions from "../../../../../store/actions";
 import {UnderConstructionContext} from "../../../../../context/under-construction-context";
@@ -83,15 +83,15 @@ const post = (props) => {
         }
     }
 
-    const navToReactorProfile = (userKey) => {
-        if (props.userKey === props.firebaseKey) {
-            props.history.push(`/user-profile/me`)
-        } else {
-            if (props.userKey) {
-                props.history.push(`/user-profile/${props.userKey}`)
-            }
-        }
-    }
+    // const navToCommenterProfile = (userKey) => {
+    //     if (props.userKey === props.firebaseKey) {
+    //         props.history.push(`/user-profile/me`)
+    //     } else {
+    //         if (props.userKey) {
+    //             props.history.push(`/user-profile/${props.userKey}`)
+    //         }
+    //     }
+    // }
 
     let summaryOpeningTimer;
     const startViewingSummary = () => {
@@ -264,13 +264,14 @@ const post = (props) => {
         event.preventDefault();
         const comment = {
             postsKey: props.postsKey,
-            userKey: props.userKey,
+            userKey: props.firebaseKey,
             userId: props.userId,
             name: props.name,
             commentProfileImage: props.profileImage,
             text: commentText,
             image: commentImage,
             gif: commentGif,
+            date: new Date(),
         }
         props.onPostComment(props.authToken, props.postsKey, props.id, comment, props.privacy, props.myPosts, props.othersPosts);
         setCommentText('');
@@ -281,12 +282,14 @@ const post = (props) => {
     const saveGif = (gifUrl) => {
         const comment = {
             postsKey: props.postsKey,
+            userKey: props.firebaseKey,
             userId: props.userId,
             name: props.name,
             commentProfileImage: props.profileImage,
             text: commentText,
             image: commentImage,
             gif: gifUrl,
+            date: new Date()
         };
         props.onPostComment(props.authToken, props.postsKey, props.id, comment, props.privacy, props.myPosts, props.othersPosts);
         setShowGifSelector(false);
@@ -383,6 +386,7 @@ const post = (props) => {
                     postId={props.id}
                     key={comment.id}
                     id={comment.id}
+                    userKey={comment.userKey}
                     userId={comment.userId}
                     userName={comment.name}
                     commentProfileImage={comment.commentProfileImage}
@@ -393,19 +397,21 @@ const post = (props) => {
                     passDeleteData={deleteContext.passData}
                     toggleDeleteModal={deleteContext.toggleModal}
                     privacy={props.privacy}
+                    date={comment.date}
+                    edited={comment.edited}
                 />
             ));
         }
 
-        let loadingNewCommentIndicator;
-        if (props.loadingNewComment) {
-            loadingNewCommentIndicator = <InlineDots />
-        }
+        // let loadingNewCommentIndicator;
+        // if (props.loadingNewComment) {
+        //     loadingNewCommentIndicator = <InlineDots />
+        // }
 
         commentsSection = (
             <section className={classes.CommentsSection}>
                 {postsComments}
-                {loadingNewCommentIndicator}
+                {/*{loadingNewCommentIndicator}*/}
             </section>
         )
     }
@@ -504,7 +510,7 @@ const post = (props) => {
                     <div className={classes.IdContainer}>
                         <div className={classes.NameContainer}>{props.posterName && props.posterName}{taggedFriends}{location}{other}</div>
                         <div className={classes.DateAndPrivacyContainer}>
-                            <span className={classes.Date}>{props.date ? convertDashedDatetime(props.date.toString()) + '          •' : '-- -- ---        •'}</span>
+                            <span className={classes.Date}>{props.date ? getElapsedTime(props.date) : '-- -- --- '}<span className={classes.InterPoint}>•</span></span>
                             <div className={classes.PrivacyIconContainer} onClick={underConstruction.openModal}><div className={classes.PrivacyIcon}>{icon}</div></div>
                         </div>
                     </div>

@@ -50,7 +50,7 @@ const posts = ({posts, authToken, postsKey, onFetchSelfPosts, deletingPost, load
     }, [onFetchSelfPosts, authToken, postsKey, displayProfile, userType, ownedPage, othersPage, pathRoot])
 
 
-    const posted = posts && posts.length && posts.length > 1 ? posts.slice(1).map(post => (
+    const posted = posts && posts.length && posts.length? posts.map(post => (
         <Post
             postedToOther={post.postedToOther}
             otherUser={post.otherUser}

@@ -34,20 +34,20 @@ const label = props => {
     }
 
 
-    let label;
-    if (show) {
-        label = (
-            <div className={classes.Container}
-                 style={{
-                     top: props.top || null, bottom: props.bottom || null, left: props.left || null, right: props.right || null,
-                     height: props.height || null, width: props.width || null, minWidth: props.minWidth || null, minHeight: props.minHeight || null,
-                     backgroundColor: props.backgroundColor || null
-                 }}
-            >
-                {props.label}
-            </div>
-        )
-    }
+
+    const label = (
+        <div className={classes.Container}
+             style={{
+                 top: props.top || null, bottom: props.bottom || null, left: props.left || null, right: props.right || null,
+                 height: props.height || null, width: props.width || null, minWidth: props.minWidth || null, minHeight: props.minHeight || null,
+                 backgroundColor: props.backgroundColor || null,
+                 display: show ? 'block' : 'none'
+             }}
+        >
+            {props.label}
+        </div>
+    )
+
 
     return (
         <div className={classes.Positioner}>
