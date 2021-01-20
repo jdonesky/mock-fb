@@ -81,10 +81,10 @@ export const authAttempt = (email, password, isSignUp, userData) => {
     const axiosInstance = isSignUp ? axiosSignUp : axiosSignIn;
 
     // MOCK FB3
-    // const apiKey = process.env.REACT_APP_API_KEY
+    const apiKey = process.env.REACT_APP_API_KEY
 
     // POSTS-REFACTOR (testing db)
-    const apiKey = "AIzaSyCpeemp4z9C5R77m8GSDpwbj2dF4OcFiIk"
+    // const apiKey = "AIzaSyCpeemp4z9C5R77m8GSDpwbj2dF4OcFiIk"
 
     const authData = {
       email: email,

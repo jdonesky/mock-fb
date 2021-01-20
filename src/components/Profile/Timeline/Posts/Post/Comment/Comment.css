@@ -112,12 +112,15 @@
 .DateLabel {
     min-height: 30px;
     height: 30px;
-    min-width: 60px;
-    width: 60px;
+    min-width: 95px;
+    width: 95px;
     border-radius: 40px;
     box-sizing: border-box;
-    padding: 6px;
-    background-color: rgba(0,0,0,.7);
+    padding: 8px;
+    background-color: rgba(0,0,0,.6);
+    font-family: "Lucida Grande";
+    font-size: 12px;
+    font-weight: 100;
     color: white;
     display: flex;
     justify-content: center;

@@ -290,6 +290,14 @@
     right: 1px;
 }
 
+.Reacted {
+    background-color: rgba(0, 151, 231, 0.15);
+}
+
+.Reacted:hover {
+    background-color: rgba(0, 151, 231, 0.15);
+}
+
 .Comment {
     margin-right: 6px;
     position: relative;

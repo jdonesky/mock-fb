@@ -1,0 +1,25 @@
+[debug] [2021-01-10T12:45:03.285Z] ----------------------------------------------------------------------
+[debug] [2021-01-10T12:45:03.287Z] Command:       /usr/local/bin/node /usr/local/bin/firebase init
+[debug] [2021-01-10T12:45:03.287Z] CLI Version:   9.1.2
+[debug] [2021-01-10T12:45:03.287Z] Platform:      darwin
+[debug] [2021-01-10T12:45:03.287Z] Node Version:  v12.18.0
+[debug] [2021-01-10T12:45:03.288Z] Time:          Sun Jan 10 2021 07:45:03 GMT-0500 (Eastern Standard Time)
+[debug] [2021-01-10T12:45:03.288Z] ----------------------------------------------------------------------
+[debug] [2021-01-10T12:45:03.288Z] 
+[debug] [2021-01-10T12:45:03.293Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-01-10T12:45:03.293Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/jonathandonesky/Desktop/js/practiceReactAppBuilding/dumb-facebook
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+

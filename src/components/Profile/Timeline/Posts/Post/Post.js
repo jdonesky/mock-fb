@@ -55,6 +55,7 @@ const post = (props) => {
 
     const [showEmojiSelector, setShowEmojiSelector] = useState(null);
     const [showGifSelector, setShowGifSelector] = useState(false);
+    const [reacted, setReacted] = useState(null);
 
     useEffect(() => {
         return () => {
@@ -66,6 +67,12 @@ const post = (props) => {
             }
         }
     }, [])
+
+    useEffect(() => {
+        if (reactedToPost) {
+            setReacted(reactedToPost)
+        }
+    }, [reactedToPost])
 
     const navToFullProfile = () => {
         if (!props.userType) {
@@ -214,6 +221,19 @@ const post = (props) => {
         props.onPostReaction(props.authToken,props.postsKey, props.id, reaction, props.privacy, props.myPosts, props.othersPosts);
         quickCloseEmojiSelector()
     }
+
+    const postLike = () => {
+        const reaction = {
+            userKey: props.firebaseKey,
+            userId: props.userId,
+            name: props.name,
+            caption: 'Like',
+            date: new Date()
+        }
+        props.onPostReaction(props.authToken,props.postsKey, props.id, reaction, props.privacy, props.myPosts, props.othersPosts);
+        quickCloseEmojiSelector()
+    }
+
 
     const startCommentHandler = () => {
         commentInput.current.offsetTop;
@@ -424,7 +444,9 @@ const post = (props) => {
     )
 
     let postReactions;
+    let reactedToPost;
     if (props.reactions && Object.keys(props.reactions).length) {
+        reactedToPost =  Object.keys(props.reactions).map(key => props.reactions[key].userKey).includes(props.firebaseKey);
         postReactions = <Reactions reactions={props.reactions}/>
     }
 
@@ -531,9 +553,9 @@ const post = (props) => {
                         {emojiSelectMenu}
                     </div>
                 </OutsideAlerter>
-                <div className={classes.Button} onMouseEnter={enterLikeButton} onMouseLeave={leaveLikeButton} onClick={quickToggleEmojiSelector} style={{backgroundColor: showEmojiSelector ? 'rgba(0,0,0,0.05)' : null }}>
-                    <div className={[classes.ButtonIcon, classes.Like].join(" ")} ><Like /></div>
-                    <span>Like</span>
+                <div className={[classes.Button, reacted ? classes.Reacted : null ].join(" ")} onMouseEnter={enterLikeButton} onMouseLeave={leaveLikeButton} onClick={postLike} style={{backgroundColor: reacted ? null : showEmojiSelector ? 'rgba(0,0,0,0.05)' : null }}>
+                    <div className={[classes.ButtonIcon, classes.Like].join(" ")} ><Like fill={reacted ? "#0B86DE" : null}/></div>
+                    <span style={{color: reacted ? "#0B86DE": null }}>Like</span>
                 </div>
                 <div className={classes.Button}  onClick={startCommentHandler}>
                     <div className={[classes.ButtonIcon,classes.Comment].join(" ")}><SpeechBubble /></div>
