@@ -117,11 +117,11 @@ export const authAttempt = (email, password, isSignUp, userData) => {
 
           dispatch(actions.createProfileAttempt(token, newUserData))
         }
-
         firebase.auth().signInWithEmailAndPassword(email,password)
             .then(response => {
             })
             .catch(error => {
+                console.log('FAILED TO AUTH SDK', error)
                 dispatch(authFail(error));
             })
       })

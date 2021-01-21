@@ -111,7 +111,6 @@ const app = (props) => {
 
     useEffect(() => {
         if (firebaseKey) {
-            // console.log('FIREBASE KEY RETRIEVED -> ', firebaseKey)
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker
                     .register("../firebase-messaging-sw.js")

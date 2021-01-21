@@ -395,13 +395,9 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                         .then(response => {
                             dispatch(updateProfileSuccess(updatedUserProfile));
                             if (updatePostsProfilePics) {
-                                console.log('UPDATE POSTS PROFILE PICS ? ', updatePostsProfilePics);
-                                console.log('POSTSKEY', postsKey)
                                 axios.get(`/posts/${postsKey}/public.json?auth=${authToken}`)
                                     .then(response => {
-                                        console.log('response', response)
                                         const updatedPosts = Object.keys(response.data).map(key => ({...response.data[key], [fieldName]: payload}))
-                                        console.log('updated Public posts', updatedPosts)
                                         const promises = updatedPosts.map(post => axios.put(`/posts/${postsKey}/public/${post.id}.json?auth=${authToken}`, post))
                                         return Promise.all(promises)
                                     })
@@ -410,7 +406,6 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                                     })
                                     .then(response => {
                                         const updatedPosts = Object.keys(response.data).map(key => ({...response.data[key], [fieldName]: payload}))
-                                        console.log('updated Private posts', updatedPosts)
                                         const promises = updatedPosts.map(post => axios.put(`/posts/${postsKey}/private/${post.id}.json?auth=${authToken}`, post))
                                         return Promise.all(promises)
                                     })
@@ -419,7 +414,6 @@ export const updateProfileAttempt = (authToken, firebaseKey, fieldName, payload,
                                     })
                                     .then(response => {
                                         const updatedPosts = Object.keys(response.data).map(key => ({...response.data[key], [fieldName]: payload}))
-                                        console.log('updated Friends posts', updatedPosts)
                                         const promises = updatedPosts.map(post => axios.put(`/posts/${postsKey}/friends/${post.id}.json?auth=${authToken}`, post))
                                         return Promise.all(promises)
                                     })

@@ -21,7 +21,6 @@ const home = (props) => {
     const [showContactsOptions, setShowContactsOptions] = useState(false);
     const firstUpdate = useRef(true);
 
-
     useEffect(() => {
         if (firstUpdate.current) {
             firstUpdate.current = false;
@@ -72,7 +71,6 @@ const home = (props) => {
                 background={post.background}
                 image={post.image}
                 date={post.date}
-                privacy={post.privacy}
                 tagged={post.tagged}
                 postLocation={post.location}
                 comments={post.comments}

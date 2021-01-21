@@ -814,15 +814,35 @@ const fetchOthersPostsInit = () => {
     }
 }
 
+const fetchOthersPostsSuccess = (posts, lastFetchedPage) => {
+    return {
+        type: actionTypes.FETCH_OTHERS_POSTS_SUCCESS,
+        posts: posts,
+        lastFetchedPage: lastFetchedPage
+    }
+}
+
+const fetchOthersPostsFail = (error) => {
+    return {
+        type: actionTypes.FETCH_OTHERS_POSTS_FAIL,
+        error: error,
+    }
+}
+
 
 export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) => {
+    console.log('authToken', authToken)
+    console.log('lastFetchedPage', lastFetchedPage)
+    console.log('oldPosts', oldPosts)
     return dispatch => {
         if (lastFetchedPage === 'last') {
+            console.log('lastFetchedPage === LAST');
             dispatch(markScrollEnd())
         }
         dispatch(fetchOthersPostsInit())
         axios.get(`/posts.json?auth=${authToken}&shallow=true`)
             .then(response => {
+                console.log('shallow keys', response.data)
                 const keys = Object.keys(response.data).sort();
                 const pageLength = 2;
 
@@ -835,6 +855,7 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
 
                 for (let key of keys.slice(lastFetchedPage, lastFetchedPage + pageLength)) {
                     query = axios.get(`/posts/${key}/public.json?auth=${authToken}&orderBy="id"&startAt=1&limitToLast=3`)
+                    console.log('query -> ', query)
                     promises.push(query);
                 }
 
@@ -866,22 +887,13 @@ export const fetchOthersPostsAttempt = (authToken, lastFetchedPage, oldPosts) =>
                     newPosts = newPosts.filter(post => !oldPostIds.includes(post.id))
                     newPosts = oldPosts.concat(newPosts);
                 }
-
+                console.log('newPosts', newPosts)
+                console.log('lastFetchedPage', lastFetchedPage)
                 dispatch(fetchOthersPostsSuccess(newPosts,lastFetchedPage))
             })
             .catch(error => {
                 dispatch(fetchOthersPostsFail(error));
             })
-    }
-}
-
-
-
-const fetchOthersPostsSuccess = (posts, lastFetchedPage) => {
-    return {
-        type: actionTypes.FETCH_OTHERS_POSTS_SUCCESS,
-        posts: posts,
-        lastFetchedPage: lastFetchedPage
     }
 }
 
@@ -900,13 +912,6 @@ export const clearScrollEnd = () => {
 export const clearOthersPostsPageCount = () => {
     return {
         type: actionTypes.CLEAR_OTHERS_POSTS_PAGE_COUNT
-    }
-}
-
-const fetchOthersPostsFail = (error) => {
-    return {
-        type: actionTypes.FETCH_OTHERS_POSTS_FAIL,
-        error: error,
     }
 }
 
